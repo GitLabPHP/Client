@@ -95,16 +95,85 @@ class Project extends AbstractModel
 
     public function addHook($url)
     {
-       return $this->api('projects')->addHook($this->id, $url);
+        return $this->api('projects')->addHook($this->id, $url);
     }
 
     public function updateHook($hook_id, $url)
     {
-       return $this->api('projects')->updateHook($this->id, $hook_id, $url);
+        return $this->api('projects')->updateHook($this->id, $hook_id, $url);
     }
 
     public function removeHook($hook_id)
     {
         return $this->api('projects')->removeHook($this->id, $hook_id);
+    }
+
+    public function branches()
+    {
+        $data = $this->api('repo')->branches($this->id);
+
+        $branches = array();
+        foreach ($data as $branch) {
+            $branches[] = Branch::fromArray($this, $branch);
+        }
+
+        return $branches;
+    }
+
+    public function branch($branch_id)
+    {
+        $branch = new Branch($this, $branch_id);
+
+        return $branch->show();
+    }
+
+    public function tags()
+    {
+        $data = $this->api('repo')->tags($this->id);
+
+        $tags = array();
+        foreach ($data as $tag) {
+            $tags[] = Tag::fromArray($this, $tag);
+        }
+
+        return $tags;
+    }
+
+    public function commits()
+    {
+        $data = $this->api('repo')->commits($this->id);
+
+        $commits = array();
+        foreach ($data as $commit) {
+            $commits[] = Commit::fromArray($this, $commit);
+        }
+
+        return $commits;
+    }
+
+    public function mergeRequests()
+    {
+        $data = $this->api('mr')->all($this->id);
+
+        $mrs = array();
+        foreach ($data as $mr) {
+            $mrs[] = MergeRequest::fromArray($this, $mr);
+        }
+
+        return $mrs;
+    }
+
+    public function mergeRequest($id)
+    {
+        $mr = new MergeRequest($this, $id);
+
+        return $mr->show();
+    }
+
+    public function createMergeRequest($source, $target, $title, $assignee = null)
+    {
+        $data = $this->api('mr')->create($this->id, $source, $target, $title, $assignee);
+
+        return MergeRequest::fromArray($this, $data);
     }
 }

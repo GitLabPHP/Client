@@ -23,7 +23,8 @@ class User extends AbstractModel
 
     public static function fromArray(array $data)
     {
-        $user = new User($data['id']);
+        $id = isset($data['id']) ? $data['id'] : 0;
+        $user = new User($id);
 
         return $user->hydrate($data);
     }

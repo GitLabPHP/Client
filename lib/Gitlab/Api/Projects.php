@@ -82,5 +82,4 @@ class Projects extends AbstractApi
         ));
     }
 
-
 }

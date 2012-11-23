@@ -82,6 +82,16 @@ class Client
                 $api = new Api\Projects($this);
                 break;
 
+            case 'repo':
+            case 'repositories':
+                $api = new Api\Repositories($this);
+                break;
+
+            case 'mr':
+            case 'merge_requests':
+                $api = new Api\MergeRequests($this);
+                break;
+
             default:
                 throw new InvalidArgumentException();
         }
