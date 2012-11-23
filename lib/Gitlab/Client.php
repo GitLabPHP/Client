@@ -78,6 +78,10 @@ class Client
                 $api = new Api\Users($this);
                 break;
 
+            case 'projects':
+                $api = new Api\Projects($this);
+                break;
+
             default:
                 throw new InvalidArgumentException();
         }

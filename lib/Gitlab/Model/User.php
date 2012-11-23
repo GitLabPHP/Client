@@ -7,6 +7,7 @@ class User extends AbstractModel
     protected static $_properties = array(
         'id',
         'email',
+        'password',
         'name',
         'bio',
         'skype',
@@ -15,6 +16,8 @@ class User extends AbstractModel
         'dark_scheme',
         'theme_id',
         'blocked',
+        'projects_limit',
+        'access_level',
         'created_at'
     );
 
@@ -25,13 +28,23 @@ class User extends AbstractModel
         return $user->hydrate($data);
     }
 
-    public function __construct($id)
+    public static function create($email, $password, array $params = array())
+    {
+        $data = static::client()->api('users')->create($email, $password, $params);
+
+        return User::fromArray($data);
+    }
+
+    public function __construct($id = null)
     {
         $this->id = $id;
     }
 
     public function show()
     {
-        return $this->api('users')->show($this->id);
+        $data = $this->api('users')->show($this->id);
+
+        return User::fromArray($data);
     }
+
 }

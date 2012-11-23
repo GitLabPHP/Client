@@ -9,9 +9,15 @@ class Users extends AbstractApi
         return $this->get('users');
     }
 
-    public function show($id)
+    public function show($id = null)
     {
-        return $this->get('users/'.urlencode($id));
+        $path = 'users';
+
+        if (null !== $id) {
+            $path .= '/'.urlencode($id);
+        }
+
+        return $this->get($path);
     }
 
     public function create($email, $password, array $params = array())
@@ -20,5 +26,13 @@ class Users extends AbstractApi
         $params['password'] = $password;
 
         return $this->post('users', $params);
+    }
+
+    public function session($email, $password)
+    {
+        return $this->post('session', array(
+            'email' => $email,
+            'password' => $password
+        ));
     }
 }
