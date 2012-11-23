@@ -1,0 +1,31 @@
+{
+	"name": "m4tthumphrey/php-gitlab-api",
+	"type": "library",
+	"description": "GitLab API client",
+	"homepage": "https://github.com/m4tthumphrey/php-gitlab-api",
+	"keywords": ["gitlab", "api"],
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Matt Humphrey",
+			"homepage": "http://m4tt.io"
+		},
+		{
+			"name": "KnpLabs Team",
+			"homepage": "http://knplabs.com"
+		},
+		{
+			"name": "Thibault Duplessis",
+			"email": "thibault.duplessis@gmail.com",
+			"homepage": "http://ornicar.github.com"
+		}
+	],
+	"require": {
+		"php":                ">=5.3.2",
+		"ext-curl":           "*",
+		"kriswallsmith/buzz": ">=0.7"
+	},
+	"autoload": {
+		"psr-0": { "Gitlab\\": "lib/" }
+	}
+}
