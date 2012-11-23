@@ -31,6 +31,13 @@ class Project extends AbstractModel
         return $project->hydrate($data);
     }
 
+    public static function create($name, array $params = array())
+    {
+        $data = static::client()->api('projects')->create($name, $params);
+
+        return Project::fromArray($data);
+    }
+
     public function __construct($id = null)
     {
         $this->id = $id;
