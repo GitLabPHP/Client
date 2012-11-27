@@ -201,7 +201,7 @@ class Project extends AbstractModel
         $params['title'] = $title;
         $data = $this->api('issues')->create($this->id, $params);
 
-        return Issue::fromArray($this->project, $data);
+        return Issue::fromArray($this, $data);
     }
 
     public function issue($id)

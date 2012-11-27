@@ -54,6 +54,16 @@ class Issue extends AbstractModel
         return Issue::fromArray($this->project, $data);
     }
 
+    public function close()
+    {
+        return $this->update(array('closed' => true));
+    }
+
+    public function open()
+    {
+        return $this->update(array('closed' => false));
+    }
+
     public function remove()
     {
         $this->api('issues')->remove($this->project->id, $this->id);
