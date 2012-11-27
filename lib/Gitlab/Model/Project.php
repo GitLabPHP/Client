@@ -183,4 +183,45 @@ class Project extends AbstractModel
 
         return MergeRequest::fromArray($this, $data);
     }
+
+    public function issues()
+    {
+        $data = $this->api('issues')->all($this->id);
+
+        $issues = array();
+        foreach ($data as $issue) {
+            $issues[] = Issue::fromArray($this, $issue);
+        }
+
+        return $issues;
+    }
+
+    public function createIssue($title, array $params = array())
+    {
+        $params['title'] = $title;
+        $data = $this->api('issues')->create($this->id, $params);
+
+        return Issue::fromArray($this->project, $data);
+    }
+
+    public function issue($id)
+    {
+        $issue = new Issue($this, $id);
+
+        return $issue->show();
+    }
+
+    public function updateIssue($id, array $params)
+    {
+        $issue = new Issue($this, $id);
+
+        return $issue->update($params);
+    }
+
+    public function removeIssue($id)
+    {
+        $issue = new Issue($this, $id);
+
+        return $issue->remove();
+    }
 }

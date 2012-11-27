@@ -66,7 +66,7 @@ class MergeRequest extends AbstractModel
     {
         $data = $this->api('mr')->addComment($this->project->id, $this->id, $note);
 
-        return Comment::fromArray($this, $data);
+        return Note::fromArray($this, $data);
     }
 
 }

@@ -92,6 +92,10 @@ class Client
                 $api = new Api\MergeRequests($this);
                 break;
 
+            case 'issues':
+                $api = new Api\Issues($this);
+                break;
+
             default:
                 throw new InvalidArgumentException();
         }
