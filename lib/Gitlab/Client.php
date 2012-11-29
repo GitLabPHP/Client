@@ -37,7 +37,7 @@ class Client
      */
     private $options = array(
         'user_agent'  => 'php-gitlab-api (http://github.com/m4tthumphrey/php-gitlab-api)',
-        'timeout'     => 10
+        'timeout'     => 60
     );
 
     private $base_url = null;

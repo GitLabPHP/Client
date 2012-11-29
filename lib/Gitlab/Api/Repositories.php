@@ -25,4 +25,9 @@ class Repositories extends AbstractApi
         return $this->get('projects/'.urlencode($project_id).'/repository/commits');
     }
 
+    public function protectBranch($project_id, $branch_id)
+    {
+        return $this->post('projects/'.urlencode($project_id).'/repository/branches/'.urlencode($branch_id).'/protect');
+    }
+
 }

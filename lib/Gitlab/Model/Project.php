@@ -127,11 +127,18 @@ class Project extends AbstractModel
         return $branches;
     }
 
-    public function branch($branch_id)
+    public function branch($branch_name)
     {
-        $branch = new Branch($this, $branch_id);
+        $branch = new Branch($this, $branch_name);
 
         return $branch->show();
+    }
+
+    public function protectBranch($branch_name)
+    {
+        $branch = new Branch($this, $branch_name);
+
+        return $branch->protect();
     }
 
     public function tags()

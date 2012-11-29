@@ -15,7 +15,7 @@ class Branch extends AbstractModel
         $branch = new Branch($project, $data['name']);
 
         if (isset($data['commit'])) {
-            $data['commit'] = Commit::fromArray($data['commit']);
+            $data['commit'] = Commit::fromArray($project, $data['commit']);
         }
 
         return $branch->hydrate($data);
@@ -29,7 +29,14 @@ class Branch extends AbstractModel
 
     public function show()
     {
-        $data = $this->api('projects')->branch($this->project->id, $this->name);
+        $data = $this->api('repositories')->branch($this->project->id, $this->name);
+
+        return Branch::fromArray($this->project, $data);
+    }
+
+    public function protect()
+    {
+        $data = $this->api('repositories')->protectBranch($this->project->id, $this->name);
 
         return Branch::fromArray($this->project, $data);
     }
