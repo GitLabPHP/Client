@@ -71,10 +71,10 @@ class Issue extends AbstractModel
         return true;
     }
 
-    public function addComment($note)
+    public function addComment($body)
     {
         $data = $this->api('issues')->addComment($this->project->id, $this->id, array(
-            'note' => $note
+            'body' => $body
         ));
 
         return Note::fromArray($this, $data);

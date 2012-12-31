@@ -33,7 +33,7 @@ class Issues extends AbstractApi
 
     public function addComment($project_id, $issue_id, array $params)
     {
-        return $this->post('projects/'.urlencode($project_id).'/issues/'.urlencode($issue_id).'/comments', $params);
+        return $this->post('projects/'.urlencode($project_id).'/issues/'.urlencode($issue_id).'/notes', $params);
     }
 
 }

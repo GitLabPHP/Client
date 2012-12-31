@@ -7,7 +7,7 @@ class Note extends AbstractModel
     protected static $_properties = array(
         'id',
         'author',
-        'note',
+        'body',
         'created_at',
         'updated_at',
         'parent_type',
