@@ -8,6 +8,7 @@ class User extends AbstractModel
         'id',
         'email',
         'password',
+        'username',
         'name',
         'bio',
         'skype',
