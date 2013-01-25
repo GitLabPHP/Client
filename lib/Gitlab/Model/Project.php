@@ -8,6 +8,7 @@ class Project extends AbstractModel
         'id',
         'code',
         'name',
+        'namespace',
         'description',
         'path',
         'default_branch',
