@@ -142,6 +142,13 @@ class Project extends AbstractModel
         return $branch->protect();
     }
 
+    public function unprotectBranch($branch_name)
+    {
+        $branch = new Branch($this, $branch_name);
+
+        return $branch->unprotect();
+    }
+
     public function tags()
     {
         $data = $this->api('repo')->tags($this->id);

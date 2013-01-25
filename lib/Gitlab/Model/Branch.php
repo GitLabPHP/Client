@@ -41,4 +41,11 @@ class Branch extends AbstractModel
         return Branch::fromArray($this->project, $data);
     }
 
+    public function unprotect()
+    {
+        $data = $this->api('repositories')->unprotectBranch($this->project->id, $this->name);
+
+        return Branch::fromArray($this->project, $data);
+    }
+
 }
