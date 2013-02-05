@@ -7,7 +7,8 @@ class Tag extends AbstractModel
     protected static $_properties = array(
         'name',
         'commit',
-        'project'
+        'project',
+        'protected'
     );
 
     public static function fromArray(Project $project, array $data)
