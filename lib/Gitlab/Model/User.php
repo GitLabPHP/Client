@@ -19,7 +19,8 @@ class User extends AbstractModel
         'blocked',
         'projects_limit',
         'access_level',
-        'created_at'
+        'created_at',
+        'extern_uid'
     );
 
     public static function fromArray(array $data)
