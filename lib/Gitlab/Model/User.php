@@ -20,7 +20,8 @@ class User extends AbstractModel
         'projects_limit',
         'access_level',
         'created_at',
-        'extern_uid'
+        'extern_uid',
+        'provider'
     );
 
     public static function fromArray(array $data)
