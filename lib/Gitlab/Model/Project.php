@@ -11,6 +11,7 @@ class Project extends AbstractModel
         'namespace',
         'description',
         'path',
+        'path_with_namespace',
         'default_branch',
         'owner',
         'private',
