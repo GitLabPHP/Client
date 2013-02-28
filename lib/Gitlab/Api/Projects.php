@@ -4,9 +4,9 @@ namespace Gitlab\Api;
 
 class Projects extends AbstractApi
 {
-    public function all()
+    public function all($page = 1, $per_page = 20)
     {
-        return $this->get('projects');
+        return $this->get('projects', array('page' => $page, 'per_page' => $per_page));
     }
 
     public function show($project_id)
@@ -21,9 +21,10 @@ class Projects extends AbstractApi
         return $this->post('projects', $params);
     }
 
-    public function members($project_id)
+    public function members($project_id, $page = 1, $per_page = 20)
     {
-        return $this->get('projects/'.urlencode($project_id).'/members');
+        $path = 'projects/'.urlencode($project_id).'/members';
+        return $this->get($path, array('page' => $page, 'per_page' => $per_page));
     }
 
     public function member($project_id, $user_id)
@@ -51,9 +52,10 @@ class Projects extends AbstractApi
         return $this->delete('projects/'.urlencode($project_id).'/members/'.urldecode($user_id));
     }
 
-    public function hooks($project_id)
+    public function hooks($project_id, $page = 1, $per_page = 20)
     {
-        return $this->get('projects/'.urlencode($project_id).'/hooks');
+        $path = 'projects/'.urlencode($project_id).'/hooks';
+        return $this->get($path, array('page' => $page, 'per_page' => $per_page));
     }
 
     public function hook($project_id, $hook_id)
