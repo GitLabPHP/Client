@@ -4,9 +4,9 @@ namespace Gitlab\Api;
 
 class Users extends AbstractApi
 {
-    public function all()
+    public function all($page = 1, $per_page = 20)
     {
-        return $this->get('users');
+        return $this->get('users', array('page' => $page, 'per_page' => $per_page));
     }
 
     public function show($id = null)
