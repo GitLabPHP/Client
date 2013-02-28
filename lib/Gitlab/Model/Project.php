@@ -52,9 +52,9 @@ class Project extends AbstractModel
         return Project::fromArray($data);
     }
 
-    public function members()
+    public function members($page = 1, $per_page = 20)
     {
-        $data = $this->api('projects')->members($this->id);
+        $data = $this->api('projects')->members($this->id, $page, $per_page);
 
         $members = array();
         foreach ($data as $member) {
@@ -92,9 +92,9 @@ class Project extends AbstractModel
         return true;
     }
 
-    public function hooks()
+    public function hooks($page = 1, $per_page = 20)
     {
-        return $this->api('projects')->hooks($this->id);
+        return $this->api('projects')->hooks($this->id, $page, $per_page);
     }
 
     public function hook($hook_id)
@@ -117,9 +117,9 @@ class Project extends AbstractModel
         return $this->api('projects')->removeHook($this->id, $hook_id);
     }
 
-    public function branches()
+    public function branches($page = 1, $per_page = 20)
     {
-        $data = $this->api('repo')->branches($this->id);
+        $data = $this->api('repo')->branches($this->id, $page, $per_page);
 
         $branches = array();
         foreach ($data as $branch) {
@@ -150,9 +150,9 @@ class Project extends AbstractModel
         return $branch->unprotect();
     }
 
-    public function tags()
+    public function tags($page = 1, $per_page = 20)
     {
-        $data = $this->api('repo')->tags($this->id);
+        $data = $this->api('repo')->tags($this->id, $page, $per_page);
 
         $tags = array();
         foreach ($data as $tag) {
@@ -162,9 +162,9 @@ class Project extends AbstractModel
         return $tags;
     }
 
-    public function commits()
+    public function commits($page = 1, $per_page = 20)
     {
-        $data = $this->api('repo')->commits($this->id);
+        $data = $this->api('repo')->commits($this->id, $page, $per_page);
 
         $commits = array();
         foreach ($data as $commit) {
@@ -174,9 +174,9 @@ class Project extends AbstractModel
         return $commits;
     }
 
-    public function mergeRequests()
+    public function mergeRequests($page = 1, $per_page = 20)
     {
-        $data = $this->api('mr')->all($this->id);
+        $data = $this->api('mr')->all($this->id, $page, $per_page);
 
         $mrs = array();
         foreach ($data as $mr) {
@@ -200,9 +200,9 @@ class Project extends AbstractModel
         return MergeRequest::fromArray($this, $data);
     }
 
-    public function issues()
+    public function issues($page = 1, $per_page = 20)
     {
-        $data = $this->api('issues')->all($this->id);
+        $data = $this->api('issues')->all($this->id, $page, $per_page);
 
         $issues = array();
         foreach ($data as $issue) {
