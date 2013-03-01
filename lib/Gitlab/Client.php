@@ -96,6 +96,10 @@ class Client
                 $api = new Api\Issues($this);
                 break;
 
+            case 'groups':
+                $api = new Api\Groups($this);
+                break;
+
             default:
                 throw new InvalidArgumentException();
         }
