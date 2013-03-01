@@ -12,6 +12,7 @@ class Milestone extends AbstractModel
         'description',
         'due_date',
         'state',
+        'closed',
         'updated_at',
         'created_at'
     );
