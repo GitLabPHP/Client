@@ -16,7 +16,7 @@ class Tag extends AbstractModel
         $branch = new Tag($project, $data['name']);
 
         if (isset($data['commit'])) {
-            $data['commit'] = Commit::fromArray($data['commit']);
+            $data['commit'] = Commit::fromArray($project, $data['commit']);
         }
 
         return $branch->hydrate($data);

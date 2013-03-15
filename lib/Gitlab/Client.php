@@ -105,6 +105,11 @@ class Client
                 $api = new Api\Groups($this);
                 break;
 
+            case 'hooks':
+            case 'system_hooks':
+                $api = new Api\SystemHooks($this);
+                break;
+
             default:
                 throw new InvalidArgumentException();
         }
