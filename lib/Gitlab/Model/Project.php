@@ -99,7 +99,7 @@ class Project extends AbstractModel
 
         $hooks = array();
         foreach ($data as $hook) {
-            $hooks[] = Hook::fromArray($data);
+            $hooks[] = Hook::fromArray($hook);
         }
 
         return $hooks;
@@ -129,6 +129,39 @@ class Project extends AbstractModel
     public function removeHook($hook_id)
     {
         $this->api('projects')->removeHook($this->id, $hook_id);
+
+        return true;
+    }
+
+    public function keys()
+    {
+        $data = $this->api('projects')->keys($this->id);
+
+        $keys = array();
+        foreach ($data as $key) {
+            $hooks[] = Key::fromArray($key);
+        }
+
+        return $keys;
+    }
+
+    public function key($key_id)
+    {
+        $data = $this->api('projects')->key($this->id, $key_id);
+
+        return Key::fromArray($data);
+    }
+
+    public function addKey($title, $key)
+    {
+        $data = $this->api('projects')->addKey($this->id, $title, $key);
+
+        return Key::fromArray($data);
+    }
+
+    public function removeKey($key_id)
+    {
+        $this->api('projects')->removeKey($this->id, $key_id);
 
         return true;
     }

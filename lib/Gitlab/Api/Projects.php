@@ -80,4 +80,27 @@ class Projects extends AbstractApi
         return $this->delete('projects/'.urlencode($project_id).'/hooks/'.urlencode($hook_id));
     }
 
+    public function keys($project_id)
+    {
+        return $this->get('projects/'.urlencode($project_id).'/keys');
+    }
+
+    public function key($project_id, $key_id)
+    {
+        return $this->get('projects/'.urlencode($project_id).'/keys/'.urlencode($key_id));
+    }
+
+    public function addKey($project_id, $title, $key)
+    {
+        return $this->post('projects/'.urlencode($project_id).'/keys', array(
+            'title' => $title,
+            'key' => $key
+        ));
+    }
+
+    public function removeKey($project_id, $key_id)
+    {
+        return $this->delete('projects/'.urlencode($project_id).'/keys/'.urlencode($key_id));
+    }
+
 }
