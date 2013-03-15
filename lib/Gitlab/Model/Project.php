@@ -15,6 +15,7 @@ class Project extends AbstractModel
         'default_branch',
         'owner',
         'private',
+        'public',
         'issues_enabled',
         'merge_requests_enabled',
         'wall_enabled',
@@ -94,27 +95,42 @@ class Project extends AbstractModel
 
     public function hooks()
     {
-        return $this->api('projects')->hooks($this->id);
+        $data = $this->api('projects')->hooks($this->id);
+
+        $hooks = array();
+        foreach ($data as $hook) {
+            $hooks[] = Hook::fromArray($data);
+        }
+
+        return $hooks;
     }
 
     public function hook($hook_id)
     {
-        return $this->api('projects')->hook($this->id, $hook_id);
+        $data = $this->api('projects')->hook($this->id, $hook_id);
+
+        return Hook::fromArray($data);
     }
 
     public function addHook($url)
     {
-        return $this->api('projects')->addHook($this->id, $url);
+        $data = $this->api('projects')->addHook($this->id, $url);
+
+        return Hook::fromArray($data);
     }
 
     public function updateHook($hook_id, $url)
     {
-        return $this->api('projects')->updateHook($this->id, $hook_id, $url);
+        $data = $this->api('projects')->updateHook($this->id, $hook_id, $url);
+
+        return Hook::fromArray($data);
     }
 
     public function removeHook($hook_id)
     {
-        return $this->api('projects')->removeHook($this->id, $hook_id);
+        $this->api('projects')->removeHook($this->id, $hook_id);
+
+        return true;
     }
 
     public function branches()
