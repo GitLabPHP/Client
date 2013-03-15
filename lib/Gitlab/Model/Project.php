@@ -240,4 +240,26 @@ class Project extends AbstractModel
 
         return $issue->remove();
     }
+
+    public function createMilestone($title, array $params = array())
+    {
+        $params['title'] = $title;
+        $data = $this->api('milestones')->create($this->id, $params);
+
+        return Milestone::fromArray($this, $data);
+    }
+
+    public function milestone($id)
+    {
+        $milestone = new Milestone($this, $id);
+
+        return $milestone->show();
+    }
+
+    public function updateMilestone($id, array $params)
+    {
+        $milestone = new Milestone($this, $id);
+
+        return $milestone->update($params);
+    }
 }

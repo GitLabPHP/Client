@@ -52,4 +52,30 @@ class User extends AbstractModel
         return User::fromArray($data);
     }
 
+    public function keys()
+    {
+        $data = $this->api('users')->keys();
+
+        $keys = array();
+        foreach ($data as $key) {
+            $keys[] = Key::fromArray($key);
+        }
+
+        return $keys;
+    }
+
+    public function createKey($title, $key)
+    {
+        $data = $this->api('users')->createKey($title, $key);
+
+        return Key::fromArray($data);
+    }
+
+    public function removeKey($id)
+    {
+        $this->api('users')->removeKey($id);
+
+        return true;
+    }
+
 }

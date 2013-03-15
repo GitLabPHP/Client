@@ -77,9 +77,7 @@ class Projects extends AbstractApi
 
     public function removeHook($project_id, $hook_id)
     {
-        return $this->delete('projects/'.urlencode($project_id).'/hooks', array(
-            'hook_id' => $hook_id
-        ));
+        return $this->delete('projects/'.urlencode($project_id).'/hooks/'.urlencode($hook_id));
     }
 
 }

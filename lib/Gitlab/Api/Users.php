@@ -9,15 +9,9 @@ class Users extends AbstractApi
         return $this->get('users');
     }
 
-    public function show($id = null)
+    public function show($id)
     {
-        $path = 'users';
-
-        if (null !== $id) {
-            $path .= '/'.urlencode($id);
-        }
-
-        return $this->get($path);
+        return $this->get('users/'.urlencode($id));
     }
 
     public function create($email, $password, array $params = array())
@@ -34,5 +28,33 @@ class Users extends AbstractApi
             'email' => $email,
             'password' => $password
         ));
+    }
+
+    public function me()
+    {
+        return $this->get('user');
+    }
+
+    public function keys()
+    {
+        return $this->get('user/keys');
+    }
+
+    public function key($id)
+    {
+        return $this->get('user/keys/'.urlencode($id));
+    }
+
+    public function createKey($title, $key)
+    {
+        return $this->post('user/keys', array(
+            'title' => $title,
+            'key' => $key
+        ));
+    }
+
+    public function removeKey($id)
+    {
+        return $this->delete('user/keys/'.urlencode($id));
     }
 }
