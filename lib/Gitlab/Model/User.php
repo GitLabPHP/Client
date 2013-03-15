@@ -21,7 +21,8 @@ class User extends AbstractModel
         'access_level',
         'created_at',
         'extern_uid',
-        'provider'
+        'provider',
+        'state'
     );
 
     public static function fromArray(array $data)
