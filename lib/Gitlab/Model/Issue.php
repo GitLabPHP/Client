@@ -16,7 +16,8 @@ class Issue extends AbstractModel
         'closed',
         'updated_at',
         'created_at',
-        'project'
+        'project',
+        'state'
     );
 
     public static function fromArray(Project $project, array $data)
