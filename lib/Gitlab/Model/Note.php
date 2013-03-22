@@ -11,7 +11,8 @@ class Note extends AbstractModel
         'created_at',
         'updated_at',
         'parent_type',
-        'parent'
+        'parent',
+        'attachment'
     );
 
     public static function fromArray($type, array $data)
