@@ -57,12 +57,18 @@ class Issue extends AbstractModel
 
     public function close()
     {
-        return $this->update(array('closed' => true));
+        return $this->update(array(
+            'closed' => true,
+            'state' => 'closed'
+        ));
     }
 
     public function open()
     {
-        return $this->update(array('closed' => false));
+        return $this->update(array(
+            'closed' => false,
+            'state' => 'open'
+        ));
     }
 
     public function remove()
