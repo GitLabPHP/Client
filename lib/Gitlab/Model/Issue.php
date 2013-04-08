@@ -59,7 +59,7 @@ class Issue extends AbstractModel
     {
         return $this->update(array(
             'closed' => true,
-            'state' => 'closed'
+            'state' => 'close'
         ));
     }
 
@@ -67,7 +67,7 @@ class Issue extends AbstractModel
     {
         return $this->update(array(
             'closed' => false,
-            'state' => 'open'
+            'state' => 'reopen'
         ));
     }
 
