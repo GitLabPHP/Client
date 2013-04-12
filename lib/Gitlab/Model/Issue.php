@@ -55,8 +55,12 @@ class Issue extends AbstractModel
         return Issue::fromArray($this->project, $data);
     }
 
-    public function close()
+    public function close($comment = null)
     {
+        if ($comment) {
+            $this->addComment($comment);
+        }
+        
         return $this->update(array(
             'state_event' => 'close'
         ));
