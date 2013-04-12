@@ -56,7 +56,7 @@ class Projects extends AbstractApi
         return $this->delete('projects/'.urlencode($project_id).'/members/'.urldecode($user_id));
     }
 
-    public function hooks($project_id, $page = 1, $per_page = Api::PER_PAGE)
+    public function hooks($project_id, $page = 1, $per_page = static::PER_PAGE)
     {
         return $this->get('projects/'.urlencode($project_id).'/hooks', array(
             'page' => $page,
