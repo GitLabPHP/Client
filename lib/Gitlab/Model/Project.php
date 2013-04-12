@@ -95,7 +95,7 @@ class Project extends AbstractModel
         return true;
     }
 
-    public function hooks($page = 1, $per_page = static::PER_PAGE)
+    public function hooks($page = 1, $per_page = Api::PER_PAGE)
     {
         $data = $this->api('projects')->hooks($this->id, $page, $per_page);
 
