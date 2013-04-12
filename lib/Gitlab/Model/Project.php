@@ -2,6 +2,8 @@
 
 namespace Gitlab\Model;
 
+use Gitlab\Api\AbstractApi as Api;
+
 class Project extends AbstractModel
 {
     protected static $_properties = array(
@@ -53,9 +55,9 @@ class Project extends AbstractModel
         return Project::fromArray($data);
     }
 
-    public function members()
+    public function members($username_query = null)
     {
-        $data = $this->api('projects')->members($this->id);
+        $data = $this->api('projects')->members($this->id, $username_query);
 
         $members = array();
         foreach ($data as $member) {
@@ -93,9 +95,9 @@ class Project extends AbstractModel
         return true;
     }
 
-    public function hooks()
+    public function hooks($page = 1, $per_page = static::PER_PAGE)
     {
-        $data = $this->api('projects')->hooks($this->id);
+        $data = $this->api('projects')->hooks($this->id, $page, $per_page);
 
         $hooks = array();
         foreach ($data as $hook) {
@@ -211,9 +213,9 @@ class Project extends AbstractModel
         return $tags;
     }
 
-    public function commits()
+    public function commits($page = 1, $per_page = Api::PER_PAGE)
     {
-        $data = $this->api('repo')->commits($this->id);
+        $data = $this->api('repo')->commits($this->id, $page, $per_page);
 
         $commits = array();
         foreach ($data as $commit) {
@@ -223,9 +225,9 @@ class Project extends AbstractModel
         return $commits;
     }
 
-    public function mergeRequests()
+    public function mergeRequests($page = 1, $per_page = Api::PER_PAGE)
     {
-        $data = $this->api('mr')->all($this->id);
+        $data = $this->api('mr')->all($this->id, $page, $per_page);
 
         $mrs = array();
         foreach ($data as $mr) {
@@ -249,9 +251,9 @@ class Project extends AbstractModel
         return MergeRequest::fromArray($this, $data);
     }
 
-    public function issues()
+    public function issues($page = 1, $per_page = Api::PER_PAGE)
     {
-        $data = $this->api('issues')->all($this->id);
+        $data = $this->api('issues')->all($this->id, $page, $per_page);
 
         $issues = array();
         foreach ($data as $issue) {
@@ -288,6 +290,18 @@ class Project extends AbstractModel
         $issue = new Issue($this, $id);
 
         return $issue->remove();
+    }
+
+    public function milestones($page = 1, $per_page = Api::PER_PAGE)
+    {
+        $data = $this->api('milestones')->all($this->id, $page, $per_page);
+
+        $milestones = array();
+        foreach ($data as $milestone) {
+            $milestones[] = Milestone::fromArray($this, $milestone);
+        }
+
+        return $milestones;
     }
 
     public function createMilestone($title, array $params = array())

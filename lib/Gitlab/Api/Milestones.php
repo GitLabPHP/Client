@@ -4,9 +4,12 @@ namespace Gitlab\Api;
 
 class Milestones extends AbstractApi
 {
-    public function all($project_id)
+    public function all($project_id, $page = 1, $per_page = static::PER_PAGE)
     {
-        return $this->get('projects/'.urlencode($project_id).'/milestones');
+        return $this->get('projects/'.urlencode($project_id).'/milestones', array(
+            'page' => $page,
+            'per_page' => $per_page
+        ));
     }
 
     public function show($project_id, $milestone_id)

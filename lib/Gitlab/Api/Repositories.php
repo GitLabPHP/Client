@@ -20,9 +20,12 @@ class Repositories extends AbstractApi
         return $this->get('projects/'.urlencode($project_id).'/repository/tags');
     }
 
-    public function commits($project_id)
+    public function commits($project_id, $page = 1, $per_page = static::PER_PAGE)
     {
-        return $this->get('projects/'.urlencode($project_id).'/repository/commits');
+        return $this->get('projects/'.urlencode($project_id).'/repository/commits', array(
+            'page' => $page,
+            'per_page' => $per_page
+        ));
     }
 
     public function protectBranch($project_id, $branch_id)

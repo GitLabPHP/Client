@@ -4,9 +4,12 @@ namespace Gitlab\Api;
 
 class Groups extends AbstractApi
 {
-    public function all()
+    public function all($page = 1, $per_page = static::PER_PAGE)
     {
-        return $this->get('groups');
+        return $this->get('groups', array(
+            'page' => $page,
+            'per_page' => $per_page
+        ));
     }
 
     public function show($id)
