@@ -45,7 +45,7 @@ Model Usage
 You can also use the library in an object oriented manner. 
 
 ```php
-$gitlab = new \Gitlab\Client('http://git.yourdomain.com'/api/v3/'); // change here
+$gitlab = new \Gitlab\Client('http://git.yourdomain.com/api/v3/'); // change here
 $gitlab->authenticate('your_gitlab_token_here', \
 Gitlab\Client::AUTH_URL_TOKEN); // change here
 
