@@ -22,11 +22,11 @@ class MergeRequest extends AbstractModel
         $mr = new MergeRequest($project, $data['id']);
 
         if (isset($data['author'])) {
-            $data['author'] = new User($data['author']);
+            $data['author'] = User::fromArray($data['author']);
         }
 
         if (isset($data['assignee'])) {
-            $data['assignee'] = new User($data['assignee']);
+            $data['assignee'] = User::fromArray($data['assignee']);
         }
 
         return $mr->hydrate($data);

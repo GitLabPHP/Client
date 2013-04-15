@@ -20,7 +20,7 @@ class Note extends AbstractModel
         $comment = new Note($type);
 
         if (isset($data['author'])) {
-            $data['author'] = new User($data['author']);
+            $data['author'] = User::fromArray($data['author']);
         }
 
         return $comment->hydrate($data);
