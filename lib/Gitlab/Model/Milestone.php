@@ -19,7 +19,7 @@ class Milestone extends AbstractModel
         'created_at'
     );
 
-    public static function fromArray(Project $project, array $data, Client $client)
+    public static function fromArray(Client $client, Project $project, array $data)
     {
         $milestone = new Milestone($project, $data['id']);
         $milestone->setClient($client);
@@ -37,14 +37,14 @@ class Milestone extends AbstractModel
     {
         $data = $this->api('milestones')->show($this->project->id, $this->id);
 
-        return Milestone::fromArray($this->project, $data, $this->getClient());
+        return Milestone::fromArray($this->getClient(), $this->project, $data);
     }
 
     public function update(array $params)
     {
         $data = $this->api('milestones')->update($this->project->id, $this->id, $params);
 
-        return Milestone::fromArray($this->project, $data, $this->getClient());
+        return Milestone::fromArray($this->getClient(), $this->project, $data);
     }
 
     public function complete()

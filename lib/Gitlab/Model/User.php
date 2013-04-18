@@ -27,7 +27,7 @@ class User extends AbstractModel
         'state'
     );
 
-    public static function fromArray(array $data, Client $client)
+    public static function fromArray(Client $client, array $data)
     {
         $id = isset($data['id']) ? $data['id'] : 0;
 
@@ -37,11 +37,11 @@ class User extends AbstractModel
         return $user->hydrate($data);
     }
 
-    public static function create($email, $password, array $params = array(), Client $client)
+    public static function create(Client $client, $email, $password, array $params = array())
     {
         $data = $client->api('users')->create($email, $password, $params);
 
-        return User::fromArray($data, $client);
+        return User::fromArray($client, $data);
     }
 
     public function __construct($id = null)
@@ -53,7 +53,7 @@ class User extends AbstractModel
     {
         $data = $this->api('users')->show($this->id);
 
-        return User::fromArray($data, $this->getClient());
+        return User::fromArray($this->getClient(), $data);
     }
 
     public function keys()
@@ -62,7 +62,7 @@ class User extends AbstractModel
 
         $keys = array();
         foreach ($data as $key) {
-            $keys[] = Key::fromArray($key, $this->getClient());
+            $keys[] = Key::fromArray($this->getClient(), $key);
         }
 
         return $keys;
@@ -72,7 +72,7 @@ class User extends AbstractModel
     {
         $data = $this->api('users')->createKey($title, $key);
 
-        return Key::fromArray($data, $this->getClient());
+        return Key::fromArray($this->getClient(), $data);
     }
 
     public function removeKey($id)

@@ -23,7 +23,7 @@ class Commit extends AbstractModel
         'project'
     );
 
-    public static function fromArray(Project $project, array $data, Client $client)
+    public static function fromArray(Client $client, Project $project, array $data)
     {
         $commit = new Commit($project, $data['id']);
         $commit->setClient($client);
@@ -31,18 +31,18 @@ class Commit extends AbstractModel
         if (isset($data['parents'])) {
             $parents = array();
             foreach ($data['parents'] as $parent) {
-                $parents[] = Commit::fromArray($project, $parent, $client);
+                $parents[] = Commit::fromArray($client, $project, $parent);
             }
 
             $data['parents'] = $parents;
         }
 
         if (isset($data['author'])) {
-            $data['author'] = User::fromArray($data['author'], $client);
+            $data['author'] = User::fromArray($client, $data['author']);
         }
 
         if (isset($data['committer'])) {
-            $data['committer'] = User::fromArray($data['committer'], $client);
+            $data['committer'] = User::fromArray($client, $data['committer']);
         }
 
         return $commit->hydrate($data);

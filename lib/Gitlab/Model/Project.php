@@ -26,23 +26,23 @@ class Project extends AbstractModel
         'created_at'
     );
 
-    public static function fromArray(array $data, Client $client)
+    public static function fromArray(Client $client, array $data)
     {
         $project = new Project($data['id']);
         $project->setClient($client);
 
         if (isset($data['owner'])) {
-            $data['owner'] = User::fromArray($data['owner'], $client);
+            $data['owner'] = User::fromArray($client, $data['owner']);
         }
 
         return $project->hydrate($data);
     }
 
-    public static function create($name, array $params = array(), Client $client)
+    public static function create(Client $client, $name, array $params = array())
     {
         $data = $client->api('projects')->create($name, $params);
 
-        return Project::fromArray($data, $client);
+        return Project::fromArray($client, $data);
     }
 
     public function __construct($id = null)
@@ -54,7 +54,7 @@ class Project extends AbstractModel
     {
         $data = $this->api('projects')->show($this->id);
 
-        return Project::fromArray($data, $this->getClient());
+        return Project::fromArray($this->getClient(), $data);
     }
 
     public function members($username_query = null)
@@ -63,7 +63,7 @@ class Project extends AbstractModel
 
         $members = array();
         foreach ($data as $member) {
-            $members[] = User::fromArray($member, $this->getClient());
+            $members[] = User::fromArray($this->getClient(), $member);
         }
 
         return $members;
@@ -73,21 +73,21 @@ class Project extends AbstractModel
     {
         $data = $this->api('projects')->member($this->id, $user_id);
 
-        return User::fromArray($data, $this->getClient());
+        return User::fromArray($this->getClient(), $data);
     }
 
     public function addMember($user_id, $access_level)
     {
         $data = $this->api('projects')->addMember($this->id, $user_id, $access_level);
 
-        return User::fromArray($data, $this->getClient());
+        return User::fromArray($this->getClient(), $data);
     }
 
     public function saveMember($user_id, $access_level)
     {
         $data = $this->api('projects')->saveMember($this->id, $user_id, $access_level);
 
-        return User::fromArray($data, $this->getClient());
+        return User::fromArray($this->getClient(), $data);
     }
 
     public function removeMember($user_id)
@@ -103,7 +103,7 @@ class Project extends AbstractModel
 
         $hooks = array();
         foreach ($data as $hook) {
-            $hooks[] = Hook::fromArray($hook, $this->getClient());
+            $hooks[] = Hook::fromArray($this->getClient(), $hook);
         }
 
         return $hooks;
@@ -113,21 +113,21 @@ class Project extends AbstractModel
     {
         $data = $this->api('projects')->hook($this->id, $hook_id);
 
-        return Hook::fromArray($data, $this->getClient());
+        return Hook::fromArray($this->getClient(), $data);
     }
 
     public function addHook($url)
     {
         $data = $this->api('projects')->addHook($this->id, $url);
 
-        return Hook::fromArray($data, $this->getClient());
+        return Hook::fromArray($this->getClient(), $data);
     }
 
     public function updateHook($hook_id, $url)
     {
         $data = $this->api('projects')->updateHook($this->id, $hook_id, $url);
 
-        return Hook::fromArray($data, $this->getClient());
+        return Hook::fromArray($this->getClient(), $data);
     }
 
     public function removeHook($hook_id)
@@ -143,7 +143,7 @@ class Project extends AbstractModel
 
         $keys = array();
         foreach ($data as $key) {
-            $hooks[] = Key::fromArray($key, $this->getClient());
+            $hooks[] = Key::fromArray($this->getClient(), $key);
         }
 
         return $keys;
@@ -153,14 +153,14 @@ class Project extends AbstractModel
     {
         $data = $this->api('projects')->key($this->id, $key_id);
 
-        return Key::fromArray($data, $this->getClient());
+        return Key::fromArray($this->getClient(), $data);
     }
 
     public function addKey($title, $key)
     {
         $data = $this->api('projects')->addKey($this->id, $title, $key);
 
-        return Key::fromArray($data, $this->getClient());
+        return Key::fromArray($this->getClient(), $data);
     }
 
     public function removeKey($key_id)
@@ -176,7 +176,7 @@ class Project extends AbstractModel
 
         $branches = array();
         foreach ($data as $branch) {
-            $branches[] = Branch::fromArray($this, $branch, $this->getClient());
+            $branches[] = Branch::fromArray($this->getClient(), $this, $branch);
         }
 
         return $branches;
@@ -212,7 +212,7 @@ class Project extends AbstractModel
 
         $tags = array();
         foreach ($data as $tag) {
-            $tags[] = Tag::fromArray($this, $tag, $this->getClient());
+            $tags[] = Tag::fromArray($this->getClient(), $this, $tag);
         }
 
         return $tags;
@@ -224,7 +224,7 @@ class Project extends AbstractModel
 
         $commits = array();
         foreach ($data as $commit) {
-            $commits[] = Commit::fromArray($this, $commit, $this->getClient());
+            $commits[] = Commit::fromArray($this->getClient(), $this, $commit);
         }
 
         return $commits;
@@ -236,7 +236,7 @@ class Project extends AbstractModel
 
         $mrs = array();
         foreach ($data as $mr) {
-            $mrs[] = MergeRequest::fromArray($this, $mr, $this->getClient());
+            $mrs[] = MergeRequest::fromArray($this->getClient(), $this, $mr);
         }
 
         return $mrs;
@@ -254,7 +254,7 @@ class Project extends AbstractModel
     {
         $data = $this->api('mr')->create($this->id, $source, $target, $title, $assignee);
 
-        return MergeRequest::fromArray($this, $data, $this->getClient());
+        return MergeRequest::fromArray($this->getClient(), $this, $data);
     }
 
     public function issues($page = 1, $per_page = Api::PER_PAGE)
@@ -263,7 +263,7 @@ class Project extends AbstractModel
 
         $issues = array();
         foreach ($data as $issue) {
-            $issues[] = Issue::fromArray($this, $issue, $this->getClient());
+            $issues[] = Issue::fromArray($this->getClient(), $this, $issue);
         }
 
         return $issues;
@@ -274,7 +274,7 @@ class Project extends AbstractModel
         $params['title'] = $title;
         $data = $this->api('issues')->create($this->id, $params);
 
-        return Issue::fromArray($this, $data, $this->getClient());
+        return Issue::fromArray($this->getClient(), $this, $data);
     }
 
     public function issue($id)
@@ -307,7 +307,7 @@ class Project extends AbstractModel
 
         $milestones = array();
         foreach ($data as $milestone) {
-            $milestones[] = Milestone::fromArray($this, $milestone, $this->getClient());
+            $milestones[] = Milestone::fromArray($this->getClient(), $this, $milestone);
         }
 
         return $milestones;
@@ -318,7 +318,7 @@ class Project extends AbstractModel
         $params['title'] = $title;
         $data = $this->api('milestones')->create($this->id, $params);
 
-        return Milestone::fromArray($this, $data, $this->getClient());
+        return Milestone::fromArray($this->getClient(), $this, $data);
     }
 
     public function milestone($id)

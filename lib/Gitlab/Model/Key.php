@@ -13,7 +13,7 @@ class Key extends AbstractModel
         'created_at'
     );
 
-    public static function fromArray(array $data, Client $client)
+    public static function fromArray(Client $client, array $data)
     {
         $key = new Key();
         $key->setClient($client);

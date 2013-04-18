@@ -15,7 +15,7 @@ class Session extends AbstractModel
         'blocked'
     );
 
-    public static function fromArray(array $data, Client $client)
+    public static function fromArray(Client $client, array $data)
     {
         $session = new Session();
         $session->setClient($client);
@@ -27,7 +27,7 @@ class Session extends AbstractModel
     {
         $data = $this->api('users')->show();
 
-        return User::fromArray($data, $this->getClient());
+        return User::fromArray($this->getClient(), $data);
     }
 
     public function login($email, $password)

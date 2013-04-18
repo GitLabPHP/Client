@@ -29,10 +29,10 @@ General API Usage
 -----------------
 
 ```php
-$gitlab = new \Gitlab\Client('http://git.yourdomain.com/api/v3/'); // change here
-$gitlab->authenticate('your_gitlab_token_here', \Gitlab\Client::AUTH_URL_TOKEN); // change here
+$client = new \Gitlab\Client('http://git.yourdomain.com/api/v3/'); // change here
+$client->authenticate('your_gitlab_token_here', \Gitlab\Client::AUTH_URL_TOKEN); // change here
 
-$project = $gitlab->api('projects')->create('My Project', array(
+$project = $client->api('projects')->create('My Project', array(
   'description' => 'This is a project'
   'issues_enabled' => false
 ));
@@ -45,17 +45,17 @@ Model Usage
 You can also use the library in an object oriented manner. This is an experimental branch used for decided how to manage dependencies within model usage.
 
 ```php
-$gitlab = new \Gitlab\Client('http://git.yourdomain.com/api/v3/'); // change here
-$gitlab->authenticate('your_gitlab_token_here', \Gitlab\Client::AUTH_URL_TOKEN); // change here
+$client = new \Gitlab\Client('http://git.yourdomain.com/api/v3/'); // change here
+$client->authenticate('your_gitlab_token_here', \Gitlab\Client::AUTH_URL_TOKEN); // change here
 ```
 
 Creating a new project
 
 ```php
-$project = \Gitlab\Model\Project::create('My Project', array(
+$project = \Gitlab\Model\Project::create($client, 'My Project', array(
   'description' => 'This is my project',
   'issues_enabled' => false
-), $gitlab);
+));
 
 $project->addHook('http://mydomain.com/hook/push/1');
 
@@ -65,7 +65,7 @@ Creating a new issue
 
 ```php
 $project = new \Gitlab\Model\Project(1);
-$project->setClient($gitlab);
+$project->setClient($client);
 $issue = $project->createIssue('This does not work..', array(
   'description' => 'This doesnt work properly. Please fix',
   'assignee_id' => 2

@@ -12,7 +12,7 @@ class Hook extends AbstractModel
         'created_at'
     );
 
-    public static function fromArray(array $data, Client $client)
+    public static function fromArray(Client $client, array $data)
     {
         $hook = new Hook($data['id']);
         $hook->setClient($client);
@@ -20,11 +20,11 @@ class Hook extends AbstractModel
         return $hook->hydrate($data);
     }
 
-    public static function create($url, Client $client)
+    public static function create(Client $client, $url)
     {
         $data = $client->api('system_hooks')->create($url);
 
-        return Hook::fromArray($data, $client);
+        return Hook::fromArray($client, $data);
     }
 
     public function __construct($id)

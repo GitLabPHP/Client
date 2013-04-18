@@ -19,17 +19,17 @@ class MergeRequest extends AbstractModel
         'project'
     );
 
-    public static function fromArray(Project $project, array $data, Client $client)
+    public static function fromArray(Client $client, Project $project, array $data)
     {
         $mr = new MergeRequest($project, $data['id']);
         $mr->setClient($client);
 
         if (isset($data['author'])) {
-            $data['author'] = User::fromArray($data['author'], $client);
+            $data['author'] = User::fromArray($client, $data['author']);
         }
 
         if (isset($data['assignee'])) {
-            $data['assignee'] = User::fromArray($data['assignee'], $client);
+            $data['assignee'] = User::fromArray($client, $data['assignee']);
         }
 
         return $mr->hydrate($data);
@@ -45,14 +45,14 @@ class MergeRequest extends AbstractModel
     {
         $data = $this->api('mr')->show($this->project->id, $this->id);
 
-        return MergeRequest::fromArray($this->project, $data, $this->getClient());
+        return MergeRequest::fromArray($this->getClient(), $this->project, $data);
     }
 
     public function update(array $params)
     {
         $data = $this->api('mr')->update($this->project->id, $this->id, $params);
 
-        return MergeRequest::fromArray($this->project, $data, $this->getClient());
+        return MergeRequest::fromArray($this->getClient(), $this->project, $data);
     }
 
     public function close()
@@ -69,7 +69,7 @@ class MergeRequest extends AbstractModel
     {
         $data = $this->api('mr')->addComment($this->project->id, $this->id, $note);
 
-        return Note::fromArray($this, $data, $this->getClient());
+        return Note::fromArray($this->getClient(), $this, $data);
     }
 
 }

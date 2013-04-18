@@ -13,13 +13,13 @@ class Branch extends AbstractModel
         'protected'
     );
 
-    public static function fromArray(Project $project, array $data, Client $client)
+    public static function fromArray(Client $client, Project $project, array $data)
     {
         $branch = new Branch($project, $data['name']);
         $branch->setClient($client);
 
         if (isset($data['commit'])) {
-            $data['commit'] = Commit::fromArray($project, $data['commit'], $client);
+            $data['commit'] = Commit::fromArray($client, $project, $data['commit']);
         }
 
         return $branch->hydrate($data);
@@ -35,21 +35,20 @@ class Branch extends AbstractModel
     {
         $data = $this->api('repositories')->branch($this->project->id, $this->name);
 
-        return Branch::fromArray($this->project, $data, $this->getClient());
+        return Branch::fromArray($this->getClient(), $this->project, $data);
     }
 
     public function protect()
     {
         $data = $this->api('repositories')->protectBranch($this->project->id, $this->name);
 
-        return Branch::fromArray($this->project, $data, $this->getClient());
+        return Branch::fromArray($this->getClient(), $this->project, $data);
     }
 
     public function unprotect()
     {
         $data = $this->api('repositories')->unprotectBranch($this->project->id, $this->name);
 
-        return Branch::fromArray($this->project, $data, $this->getClient());
+        return Branch::fromArray($this->getClient(), $this->project, $data);
     }
-
 }

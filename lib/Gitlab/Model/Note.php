@@ -17,13 +17,13 @@ class Note extends AbstractModel
         'attachment'
     );
 
-    public static function fromArray($type, array $data, Client $client)
+    public static function fromArray(Client $client, $type, array $data)
     {
         $comment = new Note($type);
         $comment->setClient($client);
 
         if (isset($data['author'])) {
-            $data['author'] = User::fromArray($data['author'], $client);
+            $data['author'] = User::fromArray($client, $data['author']);
         }
 
         return $comment->hydrate($data);
