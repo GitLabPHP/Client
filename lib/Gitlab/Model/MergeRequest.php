@@ -2,6 +2,8 @@
 
 namespace Gitlab\Model;
 
+use Gitlab\Client;
+
 class MergeRequest extends AbstractModel
 {
     protected static $_properties = array(
@@ -17,16 +19,17 @@ class MergeRequest extends AbstractModel
         'project'
     );
 
-    public static function fromArray(Project $project, array $data)
+    public static function fromArray(Project $project, array $data, Client $client)
     {
         $mr = new MergeRequest($project, $data['id']);
+        $mr->setClient($client);
 
         if (isset($data['author'])) {
-            $data['author'] = User::fromArray($data['author']);
+            $data['author'] = User::fromArray($data['author'], $client);
         }
 
         if (isset($data['assignee'])) {
-            $data['assignee'] = User::fromArray($data['assignee']);
+            $data['assignee'] = User::fromArray($data['assignee'], $client);
         }
 
         return $mr->hydrate($data);
@@ -42,14 +45,14 @@ class MergeRequest extends AbstractModel
     {
         $data = $this->api('mr')->show($this->project->id, $this->id);
 
-        return MergeRequest::fromArray($this->project, $data);
+        return MergeRequest::fromArray($this->project, $data, $this->getClient());
     }
 
     public function update(array $params)
     {
         $data = $this->api('mr')->update($this->project->id, $this->id, $params);
 
-        return MergeRequest::fromArray($this->project, $data);
+        return MergeRequest::fromArray($this->project, $data, $this->getClient());
     }
 
     public function close()
@@ -66,7 +69,7 @@ class MergeRequest extends AbstractModel
     {
         $data = $this->api('mr')->addComment($this->project->id, $this->id, $note);
 
-        return Note::fromArray($this, $data);
+        return Note::fromArray($this, $data, $this->getClient());
     }
 
 }

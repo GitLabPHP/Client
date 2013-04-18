@@ -2,6 +2,8 @@
 
 namespace Gitlab\Model;
 
+use Gitlab\Client;
+
 class User extends AbstractModel
 {
     protected static $_properties = array(
@@ -25,19 +27,21 @@ class User extends AbstractModel
         'state'
     );
 
-    public static function fromArray(array $data)
+    public static function fromArray(array $data, Client $client)
     {
         $id = isset($data['id']) ? $data['id'] : 0;
+
         $user = new User($id);
+        $user->setClient($client);
 
         return $user->hydrate($data);
     }
 
-    public static function create($email, $password, array $params = array())
+    public static function create($email, $password, array $params = array(), Client $client)
     {
-        $data = static::client()->api('users')->create($email, $password, $params);
+        $data = $client->api('users')->create($email, $password, $params);
 
-        return User::fromArray($data);
+        return User::fromArray($data, $client);
     }
 
     public function __construct($id = null)
@@ -49,7 +53,7 @@ class User extends AbstractModel
     {
         $data = $this->api('users')->show($this->id);
 
-        return User::fromArray($data);
+        return User::fromArray($data, $this->getClient());
     }
 
     public function keys()
@@ -58,7 +62,7 @@ class User extends AbstractModel
 
         $keys = array();
         foreach ($data as $key) {
-            $keys[] = Key::fromArray($key);
+            $keys[] = Key::fromArray($key, $this->getClient());
         }
 
         return $keys;
@@ -68,7 +72,7 @@ class User extends AbstractModel
     {
         $data = $this->api('users')->createKey($title, $key);
 
-        return Key::fromArray($data);
+        return Key::fromArray($data, $this->getClient());
     }
 
     public function removeKey($id)

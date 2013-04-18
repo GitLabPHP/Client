@@ -2,6 +2,8 @@
 
 namespace Gitlab\Model;
 
+use Gitlab\Client;
+
 class Note extends AbstractModel
 {
     protected static $_properties = array(
@@ -15,12 +17,13 @@ class Note extends AbstractModel
         'attachment'
     );
 
-    public static function fromArray($type, array $data)
+    public static function fromArray($type, array $data, Client $client)
     {
         $comment = new Note($type);
+        $comment->setClient($client);
 
         if (isset($data['author'])) {
-            $data['author'] = User::fromArray($data['author']);
+            $data['author'] = User::fromArray($data['author'], $client);
         }
 
         return $comment->hydrate($data);
