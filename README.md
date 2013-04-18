@@ -58,7 +58,6 @@ $project = \Gitlab\Model\Project::create($client, 'My Project', array(
 ));
 
 $project->addHook('http://mydomain.com/hook/push/1');
-
 ```
 
 Creating a new issue
