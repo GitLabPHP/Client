@@ -91,7 +91,7 @@ class MergeRequest extends AbstractModel
 
     public function isClosed()
     {
-        if (in_array($this->state, 'closed', 'merged')) {
+        if (in_array($this->state, array('closed', 'merged'))) {
             return true;
         }
 
