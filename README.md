@@ -42,7 +42,7 @@ $project = $client->api('projects')->create('My Project', array(
 Model Usage
 -----------
 
-You can also use the library in an object oriented manner. This is an experimental branch used for decided how to manage dependencies within model usage.
+You can also use the library in an object oriented manner.
 
 ```php
 $client = new \Gitlab\Client('http://git.yourdomain.com/api/v3/'); // change here
