@@ -63,8 +63,7 @@ $project->addHook('http://mydomain.com/hook/push/1');
 Creating a new issue
 
 ```php
-$project = new \Gitlab\Model\Project(1);
-$project->setClient($client);
+$project = new \Gitlab\Model\Project(1, $client);
 $issue = $project->createIssue('This does not work..', array(
   'description' => 'This doesnt work properly. Please fix',
   'assignee_id' => 2
