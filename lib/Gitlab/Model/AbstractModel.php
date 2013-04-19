@@ -8,27 +8,25 @@ use Gitlab\Exception\RuntimeException;
 abstract class AbstractModel
 {
     protected static $_properties;
-    protected static $_client;
-
-    public static function client(Client $client = null)
-    {
-        if (null !== $client) {
-            static::$_client = $client;
-        }
-
-        return static::$_client;
-    }
 
     protected $_data = array();
+    protected $_client = null;
+
+    public function getClient()
+    {
+        return $this->_client;
+    }
 
     public function setClient(Client $client)
     {
-        return static::client($client);
+        $this->_client = $client;
+
+        return $this;
     }
 
     public function api($api)
     {
-        return static::client()->api($api);
+        return $this->getClient()->api($api);
     }
 
     public function hydrate(array $data = array())

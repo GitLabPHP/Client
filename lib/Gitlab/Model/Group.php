@@ -2,6 +2,8 @@
 
 namespace Gitlab\Model;
 
+use Gitlab\Client;
+
 class Group extends AbstractModel
 {
     protected static $_properties = array(
@@ -12,14 +14,15 @@ class Group extends AbstractModel
         'projects'
     );
 
-    public static function fromArray(array $data)
+    public static function fromArray(Client $client, array $data)
     {
         $group = new Group($data['id']);
+        $group->setClient($client);
 
         if (isset($data['projects'])) {
             $projects = array();
             foreach ($data['projects'] as $project) {
-                $projects[] = Project::fromArray($project);
+                $projects[] = Project::fromArray($client, $project);
             }
             $data['projects'] = $projects;
         }
@@ -27,11 +30,11 @@ class Group extends AbstractModel
         return $group->hydrate($data);
     }
 
-    public static function create($name, $path)
+    public static function create(Client $client, $name, $path)
     {
-        $data = static::client()->api('groups')->create($name, $path);
+        $data = $client->api('groups')->create($name, $path);
 
-        return Group::fromArray($data);
+        return Group::fromArray($client, $data);
     }
 
     public function __construct($id)
@@ -43,6 +46,6 @@ class Group extends AbstractModel
     {
         $data = $this->api('groups')->show($this->id);
 
-        return Group::fromArray($data);
+        return Group::fromArray($this->getClient(), $data);
     }
 }

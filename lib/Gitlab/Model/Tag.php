@@ -2,6 +2,8 @@
 
 namespace Gitlab\Model;
 
+use Gitlab\Client;
+
 class Tag extends AbstractModel
 {
     protected static $_properties = array(
@@ -11,12 +13,13 @@ class Tag extends AbstractModel
         'protected'
     );
 
-    public static function fromArray(Project $project, array $data)
+    public static function fromArray(Client $client, Project $project, array $data)
     {
         $branch = new Tag($project, $data['name']);
+        $branch->setClient($client);
 
         if (isset($data['commit'])) {
-            $data['commit'] = Commit::fromArray($project, $data['commit']);
+            $data['commit'] = Commit::fromArray($client, $project, $data['commit']);
         }
 
         return $branch->hydrate($data);

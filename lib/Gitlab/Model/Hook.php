@@ -2,6 +2,8 @@
 
 namespace Gitlab\Model;
 
+use Gitlab\Client;
+
 class Hook extends AbstractModel
 {
     protected static $_properties = array(
@@ -10,18 +12,19 @@ class Hook extends AbstractModel
         'created_at'
     );
 
-    public static function fromArray(array $data)
+    public static function fromArray(Client $client, array $data)
     {
         $hook = new Hook($data['id']);
+        $hook->setClient($client);
 
         return $hook->hydrate($data);
     }
 
-    public static function create($url)
+    public static function create(Client $client, $url)
     {
-        $data = static::client()->api('system_hooks')->create($url);
+        $data = $client->api('system_hooks')->create($url);
 
-        return Hook::fromArray($data);
+        return Hook::fromArray($client, $data);
     }
 
     public function __construct($id)

@@ -9,7 +9,7 @@ class Users extends AbstractApi
         if (!is_null($active)) {
             return $this->get('users', array(
                 'active' => $active
-            ))
+            ));
         }
 
         return $this->get('users');

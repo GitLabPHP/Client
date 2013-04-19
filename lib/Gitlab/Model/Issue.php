@@ -2,6 +2,8 @@
 
 namespace Gitlab\Model;
 
+use Gitlab\Client;
+
 class Issue extends AbstractModel
 {
     protected static $_properties = array(
@@ -20,16 +22,17 @@ class Issue extends AbstractModel
         'state'
     );
 
-    public static function fromArray(Project $project, array $data)
+    public static function fromArray(Client $client, Project $project, array $data)
     {
         $issue = new Issue($project, $data['id']);
+        $issue->setClient($client);
 
         if (isset($data['author'])) {
-            $data['author'] = User::fromArray($data['author']);
+            $data['author'] = User::fromArray($client, $data['author']);
         }
 
         if (isset($data['assignee'])) {
-            $data['assignee'] = User::fromArray($data['assignee']);
+            $data['assignee'] = User::fromArray($client, $data['assignee']);
         }
 
         return $issue->hydrate($data);
@@ -45,14 +48,14 @@ class Issue extends AbstractModel
     {
         $data = $this->api('issues')->show($this->project->id, $this->id);
 
-        return Issue::fromArray($this->project, $data);
+        return Issue::fromArray($this->getClient(), $this->project, $data);
     }
 
     public function update(array $params)
     {
         $data = $this->api('issues')->update($this->project->id, $this->id, $params);
 
-        return Issue::fromArray($this->project, $data);
+        return Issue::fromArray($this->getClient(), $this->project, $data);
     }
 
     public function close($comment = null)
@@ -79,7 +82,7 @@ class Issue extends AbstractModel
             'body' => $body
         ));
 
-        return Note::fromArray($this, $data);
+        return Note::fromArray($this->getClient(), $this, $data);
     }
 
 }

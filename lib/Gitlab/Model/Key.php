@@ -2,6 +2,8 @@
 
 namespace Gitlab\Model;
 
+use Gitlab\Client;
+
 class Key extends AbstractModel
 {
     protected static $_properties = array(
@@ -11,9 +13,10 @@ class Key extends AbstractModel
         'created_at'
     );
 
-    public static function fromArray(array $data)
+    public static function fromArray(Client $client, array $data)
     {
         $key = new Key();
+        $key->setClient($client);
 
         return $key->hydrate($data);
     }
