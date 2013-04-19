@@ -89,4 +89,13 @@ class MergeRequest extends AbstractModel
         return Note::fromArray($this->getClient(), $this, $data);
     }
 
+    public function isClosed()
+    {
+        if (in_array($this->state, 'closed', 'merged')) {
+            return true;
+        }
+
+        return false;
+    }
+
 }
