@@ -17,7 +17,7 @@ abstract class AbstractModel
         return $this->_client;
     }
 
-    public function setClient(Client $client)
+    public function setClient(Client $client = null)
     {
         if (null !== $client) {
             $this->_client = $client;
