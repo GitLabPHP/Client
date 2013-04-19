@@ -16,7 +16,8 @@ class MergeRequest extends AbstractModel
         'merged',
         'author',
         'assignee',
-        'project'
+        'project',
+        'state'
     );
 
     public static function fromArray(Client $client, Project $project, array $data)
