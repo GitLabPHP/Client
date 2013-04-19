@@ -24,8 +24,7 @@ class Issue extends AbstractModel
 
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $issue = new Issue($project, $data['id']);
-        $issue->setClient($client);
+        $issue = new Issue($project, $data['id'], $client);
 
         if (isset($data['author'])) {
             $data['author'] = User::fromArray($client, $data['author']);
@@ -38,8 +37,10 @@ class Issue extends AbstractModel
         return $issue->hydrate($data);
     }
 
-    public function __construct(Project $project, $id = null)
+    public function __construct(Project $project, $id = null, Client $client = null)
     {
+        $this->setClient($client);
+
         $this->project = $project;
         $this->id = $id;
     }

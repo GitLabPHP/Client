@@ -25,8 +25,7 @@ class Commit extends AbstractModel
 
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $commit = new Commit($project, $data['id']);
-        $commit->setClient($client);
+        $commit = new Commit($project, $data['id'], $client);
 
         if (isset($data['parents'])) {
             $parents = array();
@@ -48,8 +47,10 @@ class Commit extends AbstractModel
         return $commit->hydrate($data);
     }
 
-    public function __construct(Project $project, $id = null)
+    public function __construct(Project $project, $id = null, Client $client = null)
     {
+        $this->setClient($client);
+
         $this->project = $project;
         $this->id = $id;
     }

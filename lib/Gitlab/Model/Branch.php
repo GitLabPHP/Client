@@ -15,8 +15,7 @@ class Branch extends AbstractModel
 
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $branch = new Branch($project, $data['name']);
-        $branch->setClient($client);
+        $branch = new Branch($project, $data['name'], $client);
 
         if (isset($data['commit'])) {
             $data['commit'] = Commit::fromArray($client, $project, $data['commit']);
@@ -25,8 +24,10 @@ class Branch extends AbstractModel
         return $branch->hydrate($data);
     }
 
-    public function __construct(Project $project, $name = null)
+    public function __construct(Project $project, $name = null, Client $client = null)
     {
+        $this->setClient($client);
+
         $this->project = $project;
         $this->name = $name;
     }

@@ -14,8 +14,7 @@ class Hook extends AbstractModel
 
     public static function fromArray(Client $client, array $data)
     {
-        $hook = new Hook($data['id']);
-        $hook->setClient($client);
+        $hook = new Hook($data['id'], $client);
 
         return $hook->hydrate($data);
     }
@@ -27,8 +26,10 @@ class Hook extends AbstractModel
         return Hook::fromArray($client, $data);
     }
 
-    public function __construct($id)
+    public function __construct($id, Client $client = null)
     {
+        $this->setClient($client);
+
         $this->id = $id;
     }
 

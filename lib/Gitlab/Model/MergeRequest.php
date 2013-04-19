@@ -21,8 +21,7 @@ class MergeRequest extends AbstractModel
 
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $mr = new MergeRequest($project, $data['id']);
-        $mr->setClient($client);
+        $mr = new MergeRequest($project, $data['id'], $client);
 
         if (isset($data['author'])) {
             $data['author'] = User::fromArray($client, $data['author']);
@@ -35,8 +34,10 @@ class MergeRequest extends AbstractModel
         return $mr->hydrate($data);
     }
 
-    public function __construct(Project $project, $id = null)
+    public function __construct(Project $project, $id = null, Client $client = null)
     {
+        $this->setClient($client);
+
         $this->project = $project;
         $this->id = $id;
     }

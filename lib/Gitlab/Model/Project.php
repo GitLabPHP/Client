@@ -45,8 +45,9 @@ class Project extends AbstractModel
         return Project::fromArray($client, $data);
     }
 
-    public function __construct($id = null)
+    public function __construct($id = null, Client $client = null)
     {
+        $this->setClient($client);
         $this->id = $id;
     }
 

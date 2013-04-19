@@ -15,9 +15,13 @@ class Key extends AbstractModel
 
     public static function fromArray(Client $client, array $data)
     {
-        $key = new Key();
-        $key->setClient($client);
+        $key = new Key($client);
 
         return $key->hydrate($data);
+    }
+
+    public function __construct(Client $client = null)
+    {
+        $this->setClient($client);
     }
 }

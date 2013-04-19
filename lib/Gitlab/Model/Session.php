@@ -17,10 +17,14 @@ class Session extends AbstractModel
 
     public static function fromArray(Client $client, array $data)
     {
-        $session = new Session();
-        $session->setClient($client);
+        $session = new Session($client);
 
         return $session->hydrate($data);
+    }
+
+    public function __construct(Client $client = null)
+    {
+        $this->setClient($client);
     }
 
     public function me()

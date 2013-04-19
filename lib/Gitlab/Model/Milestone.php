@@ -21,14 +21,15 @@ class Milestone extends AbstractModel
 
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $milestone = new Milestone($project, $data['id']);
-        $milestone->setClient($client);
+        $milestone = new Milestone($project, $data['id'], $client);
 
         return $milestone->hydrate($data);
     }
 
-    public function __construct(Project $project, $id)
+    public function __construct(Project $project, $id, Client $client = null)
     {
+        $this->setClient($client);
+
         $this->id = $id;
         $this->project = $project;
     }

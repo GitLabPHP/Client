@@ -31,8 +31,7 @@ class User extends AbstractModel
     {
         $id = isset($data['id']) ? $data['id'] : 0;
 
-        $user = new User($id);
-        $user->setClient($client);
+        $user = new User($id, $client);
 
         return $user->hydrate($data);
     }
@@ -44,8 +43,10 @@ class User extends AbstractModel
         return User::fromArray($client, $data);
     }
 
-    public function __construct($id = null)
+    public function __construct($id = null, Client $client = null)
     {
+        $this->setClient($client);
+
         $this->id = $id;
     }
 
