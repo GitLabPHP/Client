@@ -245,8 +245,7 @@ class Project extends AbstractModel
 
     public function mergeRequest($id)
     {
-        $mr = new MergeRequest($this, $id);
-        $mr->setClient($this->getClient());
+        $mr = new MergeRequest($this, $id, $this->getClient());
 
         return $mr->show();
     }
@@ -256,6 +255,34 @@ class Project extends AbstractModel
         $data = $this->api('mr')->create($this->id, $source, $target, $title, $assignee);
 
         return MergeRequest::fromArray($this->getClient(), $this, $data);
+    }
+
+    public function updateMergeRequest($id, array $params)
+    {
+        $mr = new MergeRequest($this, $id, $this->getClient());
+
+        return $mr->update($params);
+    }
+
+    public function closeMergeRequest($id)
+    {
+        $mr = new MergeRequest($this, $id, $this->getClient());
+
+        return $mr->close();
+    }
+
+    public function openMergeRequest($id)
+    {
+        $mr = new MergeRequest($this, $id, $this->getClient());
+
+        return $mr->open();
+    }
+
+    public function mergeMergeRequest($id)
+    {
+        $mr = new MergeRequest($this, $id, $this->getClient());
+
+        return $mr->merge();
     }
 
     public function issues($page = 1, $per_page = Api::PER_PAGE)
@@ -280,24 +307,21 @@ class Project extends AbstractModel
 
     public function issue($id)
     {
-        $issue = new Issue($this, $id);
-        $issue->setClient($this->getClient());
+        $issue = new Issue($this, $id, $this->getClient());
 
         return $issue->show();
     }
 
     public function updateIssue($id, array $params)
     {
-        $issue = new Issue($this, $id);
-        $issue->setClient($this->getClient());
+        $issue = new Issue($this, $id, $this->getClient());
 
         return $issue->update($params);
     }
 
     public function removeIssue($id)
     {
-        $issue = new Issue($this, $id);
-        $issue->setClient($this->getClient());
+        $issue = new Issue($this, $id, $this->getClient());
 
         return $issue->remove();
     }
@@ -324,16 +348,14 @@ class Project extends AbstractModel
 
     public function milestone($id)
     {
-        $milestone = new Milestone($this, $id);
-        $milestone->setClient($this->getClient());
+        $milestone = new Milestone($this, $id, $this->getClient());
 
         return $milestone->show();
     }
 
     public function updateMilestone($id, array $params)
     {
-        $milestone = new Milestone($this, $id);
-        $milestone->setClient($this->getClient());
+        $milestone = new Milestone($this, $id, $this->getClient());
 
         return $milestone->update($params);
     }

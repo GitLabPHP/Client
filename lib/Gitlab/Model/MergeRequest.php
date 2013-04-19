@@ -58,12 +58,17 @@ class MergeRequest extends AbstractModel
 
     public function close()
     {
-        return $this->update(array('closed' => true));
+        return $this->update(array('state_event' => 'close'));
     }
 
     public function open()
     {
-        return $this->update(array('closed' => false));
+        return $this->update(array('state_event' => 'reopen'));
+    }
+
+    public function merge()
+    {
+        return $this->update(array('state_event' => 'merge'));
     }
 
     public function addComment($note)
