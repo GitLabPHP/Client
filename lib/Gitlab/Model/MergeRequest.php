@@ -57,19 +57,29 @@ class MergeRequest extends AbstractModel
         return MergeRequest::fromArray($this->getClient(), $this->project, $data);
     }
 
-    public function close()
+    public function close($comment = null)
     {
-        return $this->update(array('state_event' => 'close'));
+        if ($comment) {
+            $this->addComment($comment);
+        }
+
+        return $this->update(array(
+            'state_event' => 'close'
+        ));
     }
 
-    public function open()
+    public function reopen()
     {
-        return $this->update(array('state_event' => 'reopen'));
+        return $this->update(array(
+            'state_event' => 'reopen'
+        ));
     }
 
-    public function merge()
+    public function merged()
     {
-        return $this->update(array('state_event' => 'merge'));
+        return $this->update(array(
+            'state_event' => 'merge'
+        ));
     }
 
     public function addComment($note)
