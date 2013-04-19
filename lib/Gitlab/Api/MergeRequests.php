@@ -4,7 +4,7 @@ namespace Gitlab\Api;
 
 class MergeRequests extends AbstractApi
 {
-    public function all($project_id, $page = 1, $per_page = static::PER_PAGE)
+    public function all($project_id, $page = 1, $per_page = self::PER_PAGE)
     {
         return $this->get('projects/'.urlencode($project_id).'/merge_requests', array(
             'page' => $page,

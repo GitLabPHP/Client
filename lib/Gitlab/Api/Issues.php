@@ -4,7 +4,7 @@ namespace Gitlab\Api;
 
 class Issues extends AbstractApi
 {
-    public function all($project_id = null, $page = 1, $per_page = static::PER_PAGE)
+    public function all($project_id = null, $page = 1, $per_page = self::PER_PAGE)
     {
         $path = $project_id === null ? 'issues' : 'projects/'.urlencode($project_id).'/issues';
 
