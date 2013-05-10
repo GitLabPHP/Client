@@ -3,6 +3,7 @@
 namespace Gitlab\Model;
 
 use Gitlab\Client;
+use Gitlab\Api\AbstractApi as Api;
 
 class Branch extends AbstractModel
 {
@@ -51,5 +52,10 @@ class Branch extends AbstractModel
         $data = $this->api('repositories')->unprotectBranch($this->project->id, $this->name);
 
         return Branch::fromArray($this->getClient(), $this->project, $data);
+    }
+
+    public function commits($page = 1, $per_page = Api::PER_PAGE)
+    {
+        return $this->project->commits($page, $per_page, $this->name);
     }
 }
