@@ -219,7 +219,7 @@ class Project extends AbstractModel
         return $tags;
     }
 
-    public function commits($page = 1, $per_page = Api::PER_PAGE, $ref_name = null)
+    public function commits($page = 0, $per_page = Api::PER_PAGE, $ref_name = null)
     {
         $data = $this->api('repo')->commits($this->id, $page, $per_page, $ref_name);
 
