@@ -12,11 +12,7 @@ use Gitlab\HttpClient\HttpClientInterface;
 use Gitlab\HttpClient\Listener\AuthListener;
 
 /**
- * Simple yet very cool PHP GitHub client
- *
- * @author Joseph Bielawski <stloyd@gmail.com>
- *
- * Website: http://github.com/KnpLabs/php-github-api
+ * Simple API wrapper for Gitlab
  */
 class Client
 {
@@ -43,14 +39,14 @@ class Client
     private $base_url = null;
 
     /**
-     * The Buzz instance used to communicate with GitHub
+     * The Buzz instance used to communicate with Gitlab
      *
      * @var HttpClient
      */
     private $httpClient;
 
     /**
-     * Instantiate a new GitHub client
+     * Instantiate a new Gitlab client
      *
      * @param null|ClientInterface $httpClient Buzz client
      */
@@ -120,8 +116,7 @@ class Client
     /**
      * Authenticate a user for all next requests
      *
-     * @param string      $tokenOrLogin  GitHub private token/username/client ID
-     * @param null|string $password      GitHub password/secret
+     * @param string      $token  Gitlab private token
      * @param null|string $authMethod    One of the AUTH_* class constants
      */
     public function authenticate($token, $authMethod = null)

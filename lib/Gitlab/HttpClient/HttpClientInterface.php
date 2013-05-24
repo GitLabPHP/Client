@@ -5,7 +5,7 @@ namespace Gitlab\HttpClient;
 use Gitlab\Exception\InvalidArgumentException;
 
 /**
- * Performs requests on GitHub API. API documentation should be self-explanatory.
+ * Performs requests on Gitlab API. API documentation should be self-explanatory.
  *
  * @author Joseph Bielawski <stloyd@gmail.com>
  */

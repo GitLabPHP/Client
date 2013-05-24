@@ -14,7 +14,7 @@ use Gitlab\HttpClient\Message\Request;
 use Gitlab\HttpClient\Message\Response;
 
 /**
- * Performs requests on GitHub API. API documentation should be self-explanatory.
+ * Performs requests on Gitlab API. API documentation should be self-explanatory.
  *
  * @author Joseph Bielawski <stloyd@gmail.com>
  */
