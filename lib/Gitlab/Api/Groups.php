@@ -24,4 +24,9 @@ class Groups extends AbstractApi
             'path' => $path
         ));
     }
+
+    public function transfer($id, $project_id)
+    {
+        return $this->post('groups/'.urlencode($id).'/projects/'.urlencode($project_id));
+    }
 }

@@ -49,4 +49,11 @@ class Group extends AbstractModel
 
         return Group::fromArray($this->getClient(), $data);
     }
+
+    public function transfer($project_id)
+    {
+        $data = $this->api('groups')->transfer($this->id, $project_id);
+
+        return Group::fromArray($this->getClient(), $data);
+    }
 }
