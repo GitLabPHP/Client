@@ -45,8 +45,6 @@ class ErrorListener implements ListenerInterface
             if (is_array($content) && isset($content['message'])) {
                 if (400 == $response->getStatusCode()) {
                     throw new ErrorException($content['message'], 400);
-                } elseif (422 == $response->getStatusCode() && isset($content['errors'])) {
-                    debug ($content);
                 }
             }
 
