@@ -24,7 +24,8 @@ class User extends AbstractModel
         'created_at',
         'extern_uid',
         'provider',
-        'state'
+        'state',
+        'color_scheme_id'
     );
 
     public static function fromArray(Client $client, array $data)
