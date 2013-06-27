@@ -29,6 +29,11 @@ class Repositories extends AbstractApi
         ));
     }
 
+    public function tree($project_id, array $params = array())
+    {
+        return $this->get('projects/'.urlencode($project_id).'/tree', $params);
+    }
+
     public function protectBranch($project_id, $branch_id)
     {
         return $this->put('projects/'.urlencode($project_id).'/repository/branches/'.urlencode($branch_id).'/protect');
