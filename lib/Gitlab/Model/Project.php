@@ -11,10 +11,14 @@ class Project extends AbstractModel
         'id',
         'code',
         'name',
+        'name_with_namespace',
         'namespace',
         'description',
         'path',
         'path_with_namespace',
+        'ssh_url_to_repo',
+        'http_url_to_repo',
+        'web_url',
         'default_branch',
         'owner',
         'private',
@@ -25,8 +29,7 @@ class Project extends AbstractModel
         'wiki_enabled',
         'created_at',
         'greatest_access_level',
-        'ssh_url_to_repo',
-        'http_url_to_repo'
+        'last_activity_at'
     );
 
     public static function fromArray(Client $client, array $data)
