@@ -18,14 +18,14 @@ class User extends AbstractModel
         'twitter',
         'dark_scheme',
         'theme_id',
+        'color_scheme_id',
         'blocked',
         'projects_limit',
         'access_level',
         'created_at',
         'extern_uid',
         'provider',
-        'state',
-        'color_scheme_id'
+        'state'
     );
 
     public static function fromArray(Client $client, array $data)
