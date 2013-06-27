@@ -111,4 +111,9 @@ class Projects extends AbstractApi
         return $this->delete('projects/'.urlencode($project_id).'/keys/'.urlencode($key_id));
     }
 
+    public function events($project_id)
+    {
+        return $this->get('projects/'.urlencode($project_id).'/events');
+    }
+
 }
