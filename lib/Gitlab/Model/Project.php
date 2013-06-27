@@ -104,6 +104,18 @@ class Project extends AbstractModel
         return true;
     }
 
+    public function teams()
+    {
+        $data = $this->api('teams')->all($this->id);
+
+        $teams = array();
+        foreach ($data as $team) {
+            $teams[] = Team::fromArray($this->getClient(), $team);
+        }
+
+        return $teams;
+    }
+
     public function addToTeam($team_id, $greatest_access_level)
     {
         $team = new Team($team_id, $this->getClient());
