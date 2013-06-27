@@ -10,7 +10,8 @@ class Node extends AbstractModel
         'name',
         'type',
         'mode',
-        'id'
+        'id',
+        'project'
     );
 
     public static function fromArray(Client $client, Project $project, array $data)
