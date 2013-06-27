@@ -23,7 +23,8 @@ class Project extends AbstractModel
         'merge_requests_enabled',
         'wall_enabled',
         'wiki_enabled',
-        'created_at'
+        'created_at',
+        'greatest_access_level'
     );
 
     public static function fromArray(Client $client, array $data)
@@ -96,6 +97,20 @@ class Project extends AbstractModel
         $this->api('projects')->removeMember($this->id, $user_id);
 
         return true;
+    }
+
+    public function addToTeam($team_id, $greatest_access_level)
+    {
+        $team = new Team($team_id, $this->getClient());
+
+        return $team->addProject($this->id, $greatest_access_level);
+    }
+
+    public function removeFromTeam($team_id)
+    {
+        $team = new Team($team_id, $this->getClient());
+
+        return $team->removeProject($this->id);
     }
 
     public function hooks($page = 1, $per_page = Api::PER_PAGE)

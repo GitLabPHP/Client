@@ -84,4 +84,18 @@ class User extends AbstractModel
         return true;
     }
 
+    public function addToTeam($team_id, $access_level)
+    {
+        $team = new Team($team_id, $this->getClient());
+
+        return $team->addMember($this->id, $access_level);
+    }
+
+    public function removeFromTeam($team_id)
+    {
+        $team = new Team($team_id, $this->getClient());
+
+        return $team->removeMember($this->id);
+    }
+
 }
