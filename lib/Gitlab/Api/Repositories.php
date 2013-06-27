@@ -44,4 +44,11 @@ class Repositories extends AbstractApi
         return $this->put('projects/'.urlencode($project_id).'/repository/branches/'.urlencode($branch_id).'/unprotect');
     }
 
+    public function blob($project_id, $sha, $filepath)
+    {
+        return $this->get('projects/'.urlencode($project_id).'/repository/commits/'.urlencode($sha).'/blob', array(
+            'filepath' => $filepath
+        ));
+    }
+
 }
