@@ -70,11 +70,11 @@ class Issue extends AbstractModel
         ));
     }
 
-    public function remove()
+    public function open()
     {
-        $this->api('issues')->remove($this->project->id, $this->id);
-
-        return true;
+        return $this->update(array(
+            'state_event' => 'reopen'
+        ));
     }
 
     public function addComment($body)

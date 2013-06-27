@@ -348,11 +348,18 @@ class Project extends AbstractModel
         return $issue->update($params);
     }
 
-    public function removeIssue($id)
+    public function closeIssue($id, $comment = null)
     {
         $issue = new Issue($this, $id, $this->getClient());
 
-        return $issue->remove();
+        return $issue->close($comment);
+    }
+
+    public function openIssue($id)
+    {
+        $issue = new Issue($this, $id, $this->getClient());
+
+        return $issue->open();
     }
 
     public function milestones($page = 1, $per_page = Api::PER_PAGE)

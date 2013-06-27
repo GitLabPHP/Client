@@ -29,11 +29,6 @@ class Issues extends AbstractApi
         return $this->put('projects/'.urlencode($project_id).'/issues/'.urlencode($issue_id), $params);
     }
 
-    public function remove($project_id, $issue_id)
-    {
-        return $this->delete('projects/'.urlencode($project_id).'/issues/'.urlencode($issue_id));
-    }
-
     public function addComment($project_id, $issue_id, array $params)
     {
         return $this->post('projects/'.urlencode($project_id).'/issues/'.urlencode($issue_id).'/notes', $params);
