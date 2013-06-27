@@ -1,0 +1,36 @@
+<?php
+
+namespace Gitlab\Model;
+
+use Gitlab\Client;
+
+class Event extends AbstractModel
+{
+    protected static $_properties = array(
+        'title',
+        'project_id',
+        'action_name',
+        'target_id',
+        'target_type',
+        'author_id',
+        'data',
+        'target_title',
+        'project'
+    );
+
+    public static function fromArray(Client $client, Project $project, array $data)
+    {
+        $event = new Event($project, $data['id'], $client);
+
+        return $event->hydrate($data);
+    }
+
+    public function __construct(Project $project, $id = null, Client $client = null)
+    {
+        $this->setClient($client);
+
+        $this->project = $project;
+        $this->id = $id;
+    }
+
+}

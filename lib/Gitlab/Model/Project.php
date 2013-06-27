@@ -231,6 +231,16 @@ class Project extends AbstractModel
         return $commits;
     }
 
+    public function events()
+    {
+        $data = $this->api('projects')->events($this->id);
+
+        $events = array();
+        foreach ($data as $event) {
+            $events[] = Event::fromArray($this->getClient(), $this, $event);
+        }
+    }
+
     public function mergeRequests($page = 1, $per_page = Api::PER_PAGE)
     {
         $data = $this->api('mr')->all($this->id, $page, $per_page);
