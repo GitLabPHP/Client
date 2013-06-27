@@ -243,6 +243,11 @@ class Project extends AbstractModel
         return $tree;
     }
 
+    public function blob($sha, $filepath)
+    {
+        return $this->api('repo')->blob($this->id, $sha, $filepath);
+    }
+
     public function events()
     {
         $data = $this->api('projects')->events($this->id);
@@ -251,6 +256,8 @@ class Project extends AbstractModel
         foreach ($data as $event) {
             $events[] = Event::fromArray($this->getClient(), $this, $event);
         }
+
+        return $events;
     }
 
     public function mergeRequests($page = 1, $per_page = Api::PER_PAGE)
@@ -380,5 +387,52 @@ class Project extends AbstractModel
         $milestone = new Milestone($this, $id, $this->getClient());
 
         return $milestone->update($params);
+    }
+
+    public function snippets()
+    {
+        $data = $this->api('snippets')->all($this->id);
+
+        $snippets = array();
+        foreach ($data as $snippet) {
+            $snippets[] = Snippet::fromArray($this->getClient(), $this, $snippet);
+        }
+
+        return $snippets;
+    }
+
+    public function createSnippet($title, $filename, $code, $lifetime = null)
+    {
+        $data = $this->api('snippets')->create($this->id, $filename, $code, $lifetime);
+
+        return Snippet::fromArray($this->getClient(), $this, $data);
+    }
+
+    public function snippet($id)
+    {
+        $snippet = new Snippet($this, $id, $this->getClient());
+
+        return $snippet->show();
+    }
+
+    public function snippetContent($id)
+    {
+        $snippet = new Snippet($this, $id, $this->getClient());
+
+        return $snippet->content();
+    }
+
+    public function updateSnippet($id, array $params)
+    {
+        $snippet = new Snippet($this, $id, $this->getClient());
+
+        return $snippet->update($params);
+    }
+
+    public function removeSnippet($id)
+    {
+        $snippet = new Snippet($this, $id, $this->getClient());
+
+        return $snippet->remove();
     }
 }
