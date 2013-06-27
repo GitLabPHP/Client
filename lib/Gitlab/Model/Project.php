@@ -231,6 +231,18 @@ class Project extends AbstractModel
         return $commits;
     }
 
+    public function tree(array $params = array())
+    {
+        $data = $this->api('repo')->tree($this->id, $params);
+
+        $tree = array();
+        foreach ($data as $node) {
+            $tree[] = Node::fromArray($this->getClient(), $this, $node);
+        }
+
+        return $tree;
+    }
+
     public function events()
     {
         $data = $this->api('projects')->events($this->id);
