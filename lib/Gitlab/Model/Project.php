@@ -430,7 +430,7 @@ class Project extends AbstractModel
 
     public function createSnippet($title, $filename, $code, $lifetime = null)
     {
-        $data = $this->api('snippets')->create($this->id, $filename, $code, $lifetime);
+        $data = $this->api('snippets')->create($this->id, $title, $filename, $code, $lifetime);
 
         return Snippet::fromArray($this->getClient(), $this, $data);
     }
