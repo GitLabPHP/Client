@@ -24,7 +24,8 @@ class Project extends AbstractModel
         'wall_enabled',
         'wiki_enabled',
         'created_at',
-        'greatest_access_level'
+        'greatest_access_level',
+        'ssh_url_to_repo'
     );
 
     public static function fromArray(Client $client, array $data)
