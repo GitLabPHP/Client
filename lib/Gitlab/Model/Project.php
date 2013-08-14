@@ -29,7 +29,8 @@ class Project extends AbstractModel
         'wiki_enabled',
         'created_at',
         'greatest_access_level',
-        'last_activity_at'
+        'last_activity_at',
+        'snippets_enabled'
     );
 
     public static function fromArray(Client $client, array $data)
