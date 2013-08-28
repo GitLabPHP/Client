@@ -106,11 +106,6 @@ class Client
                 $api = new Api\SystemHooks($this);
                 break;
 
-            case 'teams':
-            case 'user_teams':
-                $api = new Api\Teams($this);
-                break;
-
             default:
                 throw new InvalidArgumentException();
         }

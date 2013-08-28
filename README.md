@@ -12,7 +12,7 @@ $ curl -sS https://getcomposer.org/installer | php
 $ sudo mv composer.phar /usr/local/bin/composer
 ```
 
-Add the following to your require block in composer.json config:
+Add the following to your require block in composer.json config. Note: be careful when using the `dev-master` tag as this may have unexpected results depending on your version of Gitlab. See the Versioning section below for more information.
 
 ```
 "m4tthumphrey/php-gitlab-api": "dev-master"
@@ -24,6 +24,11 @@ Include Composer's autoloader:
 ```php
 require_once dirname(__DIR__).'/vendor/autoload.php';
 ```
+
+Versioning
+----------
+
+From the 6.0 stable release of Gitlab, I shall now be matching the client version with the Gitlab version. For example when Gitlab 6.1 is released I will release version 6.1.0 of the API client. If I need to make future updates to the client before the next API version is released. I will simply use a 3th build version. For example `6.1.1`, `6.1.2` etc. It is recommended that you keep your composer file up to date depending on what version of Gitlab you are currently running. So if you are using 6.0, you should required `6.0.*`; 6.1 should be `6.1.*` etc etc.
 
 General API Usage
 -----------------

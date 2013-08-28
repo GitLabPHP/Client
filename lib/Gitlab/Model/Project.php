@@ -105,20 +105,6 @@ class Project extends AbstractModel
         return true;
     }
 
-    public function addToTeam($team_id, $greatest_access_level)
-    {
-        $team = new Team($team_id, $this->getClient());
-
-        return $team->addProject($this->id, $greatest_access_level);
-    }
-
-    public function removeFromTeam($team_id)
-    {
-        $team = new Team($team_id, $this->getClient());
-
-        return $team->removeProject($this->id);
-    }
-
     public function hooks($page = 1, $per_page = Api::PER_PAGE)
     {
         $data = $this->api('projects')->hooks($this->id, $page, $per_page);
