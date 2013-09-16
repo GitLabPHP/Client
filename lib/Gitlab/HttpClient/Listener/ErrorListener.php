@@ -48,7 +48,16 @@ class ErrorListener implements ListenerInterface
                 }
             }
 
-            throw new RuntimeException(isset($content['message']) ? $content['message'] : $content, $response->getStatusCode());
+            $errorMessage = null;
+            if (isset($content['error'])) {
+                $errorMessage = implode("\n", $content['error']);
+            } else if (isset($content['message'])) {
+                $errorMessage = $content['message'];
+            } else {
+                $errorMessage = $content;
+            }
+
+            throw new RuntimeException($errorMessage, $response->getStatusCode());
         }
     }
 }
