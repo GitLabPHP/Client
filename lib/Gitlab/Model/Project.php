@@ -449,4 +449,11 @@ class Project extends AbstractModel
 
         return $snippet->remove();
     }
+
+	public function transfer($group_id)
+	{
+		$group = new Group($group_id, $this->getClient());
+
+		return $group->transfer($this->id);
+	}
 }

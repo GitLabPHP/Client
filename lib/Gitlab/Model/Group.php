@@ -56,4 +56,30 @@ class Group extends AbstractModel
 
         return Group::fromArray($this->getClient(), $data);
     }
+
+	public function members()
+	{
+		$data = $this->api('groups')->members($this->id);
+
+		$members = array();
+		foreach ($data as $member) {
+			$members[] = User::fromArray($this->getClient(), $member);
+		}
+
+		return $members;
+	}
+
+	public function addMember($user_id, $access_level)
+	{
+		$data = $this->api('groups')->addMember($this->id, $user_id, $access_level);
+
+		return User::fromArray($this->getClient(), $data);
+	}
+
+	public function removeMember($user_id)
+	{
+		$this->api('groups')->removeMember($this->id, $user_id);
+
+		return true;
+	}
 }
