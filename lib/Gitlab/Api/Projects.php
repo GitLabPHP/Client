@@ -24,6 +24,11 @@ class Projects extends AbstractApi
         return $this->post('projects', $params);
     }
 
+    public function remove($project_id)
+    {
+        return $this->delete('projects/'.urlencode($project_id));
+    }
+
     public function members($project_id, $username_query = null)
     {
         return $this->get('projects/'.urlencode($project_id).'/members', array(

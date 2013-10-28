@@ -65,6 +65,13 @@ class Project extends AbstractModel
         return Project::fromArray($this->getClient(), $data);
     }
 
+    public function remove()
+    {
+        $this->api('projects')->remove($this->id);
+
+        return true;
+    }
+
     public function members($username_query = null)
     {
         $data = $this->api('projects')->members($this->id, $username_query);

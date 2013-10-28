@@ -25,7 +25,10 @@ class User extends AbstractModel
         'created_at',
         'extern_uid',
         'provider',
-        'state'
+        'state',
+        'is_admin',
+        'can_create_group',
+        'can_create_project'
     );
 
     public static function fromArray(Client $client, array $data)

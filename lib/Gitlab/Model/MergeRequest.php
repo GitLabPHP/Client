@@ -8,6 +8,7 @@ class MergeRequest extends AbstractModel
 {
     protected static $_properties = array(
         'id',
+        'iid',
         'target_branch',
         'source_branch',
         'project_id',
@@ -17,7 +18,11 @@ class MergeRequest extends AbstractModel
         'author',
         'assignee',
         'project',
-        'state'
+        'state',
+        'source_project_id',
+        'target_project_id',
+        'upvotes',
+        'downvotes'
     );
 
     public static function fromArray(Client $client, Project $project, array $data)

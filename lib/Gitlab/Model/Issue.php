@@ -8,6 +8,7 @@ class Issue extends AbstractModel
 {
     protected static $_properties = array(
         'id',
+        'iid',
         'project_id',
         'title',
         'description',

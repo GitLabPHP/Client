@@ -8,6 +8,7 @@ class Milestone extends AbstractModel
 {
     protected static $_properties = array(
         'id',
+        'iid',
         'project',
         'project_id',
         'title',
