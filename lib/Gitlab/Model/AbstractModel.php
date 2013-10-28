@@ -35,7 +35,9 @@ abstract class AbstractModel
     {
         if (!empty($data)) {
             foreach ($data as $k => $v) {
-                $this->$k = $v;
+                if (in_array($k, static::$_properties)) {
+                    $this->$k = $v;
+                }
             }
         }
 
