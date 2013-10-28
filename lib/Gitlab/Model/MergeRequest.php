@@ -8,6 +8,7 @@ class MergeRequest extends AbstractModel
 {
     protected static $_properties = array(
         'id',
+        'iid',
         'target_branch',
         'source_branch',
         'project_id',
