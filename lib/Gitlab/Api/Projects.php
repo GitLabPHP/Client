@@ -23,6 +23,13 @@ class Projects extends AbstractApi
 
         return $this->post('projects', $params);
     }
+    
+    public function createForUser($user_id, $name, array $params = array())
+    {
+        $params['name'] = $name;
+
+        return $this->post('projects/user/'.urlencode($user_id), $params);
+    }
 
     public function remove($project_id)
     {
