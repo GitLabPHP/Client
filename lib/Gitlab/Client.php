@@ -119,7 +119,7 @@ class Client
      * @param string      $token  Gitlab private token
      * @param null|string $authMethod    One of the AUTH_* class constants
      */
-    public function authenticate($token, $authMethod = null, $sudo=null)
+    public function authenticate($token, $authMethod = null, $sudo = null)
     {
         $this->httpClient->addListener(
             new AuthListener(

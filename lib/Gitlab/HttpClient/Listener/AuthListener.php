@@ -19,10 +19,12 @@ class AuthListener implements ListenerInterface
      * @var string
      */
     private $method;
+
     /**
      * @var string
      */
     private $token;
+
     /**
      * @var string|null
      */
@@ -32,7 +34,7 @@ class AuthListener implements ListenerInterface
      * @param string    $method
      * @param string    $token
      */
-    public function __construct($method, $token, $sudo=null)
+    public function __construct($method, $token, $sudo = null)
     {
         $this->method  = $method;
         $this->token = $token;
@@ -54,17 +56,19 @@ class AuthListener implements ListenerInterface
         switch ($this->method) {
             case Client::AUTH_HTTP_TOKEN:
                 $request->addHeader('private_token: '.$this->token);
-                if(!is_null($this->sudo)){
+                if (!is_null($this->sudo)) {
                     $request->addHeader('SUDO: '.$this->sudo);
                 }
                 break;
 
             case Client::AUTH_URL_TOKEN:
                 $url  = $request->getUrl();
-                $url .= (false === strpos($url, '?') ? '?' : '&').utf8_encode(http_build_query(array('private_token' => $this->token), '', '&'));
-                if(!is_null($this->sudo)){
-                    $url.="&".utf8_encode(http_build_query(array('sudo' => $this->sudo), '', '&'));
+                $query=array('private_token' => $this->token);
+                if (!is_null($this->sudo)) {
+                    $query['sudo'] = $this->sudo;
                 }
+                $url .= (false === strpos($url, '?') ? '?' : '&').utf8_encode(http_build_query($query, '', '&'));
+                
                 $request->fromUrl(new Url($url));
                 break;
         }
