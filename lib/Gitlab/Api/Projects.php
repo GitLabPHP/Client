@@ -121,4 +121,9 @@ class Projects extends AbstractApi
         return $this->get('projects/'.urlencode($project_id).'/events');
     }
 
+    public function search($query)
+    {
+        return $this->get('projects/search/'.urlencode($query));
+    }
+
 }
