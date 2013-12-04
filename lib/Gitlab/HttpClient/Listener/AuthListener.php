@@ -55,7 +55,7 @@ class AuthListener implements ListenerInterface
 
         switch ($this->method) {
             case Client::AUTH_HTTP_TOKEN:
-                $request->addHeader('private_token: '.$this->token);
+                $request->addHeader('PRIVATE-TOKEN: '.$this->token);
                 if (!is_null($this->sudo)) {
                     $request->addHeader('SUDO: '.$this->sudo);
                 }
