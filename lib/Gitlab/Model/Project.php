@@ -42,6 +42,10 @@ class Project extends AbstractModel
             $data['owner'] = User::fromArray($client, $data['owner']);
         }
 
+        if (isset($data['namespace']) && is_array($data['namespace'])) {
+            $data['namespace'] = ProjectNamespace::fromArray($client, $data['namespace']);
+        }
+
         return $project->hydrate($data);
     }
 
@@ -515,5 +519,15 @@ class Project extends AbstractModel
     public function removeForkRelation()
     {
         return $this->api('projects')->removeForkRelation($this->id);
+    }
+
+    public function setService($service_name, array $params = array())
+    {
+        return $this->api('projects')->setService($this->id, $service_name, $params);
+    }
+
+    public function removeService($service_name)
+    {
+        return $this->api('projects')->removeService($this->id, $service_name);
     }
 }

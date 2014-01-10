@@ -158,4 +158,14 @@ class Projects extends AbstractApi
         return $this->delete('projects/'.urlencode($project_id).'/fork');
     }
 
+    public function setService($project_id, $service_name, array $params = array())
+    {
+        return $this->put('projects/'.urlencode($project_id).'/services/'.urlencode($service_name), $params);
+    }
+
+    public function removeService($project_id, $service_name)
+    {
+        return $this->delete('projects/'.urlencode($project_id).'/services/'.urlencode($service_name));
+    }
+
 }
