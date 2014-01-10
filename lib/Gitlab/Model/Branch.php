@@ -58,4 +58,25 @@ class Branch extends AbstractModel
     {
         return $this->project->commits($page, $per_page, $this->name);
     }
+
+    public function createFile($file_path, $content, $commit_message)
+    {
+        $data = $this->api('repo')->createFile($this->project->id, $file_path, $content, $this->name, $commit_message);
+
+        return File::fromArray($this->getClient(), $this, $data);
+    }
+
+    public function updateFile($file_path, $content, $commit_message)
+    {
+        $data = $this->api('repo')->updateFile($this->project->id, $file_path, $content, $this->name, $commit_message);
+
+        return File::fromArray($this->getClient(), $this, $data);
+    }
+
+    public function deleteFile($file_path, $commit_message)
+    {
+        $this->api('repo')->deleteFile($this->project->id, $file_path, $this->name, $commit_message);
+
+        return true;
+    }
 }

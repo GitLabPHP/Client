@@ -245,6 +245,18 @@ class Project extends AbstractModel
         return $commits;
     }
 
+    public function commit($sha)
+    {
+        $data = $this->api('repo')->commit($this->id, $sha);
+
+        return Commit::fromArray($this->getClient(), $this, $data);
+    }
+
+    public function diff($sha)
+    {
+        return $this->api('repo')->diff($this->id, $sha);
+    }
+
     public function tree(array $params = array())
     {
         $data = $this->api('repo')->tree($this->id, $params);
@@ -260,6 +272,27 @@ class Project extends AbstractModel
     public function blob($sha, $filepath)
     {
         return $this->api('repo')->blob($this->id, $sha, $filepath);
+    }
+
+    public function createFile($file_path, $content, $branch_name, $commit_message)
+    {
+        $data = $this->api('repo')->createFile($this->id, $file_path, $content, $branch_name, $commit_message);
+
+        return File::fromArray($this->getClient(), $this, $data);
+    }
+
+    public function updateFile($file_path, $content, $branch_name, $commit_message)
+    {
+        $data = $this->api('repo')->updateFile($this->id, $file_path, $content, $branch_name, $commit_message);
+
+        return File::fromArray($this->getClient(), $this, $data);
+    }
+
+    public function deleteFile($file_path, $branch_name, $commit_message)
+    {
+        $this->api('repo')->deleteFile($this->id, $file_path, $branch_name, $commit_message);
+
+        return true;
     }
 
     public function events()

@@ -29,6 +29,16 @@ class Repositories extends AbstractApi
         ));
     }
 
+    public function commit($project_id, $sha)
+    {
+        return $this->get('projects/'.urlencode($project_id).'/repository/commits/'.urlencode($sha));
+    }
+
+    public function diff($project_id, $sha)
+    {
+        return $this->get('projects/'.urlencode($project_id).'/repository/commits/'.urlencode($sha).'/diff');
+    }
+
     public function tree($project_id, array $params = array())
     {
         return $this->get('projects/'.urlencode($project_id).'/repository/tree', $params);
@@ -48,6 +58,35 @@ class Repositories extends AbstractApi
     {
         return $this->get('projects/'.urlencode($project_id).'/repository/commits/'.urlencode($sha).'/blob', array(
             'filepath' => $filepath
+        ));
+    }
+
+    public function createFile($project_id, $file_path, $content, $branch_name, $commit_message)
+    {
+        return $this->post('projects/'.urlencode($project_id).'/repository/files', array(
+            'file_path' => $file_path,
+            'branch_name' => $branch_name,
+            'content' => $content,
+            'commit_message' => $commit_message
+        ));
+    }
+
+    public function updateFile($project_id, $file_path, $content, $branch_name, $commit_message)
+    {
+        return $this->put('projects/'.urlencode($project_id).'/repository/files', array(
+            'file_path' => $file_path,
+            'branch_name' => $branch_name,
+            'content' => $content,
+            'commit_message' => $commit_message
+        ));
+    }
+
+    public function deleteFile($project_id, $file_path, $branch_name, $commit_message)
+    {
+        return $this->delete('projects/'.urlencode($project_id).'/repository/files', array(
+            'file_path' => $file_path,
+            'branch_name' => $branch_name,
+            'commit_message' => $commit_message
         ));
     }
 
