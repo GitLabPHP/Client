@@ -148,4 +148,14 @@ class Projects extends AbstractApi
         return $this->get('projects/search/'.urlencode($query));
     }
 
+    public function createForkRelation($project_id, $forked_project_id)
+    {
+        return $this->post('projects/'.urlencode($project_id).'/fork/'.urlencode($forked_project_id));
+    }
+
+    public function removeForkRelation($project_id)
+    {
+        return $this->delete('projects/'.urlencode($project_id).'/fork');
+    }
+
 }

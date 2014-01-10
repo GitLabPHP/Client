@@ -496,4 +496,24 @@ class Project extends AbstractModel
 
 		return $group->transfer($this->id);
 	}
+
+    public function forkTo($id)
+    {
+        return $this->api('projects')->createForkRelation($id, $this->id);
+    }
+
+    public function forkFrom($id)
+    {
+        return $this->createForkRelation($id);
+    }
+
+    public function createForkRelation($id)
+    {
+        return $this->api('projects')->createForkRelation($this->id, $id);
+    }
+
+    public function removeForkRelation()
+    {
+        return $this->api('projects')->removeForkRelation($this->id);
+    }
 }
