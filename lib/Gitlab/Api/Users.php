@@ -36,6 +36,16 @@ class Users extends AbstractApi
         return $this->post('users', $params);
     }
 
+    public function update($id, array $params)
+    {
+        return $this->put('users/'.urlencode($id), $params);
+    }
+
+    public function remove($id)
+    {
+        return $this->delete('users/'.urlencode($id));
+    }
+
     public function session($email, $password)
     {
         return $this->post('session', array(

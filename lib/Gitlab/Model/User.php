@@ -61,6 +61,20 @@ class User extends AbstractModel
         return User::fromArray($this->getClient(), $data);
     }
 
+    public function update(array $params)
+    {
+        $data = $this->api('users')->update($this->id, $params);
+
+        return User::fromArray($this->getClient(), $data);
+    }
+
+    public function remove()
+    {
+        $this->api('users')->remove($this->id);
+
+        return true;
+    }
+
     public function keys()
     {
         $data = $this->api('users')->keys();
