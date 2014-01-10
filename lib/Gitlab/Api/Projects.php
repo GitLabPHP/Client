@@ -6,7 +6,22 @@ class Projects extends AbstractApi
 {
     public function all($page = 1, $per_page = self::PER_PAGE)
     {
+        return $this->get('projects/all', array(
+            'page' => $page,
+            'per_page' => $per_page
+        ));
+    }
+    public function accessible($page = 1, $per_page = self::PER_PAGE)
+    {
         return $this->get('projects', array(
+            'page' => $page,
+            'per_page' => $per_page
+        ));
+    }
+
+    public function owned($page = 1, $per_page = self::PER_PAGE)
+    {
+        return $this->get('projects/owned', array(
             'page' => $page,
             'per_page' => $per_page
         ));
