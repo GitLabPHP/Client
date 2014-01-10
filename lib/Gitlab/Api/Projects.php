@@ -82,6 +82,14 @@ class Projects extends AbstractApi
     {
         return $this->delete('projects/'.urlencode($project_id).'/members/'.urldecode($user_id));
     }
+    
+    public function addTeam($team_id, $project_id, $greatest_access_level)
+    {
+        return $this->post('user_teams/'.urlencode($team_id).'/projects', array(
+            'project_id' => $project_id,
+            'greatest_access_level' => $greatest_access_level
+        ));
+    }
 
     public function hooks($project_id, $page = 1, $per_page = self::PER_PAGE)
     {
