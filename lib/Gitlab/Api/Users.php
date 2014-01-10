@@ -4,22 +4,22 @@ namespace Gitlab\Api;
 
 class Users extends AbstractApi
 {
-    public function all($active = null)
+    public function all($active = null, $page = 1, $per_page = self::PER_PAGE)
     {
-        if (!is_null($active)) {
-            return $this->get('users', array(
-                'active' => $active
-            ));
-        }
-
-        return $this->get('users');
+        return $this->get('users', array(
+            'active' => $active,
+            'page' => $page,
+            'per_page' => $per_page
+        ));
     }
 
-    public function search($query, $active = null)
+    public function search($query, $active = null, $page = 1, $per_page = self::PER_PAGE)
     {
         return $this->get('users', array(
             'search' => $query,
-            'active' => $active
+            'active' => $active,
+            'page' => $page,
+            'per_page' => $per_page
         ));
     }
 
