@@ -33,7 +33,7 @@ class Groups extends AbstractApi
 	public function members($id, $page = 1, $per_page = self::PER_PAGE)
 	{
 		return $this->get('groups/'.urlencode($id).'/members', array(
-			'page=' => $page,
+			'page' => $page,
 			'per_page' => $per_page
 		));
 	}
