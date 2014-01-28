@@ -30,9 +30,12 @@ class Groups extends AbstractApi
         return $this->post('groups/'.urlencode($group_id).'/projects/'.urlencode($project_id));
     }
 
-	public function members($id)
+	public function members($id, $page = 1, $per_page = self::PER_PAGE)
 	{
-		return $this->get('groups/'.urlencode($id).'/members');
+		return $this->get('groups/'.urlencode($id).'/members', array(
+			'page' => $page,
+			'per_page' => $per_page
+		));
 	}
 
 	public function addMember($group_id, $user_id, $access_level)
