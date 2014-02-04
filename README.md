@@ -38,7 +38,7 @@ $client = new \Gitlab\Client('http://git.yourdomain.com/api/v3/'); // change her
 $client->authenticate('your_gitlab_token_here', \Gitlab\Client::AUTH_URL_TOKEN); // change here
 
 $project = $client->api('projects')->create('My Project', array(
-  'description' => 'This is a project'
+  'description' => 'This is a project',
   'issues_enabled' => false
 ));
 
