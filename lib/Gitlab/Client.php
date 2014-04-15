@@ -74,6 +74,10 @@ class Client
                 $api = new Api\Users($this);
                 break;
 
+            case 'branches':
+                $api = new Api\Branches($this);
+                break;
+
             case 'projects':
                 $api = new Api\Projects($this);
                 break;
