@@ -2,6 +2,7 @@
 
 namespace Gitlab\Model;
 
+use Gitlab\Api\MergeRequests;
 use Gitlab\Client;
 use Gitlab\Api\AbstractApi as Api;
 
@@ -311,9 +312,9 @@ class Project extends AbstractModel
         return $events;
     }
 
-    public function mergeRequests($page = 1, $per_page = Api::PER_PAGE)
+    public function mergeRequests($page = 1, $per_page = Api::PER_PAGE, $state = MergeRequests::STATE_ALL)
     {
-        $data = $this->api('mr')->all($this->id, $page, $per_page);
+        $data = $this->api('mr')->$state($this->id, $page, $per_page);
 
         $mrs = array();
         foreach ($data as $mr) {

@@ -22,12 +22,13 @@ class MergeRequest extends AbstractModel
         'source_project_id',
         'target_project_id',
         'upvotes',
-        'downvotes'
+        'downvotes',
+        'labels'
     );
 
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $mr = new MergeRequest($project, $data['id'], $client);
+        $mr = new static($project, $data['id'], $client);
 
         if (isset($data['author'])) {
             $data['author'] = User::fromArray($client, $data['author']);
@@ -52,14 +53,14 @@ class MergeRequest extends AbstractModel
     {
         $data = $this->api('mr')->show($this->project->id, $this->id);
 
-        return MergeRequest::fromArray($this->getClient(), $this->project, $data);
+        return static::fromArray($this->getClient(), $this->project, $data);
     }
 
     public function update(array $params)
     {
         $data = $this->api('mr')->update($this->project->id, $this->id, $params);
 
-        return MergeRequest::fromArray($this->getClient(), $this->project, $data);
+        return static::fromArray($this->getClient(), $this->project, $data);
     }
 
     public function close($comment = null)
@@ -80,6 +81,13 @@ class MergeRequest extends AbstractModel
         ));
     }
 
+    public function merge($message = null)
+    {
+        $data = $this->api('mr')->merge($this->project->id, $this->id, array('merge_commit_message' => $message));
+
+        return static::fromArray($this->getClient(), $this->project, $data);
+    }
+
     public function merged()
     {
         return $this->update(array(
@@ -92,6 +100,18 @@ class MergeRequest extends AbstractModel
         $data = $this->api('mr')->addComment($this->project->id, $this->id, $note);
 
         return Note::fromArray($this->getClient(), $this, $data);
+    }
+
+    public function showComments()
+    {
+        $notes = array();
+        $data = $this->api('mr')->showComments($this->project->id, $this->id);
+
+        foreach ($data as $note) {
+            $notes[] = Note::fromArray($this->getClient(), $this, $note);
+        }
+
+        return $notes;
     }
 
     public function isClosed()
