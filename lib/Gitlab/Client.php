@@ -78,6 +78,10 @@ class Client
                 $api = new Api\Projects($this);
                 break;
 
+            case 'namespaces':
+                $api = new Api\ProjectNamespaces($this);
+                break;
+
             case 'repo':
             case 'repositories':
                 $api = new Api\Repositories($this);
