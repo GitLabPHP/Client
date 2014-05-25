@@ -25,7 +25,7 @@ class Issue extends AbstractModel
 
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $issue = new Issue($project, $data['id'], $client);
+        $issue = new static($project, $data['id'], $client);
 
         if (isset($data['author'])) {
             $data['author'] = User::fromArray($client, $data['author']);
@@ -50,14 +50,14 @@ class Issue extends AbstractModel
     {
         $data = $this->api('issues')->show($this->project->id, $this->id);
 
-        return Issue::fromArray($this->getClient(), $this->project, $data);
+        return static::fromArray($this->getClient(), $this->project, $data);
     }
 
     public function update(array $params)
     {
         $data = $this->api('issues')->update($this->project->id, $this->id, $params);
 
-        return Issue::fromArray($this->getClient(), $this->project, $data);
+        return static::fromArray($this->getClient(), $this->project, $data);
     }
 
     public function close($comment = null)

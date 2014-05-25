@@ -18,7 +18,7 @@ class ProjectNamespace extends AbstractModel
 
     public static function fromArray(Client $client, array $data)
     {
-        $project = new ProjectNamespace($data['id']);
+        $project = new static($data['id']);
         $project->setClient($client);
 
         return $project->hydrate($data);

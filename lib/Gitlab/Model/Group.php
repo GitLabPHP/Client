@@ -16,7 +16,7 @@ class Group extends AbstractModel
 
     public static function fromArray(Client $client, array $data)
     {
-        $group = new Group($data['id'], $client);
+        $group = new static($data['id'], $client);
 
         if (isset($data['projects'])) {
             $projects = array();

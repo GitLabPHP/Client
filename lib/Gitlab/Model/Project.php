@@ -35,7 +35,7 @@ class Project extends AbstractModel
 
     public static function fromArray(Client $client, array $data)
     {
-        $project = new Project($data['id']);
+        $project = new static($data['id']);
         $project->setClient($client);
 
         if (isset($data['owner'])) {
@@ -53,7 +53,7 @@ class Project extends AbstractModel
     {
         $data = $client->api('projects')->create($name, $params);
 
-        return Project::fromArray($client, $data);
+        return static::fromArray($client, $data);
     }
 
     public function __construct($id = null, Client $client = null)
@@ -66,7 +66,7 @@ class Project extends AbstractModel
     {
         $data = $this->api('projects')->show($this->id);
 
-        return Project::fromArray($this->getClient(), $data);
+        return static::fromArray($this->getClient(), $data);
     }
 
     public function remove()
