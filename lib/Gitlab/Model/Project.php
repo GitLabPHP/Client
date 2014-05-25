@@ -330,9 +330,9 @@ class Project extends AbstractModel
         return $mr->show();
     }
 
-    public function createMergeRequest($source, $target, $title, $assignee = null)
+    public function createMergeRequest($source, $target, $title, $assignee = null, $description = null)
     {
-        $data = $this->api('mr')->create($this->id, $source, $target, $title, $assignee);
+        $data = $this->api('mr')->create($this->id, $source, $target, $title, $assignee, null, $description);
 
         return MergeRequest::fromArray($this->getClient(), $this, $data);
     }
@@ -494,12 +494,12 @@ class Project extends AbstractModel
         return $snippet->remove();
     }
 
-	public function transfer($group_id)
-	{
-		$group = new Group($group_id, $this->getClient());
+    public function transfer($group_id)
+    {
+        $group = new Group($group_id, $this->getClient());
 
-		return $group->transfer($this->id);
-	}
+        return $group->transfer($this->id);
+    }
 
     public function forkTo($id)
     {
