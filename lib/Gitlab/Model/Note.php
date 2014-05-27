@@ -19,7 +19,7 @@ class Note extends AbstractModel
 
     public static function fromArray(Client $client, $type, array $data)
     {
-        $comment = new Note($type, $data['id'], $client);
+        $comment = new static($type, $data['id'], $client);
 
         if (isset($data['author'])) {
             $data['author'] = User::fromArray($client, $data['author']);
