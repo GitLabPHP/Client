@@ -80,6 +80,13 @@ class MergeRequest extends AbstractModel
         ));
     }
 
+    public function merge($message = null)
+    {
+        $data = $this->api('mr')->merge($this->project->id, $this->id, array('merge_commit_message' => $message));
+
+        return MergeRequest::fromArray($this->getClient(), $this->project, $data);
+    }
+
     public function merged()
     {
         return $this->update(array(
