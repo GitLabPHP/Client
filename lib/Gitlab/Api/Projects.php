@@ -96,18 +96,35 @@ class Projects extends AbstractApi
         return $this->get('projects/'.urlencode($project_id).'/hooks/'.urlencode($hook_id));
     }
 
-    public function addHook($project_id, $url)
+    public function addHook($project_id, $url, $push_events = true, $issues_events = false, $merge_requests_events = false)
     {
         return $this->post('projects/'.urlencode($project_id).'/hooks', array(
-            'url' => $url
+            'url' => $url,
+            'push_events' => $push_events,
+            'issues_events' => $issues_events,
+            'merge_requests_events' => $merge_requests_events
         ));
     }
 
-    public function updateHook($project_id, $hook_id, $url)
+    public function updateHook($project_id, $hook_id, $url, $push_events = null, $issues_events = null, $merge_requests_events = null)
     {
-        return $this->put('projects/'.urlencode($project_id).'/hooks/'.urlencode($hook_id), array(
+        $params = array(
             'url' => $url
-        ));
+        );
+        
+        if (null !== $push_events) {
+            $params['push_events'] = $push_events;
+        }
+
+        if (null !== $issues_events) {
+            $params['issues_events'] = $issues_events;
+        }
+
+        if (null !== $merge_requests_events) {
+            $params['merge_requests_events'] = $merge_requests_events;
+        }
+        
+        return $this->put('projects/'.urlencode($project_id).'/hooks/'.urlencode($hook_id), $params);
     }
 
     public function removeHook($project_id, $hook_id)

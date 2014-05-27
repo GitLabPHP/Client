@@ -135,16 +135,16 @@ class Project extends AbstractModel
         return Hook::fromArray($this->getClient(), $data);
     }
 
-    public function addHook($url)
+    public function addHook($url, $push_events = true, $issues_events = false, $merge_requests_events = false)
     {
-        $data = $this->api('projects')->addHook($this->id, $url);
+        $data = $this->api('projects')->addHook($this->id, $url, $push_events, $issues_events, $merge_requests_events);
 
         return Hook::fromArray($this->getClient(), $data);
     }
 
-    public function updateHook($hook_id, $url)
+    public function updateHook($hook_id, $url, $push_events = null, $issues_events = null, $merge_requests_events = null)
     {
-        $data = $this->api('projects')->updateHook($this->id, $hook_id, $url);
+        $data = $this->api('projects')->updateHook($this->id, $hook_id, $url, $push_events, $issues_events, $merge_requests_events);
 
         return Hook::fromArray($this->getClient(), $data);
     }
