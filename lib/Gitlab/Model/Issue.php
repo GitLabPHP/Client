@@ -87,4 +87,15 @@ class Issue extends AbstractModel
         return Note::fromArray($this->getClient(), $this, $data);
     }
 
+	public function showComments()
+	{
+		$notes = array();
+		$data = $this->api('issues')->showComments($this->project->id, $this->id);
+
+		foreach ($data as $note) {
+			$notes[] = Note::fromArray($this->getClient(), $this, $note);
+		}
+
+		return $notes;
+	}
 }
