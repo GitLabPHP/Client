@@ -7,7 +7,6 @@ use Buzz\Message\MessageInterface;
 use Buzz\Message\RequestInterface;
 use Gitlab\Exception\ErrorException;
 use Gitlab\Exception\RuntimeException;
-use Gitlab\Exception\ValidationFailedException;
 
 /**
  * @author Joseph Bielawski <stloyd@gmail.com>
@@ -51,7 +50,7 @@ class ErrorListener implements ListenerInterface
             $errorMessage = null;
             if (isset($content['error'])) {
                 $errorMessage = implode("\n", $content['error']);
-            } else if (isset($content['message'])) {
+            } elseif (isset($content['message'])) {
                 $errorMessage = $content['message'];
             } else {
                 $errorMessage = $content;

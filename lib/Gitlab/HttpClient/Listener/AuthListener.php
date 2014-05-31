@@ -31,8 +31,9 @@ class AuthListener implements ListenerInterface
     private $sudo;
 
     /**
-     * @param string    $method
-     * @param string    $token
+     * @param string      $method
+     * @param string      $token
+     * @param string|null $sudo
      */
     public function __construct($method, $token, $sudo = null)
     {
@@ -68,7 +69,7 @@ class AuthListener implements ListenerInterface
                     $query['sudo'] = $this->sudo;
                 }
                 $url .= (false === strpos($url, '?') ? '?' : '&').utf8_encode(http_build_query($query, '', '&'));
-                
+
                 $request->fromUrl(new Url($url));
                 break;
         }

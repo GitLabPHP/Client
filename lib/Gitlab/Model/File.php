@@ -26,4 +26,4 @@ class File extends AbstractModel
         $this->project = $project;
         $this->file_path = $file_path;
     }
-} 
+}

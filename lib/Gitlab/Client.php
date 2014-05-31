@@ -48,6 +48,7 @@ class Client
     /**
      * Instantiate a new Gitlab client
      *
+     * @param string               $baseUrl
      * @param null|ClientInterface $httpClient Buzz client
      */
     public function __construct($baseUrl, ClientInterface $httpClient = null)
@@ -120,8 +121,9 @@ class Client
     /**
      * Authenticate a user for all next requests
      *
-     * @param string      $token  Gitlab private token
-     * @param null|string $authMethod    One of the AUTH_* class constants
+     * @param string      $token      Gitlab private token
+     * @param null|string $authMethod One of the AUTH_* class constants
+     * @param null|string $sudo
      */
     public function authenticate($token, $authMethod = null, $sudo = null)
     {
@@ -191,12 +193,10 @@ class Client
         return $this->options[$name];
     }
 
-
     /**
      * @param string $name
      * @param mixed  $value
      *
-     * @throws InvalidArgumentException
      * @throws InvalidArgumentException
      */
     public function setOption($name, $value)

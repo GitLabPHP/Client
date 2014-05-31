@@ -101,18 +101,18 @@ class User extends AbstractModel
         return true;
     }
 
-	public function addToGroup($group_id, $access_level)
-	{
-		$group = new Group($group_id, $this->getClient());
+    public function addToGroup($group_id, $access_level)
+    {
+        $group = new Group($group_id, $this->getClient());
 
-		return $group->addMember($this->id, $access_level);
-	}
+        return $group->addMember($this->id, $access_level);
+    }
 
-	public function removeFromGroup($group_id)
-	{
-		$group = new Group($group_id, $this->getClient());
+    public function removeFromGroup($group_id)
+    {
+        $group = new Group($group_id, $this->getClient());
 
-		return $group->removeMember($this->id);
-	}
+        return $group->removeMember($this->id);
+    }
 
 }

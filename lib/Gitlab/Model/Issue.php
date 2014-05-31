@@ -65,7 +65,7 @@ class Issue extends AbstractModel
         if ($comment) {
             $this->addComment($comment);
         }
-        
+
         return $this->update(array(
             'state_event' => 'close'
         ));
@@ -87,15 +87,15 @@ class Issue extends AbstractModel
         return Note::fromArray($this->getClient(), $this, $data);
     }
 
-	public function showComments()
-	{
-		$notes = array();
-		$data = $this->api('issues')->showComments($this->project->id, $this->id);
+    public function showComments()
+    {
+        $notes = array();
+        $data = $this->api('issues')->showComments($this->project->id, $this->id);
 
-		foreach ($data as $note) {
-			$notes[] = Note::fromArray($this->getClient(), $this, $note);
-		}
+        foreach ($data as $note) {
+            $notes[] = Note::fromArray($this->getClient(), $this, $note);
+        }
 
-		return $notes;
-	}
+        return $notes;
+    }
 }

@@ -38,7 +38,7 @@ class Projects extends AbstractApi
 
         return $this->post('projects', $params);
     }
-    
+
     public function createForUser($user_id, $name, array $params = array())
     {
         $params['name'] = $name;
@@ -111,7 +111,7 @@ class Projects extends AbstractApi
         $params = array(
             'url' => $url
         );
-        
+
         if (null !== $push_events) {
             $params['push_events'] = $push_events;
         }
@@ -123,7 +123,7 @@ class Projects extends AbstractApi
         if (null !== $merge_requests_events) {
             $params['merge_requests_events'] = $merge_requests_events;
         }
-        
+
         return $this->put('projects/'.urlencode($project_id).'/hooks/'.urlencode($hook_id), $params);
     }
 
