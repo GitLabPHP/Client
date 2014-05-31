@@ -101,17 +101,17 @@ class MergeRequest extends AbstractModel
         return Note::fromArray($this->getClient(), $this, $data);
     }
 
-	public function showComments()
-	{
-		$notes = array();
-		$data = $this->api('mr')->showComments($this->project->id, $this->id);
+    public function showComments()
+    {
+        $notes = array();
+        $data = $this->api('mr')->showComments($this->project->id, $this->id);
 
-		foreach ($data as $note) {
-			$notes[] = Note::fromArray($this->getClient(), $this, $note);
-		}
+        foreach ($data as $note) {
+            $notes[] = Note::fromArray($this->getClient(), $this, $note);
+        }
 
-		return $notes;
-	}
+        return $notes;
+    }
 
     public function isClosed()
     {

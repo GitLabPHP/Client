@@ -43,6 +43,11 @@ class MergeRequests extends AbstractApi
         return $this->put('projects/'.urlencode($project_id).'/merge_request/'.urlencode($mr_id).'/merge', $params);
     }
 
+    public function showComments($project_id, $issue_id)
+    {
+        return $this->get('projects/'.urlencode($project_id).'/issues/'.urlencode($issue_id).'/notes');
+    }
+    
     public function addComment($project_id, $mr_id, $note)
     {
         return $this->post('projects/'.urlencode($project_id).'/merge_request/'.urlencode($mr_id).'/comments', array(
