@@ -111,6 +111,10 @@ class Client
                 $api = new Api\SystemHooks($this);
                 break;
 
+            case 'snippets':
+                $api = new Api\Snippets($this);
+                break;
+
             default:
                 throw new InvalidArgumentException();
         }
