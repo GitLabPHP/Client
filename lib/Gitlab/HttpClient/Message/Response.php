@@ -12,7 +12,7 @@ class Response extends BaseResponse
     public function getContent()
     {
         $response = parent::getContent();
-        if (parent::getHeader("Content-Type") === "application/json") {
+        if ($this->getHeader("Content-Type") === "application/json") {
             $content  = json_decode($response, true);
     
             if (JSON_ERROR_NONE !== json_last_error()) {
