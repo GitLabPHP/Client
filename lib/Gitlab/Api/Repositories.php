@@ -61,6 +61,14 @@ class Repositories extends AbstractApi
         ));
     }
 
+    public function getFile($project_id, $file_path, $ref)
+    {
+        return $this->get('projects/'.urlencode($project_id).'/repository/files', array(
+            'file_path' => $file_path,
+            'ref' => $ref
+        ));
+    }
+
     public function createFile($project_id, $file_path, $content, $branch_name, $commit_message)
     {
         return $this->post('projects/'.urlencode($project_id).'/repository/files', array(
