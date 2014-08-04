@@ -50,8 +50,9 @@ Model Usage
 You can also use the library in an object oriented manner.
 
 ```php
-$client = new \Gitlab\Client('http://git.yourdomain.com/api/v3/'); // change here
-$client->authenticate('your_gitlab_token_here', \Gitlab\Client::AUTH_URL_TOKEN); // change here
+$guzzle = new \Gitlab\HttpClient\Adapter\Guzzle4();
+$client = new \Gitlab\Client('http://git.yourdomain.com/api/v3/', $guzzle); // change here
+$client->authenticate('your_gitlab_token_here', \Gitlab\HttpClient\HttpClientInterface::AUTH_URL_TOKEN); // change here
 ```
 
 Creating a new project
