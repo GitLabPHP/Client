@@ -2,13 +2,13 @@
 
 namespace Gitlab\HttpClient\Message;
 
-use Guzzle\Http\Message;
+use GuzzleHttp\Message\Response;
 
-class GuzzleResponse implements ResponseInterface
+class Guzzle4Response implements ResponseInterface
 {
     protected $response;
 
-    public function __construct(Message\Response $response)
+    public function __construct(Response $response)
     {
         $this->response = $response;
     }
@@ -20,7 +20,7 @@ class GuzzleResponse implements ResponseInterface
     {
         $response = $this->response->getBody(true);
 
-        if ($this->response->getHeader("Content-Type")->hasValue("application/json")) {
+        if ($this->response->getHeader("Content-Type") === "application/json") {
             $content  = json_decode($response, true);
 
             if (JSON_ERROR_NONE === json_last_error()) {

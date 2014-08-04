@@ -11,7 +11,7 @@ use Gitlab\HttpClient\Listener\ErrorListener;
 use Gitlab\HttpClient\Message\Request;
 use Gitlab\HttpClient\Message\BuzzResponse;
 
-class Buzz implements AdapterInterface
+class BuzzAdapter implements AdapterInterface
 {
     /**
      * @var AbstractClient

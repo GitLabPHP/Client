@@ -47,11 +47,6 @@ class AuthListener implements ListenerInterface
      */
     public function preSend(RequestInterface $request)
     {
-        // Skip by default
-        if (null === $this->method) {
-            return;
-        }
-
         switch ($this->method) {
             case HttpClientInterface::AUTH_HTTP_TOKEN:
                 $request->addHeader('PRIVATE-TOKEN:' . $this->token);

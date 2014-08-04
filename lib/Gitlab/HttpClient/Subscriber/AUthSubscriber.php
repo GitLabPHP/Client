@@ -2,12 +2,15 @@
 
 namespace Gitlab\HttpClient\Subscriber;
 
+use Gitlab\Exception\InvalidArgumentException;
 use Gitlab\HttpClient\HttpClientInterface;
 use Guzzle\Common\Event;
 use Guzzle\Http\Message\Request;
+use GuzzleHttp\Event\BeforeEvent;
+use GuzzleHttp\Event\SubscriberInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class AuthSubscriber implements EventSubscriberInterface
+class AuthSubscriber implements EventSubscriberInterface, SubscriberInterface
 {
     /**
      * @var string
@@ -41,15 +44,22 @@ class AuthSubscriber implements EventSubscriberInterface
         return array('request.before_send' => 'beforeRequest');
     }
 
-    public function beforeRequest(Event $event)
+    public function getEvents()
     {
-        /**
-         * @var Request
-         */
-        $request = $event['request'];
+        return array('before' => array('beforeRequest'));
+    }
 
-        if (null === $this->method) {
-            return;
+    public function beforeRequest($event)
+    {
+        if ($event instanceof Event) {
+            /**
+             * @var Request
+             */
+            $request = $event['request'];
+        } elseif ($event instanceof BeforeEvent) {
+            $request = $event->getRequest();
+        } else {
+            throw new InvalidArgumentException();
         }
 
         switch ($this->method) {

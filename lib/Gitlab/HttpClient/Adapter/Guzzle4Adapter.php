@@ -3,12 +3,12 @@ namespace Gitlab\HttpClient\Adapter;
 
 use Gitlab\Exception\ErrorException;
 use Gitlab\Exception\RuntimeException;
-use Gitlab\HttpClient\Message\GuzzleResponse;
+use Gitlab\HttpClient\Message\Guzzle4Response;
 use Gitlab\HttpClient\Subscriber\AuthSubscriber;
-use Guzzle\Http\Client;
-use Guzzle\Http\ClientInterface;
+use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 
-class Guzzle implements AdapterInterface
+class Guzzle4Adapter implements AdapterInterface
 {
     /**
      * @var ClientInterface
@@ -32,7 +32,7 @@ class Guzzle implements AdapterInterface
      * @throws ErrorException
      * @throws RuntimeException
      *
-     * @return GuzzleResponse
+     * @return Guzzle4Response
      */
     public function request($path, array $parameters = array(), $httpMethod = 'GET', array $headers = array())
     {
@@ -46,11 +46,11 @@ class Guzzle implements AdapterInterface
             throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
         }
 
-        return new GuzzleResponse($response);
+        return new Guzzle4Response($response);
     }
 
     public function authenticate($token, $authMethod, $sudo = null)
     {
-        $this->client->addSubscriber(new AuthSubscriber($authMethod, $token, $sudo));
+        $this->client->getEmitter()->attach(new AuthSubscriber($authMethod, $token, $sudo));
     }
 }
