@@ -2,32 +2,16 @@
 
 namespace Gitlab;
 
-use Buzz\Client\Curl;
-use Buzz\Client\ClientInterface;
-
 use Gitlab\Api\ApiInterface;
 use Gitlab\Exception\InvalidArgumentException;
+use Gitlab\HttpClient\Adapter\AdapterInterface;
 use Gitlab\HttpClient\HttpClient;
-use Gitlab\HttpClient\HttpClientInterface;
-use Gitlab\HttpClient\Listener\AuthListener;
 
 /**
  * Simple API wrapper for Gitlab
  */
 class Client
 {
-    /**
-     * Constant for authentication method. Indicates the default, but deprecated
-     * login with username and token in URL.
-     */
-    const AUTH_URL_TOKEN = 'url_token';
-
-    /**
-     * Constant for authentication method. Indicates the new login method with
-     * with username and token via HTTP Authentication.
-     */
-    const AUTH_HTTP_TOKEN = 'http_token';
-
     /**
      * @var array
      */
@@ -36,10 +20,8 @@ class Client
         'timeout'     => 60
     );
 
-    private $base_url = null;
-
     /**
-     * The Buzz instance used to communicate with Gitlab
+     * The HTTP client instance used to communicate with Gitlab
      *
      * @var HttpClient
      */
@@ -48,17 +30,12 @@ class Client
     /**
      * Instantiate a new Gitlab client
      *
-     * @param string               $baseUrl
-     * @param null|ClientInterface $httpClient Buzz client
+     * @param string           $baseUrl
+     * @param AdapterInterface $adapter
      */
-    public function __construct($baseUrl, ClientInterface $httpClient = null)
+    public function __construct($baseUrl, AdapterInterface $adapter)
     {
-        $httpClient = $httpClient ?: new Curl();
-        $httpClient->setTimeout($this->options['timeout']);
-        $httpClient->setVerifyPeer(false);
-
-        $this->base_url     = $baseUrl;
-        $this->httpClient   = new HttpClient($this->base_url, $this->options, $httpClient);
+        $this->httpClient = new HttpClient($baseUrl, $adapter);
     }
 
     /**
@@ -131,38 +108,32 @@ class Client
      */
     public function authenticate($token, $authMethod = null, $sudo = null)
     {
-        $this->httpClient->addListener(
-            new AuthListener(
-                $authMethod,
-                $token,
-                $sudo
-            )
-        );
+        $this->httpClient->authenticate($token, $authMethod, $sudo);
     }
 
-    /**
-     * @return HttpClient
-     */
-    public function getHttpClient()
+    public function get($path, array $parameters = array(), array $headers = array())
     {
-        return $this->httpClient;
+        return $this->httpClient->get($path, $parameters, $headers);
     }
 
-    /**
-     * @param HttpClientInterface $httpClient
-     */
-    public function setHttpClient(HttpClientInterface $httpClient)
+    public function post($path, array $parameters = array(), array $headers = array())
     {
-        $this->httpClient = $httpClient;
+        return $this->httpClient->post($path, $parameters, $headers);
     }
 
-    public function setBaseUrl($url)
+    public function patch($path, array $parameters = array(), array $headers = array())
     {
-        $this->base_url = $url;
+        return $this->httpClient->patch($path, $parameters, $headers);
     }
-    public function getBaseUrl()
+
+    public function delete($path, array $parameters = array(), array $headers = array())
     {
-        return $this->base_url;
+        return $this->httpClient->delete($path, $parameters, $headers);
+    }
+
+    public function put($path, array $parameters = array(), array $headers = array())
+    {
+        return $this->httpClient->put($path, $parameters, $headers);
     }
 
     /**

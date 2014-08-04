@@ -2,14 +2,7 @@
 
 namespace Gitlab\HttpClient;
 
-use Buzz\Client\ClientInterface;
-use Buzz\Listener\ListenerInterface;
-
-use Gitlab\Exception\ErrorException;
-use Gitlab\Exception\RuntimeException;
-use Gitlab\HttpClient\Listener\ErrorListener;
-use Gitlab\HttpClient\Message\Request;
-use Gitlab\HttpClient\Message\Response;
+use Gitlab\HttpClient\Adapter\AdapterInterface;
 
 /**
  * Performs requests on Gitlab API. API documentation should be self-explanatory.
@@ -19,48 +12,30 @@ use Gitlab\HttpClient\Message\Response;
 class HttpClient implements HttpClientInterface
 {
     /**
-     * @var array
+     * @var string
      */
-    protected $options = array(
-        'user_agent'  => 'php-gitlab-api (http://github.com/m4tthumphrey/php-gitlab-api)',
-        'timeout'     => 10,
-    );
+    protected $baseUrl;
 
-    protected $base_url = null;
-
-    /**
-     * @var array
-     */
-    protected $listeners = array();
     /**
      * @var array
      */
     protected $headers = array();
 
-    private $lastResponse;
-    private $lastRequest;
+    /**
+     * @var AdapterInterface
+     */
+    protected $adapter;
 
     /**
-     * @param array           $options
-     * @param ClientInterface $client
+     * @param string           $baseUrl
+     * @param AdapterInterface $adapter
      */
-    public function __construct($baseUrl, array $options, ClientInterface $client)
+    public function __construct($baseUrl, AdapterInterface $adapter)
     {
-        $this->base_url = $baseUrl;
-        $this->options  = array_merge($this->options, $options);
-        $this->client   = $client;
-
-        $this->addListener(new ErrorListener($this->options));
+        $this->baseUrl = $baseUrl;
+        $this->adapter = $adapter;
 
         $this->clearHeaders();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setOption($name, $value)
-    {
-        $this->options[$name] = $value;
     }
 
     /**
@@ -80,20 +55,12 @@ class HttpClient implements HttpClientInterface
     }
 
     /**
-     * @param ListenerInterface $listener
-     */
-    public function addListener(ListenerInterface $listener)
-    {
-        $this->listeners[get_class($listener)] = $listener;
-    }
-
-    /**
      * {@inheritDoc}
      */
     public function get($path, array $parameters = array(), array $headers = array())
     {
         if (0 < count($parameters)) {
-            $path .= (false === strpos($path, '?') ? '?' : '&').http_build_query($parameters, '', '&');
+            $path .= (false === strpos($path, '?') ? '?' : '&') . http_build_query($parameters, '', '&');
         }
 
         return $this->request($path, array(), 'GET', $headers);
@@ -136,69 +103,14 @@ class HttpClient implements HttpClientInterface
      */
     public function request($path, array $parameters = array(), $httpMethod = 'GET', array $headers = array())
     {
-        $path = trim($this->base_url.$path, '/');
+        $path = '/' . trim($path, '/') . '/';
+        $headers = array_merge($this->headers, $headers);
 
-        $request = $this->createRequest($httpMethod, $path);
-        $request->addHeaders($headers);
-        $request->setContent(http_build_query($parameters));
-
-        $hasListeners = 0 < count($this->listeners);
-        if ($hasListeners) {
-            foreach ($this->listeners as $listener) {
-                $listener->preSend($request);
-            }
-        }
-
-        $response = new Response();
-
-        try {
-            $this->client->send($request, $response);
-        } catch (\LogicException $e) {
-            throw new ErrorException($e->getMessage());
-        } catch (\RuntimeException $e) {
-            throw new RuntimeException($e->getMessage());
-        }
-
-        $this->lastRequest  = $request;
-        $this->lastResponse = $response;
-
-        if ($hasListeners) {
-            foreach ($this->listeners as $listener) {
-                $listener->postSend($request, $response);
-            }
-        }
-
-        return $response;
+        return $this->adapter->request($this->baseUrl . $path, $parameters, $httpMethod, $headers);
     }
 
-    /**
-     * @return Request
-     */
-    public function getLastRequest()
+    public function authenticate($token, $authMethod = null, $sudo = null)
     {
-        return $this->lastRequest;
-    }
-
-    /**
-     * @return Response
-     */
-    public function getLastResponse()
-    {
-        return $this->lastResponse;
-    }
-
-    /**
-     * @param string $httpMethod
-     * @param string $url
-     *
-     * @return Request
-     */
-    private function createRequest($httpMethod, $url)
-    {
-        $request = new Request($httpMethod);
-        $request->setHeaders($this->headers);
-        $request->fromUrl($url);
-
-        return $request;
+        $this->adapter->authenticate($token, $authMethod, $sudo);
     }
 }

@@ -1,17 +1,13 @@
 <?php
 
-namespace Gitlab\HttpClient\Listener;
+namespace Gitlab\HttpClient\Subscriber;
 
-use Buzz\Message\RequestInterface;
-use Gitlab\Exception\InvalidArgumentException;
-use Buzz\Listener\ListenerInterface;
-use Buzz\Message\MessageInterface;
 use Gitlab\HttpClient\HttpClientInterface;
+use Guzzle\Common\Event;
+use Guzzle\Http\Message\Request;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-/**
- * @author Joseph Bielawski <stloyd@gmail.com>
- */
-class AuthListener implements ListenerInterface
+class AuthSubscriber implements EventSubscriberInterface
 {
     /**
      * @var string
@@ -40,23 +36,27 @@ class AuthListener implements ListenerInterface
         $this->sudo = $sudo;
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @throws InvalidArgumentException
-     */
-    public function preSend(RequestInterface $request)
+    public static function getSubscribedEvents()
     {
-        // Skip by default
+        return array('request.before_send' => 'beforeRequest');
+    }
+
+    public function beforeRequest(Event $event)
+    {
+        /**
+         * @var Request
+         */
+        $request = $event['request'];
+
         if (null === $this->method) {
             return;
         }
 
         switch ($this->method) {
             case HttpClientInterface::AUTH_HTTP_TOKEN:
-                $request->addHeader('PRIVATE-TOKEN:' . $this->token);
+                $request->addHeader('PRIVATE-TOKEN', $this->token);
                 if (!is_null($this->sudo)) {
-                    $request->addHeader('SUDO:' . $this->sudo);
+                    $request->addHeader('SUDO', $this->sudo);
                 }
                 break;
 
@@ -74,11 +74,4 @@ class AuthListener implements ListenerInterface
                 break;
         }
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function postSend(RequestInterface $request, MessageInterface $response)
-    {
-    }
-}
+} 
