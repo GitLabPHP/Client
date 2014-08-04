@@ -53,4 +53,4 @@ class Guzzle implements AdapterInterface
     {
         $this->client->addSubscriber(new AuthSubscriber($authMethod, $token, $sudo));
     }
-} 
+}

@@ -116,4 +116,4 @@ class Buzz implements AdapterInterface
     {
         $this->listeners[get_class($listener)] = $listener;
     }
-} 
+}

@@ -15,7 +15,7 @@ class BuzzResponse extends BaseResponse implements ResponseInterface
 
         if ($this->getHeader("Content-Type") === "application/json") {
             $content  = json_decode($response, true);
-    
+
             if (JSON_ERROR_NONE === json_last_error()) {
                 return $content;
             }

@@ -74,4 +74,4 @@ class AuthSubscriber implements EventSubscriberInterface
                 break;
         }
     }
-} 
+}
