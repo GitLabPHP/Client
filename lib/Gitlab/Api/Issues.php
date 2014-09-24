@@ -4,14 +4,17 @@ namespace Gitlab\Api;
 
 class Issues extends AbstractApi
 {
-    public function all($project_id = null, $page = 1, $per_page = self::PER_PAGE)
+    public function all($project_id = null, $page = 1, $per_page = self::PER_PAGE, array $params = array())
     {
         $path = $project_id === null ? 'issues' : 'projects/'.urlencode($project_id).'/issues';
 
-        return $this->get($path, array(
+        $params = array_intersect_key($params, array('labels' => '', 'state' => ''));
+        $params = array_merge(array(
             'page' => $page,
             'per_page' => $per_page
-        ));
+        ), $params);
+
+        return $this->get($path, $params);
     }
 
     public function show($project_id, $issue_id)
