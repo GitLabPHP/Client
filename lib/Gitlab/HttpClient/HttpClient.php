@@ -3,8 +3,6 @@
 namespace Gitlab\HttpClient;
 
 use Buzz\Client\ClientInterface;
-use Buzz\Message\MessageInterface;
-use Buzz\Message\RequestInterface;
 use Buzz\Listener\ListenerInterface;
 
 use Gitlab\Exception\ErrorException;

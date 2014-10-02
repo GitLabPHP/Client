@@ -36,7 +36,7 @@ class Project extends AbstractModel
 
     public static function fromArray(Client $client, array $data)
     {
-        $project = new Project($data['id']);
+        $project = new static($data['id']);
         $project->setClient($client);
 
         if (isset($data['owner'])) {
@@ -54,7 +54,7 @@ class Project extends AbstractModel
     {
         $data = $client->api('projects')->create($name, $params);
 
-        return Project::fromArray($client, $data);
+        return static::fromArray($client, $data);
     }
 
     public function __construct($id = null, Client $client = null)
@@ -67,7 +67,7 @@ class Project extends AbstractModel
     {
         $data = $this->api('projects')->show($this->id);
 
-        return Project::fromArray($this->getClient(), $data);
+        return static::fromArray($this->getClient(), $data);
     }
 
     public function remove()
@@ -136,16 +136,16 @@ class Project extends AbstractModel
         return Hook::fromArray($this->getClient(), $data);
     }
 
-    public function addHook($url)
+    public function addHook($url, $push_events = true, $issues_events = false, $merge_requests_events = false)
     {
-        $data = $this->api('projects')->addHook($this->id, $url);
+        $data = $this->api('projects')->addHook($this->id, $url, $push_events, $issues_events, $merge_requests_events);
 
         return Hook::fromArray($this->getClient(), $data);
     }
 
-    public function updateHook($hook_id, $url)
+    public function updateHook($hook_id, $url, $push_events = null, $issues_events = null, $merge_requests_events = null)
     {
-        $data = $this->api('projects')->updateHook($this->id, $hook_id, $url);
+        $data = $this->api('projects')->updateHook($this->id, $hook_id, $url, $push_events, $issues_events, $merge_requests_events);
 
         return Hook::fromArray($this->getClient(), $data);
     }
@@ -331,9 +331,9 @@ class Project extends AbstractModel
         return $mr->show();
     }
 
-    public function createMergeRequest($source, $target, $title, $assignee = null)
+    public function createMergeRequest($source, $target, $title, $assignee = null, $description = null)
     {
-        $data = $this->api('mr')->create($this->id, $source, $target, $title, $assignee);
+        $data = $this->api('mr')->create($this->id, $source, $target, $title, $assignee, null, $description);
 
         return MergeRequest::fromArray($this->getClient(), $this, $data);
     }
@@ -495,12 +495,12 @@ class Project extends AbstractModel
         return $snippet->remove();
     }
 
-	public function transfer($group_id)
-	{
-		$group = new Group($group_id, $this->getClient());
+    public function transfer($group_id)
+    {
+        $group = new Group($group_id, $this->getClient());
 
-		return $group->transfer($this->id);
-	}
+        return $group->transfer($this->id);
+    }
 
     public function forkTo($id)
     {

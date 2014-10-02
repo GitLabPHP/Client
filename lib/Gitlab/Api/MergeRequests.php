@@ -34,10 +34,10 @@ class MergeRequests extends AbstractApi
         return $this->get('projects/'.urlencode($project_id).'/merge_request/'.urlencode($mr_id));
     }
 
-    public function create($project_id, $source, $target, $title, $assignee = null, $target_project_id = null)
+    public function create($project_id, $source, $target, $title, $assignee = null, $target_project_id = null, $description = null)
     {
         if ($target_project_id && ! is_numeric($target_project_id)) {
-            throw new InvalidArgumentException('target_project_id should be numeric, the project name is not allowed');
+            throw new \InvalidArgumentException('target_project_id should be numeric, the project name is not allowed');
         }
 
         return $this->post('projects/'.urlencode($project_id).'/merge_requests', array(
@@ -45,13 +45,24 @@ class MergeRequests extends AbstractApi
             'target_branch' => $target,
             'title' => $title,
             'assignee_id' => $assignee,
-            'target_project_id' => $target_project_id
+            'target_project_id' => $target_project_id,
+            'description' => $description
         ));
     }
 
     public function update($project_id, $mr_id, array $params)
     {
         return $this->put('projects/'.urlencode($project_id).'/merge_request/'.urlencode($mr_id), $params);
+    }
+
+    public function merge($project_id, $mr_id, array $params)
+    {
+        return $this->put('projects/'.urlencode($project_id).'/merge_request/'.urlencode($mr_id).'/merge', $params);
+    }
+
+    public function showComments($project_id, $mr_id)
+    {
+        return $this->get('projects/'.urlencode($project_id).'/merge_request/'.urlencode($mr_id).'/comments');
     }
 
     public function addComment($project_id, $mr_id, $note)

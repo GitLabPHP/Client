@@ -20,7 +20,7 @@ class Event extends AbstractModel
 
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $event = new Event($project, $client);
+        $event = new static($project, $client);
 
         return $event->hydrate($data);
     }

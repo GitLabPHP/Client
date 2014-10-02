@@ -16,7 +16,7 @@ class Group extends AbstractModel
 
     public static function fromArray(Client $client, array $data)
     {
-        $group = new Group($data['id'], $client);
+        $group = new static($data['id'], $client);
 
         if (isset($data['projects'])) {
             $projects = array();
@@ -57,29 +57,29 @@ class Group extends AbstractModel
         return Group::fromArray($this->getClient(), $data);
     }
 
-	public function members()
-	{
-		$data = $this->api('groups')->members($this->id);
+    public function members()
+    {
+        $data = $this->api('groups')->members($this->id);
 
-		$members = array();
-		foreach ($data as $member) {
-			$members[] = User::fromArray($this->getClient(), $member);
-		}
+        $members = array();
+        foreach ($data as $member) {
+            $members[] = User::fromArray($this->getClient(), $member);
+        }
 
-		return $members;
-	}
+        return $members;
+    }
 
-	public function addMember($user_id, $access_level)
-	{
-		$data = $this->api('groups')->addMember($this->id, $user_id, $access_level);
+    public function addMember($user_id, $access_level)
+    {
+        $data = $this->api('groups')->addMember($this->id, $user_id, $access_level);
 
-		return User::fromArray($this->getClient(), $data);
-	}
+        return User::fromArray($this->getClient(), $data);
+    }
 
-	public function removeMember($user_id)
-	{
-		$this->api('groups')->removeMember($this->id, $user_id);
+    public function removeMember($user_id)
+    {
+        $this->api('groups')->removeMember($this->id, $user_id);
 
-		return true;
-	}
+        return true;
+    }
 }

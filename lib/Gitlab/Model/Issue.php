@@ -20,12 +20,13 @@ class Issue extends AbstractModel
         'updated_at',
         'created_at',
         'project',
-        'state'
+        'state',
+        'labels'
     );
 
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $issue = new Issue($project, $data['id'], $client);
+        $issue = new static($project, $data['id'], $client);
 
         if (isset($data['author'])) {
             $data['author'] = User::fromArray($client, $data['author']);
@@ -50,14 +51,14 @@ class Issue extends AbstractModel
     {
         $data = $this->api('issues')->show($this->project->id, $this->id);
 
-        return Issue::fromArray($this->getClient(), $this->project, $data);
+        return static::fromArray($this->getClient(), $this->project, $data);
     }
 
     public function update(array $params)
     {
         $data = $this->api('issues')->update($this->project->id, $this->id, $params);
 
-        return Issue::fromArray($this->getClient(), $this->project, $data);
+        return static::fromArray($this->getClient(), $this->project, $data);
     }
 
     public function close($comment = null)
@@ -65,7 +66,7 @@ class Issue extends AbstractModel
         if ($comment) {
             $this->addComment($comment);
         }
-        
+
         return $this->update(array(
             'state_event' => 'close'
         ));
@@ -87,4 +88,15 @@ class Issue extends AbstractModel
         return Note::fromArray($this->getClient(), $this, $data);
     }
 
+    public function showComments()
+    {
+        $notes = array();
+        $data = $this->api('issues')->showComments($this->project->id, $this->id);
+
+        foreach ($data as $note) {
+            $notes[] = Note::fromArray($this->getClient(), $this, $note);
+        }
+
+        return $notes;
+    }
 }

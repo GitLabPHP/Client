@@ -14,7 +14,7 @@ class Hook extends AbstractModel
 
     public static function fromArray(Client $client, array $data)
     {
-        $hook = new Hook($data['id'], $client);
+        $hook = new static($data['id'], $client);
 
         return $hook->hydrate($data);
     }

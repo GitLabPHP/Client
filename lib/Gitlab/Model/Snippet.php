@@ -19,7 +19,7 @@ class Snippet extends AbstractModel
 
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $snippet = new Snippet($project, $data['id'], $client);
+        $snippet = new static($project, $data['id'], $client);
 
         if (isset($data['author'])) {
             $data['author'] = User::fromArray($client, $data['author']);
@@ -40,14 +40,14 @@ class Snippet extends AbstractModel
     {
         $data = $this->api('snippets')->show($this->project->id, $this->id);
 
-        return Snippet::fromArray($this->getClient(), $this, $data);
+        return static::fromArray($this->getClient(), $this, $data);
     }
 
     public function update(array $params)
     {
         $data = $this->api('snippets')->update($this->project->id, $this->id, $params);
 
-        return Snippet::fromArray($this->getClient(), $this, $data);
+        return static::fromArray($this->getClient(), $this, $data);
     }
 
     public function content()

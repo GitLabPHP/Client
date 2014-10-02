@@ -16,7 +16,7 @@ class Node extends AbstractModel
 
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $node = new Node($project, $data['id'], $client);
+        $node = new static($project, $data['id'], $client);
 
         return $node->hydrate($data);
     }

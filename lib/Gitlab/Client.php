@@ -48,6 +48,7 @@ class Client
     /**
      * Instantiate a new Gitlab client
      *
+     * @param string               $baseUrl
      * @param null|ClientInterface $httpClient Buzz client
      */
     public function __construct($baseUrl, ClientInterface $httpClient = null)
@@ -78,6 +79,10 @@ class Client
                 $api = new Api\Projects($this);
                 break;
 
+            case 'namespaces':
+                $api = new Api\ProjectNamespaces($this);
+                break;
+
             case 'repo':
             case 'repositories':
                 $api = new Api\Repositories($this);
@@ -106,6 +111,10 @@ class Client
                 $api = new Api\SystemHooks($this);
                 break;
 
+            case 'snippets':
+                $api = new Api\Snippets($this);
+                break;
+
             default:
                 throw new InvalidArgumentException();
         }
@@ -116,8 +125,9 @@ class Client
     /**
      * Authenticate a user for all next requests
      *
-     * @param string      $token  Gitlab private token
-     * @param null|string $authMethod    One of the AUTH_* class constants
+     * @param string      $token      Gitlab private token
+     * @param null|string $authMethod One of the AUTH_* class constants
+     * @param null|string $sudo
      */
     public function authenticate($token, $authMethod = null, $sudo = null)
     {
@@ -187,12 +197,10 @@ class Client
         return $this->options[$name];
     }
 
-
     /**
      * @param string $name
      * @param mixed  $value
      *
-     * @throws InvalidArgumentException
      * @throws InvalidArgumentException
      */
     public function setOption($name, $value)
