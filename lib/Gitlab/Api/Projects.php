@@ -165,6 +165,21 @@ class Projects extends AbstractApi
         return $this->get('projects/'.urlencode($project_id).'/labels');
     }
 
+    public function addLabel($project_id, array $params)
+    {
+        return $this->post('projects/'.urlencode($project_id).'/labels', $params);
+    }
+
+    public function updateLabel($project_id, array $params)
+    {
+        return $this->put('projects/'.urlencode($project_id).'/labels', $params);
+    }
+
+    public function removeLabel($project_id, array $params)
+    {
+        return $this->delete('projects/'.urlencode($project_id).'/labels', $params);
+    }
+
     public function search($query)
     {
         return $this->get('projects/search/'.urlencode($query));
