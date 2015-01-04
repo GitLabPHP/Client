@@ -44,6 +44,11 @@ abstract class AbstractModel
         return $this;
     }
 
+    public function __isset($property)
+    {
+        return in_array($property, static::$_properties);
+    }
+
     public function __set($property, $value)
     {
         if (!in_array($property, static::$_properties)) {
