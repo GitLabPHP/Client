@@ -13,6 +13,22 @@ use Gitlab\HttpClient\Listener\AuthListener;
 
 /**
  * Simple API wrapper for Gitlab
+ *
+ * @property-read \Gitlab\Api\Groups $groups
+ * @property-read \Gitlab\Api\Issues $issues
+ * @property-read \Gitlab\Api\MergeRequests $merge_requests
+ * @property-read \Gitlab\Api\MergeRequests $mr
+ * @property-read \Gitlab\Api\Milestones $milestones
+ * @property-read \Gitlab\Api\Milestones $ms
+ * @property-read \Gitlab\Api\ProjectNamespaces $namespaces
+ * @property-read \Gitlab\Api\ProjectNamespaces $ns
+ * @property-read \Gitlab\Api\Projects $projects
+ * @property-read \Gitlab\Api\Repositories $repositories
+ * @property-read \Gitlab\Api\Repositories $repo
+ * @property-read \Gitlab\Api\Snippets $snippets
+ * @property-read \Gitlab\Api\SystemHooks $hooks
+ * @property-read \Gitlab\Api\SystemHooks $system_hooks
+ * @property-read \Gitlab\Api\Users $users
  */
 class Client
 {
@@ -71,21 +87,13 @@ class Client
     public function api($name)
     {
         switch ($name) {
-            case 'users':
-                $api = new Api\Users($this);
+
+            case 'groups':
+                $api = new Api\Groups($this);
                 break;
 
-            case 'projects':
-                $api = new Api\Projects($this);
-                break;
-
-            case 'namespaces':
-                $api = new Api\ProjectNamespaces($this);
-                break;
-
-            case 'repo':
-            case 'repositories':
-                $api = new Api\Repositories($this);
+            case 'issues':
+                $api = new Api\Issues($this);
                 break;
 
             case 'mr':
@@ -93,17 +101,27 @@ class Client
                 $api = new Api\MergeRequests($this);
                 break;
 
-            case 'issues':
-                $api = new Api\Issues($this);
-                break;
-
             case 'milestones':
             case 'ms':
                 $api = new Api\Milestones($this);
                 break;
 
-            case 'groups':
-                $api = new Api\Groups($this);
+            case 'namespaces':
+            case 'ns':
+                $api = new Api\ProjectNamespaces($this);
+                break;
+
+            case 'projects':
+                $api = new Api\Projects($this);
+                break;
+
+            case 'repo':
+            case 'repositories':
+                $api = new Api\Repositories($this);
+                break;
+
+            case 'snippets':
+                $api = new Api\Snippets($this);
                 break;
 
             case 'hooks':
@@ -111,12 +129,12 @@ class Client
                 $api = new Api\SystemHooks($this);
                 break;
 
-            case 'snippets':
-                $api = new Api\Snippets($this);
+            case 'users':
+                $api = new Api\Users($this);
                 break;
 
             default:
-                throw new InvalidArgumentException();
+                throw new InvalidArgumentException('Invalid endpoint: "'.$name.'"');
         }
 
         return $api;
@@ -210,5 +228,14 @@ class Client
         }
 
         $this->options[$name] = $value;
+    }
+
+    /**
+     * @param string $api
+     * @return ApiInterface
+     */
+    public function __get($api)
+    {
+        return $this->api($api);
     }
 }
