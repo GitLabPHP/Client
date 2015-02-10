@@ -10,6 +10,7 @@ use Gitlab\Exception\RuntimeException;
 
 /**
  * @author Joseph Bielawski <stloyd@gmail.com>
+ * @author Matt Humphrey <git@m4tt.co>
  */
 class ErrorListener implements ListenerInterface
 {
@@ -43,7 +44,9 @@ class ErrorListener implements ListenerInterface
             $content = $response->getContent();
             if (is_array($content) && isset($content['message'])) {
                 if (400 == $response->getStatusCode()) {
-                    throw new ErrorException($content['message'], 400);
+                    $message = $this->parseMessage($content['message']);
+
+                    throw new ErrorException($message, 400);
                 }
             }
 
@@ -51,12 +54,41 @@ class ErrorListener implements ListenerInterface
             if (isset($content['error'])) {
                 $errorMessage = implode("\n", $content['error']);
             } elseif (isset($content['message'])) {
-                $errorMessage = $content['message'];
+                $errorMessage = $this->parseMessage($content['message']);
             } else {
                 $errorMessage = $content;
             }
 
             throw new RuntimeException($errorMessage, $response->getStatusCode());
         }
+    }
+
+    /**
+     * @param mixed $message
+     * @return string
+     */
+    protected function parseMessage($message)
+    {
+        $string = $message;
+
+        if (is_array($message)) {
+            $format = '"%s" %s';
+            $errors = array();
+
+            foreach ($message as $field => $messages) {
+                if (is_array($messages)) {
+                    $messages = array_unique($messages);
+                    foreach ($messages as $error) {
+                        $errors[] = sprintf($format, $field, $error);
+                    }
+                } else {
+                    $errors[] = sprintf($format, $field, $errors);
+                }
+            }
+
+            $string = implode(', ', $errors);
+        }
+
+        return $string;
     }
 }
