@@ -54,6 +54,13 @@ class Branch extends AbstractModel
         return Branch::fromArray($this->getClient(), $this->project, $data);
     }
 
+    public function delete()
+    {
+        $this->api('repositories')->deleteBranch($this->project->id, $this->name);
+
+        return true;
+    }
+
     public function commits($page = 1, $per_page = Api::PER_PAGE)
     {
         return $this->project->commits($page, $per_page, $this->name);
@@ -61,21 +68,21 @@ class Branch extends AbstractModel
 
     public function createFile($file_path, $content, $commit_message)
     {
-        $data = $this->api('repo')->createFile($this->project->id, $file_path, $content, $this->name, $commit_message);
+        $data = $this->api('repositories')->createFile($this->project->id, $file_path, $content, $this->name, $commit_message);
 
         return File::fromArray($this->getClient(), $this, $data);
     }
 
     public function updateFile($file_path, $content, $commit_message)
     {
-        $data = $this->api('repo')->updateFile($this->project->id, $file_path, $content, $this->name, $commit_message);
+        $data = $this->api('repositories')->updateFile($this->project->id, $file_path, $content, $this->name, $commit_message);
 
         return File::fromArray($this->getClient(), $this, $data);
     }
 
     public function deleteFile($file_path, $commit_message)
     {
-        $this->api('repo')->deleteFile($this->project->id, $file_path, $this->name, $commit_message);
+        $this->api('repositories')->deleteFile($this->project->id, $file_path, $this->name, $commit_message);
 
         return true;
     }

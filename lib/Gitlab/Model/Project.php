@@ -190,6 +190,20 @@ class Project extends AbstractModel
         return true;
     }
 
+    public function createBranch($name, $ref)
+    {
+        $data = $this->api('repositories')->createBranch($this->id, $name, $ref);
+
+        return Branch::fromArray($this->getClient(), $this, $data);
+    }
+
+    public function deleteBranch($name)
+    {
+        $this->api('repositories')->deleteBranch($this->id, $name);
+
+        return true;
+    }
+
     public function branches()
     {
         $data = $this->api('repo')->branches($this->id);
