@@ -27,6 +27,14 @@ class Projects extends AbstractApi
         ));
     }
 
+    public function search($query, $page = 1, $per_page = self::PER_PAGE)
+    {
+        return $this->get('projects/search/'.urlencode($query), array(
+            'page' => $page,
+            'per_page' => $per_page
+        ));
+    }
+
     public function show($project_id)
     {
         return $this->get('projects/'.urlencode($project_id));
@@ -183,11 +191,6 @@ class Projects extends AbstractApi
     public function removeLabel($project_id, array $params)
     {
         return $this->delete('projects/'.urlencode($project_id).'/labels', $params);
-    }
-
-    public function search($query)
-    {
-        return $this->get('projects/search/'.urlencode($query));
     }
 
     public function createForkRelation($project_id, $forked_project_id)
