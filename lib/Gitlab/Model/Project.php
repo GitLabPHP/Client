@@ -123,38 +123,44 @@ class Project extends AbstractModel
 
         $hooks = array();
         foreach ($data as $hook) {
-            $hooks[] = Hook::fromArray($this->getClient(), $hook);
+            $hooks[] = ProjectHook::fromArray($this->getClient(), $this, $hook);
         }
 
         return $hooks;
     }
 
-    public function hook($hook_id)
+    public function hook($id)
     {
-        $data = $this->api('projects')->hook($this->id, $hook_id);
+        $hook = new ProjectHook($this, $id, $this->getClient());
 
-        return Hook::fromArray($this->getClient(), $data);
+        return $hook->show();
     }
 
     public function addHook($url, $push_events = true, $issues_events = false, $merge_requests_events = false)
     {
         $data = $this->api('projects')->addHook($this->id, $url, $push_events, $issues_events, $merge_requests_events);
 
-        return Hook::fromArray($this->getClient(), $data);
+        return ProjectHook::fromArray($this->getClient(), $this, $data);
     }
 
-    public function updateHook($hook_id, $url, $push_events = null, $issues_events = null, $merge_requests_events = null)
+    public function updateHook($hook_id, $url, $push_events = null, $issues_events = null, $merge_requests_events = null, $tag_push_events = null)
     {
-        $data = $this->api('projects')->updateHook($this->id, $hook_id, $url, $push_events, $issues_events, $merge_requests_events);
+        $hook = new ProjectHook($this, $hook_id, $this->getClient());
 
-        return Hook::fromArray($this->getClient(), $data);
+        return $hook->update(array(
+            'url' => $url,
+            'push_events' => $push_events,
+            'issues_events' => $issues_events,
+            'merge_requests_events' => $merge_requests_events,
+            'tag_push_events' => $tag_push_events
+        ));
     }
 
     public function removeHook($hook_id)
     {
-        $this->api('projects')->removeHook($this->id, $hook_id);
+        $hook = new ProjectHook($this, $hook_id, $this->getClient());
 
-        return true;
+        return $hook->delete();
     }
 
     public function keys()
