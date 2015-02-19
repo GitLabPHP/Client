@@ -112,7 +112,7 @@ class Branch extends AbstractModel
     {
         $data = $this->api('repositories')->createFile($this->project->id, $file_path, $content, $this->name, $commit_message);
 
-        return File::fromArray($this->getClient(), $this, $data);
+        return File::fromArray($this->getClient(), $this->project, $data);
     }
 
     /**
@@ -125,7 +125,7 @@ class Branch extends AbstractModel
     {
         $data = $this->api('repositories')->updateFile($this->project->id, $file_path, $content, $this->name, $commit_message);
 
-        return File::fromArray($this->getClient(), $this, $data);
+        return File::fromArray($this->getClient(), $this->project, $data);
     }
 
     /**

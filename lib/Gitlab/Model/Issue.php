@@ -20,7 +20,7 @@ use Gitlab\Client;
  * @property-read Milestone $milestone
  * @property-read Project $project
  */
-class Issue extends AbstractModel
+class Issue extends AbstractModel implements Noteable
 {
     /**
      * @var array
@@ -122,13 +122,21 @@ class Issue extends AbstractModel
     }
 
     /**
-     * @param string $body
+     * @return Issue
+     */
+    public function reopen()
+    {
+        return $this->open();
+    }
+
+    /**
+     * @param string $comment
      * @return Note
      */
-    public function addComment($body)
+    public function addComment($comment)
     {
         $data = $this->api('issues')->addComment($this->project->id, $this->id, array(
-            'body' => $body
+            'body' => $comment
         ));
 
         return Note::fromArray($this->getClient(), $this, $data);
@@ -147,5 +155,17 @@ class Issue extends AbstractModel
         }
 
         return $notes;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isClosed()
+    {
+        if ($this->state == 'closed') {
+            return true;
+        }
+
+        return false;
     }
 }

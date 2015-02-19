@@ -23,7 +23,7 @@ use Gitlab\Client;
  * @property-read User $assignee
  * @property-read Project $project
  */
-class MergeRequest extends AbstractModel
+class MergeRequest extends AbstractModel implements Noteable
 {
     /**
      * @var array
@@ -128,12 +128,22 @@ class MergeRequest extends AbstractModel
     }
 
     /**
+     * @return MergeRequest
+     */
+    public function open()
+    {
+        return $this->reopen();
+    }
+
+    /**
      * @param string $message
      * @return MergeRequest
      */
     public function merge($message = null)
     {
-        $data = $this->api('mr')->merge($this->project->id, $this->id, array('merge_commit_message' => $message));
+        $data = $this->api('mr')->merge($this->project->id, $this->id, array(
+            'merge_commit_message' => $message
+        ));
 
         return static::fromArray($this->getClient(), $this->project, $data);
     }
@@ -149,12 +159,12 @@ class MergeRequest extends AbstractModel
     }
 
     /**
-     * @param string $note
+     * @param string $comment
      * @return Note
      */
-    public function addComment($note)
+    public function addComment($comment)
     {
-        $data = $this->api('mr')->addComment($this->project->id, $this->id, $note);
+        $data = $this->api('mr')->addComment($this->project->id, $this->id, $comment);
 
         return Note::fromArray($this->getClient(), $this, $data);
     }

@@ -50,7 +50,8 @@ class HttpClient implements HttpClientInterface
     private $lastRequest;
 
     /**
-     * @param array           $options
+     * @param string $baseUrl
+     * @param array $options
      * @param ClientInterface $client
      */
     public function __construct($baseUrl, array $options, ClientInterface $client)

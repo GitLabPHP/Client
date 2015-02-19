@@ -105,6 +105,7 @@ abstract class AbstractApi
 
     /**
      * @param int $id
+     * @param string $path
      * @return string
      */
     protected function getProjectPath($id, $path)
