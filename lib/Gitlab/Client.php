@@ -80,7 +80,7 @@ class Client
     /**
      * @param string $name
      *
-     * @return AbstractApi
+     * @return AbstractApi|mixed
      * @throws InvalidArgumentException
      */
     public function api($name)

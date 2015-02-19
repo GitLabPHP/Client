@@ -66,7 +66,7 @@ class Snippet extends AbstractModel
     {
         $data = $this->api('snippets')->show($this->project->id, $this->id);
 
-        return static::fromArray($this->getClient(), $this, $data);
+        return static::fromArray($this->getClient(), $this->project, $data);
     }
 
     /**
@@ -77,7 +77,7 @@ class Snippet extends AbstractModel
     {
         $data = $this->api('snippets')->update($this->project->id, $this->id, $params);
 
-        return static::fromArray($this->getClient(), $this, $data);
+        return static::fromArray($this->getClient(), $this->project, $data);
     }
 
     /**

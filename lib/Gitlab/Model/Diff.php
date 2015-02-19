@@ -62,4 +62,4 @@ class Diff extends AbstractModel
     {
         return $this->diff;
     }
-} 
+}

@@ -70,4 +70,4 @@ class Comparison extends AbstractModel
         $this->setClient($client);
         $this->setData('project', $project);
     }
-} 
+}
