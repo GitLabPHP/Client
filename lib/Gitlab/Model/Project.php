@@ -989,4 +989,19 @@ class Project extends AbstractModel
 
         return true;
     }
+
+    /**
+     * @return array
+     */
+    public function contributors()
+    {
+        $data = $this->api('repo')->contributors($this->id);
+
+        $contributors = array();
+        foreach ($data as $contributor) {
+            $contributors[] = Contributor::fromArray($this->getClient(), $this, $contributor);
+        }
+
+        return $contributors;
+    }
 }

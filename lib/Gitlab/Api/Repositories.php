@@ -241,4 +241,13 @@ class Repositories extends AbstractApi
             'commit_message' => $commit_message
         ));
     }
+
+    /**
+     * @param int $project_id
+     * @return mixed
+     */
+    public function contributors($project_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'repository/contributors'));
+    }
 }
