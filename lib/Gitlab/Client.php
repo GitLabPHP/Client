@@ -1,6 +1,4 @@
-<?php
-
-namespace Gitlab;
+<?php namespace Gitlab;
 
 use Buzz\Client\Curl;
 use Buzz\Client\ClientInterface;

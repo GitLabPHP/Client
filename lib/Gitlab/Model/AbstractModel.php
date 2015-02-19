@@ -44,7 +44,7 @@ abstract class AbstractModel
 
     /**
      * @param string $api
-     * @return AbstractApi
+     * @return AbstractApi|mixed
      */
     public function api($api)
     {
