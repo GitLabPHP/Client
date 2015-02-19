@@ -34,6 +34,21 @@ class Repositories extends AbstractApi
         return $this->get('projects/'.urlencode($project_id).'/repository/commits/'.urlencode($sha));
     }
 
+    public function commitComments($project_id, $sha, $page = 0, $per_page = self::PER_PAGE)
+    {
+        return $this->get('projects/'.urlencode($project_id).'/repository/commits/'.urlencode($sha).'/comments', array(
+            'page' => $page,
+            'per_page' => $per_page
+        ));
+    }
+
+    public function createCommitComment($project_id, $sha, $note, array $params = array())
+    {
+        $params['note'] = $note;
+
+        return $this->post('projects/'.urlencode($project_id).'/repository/commits/'.urlencode($sha).'/comments', $params);
+    }
+
     public function compare($project_id, $fromShaOrMaster, $toShaOrMaster)
     {
         return $this->get('projects/'.urlencode($project_id).'/repository/compare?from='.

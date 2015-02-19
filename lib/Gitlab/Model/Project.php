@@ -277,6 +277,25 @@ class Project extends AbstractModel
         return Commit::fromArray($this->getClient(), $this, $data);
     }
 
+    public function commitComments($ref, $page = 0, $per_page = Api::PER_PAGE)
+    {
+        $data = $this->api('repo')->commitComments($this->id, $ref, $page, $per_page);
+
+        $comments = array();
+        foreach ($data as $comment) {
+            $comments[] = CommitNote::fromArray($this->getClient(), $comment);
+        }
+
+        return $comments;
+    }
+
+    public function createCommitComment($ref, $note, array $params = array())
+    {
+        $data = $this->api('repo')->createCommitComment($this->id, $ref, $note, $params);
+
+        return CommitNote::fromArray($this->getClient(), $data);
+    }
+
     public function diff($sha)
     {
         return $this->api('repo')->diff($this->id, $sha);
