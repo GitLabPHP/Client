@@ -436,7 +436,7 @@ class Project extends AbstractModel
 
     /**
      * @param string $sha
-     * @return mixed
+     * @return string
      */
     public function diff($sha)
     {
