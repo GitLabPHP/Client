@@ -1,8 +1,7 @@
 <?php
 
 namespace Gitlab\HttpClient;
-
-use Gitlab\Exception\InvalidArgumentException;
+use Gitlab\HttpClient\Message\ResponseInterface;
 
 /**
  * Performs requests on Gitlab API. API documentation should be self-explanatory.
@@ -12,13 +11,25 @@ use Gitlab\Exception\InvalidArgumentException;
 interface HttpClientInterface
 {
     /**
+     * Constant for authentication method. Indicates the default, but deprecated
+     * login with username and token in URL.
+     */
+    const AUTH_URL_TOKEN = 'url_token';
+
+    /**
+     * Constant for authentication method. Indicates the new login method with
+     * with username and token via HTTP Authentication.
+     */
+    const AUTH_HTTP_TOKEN = 'http_token';
+
+    /**
      * Send a GET request
      *
      * @param string $path       Request path
      * @param array  $parameters GET Parameters
      * @param array  $headers    Reconfigure the request headers for this call only
      *
-     * @return array Data
+     * @return array ResponseInterface
      */
     public function get($path, array $parameters = array(), array $headers = array());
 
@@ -29,7 +40,7 @@ interface HttpClientInterface
      * @param array  $parameters POST Parameters
      * @param array  $headers    Reconfigure the request headers for this call only
      *
-     * @return array Data
+     * @return array ResponseInterface
      */
     public function post($path, array $parameters = array(), array $headers = array());
 
@@ -40,7 +51,7 @@ interface HttpClientInterface
      * @param array  $parameters PATCH Parameters
      * @param array  $headers    Reconfigure the request headers for this call only
      *
-     * @return array Data
+     * @return array ResponseInterface
      */
     public function patch($path, array $parameters = array(), array $headers = array());
 
@@ -51,7 +62,7 @@ interface HttpClientInterface
      * @param array  $parameters PUT Parameters
      * @param array  $headers    Reconfigure the request headers for this call only
      *
-     * @return array Data
+     * @return array ResponseInterface
      */
     public function put($path, array $parameters = array(), array $headers = array());
 
@@ -62,7 +73,7 @@ interface HttpClientInterface
      * @param array  $parameters DELETE Parameters
      * @param array  $headers    Reconfigure the request headers for this call only
      *
-     * @return array Data
+     * @return array ResponseInterface
      */
     public function delete($path, array $parameters = array(), array $headers = array());
 
@@ -75,19 +86,18 @@ interface HttpClientInterface
      * @param string $httpMethod HTTP method to use
      * @param array  $headers    Request headers
      *
-     * @return array Data
+     * @return ResponseInterface
      */
     public function request($path, array $parameters = array(), $httpMethod = 'GET', array $headers = array());
 
     /**
-     * Change an option value.
+     * Authenticate a user for all next requests
      *
-     * @param string $name  The option name
-     * @param mixed  $value The value
-     *
-     * @throws InvalidArgumentException
+     * @param string      $token      Gitlab private token
+     * @param null|string $authMethod One of the AUTH_* class constants
+     * @param null|string $sudo
      */
-    public function setOption($name, $value);
+    public function authenticate($token, $authMethod = null, $sudo = null);
 
     /**
      * Set HTTP headers

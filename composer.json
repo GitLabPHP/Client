@@ -21,10 +21,12 @@
 		}
 	],
 	"require": {
-		"php":                ">=5.3.2",
-		"ext-curl":           "*",
-		"kriswallsmith/buzz": ">=0.7"
+		"php":                ">=5.3.2"
 	},
+    "suggest": {
+        "kriswallsmith/buzz": "To use Buzz as the HTTP adapter (~0.7)",
+        "guzzlehttp/guzzle": "To use Guzzle as the HTTP adapter (~3.7, ~4.1)"
+    },
 	"autoload": {
 		"psr-0": { "Gitlab\\": "lib/" }
 	}

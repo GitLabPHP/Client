@@ -15,19 +15,6 @@ use Gitlab\Exception\RuntimeException;
 class ErrorListener implements ListenerInterface
 {
     /**
-     * @var array
-     */
-    private $options;
-
-    /**
-     * @param array $options
-     */
-    public function __construct(array $options)
-    {
-        $this->options = $options;
-    }
-
-    /**
      * {@inheritDoc}
      */
     public function preSend(RequestInterface $request)
@@ -39,7 +26,7 @@ class ErrorListener implements ListenerInterface
      */
     public function postSend(RequestInterface $request, MessageInterface $response)
     {
-        /** @var $response \Gitlab\HttpClient\Message\Response */
+        /** @var $response \Gitlab\HttpClient\Message\BuzzResponse */
         if ($response->isClientError() || $response->isServerError()) {
             $content = $response->getContent();
             if (is_array($content) && isset($content['message'])) {
