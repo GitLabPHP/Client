@@ -81,6 +81,14 @@ abstract class AbstractModel
     }
 
     /**
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
      * @param string $property
      * @param mixed $value
      * @throws RuntimeException

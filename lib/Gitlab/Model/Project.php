@@ -471,6 +471,18 @@ class Project extends AbstractModel
     }
 
     /**
+     * @param string $from
+     * @param string $to
+     * @return Comparison
+     */
+    public function compare($from, $to)
+    {
+        $data = $this->api('repo')->compare($this->id, $from, $to);
+
+        return Comparison::fromArray($this->getClient(), $this, $data);
+    }
+
+    /**
      * @param array $params
      * @return Node[]
      */
