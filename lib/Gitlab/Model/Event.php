@@ -13,14 +13,20 @@ class Event extends AbstractModel
         'target_id',
         'target_type',
         'author_id',
+        'author_username',
         'data',
         'target_title',
+        'author',
         'project'
     );
 
     public static function fromArray(Client $client, Project $project, array $data)
     {
         $event = new static($project, $client);
+
+        if (isset($data['author_id'])) {
+            $data['author'] = new User($data['author_id'], $client);
+        }
 
         return $event->hydrate($data);
     }
