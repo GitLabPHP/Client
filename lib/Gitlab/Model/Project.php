@@ -918,4 +918,63 @@ class Project extends AbstractModel
 
         return true;
     }
+
+    /**
+     * @return Label[]
+     */
+    public function labels()
+    {
+        $data = $this->api('projects')->labels($this->id);
+
+        $labels = array();
+        foreach ($data as $label) {
+            $labels[] = Label::fromArray($this->getClient(), $this, $label);
+        }
+
+        return $labels;
+    }
+
+    /**
+     * @param string $name
+     * @param string $color
+     * @return Label
+     */
+    public function addLabel($name, $color)
+    {
+        $data = $this->api('projects')->addLabel($this->id, array(
+            'name' => $name,
+            'color' => $color
+        ));
+
+        return Label::fromArray($this->getClient(), $this, $data);
+    }
+
+    /**
+     * @param string $name
+     * @param array $params
+     * @return Label
+     */
+    public function updateLabel($name, array $params)
+    {
+        if (isset($params['name'])) {
+            $params['new_name'] = $params['name'];
+        }
+
+        $params['name'] = $name;
+
+        $data = $this->api('projects')->updateLabel($this->id, $params);
+
+        return Label::fromArray($this->getClient(), $this, $data);
+    }
+
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public function removeLabel($name)
+    {
+        $this->api('projects')->removeLabel($this->id, $name);
+
+        return true;
+    }
 }

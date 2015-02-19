@@ -11,12 +11,12 @@ use Gitlab\Client;
  * @property-read string $title
  * @property-read string $description
  * @property-read array $labels
- * @property-read User $assignee
- * @property-read User $author
  * @property-read bool $closed
  * @property-read string $updated_at
  * @property-read string $created_at
  * @property-read string $state
+ * @property-read User $assignee
+ * @property-read User $author
  * @property-read Milestone $milestone
  * @property-read Project $project
  */

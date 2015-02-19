@@ -314,7 +314,7 @@ class Projects extends AbstractApi
      */
     public function addLabel($project_id, array $params)
     {
-        return $this->post($this->getProjectPath($project_id, 'labels', $params));
+        return $this->post($this->getProjectPath($project_id, 'labels'), $params);
     }
 
     /**
@@ -324,17 +324,19 @@ class Projects extends AbstractApi
      */
     public function updateLabel($project_id, array $params)
     {
-        return $this->put($this->getProjectPath($project_id, 'labels', $params));
+        return $this->put($this->getProjectPath($project_id, 'labels'), $params);
     }
 
     /**
      * @param int $project_id
-     * @param array $params
+     * @param string $name
      * @return mixed
      */
-    public function removeLabel($project_id, array $params)
+    public function removeLabel($project_id, $name)
     {
-        return $this->delete($this->getProjectPath($project_id, 'labels'), $params);
+        return $this->delete($this->getProjectPath($project_id, 'labels'), array(
+            'name' => $name
+        ));
     }
 
     /**
