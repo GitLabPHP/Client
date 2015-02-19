@@ -2,6 +2,13 @@
 
 use Gitlab\Client;
 
+/**
+ * Class Hook
+ *
+ * @property-read int $id
+ * @property-read string $url
+ * @property-read string $created_at
+ */
 class Hook extends AbstractModel
 {
     /**
@@ -44,8 +51,7 @@ class Hook extends AbstractModel
     public function __construct($id, Client $client = null)
     {
         $this->setClient($client);
-
-        $this->id = $id;
+        $this->setData('id', $id);
     }
 
     /**

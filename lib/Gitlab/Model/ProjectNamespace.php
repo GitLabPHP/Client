@@ -2,6 +2,17 @@
 
 use Gitlab\Client;
 
+/**
+ * Class ProjectNamespace
+ *
+ * @property-read int $id
+ * @property-read string $path
+ * @property-read string $kind
+ * @property-read int $owner_id
+ * @property-read string $created_at
+ * @property-read string $updated_at
+ * @property-read string $description
+ */
 class ProjectNamespace extends AbstractModel
 {
     /**
@@ -37,6 +48,6 @@ class ProjectNamespace extends AbstractModel
     public function __construct($id = null, Client $client = null)
     {
         $this->setClient($client);
-        $this->id = $id;
+        $this->setData('id', $id);
     }
 }

@@ -2,6 +2,15 @@
 
 use Gitlab\Client;
 
+/**
+ * Class CommitNote
+ *
+ * @property-read string $note
+ * @property-read string $path
+ * @property-read string $line
+ * @property-read string $line_type
+ * @property-read User $author
+ */
 class CommitNote extends AbstractModel
 {
     /**

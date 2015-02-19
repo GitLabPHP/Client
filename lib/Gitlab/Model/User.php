@@ -2,6 +2,31 @@
 
 use Gitlab\Client;
 
+/**
+ * Class User
+ *
+ * @property-read int $id
+ * @property-read string $email
+ * @property-read string $password
+ * @property-read string $username
+ * @property-read string $name
+ * @property-read string $bio
+ * @property-read string $skype
+ * @property-read string $linkedin
+ * @property-read string $twitter
+ * @property-read bool $dark_scheme
+ * @property-read int $theme_id
+ * @property-read int $color_scheme_id
+ * @property-read bool $blocked
+ * @property-read int $access_level
+ * @property-read string $created_at
+ * @property-read string $extern_uid
+ * @property-read string $provider
+ * @property-read string $state
+ * @property-read bool $is_admin
+ * @property-read bool $can_create_group
+ * @property-read bool $can_create_project
+ */
 class User extends AbstractModel
 {
     /**
@@ -67,8 +92,7 @@ class User extends AbstractModel
     public function __construct($id = null, Client $client = null)
     {
         $this->setClient($client);
-
-        $this->id = $id;
+        $this->setData('id', $id);
     }
 
     /**

@@ -2,6 +2,16 @@
 
 use Gitlab\Client;
 
+/**
+ * Class Session
+ *
+ * @property-read int $id
+ * @property-read string $email
+ * @property-read string $name
+ * @property-read string $private_token
+ * @property-read string $created_at
+ * @property-read bool $blocked
+ */
 class Session extends AbstractModel
 {
     /**

@@ -2,6 +2,24 @@
 
 use Gitlab\Client;
 
+/**
+ * Class Commit
+ *
+ * @property-read string $id
+ * @property-read string $short_id
+ * @property-read string $title
+ * @property-read string $message
+ * @property-read string $author_name
+ * @property-read string $author_email
+ * @property-read string $authored_date
+ * @property-read string $committed_date
+ * @property-read string $created_at
+ * @property-read Commit[] $parents
+ * @property-read Node[] $tree
+ * @property-read User $committer
+ * @property-read User $author
+ * @property-read Project $project
+ */
 class Commit extends AbstractModel
 {
     /**
@@ -62,8 +80,7 @@ class Commit extends AbstractModel
     public function __construct(Project $project, $id = null, Client $client = null)
     {
         $this->setClient($client);
-
-        $this->project = $project;
-        $this->id = $id;
+        $this->setData('project', $project);
+        $this->setData('id', $id);
     }
 }

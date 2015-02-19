@@ -2,6 +2,19 @@
 
 use Gitlab\Client;
 
+/**
+ * Class ProjectHook
+ *
+ * @property-read int $id
+ * @property-read string $url
+ * @property-read int $project_id
+ * @property-read bool $push_events
+ * @property-read bool $issues_events
+ * @property-read bool $merge_requests_events
+ * @property-read bool $tag_push_events
+ * @property-read string $created_at
+ * @property-read Project $project
+ */
 class ProjectHook extends AbstractModel
 {
     /**
@@ -40,9 +53,8 @@ class ProjectHook extends AbstractModel
     public function __construct(Project $project, $id, Client $client = null)
     {
         $this->setClient($client);
-
-        $this->project = $project;
-        $this->id = $id;
+        $this->setData('project', $project);
+        $this->setData('id', $id);
     }
 
     /**

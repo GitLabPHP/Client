@@ -4,6 +4,33 @@ use Gitlab\Api\MergeRequests;
 use Gitlab\Client;
 use Gitlab\Api\AbstractApi as Api;
 
+/**
+ * Class Project
+ *
+ * @property-read int $id
+ * @property-read string $code
+ * @property-read string $name
+ * @property-read string $name_with_namespace
+ * @property-read string $description
+ * @property-read string $path
+ * @property-read string $path_with_namespace
+ * @property-read string $ssh_url_to_repo
+ * @property-read string $http_url_to_repo
+ * @property-read string $web_url
+ * @property-read string $default_branch
+ * @property-read bool $private
+ * @property-read bool $public
+ * @property-read bool $issues_enabled
+ * @property-read bool $merge_requests_enabled
+ * @property-read bool $wall_enabled
+ * @property-read bool $wiki_enabled
+ * @property-read bool $snippets_enabled
+ * @property-read string $created_at
+ * @property-read int $greatest_access_level
+ * @property-read string $last_activity_at
+ * @property-read User $owner
+ * @property-read ProjectNamespace $namespace
+ */
 class Project extends AbstractModel
 {
     /**
@@ -76,7 +103,7 @@ class Project extends AbstractModel
     public function __construct($id = null, Client $client = null)
     {
         $this->setClient($client);
-        $this->id = $id;
+        $this->setData('id', $id);
     }
 
     /**

@@ -2,6 +2,18 @@
 
 use Gitlab\Client;
 
+/**
+ * Class Note
+ *
+ * @property-read int $id
+ * @property-read User $author
+ * @property-read string $body
+ * @property-read string $created_at
+ * @property-read string $updated_at
+ * @property-read string $parent_type
+ * @property-read Issue|MergeRequest $parent
+ * @property-read string $attachment
+ */
 class Note extends AbstractModel
 {
     /**
@@ -43,9 +55,8 @@ class Note extends AbstractModel
     public function __construct($type, $id = null, Client $client = null)
     {
         $this->setClient($client);
-
-        $this->parent_type = get_class($type);
-        $this->parent = $type;
-        $this->id = $id;
+        $this->setData('parent_type', get_class($type));
+        $this->setData('parent', $type);
+        $this->setData('id', $id);
     }
 }

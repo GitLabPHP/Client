@@ -55,14 +55,26 @@ abstract class AbstractModel
      * @param array $data
      * @return $this
      */
-    public function hydrate(array $data = array())
+    protected function hydrate(array $data = array())
     {
         if (!empty($data)) {
-            foreach ($data as $k => $v) {
-                if (in_array($k, static::$properties)) {
-                    $this->$k = $v;
-                }
+            foreach ($data as $field => $value) {
+                $this->setData($field, $value);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string $field
+     * @param mixed $value
+     * @return $this
+     */
+    protected function setData($field, $value)
+    {
+        if (in_array($field, static::$properties)) {
+            $this->data[$field] = $value;
         }
 
         return $this;
@@ -71,16 +83,11 @@ abstract class AbstractModel
     /**
      * @param string $property
      * @param mixed $value
+     * @throws RuntimeException
      */
     public function __set($property, $value)
     {
-        if (!in_array($property, static::$properties)) {
-            throw new RuntimeException(sprintf(
-                'Property "%s" does not exist for %s object', $property, get_called_class()
-            ));
-        }
-
-        $this->data[$property] = $value;
+        throw new RuntimeException('Model properties are immutable');
     }
 
     /**
@@ -101,5 +108,14 @@ abstract class AbstractModel
         }
 
         return null;
+    }
+
+    /**
+     * @param string $property
+     * @return bool
+     */
+    public function __isset($property)
+    {
+        return isset($this->data[$property]);
     }
 }

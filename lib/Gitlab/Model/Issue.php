@@ -2,6 +2,24 @@
 
 use Gitlab\Client;
 
+/**
+ * Class Issue
+ *
+ * @property-read int $id
+ * @property-read int $iid
+ * @property-read int $project_id,
+ * @property-read string $title
+ * @property-read string $description
+ * @property-read array $labels
+ * @property-read User $assignee
+ * @property-read User $author
+ * @property-read bool $closed
+ * @property-read string $updated_at
+ * @property-read string $created_at
+ * @property-read string $state
+ * @property-read Milestone $milestone
+ * @property-read Project $project
+ */
 class Issue extends AbstractModel
 {
     /**
@@ -21,8 +39,7 @@ class Issue extends AbstractModel
         'updated_at',
         'created_at',
         'project',
-        'state',
-        'labels'
+        'state'
     );
 
     /**
@@ -54,9 +71,8 @@ class Issue extends AbstractModel
     public function __construct(Project $project, $id = null, Client $client = null)
     {
         $this->setClient($client);
-
-        $this->project = $project;
-        $this->id = $id;
+        $this->setData('project', $project);
+        $this->setData('id', $id);
     }
 
     /**

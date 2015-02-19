@@ -2,6 +2,21 @@
 
 use Gitlab\Client;
 
+/**
+ * Class Milestone
+ *
+ * @property-read int $id
+ * @property-read int $iid
+ * @property-read int $project_id
+ * @property-read string $title
+ * @property-read string $description
+ * @property-read string $due_date
+ * @property-read string $state
+ * @property-read bool $closed
+ * @property-read string $updated_at
+ * @property-read string $created_at
+ * @property-read Project $project
+ */
 class Milestone extends AbstractModel
 {
     /**
@@ -42,9 +57,8 @@ class Milestone extends AbstractModel
     public function __construct(Project $project, $id, Client $client = null)
     {
         $this->setClient($client);
-
-        $this->id = $id;
-        $this->project = $project;
+        $this->setData('id', $id);
+        $this->setData('project', $project);
     }
 
     /**

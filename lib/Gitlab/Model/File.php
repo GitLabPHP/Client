@@ -2,6 +2,13 @@
 
 use Gitlab\Client;
 
+/**
+ * Class File
+ *
+ * @property-read string $file_path
+ * @property-read string $branch_name
+ * @property-read Project $project
+ */
 class File extends AbstractModel
 {
     /**
@@ -34,8 +41,7 @@ class File extends AbstractModel
     public function __construct(Project $project, $file_path = null, Client $client = null)
     {
         $this->setClient($client);
-
-        $this->project = $project;
-        $this->file_path = $file_path;
+        $this->setData('project', $project);
+        $this->setData('file_path', $file_path);
     }
 }

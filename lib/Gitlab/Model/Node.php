@@ -2,6 +2,15 @@
 
 use Gitlab\Client;
 
+/**
+ * Class Node
+ *
+ * @property-read string $name
+ * @property-read string $type
+ * @property-read string $mode
+ * @property-read int $id
+ * @property-read Project $project
+ */
 class Node extends AbstractModel
 {
     /**
@@ -36,8 +45,7 @@ class Node extends AbstractModel
     public function __construct(Project $project, $id = null, Client $client)
     {
         $this->setClient($client);
-
-        $this->project = $project;
-        $this->id = $id;
+        $this->setData('project', $project);
+        $this->setData('id', $id);
     }
 }

@@ -2,6 +2,27 @@
 
 use Gitlab\Client;
 
+/**
+ * Class MergeRequest
+ *
+ * @property-read int $id
+ * @property-read int $iid
+ * @property-read string $target_branch
+ * @property-read string $source_branch
+ * @property-read int $project_id
+ * @property-read string $title
+ * @property-read bool $closed
+ * @property-read bool $merged
+ * @property-read string $state
+ * @property-read int $source_project_id
+ * @property-read int $target_project_id
+ * @property-read int $upvotes
+ * @property-read int $downvotes
+ * @property-read array $labels
+ * @property-read User $author
+ * @property-read User $assignee
+ * @property-read Project $project
+ */
 class MergeRequest extends AbstractModel
 {
     /**
@@ -56,9 +77,8 @@ class MergeRequest extends AbstractModel
     public function __construct(Project $project, $id = null, Client $client = null)
     {
         $this->setClient($client);
-
-        $this->project = $project;
-        $this->id = $id;
+        $this->setData('project', $project);
+        $this->setData('id', $id);
     }
 
     /**

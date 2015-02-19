@@ -2,6 +2,14 @@
 
 use Gitlab\Client;
 
+/**
+ * Class Key
+ *
+ * @property-read int $id
+ * @property-read string $title
+ * @property-read string $key
+ * @property-read string $created_at
+ */
 class Key extends AbstractModel
 {
     /**

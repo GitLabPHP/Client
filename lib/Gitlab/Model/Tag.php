@@ -2,6 +2,14 @@
 
 use Gitlab\Client;
 
+/**
+ * Class Tag
+ *
+ * @property-read string $name
+ * @property-read bool $protected
+ * @property-read Commit $commit
+ * @property-read Project $project
+ */
 class Tag extends AbstractModel
 {
     /**
@@ -39,8 +47,7 @@ class Tag extends AbstractModel
     public function __construct(Project $project, $name = null, Client $client = null)
     {
         $this->setClient($client);
-
-        $this->project = $project;
-        $this->name = $name;
+        $this->setData('project', $project);
+        $this->setData('name', $name);
     }
 }

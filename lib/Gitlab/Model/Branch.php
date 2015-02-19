@@ -3,6 +3,14 @@
 use Gitlab\Client;
 use Gitlab\Api\AbstractApi as Api;
 
+/**
+ * Class Branch
+ *
+ * @property-read string $name
+ * @property-read bool $protected
+ * @property-read Commit $commit
+ * @property-read Project $project
+ */
 class Branch extends AbstractModel
 {
     /**
@@ -40,9 +48,8 @@ class Branch extends AbstractModel
     public function __construct(Project $project, $name = null, Client $client = null)
     {
         $this->setClient($client);
-
-        $this->project = $project;
-        $this->name = $name;
+        $this->setData('project', $project);
+        $this->setData('name', $name);
     }
 
     /**

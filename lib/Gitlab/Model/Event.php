@@ -2,6 +2,21 @@
 
 use Gitlab\Client;
 
+/**
+ * Class Event
+ *
+ * @property-read string $title
+ * @property-read int $id
+ * @property-read string $action_name
+ * @property-read string $data
+ * @property-read int $target_id
+ * @property-read string $target_type
+ * @property-read string $target_title
+ * @property-read int $author_id
+ * @property-read string $author_username
+ * @property-read User $author
+ * @property-read Project $project
+ */
 class Event extends AbstractModel
 {
     /**
@@ -45,7 +60,6 @@ class Event extends AbstractModel
     public function __construct(Project $project, Client $client = null)
     {
         $this->setClient($client);
-
-        $this->project = $project;
+        $this->setData('project', $project);
     }
 }

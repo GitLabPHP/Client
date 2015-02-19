@@ -2,6 +2,18 @@
 
 use Gitlab\Client;
 
+/**
+ * Class Snippet
+ *
+ * @property-read int $id
+ * @property-read string $title
+ * @property-read string $file_name
+ * @property-read string $expires_at
+ * @property-read string $updated_at
+ * @property-read string $created_at
+ * @property-read Project $project
+ * @property-read User $author
+ */
 class Snippet extends AbstractModel
 {
     /**
@@ -43,9 +55,8 @@ class Snippet extends AbstractModel
     public function __construct(Project $project, $id = null, Client $client = null)
     {
         $this->setClient($client);
-
-        $this->project = $project;
-        $this->id = $id;
+        $this->setData('project', $project);
+        $this->setData('id', $id);
     }
 
     /**
