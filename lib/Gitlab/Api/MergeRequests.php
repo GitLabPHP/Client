@@ -58,7 +58,7 @@ class MergeRequests extends AbstractApi
      */
     public function show($project_id, $mr_id)
     {
-        return $this->get('projects/'.urlencode($project_id).'/merge_request/'.urlencode($mr_id));
+        return $this->get($this->getProjectPath($project_id, 'merge_request/'.urlencode($mr_id)));
     }
 
     /**
@@ -77,7 +77,7 @@ class MergeRequests extends AbstractApi
             throw new \InvalidArgumentException('target_project_id should be numeric, the project name is not allowed');
         }
 
-        return $this->post('projects/'.urlencode($project_id).'/merge_requests', array(
+        return $this->post($this->getProjectPath($project_id, 'merge_requests'), array(
             'source_branch' => $source,
             'target_branch' => $target,
             'title' => $title,
@@ -95,7 +95,7 @@ class MergeRequests extends AbstractApi
      */
     public function update($project_id, $mr_id, array $params)
     {
-        return $this->put('projects/'.urlencode($project_id).'/merge_request/'.urlencode($mr_id), $params);
+        return $this->put($this->getProjectPath($project_id, 'merge_request/'.urlencode($mr_id)), $params);
     }
 
     /**
@@ -106,7 +106,7 @@ class MergeRequests extends AbstractApi
      */
     public function merge($project_id, $mr_id, array $params)
     {
-        return $this->put('projects/'.urlencode($project_id).'/merge_request/'.urlencode($mr_id).'/merge', $params);
+        return $this->put($this->getProjectPath($project_id, 'merge_request/'.urlencode($mr_id).'/merge'), $params);
     }
 
     /**
@@ -116,7 +116,7 @@ class MergeRequests extends AbstractApi
      */
     public function showComments($project_id, $mr_id)
     {
-        return $this->get('projects/'.urlencode($project_id).'/merge_request/'.urlencode($mr_id).'/comments');
+        return $this->get($this->getProjectPath($project_id, 'merge_request/'.urlencode($mr_id).'/comments'));
     }
 
     /**
@@ -127,7 +127,7 @@ class MergeRequests extends AbstractApi
      */
     public function addComment($project_id, $mr_id, $note)
     {
-        return $this->post('projects/'.urlencode($project_id).'/merge_request/'.urlencode($mr_id).'/comments', array(
+        return $this->post($this->getProjectPath($project_id, 'merge_request/'.urlencode($mr_id).'/comments'), array(
             'note' => $note
         ));
     }
@@ -141,7 +141,7 @@ class MergeRequests extends AbstractApi
      */
     protected function getMrList($project_id, $page, $per_page, $state = self::STATE_ALL)
     {
-        return $this->get('projects/'.urlencode($project_id).'/merge_requests', array(
+        return $this->get($this->getProjectPath($project_id, 'merge_requests'), array(
             'page' => $page,
             'per_page' => $per_page,
             'state' => $state

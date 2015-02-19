@@ -8,7 +8,7 @@ class Repositories extends AbstractApi
      */
     public function branches($project_id)
     {
-        return $this->get('projects/'.urlencode($project_id).'/repository/branches');
+        return $this->get($this->getProjectPath($project_id, 'repository/branches'));
     }
 
     /**
@@ -18,7 +18,7 @@ class Repositories extends AbstractApi
      */
     public function branch($project_id, $branch_id)
     {
-        return $this->get('projects/'.urlencode($project_id).'/repository/branches/'.urlencode($branch_id));
+        return $this->get($this->getProjectPath($project_id, 'repository/branches/'.urlencode($branch_id)));
     }
 
     /**
@@ -27,7 +27,7 @@ class Repositories extends AbstractApi
      */
     public function tags($project_id)
     {
-        return $this->get('projects/'.urlencode($project_id).'/repository/tags');
+        return $this->get($this->getProjectPath($project_id, 'repository/tags'));
     }
 
     /**
@@ -39,7 +39,7 @@ class Repositories extends AbstractApi
      */
     public function commits($project_id, $page = 0, $per_page = self::PER_PAGE, $ref_name = null)
     {
-        return $this->get('projects/'.urlencode($project_id).'/repository/commits', array(
+        return $this->get($this->getProjectPath($project_id, 'repository/commits'), array(
             'page' => $page,
             'per_page' => $per_page,
             'ref_name' => $ref_name
@@ -53,7 +53,7 @@ class Repositories extends AbstractApi
      */
     public function commit($project_id, $sha)
     {
-        return $this->get('projects/'.urlencode($project_id).'/repository/commits/'.urlencode($sha));
+        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.urlencode($sha)));
     }
 
     /**
@@ -65,7 +65,7 @@ class Repositories extends AbstractApi
      */
     public function commitComments($project_id, $sha, $page = 0, $per_page = self::PER_PAGE)
     {
-        return $this->get('projects/'.urlencode($project_id).'/repository/commits/'.urlencode($sha).'/comments', array(
+        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.urlencode($sha).'/comments'), array(
             'page' => $page,
             'per_page' => $per_page
         ));
@@ -82,7 +82,7 @@ class Repositories extends AbstractApi
     {
         $params['note'] = $note;
 
-        return $this->post('projects/'.urlencode($project_id).'/repository/commits/'.urlencode($sha).'/comments', $params);
+        return $this->post($this->getProjectPath($project_id, 'repository/commits/'.urlencode($sha).'/comments'), $params);
     }
 
     /**
@@ -93,8 +93,10 @@ class Repositories extends AbstractApi
      */
     public function compare($project_id, $fromShaOrMaster, $toShaOrMaster)
     {
-        return $this->get('projects/'.urlencode($project_id).'/repository/compare?from='.
-            urlencode($fromShaOrMaster).'&to='.urlencode($toShaOrMaster));
+        return $this->get($this->getProjectPath(
+            $project_id,
+            'repository/compare?from='.urlencode($fromShaOrMaster).'&to='.urlencode($toShaOrMaster)
+        ));
     }
 
     /**
@@ -104,7 +106,7 @@ class Repositories extends AbstractApi
      */
     public function diff($project_id, $sha)
     {
-        return $this->get('projects/'.urlencode($project_id).'/repository/commits/'.urlencode($sha).'/diff');
+        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.urlencode($sha).'/diff'));
     }
 
     /**
@@ -114,7 +116,7 @@ class Repositories extends AbstractApi
      */
     public function tree($project_id, array $params = array())
     {
-        return $this->get('projects/'.urlencode($project_id).'/repository/tree', $params);
+        return $this->get($this->getProjectPath($project_id, 'repository/tree', $params));
     }
 
     /**
@@ -125,7 +127,7 @@ class Repositories extends AbstractApi
      */
     public function createBranch($project_id, $branch_name, $ref)
     {
-        return $this->post('projects/'.urlencode($project_id).'/repository/branches', array(
+        return $this->post($this->getProjectPath($project_id, 'repository/branches'), array(
             'branch_name' => $branch_name,
             'ref' => $ref
         ));
@@ -138,7 +140,7 @@ class Repositories extends AbstractApi
      */
     public function deleteBranch($project_id, $branch_name)
     {
-        return $this->delete('projects/'.urlencode($project_id).'/repository/branches/'.urlencode($branch_name));
+        return $this->delete($this->getProjectPath($project_id, 'repository/branches/'.urlencode($branch_name)));
     }
 
     /**
@@ -148,7 +150,7 @@ class Repositories extends AbstractApi
      */
     public function protectBranch($project_id, $branch_name)
     {
-        return $this->put('projects/'.urlencode($project_id).'/repository/branches/'.urlencode($branch_name).'/protect');
+        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.urlencode($branch_name).'/protect'));
     }
 
     /**
@@ -158,7 +160,7 @@ class Repositories extends AbstractApi
      */
     public function unprotectBranch($project_id, $branch_name)
     {
-        return $this->put('projects/'.urlencode($project_id).'/repository/branches/'.urlencode($branch_name).'/unprotect');
+        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.urlencode($branch_name).'/unprotect'));
     }
 
     /**
@@ -169,7 +171,7 @@ class Repositories extends AbstractApi
      */
     public function blob($project_id, $sha, $filepath)
     {
-        return $this->get('projects/'.urlencode($project_id).'/repository/commits/'.urlencode($sha).'/blob', array(
+        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.urlencode($sha).'/blob'), array(
             'filepath' => $filepath
         ));
     }
@@ -182,7 +184,7 @@ class Repositories extends AbstractApi
      */
     public function getFile($project_id, $file_path, $ref)
     {
-        return $this->get('projects/'.urlencode($project_id).'/repository/files', array(
+        return $this->get($this->getProjectPath($project_id, 'repository/files'), array(
             'file_path' => $file_path,
             'ref' => $ref
         ));
@@ -198,7 +200,7 @@ class Repositories extends AbstractApi
      */
     public function createFile($project_id, $file_path, $content, $branch_name, $commit_message)
     {
-        return $this->post('projects/'.urlencode($project_id).'/repository/files', array(
+        return $this->post($this->getProjectPath($project_id, 'repository/files'), array(
             'file_path' => $file_path,
             'branch_name' => $branch_name,
             'content' => $content,
@@ -216,7 +218,7 @@ class Repositories extends AbstractApi
      */
     public function updateFile($project_id, $file_path, $content, $branch_name, $commit_message)
     {
-        return $this->put('projects/'.urlencode($project_id).'/repository/files', array(
+        return $this->put($this->getProjectPath($project_id, 'repository/files'), array(
             'file_path' => $file_path,
             'branch_name' => $branch_name,
             'content' => $content,
@@ -233,7 +235,7 @@ class Repositories extends AbstractApi
      */
     public function deleteFile($project_id, $file_path, $branch_name, $commit_message)
     {
-        return $this->delete('projects/'.urlencode($project_id).'/repository/files', array(
+        return $this->delete($this->getProjectPath($project_id, 'repository/files'), array(
             'file_path' => $file_path,
             'branch_name' => $branch_name,
             'commit_message' => $commit_message

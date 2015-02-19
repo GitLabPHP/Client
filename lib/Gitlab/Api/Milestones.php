@@ -10,7 +10,7 @@ class Milestones extends AbstractApi
      */
     public function all($project_id, $page = 1, $per_page = self::PER_PAGE)
     {
-        return $this->get('projects/'.urlencode($project_id).'/milestones', array(
+        return $this->get($this->getProjectPath($project_id, '/milestones'), array(
             'page' => $page,
             'per_page' => $per_page
         ));
@@ -23,7 +23,7 @@ class Milestones extends AbstractApi
      */
     public function show($project_id, $milestone_id)
     {
-        return $this->get('projects/'.urlencode($project_id).'/milestones/'.urlencode($milestone_id));
+        return $this->get($this->getProjectPath($project_id, '/milestones/'.urlencode($milestone_id)));
     }
 
     /**
@@ -33,7 +33,7 @@ class Milestones extends AbstractApi
      */
     public function create($project_id, array $params)
     {
-        return $this->post('projects/'.urlencode($project_id).'/milestones', $params);
+        return $this->post($this->getProjectPath($project_id, '/milestones'), $params);
     }
 
     /**
@@ -44,6 +44,6 @@ class Milestones extends AbstractApi
      */
     public function update($project_id, $milestone_id, array $params)
     {
-        return $this->put('projects/'.urlencode($project_id).'/milestones/'.urlencode($milestone_id), $params);
+        return $this->put($this->getProjectPath($project_id, '/milestones/'.urlencode($milestone_id)), $params);
     }
 }

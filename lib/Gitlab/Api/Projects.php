@@ -105,7 +105,7 @@ class Projects extends AbstractApi
      */
     public function members($project_id, $username_query = null)
     {
-        return $this->get('projects/'.urlencode($project_id).'/members', array(
+        return $this->get($this->getProjectPath($project_id, 'members'), array(
             'query' => $username_query
         ));
     }
@@ -117,7 +117,7 @@ class Projects extends AbstractApi
      */
     public function member($project_id, $user_id)
     {
-        return $this->get('projects/'.urlencode($project_id).'/members/'.urlencode($user_id));
+        return $this->get($this->getProjectPath($project_id, 'members/'.urlencode($user_id)));
     }
 
     /**
@@ -128,7 +128,7 @@ class Projects extends AbstractApi
      */
     public function addMember($project_id, $user_id, $access_level)
     {
-        return $this->post('projects/'.urlencode($project_id).'/members', array(
+        return $this->post($this->getProjectPath($project_id, 'members'), array(
             'user_id' => $user_id,
             'access_level' => $access_level
         ));
@@ -142,7 +142,7 @@ class Projects extends AbstractApi
      */
     public function saveMember($project_id, $user_id, $access_level)
     {
-        return $this->put('projects/'.urlencode($project_id).'/members/'.urldecode($user_id), array(
+        return $this->put($this->getProjectPath($project_id, 'members/'.urldecode($user_id)), array(
             'access_level' => $access_level
         ));
     }
@@ -154,7 +154,7 @@ class Projects extends AbstractApi
      */
     public function removeMember($project_id, $user_id)
     {
-        return $this->delete('projects/'.urlencode($project_id).'/members/'.urldecode($user_id));
+        return $this->delete($this->getProjectPath($project_id, 'members/'.urldecode($user_id)));
     }
 
     /**
@@ -165,7 +165,7 @@ class Projects extends AbstractApi
      */
     public function hooks($project_id, $page = 1, $per_page = self::PER_PAGE)
     {
-        return $this->get('projects/'.urlencode($project_id).'/hooks', array(
+        return $this->get($this->getProjectPath($project_id, 'hooks'), array(
             'page' => $page,
             'per_page' => $per_page
         ));
@@ -178,7 +178,7 @@ class Projects extends AbstractApi
      */
     public function hook($project_id, $hook_id)
     {
-        return $this->get('projects/'.urlencode($project_id).'/hooks/'.urlencode($hook_id));
+        return $this->get($this->getProjectPath($project_id, 'hooks/'.urlencode($hook_id)));
     }
 
     /**
@@ -192,7 +192,7 @@ class Projects extends AbstractApi
      */
     public function addHook($project_id, $url, $push_events = true, $issues_events = false, $merge_requests_events = false, $tag_push_events = false)
     {
-        return $this->post('projects/'.urlencode($project_id).'/hooks', array(
+        return $this->post($this->getProjectPath($project_id, 'hooks'), array(
             'url' => $url,
             'push_events' => $push_events,
             'issues_events' => $issues_events,
@@ -233,7 +233,7 @@ class Projects extends AbstractApi
             $params['tag_push_events'] = $tag_push_events;
         }
 
-        return $this->put('projects/'.urlencode($project_id).'/hooks/'.urlencode($hook_id), $params);
+        return $this->put($this->getProjectPath($project_id, 'hooks/'.urlencode($hook_id)), $params);
     }
 
     /**
@@ -243,7 +243,7 @@ class Projects extends AbstractApi
      */
     public function removeHook($project_id, $hook_id)
     {
-        return $this->delete('projects/'.urlencode($project_id).'/hooks/'.urlencode($hook_id));
+        return $this->delete($this->getProjectPath($project_id, 'hooks/'.urlencode($hook_id)));
     }
 
     /**
@@ -252,7 +252,7 @@ class Projects extends AbstractApi
      */
     public function keys($project_id)
     {
-        return $this->get('projects/'.urlencode($project_id).'/keys');
+        return $this->get($this->getProjectPath($project_id, 'keys'));
     }
 
     /**
@@ -262,7 +262,7 @@ class Projects extends AbstractApi
      */
     public function key($project_id, $key_id)
     {
-        return $this->get('projects/'.urlencode($project_id).'/keys/'.urlencode($key_id));
+        return $this->get($this->getProjectPath($project_id, 'keys/'.urlencode($key_id)));
     }
 
     /**
@@ -273,7 +273,7 @@ class Projects extends AbstractApi
      */
     public function addKey($project_id, $title, $key)
     {
-        return $this->post('projects/'.urlencode($project_id).'/keys', array(
+        return $this->post($this->getProjectPath($project_id, 'keys'), array(
             'title' => $title,
             'key' => $key
         ));
@@ -286,7 +286,7 @@ class Projects extends AbstractApi
      */
     public function removeKey($project_id, $key_id)
     {
-        return $this->delete('projects/'.urlencode($project_id).'/keys/'.urlencode($key_id));
+        return $this->delete($this->getProjectPath($project_id, 'keys/'.urlencode($key_id)));
     }
 
     /**
@@ -295,7 +295,7 @@ class Projects extends AbstractApi
      */
     public function events($project_id)
     {
-        return $this->get('projects/'.urlencode($project_id).'/events');
+        return $this->get($this->getProjectPath($project_id, 'events'));
     }
 
     /**
@@ -304,7 +304,7 @@ class Projects extends AbstractApi
      */
     public function labels($project_id)
     {
-        return $this->get('projects/'.urlencode($project_id).'/labels');
+        return $this->get($this->getProjectPath($project_id, 'labels'));
     }
 
     /**
@@ -314,7 +314,7 @@ class Projects extends AbstractApi
      */
     public function addLabel($project_id, array $params)
     {
-        return $this->post('projects/'.urlencode($project_id).'/labels', $params);
+        return $this->post($this->getProjectPath($project_id, 'labels', $params));
     }
 
     /**
@@ -324,7 +324,7 @@ class Projects extends AbstractApi
      */
     public function updateLabel($project_id, array $params)
     {
-        return $this->put('projects/'.urlencode($project_id).'/labels', $params);
+        return $this->put($this->getProjectPath($project_id, 'labels', $params));
     }
 
     /**
@@ -334,7 +334,7 @@ class Projects extends AbstractApi
      */
     public function removeLabel($project_id, array $params)
     {
-        return $this->delete('projects/'.urlencode($project_id).'/labels', $params);
+        return $this->delete($this->getProjectPath($project_id, 'labels'), $params);
     }
 
     /**
@@ -344,7 +344,7 @@ class Projects extends AbstractApi
      */
     public function createForkRelation($project_id, $forked_project_id)
     {
-        return $this->post('projects/'.urlencode($project_id).'/fork/'.urlencode($forked_project_id));
+        return $this->post($this->getProjectPath($project_id, 'fork/'.urlencode($forked_project_id)));
     }
 
     /**
@@ -353,7 +353,7 @@ class Projects extends AbstractApi
      */
     public function removeForkRelation($project_id)
     {
-        return $this->delete('projects/'.urlencode($project_id).'/fork');
+        return $this->delete($this->getProjectPath($project_id, 'fork'));
     }
 
     /**
@@ -364,7 +364,7 @@ class Projects extends AbstractApi
      */
     public function setService($project_id, $service_name, array $params = array())
     {
-        return $this->put('projects/'.urlencode($project_id).'/services/'.urlencode($service_name), $params);
+        return $this->put($this->getProjectPath($project_id, 'services/'.urlencode($service_name)), $params);
     }
 
     /**
@@ -374,6 +374,6 @@ class Projects extends AbstractApi
      */
     public function removeService($project_id, $service_name)
     {
-        return $this->delete('projects/'.urlencode($project_id).'/services/'.urlencode($service_name));
+        return $this->delete($this->getProjectPath($project_id, 'services/'.urlencode($service_name)));
     }
 }

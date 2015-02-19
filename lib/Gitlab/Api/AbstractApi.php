@@ -102,4 +102,13 @@ abstract class AbstractApi
 
         return $response->getContent();
     }
+
+    /**
+     * @param int $id
+     * @return string
+     */
+    protected function getProjectPath($id, $path)
+    {
+        return 'projects/'.urlencode($id).'/'.$path;
+    }
 }

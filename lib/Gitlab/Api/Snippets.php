@@ -8,7 +8,7 @@ class Snippets extends AbstractApi
      */
     public function all($project_id)
     {
-        return $this->get('projects/'.urlencode($project_id).'/snippets');
+        return $this->get($this->getProjectPath($project_id, 'snippets'));
     }
 
     /**
@@ -18,7 +18,7 @@ class Snippets extends AbstractApi
      */
     public function show($project_id, $snippet_id)
     {
-        return $this->get('projects/'.urlencode($project_id).'/snippets/'.urlencode($snippet_id));
+        return $this->get($this->getProjectPath($project_id, 'snippets/'.urlencode($snippet_id)));
     }
 
     /**
@@ -31,7 +31,7 @@ class Snippets extends AbstractApi
      */
     public function create($project_id, $title, $filename, $code, $lifetime = null)
     {
-        return $this->post('projects/'.urlencode($project_id).'/snippets', array(
+        return $this->post($this->getProjectPath($project_id, 'snippets'), array(
             'title' => $title,
             'file_name' => $filename,
             'code' => $code,
@@ -47,7 +47,7 @@ class Snippets extends AbstractApi
      */
     public function update($project_id, $snippet_id, array $params)
     {
-        return $this->put('projects/'.urlencode($project_id).'/snippets/'.urlencode($snippet_id), $params);
+        return $this->put($this->getProjectPath($project_id, 'snippets/'.urlencode($snippet_id)), $params);
     }
 
     /**
@@ -57,7 +57,7 @@ class Snippets extends AbstractApi
      */
     public function content($project_id, $snippet_id)
     {
-        return $this->get('projects/'.urlencode($project_id).'/snippets/'.urlencode($snippet_id).'/raw');
+        return $this->get($this->getProjectPath($project_id, 'snippets/'.urlencode($snippet_id).'/raw'));
     }
 
     /**
@@ -67,6 +67,6 @@ class Snippets extends AbstractApi
      */
     public function remove($project_id, $snippet_id)
     {
-        return $this->delete('projects/'.urlencode($project_id).'/snippets/'.urlencode($snippet_id));
+        return $this->delete($this->getProjectPath($project_id, 'snippets/'.urlencode($snippet_id)));
     }
 }

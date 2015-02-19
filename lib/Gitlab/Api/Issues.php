@@ -11,7 +11,7 @@ class Issues extends AbstractApi
      */
     public function all($project_id = null, $page = 1, $per_page = self::PER_PAGE, array $params = array())
     {
-        $path = $project_id === null ? 'issues' : 'projects/'.urlencode($project_id).'/issues';
+        $path = $project_id === null ? 'issues' : $this->getProjectPath($project_id, 'issues');
 
         $params = array_intersect_key($params, array('labels' => '', 'state' => ''));
         $params = array_merge(array(
@@ -29,7 +29,7 @@ class Issues extends AbstractApi
      */
     public function show($project_id, $issue_id)
     {
-        return $this->get('projects/'.urlencode($project_id).'/issues/'.urlencode($issue_id));
+        return $this->get($this->getProjectPath($project_id, 'issues/'.urlencode($issue_id)));
     }
 
     /**
@@ -39,7 +39,7 @@ class Issues extends AbstractApi
      */
     public function create($project_id, array $params)
     {
-        return $this->post('projects/'.urlencode($project_id).'/issues', $params);
+        return $this->post($this->getProjectPath($project_id, 'issues'), $params);
     }
 
     /**
@@ -50,7 +50,7 @@ class Issues extends AbstractApi
      */
     public function update($project_id, $issue_id, array $params)
     {
-        return $this->put('projects/'.urlencode($project_id).'/issues/'.urlencode($issue_id), $params);
+        return $this->put($this->getProjectPath($project_id, 'issues/'.urlencode($issue_id)), $params);
     }
 
     /**
@@ -60,7 +60,7 @@ class Issues extends AbstractApi
      */
     public function showComments($project_id, $issue_id)
     {
-        return $this->get('projects/'.urlencode($project_id).'/issues/'.urlencode($issue_id).'/notes');
+        return $this->get($this->getProjectPath($project_id, 'issues/'.urlencode($issue_id)).'/notes');
     }
 
     /**
@@ -71,6 +71,6 @@ class Issues extends AbstractApi
      */
     public function addComment($project_id, $issue_id, array $params)
     {
-        return $this->post('projects/'.urlencode($project_id).'/issues/'.urlencode($issue_id).'/notes', $params);
+        return $this->post($this->getProjectPath($project_id, 'issues/'.urlencode($issue_id).'/notes'), $params);
     }
 }
