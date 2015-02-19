@@ -1,6 +1,4 @@
-<?php
-
-namespace Gitlab\HttpClient;
+<?php namespace Gitlab\HttpClient;
 
 use Buzz\Client\ClientInterface;
 use Buzz\Listener\ListenerInterface;
@@ -15,6 +13,7 @@ use Gitlab\HttpClient\Message\Response;
  * Performs requests on Gitlab API. API documentation should be self-explanatory.
  *
  * @author Joseph Bielawski <stloyd@gmail.com>
+ * @author Matt Humphrey <matt@m4tt.co>
  */
 class HttpClient implements HttpClientInterface
 {
@@ -26,10 +25,13 @@ class HttpClient implements HttpClientInterface
         'timeout'     => 10,
     );
 
-    protected $base_url = null;
+    /**
+     * @var string
+     */
+    protected $baseUrl;
 
     /**
-     * @var array
+     * @var ListenerInterface[]
      */
     protected $listeners = array();
     /**
@@ -37,7 +39,14 @@ class HttpClient implements HttpClientInterface
      */
     protected $headers = array();
 
+    /**
+     * @var Response
+     */
     private $lastResponse;
+
+    /**
+     * @var Request
+     */
     private $lastRequest;
 
     /**
@@ -46,9 +55,9 @@ class HttpClient implements HttpClientInterface
      */
     public function __construct($baseUrl, array $options, ClientInterface $client)
     {
-        $this->base_url = $baseUrl;
-        $this->options  = array_merge($this->options, $options);
-        $this->client   = $client;
+        $this->baseUrl = $baseUrl;
+        $this->options = array_merge($this->options, $options);
+        $this->client  = $client;
 
         $this->addListener(new ErrorListener($this->options));
 
@@ -136,7 +145,7 @@ class HttpClient implements HttpClientInterface
      */
     public function request($path, array $parameters = array(), $httpMethod = 'GET', array $headers = array())
     {
-        $path = trim($this->base_url.$path, '/');
+        $path = trim($this->baseUrl.$path, '/');
 
         $request = $this->createRequest($httpMethod, $path);
         $request->addHeaders($headers);
@@ -190,7 +199,6 @@ class HttpClient implements HttpClientInterface
     /**
      * @param string $httpMethod
      * @param string $url
-     *
      * @return Request
      */
     private function createRequest($httpMethod, $url)

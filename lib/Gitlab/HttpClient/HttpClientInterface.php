@@ -1,6 +1,4 @@
-<?php
-
-namespace Gitlab\HttpClient;
+<?php namespace Gitlab\HttpClient;
 
 use Gitlab\Exception\InvalidArgumentException;
 
@@ -8,6 +6,7 @@ use Gitlab\Exception\InvalidArgumentException;
  * Performs requests on Gitlab API. API documentation should be self-explanatory.
  *
  * @author Joseph Bielawski <stloyd@gmail.com>
+ * @author Matt Humphrey <matt@m4tt.co>
  */
 interface HttpClientInterface
 {

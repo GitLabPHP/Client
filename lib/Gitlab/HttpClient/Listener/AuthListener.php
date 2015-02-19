@@ -1,6 +1,4 @@
-<?php
-
-namespace Gitlab\HttpClient\Listener;
+<?php namespace Gitlab\HttpClient\Listener;
 
 use Gitlab\Client;
 use Gitlab\Exception\InvalidArgumentException;

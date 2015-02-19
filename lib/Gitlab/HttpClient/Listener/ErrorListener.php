@@ -1,6 +1,4 @@
-<?php
-
-namespace Gitlab\HttpClient\Listener;
+<?php namespace Gitlab\HttpClient\Listener;
 
 use Buzz\Listener\ListenerInterface;
 use Buzz\Message\MessageInterface;

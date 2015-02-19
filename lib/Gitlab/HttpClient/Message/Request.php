@@ -1,6 +1,4 @@
-<?php
-
-namespace Gitlab\HttpClient\Message;
+<?php namespace Gitlab\HttpClient\Message;
 
 use Buzz\Message\Request as BaseRequest;
 
