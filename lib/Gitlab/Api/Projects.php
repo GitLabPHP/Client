@@ -205,31 +205,31 @@ class Projects extends AbstractApi
      * @param int $project_id
      * @param int $hook_id
      * @param string $url
-     * @param null $push_events
-     * @param null $issues_events
-     * @param null $merge_requests_events
-     * @param null $tag_push_events
+     * @param bool $push_events
+     * @param bool $issues_events
+     * @param bool $merge_requests_events
+     * @param bool $tag_push_events
      * @return mixed
      */
-    public function updateHook($project_id, $hook_id, $url, $push_events = null, $issues_events = null, $merge_requests_events = null, $tag_push_events = null)
+    public function updateHook($project_id, $hook_id, $url, $push_events = true, $issues_events = false, $merge_requests_events = false, $tag_push_events = false)
     {
         $params = array(
             'url' => $url
         );
 
-        if (null !== $push_events) {
+        if ($push_events) {
             $params['push_events'] = $push_events;
         }
 
-        if (null !== $issues_events) {
+        if ($issues_events) {
             $params['issues_events'] = $issues_events;
         }
 
-        if (null !== $merge_requests_events) {
+        if ($merge_requests_events) {
             $params['merge_requests_events'] = $merge_requests_events;
         }
 
-        if (null !== $tag_push_events) {
+        if ($tag_push_events) {
             $params['tag_push_events'] = $tag_push_events;
         }
 

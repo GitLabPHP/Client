@@ -1,12 +1,13 @@
-<?php
-
-namespace Gitlab\Model;
+<?php namespace Gitlab\Model;
 
 use Gitlab\Client;
 
 class Session extends AbstractModel
 {
-    protected static $_properties = array(
+    /**
+     * @var array
+     */
+    protected static $properties = array(
         'id',
         'email',
         'name',
@@ -15,6 +16,11 @@ class Session extends AbstractModel
         'blocked'
     );
 
+    /**
+     * @param Client $client
+     * @param array  $data
+     * @return Session
+     */
     public static function fromArray(Client $client, array $data)
     {
         $session = new static($client);
@@ -22,11 +28,17 @@ class Session extends AbstractModel
         return $session->hydrate($data);
     }
 
+    /**
+     * @param Client $client
+     */
     public function __construct(Client $client = null)
     {
         $this->setClient($client);
     }
 
+    /**
+     * @return User
+     */
     public function me()
     {
         $data = $this->api('users')->show();
@@ -34,6 +46,11 @@ class Session extends AbstractModel
         return User::fromArray($this->getClient(), $data);
     }
 
+    /**
+     * @param string $email
+     * @param string $password
+     * @return $this
+     */
     public function login($email, $password)
     {
         $data = $this->api('users')->session($email, $password);

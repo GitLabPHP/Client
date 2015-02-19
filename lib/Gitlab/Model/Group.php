@@ -1,12 +1,13 @@
-<?php
-
-namespace Gitlab\Model;
+<?php namespace Gitlab\Model;
 
 use Gitlab\Client;
 
 class Group extends AbstractModel
 {
-    protected static $_properties = array(
+    /**
+     * @var array
+     */
+    protected static $properties = array(
         'id',
         'name',
         'path',
@@ -14,6 +15,11 @@ class Group extends AbstractModel
         'projects'
     );
 
+    /**
+     * @param Client $client
+     * @param array  $data
+     * @return Group
+     */
     public static function fromArray(Client $client, array $data)
     {
         $group = new static($data['id'], $client);
@@ -29,13 +35,23 @@ class Group extends AbstractModel
         return $group->hydrate($data);
     }
 
+    /**
+     * @param Client $client
+     * @param string $name
+     * @param string $path
+     * @return Group
+     */
     public static function create(Client $client, $name, $path)
     {
         $data = $client->api('groups')->create($name, $path);
 
-        return Group::fromArray($client, $data);
+        return static::fromArray($client, $data);
     }
 
+    /**
+     * @param int $id
+     * @param Client $client
+     */
     public function __construct($id, Client $client = null)
     {
         $this->setClient($client);
@@ -43,6 +59,9 @@ class Group extends AbstractModel
         $this->id = $id;
     }
 
+    /**
+     * @return Group
+     */
     public function show()
     {
         $data = $this->api('groups')->show($this->id);
@@ -50,6 +69,10 @@ class Group extends AbstractModel
         return Group::fromArray($this->getClient(), $data);
     }
 
+    /**
+     * @param int $project_id
+     * @return Group
+     */
     public function transfer($project_id)
     {
         $data = $this->api('groups')->transfer($this->id, $project_id);
@@ -57,6 +80,9 @@ class Group extends AbstractModel
         return Group::fromArray($this->getClient(), $data);
     }
 
+    /**
+     * @return User[]
+     */
     public function members()
     {
         $data = $this->api('groups')->members($this->id);
@@ -69,6 +95,11 @@ class Group extends AbstractModel
         return $members;
     }
 
+    /**
+     * @param int $user_id
+     * @param int $access_level
+     * @return User
+     */
     public function addMember($user_id, $access_level)
     {
         $data = $this->api('groups')->addMember($this->id, $user_id, $access_level);
@@ -76,6 +107,10 @@ class Group extends AbstractModel
         return User::fromArray($this->getClient(), $data);
     }
 
+    /**
+     * @param int $user_id
+     * @return bool
+     */
     public function removeMember($user_id)
     {
         $this->api('groups')->removeMember($this->id, $user_id);

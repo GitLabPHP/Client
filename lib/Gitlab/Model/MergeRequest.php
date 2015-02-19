@@ -1,12 +1,13 @@
-<?php
-
-namespace Gitlab\Model;
+<?php namespace Gitlab\Model;
 
 use Gitlab\Client;
 
 class MergeRequest extends AbstractModel
 {
-    protected static $_properties = array(
+    /**
+     * @var array
+     */
+    protected static $properties = array(
         'id',
         'iid',
         'target_branch',
@@ -26,6 +27,12 @@ class MergeRequest extends AbstractModel
         'labels'
     );
 
+    /**
+     * @param Client  $client
+     * @param Project $project
+     * @param array   $data
+     * @return MergeRequest
+     */
     public static function fromArray(Client $client, Project $project, array $data)
     {
         $mr = new static($project, $data['id'], $client);
@@ -41,6 +48,11 @@ class MergeRequest extends AbstractModel
         return $mr->hydrate($data);
     }
 
+    /**
+     * @param Project $project
+     * @param int $id
+     * @param Client $client
+     */
     public function __construct(Project $project, $id = null, Client $client = null)
     {
         $this->setClient($client);
@@ -49,6 +61,9 @@ class MergeRequest extends AbstractModel
         $this->id = $id;
     }
 
+    /**
+     * @return MergeRequest
+     */
     public function show()
     {
         $data = $this->api('mr')->show($this->project->id, $this->id);
@@ -56,6 +71,10 @@ class MergeRequest extends AbstractModel
         return static::fromArray($this->getClient(), $this->project, $data);
     }
 
+    /**
+     * @param array $params
+     * @return MergeRequest
+     */
     public function update(array $params)
     {
         $data = $this->api('mr')->update($this->project->id, $this->id, $params);
@@ -63,6 +82,10 @@ class MergeRequest extends AbstractModel
         return static::fromArray($this->getClient(), $this->project, $data);
     }
 
+    /**
+     * @param string $comment
+     * @return MergeRequest
+     */
     public function close($comment = null)
     {
         if ($comment) {
@@ -74,6 +97,9 @@ class MergeRequest extends AbstractModel
         ));
     }
 
+    /**
+     * @return MergeRequest
+     */
     public function reopen()
     {
         return $this->update(array(
@@ -81,6 +107,10 @@ class MergeRequest extends AbstractModel
         ));
     }
 
+    /**
+     * @param string $message
+     * @return MergeRequest
+     */
     public function merge($message = null)
     {
         $data = $this->api('mr')->merge($this->project->id, $this->id, array('merge_commit_message' => $message));
@@ -88,6 +118,9 @@ class MergeRequest extends AbstractModel
         return static::fromArray($this->getClient(), $this->project, $data);
     }
 
+    /**
+     * @return MergeRequest
+     */
     public function merged()
     {
         return $this->update(array(
@@ -95,6 +128,10 @@ class MergeRequest extends AbstractModel
         ));
     }
 
+    /**
+     * @param string $note
+     * @return Note
+     */
     public function addComment($note)
     {
         $data = $this->api('mr')->addComment($this->project->id, $this->id, $note);
@@ -102,6 +139,9 @@ class MergeRequest extends AbstractModel
         return Note::fromArray($this->getClient(), $this, $data);
     }
 
+    /**
+     * @return Note[]
+     */
     public function showComments()
     {
         $notes = array();
@@ -114,6 +154,9 @@ class MergeRequest extends AbstractModel
         return $notes;
     }
 
+    /**
+     * @return bool
+     */
     public function isClosed()
     {
         if (in_array($this->state, array('closed', 'merged'))) {
@@ -122,5 +165,4 @@ class MergeRequest extends AbstractModel
 
         return false;
     }
-
 }

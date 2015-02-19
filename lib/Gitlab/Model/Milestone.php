@@ -1,12 +1,13 @@
-<?php
-
-namespace Gitlab\Model;
+<?php namespace Gitlab\Model;
 
 use Gitlab\Client;
 
 class Milestone extends AbstractModel
 {
-    protected static $_properties = array(
+    /**
+     * @var array
+     */
+    protected static $properties = array(
         'id',
         'iid',
         'project',
@@ -20,6 +21,12 @@ class Milestone extends AbstractModel
         'created_at'
     );
 
+    /**
+     * @param Client  $client
+     * @param Project $project
+     * @param array   $data
+     * @return Milestone
+     */
     public static function fromArray(Client $client, Project $project, array $data)
     {
         $milestone = new static($project, $data['id'], $client);
@@ -27,6 +34,11 @@ class Milestone extends AbstractModel
         return $milestone->hydrate($data);
     }
 
+    /**
+     * @param Project $project
+     * @param int $id
+     * @param Client  $client
+     */
     public function __construct(Project $project, $id, Client $client = null)
     {
         $this->setClient($client);
@@ -35,6 +47,9 @@ class Milestone extends AbstractModel
         $this->project = $project;
     }
 
+    /**
+     * @return Milestone
+     */
     public function show()
     {
         $data = $this->api('milestones')->show($this->project->id, $this->id);
@@ -42,6 +57,10 @@ class Milestone extends AbstractModel
         return static::fromArray($this->getClient(), $this->project, $data);
     }
 
+    /**
+     * @param array $params
+     * @return Milestone
+     */
     public function update(array $params)
     {
         $data = $this->api('milestones')->update($this->project->id, $this->id, $params);
@@ -49,14 +68,19 @@ class Milestone extends AbstractModel
         return static::fromArray($this->getClient(), $this->project, $data);
     }
 
+    /**
+     * @return Milestone
+     */
     public function complete()
     {
         return $this->update(array('closed' => true));
     }
 
+    /**
+     * @return Milestone
+     */
     public function incomplete()
     {
         return $this->update(array('closed' => false));
     }
-
 }

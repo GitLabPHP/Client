@@ -1,12 +1,13 @@
-<?php
-
-namespace Gitlab\Model;
+<?php namespace Gitlab\Model;
 
 use Gitlab\Client;
 
 class Issue extends AbstractModel
 {
-    protected static $_properties = array(
+    /**
+     * @var array
+     */
+    protected static $properties = array(
         'id',
         'iid',
         'project_id',
@@ -24,6 +25,12 @@ class Issue extends AbstractModel
         'labels'
     );
 
+    /**
+     * @param Client  $client
+     * @param Project $project
+     * @param array   $data
+     * @return Issue
+     */
     public static function fromArray(Client $client, Project $project, array $data)
     {
         $issue = new static($project, $data['id'], $client);
@@ -39,6 +46,11 @@ class Issue extends AbstractModel
         return $issue->hydrate($data);
     }
 
+    /**
+     * @param Project $project
+     * @param int $id
+     * @param Client $client
+     */
     public function __construct(Project $project, $id = null, Client $client = null)
     {
         $this->setClient($client);
@@ -47,6 +59,9 @@ class Issue extends AbstractModel
         $this->id = $id;
     }
 
+    /**
+     * @return Issue
+     */
     public function show()
     {
         $data = $this->api('issues')->show($this->project->id, $this->id);
@@ -54,6 +69,10 @@ class Issue extends AbstractModel
         return static::fromArray($this->getClient(), $this->project, $data);
     }
 
+    /**
+     * @param array $params
+     * @return Issue
+     */
     public function update(array $params)
     {
         $data = $this->api('issues')->update($this->project->id, $this->id, $params);
@@ -61,6 +80,10 @@ class Issue extends AbstractModel
         return static::fromArray($this->getClient(), $this->project, $data);
     }
 
+    /**
+     * @param string $comment
+     * @return Issue
+     */
     public function close($comment = null)
     {
         if ($comment) {
@@ -72,6 +95,9 @@ class Issue extends AbstractModel
         ));
     }
 
+    /**
+     * @return Issue
+     */
     public function open()
     {
         return $this->update(array(
@@ -79,6 +105,10 @@ class Issue extends AbstractModel
         ));
     }
 
+    /**
+     * @param string $body
+     * @return Note
+     */
     public function addComment($body)
     {
         $data = $this->api('issues')->addComment($this->project->id, $this->id, array(
@@ -88,6 +118,9 @@ class Issue extends AbstractModel
         return Note::fromArray($this->getClient(), $this, $data);
     }
 
+    /**
+     * @return Note[]
+     */
     public function showComments()
     {
         $notes = array();

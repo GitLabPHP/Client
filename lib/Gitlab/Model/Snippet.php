@@ -1,12 +1,13 @@
-<?php
-
-namespace Gitlab\Model;
+<?php namespace Gitlab\Model;
 
 use Gitlab\Client;
 
 class Snippet extends AbstractModel
 {
-    protected static $_properties = array(
+    /**
+     * @var array
+     */
+    protected static $properties = array(
         'id',
         'title',
         'file_name',
@@ -17,6 +18,12 @@ class Snippet extends AbstractModel
         'project'
     );
 
+    /**
+     * @param Client  $client
+     * @param Project $project
+     * @param array   $data
+     * @return Snippet
+     */
     public static function fromArray(Client $client, Project $project, array $data)
     {
         $snippet = new static($project, $data['id'], $client);
@@ -28,7 +35,12 @@ class Snippet extends AbstractModel
         return $snippet->hydrate($data);
     }
 
-    public function __construct($project, $id = null, Client $client = null)
+    /**
+     * @param Project $project
+     * @param int $id
+     * @param Client $client
+     */
+    public function __construct(Project $project, $id = null, Client $client = null)
     {
         $this->setClient($client);
 
@@ -36,6 +48,9 @@ class Snippet extends AbstractModel
         $this->id = $id;
     }
 
+    /**
+     * @return Snippet
+     */
     public function show()
     {
         $data = $this->api('snippets')->show($this->project->id, $this->id);
@@ -43,6 +58,10 @@ class Snippet extends AbstractModel
         return static::fromArray($this->getClient(), $this, $data);
     }
 
+    /**
+     * @param array $params
+     * @return Snippet
+     */
     public function update(array $params)
     {
         $data = $this->api('snippets')->update($this->project->id, $this->id, $params);
@@ -50,11 +69,17 @@ class Snippet extends AbstractModel
         return static::fromArray($this->getClient(), $this, $data);
     }
 
+    /**
+     * @return string
+     */
     public function content()
     {
         return $this->api('snippets')->content($this->project->id, $this->id);
     }
 
+    /**
+     * @return bool
+     */
     public function remove()
     {
         $this->api('snippets')->remove($this->project->id, $this->id);

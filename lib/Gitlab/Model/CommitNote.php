@@ -1,12 +1,13 @@
-<?php
-
-namespace Gitlab\Model;
+<?php namespace Gitlab\Model;
 
 use Gitlab\Client;
 
 class CommitNote extends AbstractModel
 {
-    protected static $_properties = array(
+    /**
+     * @var array
+     */
+    protected static $properties = array(
         'note',
         'path',
         'line',
@@ -14,6 +15,11 @@ class CommitNote extends AbstractModel
         'author'
     );
 
+    /**
+     * @param Client $client
+     * @param array  $data
+     * @return CommitNote
+     */
     public static function fromArray(Client $client, array $data)
     {
         $comment = new static($client);
@@ -25,9 +31,11 @@ class CommitNote extends AbstractModel
         return $comment->hydrate($data);
     }
 
+    /**
+     * @param Client $client
+     */
     public function __construct(Client $client = null)
     {
         $this->setClient($client);
     }
-
 }

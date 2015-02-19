@@ -1,12 +1,13 @@
-<?php
-
-namespace Gitlab\Model;
+<?php namespace Gitlab\Model;
 
 use Gitlab\Client;
 
 class ProjectNamespace extends AbstractModel
 {
-    protected static $_properties = array(
+    /**
+     * @var array
+     */
+    protected static $properties = array(
         'id',
         'path',
         'kind',
@@ -16,6 +17,11 @@ class ProjectNamespace extends AbstractModel
         'description'
     );
 
+    /**
+     * @param Client $client
+     * @param array  $data
+     * @return ProjectNamespace
+     */
     public static function fromArray(Client $client, array $data)
     {
         $project = new static($data['id']);
@@ -24,6 +30,10 @@ class ProjectNamespace extends AbstractModel
         return $project->hydrate($data);
     }
 
+    /**
+     * @param int $id
+     * @param Client $client
+     */
     public function __construct($id = null, Client $client = null)
     {
         $this->setClient($client);

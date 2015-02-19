@@ -1,12 +1,13 @@
-<?php
-
-namespace Gitlab\Model;
+<?php namespace Gitlab\Model;
 
 use Gitlab\Client;
 
 class Event extends AbstractModel
 {
-    protected static $_properties = array(
+    /**
+     * @var array
+     */
+    protected static $properties = array(
         'title',
         'project_id',
         'action_name',
@@ -20,6 +21,12 @@ class Event extends AbstractModel
         'project'
     );
 
+    /**
+     * @param Client  $client
+     * @param Project $project
+     * @param array   $data
+     * @return Event
+     */
     public static function fromArray(Client $client, Project $project, array $data)
     {
         $event = new static($project, $client);
@@ -31,11 +38,14 @@ class Event extends AbstractModel
         return $event->hydrate($data);
     }
 
+    /**
+     * @param Project $project
+     * @param Client  $client
+     */
     public function __construct(Project $project, Client $client = null)
     {
         $this->setClient($client);
 
         $this->project = $project;
     }
-
 }

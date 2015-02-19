@@ -1,17 +1,23 @@
-<?php
-
-namespace Gitlab\Model;
+<?php namespace Gitlab\Model;
 
 use Gitlab\Client;
 
 class Hook extends AbstractModel
 {
-    protected static $_properties = array(
+    /**
+     * @var array
+     */
+    protected static $properties = array(
         'id',
         'url',
         'created_at'
     );
 
+    /**
+     * @param Client $client
+     * @param array  $data
+     * @return Hook
+     */
     public static function fromArray(Client $client, array $data)
     {
         $hook = new static($data['id'], $client);
@@ -19,13 +25,22 @@ class Hook extends AbstractModel
         return $hook->hydrate($data);
     }
 
+    /**
+     * @param Client $client
+     * @param string $url
+     * @return Hook
+     */
     public static function create(Client $client, $url)
     {
         $data = $client->api('system_hooks')->create($url);
 
-        return Hook::fromArray($client, $data);
+        return static::fromArray($client, $data);
     }
 
+    /**
+     * @param int $id
+     * @param Client $client
+     */
     public function __construct($id, Client $client = null)
     {
         $this->setClient($client);
@@ -33,11 +48,19 @@ class Hook extends AbstractModel
         $this->id = $id;
     }
 
+    /**
+     * @return bool
+     */
     public function test()
     {
-        return $this->api('system_hooks')->test($this->id);
+        $this->api('system_hooks')->test($this->id);
+
+        return true;
     }
 
+    /**
+     * @return bool
+     */
     public function delete()
     {
         $this->api('system_hooks')->remove($this->id);

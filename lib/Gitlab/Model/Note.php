@@ -1,12 +1,13 @@
-<?php
-
-namespace Gitlab\Model;
+<?php namespace Gitlab\Model;
 
 use Gitlab\Client;
 
 class Note extends AbstractModel
 {
-    protected static $_properties = array(
+    /**
+     * @var array
+     */
+    protected static $properties = array(
         'id',
         'author',
         'body',
@@ -17,6 +18,12 @@ class Note extends AbstractModel
         'attachment'
     );
 
+    /**
+     * @param Client $client
+     * @param string $type
+     * @param array $data
+     * @return mixed
+     */
     public static function fromArray(Client $client, $type, array $data)
     {
         $comment = new static($type, $data['id'], $client);
@@ -28,6 +35,11 @@ class Note extends AbstractModel
         return $comment->hydrate($data);
     }
 
+    /**
+     * @param string $type
+     * @param int $id
+     * @param Client $client
+     */
     public function __construct($type, $id = null, Client $client = null)
     {
         $this->setClient($client);
@@ -36,5 +48,4 @@ class Note extends AbstractModel
         $this->parent = $type;
         $this->id = $id;
     }
-
 }
