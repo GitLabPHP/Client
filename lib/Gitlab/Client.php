@@ -5,7 +5,7 @@ namespace Gitlab;
 use Buzz\Client\Curl;
 use Buzz\Client\ClientInterface;
 
-use Gitlab\Api\ApiInterface;
+use Gitlab\Api\AbstractApi;
 use Gitlab\Exception\InvalidArgumentException;
 use Gitlab\HttpClient\HttpClient;
 use Gitlab\HttpClient\HttpClientInterface;
@@ -82,7 +82,7 @@ class Client
     /**
      * @param string $name
      *
-     * @return ApiInterface
+     * @return AbstractApi
      * @throws InvalidArgumentException
      */
     public function api($name)
@@ -259,7 +259,7 @@ class Client
 
     /**
      * @param string $api
-     * @return ApiInterface
+     * @return AbstractApi
      */
     public function __get($api)
     {

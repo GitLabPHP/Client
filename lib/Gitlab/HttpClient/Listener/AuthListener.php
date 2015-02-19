@@ -65,7 +65,7 @@ class AuthListener implements ListenerInterface
 
             case Client::AUTH_URL_TOKEN:
                 $url  = $request->getUrl();
-                
+
                 $query = array(
                     'private_token' => $this->token
                 );

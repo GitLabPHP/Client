@@ -1,6 +1,4 @@
-<?php
-
-namespace Gitlab\Api;
+<?php namespace Gitlab\Api;
 
 use Gitlab\Client;
 
@@ -8,8 +6,9 @@ use Gitlab\Client;
  * Abstract class for Api classes
  *
  * @author Joseph Bielawski <stloyd@gmail.com>
+ * @author Matt Humphrey <matt@m4tt.co>
  */
-abstract class AbstractApi implements ApiInterface
+abstract class AbstractApi
 {
     /**
      * Default entries per page
@@ -31,12 +30,19 @@ abstract class AbstractApi implements ApiInterface
         $this->client = $client;
     }
 
+    /**
+     * @return $this
+     */
     public function configure()
     {
+        return $this;
     }
 
     /**
-     * {@inheritDoc}
+     * @param string $path
+     * @param array $parameters
+     * @param array $requestHeaders
+     * @return mixed
      */
     protected function get($path, array $parameters = array(), $requestHeaders = array())
     {
@@ -46,7 +52,10 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * {@inheritDoc}
+     * @param string $path
+     * @param array $parameters
+     * @param array $requestHeaders
+     * @return mixed
      */
     protected function post($path, array $parameters = array(), $requestHeaders = array())
     {
@@ -56,7 +65,10 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * {@inheritDoc}
+     * @param string $path
+     * @param array $parameters
+     * @param array $requestHeaders
+     * @return mixed
      */
     protected function patch($path, array $parameters = array(), $requestHeaders = array())
     {
@@ -66,7 +78,10 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * {@inheritDoc}
+     * @param string $path
+     * @param array $parameters
+     * @param array $requestHeaders
+     * @return mixed
      */
     protected function put($path, array $parameters = array(), $requestHeaders = array())
     {
@@ -76,7 +91,10 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * {@inheritDoc}
+     * @param string $path
+     * @param array $parameters
+     * @param array $requestHeaders
+     * @return mixed
      */
     protected function delete($path, array $parameters = array(), $requestHeaders = array())
     {
