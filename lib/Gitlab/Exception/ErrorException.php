@@ -1,6 +1,4 @@
-<?php
-
-namespace Gitlab\Exception;
+<?php namespace Gitlab\Exception;
 
 /**
  * ErrorException
