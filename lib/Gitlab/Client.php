@@ -14,6 +14,8 @@ use Gitlab\HttpClient\Listener\AuthListener;
 /**
  * Simple API wrapper for Gitlab
  *
+ * @author Matt Humphrey <matt@m4tt.co>
+ *
  * @property-read \Gitlab\Api\Groups $groups
  * @property-read \Gitlab\Api\Issues $issues
  * @property-read \Gitlab\Api\MergeRequests $merge_requests
@@ -52,7 +54,7 @@ class Client
         'timeout'     => 60
     );
 
-    private $base_url = null;
+    private $baseUrl;
 
     /**
      * The Buzz instance used to communicate with Gitlab
@@ -73,15 +75,14 @@ class Client
         $httpClient->setTimeout($this->options['timeout']);
         $httpClient->setVerifyPeer(false);
 
-        $this->base_url     = $baseUrl;
-        $this->httpClient   = new HttpClient($this->base_url, $this->options, $httpClient);
+        $this->baseUrl     = $baseUrl;
+        $this->httpClient  = new HttpClient($this->baseUrl, $this->options, $httpClient);
     }
 
     /**
      * @param string $name
      *
      * @return ApiInterface
-     *
      * @throws InvalidArgumentException
      */
     public function api($name)
@@ -135,6 +136,7 @@ class Client
 
             default:
                 throw new InvalidArgumentException('Invalid endpoint: "'.$name.'"');
+
         }
 
         return $api;
@@ -143,11 +145,12 @@ class Client
     /**
      * Authenticate a user for all next requests
      *
-     * @param string      $token      Gitlab private token
-     * @param null|string $authMethod One of the AUTH_* class constants
-     * @param null|string $sudo
+     * @param string $token Gitlab private token
+     * @param string $authMethod One of the AUTH_* class constants
+     * @param string $sudo
+     * @return $this
      */
-    public function authenticate($token, $authMethod = null, $sudo = null)
+    public function authenticate($token, $authMethod = self::AUTH_URL_TOKEN, $sudo = null)
     {
         $this->httpClient->addListener(
             new AuthListener(
@@ -156,6 +159,8 @@ class Client
                 $sudo
             )
         );
+
+        return $this;
     }
 
     /**
@@ -168,35 +173,55 @@ class Client
 
     /**
      * @param HttpClientInterface $httpClient
+     * @return $this
      */
     public function setHttpClient(HttpClientInterface $httpClient)
     {
         $this->httpClient = $httpClient;
+
+        return $this;
     }
 
+    /**
+     * @param string $url
+     * @return $this
+     */
     public function setBaseUrl($url)
     {
-        $this->base_url = $url;
+        $this->baseUrl = $url;
+
+        return $this;
     }
+
+    /**
+     * @return string
+     */
     public function getBaseUrl()
     {
-        return $this->base_url;
+        return $this->baseUrl;
     }
 
     /**
      * Clears used headers
+     *
+     * @return $this
      */
     public function clearHeaders()
     {
         $this->httpClient->clearHeaders();
+
+        return $this;
     }
 
     /**
      * @param array $headers
+     * @return $this
      */
     public function setHeaders(array $headers)
     {
         $this->httpClient->setHeaders($headers);
+
+        return $this;
     }
 
     /**
@@ -217,9 +242,9 @@ class Client
 
     /**
      * @param string $name
-     * @param mixed  $value
-     *
+     * @param mixed $value
      * @throws InvalidArgumentException
+     * @return $this
      */
     public function setOption($name, $value)
     {
@@ -228,6 +253,8 @@ class Client
         }
 
         $this->options[$name] = $value;
+
+        return $this;
     }
 
     /**

@@ -12,6 +12,7 @@ use Buzz\Util\Url;
 
 /**
  * @author Joseph Bielawski <stloyd@gmail.com>
+ * @author Matt Humphrey <matt@m4tt.co>
  */
 class AuthListener implements ListenerInterface
 {
@@ -64,10 +65,15 @@ class AuthListener implements ListenerInterface
 
             case Client::AUTH_URL_TOKEN:
                 $url  = $request->getUrl();
-                $query=array('private_token' => $this->token);
+                
+                $query = array(
+                    'private_token' => $this->token
+                );
+
                 if (!is_null($this->sudo)) {
                     $query['sudo'] = $this->sudo;
                 }
+
                 $url .= (false === strpos($url, '?') ? '?' : '&').utf8_encode(http_build_query($query, '', '&'));
 
                 $request->fromUrl(new Url($url));
