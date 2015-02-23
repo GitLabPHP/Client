@@ -97,4 +97,19 @@ class Milestone extends AbstractModel
     {
         return $this->update(array('closed' => false));
     }
+
+    /**
+     * @return Issue[]
+     */
+    public function issues()
+    {
+        $data = $this->api('milestones')->issues($this->project->id, $this->id);
+
+        $issues = array();
+        foreach ($data as $issue) {
+            $issues[] = Issue::fromArray($this->getClient(), $this->project, $issue);
+        }
+
+        return $issues;
+    }
 }

@@ -794,6 +794,17 @@ class Project extends AbstractModel
     }
 
     /**
+     * @param int $id
+     * @return Issue[]
+     */
+    public function milestoneIssues($id)
+    {
+        $milestone = new Milestone($this, $id, $this->getClient());
+
+        return $milestone->issues();
+    }
+
+    /**
      * @return Snippet[]
      */
     public function snippets()
