@@ -134,6 +134,16 @@ class MergeRequests extends AbstractApi
 
     /**
      * @param int $project_id
+     * @param int $mr_id
+     * @return mixed
+     */
+    public function changes($project_id, $mr_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'merge_request/'.urlencode($mr_id).'/changes'));
+    }
+
+    /**
+     * @param int $project_id
      * @param int $page
      * @param int $per_page
      * @param string $state

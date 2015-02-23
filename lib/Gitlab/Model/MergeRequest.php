@@ -22,6 +22,8 @@ use Gitlab\Client;
  * @property-read User $author
  * @property-read User $assignee
  * @property-read Project $project
+ * @property-read Milestone $milestone
+ * @property-read File[] $files
  */
 class MergeRequest extends AbstractModel implements Noteable
 {
@@ -45,7 +47,9 @@ class MergeRequest extends AbstractModel implements Noteable
         'target_project_id',
         'upvotes',
         'downvotes',
-        'labels'
+        'labels',
+        'milestone',
+        'files'
     );
 
     /**
@@ -64,6 +68,19 @@ class MergeRequest extends AbstractModel implements Noteable
 
         if (isset($data['assignee'])) {
             $data['assignee'] = User::fromArray($client, $data['assignee']);
+        }
+
+        if (isset($data['milestone'])) {
+            $data['milestone'] = Milestone::fromArray($client, $project, $data['milestone']);
+        }
+
+        if (isset($data['files'])) {
+            $files = array();
+            foreach ($data['files'] as $file) {
+                $files[] = File::fromArray($client, $project, $file);
+            }
+
+            $data['files'] = $files;
         }
 
         return $mr->hydrate($data);
@@ -194,5 +211,15 @@ class MergeRequest extends AbstractModel implements Noteable
         }
 
         return false;
+    }
+
+    /**
+     * @return MergeRequest
+     */
+    public function changes()
+    {
+        $data = $this->api('mr')->changes($this->project->id, $this->id);
+
+        return static::fromArray($this->getClient(), $this->project, $data);
     }
 }
