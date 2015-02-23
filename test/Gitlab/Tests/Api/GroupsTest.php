@@ -71,11 +71,28 @@ class GroupsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('groups', array('name' => 'A new group', 'path' => 'a-new-group'))
+            ->with('groups', array('name' => 'A new group', 'path' => 'a-new-group', 'description' => null))
             ->will($this->returnValue($expectedArray))
         ;
 
         $this->assertEquals($expectedArray, $api->create('A new group', 'a-new-group'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreateGroupWithDescription()
+    {
+        $expectedArray = array('id' => 1, 'name' => 'A new group');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('groups', array('name' => 'A new group', 'path' => 'a-new-group', 'description' => 'Description'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->create('A new group', 'a-new-group', 'Description'));
     }
 
     /**
@@ -130,6 +147,23 @@ class GroupsTest extends TestCase
         ;
 
         $this->assertEquals($expectedArray, $api->addMember(1, 2, 3));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldSaveMember()
+    {
+        $expectedArray = array('id' => 1, 'name' => 'Matt');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('groups/1/members/2', array('access_level' => 4))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->saveMember(1, 2, 4));
     }
 
     /**

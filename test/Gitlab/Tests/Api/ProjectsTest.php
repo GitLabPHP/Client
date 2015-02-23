@@ -1,6 +1,7 @@
 <?php namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\AbstractApi;
+use Gitlab\Api\Projects;
 
 class ProjectsTest extends TestCase
 {
@@ -13,7 +14,19 @@ class ProjectsTest extends TestCase
 
         $api = $this->getMultipleProjectsRequestMock('projects/all', $expectedArray);
 
-        $this->assertEquals($expectedArray, $api->all(1, 10));
+        $this->assertEquals($expectedArray, $api->all());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAllProjectsSortedByName()
+    {
+        $expectedArray = $this->getMultipleProjectsData();
+
+        $api = $this->getMultipleProjectsRequestMock('projects/all', $expectedArray, 1, 5, 'name', 'asc');
+
+        $this->assertEquals($expectedArray, $api->all(1, 5, 'name'));
     }
 
     /**
@@ -26,7 +39,7 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/all', array('page' => 1, 'per_page' => AbstractApi::PER_PAGE))
+            ->with('projects/all', array('page' => 1, 'per_page' => AbstractApi::PER_PAGE, 'order_by' => Projects::ORDER_BY, 'sort' => Projects::SORT))
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -66,7 +79,7 @@ class ProjectsTest extends TestCase
 
         $api = $this->getMultipleProjectsRequestMock('projects/search/a+project', $expectedArray);
 
-        $this->assertEquals($expectedArray, $api->search('a project', 1, 10));
+        $this->assertEquals($expectedArray, $api->search('a project'));
     }
 
     /**
@@ -703,12 +716,12 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedBool, $api->removeService(1, 'hipchat'));
     }
 
-    protected function getMultipleProjectsRequestMock($path, $expectedArray = array(), $page = 1, $per_page = 10)
+    protected function getMultipleProjectsRequestMock($path, $expectedArray = array(), $page = 1, $per_page = 20, $order_by = 'created_at', $sort = 'asc')
     {
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with($path, array('page' => $page, 'per_page' => $per_page))
+            ->with($path, array('page' => $page, 'per_page' => $per_page, 'order_by' => $order_by, 'sort' => $sort))
             ->will($this->returnValue($expectedArray))
         ;
 
