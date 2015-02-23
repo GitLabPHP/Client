@@ -1,5 +1,7 @@
-A PHP Wrapper for use with the [Gitlab API](https://github.com/gitlabhq/gitlabhq/tree/master/doc/api).
+A PHP wrapper for use with the [Gitlab API](https://github.com/gitlabhq/gitlabhq/tree/master/doc/api).
 ==============
+
+[![Build Status](https://travis-ci.org/m4tthumphrey/php-gitlab-api.svg?branch=master)](https://travis-ci.org/m4tthumphrey/php-gitlab-api)
 
 Based on [php-github-api](https://github.com/m4tthumphrey/php-github-api) and code from [KnpLabs](https://github.com/KnpLabs/php-github-api).
 
