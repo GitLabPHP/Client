@@ -2,16 +2,21 @@
 
 class Projects extends AbstractApi
 {
+    const ORDER_BY = 'created_at';
+    const SORT = 'asc';
+
     /**
      * @param int $page
      * @param int $per_page
      * @return mixed
      */
-    public function all($page = 1, $per_page = self::PER_PAGE)
+    public function all($page = 1, $per_page = self::PER_PAGE, $order_by = self::ORDER_BY, $sort = self::SORT)
     {
         return $this->get('projects/all', array(
             'page' => $page,
-            'per_page' => $per_page
+            'per_page' => $per_page,
+            'order_by' => $order_by,
+            'sort' => $sort
         ));
     }
 
@@ -20,11 +25,13 @@ class Projects extends AbstractApi
      * @param int $per_page
      * @return mixed
      */
-    public function accessible($page = 1, $per_page = self::PER_PAGE)
+    public function accessible($page = 1, $per_page = self::PER_PAGE, $order_by = self::ORDER_BY, $sort = self::SORT)
     {
         return $this->get('projects', array(
             'page' => $page,
-            'per_page' => $per_page
+            'per_page' => $per_page,
+            'order_by' => $order_by,
+            'sort' => $sort
         ));
     }
 
@@ -33,11 +40,13 @@ class Projects extends AbstractApi
      * @param int $per_page
      * @return mixed
      */
-    public function owned($page = 1, $per_page = self::PER_PAGE)
+    public function owned($page = 1, $per_page = self::PER_PAGE, $order_by = self::ORDER_BY, $sort = self::SORT)
     {
         return $this->get('projects/owned', array(
             'page' => $page,
-            'per_page' => $per_page
+            'per_page' => $per_page,
+            'order_by' => $order_by,
+            'sort' => $sort
         ));
     }
 
@@ -47,11 +56,13 @@ class Projects extends AbstractApi
      * @param int $per_page
      * @return mixed
      */
-    public function search($query, $page = 1, $per_page = self::PER_PAGE)
+    public function search($query, $page = 1, $per_page = self::PER_PAGE, $order_by = self::ORDER_BY, $sort = self::SORT)
     {
         return $this->get('projects/search/'.urlencode($query), array(
             'page' => $page,
-            'per_page' => $per_page
+            'per_page' => $per_page,
+            'order_by' => $order_by,
+            'sort' => $sort
         ));
     }
 
