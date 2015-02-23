@@ -16,6 +16,20 @@ class Groups extends AbstractApi
     }
 
     /**
+     * @param string $query
+     * @param int $page
+     * @param int $per_page
+     * @return mixed
+     */
+    public function search($query, $page = 1, $per_page = self::PER_PAGE)
+    {
+        return $this->get('groups?search='.urlencode($query), array(
+            'page' => $page,
+            'per_page' => $per_page
+        ));
+    }
+
+    /**
      * @param int $id
      * @return mixed
      */
@@ -27,14 +41,25 @@ class Groups extends AbstractApi
     /**
      * @param string $name
      * @param string $path
+     * @param string $description
      * @return mixed
      */
-    public function create($name, $path)
+    public function create($name, $path, $description = null)
     {
         return $this->post('groups', array(
             'name' => $name,
-            'path' => $path
+            'path' => $path,
+            'description' => $description
         ));
+    }
+
+    /**
+     * @param int $group_id
+     * @return mixed
+     */
+    public function remove($group_id)
+    {
+        return $this->delete('groups/'.urlencode($group_id));
     }
 
     /**
@@ -71,6 +96,19 @@ class Groups extends AbstractApi
     {
         return $this->post('groups/'.urlencode($group_id).'/members', array(
             'user_id' => $user_id,
+            'access_level' => $access_level
+        ));
+    }
+
+    /**
+     * @param int $group_id
+     * @param int $user_id
+     * @param int $access_level
+     * @return mixed
+     */
+    public function saveMember($group_id, $user_id, $access_level)
+    {
+        return $this->put('groups/'.urlencode($group_id).'/members/'.urlencode($user_id), array(
             'access_level' => $access_level
         ));
     }

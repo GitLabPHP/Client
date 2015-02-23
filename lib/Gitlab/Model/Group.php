@@ -8,8 +8,8 @@ use Gitlab\Client;
  * @property-read int $id
  * @property-read string $name
  * @property-read string $path
- * @property-read int $owner_id
- * @property-read Project[]
+ * @property-read string $description
+ * @property-read Project[] $projects
  */
 class Group extends AbstractModel
 {
@@ -20,7 +20,7 @@ class Group extends AbstractModel
         'id',
         'name',
         'path',
-        'owner_id',
+        'description',
         'projects'
     );
 
