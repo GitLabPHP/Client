@@ -117,6 +117,17 @@ class Project extends AbstractModel
     }
 
     /**
+     * @param array $params
+     * @return Project
+     */
+    public function update(array $params)
+    {
+        $data = $this->api('projects')->update($this->id, $params);
+
+        return static::fromArray($this->getClient(), $data);
+    }
+
+    /**
      * @return bool
      */
     public function remove()
