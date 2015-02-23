@@ -213,24 +213,28 @@ class Projects extends AbstractApi
      */
     public function updateHook($project_id, $hook_id, $url, $push_events = true, $issues_events = false, $merge_requests_events = false, $tag_push_events = false)
     {
-        $params = array(
-            'url' => $url
-        );
+        if (is_array($url)) {
+            $params = $url;
+        } else {
+            $params = array(
+                'url' => $url
+            );
 
-        if ($push_events) {
-            $params['push_events'] = $push_events;
-        }
+            if ($push_events) {
+                $params['push_events'] = $push_events;
+            }
 
-        if ($issues_events) {
-            $params['issues_events'] = $issues_events;
-        }
+            if ($issues_events) {
+                $params['issues_events'] = $issues_events;
+            }
 
-        if ($merge_requests_events) {
-            $params['merge_requests_events'] = $merge_requests_events;
-        }
+            if ($merge_requests_events) {
+                $params['merge_requests_events'] = $merge_requests_events;
+            }
 
-        if ($tag_push_events) {
-            $params['tag_push_events'] = $tag_push_events;
+            if ($tag_push_events) {
+                $params['tag_push_events'] = $tag_push_events;
+            }
         }
 
         return $this->put($this->getProjectPath($project_id, 'hooks/'.urlencode($hook_id)), $params);
