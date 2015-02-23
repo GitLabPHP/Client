@@ -6,6 +6,9 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
     abstract protected function getApiClass();
 
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject|mixed
+     */
     protected function getApiMock()
     {
         $httpClient = $this->getMock('Buzz\Client\Curl', array('send'));
