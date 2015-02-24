@@ -47,6 +47,46 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
+    public function shouldSearchGroups()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'A group'),
+            array('id' => 2, 'name' => 'Another group'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups?search=group', array('page' => 1, 'per_page' => AbstractApi::PER_PAGE))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->search('group'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldSearchGroupsWithPagination()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'A group'),
+            array('id' => 2, 'name' => 'Another group'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups?search=group', array('page' => 2, 'per_page' => 5))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->search('group', 2, 5));
+    }
+
+    /**
+     * @test
+     */
     public function shouldShowGroup()
     {
         $expectedArray = array('id' => 1, 'name' => 'A group');
