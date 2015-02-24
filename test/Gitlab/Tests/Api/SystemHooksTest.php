@@ -77,4 +77,4 @@ class SystemHooksTest extends TestCase
     {
         return 'Gitlab\Api\SystemHooks';
     }
-} 
+}

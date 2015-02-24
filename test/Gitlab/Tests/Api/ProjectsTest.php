@@ -740,4 +740,4 @@ class ProjectsTest extends TestCase
     {
         return 'Gitlab\Api\Projects';
     }
-} 
+}

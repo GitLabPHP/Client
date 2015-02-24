@@ -111,4 +111,4 @@ class SnippetsTest extends TestCase
     {
         return 'Gitlab\Api\Snippets';
     }
-} 
+}

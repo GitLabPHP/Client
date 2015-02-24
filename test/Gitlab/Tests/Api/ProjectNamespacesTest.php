@@ -48,4 +48,4 @@ class ProjectNamespacesTest extends TestCase
     {
         return 'Gitlab\Api\ProjectNamespaces';
     }
-} 
+}

@@ -204,4 +204,4 @@ class GroupsTest extends TestCase
     {
         return 'Gitlab\Api\Groups';
     }
-} 
+}

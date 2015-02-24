@@ -387,4 +387,4 @@ class UsersTest extends TestCase
     {
         return 'Gitlab\Api\Users';
     }
-} 
+}

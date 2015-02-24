@@ -97,4 +97,4 @@ class MilestonesTest extends TestCase
     {
         return 'Gitlab\Api\Milestones';
     }
-} 
+}
