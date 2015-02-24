@@ -229,38 +229,26 @@ class Project extends AbstractModel
 
     /**
      * @param string $url
-     * @param bool $push_events
-     * @param bool $issues_events
-     * @param bool $merge_requests_events
+     * @param array $events
      * @return ProjectHook
      */
-    public function addHook($url, $push_events = true, $issues_events = false, $merge_requests_events = false)
+    public function addHook($url, array $events = array())
     {
-        $data = $this->api('projects')->addHook($this->id, $url, $push_events, $issues_events, $merge_requests_events);
+        $data = $this->api('projects')->addHook($this->id, $url, $events);
 
         return ProjectHook::fromArray($this->getClient(), $this, $data);
     }
 
     /**
      * @param int $hook_id
-     * @param string $url
-     * @param bool $push_events
-     * @param bool $issues_events
-     * @param bool $merge_requests_events
-     * @param bool $tag_push_events
+     * @param array $params
      * @return mixed
      */
-    public function updateHook($hook_id, $url, $push_events = true, $issues_events = true, $merge_requests_events = true, $tag_push_events = true)
+    public function updateHook($hook_id, array $params)
     {
         $hook = new ProjectHook($this, $hook_id, $this->getClient());
 
-        return $hook->update(array(
-            'url' => $url,
-            'push_events' => $push_events,
-            'issues_events' => $issues_events,
-            'merge_requests_events' => $merge_requests_events,
-            'tag_push_events' => $tag_push_events
-        ));
+        return $hook->update($params);
     }
 
     /**

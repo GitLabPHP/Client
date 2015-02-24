@@ -328,13 +328,24 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/hooks', array(
-                'url' => 'http://www.example.com',
-                'push_events' => true,
-                'issues_events' => false,
-                'merge_requests_events' => false,
-                'tag_push_events' => false
-            ))
+            ->with('projects/1/hooks', array('url' => 'http://www.example.com', 'push_events' => true, 'issues_events' => true, 'merge_requests_events' => true))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->addHook(1, 'http://www.example.com', array('push_events' => true, 'issues_events' => true, 'merge_requests_events' => true)));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAddHookWithOnlyUrl()
+    {
+        $expectedArray = array('id' => 3, 'name' => 'A new hook', 'url' => 'http://www.example.com');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/hooks', array('url' => 'http://www.example.com', 'push_events' => true))
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -351,142 +362,28 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/hooks', array(
-                'url' => 'http://www.example.com',
-                'push_events' => false,
-                'issues_events' => false,
-                'merge_requests_events' => false,
-                'tag_push_events' => false
-            ))
+            ->with('projects/1/hooks', array('url' => 'http://www.example.com', 'push_events' => false))
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->addHook(1, 'http://www.example.com', false));
+        $this->assertEquals($expectedArray, $api->addHook(1, 'http://www.example.com', array('push_events' => false)));
     }
 
     /**
      * @test
      */
-    public function shouldAddHookWithIssuesEvents()
-    {
-        $expectedArray = array('id' => 3, 'name' => 'A new hook', 'url' => 'http://www.example.com');
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('post')
-            ->with('projects/1/hooks', array(
-                'url' => 'http://www.example.com',
-                'push_events' => false,
-                'issues_events' => true,
-                'merge_requests_events' => false,
-                'tag_push_events' => false
-            ))
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->addHook(1, 'http://www.example.com', false, true));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldAddHookWithMergeRequestEvents()
-    {
-        $expectedArray = array('id' => 3, 'name' => 'A new hook', 'url' => 'http://www.example.com');
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('post')
-            ->with('projects/1/hooks', array(
-                'url' => 'http://www.example.com',
-                'push_events' => false,
-                'issues_events' => false,
-                'merge_requests_events' => true,
-                'tag_push_events' => false
-            ))
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->addHook(1, 'http://www.example.com', false, false, true));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldAddHookWithTagPushEvents()
-    {
-        $expectedArray = array('id' => 3, 'name' => 'A new hook', 'url' => 'http://www.example.com');
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('post')
-            ->with('projects/1/hooks', array(
-                'url' => 'http://www.example.com',
-                'push_events' => false,
-                'issues_events' => false,
-                'merge_requests_events' => false,
-                'tag_push_events' => true
-            ))
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->addHook(1, 'http://www.example.com', false, false, false, true));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldUpdateHookUrlOnly()
+    public function shouldUpdateHook()
     {
         $expectedArray = array('id' => 3, 'name' => 'A new hook', 'url' => 'http://www.example.com');
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/hooks/3', array('url' => 'http://www.example-test.com'))
+            ->with('projects/1/hooks/3', array('url' => 'http://www.example-test.com', 'push_events' => false))
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->updateHook(1, 3, array('url' => 'http://www.example-test.com')));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldUpdateHookWithPushEvents()
-    {
-        $expectedArray = array('id' => 3, 'name' => 'A new hook', 'url' => 'http://www.example.com');
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('put')
-            ->with('projects/1/hooks/3', array('url' => 'http://www.example-test.com', 'push_events' => true))
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->updateHook(1, 3, array('url' => 'http://www.example-test.com', 'push_events' => true)));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldUpdateHookWithDifferentEvents()
-    {
-        $expectedArray = array('id' => 3, 'name' => 'A new hook', 'url' => 'http://www.example.com');
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('put')
-            ->with('projects/1/hooks/3', array(
-                'url' => 'http://www.example-test.com',
-                'issues_events' => true,
-                'merge_requests_events' => true,
-                'tag_push_events' => true
-            ))
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->updateHook(1, 3, 'http://www.example-test.com', false, true, true, true));
+        $this->assertEquals($expectedArray, $api->updateHook(1, 3, array('url' => 'http://www.example-test.com', 'push_events' => false)));
     }
 
     /**

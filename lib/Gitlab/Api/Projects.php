@@ -1,5 +1,7 @@
 <?php namespace Gitlab\Api;
 
+use Gitlab\Exception\RuntimeException;
+
 class Projects extends AbstractApi
 {
     const ORDER_BY = 'created_at';
@@ -205,59 +207,28 @@ class Projects extends AbstractApi
     /**
      * @param int $project_id
      * @param string $url
-     * @param bool $push_events
-     * @param bool $issues_events
-     * @param bool $merge_requests_events
-     * @param bool $tag_push_events
+     * @param array $params
      * @return mixed
      */
-    public function addHook($project_id, $url, $push_events = true, $issues_events = false, $merge_requests_events = false, $tag_push_events = false)
+    public function addHook($project_id, $url, array $params = array())
     {
-        return $this->post($this->getProjectPath($project_id, 'hooks'), array(
-            'url' => $url,
-            'push_events' => $push_events,
-            'issues_events' => $issues_events,
-            'merge_requests_events' => $merge_requests_events,
-            'tag_push_events' => $tag_push_events
-        ));
+        if (empty($params)) {
+            $params = array('push_events' => true);
+        }
+
+        $params['url'] = $url;
+
+        return $this->post($this->getProjectPath($project_id, 'hooks'), $params);
     }
 
     /**
      * @param int $project_id
      * @param int $hook_id
-     * @param string $url
-     * @param bool $push_events
-     * @param bool $issues_events
-     * @param bool $merge_requests_events
-     * @param bool $tag_push_events
+     * @param array $params
      * @return mixed
      */
-    public function updateHook($project_id, $hook_id, $url, $push_events = true, $issues_events = false, $merge_requests_events = false, $tag_push_events = false)
+    public function updateHook($project_id, $hook_id, array $params)
     {
-        if (is_array($url)) {
-            $params = $url;
-        } else {
-            $params = array(
-                'url' => $url
-            );
-
-            if ($push_events) {
-                $params['push_events'] = $push_events;
-            }
-
-            if ($issues_events) {
-                $params['issues_events'] = $issues_events;
-            }
-
-            if ($merge_requests_events) {
-                $params['merge_requests_events'] = $merge_requests_events;
-            }
-
-            if ($tag_push_events) {
-                $params['tag_push_events'] = $tag_push_events;
-            }
-        }
-
         return $this->put($this->getProjectPath($project_id, 'hooks/'.urlencode($hook_id)), $params);
     }
 

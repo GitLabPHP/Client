@@ -91,15 +91,7 @@ class ProjectHook extends AbstractModel
      */
     public function update(array $params)
     {
-        $params = array_merge(array(
-            'url' => false,
-            'push_events' => false,
-            'issues_events' => false,
-            'merge_requests_events' => false,
-            'tag_push_events' => false
-        ), $params);
-
-        $data = $this->api('projects')->updateHook($this->project->id, $this->id, $params['url'], $params['push_events'], $params['issues_events'], $params['merge_requests_events'], $params['tag_push_events']);
+        $data = $this->api('projects')->updateHook($this->project->id, $this->id, $params);
 
         return static::fromArray($this->getClient(), $this->project, $data);
     }
