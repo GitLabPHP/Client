@@ -1,0 +1,390 @@
+<?php namespace Gitlab\Tests\Api;
+
+use Gitlab\Api\AbstractApi;
+
+class UsersTest extends TestCase
+{
+    /**
+     * @test
+     */
+    public function shouldGetAllUsers()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'Matt'),
+            array('id' => 2, 'name' => 'John'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users', array('active' => null, 'page' => 1, 'per_page' => 10))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->all(null, 1, 10));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetActiveUsers()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'Matt'),
+            array('id' => 2, 'name' => 'John'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users', array('active' => true, 'page' => 1, 'per_page' => AbstractApi::PER_PAGE))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->all(true));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotNeedPaginationWhenGettingUsers()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'Matt'),
+            array('id' => 2, 'name' => 'John'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users', array('active' => null, 'page' => 1, 'per_page' => AbstractApi::PER_PAGE))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->all());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldSearchUsers()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'Matt')
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users', array('search' => 'ma', 'active' => null, 'page' => 1, 'per_page' => AbstractApi::PER_PAGE))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->search('ma'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldSearchActiveUsers()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'Matt')
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users', array('search' => 'ma', 'active' => true, 'page' => 1, 'per_page' => AbstractApi::PER_PAGE))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->search('ma', true));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldSearchActiveUsersWithPagination()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'Matt')
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users', array('search' => 'ma', 'active' => true, 'page' => 2, 'per_page' => 5))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->search('ma', true, 2, 5));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldShowUser()
+    {
+        $expectedArray = array('id' => 1, 'name' => 'Matt');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users/1')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->show(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreateUser()
+    {
+        $expectedArray = array('id' => 3, 'name' => 'Billy');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('users', array('email' => 'billy@example.com', 'password' => 'password'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->create('billy@example.com', 'password'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreateUserWithAdditionalInfo()
+    {
+        $expectedArray = array('id' => 3, 'name' => 'Billy');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('users', array('email' => 'billy@example.com', 'password' => 'password', 'name' => 'Billy', 'bio' => 'A person'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->create('billy@example.com', 'password', array('name' => 'Billy', 'bio' => 'A person')));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUpdateUser()
+    {
+        $expectedArray = array('id' => 3, 'name' => 'Billy Bob');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('users/3', array('name' => 'Billy Bob'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->update(3, array('name' => 'Billy Bob')));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRemoveUser()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('users/1')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->remove(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldShowCurrentUser()
+    {
+        $expectedArray = array('id' => 1, 'name' => 'Matt');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('user')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->me());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetCurrentUserKeys()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'title' => 'A key'),
+            array('id' => 2, 'name' => 'Another key'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('user/keys')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->keys(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetCurrentUserKey()
+    {
+        $expectedArray = array('id' => 1, 'title' => 'A key');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('user/keys/1')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->key(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreateKeyForCurrentUser()
+    {
+        $expectedArray = array('id' => 3, 'title' => 'A new key');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('user/keys', array('title' => 'A new key', 'key' => '...'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->createKey('A new key', '...'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldDeleteKeyForCurrentUser()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('user/keys/3')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->removeKey(3));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetUserKeys()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'title' => 'A key'),
+            array('id' => 2, 'name' => 'Another key'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users/1/keys')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->userKeys(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetUserKey()
+    {
+        $expectedArray = array('id' => 2, 'title' => 'Another key');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users/1/keys/2')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->userKey(1, 2));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreateKeyForUser()
+    {
+        $expectedArray = array('id' => 3, 'title' => 'A new key');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('users/1/keys', array('title' => 'A new key', 'key' => '...'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->createKeyForUser(1, 'A new key', '...'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldDeleteKeyForUser()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('users/1/keys/3')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->removeUserKey(1, 3));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAttemptLogin()
+    {
+        $expectedArray = array('id' => 1, 'name' => 'Matt');
+
+        $api = $this->getApiMock();
+        $api->expects($this->exactly(2))
+            ->method('post')
+            ->with('session', array('login' => 'matt', 'password' => 'password', 'email' => 'matt'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->session('matt', 'password'));
+        $this->assertEquals($expectedArray, $api->login('matt', 'password'));
+    }
+
+    protected function getApiClass()
+    {
+        return 'Gitlab\Api\Users';
+    }
+} 

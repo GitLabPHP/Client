@@ -77,16 +77,27 @@ class Users extends AbstractApi
     }
 
     /**
+     * @param string $emailOrUsername
+     * @param string $password
+     * @return mixed
+     */
+    public function session($emailOrUsername, $password)
+    {
+        return $this->post('session', array(
+            'login' => $emailOrUsername,
+            'email' => $emailOrUsername,
+            'password' => $password
+        ));
+    }
+
+    /**
      * @param string $email
      * @param string $password
      * @return mixed
      */
-    public function session($email, $password)
+    public function login($email, $password)
     {
-        return $this->post('session', array(
-            'email' => $email,
-            'password' => $password
-        ));
+        return $this->session($email, $password);
     }
 
     /**
@@ -134,5 +145,48 @@ class Users extends AbstractApi
     public function removeKey($id)
     {
         return $this->delete('user/keys/'.urlencode($id));
+    }
+
+    /**
+     * @param int $user_id
+     * @return mixed
+     */
+    public function userKeys($user_id)
+    {
+        return $this->get('users/'.urlencode($user_id).'/keys');
+    }
+
+    /*
+     * @param int $user_id
+     * @param int $key_id
+     * @return mixed
+     */
+    public function userKey($user_id, $key_id)
+    {
+        return $this->get('users/'.urlencode($user_id).'/keys/'.urlencode($key_id));
+    }
+
+    /**
+     * @param int $user_id
+     * @param string $title
+     * @param string $key
+     * @return mixed
+     */
+    public function createKeyForUser($user_id, $title, $key)
+    {
+        return $this->post('users/'.urlencode($user_id).'/keys', array(
+            'title' => $title,
+            'key' => $key
+        ));
+    }
+
+    /**
+     * @param int $user_id
+     * @param int $key_id
+     * @return mixed
+     */
+    public function removeUserKey($user_id, $key_id)
+    {
+        return $this->delete('users/'.urlencode($user_id).'/keys/'.urlencode($key_id));
     }
 }
