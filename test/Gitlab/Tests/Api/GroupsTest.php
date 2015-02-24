@@ -7,7 +7,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllProjects()
+    public function shouldGetAllGroups()
     {
         $expectedArray = array(
             array('id' => 1, 'name' => 'A group'),
@@ -181,6 +181,23 @@ class GroupsTest extends TestCase
         ;
 
         $this->assertEquals($expectedBool, $api->removeMember(1, 2));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRemoveGroup()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('groups/1')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->remove(1));
     }
 
     protected function getApiClass()
