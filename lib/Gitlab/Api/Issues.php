@@ -13,7 +13,7 @@ class Issues extends AbstractApi
     {
         $path = $project_id === null ? 'issues' : $this->getProjectPath($project_id, 'issues');
 
-        $params = array_intersect_key($params, array('labels' => '', 'state' => ''));
+        $params = array_intersect_key($params, array('labels' => '', 'state' => '', 'sort' => '', 'order_by' => ''));
         $params = array_merge(array(
             'page' => $page,
             'per_page' => $per_page
@@ -66,11 +66,43 @@ class Issues extends AbstractApi
     /**
      * @param int $project_id
      * @param int $issue_id
-     * @param array $params
+     * @param int $note_id
      * @return mixed
      */
-    public function addComment($project_id, $issue_id, array $params)
+    public function showComment($project_id, $issue_id, $note_id)
     {
+        return $this->get($this->getProjectPath($project_id, 'issues/'.urlencode($issue_id)).'/notes/'.urlencode($note_id));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $issue_id
+     * @param string|array $body
+     * @return mixed
+     */
+    public function addComment($project_id, $issue_id, $body)
+    {
+        // backwards compatibility
+        if (is_array($body)) {
+            $params = $body;
+        } else {
+            $params = array('body' => $body);
+        }
+
         return $this->post($this->getProjectPath($project_id, 'issues/'.urlencode($issue_id).'/notes'), $params);
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $issue_id
+     * @param int $note_id
+     * @param string $body
+     * @return mixed
+     */
+    public function updateComment($project_id, $issue_id, $note_id, $body)
+    {
+        return $this->put($this->getProjectPath($project_id, 'issues/'.urlencode($issue_id).'/notes/'.urlencode($note_id)), array(
+            'body' => $body
+        ));
     }
 }
