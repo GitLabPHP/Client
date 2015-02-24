@@ -1,7 +1,5 @@
 <?php namespace Gitlab\Tests\Api;
 
-use Gitlab\Api\AbstractApi;
-
 class SnippetsTest extends TestCase
 {
     /**
