@@ -121,6 +121,26 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldUpdateProject()
+    {
+        $expectedArray = array('id' => 1, 'name' => 'Updated Name');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1', array('name' => 'Updated Name', 'issues_enabled' => true))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->update(1, array(
+            'name' => 'Updated Name',
+            'issues_enabled' => true
+        )));
+    }
+
+    /**
+     * @test
+     */
     public function shouldCreateProjectForUser()
     {
         $expectedArray = array('id' => 1, 'name' => 'Project Name');
