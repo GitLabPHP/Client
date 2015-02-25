@@ -9,7 +9,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
     /**
      * @return \PHPUnit_Framework_MockObject_MockObject|mixed
      */
-    protected function getApiMock()
+    protected function getApiMock($methods = array())
     {
         $httpClient = $this->getMock('Buzz\Client\Curl', array('send'));
         $httpClient
@@ -21,8 +21,10 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $client = new Client($mock);
         $client->setHttpClient($mock);
 
+        $methods = array_merge(array('get', 'post', 'postRaw', 'patch', 'delete', 'put', 'head'), $methods);
+
         return $this->getMockBuilder($this->getApiClass())
-            ->setMethods(array('get', 'post', 'postRaw', 'patch', 'delete', 'put', 'head'))
+            ->setMethods($methods)
             ->setConstructorArgs(array($client))
             ->getMock()
         ;

@@ -12,14 +12,14 @@ class MergeRequests extends AbstractApi
 
     /**
      * @param int $project_id
+     * @param string $state
      * @param int $page
      * @param int $per_page
-     * @param string $state
      * @param string $order_by
      * @param string $sort
      * @return mixed
      */
-    public function getList($project_id, $page, $per_page, $state = self::STATE_ALL, $order_by = self::ORDER_BY, $sort = self::SORT)
+    public function getList($project_id, $state = self::STATE_ALL, $page = 1, $per_page = self::PER_PAGE, $order_by = self::ORDER_BY, $sort = self::SORT)
     {
         return $this->get($this->getProjectPath($project_id, 'merge_requests'), array(
             'page' => $page,
@@ -40,7 +40,7 @@ class MergeRequests extends AbstractApi
      */
     public function all($project_id, $page = 1, $per_page = self::PER_PAGE, $order_by = self::ORDER_BY, $sort = self::SORT)
     {
-        return $this->getList($project_id, $page, $per_page, self::STATE_ALL, $order_by, $sort);
+        return $this->getList($project_id, self::STATE_ALL, $page, $per_page, $order_by, $sort);
     }
 
     /**
@@ -53,7 +53,7 @@ class MergeRequests extends AbstractApi
      */
     public function merged($project_id, $page = 1, $per_page = self::PER_PAGE, $order_by = self::ORDER_BY, $sort = self::SORT)
     {
-        return $this->getList($project_id, $page, $per_page, self::STATE_MERGED, $order_by, $sort);
+        return $this->getList($project_id, self::STATE_MERGED, $page, $per_page, $order_by, $sort);
     }
 
     /**
@@ -66,7 +66,7 @@ class MergeRequests extends AbstractApi
      */
     public function opened($project_id, $page = 1, $per_page = self::PER_PAGE, $order_by = self::ORDER_BY, $sort = self::SORT)
     {
-        return $this->getList($project_id, $page, $per_page, self::STATE_OPENED, $order_by, $sort);
+        return $this->getList($project_id, self::STATE_OPENED, $page, $per_page, $order_by, $sort);
     }
 
     /**
@@ -79,7 +79,7 @@ class MergeRequests extends AbstractApi
      */
     public function closed($project_id, $page = 1, $per_page = self::PER_PAGE, $order_by = self::ORDER_BY, $sort = self::SORT)
     {
-        return $this->getList($project_id, $page, $per_page, self::STATE_CLOSED, $order_by, $sort);
+        return $this->getList($project_id, self::STATE_CLOSED, $page, $per_page, $order_by, $sort);
     }
 
     /**
@@ -104,10 +104,6 @@ class MergeRequests extends AbstractApi
      */
     public function create($project_id, $source, $target, $title, $assignee = null, $target_project_id = null, $description = null)
     {
-        if ($target_project_id && ! is_numeric($target_project_id)) {
-            throw new \InvalidArgumentException('target_project_id should be numeric, the project name is not allowed');
-        }
-
         return $this->post($this->getProjectPath($project_id, 'merge_requests'), array(
             'source_branch' => $source,
             'target_branch' => $target,
@@ -132,11 +128,17 @@ class MergeRequests extends AbstractApi
     /**
      * @param int $project_id
      * @param int $mr_id
-     * @param array $params
+     * @param string $message
      * @return mixed
      */
-    public function merge($project_id, $mr_id, array $params)
+    public function merge($project_id, $mr_id, $message = null)
     {
+        if (is_array($message)) {
+            $params = $message;
+        } else {
+            $params = array('merge_commit_message' => $message);
+        }
+
         return $this->put($this->getProjectPath($project_id, 'merge_request/'.urlencode($mr_id).'/merge'), $params);
     }
 
