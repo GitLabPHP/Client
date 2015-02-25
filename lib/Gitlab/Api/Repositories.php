@@ -23,11 +23,71 @@ class Repositories extends AbstractApi
 
     /**
      * @param int $project_id
+     * @param string $branch_name
+     * @param string $ref
+     * @return mixed
+     */
+    public function createBranch($project_id, $branch_name, $ref)
+    {
+        return $this->post($this->getProjectPath($project_id, 'repository/branches'), array(
+            'branch_name' => $branch_name,
+            'ref' => $ref
+        ));
+    }
+
+    /**
+     * @param int $project_id
+     * @param string $branch_name
+     * @return mixed
+     */
+    public function deleteBranch($project_id, $branch_name)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'repository/branches/'.urlencode($branch_name)));
+    }
+
+    /**
+     * @param int $project_id
+     * @param string $branch_name
+     * @return mixed
+     */
+    public function protectBranch($project_id, $branch_name)
+    {
+        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.urlencode($branch_name).'/protect'));
+    }
+
+    /**
+     * @param int $project_id
+     * @param string $branch_name
+     * @return mixed
+     */
+    public function unprotectBranch($project_id, $branch_name)
+    {
+        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.urlencode($branch_name).'/unprotect'));
+    }
+
+    /**
+     * @param int $project_id
      * @return mixed
      */
     public function tags($project_id)
     {
         return $this->get($this->getProjectPath($project_id, 'repository/tags'));
+    }
+
+    /**
+     * @param int $project_id
+     * @param string $name
+     * @param string $ref
+     * @param string $message
+     * @return mixed
+     */
+    public function createTag($project_id, $name, $ref, $message = null)
+    {
+        return $this->post($this->getProjectPath($project_id, 'repository/tags'), array(
+            'tag_name' => $name,
+            'ref' => $ref,
+            'message' => $message
+        ));
     }
 
     /**
@@ -116,51 +176,7 @@ class Repositories extends AbstractApi
      */
     public function tree($project_id, array $params = array())
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/tree', $params));
-    }
-
-    /**
-     * @param int $project_id
-     * @param string $branch_name
-     * @param string $ref
-     * @return mixed
-     */
-    public function createBranch($project_id, $branch_name, $ref)
-    {
-        return $this->post($this->getProjectPath($project_id, 'repository/branches'), array(
-            'branch_name' => $branch_name,
-            'ref' => $ref
-        ));
-    }
-
-    /**
-     * @param int $project_id
-     * @param string $branch_name
-     * @return mixed
-     */
-    public function deleteBranch($project_id, $branch_name)
-    {
-        return $this->delete($this->getProjectPath($project_id, 'repository/branches/'.urlencode($branch_name)));
-    }
-
-    /**
-     * @param int $project_id
-     * @param string $branch_name
-     * @return mixed
-     */
-    public function protectBranch($project_id, $branch_name)
-    {
-        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.urlencode($branch_name).'/protect'));
-    }
-
-    /**
-     * @param int $project_id
-     * @param string $branch_name
-     * @return mixed
-     */
-    public function unprotectBranch($project_id, $branch_name)
-    {
-        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.urlencode($branch_name).'/unprotect'));
+        return $this->get($this->getProjectPath($project_id, 'repository/tree'), $params);
     }
 
     /**
@@ -196,15 +212,17 @@ class Repositories extends AbstractApi
      * @param string $content
      * @param string $branch_name
      * @param string $commit_message
+     * @param string $encoding
      * @return mixed
      */
-    public function createFile($project_id, $file_path, $content, $branch_name, $commit_message)
+    public function createFile($project_id, $file_path, $content, $branch_name, $commit_message, $encoding = null)
     {
         return $this->post($this->getProjectPath($project_id, 'repository/files'), array(
             'file_path' => $file_path,
             'branch_name' => $branch_name,
             'content' => $content,
-            'commit_message' => $commit_message
+            'commit_message' => $commit_message,
+            'encoding' => $encoding
         ));
     }
 
@@ -214,15 +232,17 @@ class Repositories extends AbstractApi
      * @param string $content
      * @param string $branch_name
      * @param string $commit_message
+     * @param string $encoding
      * @return mixed
      */
-    public function updateFile($project_id, $file_path, $content, $branch_name, $commit_message)
+    public function updateFile($project_id, $file_path, $content, $branch_name, $commit_message, $encoding = null)
     {
         return $this->put($this->getProjectPath($project_id, 'repository/files'), array(
             'file_path' => $file_path,
             'branch_name' => $branch_name,
             'content' => $content,
-            'commit_message' => $commit_message
+            'commit_message' => $commit_message,
+            'encoding' => $encoding
         ));
     }
 
