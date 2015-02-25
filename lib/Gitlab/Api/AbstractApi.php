@@ -32,6 +32,7 @@ abstract class AbstractApi
 
     /**
      * @return $this
+     * @codeCoverageIgnore
      */
     public function configure()
     {

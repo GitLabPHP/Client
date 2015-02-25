@@ -2,7 +2,7 @@
 
 use Gitlab\Api\AbstractApi;
 
-class UsersTest extends TestCase
+class UsersTest extends ApiTestCase
 {
     /**
      * @test

@@ -1,32 +1,38 @@
 <?php namespace Gitlab\Tests\Api;
 
+use Buzz\Client\Curl;
+
 use Gitlab\Client;
+use Gitlab\HttpClient\HttpClientInterface;
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
-    abstract protected function getApiClass();
+    /**
+     * @return Client
+     */
+    protected function getClientMock()
+    {
+        return new Client($this->getHttpMock());
+    }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|mixed
+     * @return \PHPUnit_Framework_MockObject_MockObject|HttpClientInterface
      */
-    protected function getApiMock($methods = array())
+    protected function getHttpMock()
+    {
+        return $this->getMock('Gitlab\HttpClient\HttpClient', array(), array(null, array(), $this->getHttpClientMock()));
+    }
+
+    /**
+     * @return \PHPUnit_Framework_MockObject_MockObject|Curl
+     */
+    protected function getHttpClientMock()
     {
         $httpClient = $this->getMock('Buzz\Client\Curl', array('send'));
         $httpClient
             ->expects($this->any())
             ->method('send');
 
-        $mock = $this->getMock('Gitlab\HttpClient\HttpClient', array(), array(null, array(), $httpClient));
-
-        $client = new Client($mock);
-        $client->setHttpClient($mock);
-
-        $methods = array_merge(array('get', 'post', 'postRaw', 'patch', 'delete', 'put', 'head'), $methods);
-
-        return $this->getMockBuilder($this->getApiClass())
-            ->setMethods($methods)
-            ->setConstructorArgs(array($client))
-            ->getMock()
-        ;
+        return $httpClient;
     }
 }

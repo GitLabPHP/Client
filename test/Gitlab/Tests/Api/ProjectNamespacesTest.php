@@ -2,7 +2,7 @@
 
 use Gitlab\Api\AbstractApi;
 
-class ProjectNamespacesTest extends TestCase
+class ProjectNamespacesTest extends ApiTestCase
 {
     /**
      * @test

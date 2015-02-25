@@ -3,7 +3,7 @@
 use Gitlab\Api\AbstractApi;
 use Gitlab\Api\MergeRequests;
 
-class MergeRequestsTest extends TestCase
+class MergeRequestsTest extends ApiTestCase
 {
     /**
      * @test

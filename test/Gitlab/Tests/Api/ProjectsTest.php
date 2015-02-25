@@ -3,7 +3,7 @@
 use Gitlab\Api\AbstractApi;
 use Gitlab\Api\Projects;
 
-class ProjectsTest extends TestCase
+class ProjectsTest extends ApiTestCase
 {
     /**
      * @test
