@@ -26,6 +26,7 @@ use Gitlab\Client;
  * @property-read bool $is_admin
  * @property-read bool $can_create_group
  * @property-read bool $can_create_project
+ * @property-read string $avatar_url
  */
 class User extends AbstractModel
 {
@@ -54,7 +55,8 @@ class User extends AbstractModel
         'state',
         'is_admin',
         'can_create_group',
-        'can_create_project'
+        'can_create_project',
+        'avatar_url'
     );
 
     /**
