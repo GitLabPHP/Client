@@ -45,6 +45,12 @@ class Client
     const AUTH_HTTP_TOKEN = 'http_token';
 
     /**
+     * Constant for authentication method. Indicates the OAuth method with a key
+     * obtain using Gitlab's OAuth provider.
+     */
+    const AUTH_OAUTH_TOKEN = 'oauth_token';
+
+    /**
      * @var array
      */
     private $options = array(
