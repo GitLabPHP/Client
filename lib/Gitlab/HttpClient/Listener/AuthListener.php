@@ -76,6 +76,13 @@ class AuthListener implements ListenerInterface
 
                 $request->fromUrl(new Url($url));
                 break;
+
+            case Client::AUTH_OAUTH_TOKEN:
+                $request->addHeader('Authorization: Bearer '.$this->token);
+                if (!is_null($this->sudo)) {
+                    $request->addHeader('SUDO: '.$this->sudo);
+                }
+                break;
         }
     }
 
