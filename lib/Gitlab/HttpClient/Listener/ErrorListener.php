@@ -79,8 +79,10 @@ class ErrorListener implements ListenerInterface
                     foreach ($messages as $error) {
                         $errors[] = sprintf($format, $field, $error);
                     }
+                } elseif (is_integer($field)) {
+                    $errors[] = $messages;
                 } else {
-                    $errors[] = sprintf($format, $field, $errors);
+                    $errors[] = sprintf($format, $field, $messages);
                 }
             }
 
