@@ -85,10 +85,12 @@ $issue->close();
 
 You get the idea! Take a look around and please feel free to report any bugs.
 
-Integration
-------------
+Framework Integrations
+----------------------
+- **Symfony** - https://github.com/Zeichen32/GitLabApiBundle
+- **Laravel** - https://github.com/vinkla/gitlab
 
-- [GitLabApiBundle](https://github.com/Zeichen32/GitLabApiBundle)  Symfony2 Bundle
+If you have integrated GitLab into a popular PHP framework let us know!
 
 Contributing
 ------------
