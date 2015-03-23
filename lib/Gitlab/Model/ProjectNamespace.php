@@ -6,6 +6,7 @@ use Gitlab\Client;
  * Class ProjectNamespace
  *
  * @property-read int $id
+ * @property-read string $name
  * @property-read string $path
  * @property-read string $kind
  * @property-read int $owner_id
@@ -20,6 +21,7 @@ class ProjectNamespace extends AbstractModel
      */
     protected static $properties = array(
         'id',
+        'name',
         'path',
         'kind',
         'owner_id',
