@@ -111,6 +111,6 @@ abstract class AbstractApi
      */
     protected function getProjectPath($id, $path)
     {
-        return 'projects/'.urlencode($id).'/'.$path;
+        return 'projects/'.rawurlencode($id).'/'.$path;
     }
 }
