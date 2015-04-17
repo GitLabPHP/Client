@@ -57,11 +57,11 @@ class GroupsTest extends ApiTestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('groups?search=group', array('page' => 1, 'per_page' => AbstractApi::PER_PAGE))
+            ->with('groups?search=some%20group', array('page' => 1, 'per_page' => AbstractApi::PER_PAGE))
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->search('group'));
+        $this->assertEquals($expectedArray, $api->search('some group'));
     }
 
     /**
