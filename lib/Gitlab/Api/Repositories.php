@@ -18,7 +18,7 @@ class Repositories extends AbstractApi
      */
     public function branch($project_id, $branch_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/branches/'.rawurlencode($branch_id)));
+        return $this->get($this->getProjectPath($project_id, 'repository/branches/'.str_replace('%2F', '/', rawurlencode($branch_id))));
     }
 
     /**
@@ -42,7 +42,7 @@ class Repositories extends AbstractApi
      */
     public function deleteBranch($project_id, $branch_name)
     {
-        return $this->delete($this->getProjectPath($project_id, 'repository/branches/'.rawurlencode($branch_name)));
+        return $this->delete($this->getProjectPath($project_id, 'repository/branches/'.str_replace('%2F', '/', rawurlencode($branch_name))));
     }
 
     /**
@@ -52,7 +52,7 @@ class Repositories extends AbstractApi
      */
     public function protectBranch($project_id, $branch_name)
     {
-        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.rawurlencode($branch_name).'/protect'));
+        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.str_replace('%2F', '/', rawurlencode($branch_name)).'/protect'));
     }
 
     /**
@@ -62,7 +62,7 @@ class Repositories extends AbstractApi
      */
     public function unprotectBranch($project_id, $branch_name)
     {
-        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.rawurlencode($branch_name).'/unprotect'));
+        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.str_replace('%2F', '/', rawurlencode($branch_name)).'/unprotect'));
     }
 
     /**
