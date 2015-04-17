@@ -44,6 +44,23 @@ class RepositoriesTest extends ApiTestCase
     /**
      * @test
      */
+    public function shouldGetBranchWithSlash()
+    {
+        $expectedArray = array('name' => 'env/production');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/repository/branches/env/production')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->branch(1, 'env/production'));
+    }
+
+    /**
+     * @test
+     */
     public function shouldCreateBranch()
     {
         $expectedArray = array('name' => 'feature');
