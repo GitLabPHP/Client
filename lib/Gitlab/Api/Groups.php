@@ -23,7 +23,7 @@ class Groups extends AbstractApi
      */
     public function search($query, $page = 1, $per_page = self::PER_PAGE)
     {
-        return $this->get('groups?search='.urlencode($query), array(
+        return $this->get('groups?search='.rawurlencode($query), array(
             'page' => $page,
             'per_page' => $per_page
         ));
@@ -35,7 +35,7 @@ class Groups extends AbstractApi
      */
     public function show($id)
     {
-        return $this->get('groups/'.urlencode($id));
+        return $this->get('groups/'.rawurlencode($id));
     }
 
     /**
@@ -59,7 +59,7 @@ class Groups extends AbstractApi
      */
     public function remove($group_id)
     {
-        return $this->delete('groups/'.urlencode($group_id));
+        return $this->delete('groups/'.rawurlencode($group_id));
     }
 
     /**
@@ -69,7 +69,7 @@ class Groups extends AbstractApi
      */
     public function transfer($group_id, $project_id)
     {
-        return $this->post('groups/'.urlencode($group_id).'/projects/'.urlencode($project_id));
+        return $this->post('groups/'.rawurlencode($group_id).'/projects/'.rawurlencode($project_id));
     }
 
     /**
@@ -80,7 +80,7 @@ class Groups extends AbstractApi
      */
     public function members($id, $page = 1, $per_page = self::PER_PAGE)
     {
-        return $this->get('groups/'.urlencode($id).'/members', array(
+        return $this->get('groups/'.rawurlencode($id).'/members', array(
             'page' => $page,
             'per_page' => $per_page
         ));
@@ -94,7 +94,7 @@ class Groups extends AbstractApi
      */
     public function addMember($group_id, $user_id, $access_level)
     {
-        return $this->post('groups/'.urlencode($group_id).'/members', array(
+        return $this->post('groups/'.rawurlencode($group_id).'/members', array(
             'user_id' => $user_id,
             'access_level' => $access_level
         ));
@@ -108,7 +108,7 @@ class Groups extends AbstractApi
      */
     public function saveMember($group_id, $user_id, $access_level)
     {
-        return $this->put('groups/'.urlencode($group_id).'/members/'.urlencode($user_id), array(
+        return $this->put('groups/'.rawurlencode($group_id).'/members/'.rawurlencode($user_id), array(
             'access_level' => $access_level
         ));
     }
@@ -120,6 +120,6 @@ class Groups extends AbstractApi
      */
     public function removeMember($group_id, $user_id)
     {
-        return $this->delete('groups/'.urlencode($group_id).'/members/'.urlencode($user_id));
+        return $this->delete('groups/'.rawurlencode($group_id).'/members/'.rawurlencode($user_id));
     }
 }
