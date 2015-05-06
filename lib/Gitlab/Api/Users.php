@@ -40,7 +40,7 @@ class Users extends AbstractApi
      */
     public function show($id)
     {
-        return $this->get('users/'.rawurlencode($id));
+        return $this->get('users/'.$this->encodePath($id));
     }
 
     /**
@@ -64,7 +64,7 @@ class Users extends AbstractApi
      */
     public function update($id, array $params)
     {
-        return $this->put('users/'.rawurlencode($id), $params);
+        return $this->put('users/'.$this->encodePath($id), $params);
     }
 
     /**
@@ -73,7 +73,7 @@ class Users extends AbstractApi
      */
     public function remove($id)
     {
-        return $this->delete('users/'.rawurlencode($id));
+        return $this->delete('users/'.$this->encodePath($id));
     }
 
     /**
@@ -122,7 +122,7 @@ class Users extends AbstractApi
      */
     public function key($id)
     {
-        return $this->get('user/keys/'.rawurlencode($id));
+        return $this->get('user/keys/'.$this->encodePath($id));
     }
 
     /**
@@ -144,7 +144,7 @@ class Users extends AbstractApi
      */
     public function removeKey($id)
     {
-        return $this->delete('user/keys/'.rawurlencode($id));
+        return $this->delete('user/keys/'.$this->encodePath($id));
     }
 
     /**
@@ -153,7 +153,7 @@ class Users extends AbstractApi
      */
     public function userKeys($user_id)
     {
-        return $this->get('users/'.rawurlencode($user_id).'/keys');
+        return $this->get('users/'.$this->encodePath($user_id).'/keys');
     }
 
     /*
@@ -163,7 +163,7 @@ class Users extends AbstractApi
      */
     public function userKey($user_id, $key_id)
     {
-        return $this->get('users/'.rawurlencode($user_id).'/keys/'.rawurlencode($key_id));
+        return $this->get('users/'.$this->encodePath($user_id).'/keys/'.$this->encodePath($key_id));
     }
 
     /**
@@ -174,7 +174,7 @@ class Users extends AbstractApi
      */
     public function createKeyForUser($user_id, $title, $key)
     {
-        return $this->post('users/'.rawurlencode($user_id).'/keys', array(
+        return $this->post('users/'.$this->encodePath($user_id).'/keys', array(
             'title' => $title,
             'key' => $key
         ));
@@ -187,6 +187,6 @@ class Users extends AbstractApi
      */
     public function removeUserKey($user_id, $key_id)
     {
-        return $this->delete('users/'.rawurlencode($user_id).'/keys/'.rawurlencode($key_id));
+        return $this->delete('users/'.$this->encodePath($user_id).'/keys/'.$this->encodePath($key_id));
     }
 }

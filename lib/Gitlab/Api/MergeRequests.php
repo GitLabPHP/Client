@@ -89,7 +89,7 @@ class MergeRequests extends AbstractApi
      */
     public function show($project_id, $mr_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'merge_request/'.rawurlencode($mr_id)));
+        return $this->get($this->getProjectPath($project_id, 'merge_request/'.$this->encodePath($mr_id)));
     }
 
     /**
@@ -122,7 +122,7 @@ class MergeRequests extends AbstractApi
      */
     public function update($project_id, $mr_id, array $params)
     {
-        return $this->put($this->getProjectPath($project_id, 'merge_request/'.rawurlencode($mr_id)), $params);
+        return $this->put($this->getProjectPath($project_id, 'merge_request/'.$this->encodePath($mr_id)), $params);
     }
 
     /**
@@ -139,7 +139,7 @@ class MergeRequests extends AbstractApi
             $params = array('merge_commit_message' => $message);
         }
 
-        return $this->put($this->getProjectPath($project_id, 'merge_request/'.rawurlencode($mr_id).'/merge'), $params);
+        return $this->put($this->getProjectPath($project_id, 'merge_request/'.$this->encodePath($mr_id).'/merge'), $params);
     }
 
     /**
@@ -149,7 +149,7 @@ class MergeRequests extends AbstractApi
      */
     public function showComments($project_id, $mr_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'merge_request/'.rawurlencode($mr_id).'/comments'));
+        return $this->get($this->getProjectPath($project_id, 'merge_request/'.$this->encodePath($mr_id).'/comments'));
     }
 
     /**
@@ -160,7 +160,7 @@ class MergeRequests extends AbstractApi
      */
     public function addComment($project_id, $mr_id, $note)
     {
-        return $this->post($this->getProjectPath($project_id, 'merge_request/'.rawurlencode($mr_id).'/comments'), array(
+        return $this->post($this->getProjectPath($project_id, 'merge_request/'.$this->encodePath($mr_id).'/comments'), array(
             'note' => $note
         ));
     }
@@ -172,6 +172,6 @@ class MergeRequests extends AbstractApi
      */
     public function changes($project_id, $mr_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'merge_request/'.rawurlencode($mr_id).'/changes'));
+        return $this->get($this->getProjectPath($project_id, 'merge_request/'.$this->encodePath($mr_id).'/changes'));
     }
 }

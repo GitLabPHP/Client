@@ -18,7 +18,7 @@ class Repositories extends AbstractApi
      */
     public function branch($project_id, $branch_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/branches/'.rawurlencode($branch_id)));
+        return $this->get($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch_id)));
     }
 
     /**
@@ -42,7 +42,7 @@ class Repositories extends AbstractApi
      */
     public function deleteBranch($project_id, $branch_name)
     {
-        return $this->delete($this->getProjectPath($project_id, 'repository/branches/'.rawurlencode($branch_name)));
+        return $this->delete($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch_name)));
     }
 
     /**
@@ -52,7 +52,7 @@ class Repositories extends AbstractApi
      */
     public function protectBranch($project_id, $branch_name)
     {
-        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.rawurlencode($branch_name).'/protect'));
+        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch_name).'/protect'));
     }
 
     /**
@@ -62,7 +62,7 @@ class Repositories extends AbstractApi
      */
     public function unprotectBranch($project_id, $branch_name)
     {
-        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.rawurlencode($branch_name).'/unprotect'));
+        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch_name).'/unprotect'));
     }
 
     /**
@@ -113,7 +113,7 @@ class Repositories extends AbstractApi
      */
     public function commit($project_id, $sha)
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.rawurlencode($sha)));
+        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha)));
     }
 
     /**
@@ -125,7 +125,7 @@ class Repositories extends AbstractApi
      */
     public function commitComments($project_id, $sha, $page = 0, $per_page = self::PER_PAGE)
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.rawurlencode($sha).'/comments'), array(
+        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/comments'), array(
             'page' => $page,
             'per_page' => $per_page
         ));
@@ -142,7 +142,7 @@ class Repositories extends AbstractApi
     {
         $params['note'] = $note;
 
-        return $this->post($this->getProjectPath($project_id, 'repository/commits/'.rawurlencode($sha).'/comments'), $params);
+        return $this->post($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/comments'), $params);
     }
 
     /**
@@ -155,7 +155,7 @@ class Repositories extends AbstractApi
     {
         return $this->get($this->getProjectPath(
             $project_id,
-            'repository/compare?from='.rawurlencode($fromShaOrMaster).'&to='.rawurlencode($toShaOrMaster)
+            'repository/compare?from='.$this->encodePath($fromShaOrMaster).'&to='.$this->encodePath($toShaOrMaster)
         ));
     }
 
@@ -166,7 +166,7 @@ class Repositories extends AbstractApi
      */
     public function diff($project_id, $sha)
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.rawurlencode($sha).'/diff'));
+        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/diff'));
     }
 
     /**
@@ -187,7 +187,7 @@ class Repositories extends AbstractApi
      */
     public function blob($project_id, $sha, $filepath)
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.rawurlencode($sha).'/blob'), array(
+        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/blob'), array(
             'filepath' => $filepath
         ));
     }

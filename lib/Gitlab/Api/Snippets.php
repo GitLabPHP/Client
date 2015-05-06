@@ -18,7 +18,7 @@ class Snippets extends AbstractApi
      */
     public function show($project_id, $snippet_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'snippets/'.rawurlencode($snippet_id)));
+        return $this->get($this->getProjectPath($project_id, 'snippets/'.$this->encodePath($snippet_id)));
     }
 
     /**
@@ -45,7 +45,7 @@ class Snippets extends AbstractApi
      */
     public function update($project_id, $snippet_id, array $params)
     {
-        return $this->put($this->getProjectPath($project_id, 'snippets/'.rawurlencode($snippet_id)), $params);
+        return $this->put($this->getProjectPath($project_id, 'snippets/'.$this->encodePath($snippet_id)), $params);
     }
 
     /**
@@ -55,7 +55,7 @@ class Snippets extends AbstractApi
      */
     public function content($project_id, $snippet_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'snippets/'.rawurlencode($snippet_id).'/raw'));
+        return $this->get($this->getProjectPath($project_id, 'snippets/'.$this->encodePath($snippet_id).'/raw'));
     }
 
     /**
@@ -65,6 +65,6 @@ class Snippets extends AbstractApi
      */
     public function remove($project_id, $snippet_id)
     {
-        return $this->delete($this->getProjectPath($project_id, 'snippets/'.rawurlencode($snippet_id)));
+        return $this->delete($this->getProjectPath($project_id, 'snippets/'.$this->encodePath($snippet_id)));
     }
 }

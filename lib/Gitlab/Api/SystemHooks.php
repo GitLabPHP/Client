@@ -27,7 +27,7 @@ class SystemHooks extends AbstractApi
      */
     public function test($id)
     {
-        return $this->get('hooks/'.rawurlencode($id));
+        return $this->get('hooks/'.$this->encodePath($id));
     }
 
     /**
@@ -36,6 +36,6 @@ class SystemHooks extends AbstractApi
      */
     public function remove($id)
     {
-        return $this->delete('hooks/'.rawurlencode($id));
+        return $this->delete('hooks/'.$this->encodePath($id));
     }
 }

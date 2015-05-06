@@ -29,7 +29,7 @@ class Issues extends AbstractApi
      */
     public function show($project_id, $issue_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'issues/'.rawurlencode($issue_id)));
+        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_id)));
     }
 
     /**
@@ -50,7 +50,7 @@ class Issues extends AbstractApi
      */
     public function update($project_id, $issue_id, array $params)
     {
-        return $this->put($this->getProjectPath($project_id, 'issues/'.rawurlencode($issue_id)), $params);
+        return $this->put($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_id)), $params);
     }
 
     /**
@@ -60,7 +60,7 @@ class Issues extends AbstractApi
      */
     public function showComments($project_id, $issue_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'issues/'.rawurlencode($issue_id)).'/notes');
+        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_id)).'/notes');
     }
 
     /**
@@ -71,7 +71,7 @@ class Issues extends AbstractApi
      */
     public function showComment($project_id, $issue_id, $note_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'issues/'.rawurlencode($issue_id)).'/notes/'.rawurlencode($note_id));
+        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_id)).'/notes/'.$this->encodePath($note_id));
     }
 
     /**
@@ -89,7 +89,7 @@ class Issues extends AbstractApi
             $params = array('body' => $body);
         }
 
-        return $this->post($this->getProjectPath($project_id, 'issues/'.rawurlencode($issue_id).'/notes'), $params);
+        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_id).'/notes'), $params);
     }
 
     /**
@@ -101,7 +101,7 @@ class Issues extends AbstractApi
      */
     public function updateComment($project_id, $issue_id, $note_id, $body)
     {
-        return $this->put($this->getProjectPath($project_id, 'issues/'.rawurlencode($issue_id).'/notes/'.rawurlencode($note_id)), array(
+        return $this->put($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_id).'/notes/'.$this->encodePath($note_id)), array(
             'body' => $body
         ));
     }

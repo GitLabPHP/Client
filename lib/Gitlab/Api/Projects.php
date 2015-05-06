@@ -66,7 +66,7 @@ class Projects extends AbstractApi
      */
     public function search($query, $page = 1, $per_page = self::PER_PAGE, $order_by = self::ORDER_BY, $sort = self::SORT)
     {
-        return $this->get('projects/search/'.rawurlencode($query), array(
+        return $this->get('projects/search/'.$this->encodePath($query), array(
             'page' => $page,
             'per_page' => $per_page,
             'order_by' => $order_by,
@@ -80,7 +80,7 @@ class Projects extends AbstractApi
      */
     public function show($project_id)
     {
-        return $this->get('projects/'.rawurlencode($project_id));
+        return $this->get('projects/'.$this->encodePath($project_id));
     }
 
     /**
@@ -105,7 +105,7 @@ class Projects extends AbstractApi
     {
         $params['name'] = $name;
 
-        return $this->post('projects/user/'.rawurlencode($user_id), $params);
+        return $this->post('projects/user/'.$this->encodePath($user_id), $params);
     }
 
     /**
@@ -115,7 +115,7 @@ class Projects extends AbstractApi
      */
     public function update($project_id, array $params)
     {
-        return $this->put('projects/'.rawurlencode($project_id), $params);
+        return $this->put('projects/'.$this->encodePath($project_id), $params);
     }
 
     /**
@@ -124,7 +124,7 @@ class Projects extends AbstractApi
      */
     public function remove($project_id)
     {
-        return $this->delete('projects/'.rawurlencode($project_id));
+        return $this->delete('projects/'.$this->encodePath($project_id));
     }
 
     /**
@@ -146,7 +146,7 @@ class Projects extends AbstractApi
      */
     public function member($project_id, $user_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'members/'.rawurlencode($user_id)));
+        return $this->get($this->getProjectPath($project_id, 'members/'.$this->encodePath($user_id)));
     }
 
     /**
@@ -207,7 +207,7 @@ class Projects extends AbstractApi
      */
     public function hook($project_id, $hook_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'hooks/'.rawurlencode($hook_id)));
+        return $this->get($this->getProjectPath($project_id, 'hooks/'.$this->encodePath($hook_id)));
     }
 
     /**
@@ -235,7 +235,7 @@ class Projects extends AbstractApi
      */
     public function updateHook($project_id, $hook_id, array $params)
     {
-        return $this->put($this->getProjectPath($project_id, 'hooks/'.rawurlencode($hook_id)), $params);
+        return $this->put($this->getProjectPath($project_id, 'hooks/'.$this->encodePath($hook_id)), $params);
     }
 
     /**
@@ -245,7 +245,7 @@ class Projects extends AbstractApi
      */
     public function removeHook($project_id, $hook_id)
     {
-        return $this->delete($this->getProjectPath($project_id, 'hooks/'.rawurlencode($hook_id)));
+        return $this->delete($this->getProjectPath($project_id, 'hooks/'.$this->encodePath($hook_id)));
     }
 
     /**
@@ -264,7 +264,7 @@ class Projects extends AbstractApi
      */
     public function key($project_id, $key_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'keys/'.rawurlencode($key_id)));
+        return $this->get($this->getProjectPath($project_id, 'keys/'.$this->encodePath($key_id)));
     }
 
     /**
@@ -288,7 +288,7 @@ class Projects extends AbstractApi
      */
     public function removeKey($project_id, $key_id)
     {
-        return $this->delete($this->getProjectPath($project_id, 'keys/'.rawurlencode($key_id)));
+        return $this->delete($this->getProjectPath($project_id, 'keys/'.$this->encodePath($key_id)));
     }
 
     /**
@@ -353,7 +353,7 @@ class Projects extends AbstractApi
      */
     public function createForkRelation($project_id, $forked_project_id)
     {
-        return $this->post($this->getProjectPath($project_id, 'fork/'.rawurlencode($forked_project_id)));
+        return $this->post($this->getProjectPath($project_id, 'fork/'.$this->encodePath($forked_project_id)));
     }
 
     /**
@@ -373,7 +373,7 @@ class Projects extends AbstractApi
      */
     public function setService($project_id, $service_name, array $params = array())
     {
-        return $this->put($this->getProjectPath($project_id, 'services/'.rawurlencode($service_name)), $params);
+        return $this->put($this->getProjectPath($project_id, 'services/'.$this->encodePath($service_name)), $params);
     }
 
     /**
@@ -383,6 +383,6 @@ class Projects extends AbstractApi
      */
     public function removeService($project_id, $service_name)
     {
-        return $this->delete($this->getProjectPath($project_id, 'services/'.rawurlencode($service_name)));
+        return $this->delete($this->getProjectPath($project_id, 'services/'.$this->encodePath($service_name)));
     }
 }
