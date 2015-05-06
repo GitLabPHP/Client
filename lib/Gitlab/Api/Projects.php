@@ -1,7 +1,5 @@
 <?php namespace Gitlab\Api;
 
-use Gitlab\Exception\RuntimeException;
-
 class Projects extends AbstractApi
 {
     const ORDER_BY = 'created_at';
@@ -10,6 +8,8 @@ class Projects extends AbstractApi
     /**
      * @param int $page
      * @param int $per_page
+     * @param string $order_by
+     * @param string $sort
      * @return mixed
      */
     public function all($page = 1, $per_page = self::PER_PAGE, $order_by = self::ORDER_BY, $sort = self::SORT)
@@ -25,6 +25,8 @@ class Projects extends AbstractApi
     /**
      * @param int $page
      * @param int $per_page
+     * @param string $order_by
+     * @param string $sort
      * @return mixed
      */
     public function accessible($page = 1, $per_page = self::PER_PAGE, $order_by = self::ORDER_BY, $sort = self::SORT)
@@ -40,6 +42,8 @@ class Projects extends AbstractApi
     /**
      * @param int $page
      * @param int $per_page
+     * @param string $order_by
+     * @param string $sort
      * @return mixed
      */
     public function owned($page = 1, $per_page = self::PER_PAGE, $order_by = self::ORDER_BY, $sort = self::SORT)
@@ -56,6 +60,8 @@ class Projects extends AbstractApi
      * @param string $query
      * @param int $page
      * @param int $per_page
+     * @param string $order_by
+     * @param string $sort
      * @return mixed
      */
     public function search($query, $page = 1, $per_page = self::PER_PAGE, $order_by = self::ORDER_BY, $sort = self::SORT)
@@ -287,11 +293,16 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
+     * @param int $page
+     * @param int $per_page
      * @return mixed
      */
-    public function events($project_id)
+    public function events($project_id, $page = 1, $per_page = self::PER_PAGE)
     {
-        return $this->get($this->getProjectPath($project_id, 'events'));
+        return $this->get($this->getProjectPath($project_id, 'events'), array(
+            'page' => $page,
+            'per_page' => $per_page
+        ));
     }
 
     /**

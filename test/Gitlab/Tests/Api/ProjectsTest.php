@@ -487,11 +487,37 @@ class ProjectsTest extends ApiTestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/events')
+            ->with('projects/1/events', array(
+                'page' => 1,
+                'per_page' => AbstractApi::PER_PAGE
+            ))
             ->will($this->returnValue($expectedArray))
         ;
 
         $this->assertEquals($expectedArray, $api->events(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetEventsWithPagination()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'title' => 'An event'),
+            array('id' => 2, 'title' => 'Another event')
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/events', array(
+                'page' => 2,
+                'per_page' => 15
+            ))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->events(1, 2, 15));
     }
 
     /**

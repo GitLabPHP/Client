@@ -549,11 +549,13 @@ class Project extends AbstractModel
     }
 
     /**
+     * @param int $page
+     * @param int $per_page
      * @return Event[]
      */
-    public function events()
+    public function events($page = 1, $per_page = Api::PER_PAGE)
     {
-        $data = $this->api('projects')->events($this->id);
+        $data = $this->api('projects')->events($this->id, $page, $per_page);
 
         $events = array();
         foreach ($data as $event) {
