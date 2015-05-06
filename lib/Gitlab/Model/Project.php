@@ -28,6 +28,7 @@ use Gitlab\Api\AbstractApi as Api;
  * @property-read string $created_at
  * @property-read int $greatest_access_level
  * @property-read string $last_activity_at
+ * @property-read string $tag_list
  * @property-read User $owner
  * @property-read ProjectNamespace $namespace
  */
@@ -59,7 +60,8 @@ class Project extends AbstractModel
         'created_at',
         'greatest_access_level',
         'last_activity_at',
-        'snippets_enabled'
+        'snippets_enabled',
+        'tag_list'
     );
 
     /**
