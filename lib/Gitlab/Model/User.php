@@ -56,7 +56,8 @@ class User extends AbstractModel
         'is_admin',
         'can_create_group',
         'can_create_project',
-        'avatar_url'
+        'avatar_url',
+        'current_sign_in_at'
     );
 
     /**
