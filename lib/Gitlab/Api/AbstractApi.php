@@ -122,6 +122,6 @@ abstract class AbstractApi
     {
         $path = rawurlencode($path);
 
-        return str_replace(array('%2F', '.'), array('/', '%2E'), $path);
+        return str_replace('.', '%2E', $path);
     }
 }

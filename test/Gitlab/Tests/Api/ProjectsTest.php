@@ -83,7 +83,7 @@ class ProjectsTest extends ApiTestCase
         $api = $this->getMultipleProjectsRequestMock('projects/search/a%2Eproject', $expectedArray);
         $this->assertEquals($expectedArray, $api->search('a.project'));
 
-        $api = $this->getMultipleProjectsRequestMock('projects/search/a/project', $expectedArray);
+        $api = $this->getMultipleProjectsRequestMock('projects/search/a%2Fproject', $expectedArray);
         $this->assertEquals($expectedArray, $api->search('a/project'));
     }
 

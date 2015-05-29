@@ -18,7 +18,7 @@ class Repositories extends AbstractApi
      */
     public function branch($project_id, $branch_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch_id)));
+        return $this->get($this->getProjectPath($project_id, 'repository/branches/'.$this->encodeBranch($branch_id)));
     }
 
     /**
@@ -42,7 +42,7 @@ class Repositories extends AbstractApi
      */
     public function deleteBranch($project_id, $branch_name)
     {
-        return $this->delete($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch_name)));
+        return $this->delete($this->getProjectPath($project_id, 'repository/branches/'.$this->encodeBranch($branch_name)));
     }
 
     /**
@@ -52,7 +52,7 @@ class Repositories extends AbstractApi
      */
     public function protectBranch($project_id, $branch_name)
     {
-        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch_name).'/protect'));
+        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.$this->encodeBranch($branch_name).'/protect'));
     }
 
     /**
@@ -62,7 +62,7 @@ class Repositories extends AbstractApi
      */
     public function unprotectBranch($project_id, $branch_name)
     {
-        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch_name).'/unprotect'));
+        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.$this->encodeBranch($branch_name).'/unprotect'));
     }
 
     /**
@@ -155,7 +155,7 @@ class Repositories extends AbstractApi
     {
         return $this->get($this->getProjectPath(
             $project_id,
-            'repository/compare?from='.$this->encodePath($fromShaOrMaster).'&to='.$this->encodePath($toShaOrMaster)
+            'repository/compare?from='.$this->encodeBranch($fromShaOrMaster).'&to='.$this->encodeBranch($toShaOrMaster)
         ));
     }
 
@@ -269,5 +269,16 @@ class Repositories extends AbstractApi
     public function contributors($project_id)
     {
         return $this->get($this->getProjectPath($project_id, 'repository/contributors'));
+    }
+
+    /**
+     * @param string $path
+     * @return string
+     */
+    protected function encodeBranch($path)
+    {
+        $path = $this->encodePath($path);
+
+        return str_replace('%2F', '/', $path);
     }
 }
