@@ -99,6 +99,19 @@ class Project extends AbstractModel
     }
 
     /**
+     * @param int $user_id
+     * @param Client $client
+     * @param string $name
+     * @param array $params
+     * @return Project
+     */
+    public static function createForUser($user_id, Client $client, $name, array $params = array())
+    {
+        $data = $client->api('projects')->createForUser($user_id, $name, $params);
+
+        return static::fromArray($client, $data);
+    }
+    /**
      * @param int $id
      * @param Client $client
      */

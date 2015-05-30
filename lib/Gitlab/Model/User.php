@@ -157,6 +157,18 @@ class User extends AbstractModel
     }
 
     /**
+     * @param string $title
+     * @param string $key
+     * @return Key
+     */
+    public function createKeyForUser($user_id, $title, $key)
+    {
+        $data = $this->api('users')->createKeyForUser($user_id, $title, $key);
+
+        return Key::fromArray($this->getClient(), $data);
+    }
+
+    /**
      * @param int $id
      * @return bool
      */
