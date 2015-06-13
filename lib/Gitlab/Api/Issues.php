@@ -1,5 +1,7 @@
 <?php namespace Gitlab\Api;
 
+use Gitlab\Exception\RuntimeException;
+
 class Issues extends AbstractApi
 {
     /**
@@ -13,7 +15,7 @@ class Issues extends AbstractApi
     {
         $path = $project_id === null ? 'issues' : $this->getProjectPath($project_id, 'issues');
 
-        $params = array_intersect_key($params, array('labels' => '', 'state' => '', 'sort' => '', 'order_by' => ''));
+        $params = array_intersect_key($params, $this->getApplicableQueryParameter($project_id));
         $params = array_merge(array(
             'page' => $page,
             'per_page' => $per_page
@@ -104,5 +106,46 @@ class Issues extends AbstractApi
         return $this->put($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_id).'/notes/'.$this->encodePath($note_id)), array(
             'body' => $body
         ));
+    }
+
+    /**
+     * @param int $project_id
+     * @param $issue_id
+     * @return mixed
+     * @throws \Exception
+     */
+    public function showByIid($project_id, $issue_id)
+    {
+        $path = $this->getProjectPath($project_id, 'issues');
+        $params = array(
+            'iid' => $issue_id
+        );
+
+        $issues = $this->get($path, $params);
+
+        if (empty($issues)) {
+            throw new RuntimeException('Issue not found.');
+        }
+
+        return reset($issues);
+    }
+
+    /**
+     * @param null $project_id
+     * @return array
+     */
+    protected function getApplicableQueryParameter($project_id = null)
+    {
+        $params = array('labels' => '', 'state' => '', 'sort' => '', 'order_by' => '');
+
+        if ($project_id !== null)
+        {
+            $params = array_merge($params, array(
+                'iid' => '',
+                'milestone' => ''
+            ));
+        }
+
+        return $params;
     }
 }
