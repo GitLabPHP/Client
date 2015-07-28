@@ -27,6 +27,8 @@ use Gitlab\Client;
  * @property-read bool $can_create_group
  * @property-read bool $can_create_project
  * @property-read string $avatar_url
+ * @property-read string $current_sign_in_at
+ * @property-read bool $two_factor_enabled
  */
 class User extends AbstractModel
 {
@@ -57,7 +59,8 @@ class User extends AbstractModel
         'can_create_group',
         'can_create_project',
         'avatar_url',
-        'current_sign_in_at'
+        'current_sign_in_at',
+        'two_factor_enabled'
     );
 
     /**
