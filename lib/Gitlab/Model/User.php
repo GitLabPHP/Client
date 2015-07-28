@@ -130,6 +130,26 @@ class User extends AbstractModel
     }
 
     /**
+     * @return bool
+     */
+    public function block()
+    {
+        $this->api('users')->block($this->id);
+
+        return true;
+    }
+
+    /**
+     * @return bool
+     */
+    public function unblock()
+    {
+        $this->api('users')->unblock($this->id);
+
+        return true;
+    }
+
+    /**
      * @return Key[]
      */
     public function keys()

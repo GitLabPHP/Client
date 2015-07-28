@@ -77,6 +77,24 @@ class Users extends AbstractApi
     }
 
     /**
+     * @param  int $id
+     * @return mixed
+     */
+    public function block($id)
+    {
+        return $this->put('users/'.$this->encodePath($id).'/block');
+    }
+
+    /**
+     * @param  int $id
+     * @return mixed
+     */
+    public function unblock($id)
+    {
+        return $this->put('users/'.$this->encodePath($id).'/unblock');
+    }
+
+    /**
      * @param string $emailOrUsername
      * @param string $password
      * @return mixed
