@@ -209,6 +209,40 @@ class UsersTest extends ApiTestCase
     /**
      * @test
      */
+    public function shouldBlockUser()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('users/1/block')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->block(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUnblockUser()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('users/1/unblock')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->unblock(1));
+    }
+
+    /**
+     * @test
+     */
     public function shouldShowCurrentUser()
     {
         $expectedArray = array('id' => 1, 'name' => 'Matt');
