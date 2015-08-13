@@ -11,6 +11,7 @@ use Gitlab\Client;
  * @property-read string $source_branch
  * @property-read int $project_id
  * @property-read string $title
+ * @property-read string $description
  * @property-read bool $closed
  * @property-read bool $merged
  * @property-read string $state
@@ -37,6 +38,7 @@ class MergeRequest extends AbstractModel implements Noteable
         'source_branch',
         'project_id',
         'title',
+        'description',
         'closed',
         'merged',
         'author',
