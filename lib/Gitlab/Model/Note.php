@@ -19,6 +19,7 @@ class Note extends AbstractModel
      * @var array
      */
     protected static $properties = array(
+        'id',
         'author',
         'body',
         'created_at',
