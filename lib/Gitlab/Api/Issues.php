@@ -29,7 +29,7 @@ class Issues extends AbstractApi
      */
     public function show($project_id, $issue_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_id)));
+        return $this->get($this->getProjectPath($project_id, 'issues?iid='.$this->encodePath($issue_id)));
     }
 
     /**

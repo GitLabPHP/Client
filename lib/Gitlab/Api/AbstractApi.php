@@ -7,8 +7,9 @@ use Gitlab\Client;
  *
  * @author Joseph Bielawski <stloyd@gmail.com>
  * @author Matt Humphrey <matt@m4tt.co>
+ * @author Radu Topala <radu.topala@trisoft.ro>
  */
-abstract class AbstractApi
+abstract class AbstractApi implements ApiInterface
 {
     /**
      * Default entries per page

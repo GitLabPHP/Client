@@ -74,7 +74,7 @@ class IssuesTest extends ApiTestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/issues/2')
+            ->with('projects/1/issues?iid=2')
             ->will($this->returnValue($expectedArray))
         ;
 
