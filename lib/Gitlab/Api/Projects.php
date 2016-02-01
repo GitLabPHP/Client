@@ -129,6 +129,18 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
+     * @param array $scope
+     * @return mixed
+     */
+    public function builds($project_id, $scope = null)
+    {
+        return $this->get($this->getProjectPath($project_id, 'builds'), array(
+            'scope' => (array) $scope,
+        ));
+    }
+
+    /**
+     * @param int $project_id
      * @param string $username_query
      * @return mixed
      */
