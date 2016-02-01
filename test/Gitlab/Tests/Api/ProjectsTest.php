@@ -231,11 +231,11 @@ class ProjectsTest extends ApiTestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/builds', array('scope' => ['success', 'failed']))
+            ->with('projects/1/builds', array('scope' => array('success', 'failed')))
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->builds(1, ['success', 'failed']));
+        $this->assertEquals($expectedArray, $api->builds(1, array('success', 'failed')));
     }
 
     /**
