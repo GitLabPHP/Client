@@ -173,6 +173,46 @@ class RepositoriesTest extends ApiTestCase
     /**
      * @test
      */
+    public function shouldGetCommitBuilds()
+    {
+        $expectedArray = array(
+            array('id' => 'abcd1234', 'status' => 'failed'),
+            array('id' => 'efgh5678', 'status' => 'success')
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/repository/commits/abcd12345/builds', array('page' => 0, 'per_page' => AbstractApi::PER_PAGE, 'scope' => null))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->commitBuilds(1, 'abcd12345'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetCommitBuildsWithScope()
+    {
+        $expectedArray = array(
+            array('id' => 'abcd1234', 'status' => 'success'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/repository/commits/abcd12345/builds', array('page' => 0, 'per_page' => AbstractApi::PER_PAGE, 'scope' => 'success'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->commitBuilds(1, 'abcd12345', 'success'));
+    }
+
+
+    /**
+     * @test
+     */
     public function shouldGetCommitsWithParams()
     {
         $expectedArray = array(
