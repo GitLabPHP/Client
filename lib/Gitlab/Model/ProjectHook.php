@@ -11,6 +11,7 @@ use Gitlab\Client;
  * @property-read bool $push_events
  * @property-read bool $issues_events
  * @property-read bool $merge_requests_events
+ * @property-read bool $build_events
  * @property-read bool $tag_push_events
  * @property-read string $created_at
  * @property-read Project $project
@@ -28,6 +29,7 @@ class ProjectHook extends AbstractModel
         'push_events',
         'issues_events',
         'merge_requests_events',
+        'build_events',
         'tag_push_events',
         'created_at'
     );
