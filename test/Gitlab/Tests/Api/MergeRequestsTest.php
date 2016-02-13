@@ -316,6 +316,23 @@ class MergeRequestsTest extends ApiTestCase
         $this->assertEquals($expectedArray, $api->changes(1, 2));
     }
 
+    /**
+     * @test
+     */
+    public function shouldGetMergeRequestByIid()
+    {
+        $expectedArray = array('id' => 1, 'title' => 'A merge request');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_requests', array('iid' => 2))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->getByIid(1, 2));
+    }
+
     protected function getMultipleMergeRequestsData()
     {
         return array(
