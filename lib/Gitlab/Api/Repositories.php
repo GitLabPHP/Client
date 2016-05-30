@@ -290,6 +290,19 @@ class Repositories extends AbstractApi
     }
 
     /**
+     * File content is base64 encoded and placed in the "content" index of the returning array.
+     * You can then save the content with the tar.gz extension
+     *
+     * @param int $project_id
+     * @param array $params
+     * @return mixed
+     */
+    public function archive($project_id, $params = array())
+    {
+        return $this->get($this->getProjectPath($project_id, 'repository/archive'), $params);
+    }
+
+    /**
      * @param string $path
      * @return string
      */
