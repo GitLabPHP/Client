@@ -44,12 +44,13 @@ class Groups extends AbstractApi
      * @param string $description
      * @return mixed
      */
-    public function create($name, $path, $description = null)
+    public function create($name, $path, $description = null, $visibility_level = 0)
     {
         return $this->post('groups', array(
             'name' => $name,
             'path' => $path,
-            'description' => $description
+            'description' => $description,
+            'visibility_level' => $visibility_level
         ));
     }
 
