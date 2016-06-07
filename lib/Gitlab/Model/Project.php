@@ -286,7 +286,7 @@ class Project extends AbstractModel
 
         $keys = array();
         foreach ($data as $key) {
-            $hooks[] = Key::fromArray($this->getClient(), $key);
+            $keys[] = Key::fromArray($this->getClient(), $key);
         }
 
         return $keys;
