@@ -111,7 +111,7 @@ class GroupsTest extends ApiTestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('groups', array('name' => 'A new group', 'path' => 'a-new-group', 'description' => null))
+            ->with('groups', array('name' => 'A new group', 'path' => 'a-new-group', 'description' => null, 'visibility_level' => 0))
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -121,18 +121,18 @@ class GroupsTest extends ApiTestCase
     /**
      * @test
      */
-    public function shouldCreateGroupWithDescription()
+    public function shouldCreateGroupWithDescriptionAndVisLevel()
     {
-        $expectedArray = array('id' => 1, 'name' => 'A new group');
+        $expectedArray = array('id' => 1, 'name' => 'A new group', 'visibility_level' => 2);
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('groups', array('name' => 'A new group', 'path' => 'a-new-group', 'description' => 'Description'))
+            ->with('groups', array('name' => 'A new group', 'path' => 'a-new-group', 'description' => 'Description', 'visibility_level' => 2))
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->create('A new group', 'a-new-group', 'Description'));
+        $this->assertEquals($expectedArray, $api->create('A new group', 'a-new-group', 'Description', 2));
     }
 
     /**
