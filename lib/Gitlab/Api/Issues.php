@@ -13,7 +13,7 @@ class Issues extends AbstractApi
     {
         $path = $project_id === null ? 'issues' : $this->getProjectPath($project_id, 'issues');
 
-        $params = array_intersect_key($params, array('labels' => '', 'state' => '', 'sort' => '', 'order_by' => ''));
+        $params = array_intersect_key($params, array('labels' => '', 'state' => '', 'sort' => '', 'order_by' => '', 'milestone' => ''));
         $params = array_merge(array(
             'page' => $page,
             'per_page' => $per_page
