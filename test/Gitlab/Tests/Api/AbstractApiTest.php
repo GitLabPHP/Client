@@ -146,9 +146,9 @@ class AbstractApiTestInstance extends AbstractApi
     /**
      * {@inheritDoc}
      */
-    public function post($path, array $parameters = array(), $requestHeaders = array())
+    public function post($path, array $parameters = array(), $requestHeaders = array(), array $files = array())
     {
-        return parent::post($path, $parameters, $requestHeaders);
+        return parent::post($path, $parameters, $requestHeaders, $files);
     }
 
     /**

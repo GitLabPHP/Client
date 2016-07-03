@@ -2,12 +2,14 @@
 
 use Buzz\Client\ClientInterface;
 use Buzz\Listener\ListenerInterface;
+use Buzz\Message\Form\FormUpload;
 
 use Gitlab\Exception\ErrorException;
 use Gitlab\Exception\RuntimeException;
 use Gitlab\HttpClient\Listener\ErrorListener;
 use Gitlab\HttpClient\Message\Request;
 use Gitlab\HttpClient\Message\Response;
+use Gitlab\HttpClient\Message\FormRequest;
 
 /**
  * Performs requests on Gitlab API. API documentation should be self-explanatory.
@@ -112,9 +114,9 @@ class HttpClient implements HttpClientInterface
     /**
      * {@inheritDoc}
      */
-    public function post($path, array $parameters = array(), array $headers = array())
+    public function post($path, array $parameters = array(), array $headers = array(), array $files = array())
     {
-        return $this->request($path, $parameters, 'POST', $headers);
+        return $this->request($path, $parameters, 'POST', $headers, $files);
     }
 
     /**
@@ -144,13 +146,11 @@ class HttpClient implements HttpClientInterface
     /**
      * {@inheritDoc}
      */
-    public function request($path, array $parameters = array(), $httpMethod = 'GET', array $headers = array())
+    public function request($path, array $parameters = array(), $httpMethod = 'GET', array $headers = array(), array $files = array())
     {
         $path = trim($this->baseUrl.$path, '/');
 
-        $request = $this->createRequest($httpMethod, $path);
-        $request->addHeaders($headers);
-        $request->setContent(http_build_query($parameters));
+        $request = $this->createRequest($httpMethod, $path, $parameters, $headers, $files);
 
         $hasListeners = 0 < count($this->listeners);
         if ($hasListeners) {
@@ -200,13 +200,31 @@ class HttpClient implements HttpClientInterface
     /**
      * @param string $httpMethod
      * @param string $url
-     * @return Request
+     * @param array $parameters
+     * @param array $headers
+     * @param array $files
+     *
+     * @return FormRequest|Request
      */
-    private function createRequest($httpMethod, $url)
+    private function createRequest($httpMethod, $url, array $parameters, array $headers, array $files)
     {
-        $request = new Request($httpMethod);
+        if (empty($files)) {
+            $request = new Request($httpMethod);
+            $request->setContent(http_build_query($parameters));
+        } else {
+            $request = new FormRequest($httpMethod);
+            foreach ($parameters as $name => $value) {
+                $request->setField($name, $value);
+            }
+
+            foreach ($files as $name => $file) {
+                $upload = new FormUpload($file);
+                $request->setField($name, $upload);
+            }
+        }
         $request->setHeaders($this->headers);
         $request->fromUrl($url);
+        $request->addHeaders($headers);
 
         return $request;
     }
