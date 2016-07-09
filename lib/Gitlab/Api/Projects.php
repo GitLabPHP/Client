@@ -150,6 +150,16 @@ class Projects extends AbstractApi
     }
 
     /**
+     * @param $project_id
+     * @param $build_id
+     * @return mixed
+     */
+    public function trace($project_id, $build_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'builds/'.$this->encodePath($build_id).'/trace'));
+    }
+
+    /**
      * @param int $project_id
      * @param string $username_query
      * @return mixed

@@ -254,6 +254,23 @@ class ProjectsTest extends ApiTestCase
 
         $this->assertEquals($expectedArray, $api->build(1, 2));
     }
+    
+    /**
+     * @test
+     */
+    public function shouldGetTrace()
+    {
+        $expectedString = 'runner trace of a specific build';
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/builds/2/trace')
+            ->will($this->returnValue($expectedString))
+        ;
+
+        $this->assertEquals($expectedString, $api->trace(1, 2));
+    }
 
     /**
      * @test
