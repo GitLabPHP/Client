@@ -523,6 +523,17 @@ class Project extends AbstractModel
     }
 
     /**
+     * @param $sha
+     * @param $filepath
+     *
+     * @return array
+     */
+    public function getFile($sha, $filepath)
+    {
+        return $this->api('repo')->getFile($this->id, $filepath, $sha);
+    }
+
+    /**
      * @param string $file_path
      * @param string $content
      * @param string $branch_name
