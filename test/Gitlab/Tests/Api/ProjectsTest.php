@@ -254,7 +254,7 @@ class ProjectsTest extends ApiTestCase
 
         $this->assertEquals($expectedArray, $api->build(1, 2));
     }
-    
+
     /**
      * @test
      */
@@ -755,6 +755,106 @@ class ProjectsTest extends ApiTestCase
         ;
 
         $this->assertEquals($expectedBool, $api->removeService(1, 'hipchat'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetVariables()
+    {
+        $expectedArray = array(
+            array('key' => 'ftp_username', 'value' => 'ftp'),
+            array('key' => 'ftp_password', 'value' => 'somepassword')
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/variables')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->variables(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetVariable()
+    {
+        $expectedArray = array('key' => 'ftp_username', 'value' => 'ftp');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/variables/ftp_username')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->variable(1, 'ftp_username'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAddVariable()
+    {
+        $expectedKey   = 'ftp_port';
+        $expectedValue = '21';
+
+        $expectedArray = array(
+            'key'   => $expectedKey,
+            'value' => $expectedValue,
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/variables', $expectedArray)
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->addVariable(1, $expectedKey, $expectedValue));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUpdateVariable()
+    {
+        $expectedKey   = 'ftp_port';
+        $expectedValue = '22';
+
+        $expectedArray = array(
+            'key'   => 'ftp_port',
+            'value' => '22',
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/variables/'.$expectedKey, array('value' => $expectedValue))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->updateVariable(1, $expectedKey, $expectedValue));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRemoveVariable()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/variables/ftp_password')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->removeVariable(1, 'ftp_password'));
     }
 
     protected function getMultipleProjectsRequestMock($path, $expectedArray = array(), $page = 1, $per_page = 20, $order_by = 'created_at', $sort = 'asc')
