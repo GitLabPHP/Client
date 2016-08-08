@@ -8,6 +8,7 @@ use Gitlab\Exception\InvalidArgumentException;
 use Gitlab\HttpClient\HttpClient;
 use Gitlab\HttpClient\HttpClientInterface;
 use Gitlab\HttpClient\Listener\AuthListener;
+use Gitlab\HttpClient\Listener\PaginationListener;
 
 /**
  * Simple API wrapper for Gitlab
@@ -81,6 +82,13 @@ class Client
 
         $this->baseUrl     = $baseUrl;
         $this->httpClient  = new HttpClient($this->baseUrl, $this->options, $httpClient);
+
+        /**
+         * a Pagination listener on Response
+         */
+        $this->httpClient->addListener(
+            new PaginationListener()
+        );
     }
 
     /**
