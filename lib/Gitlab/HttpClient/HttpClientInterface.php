@@ -24,13 +24,14 @@ interface HttpClientInterface
     /**
      * Send a POST request
      *
-     * @param string $path       Request path
-     * @param array  $parameters POST Parameters
-     * @param array  $headers    Reconfigure the request headers for this call only
+     * @param string $path Request path
+     * @param array $parameters POST Parameters
+     * @param array $headers Reconfigure the request headers for this call only
+     * @param array $files Files paths of files to upload
      *
      * @return array Data
      */
-    public function post($path, array $parameters = array(), array $headers = array());
+    public function post($path, array $parameters = array(), array $headers = array(), array $files = array());
 
     /**
      * Send a PATCH request
