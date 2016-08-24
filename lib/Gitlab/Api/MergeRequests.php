@@ -195,4 +195,14 @@ class MergeRequests extends AbstractApi
     {
         return $this->get($this->getProjectPath($project_id, 'merge_requests'), array('iid' => $mr_iid));
     }
+
+    /**
+     * @param int $project_id
+     * @param int $mr_id
+     * @return mixed
+     */
+    public function commits($project_id, $mr_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'merge_request/'.$this->encodePath($mr_id).'/commits'));
+    }
 }
