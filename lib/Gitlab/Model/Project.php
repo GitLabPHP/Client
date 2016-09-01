@@ -141,6 +141,26 @@ class Project extends AbstractModel
 
         return static::fromArray($this->getClient(), $data);
     }
+    
+    /**
+     * @return Project
+     */
+    public function archive()
+    {
+        $data = $this->api("projects")->archive($this->id);
+        
+        return static::fromArray($this->getClient(), $data);
+    }
+    
+    /**
+     * @return Project
+     */
+    public function unarchive()
+    {
+        $data = $this->api("projects")->unarchive($this->id);
+        
+        return static::fromArray($this->getClient(), $data);
+    }
 
     /**
      * @return bool

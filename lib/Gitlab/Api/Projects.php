@@ -126,6 +126,22 @@ class Projects extends AbstractApi
     {
         return $this->delete('projects/'.$this->encodePath($project_id));
     }
+    
+    /**
+     * @param int $project_id
+     * @return mixed
+     */
+    public function archive($project_id){
+        return $this->post("projects/".$this->encodePath($project_id)."/archive");
+    }
+    
+    /**
+     * @param int $project_id
+     * @return mixed
+     */
+    public function unarchive($project_id){
+        return $this->post("projects/".$this->encodePath($project_id)."/unarchive");
+    }
 
     /**
      * @param int $project_id
