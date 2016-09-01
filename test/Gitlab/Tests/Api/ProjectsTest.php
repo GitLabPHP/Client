@@ -143,8 +143,6 @@ class ProjectsTest extends ApiTestCase
         )));
     }
     
-    
-
     /**
      * @test
      */
@@ -160,6 +158,23 @@ class ProjectsTest extends ApiTestCase
         ;
 
         $this->assertEquals($expectedArray, $api->archive(1));
+    }
+    
+    /**
+     * @test
+     */
+    public function shouldUnarchiveProject()
+    {
+        $expectedArray = array('id' => 1, 'archived' => false);
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/unarchive')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->unarchive(1));
     }
 
     /**
