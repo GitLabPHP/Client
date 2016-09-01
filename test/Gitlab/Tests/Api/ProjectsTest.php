@@ -142,6 +142,25 @@ class ProjectsTest extends ApiTestCase
             'issues_enabled' => true
         )));
     }
+    
+    
+
+    /**
+     * @test
+     */
+    public function shouldArchiveProject()
+    {
+        $expectedArray = array('id' => 1, 'archived' => true);
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/archive')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->archive(1));
+    }
 
     /**
      * @test
