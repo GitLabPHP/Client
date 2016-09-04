@@ -91,6 +91,36 @@ class Repositories extends AbstractApi
     }
 
     /**
+     * @param int    $project_id
+     * @param string $tag_name
+     * @param string $description
+     *
+     * @return mixed
+     */
+    public function createRelease( $project_id, $tag_name, $description ) {
+        return $this->post( $this->getProjectPath( $project_id, 'repository/tags/' . $this->encodeBranch( $tag_name ) . '/release' ), array(
+            'id'          => $project_id,
+            'tag_name'    => $tag_name,
+            'description' => $description
+        ) );
+    }
+
+    /**
+     * @param int    $project_id
+     * @param string $tag_name
+     * @param string $description
+     *
+     * @return mixed
+     */
+    public function updateRelease( $project_id, $tag_name, $description ) {
+        return $this->put( $this->getProjectPath( $project_id, 'repository/tags/' . $this->encodeBranch( $tag_name ) . '/release' ), array(
+            'id'          => $project_id,
+            'tag_name'    => $tag_name,
+            'description' => $description
+        ) );
+    }
+
+    /**
      * @param int $project_id
      * @param string $sha
      * @param string $scope
