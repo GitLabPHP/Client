@@ -609,6 +609,40 @@ class ProjectsTest extends ApiTestCase
     /**
      * @test
      */
+    public function shoudEnableKey()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/keys/3/enable')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->enableKey(1, 3));
+    }
+
+    /**
+     * @test
+     */
+    public function shoudDisableKey()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/keys/3/disable')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->disableKey(1, 3));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetEvents()
     {
         $expectedArray = array(
