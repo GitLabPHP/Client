@@ -417,6 +417,41 @@ class UsersTest extends ApiTestCase
         $this->assertEquals($expectedArray, $api->login('matt', 'password'));
     }
 
+    /**
+     * @test
+     */
+    public function shouldGetUserEmails()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'email' => 'foo@bar.baz'),
+            array('id' => 2, 'email' => 'foo@bar.qux'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('user/emails')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->emails());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetSpecificUserEmail()
+    {
+        $expectedArray = array('id' => 1, 'email' => 'foo@bar.baz');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('user/emails/1')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->email(1));
+    }
+
     protected function getApiClass()
     {
         return 'Gitlab\Api\Users';
