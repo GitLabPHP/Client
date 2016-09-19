@@ -347,6 +347,28 @@ class Project extends AbstractModel
     }
 
     /**
+     * @param string $key_id
+     * @return bool
+     */
+    public function enableKey($key_id)
+    {
+        $this->api('projects')->enableKey($this->id, $key_id);
+
+        return true;
+    }
+
+    /**
+     * @param string $key_id
+     * @return bool
+     */
+    public function disableKey($key_id)
+    {
+        $this->api('projects')->disableKey($this->id, $key_id);
+
+        return true;
+    }
+
+    /**
      * @param string $name
      * @param string $ref
      * @return Branch

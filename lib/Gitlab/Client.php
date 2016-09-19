@@ -101,6 +101,10 @@ class Client
     {
         switch ($name) {
 
+            case 'deploy_keys':
+                $api = new Api\DeployKeys($this);
+                break;
+
             case 'groups':
                 $api = new Api\Groups($this);
                 break;

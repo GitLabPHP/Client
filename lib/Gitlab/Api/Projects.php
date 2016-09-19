@@ -341,6 +341,26 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
+     * @param int $key_id
+     * @return mixed
+     */
+    public function enableKey($project_id, $key_id)
+    {
+        return $this->post($this->getProjectPath($project_id, 'keys/'.$this->encodePath($key_id).'/enable'));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $key_id
+     * @return mixed
+     */
+    public function disableKey($project_id, $key_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'keys/'.$this->encodePath($key_id).'/disable'));
+    }
+
+    /**
+     * @param int $project_id
      * @param int $page
      * @param int $per_page
      * @return mixed
