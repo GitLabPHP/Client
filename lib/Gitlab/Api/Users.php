@@ -207,4 +207,21 @@ class Users extends AbstractApi
     {
         return $this->delete('users/'.$this->encodePath($user_id).'/keys/'.$this->encodePath($key_id));
     }
+
+    /**
+     * @return mixed
+     */
+    public function emails()
+    {
+        return $this->get('user/emails');
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function email($id)
+    {
+        return $this->get('user/emails/'.$this->encodePath($id));
+    }
 }
