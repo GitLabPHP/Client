@@ -115,4 +115,15 @@ class Issues extends AbstractApi
             'body' => $body
         ));
     }
+
+    /**
+     * @param int $project_id
+     * @param int $issue_id
+     * @param int $note_id
+     * @return mixed
+     */
+    public function removeComment($project_id, $issue_id, $note_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_id).'/notes/'.$this->encodePath($note_id)));
+    }
 }
