@@ -112,7 +112,7 @@ class Issues extends AbstractApi
      * @param int $note_id
      * @return mixed
      */
-    public function deleteComment($project_id, $issue_id, $note_id)
+    public function removeComment($project_id, $issue_id, $note_id)
     {
         return $this->delete($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_id).'/notes/'.$this->encodePath($note_id)));
     }
