@@ -138,6 +138,23 @@ class GroupsTest extends ApiTestCase
     /**
      * @test
      */
+    public function shouldUpdateGroup()
+    {
+        $expectedArray = array('id' => 3, 'name' => 'Group name', 'path' => 'group-path');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('groups/3', array('name' => 'Group name', 'path' => 'group-path'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->update(3, array('name' => 'Group name', 'path' => 'group-path')));
+    }
+
+    /**
+     * @test
+     */
     public function shouldTransferProjectToGroup()
     {
         $expectedBool = true;

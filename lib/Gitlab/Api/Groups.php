@@ -55,6 +55,16 @@ class Groups extends AbstractApi
     }
 
     /**
+     * @param int $id
+     * @param array $params
+     * @return mixed
+     */
+    public function update($id, array $params)
+    {
+        return $this->put('groups/'.$this->encodePath($id), $params);
+    }
+
+    /**
      * @param int $group_id
      * @return mixed
      */
