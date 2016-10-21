@@ -60,7 +60,7 @@ class Issues extends AbstractApi
      */
     public function remove($project_id, $issue_id)
     {
-        return $this->delete($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_id)), $params);
+        return $this->delete($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_id)));
     }
 
     /**
