@@ -420,14 +420,16 @@ class Project extends AbstractModel
 
     /**
      * @param string $branch_name
+     * @param bool $devPush
+     * @param bool $devMerge
      * @return Branch
      */
-    public function protectBranch($branch_name)
+    public function protectBranch($branch_name, $devPush = false, $devMerge = false)
     {
         $branch = new Branch($this, $branch_name);
         $branch->setClient($this->getClient());
 
-        return $branch->protect();
+        return $branch->protect($devPush, $devMerge);
     }
 
     /**

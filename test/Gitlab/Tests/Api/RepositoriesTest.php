@@ -85,11 +85,28 @@ class RepositoriesTest extends ApiTestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/repository/branches/master/protect')
+            ->with('projects/1/repository/branches/master/protect', array('developers_can_push' => false, 'developers_can_merge' => false))
             ->will($this->returnValue($expectedArray))
         ;
 
         $this->assertEquals($expectedArray, $api->protectBranch(1, 'master'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldProtectBranchWithPermissions()
+    {
+        $expectedArray = array('name' => 'master');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/repository/branches/master/protect', array('developers_can_push' => true, 'developers_can_merge' => true))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->protectBranch(1, 'master', true, true));
     }
 
     /**

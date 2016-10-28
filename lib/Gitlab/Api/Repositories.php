@@ -48,11 +48,16 @@ class Repositories extends AbstractApi
     /**
      * @param int $project_id
      * @param string $branch_name
+     * @param bool $devPush
+     * @param bool $devMerge
      * @return mixed
      */
-    public function protectBranch($project_id, $branch_name)
+    public function protectBranch($project_id, $branch_name, $devPush = false, $devMerge = false)
     {
-        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.$this->encodeBranch($branch_name).'/protect'));
+        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.$this->encodeBranch($branch_name).'/protect'), array(
+            'developers_can_push' => $devPush,
+            'developers_can_merge' => $devMerge
+        ));
     }
 
     /**

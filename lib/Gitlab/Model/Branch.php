@@ -63,11 +63,13 @@ class Branch extends AbstractModel
     }
 
     /**
+     * @param bool $devPush
+     * @param bool $devMerge
      * @return Branch
      */
-    public function protect()
+    public function protect($devPush = false, $devMerge = false)
     {
-        $data = $this->api('repositories')->protectBranch($this->project->id, $this->name);
+        $data = $this->api('repositories')->protectBranch($this->project->id, $this->name, $devPush, $devMerge);
 
         return static::fromArray($this->getClient(), $this->project, $data);
     }
