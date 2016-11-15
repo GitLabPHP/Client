@@ -236,6 +236,14 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
+     * @return mixed
+     */
+    public function deployKeys($project_id) {
+        return $this->get($this->getProjectPath($project_id, 'deploy_keys'));
+    }
+
+    /**
+     * @param int $project_id
      * @param int $page
      * @param int $per_page
      * @return mixed
