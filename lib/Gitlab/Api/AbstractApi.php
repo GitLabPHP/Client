@@ -60,7 +60,7 @@ abstract class AbstractApi implements ApiInterface
      * @param array $files
      * @return mixed
      */
-    protected function post($path, array $parameters = array(), $requestHeaders = array(), array $files = array())
+    protected function post($path, $parameters = array(), $requestHeaders = array(), array $files = array())
     {
         $response = $this->client->getHttpClient()->post($path, $parameters, $requestHeaders, $files);
 

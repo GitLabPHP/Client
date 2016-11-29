@@ -31,7 +31,7 @@ interface HttpClientInterface
      *
      * @return array Data
      */
-    public function post($path, array $parameters = array(), array $headers = array(), array $files = array());
+    public function post($path, $parameters = array(), array $headers = array(), array $files = array());
 
     /**
      * Send a PATCH request
@@ -77,7 +77,7 @@ interface HttpClientInterface
      *
      * @return array Data
      */
-    public function request($path, array $parameters = array(), $httpMethod = 'GET', array $headers = array());
+    public function request($path, $parameters = array(), $httpMethod = 'GET', array $headers = array());
 
     /**
      * Change an option value.

@@ -347,4 +347,22 @@ class Repositories extends AbstractApi
 
         return str_replace('%2F', '/', $path);
     }
+
+    /**
+     * @param int $project_id
+     * @param object array $actions
+     * @param string $branch_name
+     * @param string $commit_message
+     * @param string $encoding
+     * @return mixed
+     */
+    public function actions($project_id, $actions, $branch_name, $commit_message, $encoding = null)
+    {
+        $data = new \stdClass();
+        $data->branch_name = $branch_name;
+        $data->commit_message = $commit_message;
+        $data->encoding = $encoding;
+        $data->actions = $actions;
+        return $this->post($this->getProjectPath($project_id, 'repository/commits'), json_encode($data), ["Content-Type: application/json"]);
+    }
 }

@@ -114,7 +114,7 @@ class HttpClient implements HttpClientInterface
     /**
      * {@inheritDoc}
      */
-    public function post($path, array $parameters = array(), array $headers = array(), array $files = array())
+    public function post($path, $parameters = array(), array $headers = array(), array $files = array())
     {
         return $this->request($path, $parameters, 'POST', $headers, $files);
     }
@@ -146,7 +146,7 @@ class HttpClient implements HttpClientInterface
     /**
      * {@inheritDoc}
      */
-    public function request($path, array $parameters = array(), $httpMethod = 'GET', array $headers = array(), array $files = array())
+    public function request($path, $parameters = array(), $httpMethod = 'GET', array $headers = array(), array $files = array())
     {
         $path = trim($this->baseUrl.$path, '/');
 
@@ -211,7 +211,12 @@ class HttpClient implements HttpClientInterface
         if (empty($files)) {
             $request = new Request($httpMethod);
             $request->setContent(http_build_query($parameters));
-        } else {
+            if (is_array($parameters)) {
+                $request->setContent(http_build_query($parameters));
+            } else {
+                $request->setContent($parameters);
+            }
+         } else {
             $request = new FormRequest($httpMethod);
             foreach ($parameters as $name => $value) {
                 $request->setField($name, $value);
