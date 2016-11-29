@@ -363,6 +363,6 @@ class Repositories extends AbstractApi
         $data->commit_message = $commit_message;
         $data->encoding = $encoding;
         $data->actions = $actions;
-        return $this->post($this->getProjectPath($project_id, 'repository/commits'), json_encode($data), ["Content-Type: application/json"]);
+        return $this->post($this->getProjectPath($project_id, 'repository/commits'), json_encode($data), array("Content-Type: application/json"));
     }
 }
