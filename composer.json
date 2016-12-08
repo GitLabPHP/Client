@@ -1,5 +1,5 @@
 {
-	"name": "m4tthumphrey/php-gitlab-api",
+	"name": "psi-dev-group/php-gitlab-api",
 	"type": "library",
 	"description": "GitLab API client",
 	"homepage": "https://github.com/m4tthumphrey/php-gitlab-api",
