@@ -113,6 +113,11 @@ class Client
                 $api = new Api\Issues($this);
                 break;
 
+            case 'board':
+            case 'issue_boards':
+                $api = new Api\IssueBoards($this);
+                break;
+
             case 'mr':
             case 'merge_requests':
                 $api = new Api\MergeRequests($this);
