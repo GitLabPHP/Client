@@ -49,7 +49,7 @@ class MergeRequestsTest extends ApiTestCase
         $api = $this->getApiMock(array('getList'));
         $api->expects($this->once())
             ->method('getList')
-            ->with(1, MergeRequests::STATE_ALL, 2, 5,  'title', 'desc')
+            ->with(1, MergeRequests::STATE_ALL, 2, 5, 'title', 'desc')
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -334,6 +334,24 @@ class MergeRequestsTest extends ApiTestCase
         ;
 
         $this->assertEquals($expectedArray, $api->changes(1, 2));
+    }
+
+
+    /**
+     * @test
+     */
+    public function shouldGetIssuesClosedByMergeRequest()
+    {
+        $expectedArray = array('id' => 1, 'title' => 'A merge request');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_request/2/closes_issues')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->closesIssues(1, 2));
     }
 
     /**
