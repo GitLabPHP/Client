@@ -302,7 +302,7 @@ class ProjectsTest extends ApiTestCase
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray,$api->buildArtifacts(1,2));
+        $this->assertEquals($expectedArray,$api->buildArtifacts(1, 2));
     }
 
     /**
