@@ -537,4 +537,28 @@ class Projects extends AbstractApi
     {
         return $this->post($this->getProjectPath($project_id, 'uploads'), array(), array(), array('file' => $file));
     }
+
+    /**
+     * @param int $project_id
+     * @param int $page
+     * @param int $per_page
+     * @return mixed
+     */
+    public function deployments($project_id, $page = 1, $per_page = self::PER_PAGE)
+    {
+        return $this->get($this->getProjectPath($project_id, 'deployments'), array(
+            'page' => $page,
+            'per_page' => $per_page
+        ));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $deployment_id
+     * @return mixed
+     */
+    public function deployment($project_id, $deployment_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'deployments/'.$this->encodePath($deployment_id)));
+    }
 }

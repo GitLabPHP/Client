@@ -937,6 +937,52 @@ class ProjectsTest extends ApiTestCase
         return $api;
     }
 
+    /**
+     * @test
+     */
+    public function shouldGetDeployments()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'sha' => '0000001'),
+            array('id' => 2, 'sha' => '0000002'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/deployments', array(
+                'page' => 1,
+                'per_page' => AbstractApi::PER_PAGE
+            ))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->deployments(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetDeploymentsWithPagination()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'sha' => '0000001'),
+            array('id' => 2, 'sha' => '0000002'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/deployments', array(
+                'page' => 2,
+                'per_page' => 15
+            ))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->deployments(1, 2, 15));
+    }
+
     protected function getMultipleProjectsData()
     {
         return array(
