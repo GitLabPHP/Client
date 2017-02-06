@@ -179,7 +179,7 @@ class MergeRequests extends AbstractApi
     /**
      * @param int $project_id
      * @param int $mr_id
-     * @param int $note
+     * @param string $note
      * @return mixed
      */
     public function addComment($project_id, $mr_id, $note)
