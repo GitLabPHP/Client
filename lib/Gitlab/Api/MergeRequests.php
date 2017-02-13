@@ -161,7 +161,7 @@ class MergeRequests extends AbstractApi
      */
     public function addNote($project_id, $mr_id, $note)
     {
-        return $this->post($this->getProjectPath($project_id, 'merge_request/'.$this->encodePath($mr_id).'/notes'), array(
+        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_id).'/notes'), array(
             'body' => $note
         ));
     }
