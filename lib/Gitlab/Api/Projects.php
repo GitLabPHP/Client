@@ -156,8 +156,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param $project_id
-     * @param $build_id
+     * @param int $project_id
+     * @param int $build_id
      * @return mixed
      */
     public function build($project_id, $build_id)
@@ -166,8 +166,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param $project_id
-     * @param $build_id
+     * @param int $project_id
+     * @param int $build_id
      * @return mixed
      */
     public function trace($project_id, $build_id)
