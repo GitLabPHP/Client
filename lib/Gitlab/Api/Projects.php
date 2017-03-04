@@ -126,7 +126,7 @@ class Projects extends AbstractApi
     {
         return $this->delete('projects/'.$this->encodePath($project_id));
     }
-    
+
     /**
      * @param int $project_id
      * @return mixed
@@ -134,7 +134,7 @@ class Projects extends AbstractApi
     public function archive($project_id){
         return $this->post("projects/".$this->encodePath($project_id)."/archive");
     }
-    
+
     /**
      * @param int $project_id
      * @return mixed
@@ -173,6 +173,56 @@ class Projects extends AbstractApi
     public function trace($project_id, $build_id)
     {
         return $this->get($this->getProjectPath($project_id, 'builds/'.$this->encodePath($build_id).'/trace'));
+    }
+
+    /**
+     * @param int $project_id
+     * @return mixed
+     */
+    public function pipelines($project_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'pipelines'));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $pipeline_id
+     * @return mixed
+     */
+    public function pipeline($project_id, $pipeline_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'pipelines'.$this->encodePath($pipeline_id)));
+    }
+
+    /**
+     * @param int $project_id
+     * @param string $commit_ref
+     * @return mixed
+     */
+    public function createPipeline($project_id, $commit_ref)
+    {
+        return $this->post($this->getProjectPath($project_id, 'pipelines'), array(
+            'ref' => $commit_ref));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $pipeline_id
+     * @return mixed
+     */
+    public function retryPipeline($project_id, $pipeline_id)
+    {
+        return $this->post($this->getProjectPath($project_id, 'pipelines'.$this->encodePath($pipeline_id)).'/retry');
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $pipeline_id
+     * @return mixed
+     */
+    public function cancelPipeline($project_id, $pipeline_id)
+    {
+        return $this->post($this->getProjectPath($project_id, 'pipelines'.$this->encodePath($pipeline_id)).'/cancel');
     }
 
     /**
