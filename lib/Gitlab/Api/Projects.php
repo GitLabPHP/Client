@@ -191,7 +191,7 @@ class Projects extends AbstractApi
      */
     public function pipeline($project_id, $pipeline_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'pipelines'.$this->encodePath($pipeline_id)));
+        return $this->get($this->getProjectPath($project_id, 'pipelines/'.$this->encodePath($pipeline_id)));
     }
 
     /**
@@ -212,7 +212,7 @@ class Projects extends AbstractApi
      */
     public function retryPipeline($project_id, $pipeline_id)
     {
-        return $this->post($this->getProjectPath($project_id, 'pipelines'.$this->encodePath($pipeline_id)).'/retry');
+        return $this->post($this->getProjectPath($project_id, 'pipelines/'.$this->encodePath($pipeline_id)).'/retry');
     }
 
     /**
@@ -222,7 +222,7 @@ class Projects extends AbstractApi
      */
     public function cancelPipeline($project_id, $pipeline_id)
     {
-        return $this->post($this->getProjectPath($project_id, 'pipelines'.$this->encodePath($pipeline_id)).'/cancel');
+        return $this->post($this->getProjectPath($project_id, 'pipelines/'.$this->encodePath($pipeline_id)).'/cancel');
     }
 
     /**
