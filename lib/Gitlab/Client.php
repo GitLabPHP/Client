@@ -73,9 +73,14 @@ class Client
      *
      * @param string               $baseUrl
      * @param null|ClientInterface $httpClient Buzz client
+     * @param array                $options
      */
-    public function __construct($baseUrl, ClientInterface $httpClient = null)
+    public function __construct($baseUrl, ClientInterface $httpClient = null, array $options = array())
     {
+        foreach ($options as $name => $value) {
+            $this->setOption($name, $value);
+        }
+
         $httpClient = $httpClient ?: new Curl();
         $httpClient->setTimeout($this->options['timeout']);
         $httpClient->setVerifyPeer(false);
