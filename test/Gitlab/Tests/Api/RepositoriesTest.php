@@ -500,7 +500,9 @@ class RepositoriesTest extends ApiTestCase
                 'branch_name' => 'master',
                 'encoding' => null,
                 'content' => 'some contents',
-                'commit_message' => 'Added new file'
+                'commit_message' => 'Added new file',
+                'author_email' => null,
+                'author_name' => null,
             ))
             ->will($this->returnValue($expectedArray))
         ;
@@ -523,12 +525,39 @@ class RepositoriesTest extends ApiTestCase
                 'branch_name' => 'master',
                 'encoding' => 'text',
                 'content' => 'some contents',
-                'commit_message' => 'Added new file'
+                'commit_message' => 'Added new file',
+                'author_email' => null,
+                'author_name' => null,
             ))
             ->will($this->returnValue($expectedArray))
         ;
 
         $this->assertEquals($expectedArray, $api->createFile(1, 'dir/file1.txt', 'some contents', 'master', 'Added new file', 'text'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreateFileWithAuthor()
+    {
+        $expectedArray = array('file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/repository/files', array(
+                'file_path' => 'dir/file1.txt',
+                'branch_name' => 'master',
+                'encoding' => null,
+                'content' => 'some contents',
+                'commit_message' => 'Added new file',
+                'author_email' => 'gitlab@example.com',
+                'author_name' => 'GitLab User',
+            ))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->createFile(1, 'dir/file1.txt', 'some contents', 'master', 'Added new file', null, 'gitlab@example.com', 'GitLab User'));
     }
 
     /**
@@ -546,7 +575,9 @@ class RepositoriesTest extends ApiTestCase
                 'branch_name' => 'master',
                 'encoding' => null,
                 'content' => 'some new contents',
-                'commit_message' => 'Updated new file'
+                'commit_message' => 'Updated new file',
+                'author_email' => null,
+                'author_name' => null,
             ))
             ->will($this->returnValue($expectedArray))
         ;
@@ -569,12 +600,39 @@ class RepositoriesTest extends ApiTestCase
                 'branch_name' => 'master',
                 'encoding' => 'base64',
                 'content' => 'some new contents',
-                'commit_message' => 'Updated file'
+                'commit_message' => 'Updated file',
+                'author_email' => null,
+                'author_name' => null,
             ))
             ->will($this->returnValue($expectedArray))
         ;
 
         $this->assertEquals($expectedArray, $api->updateFile(1, 'dir/file1.txt', 'some new contents', 'master', 'Updated file', 'base64'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUpdateFileWithAuthor()
+    {
+        $expectedArray = array('file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/repository/files', array(
+                'file_path' => 'dir/file1.txt',
+                'branch_name' => 'master',
+                'encoding' => null,
+                'content' => 'some new contents',
+                'commit_message' => 'Updated file',
+                'author_email' => 'gitlab@example.com',
+                'author_name' => 'GitLab User',
+            ))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->updateFile(1, 'dir/file1.txt', 'some new contents', 'master', 'Updated file', null, 'gitlab@example.com', 'GitLab User'));
     }
 
     /**
@@ -587,11 +645,40 @@ class RepositoriesTest extends ApiTestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('delete')
-            ->with('projects/1/repository/files', array('file_path' => 'dir/file1.txt', 'branch_name' => 'master', 'commit_message' => 'Deleted file'))
+            ->with('projects/1/repository/files', array(
+                'file_path' => 'dir/file1.txt',
+                'branch_name' => 'master',
+                'commit_message' => 'Deleted file',
+                'author_email' => null,
+                'author_name' => null,
+            ))
             ->will($this->returnValue($expectedBool))
         ;
 
         $this->assertEquals($expectedBool, $api->deleteFile(1, 'dir/file1.txt', 'master', 'Deleted file'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldDeleteFileWithAuthor()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/repository/files', array(
+                'file_path' => 'dir/file1.txt',
+                'branch_name' => 'master',
+                'commit_message' => 'Deleted file',
+                'author_email' => 'gitlab@example.com',
+                'author_name' => 'GitLab User',
+            ))
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->deleteFile(1, 'dir/file1.txt', 'master', 'Deleted file', 'gitlab@example.com', 'GitLab User'));
     }
 
     /**
@@ -618,4 +705,4 @@ class RepositoriesTest extends ApiTestCase
     {
         return 'Gitlab\Api\Repositories';
     }
-} 
+}
