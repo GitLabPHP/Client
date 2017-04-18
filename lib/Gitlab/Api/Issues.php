@@ -126,4 +126,14 @@ class Issues extends AbstractApi
     {
         return $this->delete($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_id).'/notes/'.$this->encodePath($note_id)));
     }
+
+    /**
+     * @param int $project_id
+     * @param int $issue_iid
+     * @return mixed
+     */
+    public function getTimeStats($project_id, $issue_iid)
+    {
+        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid) .'/time_stats'));
+    }
 }
