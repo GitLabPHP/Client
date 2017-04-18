@@ -155,6 +155,23 @@ class IssuesTest extends ApiTestCase
     /**
      * @test
      */
+    public function shouldGetIssueTimeStats()
+    {
+        $expectedArray = array('time_estimate' => 14400, 'total_time_spent' => 5400, 'human_time_estimate' => '4h', 'human_total_time_spent' => '1h 30m');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/issues/2/time_stats')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->getTimeStats(1, 2));
+    }
+
+    /**
+     * @test
+     */
     public function shouldCreateComment()
     {
         $expectedArray = array('id' => 3, 'body' => 'A new comment');
