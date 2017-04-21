@@ -168,4 +168,13 @@ class Issue extends AbstractModel implements Noteable
 
         return false;
     }
+
+    /**
+     * @param string $label
+     * @return bool
+     */
+    public function hasLabel($label)
+    {
+        return in_array($label, $this->labels);
+    }
 }
