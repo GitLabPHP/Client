@@ -8,6 +8,7 @@ use Gitlab\Client;
  * @property-read string $name
  * @property-read string $type
  * @property-read string $mode
+ * @property-read string $path
  * @property-read int $id
  * @property-read Project $project
  */
@@ -20,6 +21,7 @@ class Node extends AbstractModel
         'name',
         'type',
         'mode',
+        'path',
         'id',
         'project'
     );
