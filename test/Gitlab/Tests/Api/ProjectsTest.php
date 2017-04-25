@@ -65,10 +65,11 @@ class ProjectsTest extends ApiTestCase
     {
         $expectedArray = $this->getMultipleProjectsData();
 
-        $api = $this->getMultipleProjectsRequestMock('projects/owned', $expectedArray, 3, 50);
+        $api = $this->getMultipleProjectsRequestMock('projects?owned=1', $expectedArray, 3, 50);
 
         $this->assertEquals($expectedArray, $api->owned(3, 50));
     }
+
 
     /**
      * @test
