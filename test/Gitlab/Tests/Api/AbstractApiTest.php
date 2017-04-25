@@ -1,7 +1,8 @@
-<?php namespace Gitlab\Tests\Api;
+<?php namespace Gitlab\Tests;
 
 use Gitlab\Api\AbstractApi;
 use Gitlab\Client;
+use Gitlab\Tests\TestCase;
 use Gitlab\HttpClient\Message\Response;
 
 class AbstractApiTest extends TestCase
