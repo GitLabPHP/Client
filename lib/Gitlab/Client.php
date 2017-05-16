@@ -30,6 +30,7 @@ use Gitlab\HttpClient\Listener\PaginationListener;
  * @property-read \Gitlab\Api\SystemHooks $hooks
  * @property-read \Gitlab\Api\SystemHooks $system_hooks
  * @property-read \Gitlab\Api\Users $users
+ * @property-read \Gitlab\Api\Keys $keys
  */
 class Client
 {
@@ -73,9 +74,14 @@ class Client
      *
      * @param string               $baseUrl
      * @param null|ClientInterface $httpClient Buzz client
+     * @param array                $options
      */
-    public function __construct($baseUrl, ClientInterface $httpClient = null)
+    public function __construct($baseUrl, ClientInterface $httpClient = null, array $options = array())
     {
+        foreach ($options as $name => $value) {
+            $this->setOption($name, $value);
+        }
+
         $httpClient = $httpClient ?: new Curl();
         $httpClient->setTimeout($this->options['timeout']);
         $httpClient->setVerifyPeer(false);
@@ -153,6 +159,10 @@ class Client
 
             case 'users':
                 $api = new Api\Users($this);
+                break;
+
+            case 'keys':
+                $api = new Api\Keys($this);
                 break;
 
             default:

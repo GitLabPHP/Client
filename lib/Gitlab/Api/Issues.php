@@ -126,4 +126,52 @@ class Issues extends AbstractApi
     {
         return $this->delete($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_id).'/notes/'.$this->encodePath($note_id)));
     }
+
+    /**
+     * @param int $project_id
+     * @param int $issue_id
+     * @param string $duration
+     */
+    public function setTimeEstimate($project_id, $issue_id, $duration)
+    {
+        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_id).'/time_estimate'), array('duration' => $duration));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $issue_id
+     */
+    public function resetTimeEstimate($project_id, $issue_id)
+    {
+        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_id).'/reset_time_estimate'));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $issue_id
+     * @param string $duration
+     */
+    public function addSpentTime($project_id, $issue_id, $duration)
+    {
+        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_id).'/add_spent_time'), array('duration' => $duration));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $issue_id
+     */
+    public function resetSpentTime($project_id, $issue_id)
+    {
+        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_id).'/reset_spent_time'));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $issue_iid
+     * @return mixed
+     */
+    public function getTimeStats($project_id, $issue_iid)
+    {
+        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid) .'/time_stats'));
+    }
 }

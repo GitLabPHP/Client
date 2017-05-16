@@ -187,6 +187,91 @@ class IssuesTest extends ApiTestCase
         $this->assertEquals($expectedArray, $api->updateComment(1, 2, 3, 'An edited comment'));
     }
 
+    /**
+     * @test
+     */
+    public function shouldSetTimeEstimate()
+    {
+        $expectedArray = array('time_estimate' => 14400, 'total_time_spent' => 0, 'human_time_estimate' => '4h', 'human_total_time_spent' => null);
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/issues/2/time_estimate', array('duration' => '4h'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->setTimeEstimate(1, 2, '4h'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldResetTimeEstimate()
+    {
+        $expectedArray = array('time_estimate' => 0, 'total_time_spent' => 0, 'human_time_estimate' => null, 'human_total_time_spent' => null);
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/issues/2/reset_time_estimate')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->resetTimeEstimate(1, 2));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAddSpentTime()
+    {
+        $expectedArray = array('time_estimate' => 0, 'total_time_spent' => 14400, 'human_time_estimate' => null, 'human_total_time_spent' => '4h');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/issues/2/add_spent_time', array('duration' => '4h'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->addSpentTime(1, 2, '4h'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldResetSpentTime()
+    {
+        $expectedArray = array('time_estimate' => 0, 'total_time_spent' => 0, 'human_time_estimate' => null, 'human_total_time_spent' => null);
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/issues/2/reset_spent_time')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->resetSpentTime(1, 2));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetIssueTimeStats()
+    {
+        $expectedArray = array('time_estimate' => 14400, 'total_time_spent' => 5400, 'human_time_estimate' => '4h', 'human_total_time_spent' => '1h 30m');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/issues/2/time_stats')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->getTimeStats(1, 2));
+    }
+
     protected function getApiClass()
     {
         return 'Gitlab\Api\Issues';

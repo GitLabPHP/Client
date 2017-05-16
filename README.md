@@ -19,9 +19,7 @@ Installation
     > Note: be careful when using the `dev-master` tag as this may have unexpected results depending on your version of
     Gitlab. See the Versioning section below for more information.
 
-    ```json
-    "m4tthumphrey/php-gitlab-api": "dev-master"
-    ```
+    `php composer.phar require m4tthumphrey/php-gitlab-api:dev-master`
 
 3. Include Composer's autoloader:
 

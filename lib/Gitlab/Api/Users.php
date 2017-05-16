@@ -18,6 +18,17 @@ class Users extends AbstractApi
     }
 
     /**
+     * @param string $username
+     * @return mixed
+     */
+    public function lookup($username)
+    {
+        return $this->get('users', array(
+            'username' => $username
+        ));
+    }
+
+    /**
      * @param string $query
      * @param null|true $active
      * @param int $page

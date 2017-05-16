@@ -40,6 +40,7 @@ class Projects extends AbstractApi
     }
 
     /**
+     * Get projects owned by the current user
      * @param int $page
      * @param int $per_page
      * @param string $order_by
@@ -48,7 +49,7 @@ class Projects extends AbstractApi
      */
     public function owned($page = 1, $per_page = self::PER_PAGE, $order_by = self::ORDER_BY, $sort = self::SORT)
     {
-        return $this->get('projects/owned', array(
+        return $this->get('projects?owned=1', array(
             'page' => $page,
             'per_page' => $per_page,
             'order_by' => $order_by,
@@ -126,7 +127,7 @@ class Projects extends AbstractApi
     {
         return $this->delete('projects/'.$this->encodePath($project_id));
     }
-    
+
     /**
      * @param int $project_id
      * @return mixed
@@ -134,7 +135,7 @@ class Projects extends AbstractApi
     public function archive($project_id){
         return $this->post("projects/".$this->encodePath($project_id)."/archive");
     }
-    
+
     /**
      * @param int $project_id
      * @return mixed
@@ -156,8 +157,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param $project_id
-     * @param $build_id
+     * @param int $project_id
+     * @param int $build_id
      * @return mixed
      */
     public function build($project_id, $build_id)
@@ -166,13 +167,63 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param $project_id
-     * @param $build_id
+     * @param int $project_id
+     * @param int $build_id
      * @return mixed
      */
     public function trace($project_id, $build_id)
     {
         return $this->get($this->getProjectPath($project_id, 'builds/'.$this->encodePath($build_id).'/trace'));
+    }
+
+    /**
+     * @param int $project_id
+     * @return mixed
+     */
+    public function pipelines($project_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'pipelines'));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $pipeline_id
+     * @return mixed
+     */
+    public function pipeline($project_id, $pipeline_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'pipelines/'.$this->encodePath($pipeline_id)));
+    }
+
+    /**
+     * @param int $project_id
+     * @param string $commit_ref
+     * @return mixed
+     */
+    public function createPipeline($project_id, $commit_ref)
+    {
+        return $this->post($this->getProjectPath($project_id, 'pipelines'), array(
+            'ref' => $commit_ref));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $pipeline_id
+     * @return mixed
+     */
+    public function retryPipeline($project_id, $pipeline_id)
+    {
+        return $this->post($this->getProjectPath($project_id, 'pipelines/'.$this->encodePath($pipeline_id)).'/retry');
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $pipeline_id
+     * @return mixed
+     */
+    public function cancelPipeline($project_id, $pipeline_id)
+    {
+        return $this->post($this->getProjectPath($project_id, 'pipelines/'.$this->encodePath($pipeline_id)).'/cancel');
     }
 
     /**
@@ -536,5 +587,29 @@ class Projects extends AbstractApi
     public function uploadFile($project_id, $file)
     {
         return $this->post($this->getProjectPath($project_id, 'uploads'), array(), array(), array('file' => $file));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $page
+     * @param int $per_page
+     * @return mixed
+     */
+    public function deployments($project_id, $page = 1, $per_page = self::PER_PAGE)
+    {
+        return $this->get($this->getProjectPath($project_id, 'deployments'), array(
+            'page' => $page,
+            'per_page' => $per_page
+        ));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $deployment_id
+     * @return mixed
+     */
+    public function deployment($project_id, $deployment_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'deployments/'.$this->encodePath($deployment_id)));
     }
 }
