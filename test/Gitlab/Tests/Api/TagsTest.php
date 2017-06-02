@@ -1,8 +1,6 @@
 <?php namespace Gitlab\Tests\Api;
 
-use Gitlab\Api\AbstractApi;
-
-class TagsTest extends ApiTestCase
+class TagsTest extends TestCase
 {
     /**
      * @test
