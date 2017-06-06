@@ -21,8 +21,10 @@ class Node extends AbstractModel
         'type',
         'mode',
         'id',
+        'path',
         'project'
     );
+
 
     /**
      * @param Client  $client

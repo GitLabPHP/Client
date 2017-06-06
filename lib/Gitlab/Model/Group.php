@@ -125,4 +125,15 @@ class Group extends AbstractModel
 
         return true;
     }
+
+    /**
+     * @return Group
+     */
+    public function projects()
+    {
+
+        $data = $this->api('groups')->projects($this->id);
+
+        return Group::fromArray($this->getClient(),$data);
+    }
 }
