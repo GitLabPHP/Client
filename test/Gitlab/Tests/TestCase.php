@@ -1,9 +1,10 @@
-<?php namespace Gitlab\Tests\Api;
+<?php namespace Gitlab\Tests;
 
 use Buzz\Client\Curl;
 
 use Gitlab\Client;
 use Gitlab\HttpClient\HttpClientInterface;
+
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase
 {

@@ -1,5 +1,7 @@
 <?php namespace Gitlab\Tests\Api;
 
+use Gitlab\Tests\TestCase;
+
 abstract class ApiTestCase extends TestCase
 {
     abstract protected function getApiClass();
