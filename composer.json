@@ -30,6 +30,6 @@
 		"phpunit/phpunit": "~4.5"
 	},
 	"autoload": {
-		"psr-0": { "Gitlab\\": "lib/" }
+		"psr-4": { "Gitlab\\": "lib/Gitlab/" }
 	}
 }
