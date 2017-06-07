@@ -31,5 +31,13 @@
 	},
 	"autoload": {
 		"psr-4": { "Gitlab\\": "lib/Gitlab/" }
+	},
+	"autoload-dev": {
+		"psr-4": { "Gitlab\\Tests\\": "test/Gitlab/Tests/" }
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "9.0.x-dev"
+		}
 	}
 }
