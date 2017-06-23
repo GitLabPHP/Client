@@ -931,8 +931,8 @@ class ProjectsTest extends ApiTestCase
     public function shouldGetVariables()
     {
         $expectedArray = array(
-            array('key' => 'ftp_username', 'value' => 'ftp'),
-            array('key' => 'ftp_password', 'value' => 'somepassword')
+            array('key' => 'ftp_username', 'value' => 'ftp', 'protected' => false),
+            array('key' => 'ftp_password', 'value' => 'somepassword', 'protected' => false)
         );
 
         $api = $this->getApiMock();
@@ -950,7 +950,7 @@ class ProjectsTest extends ApiTestCase
      */
     public function shouldGetVariable()
     {
-        $expectedArray = array('key' => 'ftp_username', 'value' => 'ftp');
+        $expectedArray = array('key' => 'ftp_username', 'value' => 'ftp', 'protected' => false);
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -973,6 +973,7 @@ class ProjectsTest extends ApiTestCase
         $expectedArray = array(
             'key'   => $expectedKey,
             'value' => $expectedValue,
+            'protected' => false,
         );
 
         $api = $this->getApiMock();
@@ -1023,6 +1024,27 @@ class ProjectsTest extends ApiTestCase
         ;
 
         $this->assertEquals($expectedBool, $api->removeVariable(1, 'ftp_password'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldProtectVariable()
+    {
+        $expectedArray = array(
+            'key' => 'ftp_password',
+            'value' => '',
+            'protected' => true
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/variables/ftp_password', array('protected' => true))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->protectVariable(1, 'ftp_password', true));
     }
 
     protected function getMultipleProjectsRequestMock($path, $expectedArray = array(), $page = 1, $per_page = 20, $order_by = 'created_at', $sort = 'asc')
