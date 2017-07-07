@@ -293,6 +293,22 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetBuildArtifacts(){
+        $expectedArray = array();
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/builds/2/artifacts')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray,$api->buildArtifacts(1, 2));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetTrace()
     {
         $expectedString = 'runner trace of a specific build';
