@@ -33,7 +33,7 @@ class ApiVersionTest extends \PHPUnit_Framework_TestCase
     public function testPrefixRequestPath()
     {
         $request = new Request('GET', 'projects');
-        $expected = new Request('GET', '/api/v3/projects');
+        $expected = new Request('GET', '/api/v4/projects');
         $plugin = new ApiVersion();
 
         $callback = $this->getMockBuilder(\stdClass::class)
@@ -50,7 +50,7 @@ class ApiVersionTest extends \PHPUnit_Framework_TestCase
 
     public function testNoPrefixingRequired()
     {
-        $request = new Request('GET', '/api/v3/projects');
+        $request = new Request('GET', '/api/v4/projects');
         $plugin = new ApiVersion();
 
         $callback = $this->getMockBuilder(\stdClass::class)
