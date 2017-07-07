@@ -1,5 +1,7 @@
 <?php namespace Gitlab\Api;
 
+use Psr\Http\Message\StreamInterface;
+
 class Jobs extends AbstractApi
 {
     const SCOPE_CREATED = 'created';
@@ -49,24 +51,24 @@ class Jobs extends AbstractApi
     /**
      * @param int|string $project_id
      * @param int $job_id
-     * @return string
+     * @return StreamInterface
      */
     public function artifacts($project_id, $job_id)
     {
-        return $this->get("projects/".$this->encodePath($project_id)."/jobs/".$this->encodePath($job_id)."/artifacts");
+        return $this->getAsResponse("projects/".$this->encodePath($project_id)."/jobs/".$this->encodePath($job_id)."/artifacts")->getBody();
     }
 
     /**
      * @param int|string $project_id
      * @param string $ref_name
      * @param string $job_name
-     * @return string
+     * @return StreamInterface
      */
     public function artifactsByRefName($project_id, $ref_name, $job_name)
     {
-        return $this->get("projects/".$this->encodePath($project_id)."/jobs/artifacts/".$this->encodePath($ref_name)."/download", array(
+        return $this->getAsResponse("projects/".$this->encodePath($project_id)."/jobs/artifacts/".$this->encodePath($ref_name)."/download", array(
             'job' => $job_name
-        ));
+        ))->getBody();
     }
 
     /**

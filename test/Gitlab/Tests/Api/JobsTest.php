@@ -1,8 +1,9 @@
 <?php namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\Jobs;
+use GuzzleHttp\Psr7\Response;
 
-class JobsTest extends ApiTestCase
+class JobsTest extends TestCase
 {
     /**
      * @test
@@ -70,16 +71,16 @@ class JobsTest extends ApiTestCase
      */
     public function shouldGetArtifacts()
     {
-        $expectedString = "some file content";
+        $returnedStream = new Response(200, [], 'foobar');
 
         $api = $this->getApiMock();
         $api->expects($this->once())
-            ->method('get')
+            ->method('getAsResponse')
             ->with('projects/1/jobs/3/artifacts')
-            ->will($this->returnValue($expectedString))
+            ->will($this->returnValue($returnedStream))
         ;
 
-        $this->assertEquals($expectedString, $api->artifacts(1, 3));
+        $this->assertEquals('foobar', $api->artifacts(1, 3)->getContents());
     }
 
     /**
@@ -87,18 +88,18 @@ class JobsTest extends ApiTestCase
      */
     public function shouldGetArtifactsByRefName()
     {
-        $expectedString = "some file content";
+        $returnedStream = new Response(200, [], 'foobar');
 
         $api = $this->getApiMock();
         $api->expects($this->once())
-            ->method('get')
+            ->method('getAsResponse')
             ->with('projects/1/jobs/artifacts/master/download', array(
                 'job' => 'job_name'
             ))
-            ->will($this->returnValue($expectedString))
+            ->will($this->returnValue($returnedStream))
         ;
 
-        $this->assertEquals($expectedString, $api->artifactsByRefName(1, 'master', 'job_name'));
+        $this->assertEquals('foobar', $api->artifactsByRefName(1, 'master', 'job_name')->getContents());
     }
 
     /**
