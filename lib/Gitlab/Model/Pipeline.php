@@ -32,7 +32,7 @@ class Pipeline extends AbstractModel
     {
         $pipeline = new static($project, $data['id'], $client);
 
-        return $job->hydrate($data);
+        return $pipeline->hydrate($data);
     }
 
     /**

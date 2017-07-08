@@ -1097,7 +1097,7 @@ class Project extends AbstractModel
      * @param array $scopes
      * @return Job[]
      */
-    public function jobs(array $scopes)
+    public function jobs(array $scopes = [])
     {
         $data = $this->api('jobs')->jobs($this->id, $scopes);
 
