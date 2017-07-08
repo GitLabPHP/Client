@@ -18,7 +18,7 @@ class Jobs extends AbstractApi
      * @param array $scope
      * @return mixed
      */
-    public function jobs($project_id, array $scope = [])
+    public function all($project_id, array $scope = [])
     {
         return $this->get("projects/".$this->encodePath($project_id)."/jobs", array(
             'scope' => $scope

@@ -24,7 +24,7 @@ class JobsTest extends TestCase
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->jobs(1, [Jobs::SCOPE_PENDING]));
+        $this->assertEquals($expectedArray, $api->all(1, [Jobs::SCOPE_PENDING]));
     }
 
     /**
