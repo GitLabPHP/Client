@@ -5,6 +5,7 @@ use Gitlab\HttpClient\Message\ResponseMediator;
 use Http\Discovery\StreamFactoryDiscovery;
 use Http\Message\MultipartStream\MultipartStreamBuilder;
 use Http\Message\StreamFactory;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Abstract class for Api classes
@@ -52,6 +53,21 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
+     * Performs a GET query and returns the response as a PSR-7 response object.
+     *
+     * @param string $path
+     * @param array $parameters
+     * @param array $requestHeaders
+     * @return ResponseInterface
+     */
+    protected function getAsResponse($path, array $parameters = array(), $requestHeaders = array())
+    {
+        $path = $this->preparePath($path, $parameters);
+
+        return $this->client->getHttpClient()->get($path, $requestHeaders);
+    }
+
+    /**
      * @param string $path
      * @param array $parameters
      * @param array $requestHeaders
@@ -59,11 +75,7 @@ abstract class AbstractApi implements ApiInterface
      */
     protected function get($path, array $parameters = array(), $requestHeaders = array())
     {
-        $path = $this->preparePath($path, $parameters);
-
-        $response = $this->client->getHttpClient()->get($path, $requestHeaders);
-
-        return ResponseMediator::getContent($response);
+        return ResponseMediator::getContent($this->getAsResponse($path, $parameters, $requestHeaders));
     }
 
     /**

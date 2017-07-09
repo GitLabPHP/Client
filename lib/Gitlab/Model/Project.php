@@ -1092,4 +1092,49 @@ class Project extends AbstractModel
 
         return $contributors;
     }
+
+    /**
+     * @param array $scopes
+     * @return Job[]
+     */
+    public function jobs(array $scopes = [])
+    {
+        $data = $this->api('jobs')->jobs($this->id, $scopes);
+
+        $jobs = array();
+        foreach ($data as $job) {
+            $jobs[] = Job::fromArray($this->getClient(), $this, $job);
+        }
+
+        return $jobs;
+    }
+
+    /**
+     * @param int $pipeline_id
+     * @param array $scopes
+     * @return Job[]
+     */
+    public function pipelineJobs($pipeline_id, array $scopes = [])
+    {
+        $data = $this->api('jobs')->pipelineJobs($this->id, $pipeline_id, $scopes);
+
+        $jobs = array();
+        foreach ($data as $job) {
+            $jobs[] = Job::fromArray($this->getClient(), $this, $job);
+        }
+
+        return $jobs;
+    }
+
+    /**
+     * @param int $job_id
+     * @return Job
+     */
+    public function job($job_id)
+    {
+        $data = $this->api('jobs')->show($this->id, $job_id);
+
+        return Job::fromArray($this->getClient(), $this, $data);
+    }
+
 }
