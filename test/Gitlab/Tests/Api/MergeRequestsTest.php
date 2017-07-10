@@ -353,6 +353,58 @@ class MergeRequestsTest extends ApiTestCase
         $this->assertEquals($expectedArray, $api->getByIid(1, 2));
     }
 
+    /**
+     * @test
+     */
+    public function shouldApproveMergeRequest()
+    {
+        $expectedArray = array('id' => 1, 'title' => 'Approvals API');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/merge_requests/2/approve')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->approve(1, 2));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUnApproveMergeRequest()
+    {
+        $expectedArray = array('id' => 1, 'title' => 'Approvals API');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/merge_requests/2/unapprove')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->unapprove(1, 2));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetMergeRequestApprovals()
+    {
+        $expectedArray = array('id' => 1, 'title' => 'Approvals API');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_requests', array('iid' => 2))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->getByIid(1, 2));
+    }
+
+
     protected function getMultipleMergeRequestsData()
     {
         return array(
