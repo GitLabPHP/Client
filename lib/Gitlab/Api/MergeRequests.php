@@ -227,7 +227,7 @@ class MergeRequests extends AbstractApi
      */
     public function approvals($project_id, $merge_request_iid)
     {
-        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_id).'/approvals'));
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($merge_request_iid).'/approvals'));
     }
 
     /**
@@ -238,7 +238,7 @@ class MergeRequests extends AbstractApi
      */
     public function approve($project_id, $merge_request_iid)
     {
-        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_id).'/approve'));
+        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($merge_request_iid).'/approve'));
     }
 
     /**
@@ -249,6 +249,6 @@ class MergeRequests extends AbstractApi
      */
     public function unapprove($project_id, $merge_request_iid)
     {
-        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_id).'/unapprove'));
+        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($merge_request_iid).'/unapprove'));
     }
 }
