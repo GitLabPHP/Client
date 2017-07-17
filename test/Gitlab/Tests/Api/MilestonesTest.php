@@ -1,6 +1,6 @@
 <?php namespace Gitlab\Tests\Api;
 
-class MilestonesTest extends ApiTestCase
+class MilestonesTest extends TestCase
 {
     /**
      * @test

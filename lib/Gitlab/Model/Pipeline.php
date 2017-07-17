@@ -3,48 +3,44 @@
 use Gitlab\Client;
 
 /**
- * Class Node
+ * Class Commit
  *
- * @property-read string $name
- * @property-read string $type
- * @property-read string $mode
  * @property-read int $id
- * @property-read Project $project
+ * @property-read string $ref
+ * @property-read string $sha
+ * @property-read string $status
  */
-class Node extends AbstractModel
+class Pipeline extends AbstractModel
 {
     /**
      * @var array
      */
     protected static $properties = array(
-        'name',
-        'type',
-        'mode',
         'id',
-        'path',
-        'project'
+        'ref',
+        'sha',
+        'status'
     );
-
 
     /**
      * @param Client  $client
      * @param Project $project
      * @param array   $data
-     * @return Node
+     * @return Commit
      */
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $node = new static($project, $data['id'], $client);
+        $pipeline = new static($project, $data['id'], $client);
 
-        return $node->hydrate($data);
+        return $pipeline->hydrate($data);
     }
 
     /**
      * @param Project $project
      * @param int $id
-     * @param Client $client
+     * @param Client  $client
      */
-    public function __construct(Project $project, $id = null, Client $client)
+    public function __construct(Project $project, $id = null, Client $client = null)
     {
         $this->setClient($client);
         $this->setData('project', $project);

@@ -7,25 +7,16 @@ Based on [php-github-api](https://github.com/m4tthumphrey/php-github-api) and co
 
 Installation
 ------------
-1. Install Composer
 
-    ```bash
-    $ curl -sS https://getcomposer.org/installer | php
-    $ sudo mv composer.phar /usr/local/bin/composer
-    ```
+Via [composer](https://getcomposer.org)
 
-2. Add the following to your require block in composer.json config.
+```bash
+composer require m4tthumphrey/php-gitlab-api php-http/guzzle6-adapter
+```
 
-    > Note: be careful when using the `dev-master` tag as this may have unexpected results depending on your version of
-    Gitlab. See the Versioning section below for more information.
+Why `php-http/guzzle6-adapter`? We are decoupled from any HTTP messaging client with help by [HTTPlug](http://httplug.io).
 
-    `php composer.phar require m4tthumphrey/php-gitlab-api:dev-master`
-
-3. Include Composer's autoloader:
-
-    ```php
-    require_once dirname(__DIR__).'/vendor/autoload.php';
-    ```
+You can visit [HTTPlug for library users](http://docs.php-http.org/en/latest/httplug/users.html) to get more information about installing HTTPlug related packages.
 
 Versioning
 ----------
@@ -41,8 +32,9 @@ General API Usage
 -----------------
 
 ```php
-$client = new \Gitlab\Client('http://git.yourdomain.com/api/v3/');               // change here
-$client->authenticate('your_gitlab_token_here', \Gitlab\Client::AUTH_URL_TOKEN); // change here
+$client = \Gitlab\Client::create('http://git.yourdomain.com')
+    ->authenticate('your_gitlab_token_here', \Gitlab\Client::AUTH_URL_TOKEN)
+;
 
 $project = $client->api('projects')->create('My Project', array(
   'description' => 'This is a project',
@@ -57,8 +49,9 @@ Model Usage
 You can also use the library in an object oriented manner:
 
 ```php
-$client = new \Gitlab\Client('http://git.yourdomain.com/api/v3/');               // change here
-$client->authenticate('your_gitlab_token_here', \Gitlab\Client::AUTH_URL_TOKEN); // change here
+$client = \Gitlab\Client::create('http://git.yourdomain.com')
+    ->authenticate('your_gitlab_token_here', \Gitlab\Client::AUTH_URL_TOKEN)
+;
 
 # Creating a new project
 $project = \Gitlab\Model\Project::create($client, 'My Project', array(

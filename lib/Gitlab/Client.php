@@ -1,14 +1,18 @@
 <?php namespace Gitlab;
 
-use Buzz\Client\Curl;
-use Buzz\Client\ClientInterface;
-
 use Gitlab\Api\AbstractApi;
 use Gitlab\Exception\InvalidArgumentException;
-use Gitlab\HttpClient\HttpClient;
-use Gitlab\HttpClient\HttpClientInterface;
-use Gitlab\HttpClient\Listener\AuthListener;
-use Gitlab\HttpClient\Listener\PaginationListener;
+use Gitlab\HttpClient\Builder;
+use Gitlab\HttpClient\Plugin\ApiVersion;
+use Gitlab\HttpClient\Plugin\History;
+use Gitlab\HttpClient\Plugin\Authentication;
+use Gitlab\HttpClient\Plugin\GitlabExceptionThrower;
+use Http\Client\Common\HttpMethodsClient;
+use Http\Client\Common\Plugin\AddHostPlugin;
+use Http\Client\Common\Plugin\HeaderDefaultsPlugin;
+use Http\Client\Common\Plugin\HistoryPlugin;
+use Http\Client\HttpClient;
+use Http\Discovery\UriFactoryDiscovery;
 
 /**
  * Simple API wrapper for Gitlab
@@ -17,6 +21,7 @@ use Gitlab\HttpClient\Listener\PaginationListener;
  *
  * @property-read \Gitlab\Api\Groups $groups
  * @property-read \Gitlab\Api\Issues $issues
+ * @property-read \Gitlab\Api\Jobs $jobs
  * @property-read \Gitlab\Api\MergeRequests $merge_requests
  * @property-read \Gitlab\Api\MergeRequests $mr
  * @property-read \Gitlab\Api\Milestones $milestones
@@ -31,6 +36,7 @@ use Gitlab\HttpClient\Listener\PaginationListener;
  * @property-read \Gitlab\Api\SystemHooks $system_hooks
  * @property-read \Gitlab\Api\Users $users
  * @property-read \Gitlab\Api\Keys $keys
+ * @property-read \Gitlab\Api\Tags $tags
  */
 class Client
 {
@@ -53,48 +59,62 @@ class Client
     const AUTH_OAUTH_TOKEN = 'oauth_token';
 
     /**
-     * @var array
+     * @var History
      */
-    private $options = array(
-        'user_agent'  => 'php-gitlab-api (http://github.com/m4tthumphrey/php-gitlab-api)',
-        'timeout'     => 60
-    );
-
-    private $baseUrl;
+    private $responseHistory;
 
     /**
-     * The Buzz instance used to communicate with Gitlab
-     *
-     * @var HttpClient
+     * @var Builder
      */
-    private $httpClient;
+    private $httpClientBuilder;
 
     /**
      * Instantiate a new Gitlab client
      *
-     * @param string               $baseUrl
-     * @param null|ClientInterface $httpClient Buzz client
-     * @param array                $options
+     * @param Builder $httpClientBuilder
      */
-    public function __construct($baseUrl, ClientInterface $httpClient = null, array $options = array())
+    public function __construct(Builder $httpClientBuilder = null)
     {
-        foreach ($options as $name => $value) {
-            $this->setOption($name, $value);
-        }
+        $this->responseHistory = new History();
+        $this->httpClientBuilder = $httpClientBuilder ?: new Builder();
 
-        $httpClient = $httpClient ?: new Curl();
-        $httpClient->setTimeout($this->options['timeout']);
-        $httpClient->setVerifyPeer(false);
+        $this->httpClientBuilder->addPlugin(new GitlabExceptionThrower());
+        $this->httpClientBuilder->addPlugin(new HistoryPlugin($this->responseHistory));
+        $this->httpClientBuilder->addPlugin(new ApiVersion());
+        $this->httpClientBuilder->addPlugin(new HeaderDefaultsPlugin([
+            'User-Agent' => 'php-gitlab-api (http://github.com/m4tthumphrey/php-gitlab-api)',
+        ]));
 
-        $this->baseUrl     = $baseUrl;
-        $this->httpClient  = new HttpClient($this->baseUrl, $this->options, $httpClient);
+        $this->setUrl('https://gitlab.com');
+    }
 
-        /**
-         * a Pagination listener on Response
-         */
-        $this->httpClient->addListener(
-            new PaginationListener()
-        );
+    /**
+     * Create a Gitlab\Client using an url.
+     *
+     * @param string $url
+     *
+     * @return Client
+     */
+    public static function create($url)
+    {
+        $client = new self();
+        $client->setUrl($url);
+
+        return $client;
+    }
+
+    /**
+     * Create a Gitlab\Client using an HttpClient.
+     *
+     * @param HttpClient $httpClient
+     *
+     * @return Client
+     */
+    public static function createWithHttpClient(HttpClient $httpClient)
+    {
+        $builder = new Builder($httpClient);
+
+        return new self($builder);
     }
 
     /**
@@ -122,6 +142,8 @@ class Client
             case 'board':
             case 'issue_boards':
                 $api = new Api\IssueBoards($this);
+            case 'jobs':
+                $api = new Api\Jobs($this);
                 break;
 
             case 'mr':
@@ -165,6 +187,10 @@ class Client
                 $api = new Api\Keys($this);
                 break;
 
+            case 'tags':
+                $api = new Api\Tags($this);
+                break;
+
             default:
                 throw new InvalidArgumentException('Invalid endpoint: "'.$name.'"');
 
@@ -183,107 +209,21 @@ class Client
      */
     public function authenticate($token, $authMethod = self::AUTH_URL_TOKEN, $sudo = null)
     {
-        $this->httpClient->addListener(
-            new AuthListener(
-                $authMethod,
-                $token,
-                $sudo
-            )
-        );
-
-        return $this;
-    }
-
-    /**
-     * @return HttpClient
-     */
-    public function getHttpClient()
-    {
-        return $this->httpClient;
-    }
-
-    /**
-     * @param HttpClientInterface $httpClient
-     * @return $this
-     */
-    public function setHttpClient(HttpClientInterface $httpClient)
-    {
-        $this->httpClient = $httpClient;
+        $this->httpClientBuilder->removePlugin(Authentication::class);
+        $this->httpClientBuilder->addPlugin(new Authentication($authMethod, $token, $sudo));
 
         return $this;
     }
 
     /**
      * @param string $url
-     * @return $this
-     */
-    public function setBaseUrl($url)
-    {
-        $this->baseUrl = $url;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getBaseUrl()
-    {
-        return $this->baseUrl;
-    }
-
-    /**
-     * Clears used headers
      *
      * @return $this
      */
-    public function clearHeaders()
+    public function setUrl($url)
     {
-        $this->httpClient->clearHeaders();
-
-        return $this;
-    }
-
-    /**
-     * @param array $headers
-     * @return $this
-     */
-    public function setHeaders(array $headers)
-    {
-        $this->httpClient->setHeaders($headers);
-
-        return $this;
-    }
-
-    /**
-     * @param string $name
-     *
-     * @return mixed
-     *
-     * @throws InvalidArgumentException
-     */
-    public function getOption($name)
-    {
-        if (!array_key_exists($name, $this->options)) {
-            throw new InvalidArgumentException(sprintf('Undefined option called: "%s"', $name));
-        }
-
-        return $this->options[$name];
-    }
-
-    /**
-     * @param string $name
-     * @param mixed $value
-     * @throws InvalidArgumentException
-     * @return $this
-     */
-    public function setOption($name, $value)
-    {
-        if (!array_key_exists($name, $this->options)) {
-            throw new InvalidArgumentException(sprintf('Undefined option called: "%s"', $name));
-        }
-
-        $this->options[$name] = $value;
+        $this->httpClientBuilder->removePlugin(AddHostPlugin::class);
+        $this->httpClientBuilder->addPlugin(new AddHostPlugin(UriFactoryDiscovery::find()->createUri($url)));
 
         return $this;
     }
@@ -295,5 +235,21 @@ class Client
     public function __get($api)
     {
         return $this->api($api);
+    }
+
+    /**
+     * @return HttpMethodsClient
+     */
+    public function getHttpClient()
+    {
+        return $this->httpClientBuilder->getHttpClient();
+    }
+
+    /**
+     * @return History
+     */
+    public function getResponseHistory()
+    {
+        return $this->responseHistory;
     }
 }
