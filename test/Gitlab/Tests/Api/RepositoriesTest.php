@@ -51,7 +51,7 @@ class RepositoriesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/repository/branches', array('branch_name' => 'feature', 'ref' => 'master'))
+            ->with('projects/1/repository/branches', array('branch' => 'feature', 'ref' => 'master'))
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -497,7 +497,7 @@ class RepositoriesTest extends TestCase
             ->method('post')
             ->with('projects/1/repository/files', array(
                 'file_path' => 'dir/file1.txt',
-                'branch_name' => 'master',
+                'branch' => 'master',
                 'encoding' => null,
                 'content' => 'some contents',
                 'commit_message' => 'Added new file',
@@ -522,7 +522,7 @@ class RepositoriesTest extends TestCase
             ->method('post')
             ->with('projects/1/repository/files', array(
                 'file_path' => 'dir/file1.txt',
-                'branch_name' => 'master',
+                'branch' => 'master',
                 'encoding' => 'text',
                 'content' => 'some contents',
                 'commit_message' => 'Added new file',
@@ -547,7 +547,7 @@ class RepositoriesTest extends TestCase
             ->method('post')
             ->with('projects/1/repository/files', array(
                 'file_path' => 'dir/file1.txt',
-                'branch_name' => 'master',
+                'branch' => 'master',
                 'encoding' => null,
                 'content' => 'some contents',
                 'commit_message' => 'Added new file',
@@ -572,7 +572,7 @@ class RepositoriesTest extends TestCase
             ->method('put')
             ->with('projects/1/repository/files', array(
                 'file_path' => 'dir/file1.txt',
-                'branch_name' => 'master',
+                'branch' => 'master',
                 'encoding' => null,
                 'content' => 'some new contents',
                 'commit_message' => 'Updated new file',
@@ -597,7 +597,7 @@ class RepositoriesTest extends TestCase
             ->method('put')
             ->with('projects/1/repository/files', array(
                 'file_path' => 'dir/file1.txt',
-                'branch_name' => 'master',
+                'branch' => 'master',
                 'encoding' => 'base64',
                 'content' => 'some new contents',
                 'commit_message' => 'Updated file',
@@ -622,7 +622,7 @@ class RepositoriesTest extends TestCase
             ->method('put')
             ->with('projects/1/repository/files', array(
                 'file_path' => 'dir/file1.txt',
-                'branch_name' => 'master',
+                'branch' => 'master',
                 'encoding' => null,
                 'content' => 'some new contents',
                 'commit_message' => 'Updated file',
@@ -647,7 +647,7 @@ class RepositoriesTest extends TestCase
             ->method('delete')
             ->with('projects/1/repository/files', array(
                 'file_path' => 'dir/file1.txt',
-                'branch_name' => 'master',
+                'branch' => 'master',
                 'commit_message' => 'Deleted file',
                 'author_email' => null,
                 'author_name' => null,
@@ -670,7 +670,7 @@ class RepositoriesTest extends TestCase
             ->method('delete')
             ->with('projects/1/repository/files', array(
                 'file_path' => 'dir/file1.txt',
-                'branch_name' => 'master',
+                'branch' => 'master',
                 'commit_message' => 'Deleted file',
                 'author_email' => 'gitlab@example.com',
                 'author_name' => 'GitLab User',

@@ -23,26 +23,26 @@ class Repositories extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param string $branch_name
+     * @param string $branch
      * @param string $ref
      * @return mixed
      */
-    public function createBranch($project_id, $branch_name, $ref)
+    public function createBranch($project_id, $branch, $ref)
     {
         return $this->post($this->getProjectPath($project_id, 'repository/branches'), array(
-            'branch_name' => $branch_name,
+            'branch' => $branch,
             'ref' => $ref
         ));
     }
 
     /**
      * @param int $project_id
-     * @param string $branch_name
+     * @param string $branch
      * @return mixed
      */
-    public function deleteBranch($project_id, $branch_name)
+    public function deleteBranch($project_id, $branch)
     {
-        return $this->delete($this->getProjectPath($project_id, 'repository/branches/'.$this->encodeBranch($branch_name)));
+        return $this->delete($this->getProjectPath($project_id, 'repository/branches/'.$this->encodeBranch($branch)));
     }
 
     /**
@@ -263,18 +263,18 @@ class Repositories extends AbstractApi
      * @param int $project_id
      * @param string $file_path
      * @param string $content
-     * @param string $branch_name
+     * @param string $branch
      * @param string $commit_message
      * @param string $encoding
      * @param string $author_email
      * @param string $author_name
      * @return mixed
      */
-    public function createFile($project_id, $file_path, $content, $branch_name, $commit_message, $encoding = null, $author_email = null, $author_name = null)
+    public function createFile($project_id, $file_path, $content, $branch, $commit_message, $encoding = null, $author_email = null, $author_name = null)
     {
         return $this->post($this->getProjectPath($project_id, 'repository/files'), array(
             'file_path' => $file_path,
-            'branch_name' => $branch_name,
+            'branch' => $branch,
             'content' => $content,
             'commit_message' => $commit_message,
             'encoding' => $encoding,
@@ -287,18 +287,18 @@ class Repositories extends AbstractApi
      * @param int $project_id
      * @param string $file_path
      * @param string $content
-     * @param string $branch_name
+     * @param string $branch
      * @param string $commit_message
      * @param string $encoding
      * @param string $author_email
      * @param string $author_name
      * @return mixed
      */
-    public function updateFile($project_id, $file_path, $content, $branch_name, $commit_message, $encoding = null, $author_email = null, $author_name = null)
+    public function updateFile($project_id, $file_path, $content, $branch, $commit_message, $encoding = null, $author_email = null, $author_name = null)
     {
         return $this->put($this->getProjectPath($project_id, 'repository/files'), array(
             'file_path' => $file_path,
-            'branch_name' => $branch_name,
+            'branch' => $branch,
             'content' => $content,
             'commit_message' => $commit_message,
             'encoding' => $encoding,
@@ -310,17 +310,17 @@ class Repositories extends AbstractApi
     /**
      * @param int $project_id
      * @param string $file_path
-     * @param string $branch_name
+     * @param string $branch
      * @param string $commit_message
      * @param string $author_email
      * @param string $author_name
      * @return mixed
      */
-    public function deleteFile($project_id, $file_path, $branch_name, $commit_message, $author_email = null, $author_name = null)
+    public function deleteFile($project_id, $file_path, $branch, $commit_message, $author_email = null, $author_name = null)
     {
         return $this->delete($this->getProjectPath($project_id, 'repository/files'), array(
             'file_path' => $file_path,
-            'branch_name' => $branch_name,
+            'branch' => $branch,
             'commit_message' => $commit_message,
             'author_email' => $author_email,
             'author_name' => $author_name,
