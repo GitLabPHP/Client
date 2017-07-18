@@ -480,7 +480,7 @@ class Projects extends AbstractApi
      */
     public function fork($project_id)
     {
-        return $this->post('projects/fork/'.$this->encodePath($project_id));
+        return $this->post('projects/'.$this->encodePath($project_id).'/fork');
     }
 
     /**
