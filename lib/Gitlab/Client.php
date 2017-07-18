@@ -139,6 +139,9 @@ class Client
                 $api = new Api\Issues($this);
                 break;
 
+            case 'board':
+            case 'issue_boards':
+                $api = new Api\IssueBoards($this);
             case 'jobs':
                 $api = new Api\Jobs($this);
                 break;
