@@ -93,7 +93,7 @@ class Users extends AbstractApi
      */
     public function block($id)
     {
-        return $this->put('users/'.$this->encodePath($id).'/block');
+        return $this->post('users/'.$this->encodePath($id).'/block');
     }
 
     /**
@@ -102,7 +102,7 @@ class Users extends AbstractApi
      */
     public function unblock($id)
     {
-        return $this->put('users/'.$this->encodePath($id).'/unblock');
+        return $this->post('users/'.$this->encodePath($id).'/unblock');
     }
 
     /**
