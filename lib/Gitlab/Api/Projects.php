@@ -1,78 +1,81 @@
 <?php namespace Gitlab\Api;
 
+use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
+use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
+
 class Projects extends AbstractApi
 {
-    const ORDER_BY = 'created_at';
-    const SORT = 'asc';
-
     /**
-     * @param int $page
-     * @param int $per_page
-     * @param string $order_by
-     * @param string $sort
+     * @param array $parameters {
+     *
+     *     @var bool   $archived                    Limit by archived status.
+     *     @var string $visibility                  Limit by visibility public, internal, or private.
+     *     @var string $order_by                    Return projects ordered by id, name, path, created_at, updated_at,
+     *                                              or last_activity_at fields. Default is created_at.
+     *     @var string $sort                        Return projects sorted in asc or desc order. Default is desc.
+     *     @var string $search                      Return list of projects matching the search criteria.
+     *     @var bool   $simple                      Return only the ID, URL, name, and path of each project.
+     *     @var bool   $owned                       Limit by projects owned by the current user.
+     *     @var bool   $membership                  Limit by projects that the current user is a member of.
+     *     @var bool   $starred                     Limit by projects starred by the current user.
+     *     @var bool   $statistics                  Include project statistics.
+     *     @var bool   $with_issues_enabled         Limit by enabled issues feature.
+     *     @var bool   $with_merge_requests_enabled Limit by enabled merge requests feature.
+     * }
+     *
+     * @throws UndefinedOptionsException If an option name is undefined
+     * @throws InvalidOptionsException   If an option doesn't fulfill the
+     *                                   specified validation rules
+     *
      * @return mixed
      */
-    public function all($page = 1, $per_page = self::PER_PAGE, $order_by = self::ORDER_BY, $sort = self::SORT)
+    public function all(array $parameters = [])
     {
-        return $this->get('projects/all', array(
-            'page' => $page,
-            'per_page' => $per_page,
-            'order_by' => $order_by,
-            'sort' => $sort
-        ));
-    }
+        $resolver = $this->createOptionsResolver();
+        $booleanNormalizer = function ($value) {
+            return $value ? 'true' : 'false';
+        };
+        $resolver->setDefined('archived')
+            ->setAllowedTypes('archived', 'bool')
+            ->setNormalizer('archived', $booleanNormalizer)
+        ;
+        $resolver->setDefined('visibility')
+            ->setAllowedValues('visibility', ['public', 'internal', 'private'])
+        ;
+        $resolver->setDefined('order_by')
+            ->setAllowedValues('order_by', ['id', 'name', 'path', 'created_at', 'updated_at', 'last_activity_at'])
+        ;
+        $resolver->setDefined('search');
+        $resolver->setDefined('simple')
+            ->setAllowedTypes('simple', 'bool')
+            ->setNormalizer('simple', $booleanNormalizer)
+        ;
+        $resolver->setDefined('owned')
+            ->setAllowedTypes('owned', 'bool')
+            ->setNormalizer('owned', $booleanNormalizer)
+        ;
+        $resolver->setDefined('membership')
+            ->setAllowedTypes('membership', 'bool')
+            ->setNormalizer('membership', $booleanNormalizer)
+        ;
+        $resolver->setDefined('starred')
+            ->setAllowedTypes('starred', 'bool')
+            ->setNormalizer('starred', $booleanNormalizer)
+        ;
+        $resolver->setDefined('statistics')
+            ->setAllowedTypes('statistics', 'bool')
+            ->setNormalizer('statistics', $booleanNormalizer)
+        ;
+        $resolver->setDefined('with_issues_enabled')
+            ->setAllowedTypes('with_issues_enabled', 'bool')
+            ->setNormalizer('with_issues_enabled', $booleanNormalizer)
+        ;
+        $resolver->setDefined('with_merge_requests_enabled')
+            ->setAllowedTypes('with_merge_requests_enabled', 'bool')
+            ->setNormalizer('with_merge_requests_enabled', $booleanNormalizer)
+        ;
 
-    /**
-     * @param int $page
-     * @param int $per_page
-     * @param string $order_by
-     * @param string $sort
-     * @return mixed
-     */
-    public function accessible($page = 1, $per_page = self::PER_PAGE, $order_by = self::ORDER_BY, $sort = self::SORT)
-    {
-        return $this->get('projects', array(
-            'page' => $page,
-            'per_page' => $per_page,
-            'order_by' => $order_by,
-            'sort' => $sort
-        ));
-    }
-
-    /**
-     * Get projects owned by the current user
-     * @param int $page
-     * @param int $per_page
-     * @param string $order_by
-     * @param string $sort
-     * @return mixed
-     */
-    public function owned($page = 1, $per_page = self::PER_PAGE, $order_by = self::ORDER_BY, $sort = self::SORT)
-    {
-        return $this->get('projects?owned=1', array(
-            'page' => $page,
-            'per_page' => $per_page,
-            'order_by' => $order_by,
-            'sort' => $sort
-        ));
-    }
-
-    /**
-     * @param string $query
-     * @param int $page
-     * @param int $per_page
-     * @param string $order_by
-     * @param string $sort
-     * @return mixed
-     */
-    public function search($query, $page = 1, $per_page = self::PER_PAGE, $order_by = self::ORDER_BY, $sort = self::SORT)
-    {
-        return $this->get('projects/search/'.$this->encodePath($query), array(
-            'page' => $page,
-            'per_page' => $per_page,
-            'order_by' => $order_by,
-            'sort' => $sort
-        ));
+        return $this->get('projects', $resolver->resolve($parameters));
     }
 
     /**
