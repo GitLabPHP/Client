@@ -638,7 +638,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetKeys()
+    public function shouldGetDeployKeys()
     {
         $expectedArray = array(
             array('id' => 1, 'title' => 'test-key'),
@@ -648,28 +648,28 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/keys')
+            ->with('projects/1/deploy_keys')
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->keys(1));
+        $this->assertEquals($expectedArray, $api->deployKeys(1));
     }
 
     /**
      * @test
      */
-    public function shouldGetKey()
+    public function shouldGetDeployKey()
     {
         $expectedArray = array('id' => 2, 'title' => 'another-key');
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/keys/2')
+            ->with('projects/1/deploy_keys/2')
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->key(1, 2));
+        $this->assertEquals($expectedArray, $api->deployKey(1, 2));
     }
 
     /**
@@ -682,62 +682,45 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/keys', array('title' => 'new-key', 'key' => '...'))
+            ->with('projects/1/deploy_keys', array('title' => 'new-key', 'key' => '...'))
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->addKey(1, 'new-key', '...'));
+        $this->assertEquals($expectedArray, $api->addDeployKey(1, 'new-key', '...'));
     }
 
     /**
      * @test
      */
-    public function shouldRemoveKey()
+    public function shouldDeleteDeployKey()
     {
         $expectedBool = true;
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('delete')
-            ->with('projects/1/keys/3')
+            ->with('projects/1/deploy_keys/3')
             ->will($this->returnValue($expectedBool))
         ;
 
-        $this->assertEquals($expectedBool, $api->removeKey(1, 3));
+        $this->assertEquals($expectedBool, $api->deleteDeployKey(1, 3));
     }
 
     /**
      * @test
      */
-    public function shoudEnableKey()
+    public function shoudEnableDeployKey()
     {
         $expectedBool = true;
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/keys/3/enable')
+            ->with('projects/1/deploy_keys/3/enable')
             ->will($this->returnValue($expectedBool))
         ;
 
-        $this->assertEquals($expectedBool, $api->enableKey(1, 3));
-    }
-
-    /**
-     * @test
-     */
-    public function shoudDisableKey()
-    {
-        $expectedBool = true;
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('delete')
-            ->with('projects/1/keys/3/disable')
-            ->will($this->returnValue($expectedBool))
-        ;
-
-        $this->assertEquals($expectedBool, $api->disableKey(1, 3));
+        $this->assertEquals($expectedBool, $api->enableDeployKey(1, 3));
     }
 
     /**
