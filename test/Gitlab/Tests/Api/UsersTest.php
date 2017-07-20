@@ -215,7 +215,7 @@ class UsersTest extends TestCase
 
         $api = $this->getApiMock();
         $api->expects($this->once())
-            ->method('put')
+            ->method('post')
             ->with('users/1/block')
             ->will($this->returnValue($expectedBool))
         ;
@@ -232,7 +232,7 @@ class UsersTest extends TestCase
 
         $api = $this->getApiMock();
         $api->expects($this->once())
-            ->method('put')
+            ->method('post')
             ->with('users/1/unblock')
             ->will($this->returnValue($expectedBool))
         ;
