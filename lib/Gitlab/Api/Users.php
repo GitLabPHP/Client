@@ -242,9 +242,9 @@ class Users extends AbstractApi
     */
     public function createImpersonationToken($user_id)
     {
-        return $this->post(‘users/‘. $this->encodePath($user_id).‘/impersonation_tokens’, array(
-            ‘name’    => ‘inter-invest’,
-            ‘scopes[]’  => ‘api’
+        return $this->post('users/'. $this->encodePath($user_id).'/impersonation_tokens', array(
+            'name'    => 'inter-invest',
+            'scopes[]'  => 'api'
         ));
     }
 }
