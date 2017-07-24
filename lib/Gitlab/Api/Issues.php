@@ -24,12 +24,12 @@ class Issues extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param int $issue_id
+     * @param int $issue_iid
      * @return mixed
      */
-    public function show($project_id, $issue_id)
+    public function show($project_id, $issue_iid)
     {
-        return $this->get($this->getProjectPath($project_id, 'issues?iid='.$this->encodePath($issue_id)));
+        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid)));
     }
 
     /**
