@@ -150,7 +150,7 @@ class Repositories extends AbstractApi
      * @param null $ref_name
      * @return mixed
      */
-    public function commits($project_id, $page = 0, $per_page = self::PER_PAGE, $ref_name = null)
+    public function commits($project_id, $page = 1, $per_page = self::PER_PAGE, $ref_name = null)
     {
         return $this->get($this->getProjectPath($project_id, 'repository/commits'), array(
             'page' => $page,

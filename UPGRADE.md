@@ -18,6 +18,10 @@ See [documentation](doc/customize.md) to know how to customize the client timeou
 * The `keys`, `key`, `addKey`, `removeKey`, `disableKey` and `enableKey` methods have been removed.
 Use the `deployKeys`, `deployKey`, `addDeployKey`, `deleteDeployKey`, `removeDeployKey` and `enableDeployKey` instead.
 
+## `Gitlab\Api\Repositories` changes
+
+* The `commits` page argument now start from 1 instead of 0.
+
 ## `Gitlab\Model\Project` changes
 
 * The `keys`, `key`, `addKey`, `removeKey`, `disableKey` and `enableKey` methods have been removed.
