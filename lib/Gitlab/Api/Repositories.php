@@ -240,8 +240,8 @@ class Repositories extends AbstractApi
      */
     public function blob($project_id, $sha, $filepath)
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/blob'), array(
-            'filepath' => $filepath
+        return $this->get($this->getProjectPath($project_id, 'repository/files/'.$this->encodePath($filepath).'/raw'), array(
+            'ref' => $sha,
         ));
     }
 
@@ -253,8 +253,7 @@ class Repositories extends AbstractApi
      */
     public function getFile($project_id, $file_path, $ref)
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/files'), array(
-            'file_path' => $file_path,
+        return $this->get($this->getProjectPath($project_id, 'repository/files/'.$this->encodePath($file_path)), array(
             'ref' => $ref
         ));
     }
