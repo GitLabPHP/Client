@@ -287,15 +287,6 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
-     * @return mixed
-     */
-    public function deployKeys($project_id)
-    {
-        return $this->get($this->getProjectPath($project_id, 'deploy_keys'));
-    }
-
-    /**
-     * @param int $project_id
      * @param int $page
      * @param int $per_page
      * @return mixed
@@ -360,9 +351,9 @@ class Projects extends AbstractApi
      * @param int $project_id
      * @return mixed
      */
-    public function keys($project_id)
+    public function deployKeys($project_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'keys'));
+        return $this->get($this->getProjectPath($project_id, 'deploy_keys'));
     }
 
     /**
@@ -370,9 +361,9 @@ class Projects extends AbstractApi
      * @param int $key_id
      * @return mixed
      */
-    public function key($project_id, $key_id)
+    public function deployKey($project_id, $key_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'keys/'.$this->encodePath($key_id)));
+        return $this->get($this->getProjectPath($project_id, 'deploy_keys/'.$this->encodePath($key_id)));
     }
 
     /**
@@ -381,9 +372,9 @@ class Projects extends AbstractApi
      * @param string $key
      * @return mixed
      */
-    public function addKey($project_id, $title, $key)
+    public function addDeployKey($project_id, $title, $key)
     {
-        return $this->post($this->getProjectPath($project_id, 'keys'), array(
+        return $this->post($this->getProjectPath($project_id, 'deploy_keys'), array(
             'title' => $title,
             'key' => $key
         ));
@@ -394,9 +385,9 @@ class Projects extends AbstractApi
      * @param int $key_id
      * @return mixed
      */
-    public function removeKey($project_id, $key_id)
+    public function deleteDeployKey($project_id, $key_id)
     {
-        return $this->delete($this->getProjectPath($project_id, 'keys/'.$this->encodePath($key_id)));
+        return $this->delete($this->getProjectPath($project_id, 'deploy_keys/'.$this->encodePath($key_id)));
     }
 
     /**
@@ -404,19 +395,9 @@ class Projects extends AbstractApi
      * @param int $key_id
      * @return mixed
      */
-    public function enableKey($project_id, $key_id)
+    public function enableDeployKey($project_id, $key_id)
     {
-        return $this->post($this->getProjectPath($project_id, 'keys/'.$this->encodePath($key_id).'/enable'));
-    }
-
-    /**
-     * @param int $project_id
-     * @param int $key_id
-     * @return mixed
-     */
-    public function disableKey($project_id, $key_id)
-    {
-        return $this->delete($this->getProjectPath($project_id, 'keys/'.$this->encodePath($key_id).'/disable'));
+        return $this->post($this->getProjectPath($project_id, 'deploy_keys/'.$this->encodePath($key_id).'/enable'));
     }
 
     /**

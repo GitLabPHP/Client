@@ -300,9 +300,9 @@ class Project extends AbstractModel
     /**
      * @return Key[]
      */
-    public function keys()
+    public function deployKeys()
     {
-        $data = $this->api('projects')->keys($this->id);
+        $data = $this->api('projects')->deployKeys($this->id);
 
         $keys = array();
         foreach ($data as $key) {
@@ -316,9 +316,9 @@ class Project extends AbstractModel
      * @param int $key_id
      * @return Key
      */
-    public function key($key_id)
+    public function deployKey($key_id)
     {
-        $data = $this->api('projects')->key($this->id, $key_id);
+        $data = $this->api('projects')->deployKey($this->id, $key_id);
 
         return Key::fromArray($this->getClient(), $data);
     }
@@ -328,9 +328,9 @@ class Project extends AbstractModel
      * @param string $key
      * @return Key
      */
-    public function addKey($title, $key)
+    public function addDeployKey($title, $key)
     {
-        $data = $this->api('projects')->addKey($this->id, $title, $key);
+        $data = $this->api('projects')->addDeployKey($this->id, $title, $key);
 
         return Key::fromArray($this->getClient(), $data);
     }
@@ -339,9 +339,9 @@ class Project extends AbstractModel
      * @param string $key_id
      * @return bool
      */
-    public function removeKey($key_id)
+    public function deleteDeployKey($key_id)
     {
-        $this->api('projects')->removeKey($this->id, $key_id);
+        $this->api('projects')->deleteDeployKey($this->id, $key_id);
 
         return true;
     }
@@ -350,20 +350,9 @@ class Project extends AbstractModel
      * @param string $key_id
      * @return bool
      */
-    public function enableKey($key_id)
+    public function enableDeployKey($key_id)
     {
-        $this->api('projects')->enableKey($this->id, $key_id);
-
-        return true;
-    }
-
-    /**
-     * @param string $key_id
-     * @return bool
-     */
-    public function disableKey($key_id)
-    {
-        $this->api('projects')->disableKey($this->id, $key_id);
+        $this->api('projects')->enableDeployKey($this->id, $key_id);
 
         return true;
     }
