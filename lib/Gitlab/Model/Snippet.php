@@ -8,7 +8,6 @@ use Gitlab\Client;
  * @property-read int $id
  * @property-read string $title
  * @property-read string $file_name
- * @property-read string $expires_at
  * @property-read string $updated_at
  * @property-read string $created_at
  * @property-read Project $project
@@ -24,7 +23,6 @@ class Snippet extends AbstractModel
         'title',
         'file_name',
         'author',
-        'expires_at',
         'updated_at',
         'created_at',
         'project'

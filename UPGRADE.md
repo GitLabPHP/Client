@@ -22,3 +22,7 @@ Use the `deployKeys`, `deployKey`, `addDeployKey`, `deleteDeployKey`, `removeDep
 
 * The `keys`, `key`, `addKey`, `removeKey`, `disableKey` and `enableKey` methods have been removed.
 Use the `deployKeys`, `deployKey`, `addDeployKey`, `deleteDeployKey`, `removeDeployKey` and `enableDeployKey` instead.
+
+## `Gitlab\Model\Snippet` changes
+
+The `expires_at` property have been removed.`
