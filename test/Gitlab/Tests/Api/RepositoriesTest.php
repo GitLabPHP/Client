@@ -228,7 +228,7 @@ class RepositoriesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/repository/commits', array('page' => 0, 'per_page' => AbstractApi::PER_PAGE, 'ref_name' => null))
+            ->with('projects/1/repository/commits', array('page' => 1, 'per_page' => AbstractApi::PER_PAGE, 'ref_name' => null))
             ->will($this->returnValue($expectedArray))
         ;
 
