@@ -150,11 +150,9 @@ abstract class AbstractApi implements ApiInterface
      */
     protected function delete($path, array $parameters = array(), $requestHeaders = array())
     {
-        $path = $this->preparePath($path);
+        $path = $this->preparePath($path, $parameters);
 
-        $body = empty($parameters) ? null : $this->streamFactory->createStream(http_build_query($parameters));
-
-        $response = $this->client->getHttpClient()->delete($path, $requestHeaders, $body);
+        $response = $this->client->getHttpClient()->delete($path, $requestHeaders);
 
         return ResponseMediator::getContent($response);
     }
