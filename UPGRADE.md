@@ -13,6 +13,11 @@ See [documentation](doc/customize.md) to know how to customize the client timeou
 * The `setHttpClient` method have been removed. Use a `Gitlab\HttpClient\Builder` instead. 
 * The `getHttpClient` method return type is changed to `Http\Client\Common\HttpMethodsClient`.
 
+## `Gitlab\Api\Issues` changes
+
+* The second argument of `update`, `remove`, `showComments`, `showComment`, `addComment`, `updateComment`, `removeComment`,
+ `setTimeEstimate`, `resetTimeEstimate`, `addSpentTime` and `resetSpentTime` methods is now a scoped issue id (iid).
+
 ## `Gitlab\Api\Projects` changes
 
 * The `keys`, `key`, `addKey`, `removeKey`, `disableKey` and `enableKey` methods have been removed.
