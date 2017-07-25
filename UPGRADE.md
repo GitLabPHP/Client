@@ -13,6 +13,11 @@ See [documentation](doc/customize.md) to know how to customize the client timeou
 * The `setHttpClient` method have been removed. Use a `Gitlab\HttpClient\Builder` instead. 
 * The `getHttpClient` method return type is changed to `Http\Client\Common\HttpMethodsClient`.
 
+
+## `Gitlab\Api\Groups` changes
+
+* The `visibility_level` parameter have been removed from `create` method. Use `visibility` instead.
+
 ## `Gitlab\Api\Issues` changes
 
 * The second argument of `update`, `remove`, `showComments`, `showComment`, `addComment`, `updateComment`, `removeComment`,
