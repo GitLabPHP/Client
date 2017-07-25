@@ -228,7 +228,7 @@ class RepositoriesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/repository/commits', array('page' => 0, 'per_page' => AbstractApi::PER_PAGE, 'ref_name' => null))
+            ->with('projects/1/repository/commits', array('page' => 1, 'per_page' => AbstractApi::PER_PAGE, 'ref_name' => null))
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -461,7 +461,7 @@ class RepositoriesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/repository/commits/abcd1234/blob', array('filepath' => 'dir/file1.txt'))
+            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt/raw', array('ref' => 'abcd1234'))
             ->will($this->returnValue($expectedString))
         ;
 
@@ -478,7 +478,7 @@ class RepositoriesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/repository/files', array('file_path' => 'dir/file1.txt', 'ref' => 'abcd1234'))
+            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt', array('ref' => 'abcd1234'))
             ->will($this->returnValue($expectedArray))
         ;
 
