@@ -168,7 +168,7 @@ class MergeRequestsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/merge_request/2')
+            ->with('projects/1/merge_requests/2')
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -233,7 +233,7 @@ class MergeRequestsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/merge_request/2', array('title' => 'Updated title', 'description' => 'No so many changes now', 'state_event' => 'close'))
+            ->with('projects/1/merge_requests/2', array('title' => 'Updated title', 'description' => 'No so many changes now', 'state_event' => 'close'))
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -254,7 +254,7 @@ class MergeRequestsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->exactly(2))
             ->method('put')
-            ->with('projects/1/merge_request/2/merge', array('merge_commit_message' => 'Accepted'))
+            ->with('projects/1/merge_requests/2/merge', array('merge_commit_message' => 'Accepted'))
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -295,7 +295,7 @@ class MergeRequestsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/merge_request/2/comments')
+            ->with('projects/1/merge_requests/2/comments')
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -312,7 +312,7 @@ class MergeRequestsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/merge_request/2/comments', array('note' => 'A comment'))
+            ->with('projects/1/merge_requests/2/comments', array('note' => 'A comment'))
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -329,7 +329,7 @@ class MergeRequestsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/merge_request/2/changes')
+            ->with('projects/1/merge_requests/2/changes')
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -347,7 +347,7 @@ class MergeRequestsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/merge_request/2/closes_issues')
+            ->with('projects/1/merge_requests/2/closes_issues')
             ->will($this->returnValue($expectedArray))
         ;
 
