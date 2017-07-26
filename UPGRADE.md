@@ -23,6 +23,10 @@ See [documentation](doc/customize.md) to know how to customize the client timeou
 * The second argument of `update`, `remove`, `showComments`, `showComment`, `addComment`, `updateComment`, `removeComment`,
  `setTimeEstimate`, `resetTimeEstimate`, `addSpentTime` and `resetSpentTime` methods is now a scoped issue id (iid).
 
+## `Gitlab\Api\MergeRequests` changes
+
+* The `getList` method have been removed. Use `all` instead.
+
 ## `Gitlab\Api\Projects` changes
 
 * The `keys`, `key`, `addKey`, `removeKey`, `disableKey` and `enableKey` methods have been removed.

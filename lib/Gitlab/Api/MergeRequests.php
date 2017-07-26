@@ -12,27 +12,6 @@ class MergeRequests extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param string $state
-     * @param int $page
-     * @param int $per_page
-     * @param string $order_by
-     * @param string $sort
-     * @param string $object
-     * @return mixed
-     */
-    public function getList($project_id, $state = self::STATE_ALL, $page = 1, $per_page = self::PER_PAGE, $order_by = self::ORDER_BY, $sort = self::SORT, $object = 'merge_requests')
-    {
-        return $this->get($this->getProjectPath($project_id, $object), array(
-            'page' => $page,
-            'per_page' => $per_page,
-            'state' => $state,
-            'order_by' => $order_by,
-            'sort' => $sort
-        ));
-    }
-
-    /**
-     * @param int $project_id
      * @param int $page
      * @param int $per_page
      * @param string $order_by
