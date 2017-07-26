@@ -6,6 +6,7 @@ use Http\Discovery\StreamFactoryDiscovery;
 use Http\Message\MultipartStream\MultipartStreamBuilder;
 use Http\Message\StreamFactory;
 use Psr\Http\Message\ResponseInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Abstract class for Api classes
@@ -188,6 +189,29 @@ abstract class AbstractApi implements ApiInterface
         $path = rawurlencode($path);
 
         return str_replace('.', '%2E', $path);
+    }
+
+    /**
+     * Create a new OptionsResolver with page, per_page and sort options.
+     *
+     * @return OptionsResolver
+     */
+    protected function createOptionsResolver()
+    {
+        $resolver = new OptionsResolver();
+        $resolver->setDefined('page')
+            ->setAllowedTypes('page', 'int')
+            ->setAllowedValues('page', function ($value) { return $value > 0; })
+        ;
+        $resolver->setDefined('per_page')
+            ->setAllowedTypes('per_page', 'int')
+            ->setAllowedValues('per_page', function ($value) { return $value > 0 && $value <= 100; })
+        ;
+        $resolver->setDefined('sort')
+            ->setAllowedValues('sort', ['asc', 'desc'])
+        ;
+
+        return $resolver;
     }
 
     private function preparePath($path, array $parameters = [])

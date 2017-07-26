@@ -27,6 +27,9 @@ See [documentation](doc/customize.md) to know how to customize the client timeou
 
 * The `keys`, `key`, `addKey`, `removeKey`, `disableKey` and `enableKey` methods have been removed.
 Use the `deployKeys`, `deployKey`, `addDeployKey`, `deleteDeployKey`, `removeDeployKey` and `enableDeployKey` instead.
+* The `ORDER_BY` and `SORT` class constants have been removed.
+* The `accessible`, `owned` and `search` methods have been removed. Use `all` method instead.
+* The `all` method now take a single argument which is an associative array of query string parameters.
 
 ## `Gitlab\Api\Repositories` changes
 

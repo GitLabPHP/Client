@@ -12,7 +12,7 @@ class ProjectsTest extends TestCase
     {
         $expectedArray = $this->getMultipleProjectsData();
 
-        $api = $this->getMultipleProjectsRequestMock('projects/all', $expectedArray);
+        $api = $this->getMultipleProjectsRequestMock('projects', $expectedArray);
 
         $this->assertEquals($expectedArray, $api->all());
     }
@@ -24,9 +24,9 @@ class ProjectsTest extends TestCase
     {
         $expectedArray = $this->getMultipleProjectsData();
 
-        $api = $this->getMultipleProjectsRequestMock('projects/all', $expectedArray, 1, 5, 'name', 'asc');
+        $api = $this->getMultipleProjectsRequestMock('projects', $expectedArray, ['page' => 1, 'per_page' => 5, 'order_by' => 'name', 'sort' => 'asc']);
 
-        $this->assertEquals($expectedArray, $api->all(1, 5, 'name'));
+        $this->assertEquals($expectedArray, $api->all(['page' => 1, 'per_page' => 5, 'order_by' => 'name', 'sort' => 'asc']));
     }
 
     /**
@@ -39,7 +39,7 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/all', array('page' => 1, 'per_page' => AbstractApi::PER_PAGE, 'order_by' => Projects::ORDER_BY, 'sort' => Projects::SORT))
+            ->with('projects')
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -53,9 +53,9 @@ class ProjectsTest extends TestCase
     {
         $expectedArray = $this->getMultipleProjectsData();
 
-        $api = $this->getMultipleProjectsRequestMock('projects', $expectedArray, 2, 7);
+        $api = $this->getMultipleProjectsRequestMock('projects', $expectedArray);
 
-        $this->assertEquals($expectedArray, $api->accessible(2, 7));
+        $this->assertEquals($expectedArray, $api->all());
     }
 
     /**
@@ -65,11 +65,10 @@ class ProjectsTest extends TestCase
     {
         $expectedArray = $this->getMultipleProjectsData();
 
-        $api = $this->getMultipleProjectsRequestMock('projects?owned=1', $expectedArray, 3, 50);
+        $api = $this->getMultipleProjectsRequestMock('projects', $expectedArray, ['owned' => 'true']);
 
-        $this->assertEquals($expectedArray, $api->owned(3, 50));
+        $this->assertEquals($expectedArray, $api->all(['owned' => true]));
     }
-
 
     /**
      * @test
@@ -78,14 +77,8 @@ class ProjectsTest extends TestCase
     {
         $expectedArray = $this->getMultipleProjectsData();
 
-        $api = $this->getMultipleProjectsRequestMock('projects/search/a%20project', $expectedArray);
-        $this->assertEquals($expectedArray, $api->search('a project'));
-
-        $api = $this->getMultipleProjectsRequestMock('projects/search/a%2Eproject', $expectedArray);
-        $this->assertEquals($expectedArray, $api->search('a.project'));
-
-        $api = $this->getMultipleProjectsRequestMock('projects/search/a%2Fproject', $expectedArray);
-        $this->assertEquals($expectedArray, $api->search('a/project'));
+        $api = $this->getMultipleProjectsRequestMock('projects', $expectedArray, ['search' => 'a project']);
+        $this->assertEquals($expectedArray, $api->all(['search' => 'a project']));
     }
 
     /**
@@ -1008,12 +1001,12 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedBool, $api->removeVariable(1, 'ftp_password'));
     }
 
-    protected function getMultipleProjectsRequestMock($path, $expectedArray = array(), $page = 1, $per_page = 20, $order_by = 'created_at', $sort = 'asc')
+    protected function getMultipleProjectsRequestMock($path, $expectedArray = array(), $expectedParameters = array())
     {
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with($path, array('page' => $page, 'per_page' => $per_page, 'order_by' => $order_by, 'sort' => $sort))
+            ->with($path, $expectedParameters)
             ->will($this->returnValue($expectedArray))
         ;
 
