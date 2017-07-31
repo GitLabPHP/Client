@@ -25,7 +25,10 @@ See [documentation](doc/customize.md) to know how to customize the client timeou
 
 ## `Gitlab\Api\MergeRequests` changes
 
-* The `getList` method have been removed. Use `all` instead.
+* The `getList`, `getByIid`, `merged`, `opened` and `closed` methods have been removed. Use `all` method instead.
+* The `ORDER_BY` and `SORT` class constants have been removed.
+* The `all` method now take a single argument which is an associative array of query string parameters.
+* The `getNotes` method now take only two arguments, the project id and the merge request iid.
 
 ## `Gitlab\Api\Projects` changes
 
