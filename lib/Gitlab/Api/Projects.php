@@ -149,38 +149,6 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param array $scope
-     * @return mixed
-     */
-    public function builds($project_id, $scope = null)
-    {
-        return $this->get($this->getProjectPath($project_id, 'builds'), array(
-            'scope' => $scope
-        ));
-    }
-
-    /**
-     * @param int $project_id
-     * @param int $build_id
-     * @return mixed
-     */
-    public function build($project_id, $build_id)
-    {
-        return $this->get($this->getProjectPath($project_id, 'builds/'.$this->encodePath($build_id)));
-    }
-
-    /**
-     * @param int $project_id
-     * @param int $build_id
-     * @return mixed
-     */
-    public function trace($project_id, $build_id)
-    {
-        return $this->get($this->getProjectPath($project_id, 'builds/'.$this->encodePath($build_id).'/trace'));
-    }
-
-    /**
-     * @param int $project_id
      * @return mixed
      */
     public function pipelines($project_id)
