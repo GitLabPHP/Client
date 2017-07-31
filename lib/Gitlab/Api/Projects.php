@@ -148,12 +148,45 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int   $project_id
+     * @param array $parameters (
+     *
+     *     @var string $scope       The scope of pipelines, one of: running, pending, finished, branches, tags.
+     *     @var string $status      The status of pipelines, one of: running, pending, success, failed, canceled, skipped.
+     *     @var string $ref         The ref of pipelines.
+     *     @var bool   $yaml_errors Returns pipelines with invalid configurations.
+     *     @var string $name        The name of the user who triggered pipelines.
+     *     @var string $username    The username of the user who triggered pipelines.
+     *     @var string $order_by    Order pipelines by id, status, ref, or user_id (default: id).
+     *     @var string $order       Sort pipelines in asc or desc order (default: desc).
+     * )
      * @return mixed
      */
-    public function pipelines($project_id)
+    public function pipelines($project_id, array $parameters = [])
     {
-        return $this->get($this->getProjectPath($project_id, 'pipelines'));
+        $resolver = $this->createOptionsResolver();
+        $booleanNormalizer = function ($value) {
+            return $value ? 'true' : 'false';
+        };
+
+        $resolver->setDefined('scope')
+            ->setAllowedValues('scope', ['running', 'pending', 'finished', 'branches', 'tags'])
+        ;
+        $resolver->setDefined('status')
+            ->setAllowedValues('status', ['running', 'pending', 'success', 'failed', 'canceled', 'skipped'])
+        ;
+        $resolver->setDefined('ref');
+        $resolver->setDefined('yaml_errors')
+            ->setAllowedTypes('yaml_errors', 'bool')
+            ->setNormalizer('yaml_errors', $booleanNormalizer)
+        ;
+        $resolver->setDefined('name');
+        $resolver->setDefined('username');
+        $resolver->setDefined('order_by')
+            ->setAllowedValues('order_by', ['id', 'status', 'ref', 'user_id'])
+        ;
+
+        return $this->get($this->getProjectPath($project_id, 'pipelines'), $resolver->resolve($parameters));
     }
 
     /**
