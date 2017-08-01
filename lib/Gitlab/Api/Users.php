@@ -3,46 +3,54 @@
 class Users extends AbstractApi
 {
     /**
-     * @param null|true $active
-     * @param int $page
-     * @param int $per_page
+     * @param array $parameters (
+     *
+     * @var string             $search         Search for user by email or username.
+     * @var string             $username       Lookup for user by username.
+     * @var bool               $external       Search for external users only.
+     * @var string             $extern_uid     Lookup for users by external uid.
+     * @var string             $provider       Lookup for users by provider.
+     * @var \DateTimeInterface $created_before Return users created before the given time (inclusive).
+     * @var \DateTimeInterface $created_after  Return users created after the given time (inclusive).
+     * @var bool               $active         Return only active users. It does not support filtering inactive users.
+     * @var bool               $blocked        Return only blocked users. It does not support filtering non-blocked users.
+     * )
+     *
      * @return mixed
      */
-    public function all($active = null, $page = 1, $per_page = self::PER_PAGE)
+    public function all(array $parameters = [])
     {
-        return $this->get('users', array(
-            'active' => $active,
-            'page' => $page,
-            'per_page' => $per_page
-        ));
-    }
+        $resolver = $this->createOptionsResolver();
+        $datetimeNormalizer = function (\DateTimeInterface $value) {
+            return $value->format('c');
+        };
 
-    /**
-     * @param string $username
-     * @return mixed
-     */
-    public function lookup($username)
-    {
-        return $this->get('users', array(
-            'username' => $username
-        ));
-    }
+        $resolver->setDefined('search');
+        $resolver->setDefined('username');
+        $resolver->setDefined('external')
+            ->setAllowedTypes('external', 'bool')
+        ;
+        $resolver->setDefined('extern_uid');
+        $resolver->setDefined('provider');
+        $resolver->setDefined('created_before')
+            ->setAllowedTypes('created_before', \DateTimeInterface::class)
+            ->setNormalizer('created_before', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('created_after')
+            ->setAllowedTypes('created_after', \DateTimeInterface::class)
+            ->setNormalizer('created_after', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('active')
+            ->setAllowedTypes('active', 'bool')
+            ->setAllowedValues('active', true)
+        ;
+        $resolver->setDefined('blocked')
+            ->setAllowedTypes('blocked', 'bool')
+            ->setAllowedValues('blocked', true)
+        ;
 
-    /**
-     * @param string $query
-     * @param null|true $active
-     * @param int $page
-     * @param int $per_page
-     * @return mixed
-     */
-    public function search($query, $active = null, $page = 1, $per_page = self::PER_PAGE)
-    {
-        return $this->get('users', array(
-            'search' => $query,
-            'active' => $active,
-            'page' => $page,
-            'per_page' => $per_page
-        ));
+
+        return $this->get('users', $resolver->resolve($parameters));
     }
 
     /**

@@ -79,3 +79,8 @@ Use the `deployKeys`, `deployKey`, `addDeployKey`, `deleteDeployKey`, `removeDep
 ## `Gitlab\Model\Snippet` changes
 
 * The `expires_at` property have been removed.`
+
+## `Gitlab\Model\Users` changes
+
+* The `all` method now take a single argument which is an associative array of query string parameters.
+* The `lookup` and `search` methods have been removed. Use `all` method instead.
