@@ -8,31 +8,14 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetMergeRequestListWithDefaultParams()
+    public function shouldGetAll()
     {
         $expectedArray = $this->getMultipleMergeRequestsData();
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/merge_requests', array('page' => 1, 'per_page' => AbstractApi::PER_PAGE, 'state' => MergeRequests::STATE_ALL, 'order_by' => MergeRequests::ORDER_BY, 'sort' => MergeRequests::SORT))
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->getList(1));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetAll()
-    {
-        $expectedArray = $this->getMultipleMergeRequestsData();
-
-        $api = $this->getApiMock(array('getList'));
-        $api->expects($this->once())
-            ->method('getList')
-            ->with(1, MergeRequests::STATE_ALL, 1, AbstractApi::PER_PAGE, MergeRequests::ORDER_BY, MergeRequests::SORT)
+            ->with('projects/1/merge_requests', array())
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -46,116 +29,14 @@ class MergeRequestsTest extends TestCase
     {
         $expectedArray = $this->getMultipleMergeRequestsData();
 
-        $api = $this->getApiMock(array('getList'));
+        $api = $this->getApiMock();
         $api->expects($this->once())
-            ->method('getList')
-            ->with(1, MergeRequests::STATE_ALL, 2, 5, 'title', 'desc')
+            ->method('get')
+            ->with('projects/1/merge_requests', ['page' => 2, 'per_page' => 5, 'order_by' => 'updated_at', 'sort' => 'desc'])
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->all(1, 2, 5, 'title', 'desc'));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetMerged()
-    {
-        $expectedArray = $this->getMultipleMergeRequestsData();
-
-        $api = $this->getApiMock(array('getList'));
-        $api->expects($this->once())
-            ->method('getList')
-            ->with(1, MergeRequests::STATE_MERGED, 1, AbstractApi::PER_PAGE, MergeRequests::ORDER_BY, MergeRequests::SORT)
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->merged(1));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetMergedWithParams()
-    {
-        $expectedArray = $this->getMultipleMergeRequestsData();
-
-        $api = $this->getApiMock(array('getList'));
-        $api->expects($this->once())
-            ->method('getList')
-            ->with(1, MergeRequests::STATE_MERGED, 3, 15, 'updated_at', 'asc')
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->merged(1, 3, 15, 'updated_at', 'asc'));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetOpened()
-    {
-        $expectedArray = $this->getMultipleMergeRequestsData();
-
-        $api = $this->getApiMock(array('getList'));
-        $api->expects($this->once())
-            ->method('getList')
-            ->with(1, MergeRequests::STATE_OPENED, 1, AbstractApi::PER_PAGE, MergeRequests::ORDER_BY, MergeRequests::SORT)
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->opened(1));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetOpenedWithParams()
-    {
-        $expectedArray = $this->getMultipleMergeRequestsData();
-
-        $api = $this->getApiMock(array('getList'));
-        $api->expects($this->once())
-            ->method('getList')
-            ->with(1, MergeRequests::STATE_OPENED, 2, 4, 'title', 'desc')
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->opened(1, 2, 4, 'title', 'desc'));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetClosed()
-    {
-        $expectedArray = $this->getMultipleMergeRequestsData();
-
-        $api = $this->getApiMock(array('getList'));
-        $api->expects($this->once())
-            ->method('getList')
-            ->with(1, MergeRequests::STATE_CLOSED, 1, AbstractApi::PER_PAGE, MergeRequests::ORDER_BY, MergeRequests::SORT)
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->closed(1));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetClosedWithParams()
-    {
-        $expectedArray = $this->getMultipleMergeRequestsData();
-
-        $api = $this->getApiMock(array('getList'));
-        $api->expects($this->once())
-            ->method('getList')
-            ->with(1, MergeRequests::STATE_CLOSED, 2, 4, 'title', 'desc')
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->closed(1, 2, 4, 'title', 'desc'));
+        $this->assertEquals($expectedArray, $api->all(1, ['page' => 2, 'per_page' => 5, 'order_by' => 'updated_at', 'sort' => 'desc']));
     }
 
     /**
@@ -168,7 +49,7 @@ class MergeRequestsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/merge_request/2')
+            ->with('projects/1/merge_requests/2')
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -233,7 +114,7 @@ class MergeRequestsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/merge_request/2', array('title' => 'Updated title', 'description' => 'No so many changes now', 'state_event' => 'close'))
+            ->with('projects/1/merge_requests/2', array('title' => 'Updated title', 'description' => 'No so many changes now', 'state_event' => 'close'))
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -254,7 +135,7 @@ class MergeRequestsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->exactly(2))
             ->method('put')
-            ->with('projects/1/merge_request/2/merge', array('merge_commit_message' => 'Accepted'))
+            ->with('projects/1/merge_requests/2/merge', array('merge_commit_message' => 'Accepted'))
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -295,7 +176,7 @@ class MergeRequestsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/merge_request/2/comments')
+            ->with('projects/1/merge_requests/2/comments')
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -312,7 +193,7 @@ class MergeRequestsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/merge_request/2/comments', array('note' => 'A comment'))
+            ->with('projects/1/merge_requests/2/comments', array('note' => 'A comment'))
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -329,7 +210,7 @@ class MergeRequestsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/merge_request/2/changes')
+            ->with('projects/1/merge_requests/2/changes')
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -347,7 +228,7 @@ class MergeRequestsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/merge_request/2/closes_issues')
+            ->with('projects/1/merge_requests/2/closes_issues')
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -364,11 +245,11 @@ class MergeRequestsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/merge_requests', array('iid' => 2))
+            ->with('projects/1/merge_requests', array('iids' => [2]))
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->getByIid(1, 2));
+        $this->assertEquals($expectedArray, $api->all(1, ['iids' => [2]]));
     }
 
     /**
@@ -415,11 +296,11 @@ class MergeRequestsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/merge_requests', array('iid' => 2))
+            ->with('projects/1/merge_requests', array('iids' => [2]))
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->getByIid(1, 2));
+        $this->assertEquals($expectedArray, $api->all(1, ['iids' => [2]]));
     }
 
 
