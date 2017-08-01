@@ -107,17 +107,20 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param int $id
-     * @param int $page
-     * @param int $per_page
+     * @param int   $id
+     * @param array $parameters (
+     *
+     *     @var string $query A query string to search for members.
+     * )
+     *
      * @return mixed
      */
-    public function members($id, $page = 1, $per_page = self::PER_PAGE)
+    public function members($id, array $parameters = [])
     {
-        return $this->get('groups/'.$this->encodePath($id).'/members', array(
-            'page' => $page,
-            'per_page' => $per_page
-        ));
+        $resolver = $this->createOptionsResolver();
+        $resolver->setDefined('query');
+
+        return $this->get('groups/'.$this->encodePath($id).'/members', $resolver->resolve($parameters));
     }
 
     /**
