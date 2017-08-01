@@ -24,6 +24,7 @@ See [documentation](doc/customize.md) to know how to customize the client timeou
 * The `all` method now take a single argument which is an associative array of query string parameters.
 * The `search` method have been removed. Use `all` method instead.
 * The `members` method second and subsequent arguments have been replaced by a single associative array of query string parameters.
+* The `projects` method second and subsequent arguments have been replaced by a single associative array of query string parameters.
 
 ## `Gitlab\Api\Issues` changes
 
