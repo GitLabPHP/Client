@@ -636,10 +636,7 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/events', array(
-                'page' => 1,
-                'per_page' => AbstractApi::PER_PAGE
-            ))
+            ->with('projects/1/events', array())
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -666,7 +663,7 @@ class ProjectsTest extends TestCase
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->events(1, 2, 15));
+        $this->assertEquals($expectedArray, $api->events(1, ['page' => 2, 'per_page' => 15]));
     }
 
     /**
