@@ -4,21 +4,17 @@ class IssueBoards extends AbstractApi
 {
     /**
      * @param int $project_id
-     * @param int $page
-     * @param int $per_page
-     * @param array $params
+     * @param array $parameters
+     *
      * @return mixed
      */
-    public function all($project_id = null, $page = 1, $per_page = self::PER_PAGE, array $params = array())
+    public function all($project_id = null, array $parameters = [])
     {
+        $resolver = $this->createOptionsResolver();
+
         $path = $project_id === null ? 'boards' : $this->getProjectPath($project_id, 'boards');
 
-        $params = array_merge(array(
-            'page' => $page,
-            'per_page' => $per_page
-        ), $params);
-
-        return $this->get($path, $params);
+        return $this->get($path, $resolver->resolve($parameters));
     }
 
     /**
