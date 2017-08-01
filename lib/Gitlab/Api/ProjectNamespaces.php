@@ -3,30 +3,18 @@
 class ProjectNamespaces extends AbstractApi
 {
     /**
-     * @param int $page
-     * @param int $per_page
+     * @param array $parameters (
+     *
+     *     @var string $search Returns a list of namespaces the user is authorized to see based on the search criteria.
+     * )
+     *
      * @return mixed
      */
-    public function all($page = 1, $per_page = self::PER_PAGE)
+    public function all(array $parameters = [])
     {
-        return $this->get('namespaces', array(
-            'page' => $page,
-            'per_page' => $per_page
-        ));
-    }
+        $resolver = $this->createOptionsResolver();
+        $resolver->setDefined('search');
 
-    /**
-     * @param string $terms
-     * @param int $page
-     * @param int $per_page
-     * @return mixed
-     */
-    public function search($terms, $page = 1, $per_page = self::PER_PAGE)
-    {
-        return $this->get('namespaces', array(
-            'search' => $terms,
-            'page' => $page,
-            'per_page' => $per_page
-        ));
+        return $this->get('namespaces', $resolver->resolve($parameters));
     }
 }

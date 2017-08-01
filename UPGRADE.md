@@ -58,6 +58,11 @@ Use the `deployKeys`, `deployKey`, `addDeployKey`, `deleteDeployKey`, `removeDep
 * The `builds` method have been removed. Use `Gitlab\Api\Jobs::all` instead.
 * The `build` method have been removed. Use `Gitlab\Api\Jobs::show` instead.
 
+## `Gitlab\Api\ProjectNamespaces` changes
+
+* The `search` method have been removed. Use `all` method instead.
+* The `all` method now take a single argument which is an associative array of query string parameters.
+
 ## `Gitlab\Api\Repositories` changes
 
 * The `commits` page argument now start from 1 instead of 0.
