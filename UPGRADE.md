@@ -26,6 +26,7 @@ See [documentation](doc/customize.md) to know how to customize the client timeou
 
 * The second argument of `update`, `remove`, `showComments`, `showComment`, `addComment`, `updateComment`, `removeComment`,
  `setTimeEstimate`, `resetTimeEstimate`, `addSpentTime` and `resetSpentTime` methods is now a scoped issue id (iid).
+* The `all` method second and subsequent arguments have been replaced by a single associative array of query string parameters.
 
 ## `Gitlab\Api\IssueBoards` changes
 
