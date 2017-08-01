@@ -43,6 +43,10 @@ See [documentation](doc/customize.md) to know how to customize the client timeou
 * The `all` method now take a single argument which is an associative array of query string parameters.
 * The `getNotes` method now take only two arguments, the project id and the merge request iid.
 
+## `Gitlab\Api\Milestones` changes
+
+* The `all` method second and subsequent arguments have been replaced by a single associative array of query string parameters.
+
 ## `Gitlab\Api\Projects` changes
 
 * The `keys`, `key`, `addKey`, `removeKey`, `disableKey` and `enableKey` methods have been removed.
