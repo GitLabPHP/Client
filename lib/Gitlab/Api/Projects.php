@@ -609,16 +609,15 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param int $page
-     * @param int $per_page
+     * @param array $parameters
+     *
      * @return mixed
      */
-    public function deployments($project_id, $page = 1, $per_page = self::PER_PAGE)
+    public function deployments($project_id, array $parameters = [])
     {
-        return $this->get($this->getProjectPath($project_id, 'deployments'), array(
-            'page' => $page,
-            'per_page' => $per_page
-        ));
+        $resolver = $this->createOptionsResolver();
+
+        return $this->get($this->getProjectPath($project_id, 'deployments'), $resolver->resolve($parameters));
     }
 
     /**
