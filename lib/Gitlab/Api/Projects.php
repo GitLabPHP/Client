@@ -45,6 +45,9 @@ class Projects extends AbstractApi
         $resolver->setDefined('order_by')
             ->setAllowedValues('order_by', ['id', 'name', 'path', 'created_at', 'updated_at', 'last_activity_at'])
         ;
+        $resolver->setDefined('sort')
+            ->setAllowedValues('sort', ['asc', 'desc'])
+        ;
         $resolver->setDefined('search');
         $resolver->setDefined('simple')
             ->setAllowedTypes('simple', 'bool')
@@ -186,6 +189,9 @@ class Projects extends AbstractApi
         $resolver->setDefined('username');
         $resolver->setDefined('order_by')
             ->setAllowedValues('order_by', ['id', 'status', 'ref', 'user_id'])
+        ;
+        $resolver->setDefined('sort')
+            ->setAllowedValues('sort', ['asc', 'desc'])
         ;
 
         return $this->get($this->getProjectPath($project_id, 'pipelines'), $resolver->resolve($parameters));
