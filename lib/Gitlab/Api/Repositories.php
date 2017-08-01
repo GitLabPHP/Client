@@ -169,18 +169,20 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int    $project_id
      * @param string $sha
-     * @param int $page
-     * @param int $per_page
+     * @param array  $parameters
+     *
      * @return mixed
      */
-    public function commitComments($project_id, $sha, $page = 0, $per_page = self::PER_PAGE)
+    public function commitComments($project_id, $sha, array $parameters = [])
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/comments'), array(
-            'page' => $page,
-            'per_page' => $per_page
-        ));
+        $resolver = $this->createOptionsResolver();
+
+        return $this->get(
+            $this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/comments'),
+            $resolver->resolve($parameters)
+        );
     }
 
     /**

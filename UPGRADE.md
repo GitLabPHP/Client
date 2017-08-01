@@ -69,6 +69,7 @@ Use the `deployKeys`, `deployKey`, `addDeployKey`, `deleteDeployKey`, `removeDep
 
 * The `commitBuilds` method have been removed. Use `Gitlab\Api\Projects::pipelines` instead.
 * The `commits` method second and subsequent arguments have been replaced by a single associative array of query string parameters.
+* The `commitComments` method third and subsequent arguments have been replaced by a single associative array of query string parameters.
 
 ## `Gitlab\Model\Project` changes
 
