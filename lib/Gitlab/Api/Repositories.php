@@ -129,18 +129,33 @@ class Repositories extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param int $page
-     * @param int $per_page
-     * @param null $ref_name
+     * @param array $parameters (
+     *
+     *     @var string             $ref_name The name of a repository branch or tag or if not given the default branch.
+     *     @var \DateTimeInterface $since    Only commits after or on this date will be returned.
+     *     @var \DateTimeInterface $until    Only commits before or on this date will be returned.
+     * )
+     *
      * @return mixed
      */
-    public function commits($project_id, $page = 1, $per_page = self::PER_PAGE, $ref_name = null)
+    public function commits($project_id, array $parameters = [])
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/commits'), array(
-            'page' => $page,
-            'per_page' => $per_page,
-            'ref_name' => $ref_name
-        ));
+        $resolver = $this->createOptionsResolver();
+        $datetimeNormalizer = function (\DateTimeInterface $value) {
+            return $value->format('c');
+        };
+
+        $resolver->setDefined('ref_name');
+        $resolver->setDefined('since')
+            ->setAllowedTypes('since', \DateTimeInterface::class)
+            ->setNormalizer('since', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('until')
+            ->setAllowedTypes('until', \DateTimeInterface::class)
+            ->setNormalizer('until', $datetimeNormalizer)
+        ;
+
+        return $this->get($this->getProjectPath($project_id, 'repository/commits'), $resolver->resolve($parameters));
     }
 
     /**
