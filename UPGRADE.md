@@ -78,4 +78,4 @@ Use the `deployKeys`, `deployKey`, `addDeployKey`, `deleteDeployKey`, `removeDep
 
 ## `Gitlab\Model\Snippet` changes
 
-The `expires_at` property have been removed.`
+* The `expires_at` property have been removed.`
