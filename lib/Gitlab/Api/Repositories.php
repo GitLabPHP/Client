@@ -127,24 +127,6 @@ class Repositories extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param string $sha
-     * @param string $scope
-     * @param int $page
-     * @param int $per_page
-     *
-     * @return mixed
-     */
-    public function commitBuilds($project_id, $sha, $scope = null, $page = 0, $per_page = self::PER_PAGE)
-    {
-        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/builds'), array(
-            'page' => $page,
-            'per_page' => $per_page,
-            'scope' => $scope
-        ));
-    }
-
-    /**
-     * @param int $project_id
      * @param int $page
      * @param int $per_page
      * @param null $ref_name
