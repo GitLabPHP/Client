@@ -26,7 +26,7 @@ class Pipeline extends AbstractModel
      * @param Client  $client
      * @param Project $project
      * @param array   $data
-     * @return Commit
+     * @return Pipeline
      */
     public static function fromArray(Client $client, Project $project, array $data)
     {

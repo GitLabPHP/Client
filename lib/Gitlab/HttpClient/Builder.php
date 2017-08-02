@@ -31,7 +31,7 @@ class Builder
     /**
      * A HTTP client with all our plugins.
      *
-     * @var PluginClient
+     * @var HttpMethodsClient
      */
     private $pluginClient;
 
