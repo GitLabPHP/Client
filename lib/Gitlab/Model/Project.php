@@ -93,7 +93,7 @@ class Project extends AbstractModel
      */
     public static function create(Client $client, $name, array $params = array())
     {
-        $data = $client->api('projects')->create($name, $params);
+        $data = $client->projects()->create($name, $params);
 
         return static::fromArray($client, $data);
     }
@@ -107,7 +107,7 @@ class Project extends AbstractModel
      */
     public static function createForUser($user_id, Client $client, $name, array $params = array())
     {
-        $data = $client->api('projects')->createForUser($user_id, $name, $params);
+        $data = $client->projects()->createForUser($user_id, $name, $params);
 
         return static::fromArray($client, $data);
     }
@@ -126,7 +126,7 @@ class Project extends AbstractModel
      */
     public function show()
     {
-        $data = $this->api('projects')->show($this->id);
+        $data = $this->client->projects()->show($this->id);
 
         return static::fromArray($this->getClient(), $data);
     }
@@ -137,7 +137,7 @@ class Project extends AbstractModel
      */
     public function update(array $params)
     {
-        $data = $this->api('projects')->update($this->id, $params);
+        $data = $this->client->projects()->update($this->id, $params);
 
         return static::fromArray($this->getClient(), $data);
     }
@@ -147,7 +147,7 @@ class Project extends AbstractModel
      */
     public function archive()
     {
-        $data = $this->api("projects")->archive($this->id);
+        $data = $this->client->projects()->archive($this->id);
 
         return static::fromArray($this->getClient(), $data);
     }
@@ -157,7 +157,7 @@ class Project extends AbstractModel
      */
     public function unarchive()
     {
-        $data = $this->api("projects")->unarchive($this->id);
+        $data = $this->client->projects()->unarchive($this->id);
 
         return static::fromArray($this->getClient(), $data);
     }
@@ -167,7 +167,7 @@ class Project extends AbstractModel
      */
     public function remove()
     {
-        $this->api('projects')->remove($this->id);
+        $this->client->projects()->remove($this->id);
 
         return true;
     }
@@ -178,7 +178,7 @@ class Project extends AbstractModel
      */
     public function members($username_query = null)
     {
-        $data = $this->api('projects')->members($this->id, $username_query);
+        $data = $this->client->projects()->members($this->id, $username_query);
 
         $members = array();
         foreach ($data as $member) {
@@ -194,7 +194,7 @@ class Project extends AbstractModel
      */
     public function member($user_id)
     {
-        $data = $this->api('projects')->member($this->id, $user_id);
+        $data = $this->client->projects()->member($this->id, $user_id);
 
         return User::fromArray($this->getClient(), $data);
     }
@@ -206,7 +206,7 @@ class Project extends AbstractModel
      */
     public function addMember($user_id, $access_level)
     {
-        $data = $this->api('projects')->addMember($this->id, $user_id, $access_level);
+        $data = $this->client->projects()->addMember($this->id, $user_id, $access_level);
 
         return User::fromArray($this->getClient(), $data);
     }
@@ -218,7 +218,7 @@ class Project extends AbstractModel
      */
     public function saveMember($user_id, $access_level)
     {
-        $data = $this->api('projects')->saveMember($this->id, $user_id, $access_level);
+        $data = $this->client->projects()->saveMember($this->id, $user_id, $access_level);
 
         return User::fromArray($this->getClient(), $data);
     }
@@ -229,7 +229,7 @@ class Project extends AbstractModel
      */
     public function removeMember($user_id)
     {
-        $this->api('projects')->removeMember($this->id, $user_id);
+        $this->client->projects()->removeMember($this->id, $user_id);
 
         return true;
     }
@@ -241,7 +241,7 @@ class Project extends AbstractModel
      */
     public function hooks($page = 1, $per_page = Api::PER_PAGE)
     {
-        $data = $this->api('projects')->hooks($this->id, $page, $per_page);
+        $data = $this->client->projects()->hooks($this->id, $page, $per_page);
 
         $hooks = array();
         foreach ($data as $hook) {
@@ -269,7 +269,7 @@ class Project extends AbstractModel
      */
     public function addHook($url, array $events = array())
     {
-        $data = $this->api('projects')->addHook($this->id, $url, $events);
+        $data = $this->client->projects()->addHook($this->id, $url, $events);
 
         return ProjectHook::fromArray($this->getClient(), $this, $data);
     }
@@ -302,7 +302,7 @@ class Project extends AbstractModel
      */
     public function deployKeys()
     {
-        $data = $this->api('projects')->deployKeys($this->id);
+        $data = $this->client->projects()->deployKeys($this->id);
 
         $keys = array();
         foreach ($data as $key) {
@@ -318,7 +318,7 @@ class Project extends AbstractModel
      */
     public function deployKey($key_id)
     {
-        $data = $this->api('projects')->deployKey($this->id, $key_id);
+        $data = $this->client->projects()->deployKey($this->id, $key_id);
 
         return Key::fromArray($this->getClient(), $data);
     }
@@ -330,7 +330,7 @@ class Project extends AbstractModel
      */
     public function addDeployKey($title, $key)
     {
-        $data = $this->api('projects')->addDeployKey($this->id, $title, $key);
+        $data = $this->client->projects()->addDeployKey($this->id, $title, $key);
 
         return Key::fromArray($this->getClient(), $data);
     }
@@ -341,7 +341,7 @@ class Project extends AbstractModel
      */
     public function deleteDeployKey($key_id)
     {
-        $this->api('projects')->deleteDeployKey($this->id, $key_id);
+        $this->client->projects()->deleteDeployKey($this->id, $key_id);
 
         return true;
     }
@@ -352,7 +352,7 @@ class Project extends AbstractModel
      */
     public function enableDeployKey($key_id)
     {
-        $this->api('projects')->enableDeployKey($this->id, $key_id);
+        $this->client->projects()->enableDeployKey($this->id, $key_id);
 
         return true;
     }
@@ -364,7 +364,7 @@ class Project extends AbstractModel
      */
     public function createBranch($name, $ref)
     {
-        $data = $this->api('repositories')->createBranch($this->id, $name, $ref);
+        $data = $this->client->repositories()->createBranch($this->id, $name, $ref);
 
         return Branch::fromArray($this->getClient(), $this, $data);
     }
@@ -375,7 +375,7 @@ class Project extends AbstractModel
      */
     public function deleteBranch($name)
     {
-        $this->api('repositories')->deleteBranch($this->id, $name);
+        $this->client->repositories()->deleteBranch($this->id, $name);
 
         return true;
     }
@@ -385,7 +385,7 @@ class Project extends AbstractModel
      */
     public function branches()
     {
-        $data = $this->api('repo')->branches($this->id);
+        $data = $this->client->repositories()->branches($this->id);
 
         $branches = array();
         foreach ($data as $branch) {
@@ -438,7 +438,7 @@ class Project extends AbstractModel
      */
     public function tags()
     {
-        $data = $this->api('repo')->tags($this->id);
+        $data = $this->client->repositories()->tags($this->id);
 
         $tags = array();
         foreach ($data as $tag) {
@@ -456,7 +456,7 @@ class Project extends AbstractModel
      */
     public function commits($page = 0, $per_page = Api::PER_PAGE, $ref_name = null)
     {
-        $data = $this->api('repo')->commits($this->id, $page, $per_page, $ref_name);
+        $data = $this->client->repositories()->commits($this->id, $page, $per_page, $ref_name);
 
         $commits = array();
         foreach ($data as $commit) {
@@ -472,7 +472,7 @@ class Project extends AbstractModel
      */
     public function commit($sha)
     {
-        $data = $this->api('repo')->commit($this->id, $sha);
+        $data = $this->client->repositories()->commit($this->id, $sha);
 
         return Commit::fromArray($this->getClient(), $this, $data);
     }
@@ -485,7 +485,7 @@ class Project extends AbstractModel
      */
     public function commitComments($ref, $page = 0, $per_page = Api::PER_PAGE)
     {
-        $data = $this->api('repo')->commitComments($this->id, $ref, $page, $per_page);
+        $data = $this->client->repositories()->commitComments($this->id, $ref, $page, $per_page);
 
         $comments = array();
         foreach ($data as $comment) {
@@ -503,7 +503,7 @@ class Project extends AbstractModel
      */
     public function createCommitComment($ref, $note, array $params = array())
     {
-        $data = $this->api('repo')->createCommitComment($this->id, $ref, $note, $params);
+        $data = $this->client->repositories()->createCommitComment($this->id, $ref, $note, $params);
 
         return CommitNote::fromArray($this->getClient(), $data);
     }
@@ -514,7 +514,7 @@ class Project extends AbstractModel
      */
     public function diff($sha)
     {
-        return $this->api('repo')->diff($this->id, $sha);
+        return $this->client->repositories()->diff($this->id, $sha);
     }
 
     /**
@@ -524,7 +524,7 @@ class Project extends AbstractModel
      */
     public function compare($from, $to)
     {
-        $data = $this->api('repo')->compare($this->id, $from, $to);
+        $data = $this->client->repositories()->compare($this->id, $from, $to);
 
         return Comparison::fromArray($this->getClient(), $this, $data);
     }
@@ -535,7 +535,7 @@ class Project extends AbstractModel
      */
     public function tree(array $params = array())
     {
-        $data = $this->api('repo')->tree($this->id, $params);
+        $data = $this->client->repositories()->tree($this->id, $params);
 
         $tree = array();
         foreach ($data as $node) {
@@ -552,7 +552,7 @@ class Project extends AbstractModel
      */
     public function blob($sha, $filepath)
     {
-        return $this->api('repo')->blob($this->id, $sha, $filepath);
+        return $this->client->repositories()->blob($this->id, $sha, $filepath);
     }
 
     /**
@@ -563,7 +563,7 @@ class Project extends AbstractModel
      */
     public function getFile($sha, $filepath)
     {
-        return $this->api('repo')->getFile($this->id, $filepath, $sha);
+        return $this->client->repositories()->getFile($this->id, $filepath, $sha);
     }
 
     /**
@@ -577,7 +577,7 @@ class Project extends AbstractModel
      */
     public function createFile($file_path, $content, $branch_name, $commit_message, $author_email = null, $author_name = null)
     {
-        $data = $this->api('repo')->createFile($this->id, $file_path, $content, $branch_name, $commit_message, null, $author_email, $author_name);
+        $data = $this->client->repositories()->createFile($this->id, $file_path, $content, $branch_name, $commit_message, null, $author_email, $author_name);
 
         return File::fromArray($this->getClient(), $this, $data);
     }
@@ -593,7 +593,7 @@ class Project extends AbstractModel
      */
     public function updateFile($file_path, $content, $branch_name, $commit_message, $author_email = null, $author_name = null)
     {
-        $data = $this->api('repo')->updateFile($this->id, $file_path, $content, $branch_name, $commit_message, null, $author_email, $author_name);
+        $data = $this->client->repositories()->updateFile($this->id, $file_path, $content, $branch_name, $commit_message, null, $author_email, $author_name);
 
         return File::fromArray($this->getClient(), $this, $data);
     }
@@ -608,7 +608,7 @@ class Project extends AbstractModel
      */
     public function deleteFile($file_path, $branch_name, $commit_message, $author_email = null, $author_name = null)
     {
-        $this->api('repo')->deleteFile($this->id, $file_path, $branch_name, $commit_message, $author_email, $author_name);
+        $this->client->repositories()->deleteFile($this->id, $file_path, $branch_name, $commit_message, $author_email, $author_name);
 
         return true;
     }
@@ -620,7 +620,7 @@ class Project extends AbstractModel
      */
     public function events($page = 1, $per_page = Api::PER_PAGE)
     {
-        $data = $this->api('projects')->events($this->id, $page, $per_page);
+        $data = $this->client->projects()->events($this->id, $page, $per_page);
 
         $events = array();
         foreach ($data as $event) {
@@ -638,7 +638,7 @@ class Project extends AbstractModel
      */
     public function mergeRequests($page = 1, $per_page = Api::PER_PAGE, $state = MergeRequests::STATE_ALL)
     {
-        $data = $this->api('mr')->$state($this->id, $page, $per_page);
+        $data = $this->client->mergeRequests()->$state($this->id, $page, $per_page);
 
         $mrs = array();
         foreach ($data as $mr) {
@@ -669,7 +669,7 @@ class Project extends AbstractModel
      */
     public function createMergeRequest($source, $target, $title, $assignee = null, $description = null)
     {
-        $data = $this->api('mr')->create($this->id, $source, $target, $title, $assignee, null, $description);
+        $data = $this->client->mergeRequests()->create($this->id, $source, $target, $title, $assignee, null, $description);
 
         return MergeRequest::fromArray($this->getClient(), $this, $data);
     }
@@ -726,7 +726,7 @@ class Project extends AbstractModel
      */
     public function issues($page = 1, $per_page = Api::PER_PAGE)
     {
-        $data = $this->api('issues')->all($this->id, $page, $per_page);
+        $data = $this->client->issues()->all($this->id, $page, $per_page);
 
         $issues = array();
         foreach ($data as $issue) {
@@ -744,7 +744,7 @@ class Project extends AbstractModel
     public function createIssue($title, array $params = array())
     {
         $params['title'] = $title;
-        $data = $this->api('issues')->create($this->id, $params);
+        $data = $this->client->issues()->create($this->id, $params);
 
         return Issue::fromArray($this->getClient(), $this, $data);
     }
@@ -802,7 +802,7 @@ class Project extends AbstractModel
      */
     public function milestones($page = 1, $per_page = Api::PER_PAGE)
     {
-        $data = $this->api('milestones')->all($this->id, $page, $per_page);
+        $data = $this->client->milestones()->all($this->id, $page, $per_page);
 
         $milestones = array();
         foreach ($data as $milestone) {
@@ -820,7 +820,7 @@ class Project extends AbstractModel
     public function createMilestone($title, array $params = array())
     {
         $params['title'] = $title;
-        $data = $this->api('milestones')->create($this->id, $params);
+        $data = $this->client->milestones()->create($this->id, $params);
 
         return Milestone::fromArray($this->getClient(), $this, $data);
     }
@@ -864,7 +864,7 @@ class Project extends AbstractModel
      */
     public function snippets()
     {
-        $data = $this->api('snippets')->all($this->id);
+        $data = $this->client->snippets()->all($this->id);
 
         $snippets = array();
         foreach ($data as $snippet) {
@@ -878,12 +878,11 @@ class Project extends AbstractModel
      * @param string $title
      * @param string $filename
      * @param string $code
-     * @param string $lifetime
      * @return Snippet
      */
-    public function createSnippet($title, $filename, $code, $lifetime = null)
+    public function createSnippet($title, $filename, $code)
     {
-        $data = $this->api('snippets')->create($this->id, $title, $filename, $code, $lifetime);
+        $data = $this->client->snippets()->create($this->id, $title, $filename, $code);
 
         return Snippet::fromArray($this->getClient(), $this, $data);
     }
@@ -901,7 +900,7 @@ class Project extends AbstractModel
 
     /**
      * @param int $id
-     * @return Snippet
+     * @return string
      */
     public function snippetContent($id)
     {
@@ -950,7 +949,7 @@ class Project extends AbstractModel
      */
     public function forkTo($id)
     {
-        $data = $this->api('projects')->createForkRelation($id, $this->id);
+        $data = $this->client->projects()->createForkRelation($id, $this->id);
 
         return Project::fromArray($this->getClient(), $data);
     }
@@ -970,7 +969,7 @@ class Project extends AbstractModel
      */
     public function createForkRelation($id)
     {
-        $data = $this->api('projects')->createForkRelation($this->id, $id);
+        $data = $this->client->projects()->createForkRelation($this->id, $id);
 
         return Project::fromArray($this->getClient(), $data);
     }
@@ -980,7 +979,7 @@ class Project extends AbstractModel
      */
     public function removeForkRelation()
     {
-        $this->api('projects')->removeForkRelation($this->id);
+        $this->client->projects()->removeForkRelation($this->id);
 
         return true;
     }
@@ -992,7 +991,7 @@ class Project extends AbstractModel
      */
     public function setService($service_name, array $params = array())
     {
-        $this->api('projects')->setService($this->id, $service_name, $params);
+        $this->client->projects()->setService($this->id, $service_name, $params);
 
         return true;
     }
@@ -1003,7 +1002,7 @@ class Project extends AbstractModel
      */
     public function removeService($service_name)
     {
-        $this->api('projects')->removeService($this->id, $service_name);
+        $this->client->projects()->removeService($this->id, $service_name);
 
         return true;
     }
@@ -1013,7 +1012,7 @@ class Project extends AbstractModel
      */
     public function labels()
     {
-        $data = $this->api('projects')->labels($this->id);
+        $data = $this->client->projects()->labels($this->id);
 
         $labels = array();
         foreach ($data as $label) {
@@ -1030,7 +1029,7 @@ class Project extends AbstractModel
      */
     public function addLabel($name, $color)
     {
-        $data = $this->api('projects')->addLabel($this->id, array(
+        $data = $this->client->projects()->addLabel($this->id, array(
             'name' => $name,
             'color' => $color
         ));
@@ -1051,7 +1050,7 @@ class Project extends AbstractModel
 
         $params['name'] = $name;
 
-        $data = $this->api('projects')->updateLabel($this->id, $params);
+        $data = $this->client->projects()->updateLabel($this->id, $params);
 
         return Label::fromArray($this->getClient(), $this, $data);
     }
@@ -1062,7 +1061,7 @@ class Project extends AbstractModel
      */
     public function removeLabel($name)
     {
-        $this->api('projects')->removeLabel($this->id, $name);
+        $this->client->projects()->removeLabel($this->id, $name);
 
         return true;
     }
@@ -1072,7 +1071,7 @@ class Project extends AbstractModel
      */
     public function contributors()
     {
-        $data = $this->api('repo')->contributors($this->id);
+        $data = $this->client->repositories()->contributors($this->id);
 
         $contributors = array();
         foreach ($data as $contributor) {
@@ -1088,7 +1087,7 @@ class Project extends AbstractModel
      */
     public function jobs(array $scopes = [])
     {
-        $data = $this->api('jobs')->jobs($this->id, $scopes);
+        $data = $this->client->jobs()->all($this->id, $scopes);
 
         $jobs = array();
         foreach ($data as $job) {
@@ -1105,7 +1104,7 @@ class Project extends AbstractModel
      */
     public function pipelineJobs($pipeline_id, array $scopes = [])
     {
-        $data = $this->api('jobs')->pipelineJobs($this->id, $pipeline_id, $scopes);
+        $data = $this->client->jobs()->pipelineJobs($this->id, $pipeline_id, $scopes);
 
         $jobs = array();
         foreach ($data as $job) {
@@ -1121,7 +1120,7 @@ class Project extends AbstractModel
      */
     public function job($job_id)
     {
-        $data = $this->api('jobs')->show($this->id, $job_id);
+        $data = $this->client->jobs()->show($this->id, $job_id);
 
         return Job::fromArray($this->getClient(), $this, $data);
     }

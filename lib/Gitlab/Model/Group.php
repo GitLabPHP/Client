@@ -52,7 +52,7 @@ class Group extends AbstractModel
      */
     public static function create(Client $client, $name, $path)
     {
-        $data = $client->api('groups')->create($name, $path);
+        $data = $client->groups()->create($name, $path);
 
         return static::fromArray($client, $data);
     }
@@ -72,7 +72,7 @@ class Group extends AbstractModel
      */
     public function show()
     {
-        $data = $this->api('groups')->show($this->id);
+        $data = $this->client->groups()->show($this->id);
 
         return Group::fromArray($this->getClient(), $data);
     }
@@ -83,7 +83,7 @@ class Group extends AbstractModel
      */
     public function transfer($project_id)
     {
-        $data = $this->api('groups')->transfer($this->id, $project_id);
+        $data = $this->client->groups()->transfer($this->id, $project_id);
 
         return Group::fromArray($this->getClient(), $data);
     }
@@ -93,7 +93,7 @@ class Group extends AbstractModel
      */
     public function members()
     {
-        $data = $this->api('groups')->members($this->id);
+        $data = $this->client->groups()->members($this->id);
 
         $members = array();
         foreach ($data as $member) {
@@ -110,7 +110,7 @@ class Group extends AbstractModel
      */
     public function addMember($user_id, $access_level)
     {
-        $data = $this->api('groups')->addMember($this->id, $user_id, $access_level);
+        $data = $this->client->groups()->addMember($this->id, $user_id, $access_level);
 
         return User::fromArray($this->getClient(), $data);
     }
@@ -121,7 +121,7 @@ class Group extends AbstractModel
      */
     public function removeMember($user_id)
     {
-        $this->api('groups')->removeMember($this->id, $user_id);
+        $this->client->groups()->removeMember($this->id, $user_id);
 
         return true;
     }
@@ -132,7 +132,7 @@ class Group extends AbstractModel
     public function projects()
     {
 
-        $data = $this->api('groups')->projects($this->id);
+        $data = $this->client->groups()->projects($this->id);
 
         return Group::fromArray($this->getClient(),$data);
     }

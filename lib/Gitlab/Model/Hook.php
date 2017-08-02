@@ -39,7 +39,7 @@ class Hook extends AbstractModel
      */
     public static function create(Client $client, $url)
     {
-        $data = $client->api('system_hooks')->create($url);
+        $data = $client->systemHooks()->create($url);
 
         return static::fromArray($client, $data);
     }
@@ -59,7 +59,7 @@ class Hook extends AbstractModel
      */
     public function test()
     {
-        $this->api('system_hooks')->test($this->id);
+        $this->client->systemHooks()->test($this->id);
 
         return true;
     }
@@ -69,7 +69,7 @@ class Hook extends AbstractModel
      */
     public function delete()
     {
-        $this->api('system_hooks')->remove($this->id);
+        $this->client->systemHooks()->remove($this->id);
 
         return true;
     }

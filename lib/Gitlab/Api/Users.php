@@ -55,6 +55,14 @@ class Users extends AbstractApi
     }
 
     /**
+     * @return mixed
+     */
+    public function user()
+    {
+        return $this->get('user');
+    }
+
+    /**
      * @param string $email
      * @param string $password
      * @param array $params

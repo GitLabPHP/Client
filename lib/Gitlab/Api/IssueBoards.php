@@ -63,16 +63,16 @@ class IssueBoards extends AbstractApi
     /**
      * @param int $project_id
      * @param int $board_id
-     * @param int $label_id
+     * @param int $list_id
      * @param int $position
      * @return mixed
      */
-    public function updateList($project_id, $board_id, $label_id, $position)
+    public function updateList($project_id, $board_id, $list_id, $position)
     {
         $params = array(
             'id' => $project_id,
             'board_id' => $board_id,
-            'label_id' => $label_id,
+            'list_id' => $list_id,
             'position' => $position
         );
 
@@ -82,10 +82,10 @@ class IssueBoards extends AbstractApi
     /**
      * @param int $project_id
      * @param int $board_id
-     * @param int $label_id
+     * @param int $list_id
      * @return mixed
      */
-    public function deleteList($project_id, $board_id, $label_id)
+    public function deleteList($project_id, $board_id, $list_id)
     {
         return $this->delete($this->getProjectPath($project_id, 'boards/'.$this->encodePath($board_id).'/lists/'.$this->encodePath($list_id)));
     }

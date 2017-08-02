@@ -66,7 +66,7 @@ class Milestone extends AbstractModel
      */
     public function show()
     {
-        $data = $this->api('milestones')->show($this->project->id, $this->id);
+        $data = $this->client->milestones()->show($this->project->id, $this->id);
 
         return static::fromArray($this->getClient(), $this->project, $data);
     }
@@ -77,7 +77,7 @@ class Milestone extends AbstractModel
      */
     public function update(array $params)
     {
-        $data = $this->api('milestones')->update($this->project->id, $this->id, $params);
+        $data = $this->client->milestones()->update($this->project->id, $this->id, $params);
 
         return static::fromArray($this->getClient(), $this->project, $data);
     }
@@ -103,7 +103,7 @@ class Milestone extends AbstractModel
      */
     public function issues()
     {
-        $data = $this->api('milestones')->issues($this->project->id, $this->id);
+        $data = $this->client->milestones()->issues($this->project->id, $this->id);
 
         $issues = array();
         foreach ($data as $issue) {

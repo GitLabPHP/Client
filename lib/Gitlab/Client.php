@@ -118,6 +118,126 @@ class Client
     }
 
     /**
+     * @return Api\DeployKeys
+     */
+    public function deployKeys()
+    {
+        return new Api\DeployKeys($this);
+    }
+
+    /**
+     * @return Api\Groups
+     */
+    public function groups()
+    {
+        return new Api\Groups($this);
+    }
+
+    /**
+     * @return Api\Issues
+     */
+    public function issues()
+    {
+        return new Api\Issues($this);
+    }
+
+    /**
+     * @return Api\IssueBoards
+     */
+    public function issueBoards()
+    {
+        return new Api\IssueBoards($this);
+    }
+
+    /**
+     * @return Api\Jobs
+     */
+    public function jobs()
+    {
+        return new Api\Jobs($this);
+    }
+
+    /**
+     * @return Api\MergeRequests
+     */
+    public function mergeRequests()
+    {
+       return new Api\MergeRequests($this);
+    }
+
+    /**
+     * @return Api\Milestones
+     */
+    public function milestones()
+    {
+        return new Api\Milestones($this);
+    }
+
+    /**
+     * @return Api\ProjectNamespaces
+     */
+    public function namespaces()
+    {
+        return new Api\ProjectNamespaces($this);
+    }
+
+    /**
+     * @return Api\Projects
+     */
+    public function projects()
+    {
+        return new Api\Projects($this);
+    }
+
+    /**
+     * @return Api\Repositories
+     */
+    public function repositories()
+    {
+       return new Api\Repositories($this);
+    }
+
+    /**
+     * @return Api\Snippets
+     */
+    public function snippets()
+    {
+        return new Api\Snippets($this);
+    }
+
+    /**
+     * @return Api\SystemHooks
+     */
+    public function systemHooks()
+    {
+        return new Api\SystemHooks($this);
+    }
+
+    /**
+     * @return Api\Users
+     */
+    public function users()
+    {
+        return new Api\Users($this);
+    }
+
+    /**
+     * @return Api\Keys
+     */
+    public function keys()
+    {
+        return new Api\Keys($this);
+    }
+
+    /**
+     * @return Api\Tags
+     */
+    public function tags()
+    {
+        return new Api\Tags($this);
+    }
+
+    /**
      * @param string $name
      *
      * @return AbstractApi|mixed
@@ -128,75 +248,58 @@ class Client
         switch ($name) {
 
             case 'deploy_keys':
-                $api = new Api\DeployKeys($this);
-                break;
+                return $this->deployKeys();
 
             case 'groups':
-                $api = new Api\Groups($this);
-                break;
+                return $this->groups();
 
             case 'issues':
-                $api = new Api\Issues($this);
-                break;
+                return $this->issues();
 
             case 'board':
             case 'issue_boards':
-                $api = new Api\IssueBoards($this);
+                return $this->issueBoards();
             case 'jobs':
-                $api = new Api\Jobs($this);
-                break;
+                return $this->jobs();
 
             case 'mr':
             case 'merge_requests':
-                $api = new Api\MergeRequests($this);
-                break;
+                return $this->mergeRequests();
 
             case 'milestones':
             case 'ms':
-                $api = new Api\Milestones($this);
-                break;
+                return $this->milestones();
 
             case 'namespaces':
             case 'ns':
-                $api = new Api\ProjectNamespaces($this);
-                break;
+                return $this->namespaces();
 
             case 'projects':
-                $api = new Api\Projects($this);
-                break;
+                return $this->projects();
 
             case 'repo':
             case 'repositories':
-                $api = new Api\Repositories($this);
-                break;
+                return $this->repositories();
 
             case 'snippets':
-                $api = new Api\Snippets($this);
-                break;
+                return $this->snippets();
 
             case 'hooks':
             case 'system_hooks':
-                $api = new Api\SystemHooks($this);
-                break;
+                return $this->systemHooks();
 
             case 'users':
-                $api = new Api\Users($this);
-                break;
+                return $this->users();
 
             case 'keys':
-                $api = new Api\Keys($this);
-                break;
+                return $this->keys();
 
             case 'tags':
-                $api = new Api\Tags($this);
-                break;
+                return $this->tags();
 
             default:
                 throw new InvalidArgumentException('Invalid endpoint: "'.$name.'"');
-
         }
-
-        return $api;
     }
 
     /**

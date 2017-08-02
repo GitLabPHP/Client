@@ -64,7 +64,7 @@ class ProjectHook extends AbstractModel
      */
     public function show()
     {
-        $data = $this->api('projects')->hook($this->project->id, $this->id);
+        $data = $this->client->projects()->hook($this->project->id, $this->id);
 
         return static::fromArray($this->getClient(), $this->project, $data);
     }
@@ -74,7 +74,7 @@ class ProjectHook extends AbstractModel
      */
     public function delete()
     {
-        $this->api('projects')->removeHook($this->project->id, $this->id);
+        $this->client->projects()->removeHook($this->project->id, $this->id);
 
         return true;
     }
@@ -93,7 +93,7 @@ class ProjectHook extends AbstractModel
      */
     public function update(array $params)
     {
-        $data = $this->api('projects')->updateHook($this->project->id, $this->id, $params);
+        $data = $this->client->projects()->updateHook($this->project->id, $this->id, $params);
 
         return static::fromArray($this->getClient(), $this->project, $data);
     }
