@@ -1,8 +1,8 @@
 <?php namespace Gitlab\Model;
 
-use Gitlab\Api\MergeRequests;
+use Gitlab\Api\Projects;
+use Gitlab\Api\Repositories;
 use Gitlab\Client;
-use Gitlab\Api\AbstractApi as Api;
 
 /**
  * Class Project
@@ -235,13 +235,15 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int $page
-     * @param int $per_page
+     * @param array $parameters
+     *
+     * @see Projects::hooks() for available parameters.
+     *
      * @return ProjectHook[]
      */
-    public function hooks($page = 1, $per_page = Api::PER_PAGE)
+    public function hooks(array $parameters = [])
     {
-        $data = $this->client->projects()->hooks($this->id, $page, $per_page);
+        $data = $this->client->projects()->hooks($this->id, $parameters);
 
         $hooks = array();
         foreach ($data as $hook) {
@@ -449,14 +451,15 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int $page
-     * @param int $per_page
-     * @param string $ref_name
+     * @param array $parameters
+     *
+     * @see Repositories::commits() for available parameters.
+     *
      * @return Commit[]
      */
-    public function commits($page = 0, $per_page = Api::PER_PAGE, $ref_name = null)
+    public function commits(array $parameters = [])
     {
-        $data = $this->client->repositories()->commits($this->id, $page, $per_page, $ref_name);
+        $data = $this->client->repositories()->commits($this->id, $parameters);
 
         $commits = array();
         foreach ($data as $commit) {
@@ -479,13 +482,15 @@ class Project extends AbstractModel
 
     /**
      * @param string $ref
-     * @param int $page
-     * @param int $per_page
+     * @param array $parameters
+     *
+     * @see Repositories::commitComments() for available parameters.
+     *
      * @return Commit[]
      */
-    public function commitComments($ref, $page = 0, $per_page = Api::PER_PAGE)
+    public function commitComments($ref, array $parameters = [])
     {
-        $data = $this->client->repositories()->commitComments($this->id, $ref, $page, $per_page);
+        $data = $this->client->repositories()->commitComments($this->id, $ref, $parameters);
 
         $comments = array();
         foreach ($data as $comment) {
@@ -614,13 +619,15 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int $page
-     * @param int $per_page
+     * @param array $parameters
+     *
+     * @see Projects::events() for available parameters.
+     *
      * @return Event[]
      */
-    public function events($page = 1, $per_page = Api::PER_PAGE)
+    public function events(array $parameters = [])
     {
-        $data = $this->client->projects()->events($this->id, $page, $per_page);
+        $data = $this->client->projects()->events($this->id, $parameters);
 
         $events = array();
         foreach ($data as $event) {
@@ -631,14 +638,15 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int    $page
-     * @param int    $per_page
-     * @param string $state
+     * @param array $parameters
+     *
+     * @see MergeRequests::all() for available parameters.
+     *
      * @return MergeRequest[]
      */
-    public function mergeRequests($page = 1, $per_page = Api::PER_PAGE, $state = MergeRequests::STATE_ALL)
+    public function mergeRequests(array $parameters = [])
     {
-        $data = $this->client->mergeRequests()->$state($this->id, $page, $per_page);
+        $data = $this->client->mergeRequests()->all($this->id, $parameters);
 
         $mrs = array();
         foreach ($data as $mr) {
@@ -720,13 +728,15 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int $page
-     * @param int $per_page
+     * @param array $parameters
+     *
+     * @see Issues::all() for available parameters.
+     *
      * @return Issue[]
      */
-    public function issues($page = 1, $per_page = Api::PER_PAGE)
+    public function issues(array $parameters = [])
     {
-        $data = $this->client->issues()->all($this->id, $page, $per_page);
+        $data = $this->client->issues()->all($this->id, $parameters);
 
         $issues = array();
         foreach ($data as $issue) {
@@ -796,13 +806,15 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int $page
-     * @param int $per_page
+     * @param array $parameters
+     *
+     * @see Milestones::all() for available parameters.
+     *
      * @return Milestone[]
      */
-    public function milestones($page = 1, $per_page = Api::PER_PAGE)
+    public function milestones(array $parameters = [])
     {
-        $data = $this->client->milestones()->all($this->id, $page, $per_page);
+        $data = $this->client->milestones()->all($this->id, $parameters);
 
         $milestones = array();
         foreach ($data as $milestone) {

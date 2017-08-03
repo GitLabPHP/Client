@@ -1,7 +1,7 @@
 <?php namespace Gitlab\Model;
 
+use Gitlab\Api\Projects;
 use Gitlab\Client;
-use Gitlab\Api\AbstractApi as Api;
 
 /**
  * Class Branch
@@ -95,13 +95,15 @@ class Branch extends AbstractModel
     }
 
     /**
-     * @param int $page
-     * @param int $per_page
+     * @param array $parameters
+     *
+     * @see Projects::commits for available parameters.
+     *
      * @return Commit[]
      */
-    public function commits($page = 1, $per_page = Api::PER_PAGE)
+    public function commits(array $parameters = [])
     {
-        return $this->project->commits($page, $per_page, $this->name);
+        return $this->project->commits($parameters);
     }
 
     /**
