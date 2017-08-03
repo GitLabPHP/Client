@@ -24,7 +24,7 @@ class JobsTest extends TestCase
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->all(1, [Jobs::SCOPE_PENDING]));
+        $this->assertEquals($expectedArray, $api->all(1, ['scope' => Jobs::SCOPE_PENDING]));
     }
 
     /**
@@ -41,12 +41,12 @@ class JobsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/pipelines/2/jobs', array(
-                'scope' => ['pending']
+                'scope' => ['pending', 'running']
             ))
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->pipelineJobs(1, 2, [Jobs::SCOPE_PENDING]));
+        $this->assertEquals($expectedArray, $api->pipelineJobs(1, 2, ['scope' => [Jobs::SCOPE_PENDING, Jobs::SCOPE_RUNNING]]));
     }
 
     /**

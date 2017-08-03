@@ -20,11 +20,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 abstract class AbstractApi implements ApiInterface
 {
     /**
-     * Default entries per page
-     */
-    const PER_PAGE = 20;
-
-    /**
      * The client
      *
      * @var Client
@@ -179,7 +174,7 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * Create a new OptionsResolver with page, per_page and sort options.
+     * Create a new OptionsResolver with page and per_page options.
      *
      * @return OptionsResolver
      */
@@ -197,9 +192,6 @@ abstract class AbstractApi implements ApiInterface
             ->setAllowedValues('per_page', function ($value) {
                 return $value > 0 && $value <= 100;
             })
-        ;
-        $resolver->setDefined('sort')
-            ->setAllowedValues('sort', ['asc', 'desc'])
         ;
 
         return $resolver;

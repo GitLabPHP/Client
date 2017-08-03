@@ -51,6 +51,9 @@ class MergeRequests extends AbstractApi
         $resolver->setDefined('order_by')
             ->setAllowedValues('order_by', ['created_at', 'updated_at'])
         ;
+        $resolver->setDefined('sort')
+            ->setAllowedValues('sort', ['asc', 'desc'])
+        ;
         $resolver->setDefined('milestone');
         $resolver->setDefined('view')
             ->setAllowedValues('view', ['simple'])

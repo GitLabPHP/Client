@@ -1,7 +1,5 @@
 <?php namespace Gitlab\Tests\Api;
 
-use Gitlab\Api\AbstractApi;
-
 class IssuesTest extends TestCase
 {
     /**
@@ -17,7 +15,7 @@ class IssuesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('issues', array('page' => 1, 'per_page' => AbstractApi::PER_PAGE))
+            ->with('issues', array())
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -41,7 +39,7 @@ class IssuesTest extends TestCase
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->all(1, 2, 5));
+        $this->assertEquals($expectedArray, $api->all(1, ['page' => 2, 'per_page' => 5]));
     }
 
     /**
@@ -57,11 +55,11 @@ class IssuesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/issues', array('page' => 2, 'per_page' => 5, 'order_by' => 'created_at', 'sort' => 'desc', 'labels' => 'foo,bar', 'state' => 'open'))
+            ->with('projects/1/issues', array('order_by' => 'created_at', 'sort' => 'desc', 'labels' => 'foo,bar', 'state' => 'opened'))
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->all(1, 2, 5, array('order_by' => 'created_at', 'sort' => 'desc', 'labels' => 'foo,bar', 'state' => 'open')));
+        $this->assertEquals($expectedArray, $api->all(1, array('order_by' => 'created_at', 'sort' => 'desc', 'labels' => 'foo,bar', 'state' => 'opened')));
     }
 
     /**

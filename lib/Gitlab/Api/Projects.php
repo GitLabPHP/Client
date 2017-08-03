@@ -45,6 +45,9 @@ class Projects extends AbstractApi
         $resolver->setDefined('order_by')
             ->setAllowedValues('order_by', ['id', 'name', 'path', 'created_at', 'updated_at', 'last_activity_at'])
         ;
+        $resolver->setDefined('sort')
+            ->setAllowedValues('sort', ['asc', 'desc'])
+        ;
         $resolver->setDefined('search');
         $resolver->setDefined('simple')
             ->setAllowedTypes('simple', 'bool')
@@ -187,6 +190,9 @@ class Projects extends AbstractApi
         $resolver->setDefined('order_by')
             ->setAllowedValues('order_by', ['id', 'status', 'ref', 'user_id'])
         ;
+        $resolver->setDefined('sort')
+            ->setAllowedValues('sort', ['asc', 'desc'])
+        ;
 
         return $this->get($this->getProjectPath($project_id, 'pipelines'), $resolver->resolve($parameters));
     }
@@ -293,16 +299,15 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param int $page
-     * @param int $per_page
+     * @param array $parameters
+     *
      * @return mixed
      */
-    public function hooks($project_id, $page = 1, $per_page = self::PER_PAGE)
+    public function hooks($project_id, array $parameters = [])
     {
-        return $this->get($this->getProjectPath($project_id, 'hooks'), array(
-            'page' => $page,
-            'per_page' => $per_page
-        ));
+        $resolver = $this->createOptionsResolver();
+
+        return $this->get($this->getProjectPath($project_id, 'hooks'), $resolver->resolve($parameters));
     }
 
     /**
@@ -408,16 +413,42 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param int $page
-     * @param int $per_page
+     * @param array $parameters (
+     *
+     *     @var string             $action      Include only events of a particular action type.
+     *     @var string             $target_type Include only events of a particular target type.
+     *     @var \DateTimeInterface $before      Include only events created before a particular date.
+     *     @var \DateTimeInterface $after       Include only events created after a particular date.
+     *     @var string             $sort        Sort events in asc or desc order by created_at. Default is desc.
+     * )
+     *
      * @return mixed
      */
-    public function events($project_id, $page = 1, $per_page = self::PER_PAGE)
+    public function events($project_id, array $parameters = [])
     {
-        return $this->get($this->getProjectPath($project_id, 'events'), array(
-            'page' => $page,
-            'per_page' => $per_page
-        ));
+        $resolver = $this->createOptionsResolver();
+        $datetimeNormalizer = function (\DateTimeInterface $value) {
+            return $value->format('Y-m-d');
+        };
+
+        $resolver->setDefined('action')
+            ->setAllowedValues('action', ['created', 'updated', 'closed', 'reopened', 'pushed', 'commented', 'merged', 'joined', 'left', 'destroyed', 'expired'])
+        ;
+        $resolver->setDefined('target_type')
+            ->setAllowedValues('target_type', ['issue', 'milestone', 'merge_request', 'note', 'project', 'snippet', 'user'])
+        ;
+        $resolver->setDefined('before')
+            ->setAllowedTypes('before', \DateTimeInterface::class)
+            ->setNormalizer('before', $datetimeNormalizer);
+        $resolver->setDefined('after')
+            ->setAllowedTypes('after', \DateTimeInterface::class)
+            ->setNormalizer('after', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('sort')
+            ->setAllowedValues('sort', ['asc', 'desc'])
+        ;
+
+        return $this->get($this->getProjectPath($project_id, 'events'), $resolver->resolve($parameters));
     }
 
     /**
@@ -578,16 +609,15 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param int $page
-     * @param int $per_page
+     * @param array $parameters
+     *
      * @return mixed
      */
-    public function deployments($project_id, $page = 1, $per_page = self::PER_PAGE)
+    public function deployments($project_id, array $parameters = [])
     {
-        return $this->get($this->getProjectPath($project_id, 'deployments'), array(
-            'page' => $page,
-            'per_page' => $per_page
-        ));
+        $resolver = $this->createOptionsResolver();
+
+        return $this->get($this->getProjectPath($project_id, 'deployments'), $resolver->resolve($parameters));
     }
 
     /**

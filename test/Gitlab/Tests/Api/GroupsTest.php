@@ -21,7 +21,7 @@ class GroupsTest extends TestCase
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->all(1, 10));
+        $this->assertEquals($expectedArray, $api->all(['page' => 1, 'per_page' => 10]));
     }
 
     /**
@@ -37,51 +37,11 @@ class GroupsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('groups', array('page' => 1, 'per_page' => AbstractApi::PER_PAGE))
+            ->with('groups', array())
             ->will($this->returnValue($expectedArray))
         ;
 
         $this->assertEquals($expectedArray, $api->all());
-    }
-
-    /**
-     * @test
-     */
-    public function shouldSearchGroups()
-    {
-        $expectedArray = array(
-            array('id' => 1, 'name' => 'A group'),
-            array('id' => 2, 'name' => 'Another group'),
-        );
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('get')
-            ->with('groups?search=some%20group', array('page' => 1, 'per_page' => AbstractApi::PER_PAGE))
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->search('some group'));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldSearchGroupsWithPagination()
-    {
-        $expectedArray = array(
-            array('id' => 1, 'name' => 'A group'),
-            array('id' => 2, 'name' => 'Another group'),
-        );
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('get')
-            ->with('groups?search=group', array('page' => 2, 'per_page' => 5))
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->search('group', 2, 5));
     }
 
     /**

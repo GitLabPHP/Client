@@ -1,6 +1,7 @@
 <?php namespace Gitlab\Api;
 
 use Psr\Http\Message\StreamInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Jobs extends AbstractApi
 {
@@ -15,27 +16,40 @@ class Jobs extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param array $scope
+     * @param array $parameters (
+     *
+     *     @var string|string[] $scope The scope of jobs to show, one or array of: created, pending, running, failed,
+     *                                 success, canceled, skipped, manual; showing all jobs if none provided.
+     * )
+     *
      * @return mixed
      */
-    public function all($project_id, array $scope = [])
+    public function all($project_id, array $parameters = [])
     {
-        return $this->get("projects/".$this->encodePath($project_id)."/jobs", array(
-            'scope' => $scope
-        ));
+        $resolver = $this->createOptionsResolver();
+
+        return $this->get("projects/".$this->encodePath($project_id)."/jobs", $resolver->resolve($parameters));
     }
 
     /**
      * @param int|string $project_id
      * @param int $pipeline_id
-     * @param array $scope
+     * @param array $parameters (
+     *
+     *     @var string|string[] $scope The scope of jobs to show, one or array of: created, pending, running, failed,
+     *                                 success, canceled, skipped, manual; showing all jobs if none provided.
+     * )
+     *
      * @return mixed
      */
-    public function pipelineJobs($project_id, $pipeline_id, array $scope = [])
+    public function pipelineJobs($project_id, $pipeline_id, array $parameters = [])
     {
-        return $this->get("projects/".$this->encodePath($project_id)."/pipelines/".$this->encodePath($pipeline_id)."/jobs", array(
-            'scope' => $scope
-        ));
+        $resolver = $this->createOptionsResolver();
+
+        return $this->get(
+            $this->getProjectPath($project_id, 'pipelines/').$this->encodePath($pipeline_id)."/jobs",
+            $resolver->resolve($parameters)
+        );
     }
 
     /**
@@ -129,5 +143,36 @@ class Jobs extends AbstractApi
     public function play($project_id, $job_id)
     {
         return $this->post("projects/".$this->encodePath($project_id)."/jobs/".$this->encodePath($job_id)."/play");
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function createOptionsResolver()
+    {
+        $allowedScopeValues = [
+            self::SCOPE_CANCELED,
+            self::SCOPE_CREATED,
+            self::SCOPE_FAILED,
+            self::SCOPE_MANUAL,
+            self::SCOPE_PENDING,
+            self::SCOPE_RUNNING,
+            self::SCOPE_SKIPPED,
+            self::SCOPE_SUCCESS,
+        ];
+
+        $resolver = parent::createOptionsResolver();
+        $resolver->setDefined('scope')
+            ->setAllowedTypes('scope', ['string', 'array'])
+            ->setAllowedValues('scope', $allowedScopeValues)
+            ->addAllowedValues('scope', function ($value) use ($allowedScopeValues) {
+                return is_array($value) && empty(array_diff($value, $allowedScopeValues));
+            })
+            ->setNormalizer('scope', function (OptionsResolver $resolver, $value) {
+                return (array) $value;
+            })
+        ;
+
+        return $resolver;
     }
 }

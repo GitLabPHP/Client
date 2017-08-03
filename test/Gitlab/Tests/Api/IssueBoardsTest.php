@@ -1,7 +1,5 @@
 <?php namespace Gitlab\Tests\Api;
 
-use Gitlab\Api\AbstractApi;
-
 class IssueBoardsTest extends TestCase
 {
     /**
@@ -17,7 +15,7 @@ class IssueBoardsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('boards', array('page' => 1, 'per_page' => AbstractApi::PER_PAGE))
+            ->with('boards', array())
             ->will($this->returnValue($expectedArray))
         ;
 
