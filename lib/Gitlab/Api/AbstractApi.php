@@ -20,11 +20,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 abstract class AbstractApi implements ApiInterface
 {
     /**
-     * Default entries per page
-     */
-    const PER_PAGE = 20;
-
-    /**
      * The client
      *
      * @var Client

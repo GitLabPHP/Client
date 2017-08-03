@@ -13,6 +13,10 @@ See [documentation](doc/customize.md) to know how to customize the client timeou
 * The `setHttpClient` method have been removed. Use a `Gitlab\HttpClient\Builder` instead. 
 * The `getHttpClient` method return type is changed to `Http\Client\Common\HttpMethodsClient`.
 
+## `Gitlab\Api\AbstractApi` changes
+
+* The `PER_PAGE` class constant have been removed.
+
 ## `Gitlab\Api\DeployKeys` changes
 
 * The `all` method now take a single argument which is an associative array of query string parameters.
