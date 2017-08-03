@@ -162,7 +162,7 @@ class Client
      */
     public function mergeRequests()
     {
-       return new Api\MergeRequests($this);
+        return new Api\MergeRequests($this);
     }
 
     /**
@@ -194,7 +194,7 @@ class Client
      */
     public function repositories()
     {
-       return new Api\Repositories($this);
+        return new Api\Repositories($this);
     }
 
     /**
