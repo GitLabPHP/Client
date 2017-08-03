@@ -127,28 +127,15 @@ abstract class AbstractApi implements ApiInterface
      * @param array $requestHeaders
      * @return mixed
      */
-    protected function patch($path, array $parameters = array(), $requestHeaders = array())
-    {
-        $path = $this->preparePath($path);
-
-        $body = empty($parameters) ? null : $this->streamFactory->createStream(http_build_query($parameters));
-
-        $response = $this->client->getHttpClient()->patch($path, $requestHeaders, $body);
-
-        return ResponseMediator::getContent($response);
-    }
-
-    /**
-     * @param string $path
-     * @param array $parameters
-     * @param array $requestHeaders
-     * @return mixed
-     */
     protected function put($path, array $parameters = array(), $requestHeaders = array())
     {
         $path = $this->preparePath($path);
 
-        $body = empty($parameters) ? null : $this->streamFactory->createStream(http_build_query($parameters));
+        $body = null;
+        if (!empty($parameters)) {
+            $body = $this->streamFactory->createStream(http_build_query($parameters));
+            $requestHeaders['Content-Type'] = 'application/x-www-form-urlencoded';
+        }
 
         $response = $this->client->getHttpClient()->put($path, $requestHeaders, $body);
 
@@ -163,11 +150,9 @@ abstract class AbstractApi implements ApiInterface
      */
     protected function delete($path, array $parameters = array(), $requestHeaders = array())
     {
-        $path = $this->preparePath($path);
+        $path = $this->preparePath($path, $parameters);
 
-        $body = empty($parameters) ? null : $this->streamFactory->createStream(http_build_query($parameters));
-
-        $response = $this->client->getHttpClient()->delete($path, $requestHeaders, $body);
+        $response = $this->client->getHttpClient()->delete($path, $requestHeaders);
 
         return ResponseMediator::getContent($response);
     }
