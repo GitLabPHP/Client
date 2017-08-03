@@ -2,6 +2,10 @@ A PHP wrapper to be used with [Gitlab's API](https://github.com/gitlabhq/gitlabh
 ==============
 
 [![Build Status](https://travis-ci.org/m4tthumphrey/php-gitlab-api.svg?branch=master)](https://travis-ci.org/m4tthumphrey/php-gitlab-api)
+[![StyleCI](https://styleci.io/repos/6816335/shield?branch=master)](https://styleci.io/repos/6816335)
+[![Total Downloads](https://poser.pugx.org/m4tthumphrey/php-gitlab-api/downloads?format=flat-square)](https://packagist.org/packages/m4tthumphrey/php-gitlab-api)
+[![Latest Stable Version](https://poser.pugx.org/m4tthumphrey/php-gitlab-api/version?format=flat-square)](https://packagist.org/packages/m4tthumphrey/php-gitlab-api)
+[![Latest Unstable Version](https://poser.pugx.org/m4tthumphrey/php-gitlab-api/v/unstable?format=flat-square)](//packagist.org/packages/m4tthumphrey/php-gitlab-api)
 
 Based on [php-github-api](https://github.com/m4tthumphrey/php-github-api) and code from [KnpLabs](https://github.com/KnpLabs/php-github-api).
 
@@ -21,12 +25,13 @@ You can visit [HTTPlug for library users](http://docs.php-http.org/en/latest/htt
 Versioning
 ----------
 
-From the 6.0 stable release of Gitlab, I shall now be matching the client version with the Gitlab version. For example
-when Gitlab 6.1 is released I will release version 6.1.0 of the API client. If I need to make future updates to the client
-before the next API version is released, I'll simply use a 3rd build version - `6.1.1`, `6.1.2` etc for example.
+Depending on your Gitlab server version, you must choose the right version of this library.
+Please refer to the following table to pick the right one.
 
-It is recommended that you keep your composer file in sync with whatever version of Gitlab you are currently running:
-if you are using 6.0, you should require `6.0.*`; 6.1 should be `6.1.*`...
+|Version|Gitlab API Version|Gitlab Version|
+|-------|------------------|--------------|
+|9.x    | V4               | >= 9.0       |
+|8.x    | V3               | < 9.5        |
 
 General API Usage
 -----------------
