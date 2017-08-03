@@ -7,5 +7,4 @@
  */
 class RuntimeException extends \RuntimeException
 {
-
 }

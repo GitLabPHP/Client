@@ -7,5 +7,4 @@
  */
 class ValidationFailedException extends ErrorException
 {
-
 }

@@ -10,7 +10,6 @@ use Psr\Http\Message\RequestInterface;
 
 class ApiVersionTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testCallNextCallback()
     {
         $request = new Request('GET', '');
@@ -27,7 +26,8 @@ class ApiVersionTest extends \PHPUnit_Framework_TestCase
             ->willReturn($promise)
         ;
 
-        $this->assertEquals($promise, $plugin->handleRequest($request, [$callback, 'next'], function () {}));
+        $this->assertEquals($promise, $plugin->handleRequest($request, [$callback, 'next'], function () {
+        }));
     }
 
     public function testPrefixRequestPath()
@@ -45,7 +45,8 @@ class ApiVersionTest extends \PHPUnit_Framework_TestCase
             ->with($expected)
         ;
 
-        $plugin->handleRequest($request, [$callback, 'next'], function () {});
+        $plugin->handleRequest($request, [$callback, 'next'], function () {
+        });
     }
 
     public function testNoPrefixingRequired()
@@ -62,6 +63,7 @@ class ApiVersionTest extends \PHPUnit_Framework_TestCase
             ->with($request)
         ;
 
-        $plugin->handleRequest($request, [$callback, 'next'], function () {});
+        $plugin->handleRequest($request, [$callback, 'next'], function () {
+        });
     }
 }

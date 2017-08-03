@@ -1124,5 +1124,4 @@ class Project extends AbstractModel
 
         return Job::fromArray($this->getClient(), $this, $data);
     }
-
 }

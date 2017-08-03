@@ -203,11 +203,15 @@ abstract class AbstractApi implements ApiInterface
         $resolver = new OptionsResolver();
         $resolver->setDefined('page')
             ->setAllowedTypes('page', 'int')
-            ->setAllowedValues('page', function ($value) { return $value > 0; })
+            ->setAllowedValues('page', function ($value) {
+                return $value > 0;
+            })
         ;
         $resolver->setDefined('per_page')
             ->setAllowedTypes('per_page', 'int')
-            ->setAllowedValues('per_page', function ($value) { return $value > 0 && $value <= 100; })
+            ->setAllowedValues('per_page', function ($value) {
+                return $value > 0 && $value <= 100;
+            })
         ;
         $resolver->setDefined('sort')
             ->setAllowedValues('sort', ['asc', 'desc'])
@@ -218,7 +222,6 @@ abstract class AbstractApi implements ApiInterface
 
     private function preparePath($path, array $parameters = [])
     {
-
         if (count($parameters) > 0) {
             $path .= '?'.QueryStringBuilder::build($parameters);
         }

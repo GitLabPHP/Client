@@ -12,7 +12,6 @@ use Http\Client\Common\HttpMethodsClient;
 
 class ResultPagerTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testFetch()
     {
         $client = $this->getMockBuilder(Client::class)

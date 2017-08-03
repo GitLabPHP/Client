@@ -1,6 +1,7 @@
 <?php
 
 namespace Gitlab\Tests\HttpClient;
+
 use Gitlab\HttpClient\Builder;
 use Http\Client\Common\HttpMethodsClient;
 use Http\Client\Common\Plugin;
