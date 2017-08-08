@@ -135,7 +135,7 @@ class Issue extends AbstractModel implements Noteable
      */
     public function addComment($comment)
     {
-        $data = $this->client->issues()->addComment($this->project->id, $this->id, array(
+        $data = $this->client->issues()->addComment($this->project->id, $this->iid, array(
             'body' => $comment
         ));
 
@@ -148,7 +148,7 @@ class Issue extends AbstractModel implements Noteable
     public function showComments()
     {
         $notes = array();
-        $data = $this->client->issues()->showComments($this->project->id, $this->id);
+        $data = $this->client->issues()->showComments($this->project->id, $this->iid);
 
         foreach ($data as $note) {
             $notes[] = Note::fromArray($this->getClient(), $this, $note);
