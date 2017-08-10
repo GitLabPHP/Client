@@ -83,7 +83,7 @@ You get the idea! Take a look around ([API methods](https://github.com/m4tthumph
 Framework Integrations
 ----------------------
 - **Symfony** - https://github.com/Zeichen32/GitLabApiBundle
-- **Laravel** - https://github.com/vinkla/gitlab
+- **Laravel** - https://github.com/vinkla/laravel-gitlab
 
 If you have integrated GitLab into a popular PHP framework, let us know!
 
