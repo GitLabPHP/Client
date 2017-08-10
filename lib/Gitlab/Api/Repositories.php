@@ -4,11 +4,15 @@ class Repositories extends AbstractApi
 {
     /**
      * @param int $project_id
+     * @param array $parameters
      * @return mixed
      */
-    public function branches($project_id)
+    public function branches($project_id, array $parameters = [])
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/branches'));
+        $resolver = $this->createOptionsResolver();
+        $resolver->setDefined('query');
+
+        return $this->get($this->getProjectPath($project_id, 'repository/branches'), $resolver->resolve($parameters));
     }
 
     /**
