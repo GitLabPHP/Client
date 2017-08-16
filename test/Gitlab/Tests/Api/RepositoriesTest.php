@@ -277,6 +277,40 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
+    public function shouldCreateCommit()
+    {
+        $expectedArray = array('title' => 'Initial commit.', 'author_name' => 'John Doe', 'author_email' => 'john@example.com');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/repository/commits')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->createCommit(1, [
+            'branch' => 'master',
+            'commit_message' => 'Initial commit.',
+            'actions' => [
+                [
+                    'action' => 'create',
+                    'file_path' => 'README.md',
+                    'content' => '# My new project',
+                ],
+                [
+                    'action' => 'create',
+                    'file_path' => 'LICENSE',
+                    'content' => 'MIT License...',
+                ],
+            ],
+            'author_name' => 'John Doe',
+            'author_email' => 'john@example.com',
+        ]));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetCommitComments()
     {
         $expectedArray = array(
