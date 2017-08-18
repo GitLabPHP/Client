@@ -5,10 +5,11 @@ sudo: false
 php:
   - 5.6
   - 7.0
+  - 7.1
 
 matrix:
   include:
-    - php: 7.1
+    - php: 7.2
       env: STATIC_ANALYSIS=yes
 
 before_script:
