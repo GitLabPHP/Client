@@ -1,5 +1,7 @@
 <?php namespace Gitlab\Api;
 
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
 class Repositories extends AbstractApi
 {
     /**
@@ -166,6 +168,69 @@ class Repositories extends AbstractApi
     public function commit($project_id, $sha)
     {
         return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha)));
+    }
+
+    /**
+     * @param int $project_id
+     * @param array $parameters (
+     *
+     *     @var string $branch         Name of the branch to commit into. To create a new branch, also provide start_branch.
+     *     @var string $commit_message Commit message.
+     *     @var string $start_branch   Name of the branch to start the new commit from.
+     *     @var array $actions (
+     *
+     *         @var string $action        he action to perform, create, delete, move, update.
+     *         @var string $file_path     Full path to the file.
+     *         @var string $previous_path Original full path to the file being moved.
+     *         @var string $content       File content, required for all except delete. Optional for move.
+     *         @var string $encoding      text or base64. text is default.
+     *     )
+     *     @var string $author_email   Specify the commit author's email address.
+     *     @var string $author_name    Specify the commit author's name.
+     * )
+     *
+     * @return mixed
+     */
+    public function createCommit($project_id, array $parameters = [])
+    {
+        $resolver = new OptionsResolver();
+        $resolver->setDefined('branch')
+            ->setRequired('branch')
+        ;
+        $resolver->setDefined('commit_message')
+            ->setRequired('commit_message')
+        ;
+        $resolver->setDefined('start_branch');
+        $resolver->setDefined('actions')
+            ->setRequired('actions')
+            ->setAllowedTypes('actions', 'array')
+            ->setAllowedValues('actions', function (array $actions) {
+                return !empty($actions);
+            })
+            ->setNormalizer('actions', function (OptionsResolver $resolver, array $actions) {
+                $actionsOptionsResolver = new OptionsResolver();
+                $actionsOptionsResolver->setDefined('action')
+                    ->setRequired('action')
+                    ->setAllowedValues('action', ['create', 'delete', 'move', 'update'])
+                ;
+                $actionsOptionsResolver->setDefined('file_path')
+                    ->setRequired('file_path')
+                ;
+                $actionsOptionsResolver->setDefined('previous_path');
+                $actionsOptionsResolver->setDefined('content');
+                $actionsOptionsResolver->setDefined('encoding')
+                    ->setAllowedValues('encoding', ['test', 'base64'])
+                ;
+
+                return array_map(function ($action) use ($actionsOptionsResolver) {
+                    return $actionsOptionsResolver->resolve($action);
+                }, $actions);
+            })
+        ;
+        $resolver->setDefined('author_email');
+        $resolver->setDefined('author_name');
+
+        return $this->post($this->getProjectPath($project_id, 'repository/commits'), $resolver->resolve($parameters));
     }
 
     /**
