@@ -15,7 +15,7 @@ final class QueryStringBuilder
     public static function build($query)
     {
         if (!is_array($query)) {
-            return rawurlencode($query);
+            return static::rawurlencode($query);
         }
         return implode('&', array_map(function ($value, $key) {
             return static::encode($value, $key);
@@ -32,7 +32,7 @@ final class QueryStringBuilder
     private static function encode($query, $prefix)
     {
         if (!is_array($query)) {
-            return rawurlencode($prefix).'='.rawurlencode($query);
+            return static::rawurlencode($prefix).'='.static::rawurlencode($query);
         }
 
         $isIndexedArray = static::isIndexedArray($query);
@@ -56,5 +56,21 @@ final class QueryStringBuilder
         }
 
         return array_keys($query) === range(0, count($query) - 1);
+    }
+
+    /**
+     * Encode a value like rawurlencode, but return "0" when false is given.
+     *
+     * @param mixed $value
+     *
+     * @return string
+     */
+    private static function rawurlencode($value)
+    {
+        if ($value === false) {
+            return '0';
+        }
+
+        return rawurlencode($value);
     }
 }
