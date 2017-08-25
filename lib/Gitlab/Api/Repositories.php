@@ -74,11 +74,14 @@ class Repositories extends AbstractApi
 
     /**
      * @param int $project_id
+     * @param array $parameters
      * @return mixed
      */
-    public function tags($project_id)
+    public function tags($project_id, array $parameters = [])
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/tags'));
+        $resolver = $this->createOptionsResolver();
+
+        return $this->get($this->getProjectPath($project_id, 'repository/tags'), $resolver->resolve($parameters));
     }
 
     /**
