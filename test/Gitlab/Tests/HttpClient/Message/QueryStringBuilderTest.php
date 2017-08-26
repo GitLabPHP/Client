@@ -40,6 +40,12 @@ class QueryStringBuilderTest extends \PHPUnit_Framework_TestCase
             'iids%5B0%5D=88&iids%5B2%5D=86'
         ];
 
+        //Boolean encoding
+        yield [
+            ['push_events' => false, 'merge_requests_events' => 1],
+            'push_events=0&merge_requests_events=1'
+        ];
+
         //A deeply nested array.
         yield [
             [
