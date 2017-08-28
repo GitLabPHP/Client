@@ -166,43 +166,6 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetMergeRequestComments()
-    {
-        $expectedArray = array(
-            array('id' => 1, 'note' => 'A comment'),
-            array('id' => 2, 'note' => 'Another comment')
-        );
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('get')
-            ->with('projects/1/merge_requests/2/comments')
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->showComments(1, 2));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldAddMergeRequestComment()
-    {
-        $expectedArray = array('id' => 2, 'title' => 'A comment');
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('post')
-            ->with('projects/1/merge_requests/2/comments', array('note' => 'A comment'))
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->addComment(1, 2, 'A comment'));
-    }
-
-    /**
-     * @test
-     */
     public function shouldGetMergeRequestChanges()
     {
         $expectedArray = array('id' => 1, 'title' => 'A merge request');

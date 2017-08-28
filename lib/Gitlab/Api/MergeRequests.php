@@ -162,7 +162,9 @@ class MergeRequests extends AbstractApi
      */
     public function showComments($project_id, $mr_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_id).'/comments'));
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.1 and will be removed in 10.0. Use the showNotes() method instead.', __METHOD__), E_USER_DEPRECATED);
+
+        return $this->showNotes($project_id, $mr_id);
     }
 
     /**
@@ -173,9 +175,9 @@ class MergeRequests extends AbstractApi
      */
     public function addComment($project_id, $mr_id, $note)
     {
-        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_id).'/comments'), array(
-            'note' => $note
-        ));
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.1 and will be removed in 10.0. Use the addNote() method instead.', __METHOD__), E_USER_DEPRECATED);
+
+        return $this->addNote($project_id, $mr_id, $note);
     }
 
     /**
