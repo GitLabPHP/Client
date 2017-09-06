@@ -198,6 +198,14 @@ class Client
     }
 
     /**
+     * @return Api\RepositoryFiles
+     */
+    public function repositoryFiles()
+    {
+        return new Api\RepositoryFiles($this);
+    }
+
+    /**
      * @return Api\Snippets
      */
     public function snippets()
