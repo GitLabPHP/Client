@@ -309,9 +309,9 @@ class Repositories extends AbstractApi
      */
     public function blob($project_id, $sha, $filepath)
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/files/'.$this->encodePath($filepath).'/raw'), array(
-            'ref' => $sha,
-        ));
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.2 and will be removed in 10.0. Use the %s::getRawFile() method instead.', __METHOD__, RepositoryFiles::class), E_USER_DEPRECATED);
+
+        return $this->client->repositoryFiles()->getRawFile($project_id, $filepath, $sha);
     }
 
     /**
@@ -322,9 +322,9 @@ class Repositories extends AbstractApi
      */
     public function getFile($project_id, $file_path, $ref)
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/files/'.$this->encodePath($file_path)), array(
-            'ref' => $ref
-        ));
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.2 and will be removed in 10.0. Use the %s::getFile() method instead.', __METHOD__, RepositoryFiles::class), E_USER_DEPRECATED);
+
+        return $this->client->repositoryFiles()->getFile($project_id, $file_path, $ref);
     }
 
     /**
@@ -340,7 +340,9 @@ class Repositories extends AbstractApi
      */
     public function createFile($project_id, $file_path, $content, $branch, $commit_message, $encoding = null, $author_email = null, $author_name = null)
     {
-        return $this->post($this->getProjectPath($project_id, 'repository/files'), array(
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.2 and will be removed in 10.0. Use the %s::createFile() method instead.', __METHOD__, RepositoryFiles::class), E_USER_DEPRECATED);
+
+        return $this->client->repositoryFiles()->createFile($project_id, [
             'file_path' => $file_path,
             'branch' => $branch,
             'content' => $content,
@@ -348,7 +350,7 @@ class Repositories extends AbstractApi
             'encoding' => $encoding,
             'author_email' => $author_email,
             'author_name' => $author_name,
-        ));
+        ]);
     }
 
     /**
@@ -364,7 +366,9 @@ class Repositories extends AbstractApi
      */
     public function updateFile($project_id, $file_path, $content, $branch, $commit_message, $encoding = null, $author_email = null, $author_name = null)
     {
-        return $this->put($this->getProjectPath($project_id, 'repository/files'), array(
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.2 and will be removed in 10.0. Use the %s::updateFile() method instead.', __METHOD__, RepositoryFiles::class), E_USER_DEPRECATED);
+
+        return $this->client->repositoryFiles()->updateFile($project_id, [
             'file_path' => $file_path,
             'branch' => $branch,
             'content' => $content,
@@ -372,7 +376,7 @@ class Repositories extends AbstractApi
             'encoding' => $encoding,
             'author_email' => $author_email,
             'author_name' => $author_name,
-        ));
+        ]);
     }
 
     /**
@@ -386,13 +390,15 @@ class Repositories extends AbstractApi
      */
     public function deleteFile($project_id, $file_path, $branch, $commit_message, $author_email = null, $author_name = null)
     {
-        return $this->delete($this->getProjectPath($project_id, 'repository/files'), array(
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.2 and will be removed in 10.0. Use the %s::deleteFile() method instead.', __METHOD__, RepositoryFiles::class), E_USER_DEPRECATED);
+
+        return $this->client->repositoryFiles()->deleteFile($project_id, [
             'file_path' => $file_path,
             'branch' => $branch,
             'commit_message' => $commit_message,
             'author_email' => $author_email,
             'author_name' => $author_name,
-        ));
+        ]);
     }
 
     /**
