@@ -90,14 +90,14 @@ class MergeRequest extends AbstractModel implements Noteable
 
     /**
      * @param Project $project
-     * @param int $id
+     * @param int $iid
      * @param Client $client
      */
-    public function __construct(Project $project, $id = null, Client $client = null)
+    public function __construct(Project $project, $iid = null, Client $client = null)
     {
         $this->setClient($client);
         $this->setData('project', $project);
-        $this->setData('id', $id);
+        $this->setData('iid', $iid);
     }
 
     /**
