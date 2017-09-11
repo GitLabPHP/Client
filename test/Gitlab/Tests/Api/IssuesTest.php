@@ -270,6 +270,26 @@ class IssuesTest extends TestCase
         $this->assertEquals($expectedArray, $api->getTimeStats(1, 2));
     }
 
+    /**
+     * @test
+     */
+    public function shouldGetIssueAwardEmoji()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'sparkles'),
+            array('id' => 2, 'name' => 'heart_eyes'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/issues/2/award_emoji')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->awardEmoji(1, 2));
+    }
+
     protected function getApiClass()
     {
         return 'Gitlab\Api\Issues';

@@ -107,6 +107,26 @@ class SnippetsTest extends TestCase
         $this->assertEquals($expectedBool, $api->remove(1, 3));
     }
 
+    /**
+     * @test
+     */
+    public function shouldGetSnippetAwardEmoji()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'sparkles'),
+            array('id' => 2, 'name' => 'heart_eyes'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/snippets/2/award_emoji')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->awardEmoji(1, 2));
+    }
+
     protected function getApiClass()
     {
         return 'Gitlab\Api\Snippets';

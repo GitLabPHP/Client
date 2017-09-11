@@ -266,6 +266,25 @@ class MergeRequestsTest extends TestCase
         $this->assertEquals($expectedArray, $api->all(1, ['iids' => [2]]));
     }
 
+    /**
+     * @test
+     */
+    public function shouldGetMergeRequestAwardEmoji()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'sparkles'),
+            array('id' => 2, 'name' => 'heart_eyes'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_requests/2/award_emoji')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->awardEmoji(1, 2));
+    }
 
     protected function getMultipleMergeRequestsData()
     {
