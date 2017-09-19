@@ -568,14 +568,22 @@ class Projects extends AbstractApi
      * @param string $environment_scope
      * @return mixed
      */
-    public function addVariable($project_id, $key, $value, $protected = false, $environment_scope ="*")
+    public function addVariable($project_id, $key, $value, $protected = null, $environment_scope = null)
     {
-        return $this->post($this->getProjectPath($project_id, 'variables'), array(
+        $payload = array(
             'key'   => $key,
             'value' => $value,
-            'protected' => $protected,
-            'environment_scope' => $environment_scope,
-        ));
+        );
+
+        if ($protected) {
+            $payload['protected'] = $protected;
+        }
+
+        if ($environment_scope) {
+            $payload['environment_scope'] = $environment_scope;
+        }
+
+        return $this->post($this->getProjectPath($project_id, 'variables'), $payload);
     }
 
     /**
@@ -590,8 +598,8 @@ class Projects extends AbstractApi
     {
         return $this->put($this->getProjectPath($project_id, 'variables/'.$this->encodePath($key)), array(
             'value' => $value,
-            'protected' => $protected,
-            'environment_scope' => $environment_scope,
+//            'protected' => $protected,
+//            'environment_scope' => $environment_scope,
         ));
     }
 

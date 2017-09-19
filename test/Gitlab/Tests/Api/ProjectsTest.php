@@ -868,6 +868,84 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldAddVariableWithProtected()
+    {
+        $expectedKey   = 'ftp_port';
+        $expectedValue = '21';
+        $expectedProtection = true;
+
+        $expectedArray = array(
+            'key'   => $expectedKey,
+            'value' => $expectedValue,
+            'protected' => true,
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/variables', $expectedArray)
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->addVariable(1, $expectedKey, $expectedValue, $expectedProtection));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAddVariableWithEnvironment()
+    {
+        $expectedKey   = 'ftp_port';
+        $expectedValue = '21';
+        $expectedProtection = null;
+        $expectedEnvironment = 'production';
+
+        $expectedArray = array(
+            'key'   => $expectedKey,
+            'value' => $expectedValue,
+            'environment_scope' => $expectedEnvironment,
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/variables', $expectedArray)
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->addVariable(1, $expectedKey, $expectedValue, $expectedProtection, $expectedEnvironment));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAddVariableWithProtectionAndEnvironment()
+    {
+        $expectedKey   = 'ftp_port';
+        $expectedValue = '21';
+        $expectedProtection = true;
+        $expectedEnvironment = 'production';
+
+        $expectedArray = array(
+            'key'   => $expectedKey,
+            'value' => $expectedValue,
+            'protected' => true,
+            'environment_scope' => $expectedEnvironment,
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/variables', $expectedArray)
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->addVariable(1, $expectedKey, $expectedValue, $expectedProtection, $expectedEnvironment));
+    }
+
+    /**
+     * @test
+     */
     public function shouldUpdateVariable()
     {
         $expectedKey   = 'ftp_port';
