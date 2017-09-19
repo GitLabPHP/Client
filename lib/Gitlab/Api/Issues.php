@@ -214,13 +214,13 @@ class Issues extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/award_emoji'));
     }
 
-	/**
-	 * @param int $project_id
-	 * @param int $issue_iid
-	 * @return mixed
-	 */
-	public function closedByMergeRequests($project_id, $issue_iid)
-	{
-		return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid)).'/closed_by');
-	}
+    /**
+    * @param int $project_id
+    * @param int $issue_iid
+    * @return mixed
+    */
+    public function closedByMergeRequests($project_id, $issue_iid)
+    {
+        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid)).'/closed_by');
+    }
 }
