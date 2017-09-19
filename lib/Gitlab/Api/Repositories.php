@@ -1,5 +1,7 @@
 <?php namespace Gitlab\Api;
 
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
 class Repositories extends AbstractApi
 {
     /**
@@ -23,26 +25,26 @@ class Repositories extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param string $branch_name
+     * @param string $branch
      * @param string $ref
      * @return mixed
      */
-    public function createBranch($project_id, $branch_name, $ref)
+    public function createBranch($project_id, $branch, $ref)
     {
         return $this->post($this->getProjectPath($project_id, 'repository/branches'), array(
-            'branch_name' => $branch_name,
+            'branch' => $branch,
             'ref' => $ref
         ));
     }
 
     /**
      * @param int $project_id
-     * @param string $branch_name
+     * @param string $branch
      * @return mixed
      */
-    public function deleteBranch($project_id, $branch_name)
+    public function deleteBranch($project_id, $branch)
     {
-        return $this->delete($this->getProjectPath($project_id, 'repository/branches/'.$this->encodeBranch($branch_name)));
+        return $this->delete($this->getProjectPath($project_id, 'repository/branches/'.$this->encodeBranch($branch)));
     }
 
     /**
@@ -72,11 +74,14 @@ class Repositories extends AbstractApi
 
     /**
      * @param int $project_id
+     * @param array $parameters
      * @return mixed
      */
-    public function tags($project_id)
+    public function tags($project_id, array $parameters = [])
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/tags'));
+        $resolver = $this->createOptionsResolver();
+
+        return $this->get($this->getProjectPath($project_id, 'repository/tags'), $resolver->resolve($parameters));
     }
 
     /**
@@ -102,12 +107,13 @@ class Repositories extends AbstractApi
      *
      * @return mixed
      */
-    public function createRelease( $project_id, $tag_name, $description ) {
-        return $this->post( $this->getProjectPath( $project_id, 'repository/tags/' . $this->encodeBranch( $tag_name ) . '/release' ), array(
+    public function createRelease($project_id, $tag_name, $description)
+    {
+        return $this->post($this->getProjectPath($project_id, 'repository/tags/' . $this->encodeBranch($tag_name) . '/release'), array(
             'id'          => $project_id,
             'tag_name'    => $tag_name,
             'description' => $description
-        ) );
+        ));
     }
 
     /**
@@ -117,46 +123,44 @@ class Repositories extends AbstractApi
      *
      * @return mixed
      */
-    public function updateRelease( $project_id, $tag_name, $description ) {
-        return $this->put( $this->getProjectPath( $project_id, 'repository/tags/' . $this->encodeBranch( $tag_name ) . '/release' ), array(
+    public function updateRelease($project_id, $tag_name, $description)
+    {
+        return $this->put($this->getProjectPath($project_id, 'repository/tags/' . $this->encodeBranch($tag_name) . '/release'), array(
             'id'          => $project_id,
             'tag_name'    => $tag_name,
             'description' => $description
-        ) );
+        ));
     }
 
     /**
      * @param int $project_id
-     * @param string $sha
-     * @param string $scope
-     * @param int $page
-     * @param int $per_page
+     * @param array $parameters (
+     *
+     *     @var string             $ref_name The name of a repository branch or tag or if not given the default branch.
+     *     @var \DateTimeInterface $since    Only commits after or on this date will be returned.
+     *     @var \DateTimeInterface $until    Only commits before or on this date will be returned.
+     * )
      *
      * @return mixed
      */
-    public function commitBuilds($project_id, $sha, $scope = null, $page = 0, $per_page = self::PER_PAGE)
+    public function commits($project_id, array $parameters = [])
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/builds'), array(
-            'page' => $page,
-            'per_page' => $per_page,
-            'scope' => $scope
-        ));
-    }
+        $resolver = $this->createOptionsResolver();
+        $datetimeNormalizer = function (\DateTimeInterface $value) {
+            return $value->format('c');
+        };
 
-    /**
-     * @param int $project_id
-     * @param int $page
-     * @param int $per_page
-     * @param null $ref_name
-     * @return mixed
-     */
-    public function commits($project_id, $page = 0, $per_page = self::PER_PAGE, $ref_name = null)
-    {
-        return $this->get($this->getProjectPath($project_id, 'repository/commits'), array(
-            'page' => $page,
-            'per_page' => $per_page,
-            'ref_name' => $ref_name
-        ));
+        $resolver->setDefined('ref_name');
+        $resolver->setDefined('since')
+            ->setAllowedTypes('since', \DateTimeInterface::class)
+            ->setNormalizer('since', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('until')
+            ->setAllowedTypes('until', \DateTimeInterface::class)
+            ->setNormalizer('until', $datetimeNormalizer)
+        ;
+
+        return $this->get($this->getProjectPath($project_id, 'repository/commits'), $resolver->resolve($parameters));
     }
 
     /**
@@ -171,17 +175,82 @@ class Repositories extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param string $sha
-     * @param int $page
-     * @param int $per_page
+     * @param array $parameters (
+     *
+     *     @var string $branch         Name of the branch to commit into. To create a new branch, also provide start_branch.
+     *     @var string $commit_message Commit message.
+     *     @var string $start_branch   Name of the branch to start the new commit from.
+     *     @var array $actions (
+     *
+     *         @var string $action        he action to perform, create, delete, move, update.
+     *         @var string $file_path     Full path to the file.
+     *         @var string $previous_path Original full path to the file being moved.
+     *         @var string $content       File content, required for all except delete. Optional for move.
+     *         @var string $encoding      text or base64. text is default.
+     *     )
+     *     @var string $author_email   Specify the commit author's email address.
+     *     @var string $author_name    Specify the commit author's name.
+     * )
+     *
      * @return mixed
      */
-    public function commitComments($project_id, $sha, $page = 0, $per_page = self::PER_PAGE)
+    public function createCommit($project_id, array $parameters = [])
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/comments'), array(
-            'page' => $page,
-            'per_page' => $per_page
-        ));
+        $resolver = new OptionsResolver();
+        $resolver->setDefined('branch')
+            ->setRequired('branch')
+        ;
+        $resolver->setDefined('commit_message')
+            ->setRequired('commit_message')
+        ;
+        $resolver->setDefined('start_branch');
+        $resolver->setDefined('actions')
+            ->setRequired('actions')
+            ->setAllowedTypes('actions', 'array')
+            ->setAllowedValues('actions', function (array $actions) {
+                return !empty($actions);
+            })
+            ->setNormalizer('actions', function (OptionsResolver $resolver, array $actions) {
+                $actionsOptionsResolver = new OptionsResolver();
+                $actionsOptionsResolver->setDefined('action')
+                    ->setRequired('action')
+                    ->setAllowedValues('action', ['create', 'delete', 'move', 'update'])
+                ;
+                $actionsOptionsResolver->setDefined('file_path')
+                    ->setRequired('file_path')
+                ;
+                $actionsOptionsResolver->setDefined('previous_path');
+                $actionsOptionsResolver->setDefined('content');
+                $actionsOptionsResolver->setDefined('encoding')
+                    ->setAllowedValues('encoding', ['test', 'base64'])
+                ;
+
+                return array_map(function ($action) use ($actionsOptionsResolver) {
+                    return $actionsOptionsResolver->resolve($action);
+                }, $actions);
+            })
+        ;
+        $resolver->setDefined('author_email');
+        $resolver->setDefined('author_name');
+
+        return $this->post($this->getProjectPath($project_id, 'repository/commits'), $resolver->resolve($parameters));
+    }
+
+    /**
+     * @param int    $project_id
+     * @param string $sha
+     * @param array  $parameters
+     *
+     * @return mixed
+     */
+    public function commitComments($project_id, $sha, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+
+        return $this->get(
+            $this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/comments'),
+            $resolver->resolve($parameters)
+        );
     }
 
     /**
@@ -240,9 +309,9 @@ class Repositories extends AbstractApi
      */
     public function blob($project_id, $sha, $filepath)
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/blob'), array(
-            'filepath' => $filepath
-        ));
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.2 and will be removed in 10.0. Use the %s::getRawFile() method instead.', __METHOD__, RepositoryFiles::class), E_USER_DEPRECATED);
+
+        return $this->client->repositoryFiles()->getRawFile($project_id, $filepath, $sha);
     }
 
     /**
@@ -253,78 +322,83 @@ class Repositories extends AbstractApi
      */
     public function getFile($project_id, $file_path, $ref)
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/files'), array(
-            'file_path' => $file_path,
-            'ref' => $ref
-        ));
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.2 and will be removed in 10.0. Use the %s::getFile() method instead.', __METHOD__, RepositoryFiles::class), E_USER_DEPRECATED);
+
+        return $this->client->repositoryFiles()->getFile($project_id, $file_path, $ref);
     }
 
     /**
      * @param int $project_id
      * @param string $file_path
      * @param string $content
-     * @param string $branch_name
+     * @param string $branch
      * @param string $commit_message
      * @param string $encoding
      * @param string $author_email
      * @param string $author_name
      * @return mixed
      */
-    public function createFile($project_id, $file_path, $content, $branch_name, $commit_message, $encoding = null, $author_email = null, $author_name = null)
+    public function createFile($project_id, $file_path, $content, $branch, $commit_message, $encoding = null, $author_email = null, $author_name = null)
     {
-        return $this->post($this->getProjectPath($project_id, 'repository/files'), array(
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.2 and will be removed in 10.0. Use the %s::createFile() method instead.', __METHOD__, RepositoryFiles::class), E_USER_DEPRECATED);
+
+        return $this->client->repositoryFiles()->createFile($project_id, [
             'file_path' => $file_path,
-            'branch_name' => $branch_name,
+            'branch' => $branch,
             'content' => $content,
             'commit_message' => $commit_message,
             'encoding' => $encoding,
             'author_email' => $author_email,
             'author_name' => $author_name,
-        ));
+        ]);
     }
 
     /**
      * @param int $project_id
      * @param string $file_path
      * @param string $content
-     * @param string $branch_name
+     * @param string $branch
      * @param string $commit_message
      * @param string $encoding
      * @param string $author_email
      * @param string $author_name
      * @return mixed
      */
-    public function updateFile($project_id, $file_path, $content, $branch_name, $commit_message, $encoding = null, $author_email = null, $author_name = null)
+    public function updateFile($project_id, $file_path, $content, $branch, $commit_message, $encoding = null, $author_email = null, $author_name = null)
     {
-        return $this->put($this->getProjectPath($project_id, 'repository/files'), array(
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.2 and will be removed in 10.0. Use the %s::updateFile() method instead.', __METHOD__, RepositoryFiles::class), E_USER_DEPRECATED);
+
+        return $this->client->repositoryFiles()->updateFile($project_id, [
             'file_path' => $file_path,
-            'branch_name' => $branch_name,
+            'branch' => $branch,
             'content' => $content,
             'commit_message' => $commit_message,
             'encoding' => $encoding,
             'author_email' => $author_email,
             'author_name' => $author_name,
-        ));
+        ]);
     }
 
     /**
      * @param int $project_id
      * @param string $file_path
-     * @param string $branch_name
+     * @param string $branch
      * @param string $commit_message
      * @param string $author_email
      * @param string $author_name
      * @return mixed
      */
-    public function deleteFile($project_id, $file_path, $branch_name, $commit_message, $author_email = null, $author_name = null)
+    public function deleteFile($project_id, $file_path, $branch, $commit_message, $author_email = null, $author_name = null)
     {
-        return $this->delete($this->getProjectPath($project_id, 'repository/files'), array(
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.2 and will be removed in 10.0. Use the %s::deleteFile() method instead.', __METHOD__, RepositoryFiles::class), E_USER_DEPRECATED);
+
+        return $this->client->repositoryFiles()->deleteFile($project_id, [
             'file_path' => $file_path,
-            'branch_name' => $branch_name,
+            'branch' => $branch,
             'commit_message' => $commit_message,
             'author_email' => $author_email,
             'author_name' => $author_name,
-        ));
+        ]);
     }
 
     /**

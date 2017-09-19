@@ -1,6 +1,6 @@
 <?php namespace Gitlab\Tests\Api;
 
-class DeployKeysTest extends ApiTestCase
+class DeployKeysTest extends TestCase
 {
     /**
      * @test
@@ -9,21 +9,14 @@ class DeployKeysTest extends ApiTestCase
     {
         $expectedArray = $this->getMultipleDeployKeysData();
 
-        $api = $this->getMultipleDeployKeysRequestMock('deploy_keys', $expectedArray);
-
-        $this->assertEquals($expectedArray, $api->all());
-    }
-
-    protected function getMultipleDeployKeysRequestMock($path, $expectedArray = array(), $page = 1, $per_page = 20, $order_by = 'id', $sort = 'asc')
-    {
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with($path, array('page' => $page, 'per_page' => $per_page, 'order_by' => $order_by, 'sort' => $sort))
+            ->with('deploy_keys', array('page' => 2, 'per_page' => 5))
             ->will($this->returnValue($expectedArray))
         ;
 
-        return $api;
+        $this->assertEquals($expectedArray, $api->all(['page' => 2, 'per_page' => 5]));
     }
 
     protected function getMultipleDeployKeysData()

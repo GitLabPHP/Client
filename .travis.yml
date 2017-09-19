@@ -1,15 +1,22 @@
 language: php
 
+sudo: false
+
 php:
-  - 5.3
-  - 5.4
-  - 5.5
   - 5.6
   - 7.0
+  - 7.1
+
+matrix:
+  include:
+    - php: 7.2
+      env: STATIC_ANALYSIS=yes
 
 before_script:
   - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-source
+  - if [ "$STATIC_ANALYSIS" != "" ]; then curl -L https://github.com/phpstan/phpstan/releases/download/0.8/phpstan.phar -o phpstan.phar; fi;
 
 script:
   - vendor/bin/phpunit --verbose --coverage-text
+  - if [ "$STATIC_ANALYSIS" != "" ]; then php phpstan.phar analyse --level=4 lib; fi;

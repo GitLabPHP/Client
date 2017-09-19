@@ -2,7 +2,7 @@
 
 use Gitlab\Api\AbstractApi;
 
-class RepositoriesTest extends ApiTestCase
+class RepositoriesTest extends TestCase
 {
     /**
      * @test
@@ -51,7 +51,7 @@ class RepositoriesTest extends ApiTestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/repository/branches', array('branch_name' => 'feature', 'ref' => 'master'))
+            ->with('projects/1/repository/branches', array('branch' => 'feature', 'ref' => 'master'))
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -167,53 +167,55 @@ class RepositoriesTest extends ApiTestCase
         $this->assertEquals($expectedArray, $api->createTag(1, '1.0', 'abcd1234', '1.0 release'));
     }
 
-	/**
-	 * @test
-	 */
-	public function shouldCreateRelease() {
-		$project_id  = 1;
-		$tagName     = 'sometag';
-		$description = '1.0 release';
+    /**
+     * @test
+     */
+    public function shouldCreateRelease()
+    {
+        $project_id  = 1;
+        $tagName     = 'sometag';
+        $description = '1.0 release';
 
-		$expectedArray = array( 'name' => $tagName );
+        $expectedArray = array( 'name' => $tagName );
 
-		$api = $this->getApiMock();
-		$api->expects( $this->once())
-		    ->method('post')
-		    ->with( 'projects/' . $project_id . '/repository/tags/' . $tagName . '/release', array(
-			    'id' => $project_id,
-			    'tag_name' => $tagName,
-			    'description' => $description
-		    ))
-		    ->will($this->returnValue($expectedArray))
-		;
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/' . $project_id . '/repository/tags/' . $tagName . '/release', array(
+                'id' => $project_id,
+                'tag_name' => $tagName,
+                'description' => $description
+            ))
+            ->will($this->returnValue($expectedArray))
+        ;
 
-		$this->assertEquals( $expectedArray, $api->createRelease( $project_id, $tagName, $description ) );
-	}
+        $this->assertEquals($expectedArray, $api->createRelease($project_id, $tagName, $description));
+    }
 
-	/**
-	 * @test
-	 */
-	public function shouldUpdateRelease() {
-		$project_id  = 1;
-		$tagName     = 'sometag';
-		$description = '1.0 release';
+    /**
+     * @test
+     */
+    public function shouldUpdateRelease()
+    {
+        $project_id  = 1;
+        $tagName     = 'sometag';
+        $description = '1.0 release';
 
-		$expectedArray = array( 'description' => $tagName );
+        $expectedArray = array( 'description' => $tagName );
 
-		$api = $this->getApiMock();
-		$api->expects( $this->once())
-		    ->method('put')
-		    ->with( 'projects/' . $project_id . '/repository/tags/' . $tagName . '/release', array(
-			    'id' => $project_id,
-			    'tag_name' => $tagName,
-			    'description' => $description
-		    ))
-		    ->will($this->returnValue($expectedArray))
-		;
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/' . $project_id . '/repository/tags/' . $tagName . '/release', array(
+                'id' => $project_id,
+                'tag_name' => $tagName,
+                'description' => $description
+            ))
+            ->will($this->returnValue($expectedArray))
+        ;
 
-		$this->assertEquals( $expectedArray, $api->updateRelease( $project_id, $tagName, $description ) );
-	}
+        $this->assertEquals($expectedArray, $api->updateRelease($project_id, $tagName, $description));
+    }
 
     /**
      * @test
@@ -228,52 +230,12 @@ class RepositoriesTest extends ApiTestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/repository/commits', array('page' => 0, 'per_page' => AbstractApi::PER_PAGE, 'ref_name' => null))
+            ->with('projects/1/repository/commits', array())
             ->will($this->returnValue($expectedArray))
         ;
 
         $this->assertEquals($expectedArray, $api->commits(1));
     }
-
-    /**
-     * @test
-     */
-    public function shouldGetCommitBuilds()
-    {
-        $expectedArray = array(
-            array('id' => 'abcd1234', 'status' => 'failed'),
-            array('id' => 'efgh5678', 'status' => 'success')
-        );
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('get')
-            ->with('projects/1/repository/commits/abcd12345/builds', array('page' => 0, 'per_page' => AbstractApi::PER_PAGE, 'scope' => null))
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->commitBuilds(1, 'abcd12345'));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetCommitBuildsWithScope()
-    {
-        $expectedArray = array(
-            array('id' => 'abcd1234', 'status' => 'success'),
-        );
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('get')
-            ->with('projects/1/repository/commits/abcd12345/builds', array('page' => 0, 'per_page' => AbstractApi::PER_PAGE, 'scope' => 'success'))
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->commitBuilds(1, 'abcd12345', 'success'));
-    }
-
 
     /**
      * @test
@@ -292,7 +254,7 @@ class RepositoriesTest extends ApiTestCase
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->commits(1, 2, 25, 'master'));
+        $this->assertEquals($expectedArray, $api->commits(1, ['page' => 2, 'per_page' => 25, 'ref_name' => 'master']));
     }
 
     /**
@@ -310,6 +272,40 @@ class RepositoriesTest extends ApiTestCase
         ;
 
         $this->assertEquals($expectedArray, $api->commit(1, 'abcd1234'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreateCommit()
+    {
+        $expectedArray = array('title' => 'Initial commit.', 'author_name' => 'John Doe', 'author_email' => 'john@example.com');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/repository/commits')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->createCommit(1, [
+            'branch' => 'master',
+            'commit_message' => 'Initial commit.',
+            'actions' => [
+                [
+                    'action' => 'create',
+                    'file_path' => 'README.md',
+                    'content' => '# My new project',
+                ],
+                [
+                    'action' => 'create',
+                    'file_path' => 'LICENSE',
+                    'content' => 'MIT License...',
+                ],
+            ],
+            'author_name' => 'John Doe',
+            'author_email' => 'john@example.com',
+        ]));
     }
 
     /**
@@ -449,236 +445,6 @@ class RepositoriesTest extends ApiTestCase
         ;
 
         $this->assertEquals($expectedArray, $api->tree(1, array('path' => 'dir/', 'ref_name' => 'master')));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetBlob()
-    {
-        $expectedString = 'something in a file';
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('get')
-            ->with('projects/1/repository/commits/abcd1234/blob', array('filepath' => 'dir/file1.txt'))
-            ->will($this->returnValue($expectedString))
-        ;
-
-        $this->assertEquals($expectedString, $api->blob(1, 'abcd1234', 'dir/file1.txt'));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetFile()
-    {
-        $expectedArray = array('file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt');
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('get')
-            ->with('projects/1/repository/files', array('file_path' => 'dir/file1.txt', 'ref' => 'abcd1234'))
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->getFile(1, 'dir/file1.txt', 'abcd1234'));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldCreateFile()
-    {
-        $expectedArray = array('file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt');
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('post')
-            ->with('projects/1/repository/files', array(
-                'file_path' => 'dir/file1.txt',
-                'branch_name' => 'master',
-                'encoding' => null,
-                'content' => 'some contents',
-                'commit_message' => 'Added new file',
-                'author_email' => null,
-                'author_name' => null,
-            ))
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->createFile(1, 'dir/file1.txt', 'some contents', 'master', 'Added new file'));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldCreateFileWithEncoding()
-    {
-        $expectedArray = array('file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt');
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('post')
-            ->with('projects/1/repository/files', array(
-                'file_path' => 'dir/file1.txt',
-                'branch_name' => 'master',
-                'encoding' => 'text',
-                'content' => 'some contents',
-                'commit_message' => 'Added new file',
-                'author_email' => null,
-                'author_name' => null,
-            ))
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->createFile(1, 'dir/file1.txt', 'some contents', 'master', 'Added new file', 'text'));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldCreateFileWithAuthor()
-    {
-        $expectedArray = array('file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt');
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('post')
-            ->with('projects/1/repository/files', array(
-                'file_path' => 'dir/file1.txt',
-                'branch_name' => 'master',
-                'encoding' => null,
-                'content' => 'some contents',
-                'commit_message' => 'Added new file',
-                'author_email' => 'gitlab@example.com',
-                'author_name' => 'GitLab User',
-            ))
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->createFile(1, 'dir/file1.txt', 'some contents', 'master', 'Added new file', null, 'gitlab@example.com', 'GitLab User'));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldUpdateFile()
-    {
-        $expectedArray = array('file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt');
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('put')
-            ->with('projects/1/repository/files', array(
-                'file_path' => 'dir/file1.txt',
-                'branch_name' => 'master',
-                'encoding' => null,
-                'content' => 'some new contents',
-                'commit_message' => 'Updated new file',
-                'author_email' => null,
-                'author_name' => null,
-            ))
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->updateFile(1, 'dir/file1.txt', 'some new contents', 'master', 'Updated new file'));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldUpdateFileWithEncoding()
-    {
-        $expectedArray = array('file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt');
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('put')
-            ->with('projects/1/repository/files', array(
-                'file_path' => 'dir/file1.txt',
-                'branch_name' => 'master',
-                'encoding' => 'base64',
-                'content' => 'some new contents',
-                'commit_message' => 'Updated file',
-                'author_email' => null,
-                'author_name' => null,
-            ))
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->updateFile(1, 'dir/file1.txt', 'some new contents', 'master', 'Updated file', 'base64'));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldUpdateFileWithAuthor()
-    {
-        $expectedArray = array('file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt');
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('put')
-            ->with('projects/1/repository/files', array(
-                'file_path' => 'dir/file1.txt',
-                'branch_name' => 'master',
-                'encoding' => null,
-                'content' => 'some new contents',
-                'commit_message' => 'Updated file',
-                'author_email' => 'gitlab@example.com',
-                'author_name' => 'GitLab User',
-            ))
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->updateFile(1, 'dir/file1.txt', 'some new contents', 'master', 'Updated file', null, 'gitlab@example.com', 'GitLab User'));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldDeleteFile()
-    {
-        $expectedBool = true;
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('delete')
-            ->with('projects/1/repository/files', array(
-                'file_path' => 'dir/file1.txt',
-                'branch_name' => 'master',
-                'commit_message' => 'Deleted file',
-                'author_email' => null,
-                'author_name' => null,
-            ))
-            ->will($this->returnValue($expectedBool))
-        ;
-
-        $this->assertEquals($expectedBool, $api->deleteFile(1, 'dir/file1.txt', 'master', 'Deleted file'));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldDeleteFileWithAuthor()
-    {
-        $expectedBool = true;
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('delete')
-            ->with('projects/1/repository/files', array(
-                'file_path' => 'dir/file1.txt',
-                'branch_name' => 'master',
-                'commit_message' => 'Deleted file',
-                'author_email' => 'gitlab@example.com',
-                'author_name' => 'GitLab User',
-            ))
-            ->will($this->returnValue($expectedBool))
-        ;
-
-        $this->assertEquals($expectedBool, $api->deleteFile(1, 'dir/file1.txt', 'master', 'Deleted file', 'gitlab@example.com', 'GitLab User'));
     }
 
     /**

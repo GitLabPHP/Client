@@ -2,7 +2,7 @@
 
 use Gitlab\Api\AbstractApi;
 
-class UsersTest extends ApiTestCase
+class UsersTest extends TestCase
 {
     /**
      * @test
@@ -17,11 +17,11 @@ class UsersTest extends ApiTestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('users', array('active' => null, 'page' => 1, 'per_page' => 10))
+            ->with('users', array())
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->all(null, 1, 10));
+        $this->assertEquals($expectedArray, $api->all());
     }
 
     /**
@@ -37,88 +37,11 @@ class UsersTest extends ApiTestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('users', array('active' => true, 'page' => 1, 'per_page' => AbstractApi::PER_PAGE))
+            ->with('users', array('active' => true))
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->all(true));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldNotNeedPaginationWhenGettingUsers()
-    {
-        $expectedArray = array(
-            array('id' => 1, 'name' => 'Matt'),
-            array('id' => 2, 'name' => 'John'),
-        );
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('get')
-            ->with('users', array('active' => null, 'page' => 1, 'per_page' => AbstractApi::PER_PAGE))
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->all());
-    }
-
-    /**
-     * @test
-     */
-    public function shouldSearchUsers()
-    {
-        $expectedArray = array(
-            array('id' => 1, 'name' => 'Matt')
-        );
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('get')
-            ->with('users', array('search' => 'ma', 'active' => null, 'page' => 1, 'per_page' => AbstractApi::PER_PAGE))
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->search('ma'));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldSearchActiveUsers()
-    {
-        $expectedArray = array(
-            array('id' => 1, 'name' => 'Matt')
-        );
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('get')
-            ->with('users', array('search' => 'ma', 'active' => true, 'page' => 1, 'per_page' => AbstractApi::PER_PAGE))
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->search('ma', true));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldSearchActiveUsersWithPagination()
-    {
-        $expectedArray = array(
-            array('id' => 1, 'name' => 'Matt')
-        );
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('get')
-            ->with('users', array('search' => 'ma', 'active' => true, 'page' => 2, 'per_page' => 5))
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->search('ma', true, 2, 5));
+        $this->assertEquals($expectedArray, $api->all(['active' => true]));
     }
 
     /**
@@ -215,7 +138,7 @@ class UsersTest extends ApiTestCase
 
         $api = $this->getApiMock();
         $api->expects($this->once())
-            ->method('put')
+            ->method('post')
             ->with('users/1/block')
             ->will($this->returnValue($expectedBool))
         ;
@@ -232,7 +155,7 @@ class UsersTest extends ApiTestCase
 
         $api = $this->getApiMock();
         $api->expects($this->once())
-            ->method('put')
+            ->method('post')
             ->with('users/1/unblock')
             ->will($this->returnValue($expectedBool))
         ;

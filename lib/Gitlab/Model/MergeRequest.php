@@ -90,14 +90,14 @@ class MergeRequest extends AbstractModel implements Noteable
 
     /**
      * @param Project $project
-     * @param int $id
+     * @param int $iid
      * @param Client $client
      */
-    public function __construct(Project $project, $id = null, Client $client = null)
+    public function __construct(Project $project, $iid = null, Client $client = null)
     {
         $this->setClient($client);
         $this->setData('project', $project);
-        $this->setData('id', $id);
+        $this->setData('iid', $iid);
     }
 
     /**
@@ -105,7 +105,7 @@ class MergeRequest extends AbstractModel implements Noteable
      */
     public function show()
     {
-        $data = $this->api('mr')->show($this->project->id, $this->id);
+        $data = $this->client->mergeRequests()->show($this->project->id, $this->iid);
 
         return static::fromArray($this->getClient(), $this->project, $data);
     }
@@ -116,7 +116,7 @@ class MergeRequest extends AbstractModel implements Noteable
      */
     public function update(array $params)
     {
-        $data = $this->api('mr')->update($this->project->id, $this->id, $params);
+        $data = $this->client->mergeRequests()->update($this->project->id, $this->iid, $params);
 
         return static::fromArray($this->getClient(), $this->project, $data);
     }
@@ -160,7 +160,7 @@ class MergeRequest extends AbstractModel implements Noteable
      */
     public function merge($message = null)
     {
-        $data = $this->api('mr')->merge($this->project->id, $this->id, array(
+        $data = $this->client->mergeRequests()->merge($this->project->id, $this->iid, array(
             'merge_commit_message' => $message
         ));
 
@@ -183,7 +183,7 @@ class MergeRequest extends AbstractModel implements Noteable
      */
     public function addComment($comment)
     {
-        $data = $this->api('mr')->addComment($this->project->id, $this->id, $comment);
+        $data = $this->client->mergeRequests()->addComment($this->project->id, $this->iid, $comment);
 
         return Note::fromArray($this->getClient(), $this, $data);
     }
@@ -194,7 +194,7 @@ class MergeRequest extends AbstractModel implements Noteable
     public function showComments()
     {
         $notes = array();
-        $data = $this->api('mr')->showComments($this->project->id, $this->id);
+        $data = $this->client->mergeRequests()->showComments($this->project->id, $this->iid);
 
         foreach ($data as $note) {
             $notes[] = Note::fromArray($this->getClient(), $this, $note);
@@ -220,7 +220,7 @@ class MergeRequest extends AbstractModel implements Noteable
      */
     public function changes()
     {
-        $data = $this->api('mr')->changes($this->project->id, $this->id);
+        $data = $this->client->mergeRequests()->changes($this->project->id, $this->iid);
 
         return static::fromArray($this->getClient(), $this->project, $data);
     }

@@ -1,8 +1,6 @@
 <?php namespace Gitlab\Tests\Api;
 
-use Gitlab\Api\AbstractApi;
-
-class IssuesTest extends ApiTestCase
+class IssuesTest extends TestCase
 {
     /**
      * @test
@@ -17,7 +15,7 @@ class IssuesTest extends ApiTestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('issues', array('page' => 1, 'per_page' => AbstractApi::PER_PAGE))
+            ->with('issues', array())
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -41,7 +39,7 @@ class IssuesTest extends ApiTestCase
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->all(1, 2, 5));
+        $this->assertEquals($expectedArray, $api->all(1, ['page' => 2, 'per_page' => 5]));
     }
 
     /**
@@ -57,11 +55,11 @@ class IssuesTest extends ApiTestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/issues', array('page' => 2, 'per_page' => 5, 'order_by' => 'created_at', 'sort' => 'desc', 'labels' => 'foo,bar', 'state' => 'open'))
+            ->with('projects/1/issues', array('order_by' => 'created_at', 'sort' => 'desc', 'labels' => 'foo,bar', 'state' => 'opened'))
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->all(1, 2, 5, array('order_by' => 'created_at', 'sort' => 'desc', 'labels' => 'foo,bar', 'state' => 'open')));
+        $this->assertEquals($expectedArray, $api->all(1, array('order_by' => 'created_at', 'sort' => 'desc', 'labels' => 'foo,bar', 'state' => 'opened')));
     }
 
     /**
@@ -74,7 +72,7 @@ class IssuesTest extends ApiTestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/issues?iid=2')
+            ->with('projects/1/issues/2')
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -270,6 +268,26 @@ class IssuesTest extends ApiTestCase
         ;
 
         $this->assertEquals($expectedArray, $api->getTimeStats(1, 2));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetIssueAwardEmoji()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'sparkles'),
+            array('id' => 2, 'name' => 'heart_eyes'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/issues/2/award_emoji')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->awardEmoji(1, 2));
     }
 
     protected function getApiClass()
