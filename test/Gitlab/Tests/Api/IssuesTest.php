@@ -290,6 +290,26 @@ class IssuesTest extends TestCase
         $this->assertEquals($expectedArray, $api->awardEmoji(1, 2));
     }
 
+    /**
+     * @test
+     */
+    public function shouldGetIssueClosedByMergeRequests()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'iid' => '1111', 'title' => 'Just saving the world'),
+            array('id' => 2, 'iid' => '1112', 'title' => 'Adding new feature to get merge requests that close an issue'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/issues/2/closed_by')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->closedByMergeRequests(1, 2));
+    }
+
     protected function getApiClass()
     {
         return 'Gitlab\Api\Issues';
