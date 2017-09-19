@@ -564,13 +564,17 @@ class Projects extends AbstractApi
      * @param int $project_id
      * @param string $key
      * @param string $value
+     * @param bool $protected
+     * @param string $environment_scope
      * @return mixed
      */
-    public function addVariable($project_id, $key, $value)
+    public function addVariable($project_id, $key, $value, $protected = false, $environment_scope ="*")
     {
         return $this->post($this->getProjectPath($project_id, 'variables'), array(
             'key'   => $key,
-            'value' => $value
+            'value' => $value,
+            'protected' => $protected,
+            'environment_scope' => $environment_scope,
         ));
     }
 
@@ -578,12 +582,16 @@ class Projects extends AbstractApi
      * @param int $project_id
      * @param string $key
      * @param string $value
+     * @param bool $protected
+     * @param string $environment_scope
      * @return mixed
      */
-    public function updateVariable($project_id, $key, $value)
+    public function updateVariable($project_id, $key, $value, $protected = false, $environment_scope ="*")
     {
         return $this->put($this->getProjectPath($project_id, 'variables/'.$this->encodePath($key)), array(
             'value' => $value,
+            'protected' => $protected,
+            'environment_scope' => $environment_scope,
         ));
     }
 
