@@ -564,27 +564,51 @@ class Projects extends AbstractApi
      * @param int $project_id
      * @param string $key
      * @param string $value
+     * @param bool $protected
+     * @param string $environment_scope
      * @return mixed
      */
-    public function addVariable($project_id, $key, $value)
+    public function addVariable($project_id, $key, $value, $protected = null, $environment_scope = null)
     {
-        return $this->post($this->getProjectPath($project_id, 'variables'), array(
+        $payload = array(
             'key'   => $key,
-            'value' => $value
-        ));
+            'value' => $value,
+        );
+
+        if ($protected) {
+            $payload['protected'] = $protected;
+        }
+
+        if ($environment_scope) {
+            $payload['environment_scope'] = $environment_scope;
+        }
+
+        return $this->post($this->getProjectPath($project_id, 'variables'), $payload);
     }
 
     /**
      * @param int $project_id
      * @param string $key
      * @param string $value
+     * @param bool $protected
+     * @param string $environment_scope
      * @return mixed
      */
-    public function updateVariable($project_id, $key, $value)
+    public function updateVariable($project_id, $key, $value, $protected = null, $environment_scope = null)
     {
-        return $this->put($this->getProjectPath($project_id, 'variables/'.$this->encodePath($key)), array(
+        $payload = array(
             'value' => $value,
-        ));
+        );
+
+        if ($protected) {
+            $payload['protected'] = $protected;
+        }
+
+        if ($environment_scope) {
+            $payload['environment_scope'] = $environment_scope;
+        }
+
+        return $this->put($this->getProjectPath($project_id, 'variables/'.$this->encodePath($key)), $payload);
     }
 
     /**

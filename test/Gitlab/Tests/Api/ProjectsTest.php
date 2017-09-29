@@ -868,6 +868,70 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldAddVariableWithProtected()
+    {
+        $expectedArray = array(
+            'key'   => 'DEPLOY_SERVER',
+            'value' => 'stage.example.com',
+            'protected' => true,
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/variables', $expectedArray)
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->addVariable(1, 'DEPLOY_SERVER', 'stage.example.com', true));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAddVariableWithEnvironment()
+    {
+        $expectedArray = array(
+            'key'   => 'DEPLOY_SERVER',
+            'value' => 'stage.example.com',
+            'environment_scope' => 'staging',
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/variables', $expectedArray)
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->addVariable(1, 'DEPLOY_SERVER', 'stage.example.com', null, 'staging'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAddVariableWithProtectionAndEnvironment()
+    {
+        $expectedArray = array(
+            'key'   => 'DEPLOY_SERVER',
+            'value' => 'stage.example.com',
+            'protected' => true,
+            'environment_scope' => 'staging',
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/variables', $expectedArray)
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->addVariable(1, 'DEPLOY_SERVER', 'stage.example.com', true, 'staging'));
+    }
+
+    /**
+     * @test
+     */
     public function shouldUpdateVariable()
     {
         $expectedKey   = 'ftp_port';
@@ -886,6 +950,70 @@ class ProjectsTest extends TestCase
         ;
 
         $this->assertEquals($expectedArray, $api->updateVariable(1, $expectedKey, $expectedValue));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUpdateVariableWithProtected()
+    {
+        $expectedArray = array(
+            'key'   => 'DEPLOY_SERVER',
+            'value' => 'stage.example.com',
+            'protected' => true,
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/variables/DEPLOY_SERVER', array('value' => 'stage.example.com', 'protected' => true))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->updateVariable(1, 'DEPLOY_SERVER', 'stage.example.com', true));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUpdateVariableWithEnvironment()
+    {
+        $expectedArray = array(
+            'key'   => 'DEPLOY_SERVER',
+            'value' => 'stage.example.com',
+            'environment_scope' => 'staging',
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/variables/DEPLOY_SERVER', array('value' => 'stage.example.com', 'environment_scope' => 'staging'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->updateVariable(1, 'DEPLOY_SERVER', 'stage.example.com', null, 'staging'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUpdateVariableWithProtectedAndEnvironment()
+    {
+        $expectedArray = array(
+            'key'   => 'DEPLOY_SERVER',
+            'value' => 'stage.example.com',
+            'protected' => true,
+            'environment_scope' => 'staging',
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/variables/DEPLOY_SERVER', array('value' => 'stage.example.com', 'protected' => true, 'environment_scope' => 'staging'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->updateVariable(1, 'DEPLOY_SERVER', 'stage.example.com', true, 'staging'));
     }
 
     /**
