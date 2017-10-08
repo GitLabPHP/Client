@@ -577,16 +577,33 @@ class ProjectsTest extends TestCase
      */
     public function shouldAddKey()
     {
-        $expectedArray = array('id' => 3, 'title' => 'new-key');
+        $expectedArray = array('id' => 3, 'title' => 'new-key', 'can_push' => false);
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/deploy_keys', array('title' => 'new-key', 'key' => '...'))
+            ->with('projects/1/deploy_keys', array('title' => 'new-key', 'key' => '...', 'can_push' => false))
             ->will($this->returnValue($expectedArray))
         ;
 
         $this->assertEquals($expectedArray, $api->addDeployKey(1, 'new-key', '...'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAddKeyWithPushOption()
+    {
+        $expectedArray = array('id' => 3, 'title' => 'new-key', 'can_push' => true);
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/deploy_keys', array('title' => 'new-key', 'key' => '...', 'can_push' => true))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->addDeployKey(1, 'new-key', '...', true));
     }
 
     /**

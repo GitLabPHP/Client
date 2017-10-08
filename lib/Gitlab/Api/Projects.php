@@ -381,13 +381,15 @@ class Projects extends AbstractApi
      * @param int $project_id
      * @param string $title
      * @param string $key
+     * @param bool $canPush
      * @return mixed
      */
-    public function addDeployKey($project_id, $title, $key)
+    public function addDeployKey($project_id, $title, $key, $canPush = false)
     {
         return $this->post($this->getProjectPath($project_id, 'deploy_keys'), array(
             'title' => $title,
-            'key' => $key
+            'key' => $key,
+            'can_push' => $canPush
         ));
     }
 

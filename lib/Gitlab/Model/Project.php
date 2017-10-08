@@ -330,11 +330,12 @@ class Project extends AbstractModel
     /**
      * @param string $title
      * @param string $key
+     * @param bool $canPush
      * @return Key
      */
-    public function addDeployKey($title, $key)
+    public function addDeployKey($title, $key, $canPush = false)
     {
-        $data = $this->client->projects()->addDeployKey($this->id, $title, $key);
+        $data = $this->client->projects()->addDeployKey($this->id, $title, $key, $canPush);
 
         return Key::fromArray($this->getClient(), $data);
     }
