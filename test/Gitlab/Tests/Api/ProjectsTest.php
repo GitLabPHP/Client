@@ -261,7 +261,7 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/pipelines', array('ref' => 'test-pipeline'))
+            ->with('projects/1/pipeline', array('ref' => 'test-pipeline'))
             ->will($this->returnValue($expectedArray))
         ;
 
