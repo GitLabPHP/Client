@@ -15,11 +15,15 @@ Installation
 Via [composer](https://getcomposer.org)
 
 ```bash
-composer require m4tthumphrey/php-gitlab-api php-http/guzzle6-adapter
+composer require m4tthumphrey/php-gitlab-api
 ```
+This project uses [HTTPlug](http://httplug.io) as HTTP messaging middleware, so any compatible client library can be used.
+Composer will throw an error if no compatible adapter is installed in your project. In this case installing
+`php-http/guzzle6-adapter` is recommended:
 
-Why `php-http/guzzle6-adapter`? We are decoupled from any HTTP messaging client with help by [HTTPlug](http://httplug.io).
-
+```bash
+composer require php-http/guzzle6-adapter
+```
 You can visit [HTTPlug for library users](http://docs.php-http.org/en/latest/httplug/users.html) to get more information about installing HTTPlug related packages.
 
 Versioning
