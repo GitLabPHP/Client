@@ -48,7 +48,7 @@ $project = $client->api('projects')->create('My Project', array(
 
 ```
 
-Exemple with Pager
+Example with Pager
 ------------------
 
 to fetch all your closed issue with pagination ( on the gitlab api )
