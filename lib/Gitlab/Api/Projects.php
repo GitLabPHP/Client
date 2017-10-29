@@ -496,6 +496,7 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
+     * @param array $params
      * @return mixed
      */
     public function fork($project_id, array $params)
