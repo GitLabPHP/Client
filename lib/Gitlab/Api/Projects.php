@@ -496,7 +496,10 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param array $params
+     * @param array $params (
+     * 
+     *     @var string $namespace      The ID or path of the namespace that the project will be forked to
+     * )
      * @return mixed
      */
     public function fork($project_id, array $params = array())
