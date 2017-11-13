@@ -87,7 +87,7 @@ class Projects extends AbstractApi
      * @param string $sort Return requests sorted in asc or desc order
      * @return mixed
      */
-    public function search($query,$order_by='id',$sort='desc')
+    public function search($query, $order_by='id', $sort='desc')
     {
         return $this->get('projects', ['search'=>$query, 'order_by'=>$order_by, 'sort'=>$sort]);
     }
@@ -98,7 +98,7 @@ class Projects extends AbstractApi
      * @param string $sort Return requests sorted in asc or desc order
      * @return mixed
      */
-    public function searchV3($query,$order_by='id',$sort='desc')
+    public function searchV3($query, $order_by='id', $sort='desc')
     {
         return $this->get('projects/search/'.$query, ['order_by'=>$order_by, 'sort'=>$sort]);
     }
