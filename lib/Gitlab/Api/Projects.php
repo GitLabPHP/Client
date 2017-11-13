@@ -82,6 +82,28 @@ class Projects extends AbstractApi
     }
 
     /**
+     * @param string $query A string contained in the project name
+     * @param string $order_by Return requests ordered by id, name, created_at or last_activity_at fields
+     * @param string $sort Return requests sorted in asc or desc order
+     * @return mixed
+     */
+    public function search($query, $order_by='id', $sort='desc')
+    {
+        return $this->get('projects', ['search'=>$query, 'order_by'=>$order_by, 'sort'=>$sort]);
+    }
+
+    /** for apiV3
+     * @param string $query A string contained in the project name
+     * @param string $order_by Return requests ordered by id, name, created_at or last_activity_at fields
+     * @param string $sort Return requests sorted in asc or desc order
+     * @return mixed
+     */
+    public function searchV3($query, $order_by='id', $sort='desc')
+    {
+        return $this->get('projects/search/'.$query, ['order_by'=>$order_by, 'sort'=>$sort]);
+    }
+    
+    /**
      * @param int $project_id
      * @return mixed
      */
