@@ -502,14 +502,10 @@ class Projects extends AbstractApi
      * )
      * @return mixed
      */
-    public function fork($project_id, array $params = array())
+    public function fork($project_id, array $parameters = array())
     {
         $resolver = $this->createOptionsResolver();
-        $resolver->setDefined('namespace');
-
-        $resolved = $resolver->resolve($params);
-
-        return $this->post($this->getProjectPath($project_id, 'fork'), $resolved);
+        return $this->post($this->getProjectPath($project_id, 'fork'), $resolver->resolve($parameters));
     }
 
     /**
