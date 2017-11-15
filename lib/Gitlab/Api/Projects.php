@@ -2,6 +2,7 @@
 
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Projects extends AbstractApi
 {
@@ -496,11 +497,20 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
+     * @param array $params (
+     *
+     *     @var string $namespace      The ID or path of the namespace that the project will be forked to
+     * )
      * @return mixed
      */
-    public function fork($project_id)
+    public function fork($project_id, array $parameters = [])
     {
-        return $this->post('projects/'.$this->encodePath($project_id).'/fork');
+        $resolver = new OptionsResolver();
+        $resolver->setDefined('namespace');
+
+        $resolved = $resolver->resolve($parameters);
+
+        return $this->post($this->getProjectPath($project_id, 'fork'), $resolved);
     }
 
     /**
