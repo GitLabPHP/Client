@@ -2,6 +2,7 @@
 
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Projects extends AbstractApi
 {
@@ -504,9 +505,12 @@ class Projects extends AbstractApi
      */
     public function fork($project_id, array $parameters = [])
     {
-        $resolver = $this->createOptionsResolver();
-        
-        return $this->post($this->getProjectPath($project_id, 'fork'), $resolver->resolve($parameters));
+        $resolver = new OptionsResolver();
+        $resolver->setDefined('namespace');
+
+        $resolved = $resolver->resolve($parameters);
+
+        return $this->post($this->getProjectPath($project_id, 'fork'), $resolved);
     }
 
     /**
