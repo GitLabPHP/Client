@@ -505,6 +505,7 @@ class Projects extends AbstractApi
     public function fork($project_id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
+        
         return $this->post($this->getProjectPath($project_id, 'fork'), $resolver->resolve($parameters));
     }
 
