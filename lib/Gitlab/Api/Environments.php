@@ -1,5 +1,7 @@
 <?php namespace Gitlab\Api;
 
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
 class Environments extends AbstractApi
 {
     /**
@@ -13,12 +15,20 @@ class Environments extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param array $params
+     * @param array $parameters
      * @return mixed
      */
-    public function create($project_id, array $params = array())
+    public function create($project_id, array $parameters = array())
     {
-        return $this->post($this->getProjectPath($project_id, 'environment'), $params);
+	    $resolver = new OptionsResolver();
+	    $resolver->setDefined('name')
+	        ->setAllowedTypes('name', 'string');
+	    $resolver->setDefined('slug')
+	        ->setAllowedTypes('slug', 'string');
+	    $resolver->setDefined('external_url')
+		    ->setAllowedTypes('external_url', 'string');
+
+	    return $this->post($this->getProjectPath($project_id, 'environment'), $resolver->resolve($parameters));
     }
 
     /**
