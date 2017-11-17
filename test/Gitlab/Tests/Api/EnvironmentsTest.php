@@ -33,28 +33,6 @@ class EnvironmentsTest extends TestCase
     /**
      * @test
      */
-    public function shouldShowEnvironment()
-    {
-        $expectedArray = array(
-	        array(
-		        'id' => 2,
-		        'name' => 'review/fix-bar',
-		        'slug' => 'review-fix-bar-dfjre4',
-		        'external_url' => 'https://review-fix-bar-dfjre4.example.gitlab.com'
-	        ),
-        );
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('get')
-            ->with('projects/1/environments/1')
-            ->will($this->returnValue($expectedArray));
-        $this->assertEquals($expectedArray, $api->show(1, 'v1.0.0'));
-    }
-
-    /**
-     * @test
-     */
     public function shouldCreateEnvironment()
     {
         $expectedArray = array(
@@ -91,7 +69,7 @@ class EnvironmentsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('delete')
-            ->with('projects/1/repository/environments/3')
+            ->with('projects/1/environments/3')
             ->will($this->returnValue($expectedBool));
         $this->assertEquals($expectedBool, $api->remove(1, 3));
     }

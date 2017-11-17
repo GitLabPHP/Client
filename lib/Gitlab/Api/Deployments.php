@@ -1,6 +1,6 @@
 <?php namespace Gitlab\Api;
 
-class Environments extends AbstractApi
+class Deployments extends AbstractApi
 {
     /**
      * @param int $project_id

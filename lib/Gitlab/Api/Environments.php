@@ -18,7 +18,7 @@ class Environments extends AbstractApi
      */
     public function create($project_id, array $params = array())
     {
-        return $this->post($this->getProjectPath($project_id, "environment"), $params);
+        return $this->post($this->getProjectPath($project_id, 'environment'), $params);
     }
 
     /**
