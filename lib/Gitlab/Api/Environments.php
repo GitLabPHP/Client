@@ -20,15 +20,15 @@ class Environments extends AbstractApi
      */
     public function create($project_id, array $parameters = array())
     {
-	    $resolver = new OptionsResolver();
-	    $resolver->setDefined('name')
-	        ->setAllowedTypes('name', 'string');
-	    $resolver->setDefined('slug')
-	        ->setAllowedTypes('slug', 'string');
-	    $resolver->setDefined('external_url')
-		    ->setAllowedTypes('external_url', 'string');
+        $resolver = new OptionsResolver();
+        $resolver->setDefined('name')
+            ->setAllowedTypes('name', 'string');
+        $resolver->setDefined('slug')
+            ->setAllowedTypes('slug', 'string');
+        $resolver->setDefined('external_url')
+            ->setAllowedTypes('external_url', 'string');
 
-	    return $this->post($this->getProjectPath($project_id, 'environment'), $resolver->resolve($parameters));
+        return $this->post($this->getProjectPath($project_id, 'environment'), $resolver->resolve($parameters));
     }
 
     /**
