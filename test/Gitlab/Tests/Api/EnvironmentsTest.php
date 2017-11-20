@@ -46,7 +46,6 @@ class EnvironmentsTest extends TestCase
 
         $params = array(
             'name' => 'review/fix-baz',
-            'slug' => 'review-fix-baz-dfjre5',
             'external_url' => 'https://review-fix-baz-dfjre5.example.gitlab.com'
         );
 
