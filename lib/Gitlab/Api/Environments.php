@@ -28,7 +28,7 @@ class Environments extends AbstractApi
     {
         $resolver = new OptionsResolver();
         $resolver->setDefined('name')
-	        ->setRequired('name')
+            ->setRequired('name')
             ->setAllowedTypes('name', 'string');
         $resolver->setDefined('external_url')
             ->setAllowedTypes('external_url', 'string');
