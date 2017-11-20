@@ -6,25 +6,30 @@ class Environments extends AbstractApi
 {
     /**
      * @param int $project_id
+     * @param array $parameters
      * @return mixed
      */
-    public function all($project_id)
+    public function all($project_id, array $parameters = [])
     {
-        return $this->get($this->getProjectPath($project_id, 'environments'));
+        $resolver = $this->createOptionsResolver();
+        return $this->get($this->getProjectPath($project_id, 'environments'), $resolver->resolve($parameters));
     }
 
     /**
      * @param int $project_id
-     * @param array $parameters
+     * @param array $parameters (
+     *
+     *     @var string $name         The name of the environment
+     *     @var string $external_url Place to link to for this environment
+     * )
      * @return mixed
      */
     public function create($project_id, array $parameters = array())
     {
         $resolver = new OptionsResolver();
         $resolver->setDefined('name')
+	        ->setRequired('name')
             ->setAllowedTypes('name', 'string');
-        $resolver->setDefined('slug')
-            ->setAllowedTypes('slug', 'string');
         $resolver->setDefined('external_url')
             ->setAllowedTypes('external_url', 'string');
 
