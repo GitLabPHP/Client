@@ -68,11 +68,11 @@ class RepositoriesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('delete')
-            ->with('projects/1/repository/branches/master')
+            ->with('projects/1/repository/branches/feature%2FTEST-15')
             ->will($this->returnValue($expectedBool))
         ;
 
-        $this->assertEquals($expectedBool, $api->deleteBranch(1, 'master'));
+        $this->assertEquals($expectedBool, $api->deleteBranch(1, 'feature/TEST-15'));
     }
 
     /**
