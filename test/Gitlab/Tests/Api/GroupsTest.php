@@ -274,6 +274,26 @@ class GroupsTest extends TestCase
         $this->assertEquals($expectedBool, $api->remove(1));
     }
 
+    /**
+     * @test
+     */
+    public function shouldGetAllSubgroups()
+    {
+        $expectedArray = array(
+            array('id' => 101, 'name' => 'A subgroup'),
+            array('id' => 1-2, 'name' => 'Another subggroup'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/subgroups', array('page' => 1, 'per_page' => 10))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->subgroups(1, ['page' => 1, 'per_page' => 10]));
+    }
+
     protected function getApiClass()
     {
         return 'Gitlab\Api\Groups';
