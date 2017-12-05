@@ -37,6 +37,7 @@ use Http\Discovery\UriFactoryDiscovery;
  * @property-read \Gitlab\Api\Users $users
  * @property-read \Gitlab\Api\Keys $keys
  * @property-read \Gitlab\Api\Tags $tags
+ * @property-read \Gitlab\Api\Version $version
  */
 class Client
 {
@@ -246,6 +247,14 @@ class Client
     }
 
     /**
+     * @return Api\Version
+     */
+    public function version()
+    {
+        return new Api\Version($this);
+    }
+
+    /**
      * @param string $name
      *
      * @return AbstractApi|mixed
@@ -304,6 +313,9 @@ class Client
 
             case 'tags':
                 return $this->tags();
+
+            case 'version':
+                return $this->version();
 
             default:
                 throw new InvalidArgumentException('Invalid endpoint: "'.$name.'"');
