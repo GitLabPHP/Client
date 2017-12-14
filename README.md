@@ -103,6 +103,11 @@ Framework Integrations
 
 If you have integrated GitLab into a popular PHP framework, let us know!
 
+OAuth2 authentication
+---------------------
+If you want to access the API on behalf of a specific user, use https://github.com/omines/oauth2-gitlab to get an access
+token via OAuth2. 
+
 Contributing
 ------------
 
