@@ -242,12 +242,16 @@ class Projects extends AbstractApi
     /**
      * @param int $project_id
      * @param string $username_query
+     * @param int $page
+     * @param int $per_page
      * @return mixed
      */
-    public function members($project_id, $username_query = null)
+    public function members($project_id, $username_query = null, $page = 1, $per_page = self::PER_PAGE)
     {
         return $this->get($this->getProjectPath($project_id, 'members'), array(
-            'query' => $username_query
+            'query' => $username_query,
+            'page' => $page,
+            'per_page' => $per_page
         ));
     }
 
