@@ -241,18 +241,38 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param string $username_query
-     * @param int $page
-     * @param int $per_page
+     * @param array $parameters (
+     *
+     *     @var string $query           The query you want to search members for.
+     *     @var string $page            The page you want to take members from. (default: 1)
+     *     @var string $per_page        The count of members per page. (default: 20)
+     * )
+     *
+     * @throws MissingOptionsException  If a required option is not provided
+     *
      * @return mixed
      */
-    public function members($project_id, $username_query = null, $page = 1, $per_page = self::PER_PAGE)
+    public function members($project_id, $parameters = null)
     {
-        return $this->get($this->getProjectPath($project_id, 'members'), array(
-            'query' => $username_query,
-            'page' => $page,
-            'per_page' => $per_page
-        ));
+        if (is_array($parameters) || $parameters == null) {
+            $resolver = $this->createOptionsResolver();
+
+            $resolver->setDefaults(array(
+                'page' => 1,
+                'per_page' => 20,
+            ));
+
+            $resolver->setRequired('query');
+            $resolver->setDefined('page');
+            $resolver->setDefined('per_page');
+
+            return $this->get($this->getProjectPath($project_id, 'members'), $resolver->resolve($parameters));
+        } else if (is_string($parameters)) {
+            trigger_error("Deprecated: String parameter of the members() function is deprecated.", E_USER_NOTICE);
+            return $this->get($this->getProjectPath($project_id, 'members'), array(
+                'query' => $parameters
+            ));
+        }
     }
 
     /**
