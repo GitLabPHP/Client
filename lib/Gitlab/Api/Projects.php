@@ -252,9 +252,9 @@ class Projects extends AbstractApi
      *
      * @return mixed
      */
-    public function members($project_id, $parameters = null)
+    public function members($project_id, $parameters = [])
     {
-        if (is_array($parameters) || $parameters == null) {
+        if (is_array($parameters)) {
             $resolver = $this->createOptionsResolver();
 
             $resolver->setDefaults(array(
