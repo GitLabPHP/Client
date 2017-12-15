@@ -252,9 +252,9 @@ class Projects extends AbstractApi
      *
      * @return mixed
      */
-    public function members($project_id, $parameters = [])
+    public function members($project_id, $parameters = null)
     {
-        if (is_array($parameters)) {
+        if (is_array($parameters) || is_null($parameters)) {
             $resolver = $this->createOptionsResolver();
 
             $resolver->setDefaults(array(
@@ -262,10 +262,10 @@ class Projects extends AbstractApi
                 'per_page' => 20,
             ));
 
-            $resolver->setRequired('query');
+            $resolver->setDefined('query');
             $resolver->setDefined('page');
             $resolver->setDefined('per_page');
-
+            
             return $this->get($this->getProjectPath($project_id, 'members'), $resolver->resolve($parameters));
         } elseif (is_string($parameters)) {
             trigger_error("Deprecated: String parameter of the members() function is deprecated.", E_USER_NOTICE);
