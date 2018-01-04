@@ -246,7 +246,7 @@ class Projects extends AbstractApi
      */
     public function members($project_id, $username_query = null)
     {
-        $params = !empty($username_query)?$username_query:[];
+        $params = !empty($username_query)?['query'=>$username_query]:[];
         return $this->get($this->getProjectPath($project_id, 'members'), $params);
     }
 
