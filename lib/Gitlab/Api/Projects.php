@@ -675,12 +675,21 @@ class Projects extends AbstractApi
     {
         $resolver = $this->createOptionsResolver();
 
-        $resolver->setDefined('group_id')
-            ->setAllowedTypes('group_id', 'int');
+        $datetimeNormalizer = function (OptionsResolver $optionsResolver, \DateTimeInterface $value) {
+            return $value->format('Y-m-d');
+        };
 
-        $resolver->setDefined('group_access')
-            ->setAllowedTypes('group_access', 'int')
+        $resolver->setRequired('group_id')
+            ->setAllowedTypes('group_id','int');
+
+        $resolver->setRequired('group_access')
+            ->setAllowedTypes('group_access','int')
             ->setAllowedValues('group_access', [0,10,20,30,40,50]);
+
+        $resolver->setDefined('expires_at')
+            ->setAllowedTypes('expires_at', \DateTimeInterface::class)
+            ->setNormalizer('expires_at', $datetimeNormalizer)
+        ;
 
         return $this->post($this->getProjectPath($project_id, 'share'), $resolver->resolve($parameters));
     }
