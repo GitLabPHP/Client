@@ -57,7 +57,7 @@ to fetch all your closed issue with pagination ( on the gitlab api )
 $client = \Gitlab\Client::create('http://git.yourdomain.com')
     ->authenticate('your_gitlab_token_here', \Gitlab\Client::AUTH_URL_TOKEN)
 ;
-$pager = new ResultPager($client);
+$pager = new \Gitlab\ResultPager($client);
 $issues = $pager->fetchall($client->api('issues'),'all',[null, ['state' => 'closed']]);
 
 ```
