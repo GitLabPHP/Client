@@ -25,6 +25,23 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetAllWithNoProject()
+    {
+        $expectedArray = $this->getMultipleMergeRequestsData();
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('merge_requests', array())
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->all());
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetAllWithParams()
     {
         $expectedArray = $this->getMultipleMergeRequestsData();
@@ -32,11 +49,11 @@ class MergeRequestsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/merge_requests', ['page' => 2, 'per_page' => 5, 'order_by' => 'updated_at', 'sort' => 'desc'])
+            ->with('projects/1/merge_requests', ['page' => 2, 'per_page' => 5, 'order_by' => 'updated_at', 'sort' => 'desc', 'scope' => 'all'])
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->all(1, ['page' => 2, 'per_page' => 5, 'order_by' => 'updated_at', 'sort' => 'desc']));
+        $this->assertEquals($expectedArray, $api->all(1, ['page' => 2, 'per_page' => 5, 'order_by' => 'updated_at', 'sort' => 'desc', 'scope' => 'all']));
     }
 
     /**
