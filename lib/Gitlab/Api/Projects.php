@@ -676,10 +676,10 @@ class Projects extends AbstractApi
         $resolver = $this->createOptionsResolver();
 
         $resolver->setDefined('group_id')
-            ->setAllowedTypes('group_id','int');
+            ->setAllowedTypes('group_id', 'int');
 
         $resolver->setDefined('group_access')
-            ->setAllowedTypes('group_access','int')
+            ->setAllowedTypes('group_access', 'int')
             ->setAllowedValues('group_access', [0,10,20,30,40,50]);
 
         return $this->post($this->getProjectPath($project_id, 'share'), $resolver->resolve($parameters));
