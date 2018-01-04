@@ -717,4 +717,24 @@ class Projects extends AbstractApi
     {
         return $this->get($this->getProjectPath($project_id, 'deployments/'.$this->encodePath($deployment_id)));
     }
+    
+    /**
+     * @param mixed $project_id
+     * @param array $params
+     * @return mixed
+     */
+    public function addShare($project_id, array $params = array())
+    {
+        return $this->post($this->getProjectPath($project_id, 'share'), $params);
+    }
+
+    /**
+     * @param mixed $project_id
+     * @param int $group_id
+     * @return mixed
+     */
+    public function removeShare($project_id, $group_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'services/'.$group_id));
+    }
 }
