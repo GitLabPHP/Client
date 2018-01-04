@@ -24,6 +24,23 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetAllWithNoProject()
+    {
+        $expectedArray = $this->getMultipleMergeRequestsData();
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('merge_requests', array())
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->all());
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetAllWithParams()
     {
         $expectedArray = $this->getMultipleMergeRequestsData();
@@ -108,7 +125,7 @@ class MergeRequestsTest extends TestCase
 
         $this->assertEquals($expectedArray, $api->show(1, 2));
     }
-    
+
     /**
      * @test
      */
@@ -120,7 +137,7 @@ class MergeRequestsTest extends TestCase
             'diverged_commits_count' => 0,
             'rebase_in_progress' => false
         );
-        
+
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
