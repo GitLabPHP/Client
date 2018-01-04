@@ -652,13 +652,6 @@ class Projects extends AbstractApi
     {
         $resolver = $this->createOptionsResolver();
 
-        $resolver->setDefined('group_id')
-            ->setAllowedTypes('group_id','int');
-
-        $resolver->setDefined('group_access')
-            ->setAllowedTypes('group_access','int')
-            ->setAllowedValues('group_access', [0,10,20,30,40,50]);
-
         return $this->get($this->getProjectPath($project_id, 'deployments'), $resolver->resolve($parameters));
     }
 
