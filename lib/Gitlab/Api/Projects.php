@@ -732,10 +732,10 @@ class Projects extends AbstractApi
         };
 
         $resolver->setRequired('group_id')
-            ->setAllowedTypes('group_id','int');
+            ->setAllowedTypes('group_id', 'int');
 
         $resolver->setRequired('group_access')
-            ->setAllowedTypes('group_access','int')
+            ->setAllowedTypes('group_access', 'int')
             ->setAllowedValues('group_access', [0,10,20,30,40,50]);
 
         $resolver->setDefined('expires_at')
