@@ -263,6 +263,22 @@ class Client
     }
 
     /**
+     * @return Api\Deployments
+     */
+    public function deployments()
+    {
+        return new Api\Deployments($this);
+    }
+
+    /**
+     * @return Api\Environments
+     */
+    public function environments()
+    {
+        return new Api\Environments($this);
+    }
+
+    /**
      * @param string $name
      *
      * @return AbstractApi|mixed
@@ -330,6 +346,12 @@ class Client
 
             case 'version':
                 return $this->version();
+
+            case 'environments':
+                return $this->environments();
+
+            case 'deployments':
+                return $this->deployments();
 
             default:
                 throw new InvalidArgumentException('Invalid endpoint: "'.$name.'"');
