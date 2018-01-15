@@ -67,7 +67,8 @@ class MergeRequests extends AbstractApi
             ->setAllowedTypes('created_before', \DateTimeInterface::class)
             ->setNormalizer('created_before', $datetimeNormalizer)
         ;
-
+        $resolver->setDefined('search');
+        
         return $this->get($this->getProjectPath($project_id, 'merge_requests'), $resolver->resolve($parameters));
     }
 
