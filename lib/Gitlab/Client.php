@@ -127,14 +127,6 @@ class Client
     }
 
     /**
-     * @return Api\Environments
-     */
-    public function environments()
-    {
-        return new Api\Environments($this);
-    }
-    
-    /**
      * @return Api\Groups
      */
     public function groups()
@@ -291,9 +283,6 @@ class Client
             case 'deploy_keys':
                 return $this->deployKeys();
 
-            case 'environments':
-                return $this->environments();
-                
             case 'groups':
                 return $this->groups();
 
