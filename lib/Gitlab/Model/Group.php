@@ -132,8 +132,13 @@ class Group extends AbstractModel
     public function projects()
     {
         $data = $this->client->groups()->projects($this->id);
-
-        return Project::fromArray($this->getClient(), $data);
+        
+        $projects = array();
+        foreach ($data as $project) {
+            $projects[] = Project::fromArray($this->getClient(), $project);
+        }
+        
+        return $projects;
     }
 
     /**
