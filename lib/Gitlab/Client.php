@@ -19,6 +19,7 @@ use Http\Discovery\UriFactoryDiscovery;
  *
  * @author Matt Humphrey <matt@m4tt.co>
  *
+ * @property-read \Gitlab\Api\Epics $epics
  * @property-read \Gitlab\Api\Groups $groups
  * @property-read \Gitlab\Api\Issues $issues
  * @property-read \Gitlab\Api\Jobs $jobs
@@ -125,6 +126,14 @@ class Client
     {
         return new Api\DeployKeys($this);
     }
+    
+    /**
+     * @return Api\Epics
+     */
+    public function epics()
+    {
+        return new Api\Epics($this);
+    }    
 
     /**
      * @return Api\Groups
