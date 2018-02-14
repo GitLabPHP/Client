@@ -26,7 +26,7 @@ class Snippets extends AbstractApi
      * @param string $title
      * @param string $filename
      * @param string $code
-     * @param $visibility
+     * @param string $visibility
      * @return mixed
      */
     public function create($project_id, $title, $filename, $code, $visibility)

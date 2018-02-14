@@ -937,7 +937,7 @@ class Project extends AbstractModel
      * @param string $title
      * @param string $filename
      * @param string $code
-     * @param $visibility
+     * @param string $visibility
      * @return Snippet
      */
     public function createSnippet($title, $filename, $code, $visibility)
