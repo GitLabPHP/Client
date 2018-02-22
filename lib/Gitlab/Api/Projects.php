@@ -1,5 +1,6 @@
 <?php namespace Gitlab\Api;
 
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -33,7 +34,7 @@ class Projects extends AbstractApi
     public function all(array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
-        $booleanNormalizer = function ($value) {
+        $booleanNormalizer = function (Options $resolver, $value) {
             return $value ? 'true' : 'false';
         };
         $resolver->setDefined('archived')
@@ -171,7 +172,7 @@ class Projects extends AbstractApi
     public function pipelines($project_id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
-        $booleanNormalizer = function ($value) {
+        $booleanNormalizer = function (Options $resolver, $value) {
             return $value ? 'true' : 'false';
         };
 
@@ -430,7 +431,7 @@ class Projects extends AbstractApi
     public function events($project_id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
-        $datetimeNormalizer = function (\DateTimeInterface $value) {
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value) {
             return $value->format('Y-m-d');
         };
 
