@@ -1,5 +1,6 @@
 <?php namespace Gitlab\Api;
 
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Repositories extends AbstractApi
@@ -148,7 +149,7 @@ class Repositories extends AbstractApi
     public function commits($project_id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
-        $datetimeNormalizer = function (\DateTimeInterface $value) {
+        $datetimeNormalizer = function (Options $options, \DateTimeInterface $value) {
             return $value->format('c');
         };
 
@@ -212,7 +213,7 @@ class Repositories extends AbstractApi
             ->setAllowedValues('actions', function (array $actions) {
                 return !empty($actions);
             })
-            ->setNormalizer('actions', function (OptionsResolver $resolver, array $actions) {
+            ->setNormalizer('actions', function (Options $resolver, array $actions) {
                 $actionsOptionsResolver = new OptionsResolver();
                 $actionsOptionsResolver->setDefined('action')
                     ->setRequired('action')
