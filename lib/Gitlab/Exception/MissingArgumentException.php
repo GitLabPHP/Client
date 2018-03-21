@@ -5,7 +5,7 @@
  *
  * @author Joseph Bielawski <stloyd@gmail.com>
  */
-class MissingArgumentException extends ErrorException
+class MissingArgumentException extends ErrorException implements ExceptionInterface
 {
     public function __construct($required, $code = 0, $previous = null)
     {
