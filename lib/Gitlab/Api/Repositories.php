@@ -272,6 +272,31 @@ class Repositories extends AbstractApi
 
     /**
      * @param int $project_id
+     * @param string $sha
+     * @param array $params
+     * @return mixed
+     */
+    public function getCommitBuildStatus($project_id, $sha, array $params = array())
+    {
+        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/statuses'), $params);
+    }
+
+    /**
+     * @param int $project_id
+     * @param string $sha
+     * @param string $state
+     * @param array $params
+     * @return mixed
+     */
+    public function postCommitBuildStatus($project_id, $sha, $state, array $params = array())
+    {
+        $params['state'] = $state;
+
+        return $this->post($this->getProjectPath($project_id, 'statuses/'.$this->encodePath($sha)), $params);
+    }
+
+    /**
+     * @param int $project_id
      * @param string $fromShaOrMaster
      * @param string $toShaOrMaster
      * @return mixed
