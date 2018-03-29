@@ -268,6 +268,7 @@ class Projects extends AbstractApi
             
             return $this->get($this->getProjectPath($project_id, 'members'), $resolver->resolve($parameters));
         } elseif (is_string($parameters)) {
+            @trigger_error("Deprecated: String parameter of the members() function is deprecated.", E_USER_NOTICE);
             return $this->get($this->getProjectPath($project_id, 'members'), array(
                 'query' => $parameters
             ));
