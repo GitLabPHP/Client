@@ -556,11 +556,15 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
+     * @param array $parameters
+     *
      * @return mixed
      */
-    public function variables($project_id)
+    public function variables($project_id, array $parameters = [])
     {
-        return $this->get($this->getProjectPath($project_id, 'variables'));
+        $resolver = $this->createOptionsResolver();
+
+        return $this->get($this->getProjectPath($project_id, 'variables'), $resolver->resolve($parameters));
     }
 
     /**
