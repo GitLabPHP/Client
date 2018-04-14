@@ -309,6 +309,9 @@ class Client
             case 'repositories':
                 return $this->repositories();
 
+            case 'repositoryFiles':
+                return $this->repositoryFiles();
+                
             case 'snippets':
                 return $this->snippets();
 
