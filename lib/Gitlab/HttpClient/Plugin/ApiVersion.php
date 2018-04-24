@@ -13,6 +13,8 @@ use Psr\Http\Message\RequestInterface;
  */
 class ApiVersion implements Plugin
 {
+    protected $version = 'v4';
+    
     /**
      * {@inheritdoc}
      */
@@ -20,8 +22,8 @@ class ApiVersion implements Plugin
     {
         $uri = $request->getUri();
 
-        if (substr($uri->getPath(), 0, 8) !== '/api/v4/') {
-            $request = $request->withUri($uri->withPath('/api/v4/'.$uri->getPath()));
+        if (substr($uri->getPath(), 0, 8) !== '/api/' . $this->version . '/') {
+            $request = $request->withUri($uri->withPath('/api/' . $this->version . '/'.$uri->getPath()));
         }
 
         return $next($request);
