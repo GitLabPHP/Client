@@ -252,33 +252,35 @@ class Projects extends AbstractApi
      *
      * @return mixed
      */
-    public function members($project_id, $parameters = [])
+    public function members($project_id, $parameters)
     {
-        if (is_array($parameters)) {
-            $resolver = $this->createOptionsResolver();
-
-            $resolver->setDefaults(array(
-                'page' => 1,
-                'per_page' => 20,
-            ));
-
-            $resolver->setDefined('query')
-                ->setAllowedTypes('query', 'string')
-            ;
-            $resolver->setDefined('page')
-                ->setAllowedTypes('page', 'int')
-            ;
-            $resolver->setDefined('per_page')
-                ->setAllowedTypes('per_page', 'int')
-            ;
-            
-            return $this->get($this->getProjectPath($project_id, 'members'), $resolver->resolve($parameters));
-        } elseif (is_string($parameters)) {
+        if (!is_array($parameters)) {
             @trigger_error("Deprecated: String parameter of the members() function is deprecated.", E_USER_NOTICE);
-            return $this->get($this->getProjectPath($project_id, 'members'), array(
-                'query' => $parameters
-            ));
+            $username_query = $parameters;
+            $parameters = array();
+            if (!empty($username_query)) {
+                $parameters['query'] = $username_query;
+            }
         }
+
+        $resolver = $this->createOptionsResolver();
+
+        $resolver->setDefaults(array(
+            'page' => 1,
+            'per_page' => 20,
+        ));
+
+        $resolver->setDefined('query')
+            ->setAllowedTypes('query', 'string')
+        ;
+        $resolver->setDefined('page')
+            ->setAllowedTypes('page', 'int')
+        ;
+        $resolver->setDefined('per_page')
+            ->setAllowedTypes('per_page', 'int')
+        ;
+
+        return $this->get($this->getProjectPath($project_id, 'members'), $resolver->resolve($parameters));
     }
 
     /**
