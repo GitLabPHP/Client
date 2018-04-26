@@ -371,7 +371,7 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/members', array('query' => 'at', 'page' => 1, 'per_page' => 20))
+            ->with('projects/1/members', array('query' => 'at'))
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -391,11 +391,34 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/members', array('page' => 1, 'per_page' => 20))
+            ->with('projects/1/members')
             ->will($this->returnValue($expectedArray))
         ;
 
         $this->assertEquals($expectedArray, $api->members(1, null));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetMembersWithPagination()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'Matt'),
+            array('id' => 2, 'name' => 'Bob')
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/members', array(
+                'page' => 2,
+                'per_page' => 15
+            ))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->members(1, array('page' => 2, 'per_page' => 15)));
     }
 
     /**
