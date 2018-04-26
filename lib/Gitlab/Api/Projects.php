@@ -252,7 +252,7 @@ class Projects extends AbstractApi
      *
      * @return mixed
      */
-    public function members($project_id, $parameters)
+    public function members($project_id, $parameters = [])
     {
         if (!is_array($parameters)) {
             @trigger_error("Deprecated: String parameter of the members() function is deprecated.", E_USER_NOTICE);
