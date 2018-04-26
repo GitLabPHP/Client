@@ -362,6 +362,26 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetMembersWithNullQuery()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'Matt'),
+            array('id' => 2, 'name' => 'Bob')
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/members', array())
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->members(1, null));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetMembersWithQuery()
     {
         $expectedArray = array(
