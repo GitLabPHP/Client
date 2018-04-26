@@ -73,6 +73,18 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetNotArchivedProjects()
+    {
+        $expectedArray = $this->getMultipleProjectsData();
+
+        $api = $this->getMultipleProjectsRequestMock('projects', $expectedArray, ['archived' => 'false']);
+
+        $this->assertEquals($expectedArray, $api->all(['archived' => false]));
+    }
+
+    /**
+     * @test
+     */
     public function shouldSearchProjects()
     {
         $expectedArray = $this->getMultipleProjectsData();
@@ -226,6 +238,27 @@ class ProjectsTest extends TestCase
         ;
 
         $this->assertEquals($expectedArray, $api->pipelines(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetPipelinesWithBooleanParam()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'status' => 'success','ref' => 'new-pipeline'),
+            array('id' => 2, 'status' => 'failed', 'ref' => 'new-pipeline'),
+            array('id' => 3, 'status' => 'pending', 'ref'=> 'test-pipeline')
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/pipelines', ['yaml_errors' => 'false'])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->pipelines(1, ['yaml_errors' => false]));
     }
 
     /**
@@ -678,6 +711,34 @@ class ProjectsTest extends TestCase
         ;
 
         $this->assertEquals($expectedArray, $api->events(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetEventsWithDateTimeParams()
+    {
+        $expectedArray = [
+            ['id' => 1, 'title' => 'An event'],
+            ['id' => 2, 'title' => 'Another event']
+        ];
+
+        $after = new \DateTime('2018-01-01 00:00:00');
+        $before = new \DateTime('2018-01-31 00:00:00');
+
+        $expectedWithArray = [
+            'after' => $after->format('Y-m-d'),
+            'before' => $before->format('Y-m-d'),
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/events', $expectedWithArray)
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->events(1, ['after' => $after, 'before' => $before]));
     }
 
     /**

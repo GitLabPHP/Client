@@ -42,6 +42,34 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetAllWithDateTimeParams()
+    {
+        $expectedArray = $this->getMultipleMergeRequestsData();
+
+        $createdAfter = new \DateTime('2018-01-01 00:00:00');
+        $createdBefore = new \DateTime('2018-01-31 00:00:00');
+
+        $expectedWithArray = [
+            'created_after' => $createdAfter->format(DATE_ATOM),
+            'created_before' => $createdBefore->format(DATE_ATOM),
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_requests', $expectedWithArray)
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals(
+            $expectedArray,
+            $api->all(1, ['created_after' => $createdAfter, 'created_before' => $createdBefore])
+        );
+    }
+
+    /**
+     * @test
+     */
     public function shouldShowMergeRequest()
     {
         $expectedArray = array('id' => 2, 'name' => 'A merge request');

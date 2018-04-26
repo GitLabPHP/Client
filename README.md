@@ -57,7 +57,7 @@ to fetch all your closed issue with pagination ( on the gitlab api )
 $client = \Gitlab\Client::create('http://git.yourdomain.com')
     ->authenticate('your_gitlab_token_here', \Gitlab\Client::AUTH_URL_TOKEN)
 ;
-$pager = new ResultPager($client);
+$pager = new \Gitlab\ResultPager($client);
 $issues = $pager->fetchall($client->api('issues'),'all',[null, ['state' => 'closed']]);
 
 ```
@@ -99,7 +99,7 @@ You get the idea! Take a look around ([API methods](https://github.com/m4tthumph
 Framework Integrations
 ----------------------
 - **Symfony** - https://github.com/Zeichen32/GitLabApiBundle
-- **Laravel** - https://github.com/vinkla/laravel-gitlab
+- **Laravel** - https://github.com/GrahamCampbell/Laravel-GitLab
 
 If you have integrated GitLab into a popular PHP framework, let us know!
 

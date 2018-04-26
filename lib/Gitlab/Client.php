@@ -127,6 +127,14 @@ class Client
     }
 
     /**
+     * @return Api\Environments
+     */
+    public function environments()
+    {
+        return new Api\Environments($this);
+    }
+    
+    /**
      * @return Api\Groups
      */
     public function groups()
@@ -267,6 +275,9 @@ class Client
             case 'deploy_keys':
                 return $this->deployKeys();
 
+            case 'environments':
+                return $this->environments();
+                
             case 'groups':
                 return $this->groups();
 
@@ -298,6 +309,9 @@ class Client
             case 'repositories':
                 return $this->repositories();
 
+            case 'repositoryFiles':
+                return $this->repositoryFiles();
+                
             case 'snippets':
                 return $this->snippets();
 
