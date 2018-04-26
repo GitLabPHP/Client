@@ -262,9 +262,15 @@ class Projects extends AbstractApi
                 'per_page' => 20,
             ));
 
-            $resolver->setDefined('query');
-            $resolver->setDefined('page');
-            $resolver->setDefined('per_page');
+            $resolver->setDefined('query')
+                ->setAllowedTypes('query', 'string')
+            ;
+            $resolver->setDefined('page')
+                ->setAllowedTypes('page', 'int')
+            ;
+            $resolver->setDefined('per_page')
+                ->setAllowedTypes('per_page', 'int')
+            ;
             
             return $this->get($this->getProjectPath($project_id, 'members'), $resolver->resolve($parameters));
         } elseif (is_string($parameters)) {
