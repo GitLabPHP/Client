@@ -338,7 +338,7 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/members', array('query' => 'at'))
+            ->with('projects/1/members', array('query' => 'at', 'page' => 1, 'per_page' => 20))
             ->will($this->returnValue($expectedArray))
         ;
 
