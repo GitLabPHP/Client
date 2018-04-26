@@ -242,22 +242,46 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param string $username_query
+     * @param array $parameters (
+     *
+     *     @var string $query           The query you want to search members for.
+     *     @var string $page            The page you want to take members from. (default: 1)
+     *     @var string $per_page        The count of members per page. (default: 20)
+     * )
+     *
+     * @throws MissingOptionsException  If a required option is not provided
+     *
      * @return mixed
      */
-    public function members($project_id, $username_query = null)
+    public function members($project_id, $parameters = [])
     {
-        $params = array();
-        if (!empty($username_query)) {
-            $params['query'] = $username_query;
+        if (!is_array($parameters)) {
+            @trigger_error("Deprecated: String parameter of the members() function is deprecated.", E_USER_NOTICE);
+            $username_query = $parameters;
+            $parameters = array();
+            if (!empty($username_query)) {
+                $parameters['query'] = $username_query;
+            }
         }
 
         $resolver = $this->createOptionsResolver();
+
+        $resolver->setDefaults(array(
+            'page' => 1,
+            'per_page' => 20,
+        ));
+
         $resolver->setDefined('query')
             ->setAllowedTypes('query', 'string')
         ;
+        $resolver->setDefined('page')
+            ->setAllowedTypes('page', 'int')
+        ;
+        $resolver->setDefined('per_page')
+            ->setAllowedTypes('per_page', 'int')
+        ;
 
-        return $this->get($this->getProjectPath($project_id, 'members'), $resolver->resolve($params));
+        return $this->get($this->getProjectPath($project_id, 'members'), $resolver->resolve($parameters));
     }
 
     /**
