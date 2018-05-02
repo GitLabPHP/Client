@@ -1,5 +1,7 @@
 <?php namespace Gitlab\Api;
 
+use Symfony\Component\OptionsResolver\Options;
+
 class Issues extends AbstractApi
 {
     /**
