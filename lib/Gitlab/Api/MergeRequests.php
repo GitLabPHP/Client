@@ -187,11 +187,14 @@ class MergeRequests extends AbstractApi
     /**
      * @param int $project_id
      * @param int $mr_id
+     * @param array $parameters
      * @return mixed
      */
-    public function changes($project_id, $mr_id)
+    public function changes($project_id, $mr_id, array $parameters = [])
     {
-        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_id).'/changes'));
+        $resolver = $this->createOptionsResolver();
+
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_id).'/changes'), $resolver->resolve($parameters));
     }
 
     /**
@@ -264,11 +267,14 @@ class MergeRequests extends AbstractApi
     /**
      * @param int $project_id
      * @param int $merge_request_iid
+     * @param array $parameters
      *
      * @return mixed
      */
-    public function pipelines($project_id, $merge_request_iid)
+    public function pipelines($project_id, $merge_request_iid, array $parameters = [])
     {
-        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($merge_request_iid).'/pipelines'));
+        $resolver = $this->createOptionsResolver();
+
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($merge_request_iid).'/pipelines'), $resolver->resolve($parameters));
     }
 }
