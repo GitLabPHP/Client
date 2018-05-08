@@ -69,6 +69,8 @@ class MergeRequests extends AbstractApi
             ->setNormalizer('created_before', $datetimeNormalizer)
         ;
         $resolver->setDefined('search');
+        $resolver->setDefined('source_branch');
+        $resolver->setDefined('target_branch');
         
         return $this->get($this->getProjectPath($project_id, 'merge_requests'), $resolver->resolve($parameters));
     }
