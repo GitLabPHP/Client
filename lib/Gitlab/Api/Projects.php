@@ -500,7 +500,7 @@ class Projects extends AbstractApi
      * Get languages used in a project with percentage value.
      *
      * @param int $project_id
-     * @return void
+     * @return mixed
      */
     public function languages($project_id)
     {
