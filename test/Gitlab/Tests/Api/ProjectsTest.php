@@ -827,7 +827,7 @@ class ProjectsTest extends TestCase
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->languages());
+        $this->assertEquals($expectedArray, $api->languages(1));
     }
 
     /**
