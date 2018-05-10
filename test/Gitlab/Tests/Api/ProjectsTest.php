@@ -818,6 +818,21 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetLanguages()
+    {
+        $expectedArray = ['php' => 100];
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->getLanguages());
+    }
+
+    /**
+     * @test
+     */
     public function shouldCreateForkRelation()
     {
         $expectedArray = array('project_id' => 1, 'forked_id' => 2);
