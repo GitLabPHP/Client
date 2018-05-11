@@ -516,6 +516,17 @@ class Projects extends AbstractApi
     }
 
     /**
+     * Get languages used in a project with percentage value.
+     *
+     * @param int $project_id
+     * @return mixed
+     */
+    public function languages($project_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'languages'));
+    }
+
+    /**
      * @param int $project_id
      * @param array $params (
      *
