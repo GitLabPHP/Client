@@ -17,10 +17,14 @@ final class QueryStringBuilder
         if (!is_array($query)) {
             return static::rawurlencode($query);
         }
-        return implode('&', array_map(function ($value, $key) {
+        $query = array_filter($query, function ($value) {
             if (null === $value) {
-                return null;
+                return false;
             }
+            return true;
+        });
+
+        return implode('&', array_map(function ($value, $key) {
             return static::encode($value, $key);
         }, $query, array_keys($query)));
     }
