@@ -49,6 +49,7 @@ class QueryStringBuilderTest extends \PHPUnit_Framework_TestCase
                 'target_project_id' => null,
                 'description'       => null
             ],
+            'source_branch=test_source&target_branch=test_master&title=test'
         ];
 
         //Boolean encoding
