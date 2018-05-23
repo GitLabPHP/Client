@@ -18,10 +18,7 @@ final class QueryStringBuilder
             return static::rawurlencode($query);
         }
         $query = array_filter($query, function ($value) {
-            if (null === $value) {
-                return false;
-            }
-            return true;
+            return (null !== $value);
         });
 
         return implode('&', array_map(function ($value, $key) {
