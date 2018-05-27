@@ -85,6 +85,11 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
+     * @param array $parameters {
+     *
+     *     @var bool   $statistics                    Include project statistics.
+     *     @var bool   $with_custom_attributes        Include project custom attributes.
+     * }
      * @return mixed
      */
     public function show($project_id, array $parameters = [])
