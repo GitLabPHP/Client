@@ -96,7 +96,7 @@ class Projects extends AbstractApi
     {
         $resolver = $this->createOptionsResolver();
         $booleanNormalizer = function (Options $resolver, $value) {
-            return $value ? 'true' : 'false';
+            return $value ? true : false;
         };
         $resolver->setDefined('statistics')
             ->setAllowedTypes('statistics', 'bool')
