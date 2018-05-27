@@ -113,6 +113,33 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldShowProjectWithStatistics()
+    {
+        $expectedArray = array(
+            'id' => 1,
+            'name' => 'Project Name',
+            'statistics' => array(
+                'commit_count' => 37,
+                'storage_size' => 1038090,
+                'repository_size' => 1038090,
+                'lfs_objects_size' => 0,
+                'job_artifacts_size' => 0
+            )
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1', ['statistics' => true])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->show(1, ['statistics' => true]));
+    }
+
+    /**
+     * @test
+     */
     public function shouldCreateProject()
     {
         $expectedArray = array('id' => 1, 'name' => 'Project Name');

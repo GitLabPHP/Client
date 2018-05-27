@@ -85,11 +85,28 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
+     * @param array $parameters {
+     *
+     *     @var bool   $statistics                    Include project statistics.
+     *     @var bool   $with_custom_attributes        Include project custom attributes.
+     * }
      * @return mixed
      */
-    public function show($project_id)
+    public function show($project_id, array $parameters = [])
     {
-        return $this->get('projects/'.$this->encodePath($project_id));
+        $resolver = $this->createOptionsResolver();
+        $booleanNormalizer = function (Options $resolver, $value) {
+            return $value ? true : false;
+        };
+        $resolver->setDefined('statistics')
+            ->setAllowedTypes('statistics', 'bool')
+            ->setNormalizer('statistics', $booleanNormalizer)
+        ;
+        $resolver->setDefined('with_custom_attributes')
+            ->setAllowedTypes('with_custom_attributes', 'bool')
+            ->setNormalizer('with_custom_attributes', $booleanNormalizer)
+        ;
+        return $this->get('projects/'.$this->encodePath($project_id), $resolver->resolve($parameters));
     }
 
     /**
