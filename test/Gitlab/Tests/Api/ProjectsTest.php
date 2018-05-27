@@ -134,7 +134,7 @@ class ProjectsTest extends TestCase
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->show(1));
+        $this->assertEquals($expectedArray, $api->show(1, ['statistics' => true]));
     }
 
     /**
