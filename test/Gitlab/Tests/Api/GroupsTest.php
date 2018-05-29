@@ -111,11 +111,28 @@ class GroupsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('groups', array('name' => 'A new group', 'path' => 'a-new-group', 'description' => null, 'visibility' => 'private'))
+            ->with('groups', array('name' => 'A new group', 'path' => 'a-new-group', 'visibility' => 'private'))
             ->will($this->returnValue($expectedArray))
         ;
 
         $this->assertEquals($expectedArray, $api->create('A new group', 'a-new-group'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreateGroupWithDescriptionVisibilityAndParentId()
+    {
+        $expectedArray = array('id' => 1, 'name' => 'A new group', 'visibility_level' => 2, 'parent_id' => 666);
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('groups', array('name' => 'A new group', 'path' => 'a-new-group', 'description' => 'Description', 'visibility' => 'public', 'parent_id' => 666))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->create('A new group', 'a-new-group', 'Description', 'public', null, null, 666));
     }
 
     /**
@@ -127,9 +144,9 @@ class GroupsTest extends TestCase
 
         $api = $this->getApiMock();
         $api->expects($this->once())
-            ->method('post')
-            ->with('groups', array('name' => 'A new group', 'path' => 'a-new-group', 'description' => 'Description', 'visibility' => 'public'))
-            ->will($this->returnValue($expectedArray))
+        ->method('post')
+        ->with('groups', array('name' => 'A new group', 'path' => 'a-new-group', 'description' => 'Description', 'visibility' => 'public'))
+        ->will($this->returnValue($expectedArray))
         ;
 
         $this->assertEquals($expectedArray, $api->create('A new group', 'a-new-group', 'Description', 'public'));
