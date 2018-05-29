@@ -67,16 +67,26 @@ class Groups extends AbstractApi
      * @param string $path
      * @param string $description
      * @param string $visibility
+     * @param bool   $lfs_enabled
+     * @param bool   $request_access_enabled
+     * @param int    $parent_id
+     * @param int    $shared_runners_minutes_limit
      * @return mixed
      */
-    public function create($name, $path, $description = null, $visibility = 'private')
+    public function create($name, $path, $description = null, $visibility = 'private', $lfs_enabled = null, $request_access_enabled = null, $parent_id = null, $shared_runners_minutes_limit = null)
     {
-        return $this->post('groups', array(
+        $params = array(
             'name' => $name,
             'path' => $path,
             'description' => $description,
             'visibility' => $visibility,
-        ));
+            'lfs_enabled' => $lfs_enabled,
+            'request_access_enabled' => $request_access_enabled,
+            'parent_id' => $parent_id,
+            'shared_runners_minutes_limit' => $shared_runners_minutes_limit,
+        );
+
+        return $this->post('groups', array_filter($params, 'strlen'));
     }
 
     /**
