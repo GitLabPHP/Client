@@ -5,6 +5,7 @@ namespace Gitlab\HttpClient;
 use Http\Client\Common\HttpMethodsClient;
 use Http\Client\Common\Plugin;
 use Http\Client\Common\PluginClient;
+use Http\Client\Common\PluginClientFactory;
 use Http\Client\HttpClient;
 use Http\Discovery\HttpClientDiscovery;
 use Http\Discovery\MessageFactoryDiscovery;
@@ -81,7 +82,7 @@ class Builder
             $this->httpClientModified = false;
 
             $this->pluginClient = new HttpMethodsClient(
-                new PluginClient($this->httpClient, $this->plugins),
+                (new PluginClientFactory())->createClient($this->httpClient, $this->plugins),
                 $this->requestFactory
             );
         }

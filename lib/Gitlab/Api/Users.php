@@ -1,5 +1,7 @@
 <?php namespace Gitlab\Api;
 
+use Symfony\Component\OptionsResolver\Options;
+
 class Users extends AbstractApi
 {
     /**
@@ -21,7 +23,7 @@ class Users extends AbstractApi
     public function all(array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
-        $datetimeNormalizer = function (\DateTimeInterface $value) {
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value) {
             return $value->format('c');
         };
 

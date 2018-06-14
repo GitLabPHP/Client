@@ -724,7 +724,7 @@ class Project extends AbstractModel
      */
     public function createMergeRequest($source, $target, $title, $assignee = null, $description = null)
     {
-        $data = $this->client->mergeRequests()->create($this->id, $source, $target, $title, $assignee, null, $description);
+        $data = $this->client->mergeRequests()->create($this->id, $source, $target, $title, $assignee, $this->id, $description);
 
         return MergeRequest::fromArray($this->getClient(), $this, $data);
     }
@@ -807,47 +807,47 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int $id
+     * @param int $iid
      * @return Issue
      */
-    public function issue($id)
+    public function issue($iid)
     {
-        $issue = new Issue($this, $id, $this->getClient());
+        $issue = new Issue($this, $iid, $this->getClient());
 
         return $issue->show();
     }
 
     /**
-     * @param int $id
+     * @param int $iid
      * @param array $params
      * @return Issue
      */
-    public function updateIssue($id, array $params)
+    public function updateIssue($iid, array $params)
     {
-        $issue = new Issue($this, $id, $this->getClient());
+        $issue = new Issue($this, $iid, $this->getClient());
 
         return $issue->update($params);
     }
 
     /**
-     * @param int $id
+     * @param int $iid
      * @param string $comment
      * @return Issue
      */
-    public function closeIssue($id, $comment = null)
+    public function closeIssue($iid, $comment = null)
     {
-        $issue = new Issue($this, $id, $this->getClient());
+        $issue = new Issue($this, $iid, $this->getClient());
 
         return $issue->close($comment);
     }
 
     /**
-     * @param int $id
+     * @param int $iid
      * @return Issue
      */
-    public function openIssue($id)
+    public function openIssue($iid)
     {
-        $issue = new Issue($this, $id, $this->getClient());
+        $issue = new Issue($this, $iid, $this->getClient());
 
         return $issue->open();
     }

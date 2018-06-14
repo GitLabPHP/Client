@@ -1,5 +1,7 @@
 <?php namespace Gitlab\Api;
 
+use Symfony\Component\OptionsResolver\Options;
+
 class Groups extends AbstractApi
 {
     /**
@@ -18,7 +20,7 @@ class Groups extends AbstractApi
     public function all(array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
-        $booleanNormalizer = function ($value) {
+        $booleanNormalizer = function (Options $resolver, $value) {
             return $value ? 'true' : 'false';
         };
 
@@ -180,7 +182,7 @@ class Groups extends AbstractApi
     public function projects($id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
-        $booleanNormalizer = function ($value) {
+        $booleanNormalizer = function (Options $resolver, $value) {
             return $value ? 'true' : 'false';
         };
 

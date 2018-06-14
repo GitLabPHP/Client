@@ -27,6 +27,46 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetAllGroupsWithBooleanParam()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'A group'),
+            array('id' => 2, 'name' => 'Another group'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups', ['all_available' => 'false'])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->all(['all_available' => false]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAllGroupProjectsWithBooleanParam()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'A group'),
+            array('id' => 2, 'name' => 'Another group'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/projects', ['archived' => 'false'])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->projects(1, ['archived' => false]));
+    }
+
+    /**
+     * @test
+     */
     public function shouldNotNeedPaginationWhenGettingGroups()
     {
         $expectedArray = array(

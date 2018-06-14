@@ -47,6 +47,37 @@ class UsersTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetUsersWithDateTimeParams()
+    {
+        $expectedArray = [
+            ['id' => 1, 'name' => 'Matt'],
+            ['id' => 2, 'name' => 'John'],
+        ];
+
+        $createdAfter = new \DateTime('2018-01-01 00:00:00');
+        $createdBefore = new \DateTime('2018-01-31 00:00:00');
+
+        $expectedWithArray = [
+            'created_after' => $createdAfter->format(DATE_ATOM),
+            'created_before' => $createdBefore->format(DATE_ATOM),
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users', $expectedWithArray)
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals(
+            $expectedArray,
+            $api->all(['created_after' => $createdAfter, 'created_before' => $createdBefore])
+        );
+    }
+
+    /**
+     * @test
+     */
     public function shouldShowUser()
     {
         $expectedArray = array('id' => 1, 'name' => 'Matt');

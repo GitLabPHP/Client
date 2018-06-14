@@ -5,6 +5,6 @@
  *
  * @author Joseph Bielawski <stloyd@gmail.com>
  */
-class ValidationFailedException extends ErrorException
+class ValidationFailedException extends ErrorException implements ExceptionInterface
 {
 }

@@ -68,11 +68,11 @@ class RepositoriesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('delete')
-            ->with('projects/1/repository/branches/master')
+            ->with('projects/1/repository/branches/feature%2FTEST-15')
             ->will($this->returnValue($expectedBool))
         ;
 
-        $this->assertEquals($expectedBool, $api->deleteBranch(1, 'master'));
+        $this->assertEquals($expectedBool, $api->deleteBranch(1, 'feature/TEST-15'));
     }
 
     /**
@@ -255,6 +255,34 @@ class RepositoriesTest extends TestCase
         ;
 
         $this->assertEquals($expectedArray, $api->commits(1, ['page' => 2, 'per_page' => 25, 'ref_name' => 'master']));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetCommitsWithTimeParams()
+    {
+        $expectedArray = [
+            ['id' => 'abcd1234', 'title' => 'A commit'],
+            ['id' => 'efgh5678', 'title' => 'Another commit']
+        ];
+
+        $since = new \DateTime('2018-01-01 00:00:00');
+        $until = new \DateTime('2018-01-31 00:00:00');
+
+        $expectedWithArray = [
+            'since' => $since->format(DATE_ATOM),
+            'until' => $until->format(DATE_ATOM),
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/repository/commits', $expectedWithArray)
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->commits(1, ['since' => $since, 'until' => $until]));
     }
 
     /**
