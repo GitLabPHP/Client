@@ -260,7 +260,7 @@ class Users extends AbstractApi
      */
     public function userImpersonationTokens($user_id)
     {
-        return $this->get('users/'.$this->encodePath($user_id).'/impersonation_tokens/');
+        return $this->get('users/'.$this->encodePath($user_id).'/impersonation_tokens');
     }
 
     /**
