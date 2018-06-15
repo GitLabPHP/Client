@@ -406,6 +406,77 @@ class UsersTest extends TestCase
         $this->assertEquals($expectedArray, $api->email(1));
     }
 
+    /**
+     * @test
+     */
+    public function shouldGetCurrentUserImpersonationTokens()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'A Name', 'revoked' => false),
+            array('id' => 2, 'name' => 'A Name', 'revoked' => false),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users/1/impersonation_tokens')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->userImpersonationTokens(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetUserImpersonationToken()
+    {
+        $expectedArray = array('id' => 2, 'name' => 'name');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users/1/impersonation_tokens/1')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->userImpersonationToken(1, 1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreateImpersonationTokenForUser()
+    {
+        $expectedArray = array('id' => 1, 'name' => 'name');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('users/1/impersonation_tokens', array('name' => 'name', 'scopes' => ['api'] ,'expires_at' => null))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->createImpersonationToken(1, 'name', ['api']));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldDeleteImpersonationTokenForUser()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('users/1/impersonation_tokens/1')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->removeImpersonationToken(1, 1));
+    }
+
     protected function getApiClass()
     {
         return 'Gitlab\Api\Users';
