@@ -84,7 +84,7 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param array $parameters {
      *
      *     @var bool   $statistics                    Include project statistics.
