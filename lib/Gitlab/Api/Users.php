@@ -1,5 +1,6 @@
 <?php namespace Gitlab\Api;
 
+use function count;
 use Symfony\Component\OptionsResolver\Options;
 
 class Users extends AbstractApi
@@ -256,11 +257,20 @@ class Users extends AbstractApi
 
     /**
      * @param int $user_id
+     * @param array $params
      * @return mixed
      */
-    public function userImpersonationTokens($user_id)
+    public function userImpersonationTokens($user_id, $params = [])
     {
-        return $this->get('users/'.$this->encodePath($user_id).'/impersonation_tokens');
+        if (count($params)) {
+            $resolver = $this->createOptionsResolver();
+
+            $resolver->setDefined('state')
+                ->setAllowedValues('state', ['all', 'active', 'inactive'])
+            ;
+        }
+
+        return $this->get('users/'.$this->encodePath($user_id).'/impersonation_tokens', $resolver->resolve($params));
     }
 
     /**
