@@ -477,6 +477,44 @@ class UsersTest extends TestCase
         $this->assertEquals($expectedBool, $api->removeImpersonationToken(1, 1));
     }
 
+    /**
+     * @test
+     */
+    public function shouldGetCurrentUserActiveImpersonationTokens()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'A Name', 'revoked' => true),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users/1/impersonation_tokens')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->userImpersonationTokens(1, ['state' => 'active']));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetCurrentUserInactiveImpersonationTokens()
+    {
+        $expectedArray = array(
+            array('id' => 2, 'name' => 'A Name', 'revoked' => false),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users/1/impersonation_tokens')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->userImpersonationTokens(1, ['state' => 'inactive']));
+    }
+
     protected function getApiClass()
     {
         return 'Gitlab\Api\Users';
