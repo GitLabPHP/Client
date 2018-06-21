@@ -260,7 +260,7 @@ class Users extends AbstractApi
      * @param array $params
      * @return mixed
      */
-    public function userImpersonationTokens($user_id, $params = [])
+    public function userImpersonationTokens($user_id, array $params = [])
     {
         if (count($params)) {
             $resolver = $this->createOptionsResolver();
@@ -270,7 +270,7 @@ class Users extends AbstractApi
             ;
         }
 
-        return $this->get('users/'.$this->encodePath($user_id).'/impersonation_tokens', $resolver->resolve($params));
+        return $this->get('users/'.$this->encodePath($user_id).'/impersonation_tokens', count($params) ? $resolver->resolve($params) : []);
     }
 
     /**
