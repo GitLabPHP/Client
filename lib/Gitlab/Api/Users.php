@@ -1,6 +1,5 @@
 <?php namespace Gitlab\Api;
 
-use function count;
 use Symfony\Component\OptionsResolver\Options;
 
 class Users extends AbstractApi
