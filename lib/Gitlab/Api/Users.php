@@ -261,15 +261,13 @@ class Users extends AbstractApi
      */
     public function userImpersonationTokens($user_id, array $params = [])
     {
-        if (count($params)) {
-            $resolver = $this->createOptionsResolver();
+        $resolver = $this->createOptionsResolver();
 
-            $resolver->setDefined('state')
-                ->setAllowedValues('state', ['all', 'active', 'inactive'])
-            ;
-        }
+        $resolver->setDefined('state')
+            ->setAllowedValues('state', ['all', 'active', 'inactive'])
+        ;
 
-        return $this->get('users/'.$this->encodePath($user_id).'/impersonation_tokens', count($params) ? $resolver->resolve($params) : []);
+        return $this->get('users/'.$this->encodePath($user_id).'/impersonation_tokens', $resolver->resolve($params));
     }
 
     /**
