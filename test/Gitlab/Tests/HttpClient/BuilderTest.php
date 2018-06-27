@@ -22,9 +22,9 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->subject = new Builder(
-            $this->createMock(HttpClient::class),
-            $this->createMock(RequestFactory::class),
-            $this->createMock(StreamFactory::class)
+            $this->getMock(HttpClient::class),
+            $this->getMock(RequestFactory::class),
+            $this->getMock(StreamFactory::class)
         );
     }
 
@@ -32,14 +32,14 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     {
         $client = $this->subject->getHttpClient();
 
-        $this->subject->addPlugin($this->createMock(Plugin::class));
+        $this->subject->addPlugin($this->getMock(Plugin::class));
 
         $this->assertNotSame($client, $this->subject->getHttpClient());
     }
 
     public function testRemovePluginShouldInvalidateHttpClient()
     {
-        $this->subject->addPlugin($this->createMock(Plugin::class));
+        $this->subject->addPlugin($this->getMock(Plugin::class));
 
         $client = $this->subject->getHttpClient();
 
