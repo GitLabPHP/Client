@@ -65,6 +65,15 @@ class Users extends AbstractApi
     }
 
     /**
+     * @param int $id
+     * @return mixed
+     */
+    public function usersProjects($id)
+    {
+        return $this->get('users/'.$this->encodePath($id).'/projects');
+    }
+
+    /**
      * @return mixed
      */
     public function user()
