@@ -250,11 +250,39 @@ class RepositoriesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/repository/commits', array('page' => 2, 'per_page' => 25, 'ref_name' => 'master'))
+            ->with('projects/1/repository/commits', array('page' => 2, 'per_page' => 25, 'ref_name' => 'master', 'path' => 'file_path/file_name'))
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->commits(1, ['page' => 2, 'per_page' => 25, 'ref_name' => 'master']));
+        $this->assertEquals($expectedArray, $api->commits(1, ['page' => 2, 'per_page' => 25, 'ref_name' => 'master', 'path' => 'file_path/file_name']));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetCommitsWithTimeParams()
+    {
+        $expectedArray = [
+            ['id' => 'abcd1234', 'title' => 'A commit'],
+            ['id' => 'efgh5678', 'title' => 'Another commit']
+        ];
+
+        $since = new \DateTime('2018-01-01 00:00:00');
+        $until = new \DateTime('2018-01-31 00:00:00');
+
+        $expectedWithArray = [
+            'since' => $since->format(DATE_ATOM),
+            'until' => $until->format(DATE_ATOM),
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/repository/commits', $expectedWithArray)
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->commits(1, ['since' => $since, 'until' => $until]));
     }
 
     /**
