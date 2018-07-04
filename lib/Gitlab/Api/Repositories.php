@@ -178,6 +178,16 @@ class Repositories extends AbstractApi
 
     /**
      * @param int $project_id
+     * @param $sha
+     * @return mixed
+     */
+    public function commitrefs($project_id, $sha)
+    {
+        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha) . '/refs'));
+    }
+
+    /**
+     * @param int $project_id
      * @param array $parameters (
      *
      *     @var string $branch         Name of the branch to commit into. To create a new branch, also provide start_branch.
