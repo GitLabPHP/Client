@@ -194,6 +194,21 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
+    public function shouldRemoveMergeRequestNote()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/merge_requests/2/notes/1')
+            ->will($this->returnValue($expectedBool));
+        $this->assertEquals($expectedBool, $api->removeNote(1, 2, 1));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetMergeRequestChanges()
     {
         $expectedArray = array('id' => 1, 'title' => 'A merge request');
