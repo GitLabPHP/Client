@@ -8,6 +8,7 @@ use Http\Discovery\StreamFactoryDiscovery;
 use Http\Message\MultipartStream\MultipartStreamBuilder;
 use Http\Message\StreamFactory;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -89,7 +90,7 @@ abstract class AbstractApi implements ApiInterface
 
         $body = null;
         if (empty($files) && !empty($parameters)) {
-            $body = $this->streamFactory->createStream(QueryStringBuilder::build($parameters));
+            $body = $this->prepareBody($parameters);
             $requestHeaders['Content-Type'] = 'application/x-www-form-urlencoded';
         } elseif (!empty($files)) {
             $builder = new MultipartStreamBuilder($this->streamFactory);
@@ -128,7 +129,7 @@ abstract class AbstractApi implements ApiInterface
 
         $body = null;
         if (!empty($parameters)) {
-            $body = $this->streamFactory->createStream(http_build_query($parameters));
+            $body = $this->prepareBody($parameters);
             $requestHeaders['Content-Type'] = 'application/x-www-form-urlencoded';
         }
 
@@ -195,6 +196,18 @@ abstract class AbstractApi implements ApiInterface
         ;
 
         return $resolver;
+    }
+
+    /**
+     * @param array $parameters
+     * @return StreamInterface
+     */
+    private function prepareBody(array $parameters = [])
+    {
+        $raw = QueryStringBuilder::build($parameters);
+        $stream = $this->streamFactory->createStream($raw);
+
+        return $stream;
     }
 
     private function preparePath($path, array $parameters = [])
