@@ -44,7 +44,11 @@ class Issues extends AbstractApi
             ->setAllowedValues('sort', ['asc', 'desc'])
         ;
         $resolver->setDefined('search');
-
+        $resolver->setDefined('created_after');
+        $resolver->setDefined('created_before');
+        $resolver->setDefined('updated_after');
+        $resolver->setDefined('updated_before');
+        
         $path = $project_id === null ? 'issues' : $this->getProjectPath($project_id, 'issues');
 
         return $this->get($path, $resolver->resolve($parameters));
