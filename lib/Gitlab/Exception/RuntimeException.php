@@ -5,6 +5,6 @@
  *
  * @author Joseph Bielawski <stloyd@gmail.com>
  */
-class RuntimeException extends \RuntimeException
+class RuntimeException extends \RuntimeException implements ExceptionInterface
 {
 }

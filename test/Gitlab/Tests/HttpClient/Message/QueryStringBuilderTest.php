@@ -40,6 +40,18 @@ class QueryStringBuilderTest extends \PHPUnit_Framework_TestCase
             'iids%5B0%5D=88&iids%5B2%5D=86'
         ];
 
+        yield [
+            [
+                'source_branch'     => 'test_source',
+                'target_branch'     => 'test_master',
+                'title'             => 'test',
+                'assignee_id'       => null,
+                'target_project_id' => null,
+                'description'       => null
+            ],
+            'source_branch=test_source&target_branch=test_master&title=test'
+        ];
+
         //Boolean encoding
         yield [
             ['push_events' => false, 'merge_requests_events' => 1],

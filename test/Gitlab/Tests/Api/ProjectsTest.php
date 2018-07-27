@@ -73,6 +73,18 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetNotArchivedProjects()
+    {
+        $expectedArray = $this->getMultipleProjectsData();
+
+        $api = $this->getMultipleProjectsRequestMock('projects', $expectedArray, ['archived' => 'false']);
+
+        $this->assertEquals($expectedArray, $api->all(['archived' => false]));
+    }
+
+    /**
+     * @test
+     */
     public function shouldSearchProjects()
     {
         $expectedArray = $this->getMultipleProjectsData();
@@ -96,6 +108,33 @@ class ProjectsTest extends TestCase
         ;
 
         $this->assertEquals($expectedArray, $api->show(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldShowProjectWithStatistics()
+    {
+        $expectedArray = array(
+            'id' => 1,
+            'name' => 'Project Name',
+            'statistics' => array(
+                'commit_count' => 37,
+                'storage_size' => 1038090,
+                'repository_size' => 1038090,
+                'lfs_objects_size' => 0,
+                'job_artifacts_size' => 0
+            )
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1', ['statistics' => true])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->show(1, ['statistics' => true]));
     }
 
     /**
@@ -231,6 +270,27 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetPipelinesWithBooleanParam()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'status' => 'success','ref' => 'new-pipeline'),
+            array('id' => 2, 'status' => 'failed', 'ref' => 'new-pipeline'),
+            array('id' => 3, 'status' => 'pending', 'ref'=> 'test-pipeline')
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/pipelines', ['yaml_errors' => 'false'])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->pipelines(1, ['yaml_errors' => false]));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetPipeline()
     {
         $expectedArray = array(
@@ -343,6 +403,49 @@ class ProjectsTest extends TestCase
         ;
 
         $this->assertEquals($expectedArray, $api->members(1, 'at'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetMembersWithNullQuery()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'Matt'),
+            array('id' => 2, 'name' => 'Bob')
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/members')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->members(1, null));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetMembersWithPagination()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'Matt'),
+            array('id' => 2, 'name' => 'Bob')
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/members', array(
+                'page' => 2,
+                'per_page' => 15
+            ))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->members(1, array('page' => 2, 'per_page' => 15)));
     }
 
     /**
@@ -663,6 +766,34 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetEventsWithDateTimeParams()
+    {
+        $expectedArray = [
+            ['id' => 1, 'title' => 'An event'],
+            ['id' => 2, 'title' => 'Another event']
+        ];
+
+        $after = new \DateTime('2018-01-01 00:00:00');
+        $before = new \DateTime('2018-01-31 00:00:00');
+
+        $expectedWithArray = [
+            'after' => $after->format('Y-m-d'),
+            'before' => $before->format('Y-m-d'),
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/events', $expectedWithArray)
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->events(1, ['after' => $after, 'before' => $before]));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetEventsWithPagination()
     {
         $expectedArray = array(
@@ -752,6 +883,21 @@ class ProjectsTest extends TestCase
         ;
 
         $this->assertEquals($expectedBool, $api->removeLabel(1, 'bug'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetLanguages()
+    {
+        $expectedArray = ['php' => 100];
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->languages(1));
     }
 
     /**
