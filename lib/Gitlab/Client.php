@@ -127,13 +127,21 @@ class Client
     }
 
     /**
+     * @return Api\Deployments
+     */
+    public function deployments()
+    {
+        return new Api\Deployments($this);
+    }
+
+    /**
      * @return Api\Environments
      */
     public function environments()
     {
         return new Api\Environments($this);
     }
-    
+
     /**
      * @return Api\Groups
      */
@@ -263,22 +271,6 @@ class Client
     }
 
     /**
-     * @return Api\Deployments
-     */
-    public function deployments()
-    {
-        return new Api\Deployments($this);
-    }
-
-    /**
-     * @return Api\Environments
-     */
-    public function environments()
-    {
-        return new Api\Environments($this);
-    }
-
-    /**
      * @param string $name
      *
      * @return AbstractApi|mixed
@@ -287,13 +279,12 @@ class Client
     public function api($name)
     {
         switch ($name) {
-
             case 'deploy_keys':
                 return $this->deployKeys();
 
             case 'environments':
                 return $this->environments();
-                
+
             case 'groups':
                 return $this->groups();
 
@@ -327,7 +318,7 @@ class Client
 
             case 'repositoryFiles':
                 return $this->repositoryFiles();
-                
+
             case 'snippets':
                 return $this->snippets();
 
