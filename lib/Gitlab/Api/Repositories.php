@@ -181,9 +181,9 @@ class Repositories extends AbstractApi
      * @param $sha
      * @return mixed
      */
-    public function commitrefs($project_id, $sha)
+    public function commitRefs($project_id, $sha)
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha) . '/refs'));
+        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/refs'));
     }
 
     /**
