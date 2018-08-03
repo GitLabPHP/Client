@@ -305,6 +305,26 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetCommitRefs()
+    {
+        $expectedArray = [
+            ['type' => 'branch', 'name' => 'master'],
+            ['type' => 'tag', 'name' => 'v1.1.0'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/repository/commits/abcd1234/refs')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->commitRefs(1, 'abcd1234'));
+    }
+
+    /**
+     * @test
+     */
     public function shouldCreateCommit()
     {
         $expectedArray = array('title' => 'Initial commit.', 'author_name' => 'John Doe', 'author_email' => 'john@example.com');
