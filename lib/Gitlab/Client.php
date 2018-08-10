@@ -11,6 +11,7 @@ use Http\Client\Common\HttpMethodsClient;
 use Http\Client\Common\Plugin\AddHostPlugin;
 use Http\Client\Common\Plugin\HeaderDefaultsPlugin;
 use Http\Client\Common\Plugin\HistoryPlugin;
+use Http\Client\Common\Plugin\RedirectPlugin;
 use Http\Client\HttpClient;
 use Http\Discovery\UriFactoryDiscovery;
 
@@ -85,6 +86,7 @@ class Client
         $this->httpClientBuilder->addPlugin(new HeaderDefaultsPlugin([
             'User-Agent' => 'php-gitlab-api (http://github.com/m4tthumphrey/php-gitlab-api)',
         ]));
+        $this->httpClientBuilder->addPlugin(new RedirectPlugin());
 
         $this->setUrl('https://gitlab.com');
     }
