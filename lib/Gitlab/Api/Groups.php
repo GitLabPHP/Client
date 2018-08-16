@@ -198,6 +198,24 @@ class Groups extends AbstractApi
     }
 
     /**
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function allprojects($id)
+    {
+	$projects= $this->get('groups/'.$this->encodePath($id).'/projects');
+	$allprojects=$projects;
+	$page=1;
+	while ($projects!=null){
+		$page++;
+		$projects= $this->get('groups/'.$this->encodePath($id).'/projects?page='.$page);
+		$allprojects=array_merge($allprojects,$projects);
+	}
+	return $allprojects;
+    }
+
+    /**
      * @param int $groupId
      * @param array $parameters (
      *
