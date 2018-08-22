@@ -39,7 +39,15 @@ class Issue extends AbstractModel implements Noteable
         'updated_at',
         'created_at',
         'project',
-        'state'
+        'state',
+        'closed_at',
+        'closed_by',
+        'user_notes_count',
+        'due_date',
+        'web_url',
+        'confidential',
+        'weight',
+        'discussion_locked',
     );
 
     /**

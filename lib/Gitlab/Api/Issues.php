@@ -1,5 +1,7 @@
 <?php namespace Gitlab\Api;
 
+use Symfony\Component\OptionsResolver\Options;
+
 class Issues extends AbstractApi
 {
     /**
@@ -21,6 +23,10 @@ class Issues extends AbstractApi
      */
     public function all($project_id = null, array $parameters = [])
     {
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value) {
+            return $value->format('c');
+        };
+
         $resolver = $this->createOptionsResolver();
 
         $resolver->setDefined('state')
@@ -28,14 +34,21 @@ class Issues extends AbstractApi
         ;
         $resolver->setDefined('labels');
         $resolver->setDefined('milestone');
+        $resolver->setDefined('scope')
+            ->setAllowedValues('scope', ['created-by-me', 'assigned-to-me', 'all'])
+        ;
+        $resolver->setDefined('author_id')
+            ->setAllowedTypes('author_id', 'int')
+        ;
+        $resolver->setDefined('assignee_id')
+            ->setAllowedTypes('assignee_id', 'int')
+        ;
+        $resolver->setDefined('my_reaction_emoji');
         $resolver->setDefined('iids')
             ->setAllowedTypes('iids', 'array')
             ->setAllowedValues('iids', function (array $value) {
                 return count($value) == count(array_filter($value, 'is_int'));
             })
-        ;
-        $resolver->setDefined('scope')
-            ->setAllowedValues('scope', ['created-by-me', 'assigned-to-me', 'all'])
         ;
         $resolver->setDefined('order_by')
             ->setAllowedValues('order_by', ['created_at', 'updated_at'])
@@ -44,6 +57,22 @@ class Issues extends AbstractApi
             ->setAllowedValues('sort', ['asc', 'desc'])
         ;
         $resolver->setDefined('search');
+        $resolver->setDefined('created_after')
+            ->setAllowedTypes('created_after', \DateTimeInterface::class)
+            ->setNormalizer('created_after', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('created_before')
+            ->setAllowedTypes('created_before', \DateTimeInterface::class)
+            ->setNormalizer('created_before', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('updated_after')
+            ->setAllowedTypes('updated_after', \DateTimeInterface::class)
+            ->setNormalizer('updated_after', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('updated_before')
+            ->setAllowedTypes('updated_before', \DateTimeInterface::class)
+            ->setNormalizer('updated_before', $datetimeNormalizer)
+        ;
 
         $path = $project_id === null ? 'issues' : $this->getProjectPath($project_id, 'issues');
 
