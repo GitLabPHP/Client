@@ -289,7 +289,8 @@ class Users extends AbstractApi
      * @param int $email_id
      * @return mixed
      */
-    public function removeUserEmail($user_id, $email_id) {
+    public function removeUserEmail($user_id, $email_id)
+    {
         return $this->delete('users/'.$this->encodePath($user_id).'/emails/'.$this->encodePath($email_id));
     }
 
