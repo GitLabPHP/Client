@@ -162,6 +162,8 @@ class Repositories extends AbstractApi
             ->setAllowedTypes('until', \DateTimeInterface::class)
             ->setNormalizer('until', $datetimeNormalizer)
         ;
+        $resolver->setDefined('all');
+        $resolver->setDefined('with_stats');
 
         return $this->get($this->getProjectPath($project_id, 'repository/commits'), $resolver->resolve($parameters));
     }
