@@ -68,8 +68,29 @@ class MergeRequests extends AbstractApi
             ->setAllowedTypes('created_before', \DateTimeInterface::class)
             ->setNormalizer('created_before', $datetimeNormalizer)
         ;
+
+        $resolver->setDefined('updated_after')
+            ->setAllowedTypes('updated_after', \DateTimeInterface::class)
+            ->setNormalizer('updated_after', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('updated_before')
+            ->setAllowedTypes('updated_before', \DateTimeInterface::class)
+            ->setNormalizer('updated_before', $datetimeNormalizer)
+        ;
+
+        $resolver->setDefined('scope')
+            ->setAllowedValues('scope', ['created_by_me', 'assigned_to_me', 'all'])
+        ;
+        $resolver->setDefined('author_id')
+            ->setAllowedTypes('author_id', 'integer');
+
+        $resolver->setDefined('assignee_id')
+            ->setAllowedTypes('assignee_id', 'integer');
+
         $resolver->setDefined('search');
-        
+        $resolver->setDefined('source_branch');
+        $resolver->setDefined('target_branch');
+
         return $this->get($this->getProjectPath($project_id, 'merge_requests'), $resolver->resolve($parameters));
     }
 

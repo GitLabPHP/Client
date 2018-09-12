@@ -1,6 +1,5 @@
 <?php namespace Gitlab\Tests\Api;
 
-use Gitlab\Api\AbstractApi;
 use Gitlab\Api\MergeRequests;
 
 class MergeRequestsTest extends TestCase
@@ -32,11 +31,37 @@ class MergeRequestsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/merge_requests', ['page' => 2, 'per_page' => 5, 'order_by' => 'updated_at', 'sort' => 'desc'])
+            ->with('projects/1/merge_requests', [
+                'page' => 2,
+                'per_page' => 5,
+                'labels' => 'label1,label2,label3',
+                'milestone' => 'milestone1',
+                'order_by' => 'updated_at',
+                'state' => 'all',
+                'sort' => 'desc',
+                'scope' => 'all',
+                'author_id' => 1,
+                'assignee_id' => 1,
+                'source_branch' => 'develop',
+                'target_branch' => 'master',
+            ])
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->all(1, ['page' => 2, 'per_page' => 5, 'order_by' => 'updated_at', 'sort' => 'desc']));
+        $this->assertEquals($expectedArray, $api->all(1, [
+            'page' => 2,
+            'per_page' => 5,
+            'labels' => 'label1,label2,label3',
+            'milestone' => 'milestone1',
+            'order_by' => 'updated_at',
+            'state' => 'all',
+            'sort' => 'desc',
+            'scope' => 'all',
+            'author_id' => 1,
+            'assignee_id' => 1,
+            'source_branch' => 'develop',
+            'target_branch' => 'master',
+        ]));
     }
 
     /**
