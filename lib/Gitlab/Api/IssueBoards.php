@@ -22,6 +22,47 @@ class IssueBoards extends AbstractApi
      * @param int $board_id
      * @return mixed
      */
+    public function show($project_id, $board_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'boards/'.$this->encodePath($board_id)));
+    }
+
+    /**
+     * @param int $project_id
+     * @param array $params
+     * @return mixed
+     */
+    public function create($project_id, array $params)
+    {
+        return $this->post($this->getProjectPath($project_id, 'boards'), $params);
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $board_id
+     * @param array $params
+     * @return mixed
+     */
+    public function update($project_id, $board_id, array $params)
+    {
+        return $this->put($this->getProjectPath($project_id, 'boards/'.$this->encodePath($board_id)), $params);
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $board_id
+     * @return mixed
+     */
+    public function remove($project_id, $board_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'boards/'.$this->encodePath($board_id)));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $board_id
+     * @return mixed
+     */
     public function allLists($project_id, $board_id)
     {
         return $this->get($this->getProjectPath($project_id, 'boards/'.$this->encodePath($board_id).'/lists'));
