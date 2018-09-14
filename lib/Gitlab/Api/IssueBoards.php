@@ -48,12 +48,10 @@ class IssueBoards extends AbstractApi
     public function createList($project_id, $board_id, $label_id)
     {
         $params = array(
-            'id' => $project_id,
-            'board_id' => $board_id,
             'label_id' => $label_id
         );
 
-        return $this->get($this->getProjectPath($project_id, 'boards/'.$this->encodePath($board_id).'/lists'), $params);
+        return $this->post($this->getProjectPath($project_id, 'boards/'.$this->encodePath($board_id).'/lists'), $params);
     }
 
     /**
