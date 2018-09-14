@@ -61,58 +61,75 @@ class IssueBoardsTest extends TestCase
     //
     //     $this->assertEquals($expectedArray, $api->all(1, 2, 5, array('order_by' => 'created_at', 'sort' => 'desc', 'labels' => 'foo,bar', 'state' => 'open')));
     // }
-    //
-    // /**
-    //  * @test
-    //  */
-    // public function shouldShowIssue()
-    // {
-    //     $expectedArray = array('id' => 2, 'title' => 'Another issue');
-    //
-    //     $api = $this->getApiMock();
-    //     $api->expects($this->once())
-    //         ->method('get')
-    //         ->with('projects/1/issues?iid=2')
-    //         ->will($this->returnValue($expectedArray))
-    //     ;
-    //
-    //     $this->assertEquals($expectedArray, $api->show(1, 2));
-    // }
-    //
-    // /**
-    //  * @test
-    //  */
-    // public function shouldCreateIssue()
-    // {
-    //     $expectedArray = array('id' => 3, 'title' => 'A new issue');
-    //
-    //     $api = $this->getApiMock();
-    //     $api->expects($this->once())
-    //         ->method('post')
-    //         ->with('projects/1/issues', array('title' => 'A new issue', 'labels' => 'foo,bar'))
-    //         ->will($this->returnValue($expectedArray))
-    //     ;
-    //
-    //     $this->assertEquals($expectedArray, $api->create(1, array('title' => 'A new issue', 'labels' => 'foo,bar')));
-    // }
-    //
-    // /**
-    //  * @test
-    //  */
-    // public function shouldUpdateIssue()
-    // {
-    //     $expectedArray = array('id' => 2, 'title' => 'A renamed issue');
-    //
-    //     $api = $this->getApiMock();
-    //     $api->expects($this->once())
-    //         ->method('put')
-    //         ->with('projects/1/issues/2', array('title' => 'A renamed issue', 'labels' => 'foo'))
-    //         ->will($this->returnValue($expectedArray))
-    //     ;
-    //
-    //     $this->assertEquals($expectedArray, $api->update(1, 2, array('title' => 'A renamed issue', 'labels' => 'foo')));
-    // }
-    //
+    
+    /**
+     * @test
+     */
+    public function shouldShowIssueBoard()
+    {
+        $expectedArray = array('id' => 2, 'name' => 'Another issue board');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/boards/2')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->show(1, 2));
+    }
+    
+    /**
+     * @test
+     */
+    public function shouldCreateIssueBoard()
+    {
+        $expectedArray = array('id' => 3, 'name' => 'A new issue board');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/boards', array('name' => 'A new issue board'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->create(1, array('name' => 'A new issue board')));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUpdateIssueBoard()
+    {
+        $expectedArray = array('id' => 2, 'name' => 'A renamed issue board');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/boards/2', array('name' => 'A renamed issue board', 'labels' => 'foo'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->update(1, 2, array('name' => 'A renamed issue board', 'labels' => 'foo')));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRemoveIssueBoard()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/boards/2')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->remove(1, 2));
+    }
+
     // /**
     //  * @test
     //  */
