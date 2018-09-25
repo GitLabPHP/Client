@@ -68,7 +68,6 @@ class IssueBoards extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'boards/'.$this->encodePath($board_id).'/lists'));
     }
 
-
     /**
      * @param int $project_id
      * @param int $board_id
@@ -77,7 +76,7 @@ class IssueBoards extends AbstractApi
      */
     public function showList($project_id, $board_id, $list_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'boards/'.$this->encodePath($board_id).'/lists'.$this->encodePath($list_id)));
+        return $this->get($this->getProjectPath($project_id, 'boards/'.$this->encodePath($board_id).'/lists/'.$this->encodePath($list_id)));
     }
 
     /**
@@ -105,9 +104,6 @@ class IssueBoards extends AbstractApi
     public function updateList($project_id, $board_id, $list_id, $position)
     {
         $params = array(
-            'id' => $project_id,
-            'board_id' => $board_id,
-            'list_id' => $list_id,
             'position' => $position
         );
 
