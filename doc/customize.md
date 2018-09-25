@@ -21,7 +21,7 @@ As timeout configuration is not compatible with HTTP client abstraction, you hav
 an explicit HTTP client implementation.
 
 ```php
-$httpClient = Http\Adapter\Guzzle6::createWithConfig([
+$httpClient = Http\Adapter\Guzzle6\Client::createWithConfig([
     'timeout' => 1.0
 ]);
 $client = Gitlab\Client::createWithHttpClient($httpClient);
