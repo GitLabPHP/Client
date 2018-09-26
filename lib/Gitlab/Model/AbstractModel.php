@@ -17,6 +17,11 @@ abstract class AbstractModel
     protected $data = array();
 
     /**
+     * @var array
+     */
+    protected $originalData = array();
+
+    /**
      * @var Client
      */
     protected $client;
@@ -58,6 +63,7 @@ abstract class AbstractModel
     protected function hydrate(array $data = array())
     {
         if (!empty($data)) {
+            $this->originalData = $data;
             foreach ($data as $field => $value) {
                 $this->setData($field, $value);
             }
@@ -86,6 +92,14 @@ abstract class AbstractModel
     public function getData()
     {
         return $this->data;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOriginalData()
+    {
+        return $this->originalData;
     }
 
     /**
