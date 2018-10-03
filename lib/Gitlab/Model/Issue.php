@@ -50,7 +50,7 @@ class Issue extends AbstractModel implements Noteable
      */
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $issue = new static($project, $data['id'], $client);
+        $issue = new static($project, $data['iid'], $client);
 
         if (isset($data['author'])) {
             $data['author'] = User::fromArray($client, $data['author']);
@@ -65,14 +65,14 @@ class Issue extends AbstractModel implements Noteable
 
     /**
      * @param Project $project
-     * @param int $id
+     * @param int $iid
      * @param Client $client
      */
-    public function __construct(Project $project, $id = null, Client $client = null)
+    public function __construct(Project $project, $iid = null, Client $client = null)
     {
         $this->setClient($client);
         $this->setData('project', $project);
-        $this->setData('id', $id);
+        $this->setData('iid', $iid);
     }
 
     /**
@@ -162,10 +162,15 @@ class Issue extends AbstractModel implements Noteable
      */
     public function isClosed()
     {
-        if ($this->state == 'closed') {
-            return true;
-        }
+        return $this->state === 'closed';
+    }
 
-        return false;
+    /**
+     * @param string $label
+     * @return bool
+     */
+    public function hasLabel($label)
+    {
+        return in_array($label, $this->labels);
     }
 }

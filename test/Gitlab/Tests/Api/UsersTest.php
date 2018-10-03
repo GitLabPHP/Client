@@ -47,6 +47,37 @@ class UsersTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetUsersWithDateTimeParams()
+    {
+        $expectedArray = [
+            ['id' => 1, 'name' => 'Matt'],
+            ['id' => 2, 'name' => 'John'],
+        ];
+
+        $createdAfter = new \DateTime('2018-01-01 00:00:00');
+        $createdBefore = new \DateTime('2018-01-31 00:00:00');
+
+        $expectedWithArray = [
+            'created_after' => $createdAfter->format(DATE_ATOM),
+            'created_before' => $createdBefore->format(DATE_ATOM),
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users', $expectedWithArray)
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals(
+            $expectedArray,
+            $api->all(['created_after' => $createdAfter, 'created_before' => $createdBefore])
+        );
+    }
+
+    /**
+     * @test
+     */
     public function shouldShowUser()
     {
         $expectedArray = array('id' => 1, 'name' => 'Matt');
@@ -59,6 +90,26 @@ class UsersTest extends TestCase
         ;
 
         $this->assertEquals($expectedArray, $api->show(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldShowUsersProjects()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'matt-project-1'),
+            array('id' => 2, 'name' => 'matt-project-2')
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users/1/projects')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->usersProjects(1));
     }
 
     /**
@@ -373,6 +424,169 @@ class UsersTest extends TestCase
             ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->email(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetEmailsForUser()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'email' => 'foo@bar.baz'),
+            array('id' => 2, 'email' => 'foo@bar.qux'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users/1/emails')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->userEmails(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreateEmailForUser()
+    {
+        $expectedArray = array('id' => 3, 'email' => 'foo@bar.example');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('users/1/emails', array('email' => 'foo@bar.example'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->createEmailForUser(1, 'foo@bar.example'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldDeleteEmailForUser()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('users/1/emails/3')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->removeUserEmail(1, 3));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetCurrentUserImpersonationTokens()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'A Name', 'revoked' => false),
+            array('id' => 2, 'name' => 'A Name', 'revoked' => false),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users/1/impersonation_tokens')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->userImpersonationTokens(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetUserImpersonationToken()
+    {
+        $expectedArray = array('id' => 2, 'name' => 'name');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users/1/impersonation_tokens/1')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->userImpersonationToken(1, 1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreateImpersonationTokenForUser()
+    {
+        $expectedArray = array('id' => 1, 'name' => 'name');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('users/1/impersonation_tokens', array('name' => 'name', 'scopes' => ['api'] ,'expires_at' => null))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->createImpersonationToken(1, 'name', ['api']));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldDeleteImpersonationTokenForUser()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('users/1/impersonation_tokens/1')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->removeImpersonationToken(1, 1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetCurrentUserActiveImpersonationTokens()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'A Name', 'revoked' => true),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users/1/impersonation_tokens')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->userImpersonationTokens(1, ['state' => 'active']));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetCurrentUserInactiveImpersonationTokens()
+    {
+        $expectedArray = array(
+            array('id' => 2, 'name' => 'A Name', 'revoked' => false),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users/1/impersonation_tokens')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->userImpersonationTokens(1, ['state' => 'inactive']));
     }
 
     protected function getApiClass()

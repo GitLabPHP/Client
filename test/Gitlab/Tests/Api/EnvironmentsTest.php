@@ -73,6 +73,21 @@ class EnvironmentsTest extends TestCase
         $this->assertEquals($expectedBool, $api->remove(1, 3));
     }
 
+    /**
+     * @test
+     */
+    public function shouldStopEnvironment()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/environments/3/stop')
+            ->will($this->returnValue($expectedBool));
+        $this->assertEquals($expectedBool, $api->stop(1, 3));
+    }
+
     protected function getApiClass()
     {
         return 'Gitlab\Api\Environments';

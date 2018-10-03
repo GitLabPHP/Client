@@ -1,5 +1,6 @@
 <?php namespace Gitlab\Api;
 
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Repositories extends AbstractApi
@@ -148,7 +149,7 @@ class Repositories extends AbstractApi
     public function commits($project_id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
-        $datetimeNormalizer = function (\DateTimeInterface $value) {
+        $datetimeNormalizer = function (Options $options, \DateTimeInterface $value) {
             return $value->format('c');
         };
 
@@ -162,6 +163,8 @@ class Repositories extends AbstractApi
             ->setAllowedTypes('until', \DateTimeInterface::class)
             ->setNormalizer('until', $datetimeNormalizer)
         ;
+        $resolver->setDefined('all');
+        $resolver->setDefined('with_stats');
 
         return $this->get($this->getProjectPath($project_id, 'repository/commits'), $resolver->resolve($parameters));
     }
@@ -174,6 +177,16 @@ class Repositories extends AbstractApi
     public function commit($project_id, $sha)
     {
         return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha)));
+    }
+
+    /**
+     * @param int $project_id
+     * @param $sha
+     * @return mixed
+     */
+    public function commitRefs($project_id, $sha)
+    {
+        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/refs'));
     }
 
     /**
@@ -213,7 +226,7 @@ class Repositories extends AbstractApi
             ->setAllowedValues('actions', function (array $actions) {
                 return !empty($actions);
             })
-            ->setNormalizer('actions', function (OptionsResolver $resolver, array $actions) {
+            ->setNormalizer('actions', function (Options $resolver, array $actions) {
                 $actionsOptionsResolver = new OptionsResolver();
                 $actionsOptionsResolver->setDefined('action')
                     ->setRequired('action')
@@ -268,6 +281,31 @@ class Repositories extends AbstractApi
         $params['note'] = $note;
 
         return $this->post($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/comments'), $params);
+    }
+
+    /**
+     * @param int $project_id
+     * @param string $sha
+     * @param array $params
+     * @return mixed
+     */
+    public function getCommitBuildStatus($project_id, $sha, array $params = array())
+    {
+        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/statuses'), $params);
+    }
+
+    /**
+     * @param int $project_id
+     * @param string $sha
+     * @param string $state
+     * @param array $params
+     * @return mixed
+     */
+    public function postCommitBuildStatus($project_id, $sha, $state, array $params = array())
+    {
+        $params['state'] = $state;
+
+        return $this->post($this->getProjectPath($project_id, 'statuses/'.$this->encodePath($sha)), $params);
     }
 
     /**

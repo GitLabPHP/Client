@@ -807,47 +807,47 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int $id
+     * @param int $iid
      * @return Issue
      */
-    public function issue($id)
+    public function issue($iid)
     {
-        $issue = new Issue($this, $id, $this->getClient());
+        $issue = new Issue($this, $iid, $this->getClient());
 
         return $issue->show();
     }
 
     /**
-     * @param int $id
+     * @param int $iid
      * @param array $params
      * @return Issue
      */
-    public function updateIssue($id, array $params)
+    public function updateIssue($iid, array $params)
     {
-        $issue = new Issue($this, $id, $this->getClient());
+        $issue = new Issue($this, $iid, $this->getClient());
 
         return $issue->update($params);
     }
 
     /**
-     * @param int $id
+     * @param int $iid
      * @param string $comment
      * @return Issue
      */
-    public function closeIssue($id, $comment = null)
+    public function closeIssue($iid, $comment = null)
     {
-        $issue = new Issue($this, $id, $this->getClient());
+        $issue = new Issue($this, $iid, $this->getClient());
 
         return $issue->close($comment);
     }
 
     /**
-     * @param int $id
+     * @param int $iid
      * @return Issue
      */
-    public function openIssue($id)
+    public function openIssue($iid)
     {
-        $issue = new Issue($this, $id, $this->getClient());
+        $issue = new Issue($this, $iid, $this->getClient());
 
         return $issue->open();
     }
@@ -937,11 +937,12 @@ class Project extends AbstractModel
      * @param string $title
      * @param string $filename
      * @param string $code
+     * @param string $visibility
      * @return Snippet
      */
-    public function createSnippet($title, $filename, $code)
+    public function createSnippet($title, $filename, $code, $visibility)
     {
-        $data = $this->client->snippets()->create($this->id, $title, $filename, $code);
+        $data = $this->client->snippets()->create($this->id, $title, $filename, $code, $visibility);
 
         return Snippet::fromArray($this->getClient(), $this, $data);
     }
