@@ -222,7 +222,7 @@ class ProjectsTest extends TestCase
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->archive(1, array('efgh5678efgh5678efgh5678efgh5678efgh5678', '1234567812345678123456781234567812345678')));
+        $this->assertEquals($expectedArray, $api->mergeBase(1, array('efgh5678efgh5678efgh5678efgh5678efgh5678', '1234567812345678123456781234567812345678')));
     }
 
     /**
