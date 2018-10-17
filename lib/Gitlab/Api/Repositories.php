@@ -460,4 +460,14 @@ class Repositories extends AbstractApi
     {
         return $this->get($this->getProjectPath($project_id, 'repository/archive.'.$format), $params);
     }
+
+    /**
+     * @param int $project_id
+     * @param array $refs
+     * @return mixed
+     */
+    public function mergeBase($project_id, $refs)
+    {
+        return $this->get($this->getProjectPath($project_id, 'repository/merge_base'), array('refs' => $refs));
+    }
 }
