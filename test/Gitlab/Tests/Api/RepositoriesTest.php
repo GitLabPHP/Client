@@ -515,6 +515,38 @@ class RepositoriesTest extends TestCase
         $this->assertEquals($expectedArray, $api->contributors(1));
     }
 
+    /**
+     * @test
+     */
+    public function shouldGetMergeBase()
+    {
+        $expectedArray = array(
+            'id' => 'abcd1234abcd1234abcd1234abcd1234abcd1234',
+            'short_id' => 'abcd1234',
+            'title' => 'A commit',
+            'created_at' => '2018-01-01T00:00:00.000Z',
+            'parent_ids' => array(
+               'efgh5678efgh5678efgh5678efgh5678efgh5678',
+            ),
+            'message' => 'A commit',
+            'author_name' => 'Jane Doe',
+            'author_email' => 'jane@example.org',
+            'authored_date' => '2018-01-01T00:00:00.000Z',
+            'committer_name' => 'Jane Doe',
+            'committer_email' => 'jane@example.org',
+            'committed_date' => '2018-01-01T00:00:00.000Z',
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/repository/merge_base', array('refs' => array('efgh5678efgh5678efgh5678efgh5678efgh5678', '1234567812345678123456781234567812345678')))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->mergeBase(1, array('efgh5678efgh5678efgh5678efgh5678efgh5678', '1234567812345678123456781234567812345678')));
+    }
+
     protected function getApiClass()
     {
         return 'Gitlab\Api\Repositories';
