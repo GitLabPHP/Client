@@ -40,4 +40,26 @@ class Tags extends AbstractApi
     {
         return $this->delete($this->getProjectPath($project_id, 'repository/tags/'.$tag_name));
     }
+
+    /**
+     * @param int $project_id
+     * @param string $tag_name
+     * @param array $params
+     * @return mixed
+     */
+    public function createRelease($project_id, $tag_name, array $params = array())
+    {
+        return $this->post($this->getProjectPath($project_id, 'repository/tags/'.$tag_name.'/release'), $params);
+    }
+
+    /**
+     * @param int $project_id
+     * @param string $tag_name
+     * @param array $params
+     * @return mixed
+     */
+    public function updateRelease($project_id, $tag_name, array $params = array())
+    {
+        return $this->put($this->getProjectPath($project_id, 'repository/tags/'.$tag_name.'/release'), $params);
+    }
 }
