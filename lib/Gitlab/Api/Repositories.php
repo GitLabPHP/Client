@@ -172,6 +172,8 @@ class Repositories extends AbstractApi
             ->setAllowedTypes('until', \DateTimeInterface::class)
             ->setNormalizer('until', $datetimeNormalizer)
         ;
+        $resolver->setDefined('all');
+        $resolver->setDefined('with_stats');
 
         return $this->get($this->getProjectPath($project_id, 'repository/commits'), $resolver->resolve($parameters));
     }
@@ -193,6 +195,16 @@ class Repositories extends AbstractApi
      * @return mixed
      */
     public function commitRef($project_id, $sha)
+    {
+        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/refs'));
+    }
+
+    /**
+     * @param int $project_id
+     * @param $sha
+     * @return mixed
+     */
+    public function commitRefs($project_id, $sha)
     {
         return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/refs'));
     }
@@ -468,5 +480,15 @@ class Repositories extends AbstractApi
     public function archive($project_id, $params = array(), $format = 'tar.gz')
     {
         return $this->get($this->getProjectPath($project_id, 'repository/archive.'.$format), $params);
+    }
+
+    /**
+     * @param int $project_id
+     * @param array $refs
+     * @return mixed
+     */
+    public function mergeBase($project_id, $refs)
+    {
+        return $this->get($this->getProjectPath($project_id, 'repository/merge_base'), array('refs' => $refs));
     }
 }

@@ -84,7 +84,7 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param array $parameters {
      *
      *     @var bool   $statistics                    Include project statistics.
@@ -494,11 +494,14 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
+     * @param array $parameters
      * @return mixed
      */
-    public function labels($project_id)
+    public function labels($project_id, array $parameters = [])
     {
-        return $this->get($this->getProjectPath($project_id, 'labels'));
+        $resolver = $this->createOptionsResolver();
+
+        return $this->get($this->getProjectPath($project_id, 'labels'), $resolver->resolve($parameters));
     }
 
     /**
@@ -717,5 +720,43 @@ class Projects extends AbstractApi
     public function deployment($project_id, $deployment_id)
     {
         return $this->get($this->getProjectPath($project_id, 'deployments/'.$this->encodePath($deployment_id)));
+    }
+    
+    /**
+     * @param mixed $project_id
+     * @param array $parameters
+     * @return mixed
+     */
+    public function addShare($project_id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+
+        $datetimeNormalizer = function (OptionsResolver $optionsResolver, \DateTimeInterface $value) {
+            return $value->format('Y-m-d');
+        };
+
+        $resolver->setRequired('group_id')
+            ->setAllowedTypes('group_id', 'int');
+
+        $resolver->setRequired('group_access')
+            ->setAllowedTypes('group_access', 'int')
+            ->setAllowedValues('group_access', [0,10,20,30,40,50]);
+
+        $resolver->setDefined('expires_at')
+            ->setAllowedTypes('expires_at', \DateTimeInterface::class)
+            ->setNormalizer('expires_at', $datetimeNormalizer)
+        ;
+
+        return $this->post($this->getProjectPath($project_id, 'share'), $resolver->resolve($parameters));
+    }
+    
+    /**
+     * @param mixed $project_id
+     * @param int $group_id
+     * @return mixed
+     */
+    public function removeShare($project_id, $group_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'services/'.$group_id));
     }
 }

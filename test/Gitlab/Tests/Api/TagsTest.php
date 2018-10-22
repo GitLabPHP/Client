@@ -78,6 +78,73 @@ class TagsTest extends TestCase
         $this->assertEquals($expectedArray, $api->remove(1, 'v1.1.0'));
     }
 
+    /**
+     * @test
+     * @dataProvider releaseDataProvider
+     * @param string $releaseName
+     * @param string $description
+     * @param array $expectedResult
+     */
+    public function shouldCreateRelease($releaseName, $description, $expectedResult)
+    {
+        $params = array(
+            'description' => $description,
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/repository/tags/' . $releaseName . '/release', $params)
+            ->will($this->returnValue($expectedResult));
+
+        $this->assertEquals($expectedResult, $api->create(1, $params));
+    }
+
+    /**
+     * @test
+     * @dataProvider releaseDataProvider
+     * @param string $releaseName
+     * @param string $description
+     * @param array $expectedResult
+     */
+    public function shouldUpdateRelease($releaseName, $description, $expectedResult)
+    {
+        $params = array(
+            'description' => $description,
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/repository/tags/' . $releaseName . '/release', $params)
+            ->will($this->returnValue($expectedResult));
+
+        $this->assertEquals($expectedResult, $api->create(1, $params));
+    }
+
+    public function releaseDataProvider()
+    {
+        return array(
+            array(
+                'tagName' => 'v1.1.0',
+                'description' => 'Amazing release. Wow',
+                'expectedResult' => array(
+                    'tag_name' => '1.0.0',
+                    'description' => 'Amazing release. Wow',
+                ),
+            ),
+            array(
+                'tagName' => urlencode('version/1.1.0'),
+                'description' => 'Amazing release. Wow',
+                'expectedResult' => array(
+                    'tag_name' => 'version/1.1.0',
+                    'description' => 'Amazing release. Wow',
+                ),
+            ),
+        );
+    }
+
+
     protected function getApiClass()
     {
         return 'Gitlab\Api\Tags';

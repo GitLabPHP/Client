@@ -176,4 +176,19 @@ class Group extends AbstractModel
         }
         return $projects;
     }
+
+    /**
+     * @return Group[]
+     */
+    public function subgroups()
+    {
+        $data = $this->client->groups()->subgroups($this->id);
+
+        $groups = array();
+        foreach ($data as $group) {
+            $groups[] = Group::fromArray($this->getClient(), $group);
+        }
+
+        return $groups;
+    }
 }

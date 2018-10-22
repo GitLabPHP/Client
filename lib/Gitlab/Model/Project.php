@@ -974,11 +974,12 @@ class Project extends AbstractModel
      * @param string $title
      * @param string $filename
      * @param string $code
+     * @param string $visibility
      * @return Snippet
      */
-    public function createSnippet($title, $filename, $code)
+    public function createSnippet($title, $filename, $code, $visibility)
     {
-        $data = $this->client->snippets()->create($this->id, $title, $filename, $code);
+        $data = $this->client->snippets()->create($this->id, $title, $filename, $code, $visibility);
 
         return Snippet::fromArray($this->getClient(), $this, $data);
     }

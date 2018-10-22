@@ -59,4 +59,47 @@ class IssueTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(10, $sUT->iid);
         $this->assertSame($client, $sUT->getClient());
     }
+
+    private function getIssueMock(array $data = [])
+    {
+        $client = $this->getMockBuilder(Client::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $project = new Project(1, $client);
+
+        return Issue::fromArray($client, $project, $data);
+    }
+
+    public function testIsClosed()
+    {
+        $opened_data  = [
+            'iid'   => 1,
+            'state' => 'opened',
+        ];
+        $opened_issue = $this->getIssueMock($opened_data);
+
+        $this->assertFalse($opened_issue->isClosed());
+
+        $closed_data  = [
+            'iid'   => 1,
+            'state' => 'closed',
+        ];
+        $closed_issue = $this->getIssueMock($closed_data);
+
+        $this->assertTrue($closed_issue->isClosed());
+    }
+
+    public function testHasLabel()
+    {
+        $data  = [
+            'iid'    => 1,
+            'labels' => ['foo', 'bar'],
+        ];
+        $issue = $this->getIssueMock($data);
+
+        $this->assertTrue($issue->hasLabel('foo'));
+        $this->assertTrue($issue->hasLabel('bar'));
+        $this->assertFalse($issue->hasLabel(''));
+    }
 }

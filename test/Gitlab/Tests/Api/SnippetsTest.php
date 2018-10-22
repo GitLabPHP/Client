@@ -49,11 +49,11 @@ class SnippetsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/snippets', array('title' => 'A new snippet', 'code' => 'A file', 'file_name' => 'file.txt'))
+            ->with('projects/1/snippets', array('title' => 'A new snippet', 'code' => 'A file', 'file_name' => 'file.txt', 'visibility' => 'public'))
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->create(1, 'A new snippet', 'file.txt', 'A file'));
+        $this->assertEquals($expectedArray, $api->create(1, 'A new snippet', 'file.txt', 'A file', 'public'));
     }
 
     /**

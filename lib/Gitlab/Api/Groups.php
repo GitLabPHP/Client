@@ -19,36 +19,7 @@ class Groups extends AbstractApi
      */
     public function all(array $parameters = [])
     {
-        $resolver = $this->createOptionsResolver();
-        $booleanNormalizer = function (Options $resolver, $value) {
-            return $value ? 'true' : 'false';
-        };
-
-        $resolver->setDefined('skip_groups')
-            ->setAllowedTypes('skip_groups', 'array')
-            ->setAllowedValues('skip_groups', function (array $value) {
-                return count($value) == count(array_filter($value, 'is_int'));
-            })
-        ;
-        $resolver->setDefined('all_available')
-            ->setAllowedTypes('all_available', 'bool')
-            ->setNormalizer('all_available', $booleanNormalizer)
-        ;
-        $resolver->setDefined('search');
-        $resolver->setDefined('order_by')
-            ->setAllowedValues('order_by', ['name', 'path'])
-        ;
-        $resolver->setDefined('sort')
-            ->setAllowedValues('sort', ['asc', 'desc'])
-        ;
-        $resolver->setDefined('statistics')
-            ->setAllowedTypes('statistics', 'bool')
-            ->setNormalizer('statistics', $booleanNormalizer)
-        ;
-        $resolver->setDefined('owned')
-            ->setAllowedTypes('owned', 'bool')
-            ->setNormalizer('owned', $booleanNormalizer)
-        ;
+        $resolver = $this->getGroupSearchResolver();
 
         return $this->get('groups', $resolver->resolve($parameters));
     }
@@ -67,16 +38,26 @@ class Groups extends AbstractApi
      * @param string $path
      * @param string $description
      * @param string $visibility
+     * @param bool   $lfs_enabled
+     * @param bool   $request_access_enabled
+     * @param int    $parent_id
+     * @param int    $shared_runners_minutes_limit
      * @return mixed
      */
-    public function create($name, $path, $description = null, $visibility = 'private')
+    public function create($name, $path, $description = null, $visibility = 'private', $lfs_enabled = null, $request_access_enabled = null, $parent_id = null, $shared_runners_minutes_limit = null)
     {
-        return $this->post('groups', array(
+        $params = array(
             'name' => $name,
             'path' => $path,
             'description' => $description,
             'visibility' => $visibility,
-        ));
+            'lfs_enabled' => $lfs_enabled,
+            'request_access_enabled' => $request_access_enabled,
+            'parent_id' => $parent_id,
+            'shared_runners_minutes_limit' => $shared_runners_minutes_limit,
+        );
+
+        return $this->post('groups', array_filter($params, 'strlen'));
     }
 
     /**
@@ -221,5 +202,62 @@ class Groups extends AbstractApi
         $r= $this->get('groups/'.$this->encodePath($id).'/projects', $resolver->resolve($parameters), [], $this->pagination);
 
         return $r;
+    }
+
+    /**
+     * @param int $groupId
+     * @param array $parameters (
+     *
+     *     @var int[]  $skip_groups   Skip the group IDs passes.
+     *     @var bool   $all_available Show all the groups you have access to.
+     *     @var string $search        Return list of authorized groups matching the search criteria.
+     *     @var string $order_by      Order groups by name or path. Default is name.
+     *     @var string $sort          Order groups in asc or desc order. Default is asc.
+     *     @var bool   $statistics    Include group statistics (admins only).
+     *     @var bool   $owned         Limit by groups owned by the current user.
+     * )
+     * @return mixed
+     */
+    public function subgroups($groupId, array $parameters = [])
+    {
+        $resolver = $this->getGroupSearchResolver();
+
+        return $this->get('groups/'.$this->encodePath($groupId).'/subgroups', $resolver->resolve($parameters));
+    }
+
+    private function getGroupSearchResolver()
+    {
+        $resolver = $this->createOptionsResolver();
+        $booleanNormalizer = function (Options $resolver, $value) {
+            return $value ? 'true' : 'false';
+        };
+
+        $resolver->setDefined('skip_groups')
+            ->setAllowedTypes('skip_groups', 'array')
+            ->setAllowedValues('skip_groups', function (array $value) {
+                return count($value) == count(array_filter($value, 'is_int'));
+            })
+        ;
+        $resolver->setDefined('all_available')
+            ->setAllowedTypes('all_available', 'bool')
+            ->setNormalizer('all_available', $booleanNormalizer)
+        ;
+        $resolver->setDefined('search');
+        $resolver->setDefined('order_by')
+            ->setAllowedValues('order_by', ['name', 'path'])
+        ;
+        $resolver->setDefined('sort')
+            ->setAllowedValues('sort', ['asc', 'desc'])
+        ;
+        $resolver->setDefined('statistics')
+            ->setAllowedTypes('statistics', 'bool')
+            ->setNormalizer('statistics', $booleanNormalizer)
+        ;
+        $resolver->setDefined('owned')
+            ->setAllowedTypes('owned', 'bool')
+            ->setNormalizer('owned', $booleanNormalizer)
+        ;
+
+        return $resolver;
     }
 }

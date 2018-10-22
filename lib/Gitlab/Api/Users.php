@@ -65,6 +65,15 @@ class Users extends AbstractApi
     }
 
     /**
+     * @param int $id
+     * @return mixed
+     */
+    public function usersProjects($id)
+    {
+        return $this->get('users/'.$this->encodePath($id).'/projects');
+    }
+
+    /**
      * @return mixed
      */
     public function user()
@@ -258,9 +267,47 @@ class Users extends AbstractApi
      * @param int $user_id
      * @return mixed
      */
-    public function userImpersonationTokens($user_id)
+    public function userEmails($user_id)
     {
-        return $this->get('users/'.$this->encodePath($user_id).'/impersonation_tokens');
+        return $this->get('users/'.$this->encodePath($user_id).'/emails');
+    }
+
+    /**
+     * @param int $user_id
+     * @param string $email
+     * @return mixed
+     */
+    public function createEmailForUser($user_id, $email)
+    {
+        return $this->post('users/'.$this->encodePath($user_id).'/emails', array(
+            'email' => $email,
+        ));
+    }
+
+    /**
+     * @param int $user_id
+     * @param int $email_id
+     * @return mixed
+     */
+    public function removeUserEmail($user_id, $email_id)
+    {
+        return $this->delete('users/'.$this->encodePath($user_id).'/emails/'.$this->encodePath($email_id));
+    }
+
+    /**
+     * @param int $user_id
+     * @param array $params
+     * @return mixed
+     */
+    public function userImpersonationTokens($user_id, array $params = [])
+    {
+        $resolver = $this->createOptionsResolver();
+
+        $resolver->setDefined('state')
+            ->setAllowedValues('state', ['all', 'active', 'inactive'])
+        ;
+
+        return $this->get('users/'.$this->encodePath($user_id).'/impersonation_tokens', $resolver->resolve($params));
     }
 
     /**

@@ -162,10 +162,15 @@ class Issue extends AbstractModel implements Noteable
      */
     public function isClosed()
     {
-        if ($this->state == 'closed') {
-            return true;
-        }
+        return $this->state === 'closed';
+    }
 
-        return false;
+    /**
+     * @param string $label
+     * @return bool
+     */
+    public function hasLabel($label)
+    {
+        return in_array($label, $this->labels);
     }
 }
