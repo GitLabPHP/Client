@@ -97,7 +97,7 @@ class TagsTest extends TestCase
             ->with('projects/1/repository/tags/' . urlencode($releaseName) . '/release', $params)
             ->will($this->returnValue($expectedResult));
 
-        $this->assertEquals($expectedResult, $api->create(1, $params));
+        $this->assertEquals($expectedResult, $api->createRelease(1, $params));
     }
 
     /**
@@ -119,7 +119,7 @@ class TagsTest extends TestCase
             ->with('projects/1/repository/tags/' . urlencode($releaseName) . '/release', $params)
             ->will($this->returnValue($expectedResult));
 
-        $this->assertEquals($expectedResult, $api->create(1, $params));
+        $this->assertEquals($expectedResult, $api->updateRelease(1, $params));
     }
 
     public function releaseDataProvider()
