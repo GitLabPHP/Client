@@ -32,7 +32,7 @@ class TagsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/repository/tags/v1.0.0')
+            ->with('projects/1/repository/tags/v1%2E0%2E0')
             ->will($this->returnValue($expectedArray));
         $this->assertEquals($expectedArray, $api->show(1, 'v1.0.0'));
     }
@@ -73,7 +73,7 @@ class TagsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('delete')
-            ->with('projects/1/repository/tags/v1.1.0')
+            ->with('projects/1/repository/tags/v1%2E1%2E0')
             ->will($this->returnValue($expectedArray));
         $this->assertEquals($expectedArray, $api->remove(1, 'v1.1.0'));
     }
@@ -94,7 +94,7 @@ class TagsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/repository/tags/' . $releaseName . '/release', $params)
+            ->with('projects/1/repository/tags/' . urlencode($releaseName) . '/release', $params)
             ->will($this->returnValue($expectedResult));
 
         $this->assertEquals($expectedResult, $api->create(1, $params));
@@ -116,7 +116,7 @@ class TagsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/repository/tags/' . $releaseName . '/release', $params)
+            ->with('projects/1/repository/tags/' . urlencode($releaseName) . '/release', $params)
             ->will($this->returnValue($expectedResult));
 
         $this->assertEquals($expectedResult, $api->create(1, $params));
@@ -134,7 +134,7 @@ class TagsTest extends TestCase
                 ),
             ),
             array(
-                'tagName' => urlencode('version/1.1.0'),
+                'tagName' => 'version/1.1.0',
                 'description' => 'Amazing release. Wow',
                 'expectedResult' => array(
                     'tag_name' => 'version/1.1.0',
