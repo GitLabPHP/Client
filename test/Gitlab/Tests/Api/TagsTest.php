@@ -144,6 +144,7 @@ class TagsTest extends TestCase
         );
     }
 
+
     protected function getApiClass()
     {
         return 'Gitlab\Api\Tags';
