@@ -8,6 +8,7 @@ use Gitlab\Client;
  * @property-read int $id
  * @property-read string $name
  * @property-read string $path
+ * @property-read string $full_path
  * @property-read string $kind
  * @property-read int $owner_id
  * @property-read string $created_at
@@ -23,6 +24,7 @@ class ProjectNamespace extends AbstractModel
         'id',
         'name',
         'path',
+        'full_path',
         'kind',
         'owner_id',
         'created_at',

@@ -89,6 +89,16 @@ class Repositories extends AbstractApi
 
     /**
      * @param int $project_id
+     * @param int $branch_id
+     * @return mixed
+     */
+    public function tag($project_id, $branch_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'repository/tags/'.$this->encodePath($branch_id)));
+    }
+
+    /**
+     * @param int $project_id
      * @param string $name
      * @param string $ref
      * @param string $message
@@ -174,6 +184,17 @@ class Repositories extends AbstractApi
     public function commit($project_id, $sha)
     {
         return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha)));
+    }
+
+
+    /**
+     * @param int $project_id
+     * @param $sha
+     * @return mixed
+     */
+    public function commitRef($project_id, $sha)
+    {
+        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/refs'));
     }
 
     /**

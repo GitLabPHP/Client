@@ -133,13 +133,17 @@ class Client
     {
         return new Api\Environments($this);
     }
-    
+
+    private $groupCache = null;
     /**
      * @return Api\Groups
      */
     public function groups()
     {
-        return new Api\Groups($this);
+        if(null === $this->groupCache) {
+            $this->groupCache = new Api\Groups($this);
+        }
+        return $this->groupCache;
     }
 
     /**

@@ -83,4 +83,13 @@ class Commit extends AbstractModel
         $this->setData('project', $project);
         $this->setData('id', $id);
     }
+
+    /**
+     * @param string $sha
+     * @return mixed[]
+     */
+    public function refs()
+    {
+        return $this->client->repositories()->commitRef($this->project->id, $this->id);
+    }
 }

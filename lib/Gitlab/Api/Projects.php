@@ -263,12 +263,13 @@ class Projects extends AbstractApi
      *
      *     @var string $query           The query you want to search members for.
      * )
+     * @param bool $all
      *
      * @throws MissingOptionsException  If a required option is not provided
      *
      * @return mixed
      */
-    public function members($project_id, $parameters = [])
+    public function members($project_id, $parameters = [], $all = false)
     {
         if (!is_array($parameters)) {
             @trigger_error("Deprecated: String parameter of the members() function is deprecated.", E_USER_NOTICE);
@@ -285,7 +286,7 @@ class Projects extends AbstractApi
             ->setAllowedTypes('query', 'string')
         ;
 
-        return $this->get($this->getProjectPath($project_id, 'members'), $resolver->resolve($parameters));
+        return $this->get($this->getProjectPath($project_id, 'members'.($all?'/all':'')), $resolver->resolve($parameters));
     }
 
     /**

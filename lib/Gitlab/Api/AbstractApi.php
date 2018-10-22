@@ -71,9 +71,18 @@ abstract class AbstractApi implements ApiInterface
      * @param array $requestHeaders
      * @return mixed
      */
-    protected function get($path, array $parameters = array(), $requestHeaders = array())
+    protected function get($path, array $parameters = array(), $requestHeaders = array(), &$responseHeaders = array())
     {
-        return ResponseMediator::getContent($this->getAsResponse($path, $parameters, $requestHeaders));
+        $response = $this->getAsResponse($path, $parameters, $requestHeaders);
+        // Fill the responseHeaders with the value required in index
+        if($responseHeaders) {
+            foreach ($responseHeaders as $parameter => $responseHeader) {
+                if($header = $response->getHeader($parameter)) {
+                    $responseHeaders[$parameter] = array_shift($header);
+                }
+            }
+        }
+        return ResponseMediator::getContent($response);
     }
 
     /**

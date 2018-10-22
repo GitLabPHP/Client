@@ -10,6 +10,11 @@ use Gitlab\Client;
  * @property-read bool $protected
  * @property-read Commit $commit
  * @property-read Project $project
+ * @property-read bool $merged
+ * @property-read bool $default
+ * @property-read bool $developers_can_push
+ * @property-read bool $developers_can_merge
+ * @property-read bool $can_push
  */
 class Branch extends AbstractModel
 {
@@ -20,7 +25,12 @@ class Branch extends AbstractModel
         'name',
         'commit',
         'project',
-        'protected'
+        'protected',
+        'merged',
+        'default',
+        'developers_can_push',
+        'developers_can_merge',
+        'can_push'
     );
 
     /**

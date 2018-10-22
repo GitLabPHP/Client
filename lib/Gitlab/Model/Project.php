@@ -176,11 +176,22 @@ class Project extends AbstractModel
 
     /**
      * @param string $username_query
+     * @param bool $all
      * @return User[]
      */
-    public function members($username_query = null)
+    public function members($username_query = null, $all = false, $page = null, $perPage = null)
     {
-        $data = $this->client->projects()->members($this->id, $username_query);
+        $parameters = [];
+        if($username_query) {
+            $parameters['query'] = $username_query;
+        }
+        if($page) {
+            $parameters['page'] = $page;
+        }
+        if($perPage) {
+            $parameters['per_page'] = $perPage;
+        }
+        $data = $this->client->projects()->members($this->id, $parameters, $all);
 
         $members = array();
         foreach ($data as $member) {
@@ -197,7 +208,6 @@ class Project extends AbstractModel
     public function member($user_id)
     {
         $data = $this->client->projects()->member($this->id, $user_id);
-
         return User::fromArray($this->getClient(), $data);
     }
 
@@ -391,13 +401,27 @@ class Project extends AbstractModel
     public function branches()
     {
         $data = $this->client->repositories()->branches($this->id);
-
         $branches = array();
         foreach ($data as $branch) {
             $branches[] = Branch::fromArray($this->getClient(), $this, $branch);
         }
 
         return $branches;
+    }
+
+
+    /**
+     * @return Environment[]
+     */
+    public function environnements()
+    {
+        $data = $this->client->environments()->all($this->id);
+        $environments = array();
+        foreach ($data as $environment) {
+            $environments[] = Environment::fromArray($this->getClient(), $environment);
+        }
+
+        return $environments;
     }
 
     /**
@@ -451,6 +475,19 @@ class Project extends AbstractModel
         }
 
         return $tags;
+    }
+
+
+    /**
+     * @return Tag
+     */
+    public function tag(string $tagName)
+    {
+
+        $tag = new Tag($this, $tagName);
+        $tag->setClient($this->getClient());
+
+        return $tag->show();
     }
 
     /**

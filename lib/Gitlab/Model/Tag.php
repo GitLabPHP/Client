@@ -8,6 +8,7 @@ use Gitlab\Client;
  * @property-read string $name
  * @property-read bool $protected
  * @property-read Commit $commit
+ * @property-read string $target
  * @property-read Project $project
  */
 class Tag extends AbstractModel
@@ -19,6 +20,7 @@ class Tag extends AbstractModel
         'name',
         'commit',
         'project',
+        'target',
         'protected'
     );
 
@@ -49,5 +51,15 @@ class Tag extends AbstractModel
         $this->setClient($client);
         $this->setData('project', $project);
         $this->setData('name', $name);
+    }
+
+    /**
+     * @return Tag
+     */
+    public function show()
+    {
+        $data = $this->client->repositories()->tag($this->project->id, $this->name);
+
+        return static::fromArray($this->getClient(), $this->project, $data);
     }
 }

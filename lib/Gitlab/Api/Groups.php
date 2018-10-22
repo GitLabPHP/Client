@@ -57,9 +57,9 @@ class Groups extends AbstractApi
      * @param int $id
      * @return mixed
      */
-    public function show($id)
+    public function show($id, $withProject = true)
     {
-        return $this->get('groups/'.$this->encodePath($id));
+        return $this->get('groups/'.$this->encodePath($id).($withProject?'':'?with_projects=false'));
     }
 
     /**
@@ -122,7 +122,7 @@ class Groups extends AbstractApi
         $resolver = $this->createOptionsResolver();
         $resolver->setDefined('query');
 
-        return $this->get('groups/'.$this->encodePath($id).'/members', $resolver->resolve($parameters));
+        return $this->get('groups/'.$this->encodePath($id).'/members/all', $resolver->resolve($parameters));
     }
 
     /**
@@ -212,7 +212,14 @@ class Groups extends AbstractApi
             ->setAllowedTypes('starred', 'bool')
             ->setNormalizer('starred', $booleanNormalizer)
         ;
+        $resolver->setDefined('page')
+            ->setAllowedTypes('page', 'int')
+        ;
+        $resolver->setDefined('per_page')
+            ->setAllowedTypes('per_page', 'int')
+        ;
+        $r= $this->get('groups/'.$this->encodePath($id).'/projects', $resolver->resolve($parameters), [], $this->pagination);
 
-        return $this->get('groups/'.$this->encodePath($id).'/projects', $resolver->resolve($parameters));
+        return $r;
     }
 }

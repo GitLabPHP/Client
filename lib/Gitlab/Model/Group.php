@@ -10,6 +10,14 @@ use Gitlab\Client;
  * @property-read string $path
  * @property-read string $description
  * @property-read Project[] $projects
+ * @property-read string $full_name
+ * @property-read string $full_path
+ * @property-read string $visibility
+ * @property-read bool $lfs_enabled
+ * @property-read string $avatar_url
+ * @property-read string $web_url
+ * @property-read bool $request_access_enabled
+ * @property-read int $parent_id
  */
 class Group extends AbstractModel
 {
@@ -21,7 +29,15 @@ class Group extends AbstractModel
         'name',
         'path',
         'description',
-        'projects'
+        'projects',
+        'full_name',
+        'full_path',
+        'visibility',
+        'lfs_enabled',
+        'avatar_url',
+        'web_url',
+        'request_access_enabled',
+        'parent_id'
     );
 
     /**
@@ -91,9 +107,16 @@ class Group extends AbstractModel
     /**
      * @return User[]
      */
-    public function members()
+    public function members($page = null, $perPage = null)
     {
-        $data = $this->client->groups()->members($this->id);
+        $parameters = [];
+        if($page !== null) {
+            $parameters['page'] = $page;
+        }
+        if($perPage !== null) {
+            $parameters['per_page'] = $perPage;
+        }
+        $data = $this->client->groups()->members($this->id, $parameters);
 
         $members = array();
         foreach ($data as $member) {
@@ -127,12 +150,30 @@ class Group extends AbstractModel
     }
 
     /**
-     * @return Group
+     * @return \Gitlab\Model\Project[]
      */
-    public function projects()
+    public function projects($page = null, $perPage = null, &$pagination = null, $search = null)
     {
-        $data = $this->client->groups()->projects($this->id);
+        $parameters = [];
+        if(null !== $page) {
+            $parameters['page'] = $page;
+        }
+        if(null !== $perPage) {
+            $parameters['per_page'] = $perPage;
+        }
+        if(null !== $search) {
+            $parameters['search'] = $search;
+        }
+        $parameters['order_by'] = "last_activity_at";
 
-        return Group::fromArray($this->getClient(), $data);
+        $data = $this->client->groups()->projects($this->id, $parameters);
+        if($pagination !== null) {
+            $pagination = $this->client->groups()->getPagination();
+        }
+        $projects = [];
+        foreach ($data as $datum) {
+            $projects[] = Project::fromArray($this->getClient(), $datum);
+        }
+        return $projects;
     }
 }
