@@ -275,12 +275,14 @@ class Users extends AbstractApi
     /**
      * @param int $user_id
      * @param string $email
+     * @param bool $skip_confirmation
      * @return mixed
      */
-    public function createEmailForUser($user_id, $email)
+    public function createEmailForUser($user_id, $email, $skip_confirmation = false)
     {
         return $this->post('users/'.$this->encodePath($user_id).'/emails', array(
             'email' => $email,
+            'skip_confirmation' => $skip_confirmation,
         ));
     }
 
