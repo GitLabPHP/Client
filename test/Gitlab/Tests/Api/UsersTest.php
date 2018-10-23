@@ -456,11 +456,28 @@ class UsersTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('users/1/emails', array('email' => 'foo@bar.example'))
+            ->with('users/1/emails', array('email' => 'foo@bar.example', 'skip_confirmation' => false))
             ->will($this->returnValue($expectedArray))
         ;
 
         $this->assertEquals($expectedArray, $api->createEmailForUser(1, 'foo@bar.example'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreateConfirmedEmailForUser()
+    {
+        $expectedArray = array('id' => 4, 'email' => 'foo@baz.example');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('users/1/emails', array('email' => 'foo@baz.example', 'skip_confirmation' => true))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->createEmailForUser(1, 'foo@baz.example', true));
     }
 
     /**
