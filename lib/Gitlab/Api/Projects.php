@@ -398,6 +398,15 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
+     * @param mixed $namespace
+     * @return mixed
+     */
+    public function transfer($project_id, $namespace) {
+        return $this->put($this->getProjectPath($project_id, 'transfer'), ['namespace' => $namespace]);
+    }
+
+    /**
+     * @param int $project_id
      * @return mixed
      */
     public function deployKeys($project_id)

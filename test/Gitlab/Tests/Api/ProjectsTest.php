@@ -641,6 +641,27 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldTransfer()
+    {
+        $expectedArray = array(
+            'id' => 1,
+            'name' => 'Project Name',
+            'namespace' => array('name' => 'a_namespace'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/transfer', ['namespace' => 'a_namespace'])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->transfer(1, 'a_namespace'));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetDeployKeys()
     {
         $expectedArray = array(
