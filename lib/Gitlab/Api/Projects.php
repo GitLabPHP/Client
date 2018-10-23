@@ -401,7 +401,8 @@ class Projects extends AbstractApi
      * @param mixed $namespace
      * @return mixed
      */
-    public function transfer($project_id, $namespace) {
+    public function transfer($project_id, $namespace)
+    {
         return $this->put($this->getProjectPath($project_id, 'transfer'), ['namespace' => $namespace]);
     }
 
