@@ -97,6 +97,17 @@ class Issue extends AbstractModel implements Noteable
     }
 
     /**
+     * @param Project $toProject
+     * @return Issue
+     */
+    public function move(Project $toProject)
+    {
+        $data = $this->client->issues()->move($this->project->id, $this->iid, $toProject->id);
+
+        return static::fromArray($this->getClient(), $toProject, $data);
+    }
+
+    /**
      * @param string $comment
      * @return Issue
      */

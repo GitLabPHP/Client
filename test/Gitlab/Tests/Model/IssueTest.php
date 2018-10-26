@@ -2,6 +2,7 @@
 
 namespace Gitlab\Tests\Model;
 
+use Gitlab\Api\Issues;
 use Gitlab\Client;
 use Gitlab\Model\Issue;
 use Gitlab\Model\Project;
@@ -101,5 +102,30 @@ class IssueTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($issue->hasLabel('foo'));
         $this->assertTrue($issue->hasLabel('bar'));
         $this->assertFalse($issue->hasLabel(''));
+    }
+
+    public function testMove()
+    {
+        $project = new Project(1);
+        $toProject = new Project(2);
+        $client = $this->getMockBuilder(Client::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $issues = $this->getMockBuilder(Issues::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $client->expects($this->once())
+            ->method('issues')
+            ->willReturn($issues);
+        $issues->expects($this->once())
+            ->method('move')
+            ->willReturn(['iid' => 11]);
+
+        $issue = Issue::fromArray($client, $project, ['iid' => 10])->move($toProject);
+
+        $this->assertInstanceOf(Issue::class, $issue);
+        $this->assertSame($client, $issue->getClient());
+        $this->assertSame($toProject, $issue->project);
+        $this->assertSame(11, $issue->iid);
     }
 }

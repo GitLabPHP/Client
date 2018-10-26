@@ -84,6 +84,19 @@ class Issues extends AbstractApi
     /**
      * @param int $project_id
      * @param int $issue_iid
+     * @param int $to_project_id
+     * @return mixed
+     */
+    public function move($project_id, $issue_iid, $to_project_id)
+    {
+        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid)).'/move', array(
+            'to_project_id' => $to_project_id
+        ));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $issue_iid
      * @return mixed
      */
     public function remove($project_id, $issue_iid)
