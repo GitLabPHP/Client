@@ -4,8 +4,9 @@
 namespace Gitlab\Tests\HttpClient\Message;
 
 use Gitlab\HttpClient\Message\QueryStringBuilder;
+use PHPUnit\Framework\TestCase;
 
-class QueryStringBuilderTest extends \PHPUnit_Framework_TestCase
+class QueryStringBuilderTest extends TestCase
 {
     /**
      * @dataProvider queryStringProvider

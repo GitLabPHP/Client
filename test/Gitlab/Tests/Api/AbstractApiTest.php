@@ -3,8 +3,9 @@
 use Gitlab\Client;
 use Http\Client\HttpClient;
 use ReflectionClass;
+use PHPUnit\Framework\TestCase;
 
-class AbstractApiTest extends \PHPUnit_Framework_TestCase
+class AbstractApiTest extends TestCase
 {
     /**
      * @test

@@ -4,11 +4,12 @@ namespace Gitlab\Tests\HttpClient\Message;
 
 use Gitlab\HttpClient\Message\ResponseMediator;
 use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  */
-class ResponseMediatorTest extends \PHPUnit_Framework_TestCase
+class ResponseMediatorTest extends TestCase
 {
     public function testGetContent()
     {

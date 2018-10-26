@@ -6,8 +6,9 @@ use Gitlab\Api\Issues;
 use Gitlab\Client;
 use Gitlab\Model\Issue;
 use Gitlab\Model\Project;
+use PHPUnit\Framework\TestCase;
 
-class IssueTest extends \PHPUnit_Framework_TestCase
+class IssueTest extends TestCase
 {
     public function testCorrectConstructWithoutIidAndClient()
     {
