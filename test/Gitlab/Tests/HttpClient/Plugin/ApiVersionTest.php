@@ -7,8 +7,9 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Http\Client\Promise\HttpFulfilledPromise;
 use Psr\Http\Message\RequestInterface;
+use PHPUnit\Framework\TestCase;
 
-class ApiVersionTest extends \PHPUnit_Framework_TestCase
+class ApiVersionTest extends TestCase
 {
     public function testCallNextCallback()
     {

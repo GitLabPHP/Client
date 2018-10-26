@@ -9,8 +9,9 @@ use Gitlab\ResultPager;
 use GuzzleHttp\Psr7\Response;
 use function GuzzleHttp\Psr7\stream_for;
 use Http\Client\Common\HttpMethodsClient;
+use PHPUnit\Framework\TestCase;
 
-class ResultPagerTest extends \PHPUnit_Framework_TestCase
+class ResultPagerTest extends TestCase
 {
     public function testFetch()
     {
