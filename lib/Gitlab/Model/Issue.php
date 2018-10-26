@@ -197,7 +197,7 @@ class Issue extends AbstractModel implements Noteable
 
         $projects = $this->client->projects();
 
-        return array_map(function($data) use ($projects) {
+        return array_map(function ($data) use ($projects) {
             return IssueLink::fromArray(
                 $this->client,
                 Project::fromArray($this->client, $projects->show($data['project_id'])),
