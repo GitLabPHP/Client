@@ -116,6 +116,23 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
+    public function shouldMoveIssue()
+    {
+        $expectedArray = array('id' => 2, 'title' => 'A moved issue');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/issues/2/move', array('to_project_id' => 3))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->move(1, 2, 3));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetIssueComments()
     {
         $expectedArray = array(
