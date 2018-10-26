@@ -3,8 +3,11 @@
 namespace Gitlab\Tests\Model;
 
 use Gitlab\Api\Issues;
+use Gitlab\Api\IssueLinks;
+use Gitlab\Api\Projects;
 use Gitlab\Client;
 use Gitlab\Model\Issue;
+use Gitlab\Model\IssueLink;
 use Gitlab\Model\Project;
 use PHPUnit\Framework\TestCase;
 
@@ -128,5 +131,160 @@ class IssueTest extends TestCase
         $this->assertSame($client, $issue->getClient());
         $this->assertSame($toProject, $issue->project);
         $this->assertSame(11, $issue->iid);
+    }
+
+    /**
+     * @test
+     */
+    public function testLinks()
+    {
+        $issueLinks = $this->getMockBuilder(IssueLinks::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+        $projects = $this->getMockBuilder(Projects::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+        $client = $this->getMockBuilder(Client::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $client->method('issueLinks')->willReturn($issueLinks);
+        $client->method('projects')->willReturn($projects);
+
+        $issueLinks->expects($this->once())
+            ->method('all')
+            ->with(1, 10)
+            ->willReturn([
+                ['issue_link_id' => 100, 'iid' => 10, 'project_id' => 1],
+                ['issue_link_id' => 200, 'iid' => 20, 'project_id' => 2]
+            ])
+        ;
+        $projects->expects($this->exactly(2))
+            ->method('show')
+            ->withConsecutive([1], [2])
+            ->will($this->onConsecutiveCalls(['id' => 1], ['id' => 2]))
+        ;
+
+
+        $issue = new Issue(new Project(1, $client), 10, $client);
+        $issueLinks = $issue->links();
+
+
+        $this->assertInternalType('array', $issueLinks);
+        $this->assertCount(2, $issueLinks);
+
+        $this->assertInstanceOf(IssueLink::class, $issueLinks[0]);
+        $this->assertSame(100, $issueLinks[0]->issue_link_id);
+        $this->assertInstanceOf(Issue::class, $issueLinks[0]->issue);
+        $this->assertSame(10, $issueLinks[0]->issue->iid);
+        $this->assertInstanceOf(Project::class, $issueLinks[0]->issue->project);
+        $this->assertSame(1, $issueLinks[0]->issue->project->id);
+
+        $this->assertInstanceOf(IssueLink::class, $issueLinks[1]);
+        $this->assertSame(200, $issueLinks[1]->issue_link_id);
+        $this->assertInstanceOf(Issue::class, $issueLinks[1]->issue);
+        $this->assertSame(20, $issueLinks[1]->issue->iid);
+        $this->assertInstanceOf(Project::class, $issueLinks[1]->issue->project);
+        $this->assertSame(2, $issueLinks[1]->issue->project->id);
+    }
+
+    /**
+     * @test
+     */
+    public function testAddLink()
+    {
+        $issueLinks = $this->getMockBuilder(IssueLinks::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+        $client = $this->getMockBuilder(Client::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $client->method('issueLinks')->willReturn($issueLinks);
+
+        $issueLinks->expects($this->once())
+            ->method('create')
+            ->with(1, 10, 2, 20)
+            ->willReturn([
+                'source_issue' => ['iid' => 10, 'project_id' => 1],
+                'target_issue' => ['iid' => 20, 'project_id' => 2]
+            ])
+        ;
+
+        $issue = new Issue(new Project(1, $client), 10, $client);
+        $issueLinks = $issue->addLink(new Issue(new Project(2, $client), 20, $client));
+
+
+        $this->assertInternalType('array', $issueLinks);
+        $this->assertCount(2, $issueLinks);
+
+        $this->assertInstanceOf(Issue::class, $issueLinks['source_issue']);
+        $this->assertSame(10, $issueLinks['source_issue']->iid);
+        $this->assertInstanceOf(Project::class, $issueLinks['source_issue']->project);
+        $this->assertSame(1, $issueLinks['source_issue']->project->id);
+
+        $this->assertInstanceOf(Issue::class, $issueLinks['target_issue']);
+        $this->assertSame(20, $issueLinks['target_issue']->iid);
+        $this->assertInstanceOf(Project::class, $issueLinks['target_issue']->project);
+        $this->assertSame(2, $issueLinks['target_issue']->project->id);
+    }
+
+    /**
+     * @test
+     */
+    public function testRemoveLink()
+    {
+        $issueLinks = $this->getMockBuilder(IssueLinks::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+        $projects = $this->getMockBuilder(Projects::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+        $client = $this->getMockBuilder(Client::class)
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+
+        $client->method('issueLinks')->willReturn($issueLinks);
+        $client->method('projects')->willReturn($projects);
+
+        $issueLinks->expects($this->once())
+            ->method('remove')
+            ->with(1, 10, 100)
+            ->willReturn([
+                'source_issue' => ['iid' => 10, 'project_id' => 1],
+                'target_issue' => ['iid' => 20, 'project_id' => 2]
+            ])
+        ;
+        $projects->expects($this->once())
+            ->method('show')
+            ->with(2)
+            ->willReturn(['id' => 2])
+        ;
+
+
+        $issue = new Issue(new Project(1, $client), 10, $client);
+        $issueLinks = $issue->removeLink(100);
+
+
+        $this->assertInternalType('array', $issueLinks);
+        $this->assertCount(2, $issueLinks);
+
+        $this->assertInstanceOf(Issue::class, $issueLinks['source_issue']);
+        $this->assertSame(10, $issueLinks['source_issue']->iid);
+        $this->assertInstanceOf(Project::class, $issueLinks['source_issue']->project);
+        $this->assertSame(1, $issueLinks['source_issue']->project->id);
+
+        $this->assertInstanceOf(Issue::class, $issueLinks['target_issue']);
+        $this->assertSame(20, $issueLinks['target_issue']->iid);
+        $this->assertInstanceOf(Project::class, $issueLinks['target_issue']->project);
+        $this->assertSame(2, $issueLinks['target_issue']->project->id);
     }
 }
