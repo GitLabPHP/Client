@@ -151,6 +151,14 @@ class Client
     }
 
     /**
+     * @return Api\IssueLinks
+     */
+    public function issueLinks()
+    {
+        return new Api\IssueLinks($this);
+    }
+
+    /**
      * @return Api\Jobs
      */
     public function jobs()
@@ -292,6 +300,10 @@ class Client
             case 'board':
             case 'issue_boards':
                 return $this->issueBoards();
+
+            case 'issue_links':
+                return $this->issueLinks();
+
             case 'jobs':
                 return $this->jobs();
 
