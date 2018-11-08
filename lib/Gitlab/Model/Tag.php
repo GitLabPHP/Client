@@ -17,7 +17,9 @@ class Tag extends AbstractModel
      */
     protected static $properties = array(
         'name',
+        'message',
         'commit',
+        'release',
         'project',
         'protected'
     );
@@ -34,6 +36,10 @@ class Tag extends AbstractModel
 
         if (isset($data['commit'])) {
             $data['commit'] = Commit::fromArray($client, $project, $data['commit']);
+        }
+
+        if (isset($data['release'])) {
+            $data['release'] = Release::fromArray($client, $data['release']);
         }
 
         return $branch->hydrate($data);
