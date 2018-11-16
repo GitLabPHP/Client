@@ -299,7 +299,7 @@ class MergeRequestsTest extends TestCase
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->addDiscussion(1, 2, 'A new discussion'));
+        $this->assertEquals($expectedArray, $api->addDiscussion(1, 2, array('body' => 'A new discussion')));
     }
 
     /**
@@ -367,7 +367,7 @@ class MergeRequestsTest extends TestCase
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->updateDiscussionNote(1, 2, 'abc', 3, 'An edited discussion note'));
+        $this->assertEquals($expectedArray, $api->updateDiscussionNote(1, 2, 'abc', 3, array('body' => 'An edited discussion note')));
     }
 
     /**
