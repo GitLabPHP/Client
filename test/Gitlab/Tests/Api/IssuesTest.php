@@ -205,6 +205,111 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetIssueDiscussions()
+    {
+        $expectedArray = array(
+            array('id' => 'abc', 'body' => 'A discussion'),
+            array('id' => 'def', 'body' => 'Another discussion')
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/issues/2/discussions')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->showDiscussions(1, 2));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetIssueDiscussion()
+    {
+        $expectedArray = array('id' => 'abc', 'body' => 'A discussion');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/issues/2/discussions/abc')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->showDiscussion(1, 2, 'abc'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreateDiscussion()
+    {
+        $expectedArray = array('id' => 'abc', 'body' => 'A new discussion');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/issues/2/discussions', array('body' => 'A new discussion'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->addDiscussion(1, 2, 'A new discussion'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreateDiscussionNote()
+    {
+        $expectedArray = array('id' => 3, 'body' => 'A new discussion note');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/issues/2/discussions/abc/notes', array('body' => 'A new discussion note'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->addDiscussionNote(1, 2, 'abc', 'A new discussion note'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUpdateDiscussionNote()
+    {
+        $expectedArray = array('id' => 3, 'body' => 'An edited discussion note');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/issues/2/discussions/abc/notes/3', array('body' => 'An edited discussion note'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->updateDiscussionNote(1, 2, 'abc', 3, 'An edited discussion note'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRemoveDiscussionNote()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/issues/2/discussions/abc/notes/3')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->removeDiscussionNote(1, 2, 'abc', 3));
+    }
+
+    /**
+     * @test
+     */
     public function shouldSetTimeEstimate()
     {
         $expectedArray = array('time_estimate' => 14400, 'total_time_spent' => 0, 'human_time_estimate' => '4h', 'human_total_time_spent' => null);

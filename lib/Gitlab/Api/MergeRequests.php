@@ -217,6 +217,91 @@ class MergeRequests extends AbstractApi
 
     /**
      * @param int $project_id
+     * @param int $mr_iid
+     * @return mixed
+     */
+    public function showDiscussions($project_id, $mr_iid)
+    {
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid)).'/discussions');
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $mr_iid
+     * @param string $discussion_id
+     * @return mixed
+     */
+    public function showDiscussion($project_id, $mr_iid, $discussion_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid)).'/discussions/'.$this->encodePath($discussion_id));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $mr_iid
+     * @param array $params
+     * @return mixed
+     */
+    public function addDiscussion($project_id, $mr_iid, array $params)
+    {
+        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/discussions'), $params);
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $mr_iid
+     * @param string $discussion_id
+     * @param bool $resolved
+     * @return mixed
+     */
+    public function resolveDiscussion($project_id, $mr_iid, $discussion_id, $resolved = true)
+    {
+        return $this->put($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/discussions/'.$this->encodePath($discussion_id)), array(
+            'resolved' => $resolved
+        ));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $mr_iid
+     * @param string $discussion_id
+     * @param string $body
+     * @return mixed
+     */
+    public function addDiscussionNote($project_id, $mr_iid, $discussion_id, $body)
+    {
+        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/discussions/'.$this->encodePath($discussion_id).'/notes'), array(
+            'body' => $body
+        ));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $mr_iid
+     * @param string $discussion_id
+     * @param int $note_id
+     * @param array $params
+     * @return mixed
+     */
+    public function updateDiscussionNote($project_id, $mr_iid, $discussion_id, $note_id, array $params)
+    {
+        return $this->put($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/discussions/'.$this->encodePath($discussion_id).'/notes/'.$this->encodePath($note_id)), $params);
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $mr_iid
+     * @param string $discussion_id
+     * @param int $note_id
+     * @return mixed
+     */
+    public function removeDiscussionNote($project_id, $mr_iid, $discussion_id, $note_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/discussions/'.$this->encodePath($discussion_id).'/notes/'.$this->encodePath($note_id)));
+    }
+
+    /**
+     * @param int $project_id
      * @param int $mr_id
      * @return mixed
      */

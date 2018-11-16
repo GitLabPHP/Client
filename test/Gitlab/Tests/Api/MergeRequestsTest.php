@@ -248,6 +248,144 @@ class MergeRequestsTest extends TestCase
         $this->assertEquals($expectedArray, $api->changes(1, 2));
     }
 
+    /**
+     * @test
+     */
+    public function shouldGetMergeRequestDiscussions()
+    {
+        $expectedArray = array(
+            array('id' => 'abc', 'body' => 'A discussion'),
+            array('id' => 'def', 'body' => 'Another discussion')
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_requests/2/discussions')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->showDiscussions(1, 2));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetMergeRequestDiscussion()
+    {
+        $expectedArray = array('id' => 'abc', 'body' => 'A discussion');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_requests/2/discussions/abc')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->showDiscussion(1, 2, 'abc'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreateDiscussion()
+    {
+        $expectedArray = array('id' => 'abc', 'body' => 'A new discussion');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/merge_requests/2/discussions', array('body' => 'A new discussion'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->addDiscussion(1, 2, 'A new discussion'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldResolveDiscussion()
+    {
+        $expectedArray = array('id' => 'abc', 'resolved' => true);
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/merge_requests/2/discussions/abc', array('resolved' => true))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->resolveDiscussion(1, 2, 'abc', true));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUnresolveDiscussion()
+    {
+        $expectedArray = array('id' => 'abc', 'resolved' => false);
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/merge_requests/2/discussions/abc', array('resolved' => false))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->resolveDiscussion(1, 2, 'abc', false));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreateDiscussionNote()
+    {
+        $expectedArray = array('id' => 3, 'body' => 'A new discussion note');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/merge_requests/2/discussions/abc/notes', array('body' => 'A new discussion note'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->addDiscussionNote(1, 2, 'abc', 'A new discussion note'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUpdateDiscussionNote()
+    {
+        $expectedArray = array('id' => 3, 'body' => 'An edited discussion note');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/merge_requests/2/discussions/abc/notes/3', array('body' => 'An edited discussion note'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->updateDiscussionNote(1, 2, 'abc', 3, 'An edited discussion note'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRemoveDiscussionNote()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/merge_requests/2/discussions/abc/notes/3')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->removeDiscussionNote(1, 2, 'abc', 3));
+    }
 
     /**
      * @test
