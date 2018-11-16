@@ -171,6 +171,81 @@ class Issues extends AbstractApi
     /**
      * @param int $project_id
      * @param int $issue_iid
+     * @return mixed
+     */
+    public function showDiscussions($project_id, $issue_iid)
+    {
+        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid)).'/discussions');
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $issue_iid
+     * @param string $discussion_id
+     * @return mixed
+     */
+    public function showDiscussion($project_id, $issue_iid, $discussion_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid)).'/discussions/'.$this->encodePath($discussion_id));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $issue_iid
+     * @param string $body
+     * @return mixed
+     */
+    public function addDiscussion($project_id, $issue_iid, $body)
+    {
+        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/discussions'), array(
+            'body' => $body
+        ));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $issue_iid
+     * @param string $discussion_id
+     * @param string $body
+     * @return mixed
+     */
+    public function addDiscussionNote($project_id, $issue_iid, $discussion_id, $body)
+    {
+        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/discussions/'.$this->encodePath($discussion_id).'/notes'), array(
+            'body' => $body
+        ));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $issue_iid
+     * @param string $discussion_id
+     * @param int $note_id
+     * @param string $body
+     * @return mixed
+     */
+    public function updateDiscussionNote($project_id, $issue_iid, $discussion_id, $note_id, $body)
+    {
+        return $this->put($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/discussions/'.$this->encodePath($discussion_id).'/notes/'.$this->encodePath($note_id)), array(
+            'body' => $body
+        ));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $issue_iid
+     * @param string $discussion_id
+     * @param int $note_id
+     * @return mixed
+     */
+    public function removeDiscussionNote($project_id, $issue_iid, $discussion_id, $note_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/discussions/'.$this->encodePath($discussion_id).'/notes/'.$this->encodePath($note_id)));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $issue_iid
      * @param string $duration
      */
     public function setTimeEstimate($project_id, $issue_iid, $duration)
