@@ -311,7 +311,7 @@ class MergeRequestsTest extends TestCase
 
         $api = $this->getApiMock();
         $api->expects($this->once())
-            ->method('post')
+            ->method('put')
             ->with('projects/1/merge_requests/2/discussions/abc', array('resolved' => true))
             ->will($this->returnValue($expectedArray))
         ;
@@ -328,7 +328,7 @@ class MergeRequestsTest extends TestCase
 
         $api = $this->getApiMock();
         $api->expects($this->once())
-            ->method('post')
+            ->method('put')
             ->with('projects/1/merge_requests/2/discussions/abc', array('resolved' => false))
             ->will($this->returnValue($expectedArray))
         ;
