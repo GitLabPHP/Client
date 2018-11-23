@@ -76,6 +76,23 @@ class MilestonesTest extends TestCase
     /**
      * @test
      */
+    public function shouldRemoveMilestone()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/milestones/2')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->remove(1, 2));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetMilestonesIssues()
     {
         $expectedArray = array(
