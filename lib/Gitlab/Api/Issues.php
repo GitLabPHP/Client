@@ -15,6 +15,7 @@ class Issues extends AbstractApi
      *     @var string $order_by  Return requests ordered by created_at or updated_at fields. Default is created_at.
      *     @var string $sort      Return requests sorted in asc or desc order. Default is desc.
      *     @var string $search    Search issues against their title and description.
+     *     @var int $assignee_id  Search issues against their assignee.
      * )
      *
      * @return mixed
@@ -44,6 +45,7 @@ class Issues extends AbstractApi
             ->setAllowedValues('sort', ['asc', 'desc'])
         ;
         $resolver->setDefined('search');
+        $resolver->setDefined('assignee_id');
 
         $path = $project_id === null ? 'issues' : $this->getProjectPath($project_id, 'issues');
 
