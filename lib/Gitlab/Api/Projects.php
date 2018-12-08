@@ -366,6 +366,16 @@ class Projects extends AbstractApi
     {
         return $this->get($this->getProjectPath($project_id, 'issues'), $parameters);
     }
+
+    /**
+     * @param int $project_id
+     * @return mixed
+     */
+    public function boards($project_id, $parameters = array())
+    {
+        return $this->get($this->getProjectPath($project_id, 'boards'), $parameters);
+    }
+
     /**
      * @param int $project_id
      * @param string $url
