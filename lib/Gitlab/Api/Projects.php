@@ -360,6 +360,14 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
+     * @return mixed
+     */
+    public function issues($project_id, $parameters = array())
+    {
+        return $this->get($this->getProjectPath($project_id, 'issues'), $parameters);
+    }
+    /**
+     * @param int $project_id
      * @param string $url
      * @param array $params
      * @return mixed
