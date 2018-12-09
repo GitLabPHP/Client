@@ -272,7 +272,8 @@ class ProjectsTest extends TestCase
      *
      * @test
      */
-    public function shouldGetProjectIssues() {
+    public function shouldGetProjectIssues()
+    {
         $expectedArray = $this->getProjectIssuesExpectedArray();
 
         $api = $this->getApiMock();
