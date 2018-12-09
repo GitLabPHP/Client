@@ -268,6 +268,111 @@ class ProjectsTest extends TestCase
     }
 
     /**
+     * Check we can request project issues.
+     *
+     * @test
+     */
+    public function shouldGetProjectIssues() {
+        $expectedArray = $this->getProjectIssuesExpectedArray();
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/issues')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->issues(1));
+    }
+
+    /**
+     * Check we can request project issues with query parameters.
+     *
+     * @test
+     */
+    public function shouldGetProjectIssuesParameters() {
+        $expectedArray = $this->getProjectIssuesExpectedArray();
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/issues')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->issues(1, array('state' => 'opened')));
+    }
+
+    /**
+     * Get expected array for tests which check project issues method.
+     *
+     * @return array
+     *   Project issues list.
+     */
+    public function getProjectIssuesExpectedArray() {
+        return [
+            [
+               'state' => 'opened',
+               'description' => 'Ratione dolores corrupti mollitia soluta quia.',
+               'author' => [
+                  'state' => 'active',
+                  'id' => 18,
+                  'web_url' => 'https => //gitlab.example.com/eileen.lowe',
+                  'name' => 'Alexandra Bashirian',
+                  'avatar_url' => null,
+                  'username' => 'eileen.lowe'
+               ],
+               'milestone' => [
+                  'project_id' => 1,
+                  'description' => 'Ducimus nam enim ex consequatur cumque ratione.',
+                  'state' => 'closed',
+                  'due_date' => null,
+                  'iid' => 2,
+                  'created_at' => '2016-01-04T15 => 31 => 39.996Z',
+                  'title' => 'v4.0',
+                  'id' => 17,
+                  'updated_at' => '2016-01-04T15 => 31 => 39.996Z'
+               ],
+               'project_id' => 1,
+               'assignees' => [[
+                  'state' => 'active',
+                  'id' => 1,
+                  'name' => 'Administrator',
+                  'web_url' => 'https => //gitlab.example.com/root',
+                  'avatar_url' => null,
+                  'username' => 'root'
+               ]],
+               'assignee' => [
+                  'state' => 'active',
+                  'id' => 1,
+                  'name' => 'Administrator',
+                  'web_url' => 'https => //gitlab.example.com/root',
+                  'avatar_url' => null,
+                  'username' => 'root'
+               ],
+               'updated_at' => '2016-01-04T15 => 31 => 51.081Z',
+               'closed_at' => null,
+               'closed_by' => null,
+               'id' => 76,
+               'title' => 'Consequatur vero maxime deserunt laboriosam est voluptas dolorem.',
+               'created_at' => '2016-01-04T15 => 31 => 51.081Z',
+               'iid' => 6,
+               'labels' => [],
+               'user_notes_count' =>  1,
+               'due_date' =>  '2016-07-22',
+               'web_url' =>  'http => //example.com/example/example/issues/6',
+               'confidential' =>  false,
+               'weight' =>  null,
+               'discussion_locked' =>  false,
+               'time_stats' =>  [
+                  'time_estimate' =>  0,
+                  'total_time_spent' =>  0,
+                  'human_time_estimate' =>  null,
+                  'human_total_time_spent' =>  null
+               ],
+            ]
+         ];
+    }
+
+    /**
      * @test
      */
     public function shouldGetPipelinesWithBooleanParam()
