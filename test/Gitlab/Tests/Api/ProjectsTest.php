@@ -289,7 +289,8 @@ class ProjectsTest extends TestCase
      *
      * @test
      */
-    public function shouldGetProjectIssuesParameters() {
+    public function shouldGetProjectIssuesParameters()
+    {
         $expectedArray = $this->getProjectIssuesExpectedArray();
 
         $api = $this->getApiMock();
@@ -307,7 +308,8 @@ class ProjectsTest extends TestCase
      * @return array
      *   Project issues list.
      */
-    public function getProjectIssuesExpectedArray() {
+    public function getProjectIssuesExpectedArray()
+    {
         return [
             [
                'state' => 'opened',
@@ -375,7 +377,8 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetBoards() {
+    public function shouldGetBoards()
+    {
         $expectedArray = $this->getProjectIssuesExpectedArray();
 
         $api = $this->getApiMock();
@@ -393,7 +396,8 @@ class ProjectsTest extends TestCase
      * @return array
      *   Project issues list.
      */
-    public function getProjectBoardsExpectedArray() {
+    public function getProjectBoardsExpectedArray()
+    {
         return [
             [
               'id' => 1,
