@@ -375,6 +375,77 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetBoards() {
+        $expectedArray = $this->getProjectIssuesExpectedArray();
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/boards')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->boards(1));
+    }
+
+    /**
+     * Get expected array for tests which check project boards
+     *
+     * @return array
+     *   Project issues list.
+     */
+    public function getProjectBoardsExpectedArray() {
+        return [
+            [
+              'id' => 1,
+              'project' =>  [
+                'id' =>  5,
+                'name' =>  'Diaspora Project Site',
+                'name_with_namespace' =>  'Diaspora / Diaspora Project Site',
+                'path' =>  'diaspora-project-site',
+                'path_with_namespace' =>  'diaspora/diaspora-project-site',
+                'http_url_to_repo' =>  'http => //example.com/diaspora/diaspora-project-site.git',
+                'web_url' =>  'http => //example.com/diaspora/diaspora-project-site'
+              ],
+              'milestone' =>    [
+                'id' =>  12,
+                'title' => '10.0',
+              ],
+              'lists' => [
+                [
+                  'id' => 1,
+                  'label' => [
+                    'name' => 'Testing',
+                    'color' => '#F0AD4E',
+                    'description' => null
+                  ],
+                  'position' => 1
+                ],
+                [
+                  'id' => 2,
+                  'label' => [
+                    'name' => 'Ready',
+                    'color' => '#FF0000',
+                    'description' => null
+                  ],
+                  'position' => 2
+                ],
+                [
+                  'id' => 3,
+                  'label' => [
+                    'name' => 'Production',
+                    'color' => '#FF5F00',
+                    'description' => null
+                  ],
+                  'position' => 3
+                ]
+              ]
+            ]
+        ];
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetPipelinesWithBooleanParam()
     {
         $expectedArray = array(
