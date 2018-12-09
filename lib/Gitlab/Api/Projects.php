@@ -368,8 +368,15 @@ class Projects extends AbstractApi
     }
 
     /**
+     * Get projects board list.
+     *
+     * See https://docs.gitlab.com/ee/api/boards.html for more info.
+     *
      * @param int $project_id
-     * @return mixed
+     *   Project id.
+     *
+     * @return array
+     *   List of project boards.
      */
     public function boards($project_id)
     {
