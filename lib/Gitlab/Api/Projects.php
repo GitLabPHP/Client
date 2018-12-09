@@ -359,10 +359,19 @@ class Projects extends AbstractApi
     }
 
     /**
+     * Get project issues.
+     *
+     * See https://docs.gitlab.com/ee/api/issues.html#list-project-issues for more info.
+     *
      * @param int $project_id
-     * @return mixed
+     *   Project id.
+     * @param array $parameters
+     *   Url parameters. For example: issue state (opened / closed).
+     *
+     * @return array
+     *   List of project issues.
      */
-    public function issues($project_id, $parameters = array())
+    public function issues($project_id, array $parameters = [])
     {
         return $this->get($this->getProjectPath($project_id, 'issues'), $parameters);
     }
