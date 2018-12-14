@@ -23,6 +23,7 @@ class Projects extends AbstractApi
      *     @var bool   $statistics                  Include project statistics.
      *     @var bool   $with_issues_enabled         Limit by enabled issues feature.
      *     @var bool   $with_merge_requests_enabled Limit by enabled merge requests feature.
+     *     @var int    $min_access_level            Limit by current user minimal access level
      * }
      *
      * @throws UndefinedOptionsException If an option name is undefined
@@ -78,6 +79,9 @@ class Projects extends AbstractApi
         $resolver->setDefined('with_merge_requests_enabled')
             ->setAllowedTypes('with_merge_requests_enabled', 'bool')
             ->setNormalizer('with_merge_requests_enabled', $booleanNormalizer)
+        ;
+        $resolver->setDefined('min_access_level')
+            ->setAllowedValues('min_access_level', [null, 10, 20, 30, 40, 50])
         ;
 
         return $this->get('projects', $resolver->resolve($parameters));
