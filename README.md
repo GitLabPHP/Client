@@ -41,6 +41,11 @@ $client = \Gitlab\Client::create('http://git.yourdomain.com')
     ->authenticate('your_gitlab_token_here', \Gitlab\Client::AUTH_URL_TOKEN)
 ;
 
+// or for OAuth2 (see https://github.com/m4tthumphrey/php-gitlab-api/blob/master/lib/Gitlab/HttpClient/Plugin/Authentication.php#L47)
+$client = \Gitlab\Client::create('http://gitlab.yourdomain.com')
+    ->authenticate('your_gitlab_token_here', \Gitlab\Client::AUTH_OAUTH_TOKEN)
+;
+
 $project = $client->api('projects')->create('My Project', array(
   'description' => 'This is a project',
   'issues_enabled' => false
