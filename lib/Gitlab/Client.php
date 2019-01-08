@@ -135,6 +135,14 @@ class Client
     }
 
     /**
+     * @return Api\GroupsMilestones
+     */
+    public function groupsMilestones()
+    {
+        return new Api\GroupsMilestones($this);
+    }
+
+    /**
      * @return Api\Issues
      */
     public function issues()
