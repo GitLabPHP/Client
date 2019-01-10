@@ -301,6 +301,9 @@ class Client
 
             case 'groups':
                 return $this->groups();
+                
+            case 'groupsMilestones':
+                return $this->groupsMilestones();
 
             case 'issues':
                 return $this->issues();
