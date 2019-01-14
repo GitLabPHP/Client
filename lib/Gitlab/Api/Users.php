@@ -98,11 +98,12 @@ class Users extends AbstractApi
     /**
      * @param int $id
      * @param array $params
+     * @param array $files
      * @return mixed
      */
-    public function update($id, array $params)
+    public function update($id, array $params, array $files = array())
     {
-        return $this->put('users/'.$this->encodePath($id), $params);
+        return $this->put('users/'.$this->encodePath($id), $params, array(), $files);
     }
 
     /**
