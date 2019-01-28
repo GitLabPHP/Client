@@ -153,6 +153,7 @@ class Repositories extends AbstractApi
             return $value->format('c');
         };
 
+        $resolver->setDefined('path');
         $resolver->setDefined('ref_name');
         $resolver->setDefined('since')
             ->setAllowedTypes('since', \DateTimeInterface::class)
