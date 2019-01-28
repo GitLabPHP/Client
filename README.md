@@ -63,7 +63,7 @@ $client = \Gitlab\Client::create('http://git.yourdomain.com')
     ->authenticate('your_gitlab_token_here', \Gitlab\Client::AUTH_URL_TOKEN)
 ;
 $pager = new \Gitlab\ResultPager($client);
-$issues = $pager->fetchall($client->api('issues'),'all',[null, ['state' => 'closed']]);
+$issues = $pager->fetchAll($client->api('issues'),'all',[null, ['state' => 'closed']]);
 
 ```
 
