@@ -208,9 +208,9 @@ class Groups extends AbstractApi
         $allprojects=$projects;
         $page=1;
         while ($projects!=null){
-                $page++;
-                $projects= $this->get('groups/'.$this->encodePath($id).'/projects?page='.$page);
-                $allprojects=array_merge($allprojects,$projects);
+            $page++;
+            $projects= $this->get('groups/'.$this->encodePath($id).'/projects?page='.$page);
+            $allprojects=array_merge($allprojects,$projects);
         }
         return $allprojects;
     }
