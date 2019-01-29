@@ -84,6 +84,19 @@ class ProjectsTest extends TestCase
 
     /**
      * @test
+     * @dataProvider possibleAccessLevels
+     */
+    public function shouldGetProjectsWithMinimumAccessLevel($level)
+    {
+        $expectedArray = $this->getMultipleProjectsData();
+
+        $api = $this->getMultipleProjectsRequestMock('projects', $expectedArray, ['min_access_level' => $level]);
+
+        $this->assertEquals($expectedArray, $api->all(['min_access_level' => $level]));
+    }
+
+    /**
+     * @test
      */
     public function shouldSearchProjects()
     {
@@ -1459,6 +1472,17 @@ class ProjectsTest extends TestCase
             array('id' => 1, 'name' => 'A project'),
             array('id' => 2, 'name' => 'Another project')
         );
+    }
+
+    public function possibleAccessLevels()
+    {
+        return [
+            [10],
+            [20],
+            [30],
+            [40],
+            [50],
+        ];
     }
 
     protected function getApiClass()
