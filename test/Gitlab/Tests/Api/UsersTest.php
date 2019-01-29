@@ -161,6 +161,17 @@ class UsersTest extends TestCase
         ;
 
         $this->assertEquals($expectedArray, $api->update(3, array('name' => 'Billy Bob')));
+
+        $expectedArray = array('id' => 4, 'avatar_url' => 'http://localhost:3000/uploads/user/avatar/4/image.jpg');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('users/4', array(), array(), array('avatar' => '/some/image.jpg'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->update(4, array(), array('avatar' => '/some/image.jpg')));
     }
 
     /**
