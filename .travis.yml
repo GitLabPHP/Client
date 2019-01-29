@@ -6,10 +6,20 @@ php:
   - 5.6
   - 7.0
   - 7.1
+  - 7.2
+  - 7.3
+
+matrix:
+  # test latest PHP stable version with lowest dependencies and phpstan static analysis
+  include:
+    - php: 7.1
+      env: COMPOSER_FLAGS="--prefer-lowest" STATIC_ANALYSIS=yes
 
 before_script:
   - travis_retry composer self-update
-  - travis_retry composer install --no-interaction --prefer-source
+  - travis_retry composer update --no-interaction ${COMPOSER_FLAGS}
+  - if [ "$STATIC_ANALYSIS" != "" ]; then curl -L https://github.com/phpstan/phpstan/releases/download/0.8/phpstan.phar -o phpstan.phar; fi;
 
 script:
   - vendor/bin/phpunit --verbose --coverage-text
+  - if [ "$STATIC_ANALYSIS" != "" ]; then php phpstan.phar analyse --level=4 lib; fi;

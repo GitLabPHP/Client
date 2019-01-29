@@ -26,14 +26,16 @@ class Snippets extends AbstractApi
      * @param string $title
      * @param string $filename
      * @param string $code
+     * @param string $visibility
      * @return mixed
      */
-    public function create($project_id, $title, $filename, $code)
+    public function create($project_id, $title, $filename, $code, $visibility)
     {
         return $this->post($this->getProjectPath($project_id, 'snippets'), array(
-            'title' => $title,
-            'file_name' => $filename,
-            'code' => $code
+            'title'      => $title,
+            'file_name'  => $filename,
+            'code'       => $code,
+            'visibility' => $visibility
         ));
     }
 
@@ -66,5 +68,16 @@ class Snippets extends AbstractApi
     public function remove($project_id, $snippet_id)
     {
         return $this->delete($this->getProjectPath($project_id, 'snippets/'.$this->encodePath($snippet_id)));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $snippet_id
+     *
+     * @return mixed
+     */
+    public function awardEmoji($project_id, $snippet_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'snippets/'.$this->encodePath($snippet_id).'/award_emoji'));
     }
 }

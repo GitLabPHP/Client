@@ -1,6 +1,6 @@
 <?php namespace Gitlab\Tests\Api;
 
-class MilestonesTest extends ApiTestCase
+class MilestonesTest extends TestCase
 {
     /**
      * @test
@@ -71,6 +71,23 @@ class MilestonesTest extends ApiTestCase
         ;
 
         $this->assertEquals($expectedArray, $api->update(1, 3, array('title' => 'Updated milestone', 'due_date' => '2015-04-01', 'state_event' => 'close')));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRemoveMilestone()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/milestones/2')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->remove(1, 2));
     }
 
     /**

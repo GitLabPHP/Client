@@ -86,7 +86,7 @@ class User extends AbstractModel
      */
     public static function create(Client $client, $email, $password, array $params = array())
     {
-        $data = $client->api('users')->create($email, $password, $params);
+        $data = $client->users()->create($email, $password, $params);
 
         return static::fromArray($client, $data);
     }
@@ -106,7 +106,7 @@ class User extends AbstractModel
      */
     public function show()
     {
-        $data = $this->api('users')->show($this->id);
+        $data = $this->client->users()->show($this->id);
 
         return static::fromArray($this->getClient(), $data);
     }
@@ -117,7 +117,7 @@ class User extends AbstractModel
      */
     public function update(array $params)
     {
-        $data = $this->api('users')->update($this->id, $params);
+        $data = $this->client->users()->update($this->id, $params);
 
         return static::fromArray($this->getClient(), $data);
     }
@@ -127,7 +127,7 @@ class User extends AbstractModel
      */
     public function remove()
     {
-        $this->api('users')->remove($this->id);
+        $this->client->users()->remove($this->id);
 
         return true;
     }
@@ -137,7 +137,7 @@ class User extends AbstractModel
      */
     public function block()
     {
-        $this->api('users')->block($this->id);
+        $this->client->users()->block($this->id);
 
         return true;
     }
@@ -147,7 +147,7 @@ class User extends AbstractModel
      */
     public function unblock()
     {
-        $this->api('users')->unblock($this->id);
+        $this->client->users()->unblock($this->id);
 
         return true;
     }
@@ -157,7 +157,7 @@ class User extends AbstractModel
      */
     public function keys()
     {
-        $data = $this->api('users')->keys();
+        $data = $this->client->users()->keys();
 
         $keys = array();
         foreach ($data as $key) {
@@ -174,7 +174,7 @@ class User extends AbstractModel
      */
     public function createKey($title, $key)
     {
-        $data = $this->api('users')->createKey($title, $key);
+        $data = $this->client->users()->createKey($title, $key);
 
         return Key::fromArray($this->getClient(), $data);
     }
@@ -186,7 +186,7 @@ class User extends AbstractModel
      */
     public function createKeyForUser($user_id, $title, $key)
     {
-        $data = $this->api('users')->createKeyForUser($user_id, $title, $key);
+        $data = $this->client->users()->createKeyForUser($user_id, $title, $key);
 
         return Key::fromArray($this->getClient(), $data);
     }
@@ -197,7 +197,7 @@ class User extends AbstractModel
      */
     public function removeKey($id)
     {
-        $this->api('users')->removeKey($id);
+        $this->client->users()->removeKey($id);
 
         return true;
     }

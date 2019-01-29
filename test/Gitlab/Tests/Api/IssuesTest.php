@@ -1,8 +1,6 @@
 <?php namespace Gitlab\Tests\Api;
 
-use Gitlab\Api\AbstractApi;
-
-class IssuesTest extends ApiTestCase
+class IssuesTest extends TestCase
 {
     /**
      * @test
@@ -17,7 +15,7 @@ class IssuesTest extends ApiTestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('issues', array('page' => 1, 'per_page' => AbstractApi::PER_PAGE))
+            ->with('issues', array())
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -41,7 +39,7 @@ class IssuesTest extends ApiTestCase
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->all(1, 2, 5));
+        $this->assertEquals($expectedArray, $api->all(1, ['page' => 2, 'per_page' => 5]));
     }
 
     /**
@@ -57,11 +55,11 @@ class IssuesTest extends ApiTestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/issues', array('page' => 2, 'per_page' => 5, 'order_by' => 'created_at', 'sort' => 'desc', 'labels' => 'foo,bar', 'state' => 'open'))
+            ->with('projects/1/issues', array('order_by' => 'created_at', 'sort' => 'desc', 'labels' => 'foo,bar', 'state' => 'opened'))
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->all(1, 2, 5, array('order_by' => 'created_at', 'sort' => 'desc', 'labels' => 'foo,bar', 'state' => 'open')));
+        $this->assertEquals($expectedArray, $api->all(1, array('order_by' => 'created_at', 'sort' => 'desc', 'labels' => 'foo,bar', 'state' => 'opened')));
     }
 
     /**
@@ -74,7 +72,7 @@ class IssuesTest extends ApiTestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/issues?iid=2')
+            ->with('projects/1/issues/2')
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -113,6 +111,23 @@ class IssuesTest extends ApiTestCase
         ;
 
         $this->assertEquals($expectedArray, $api->update(1, 2, array('title' => 'A renamed issue', 'labels' => 'foo')));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldMoveIssue()
+    {
+        $expectedArray = array('id' => 2, 'title' => 'A moved issue');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/issues/2/move', array('to_project_id' => 3))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->move(1, 2, 3));
     }
 
     /**
@@ -185,6 +200,111 @@ class IssuesTest extends ApiTestCase
         ;
 
         $this->assertEquals($expectedArray, $api->updateComment(1, 2, 3, 'An edited comment'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetIssueDiscussions()
+    {
+        $expectedArray = array(
+            array('id' => 'abc', 'body' => 'A discussion'),
+            array('id' => 'def', 'body' => 'Another discussion')
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/issues/2/discussions')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->showDiscussions(1, 2));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetIssueDiscussion()
+    {
+        $expectedArray = array('id' => 'abc', 'body' => 'A discussion');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/issues/2/discussions/abc')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->showDiscussion(1, 2, 'abc'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreateDiscussion()
+    {
+        $expectedArray = array('id' => 'abc', 'body' => 'A new discussion');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/issues/2/discussions', array('body' => 'A new discussion'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->addDiscussion(1, 2, 'A new discussion'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreateDiscussionNote()
+    {
+        $expectedArray = array('id' => 3, 'body' => 'A new discussion note');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/issues/2/discussions/abc/notes', array('body' => 'A new discussion note'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->addDiscussionNote(1, 2, 'abc', 'A new discussion note'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUpdateDiscussionNote()
+    {
+        $expectedArray = array('id' => 3, 'body' => 'An edited discussion note');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/issues/2/discussions/abc/notes/3', array('body' => 'An edited discussion note'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->updateDiscussionNote(1, 2, 'abc', 3, 'An edited discussion note'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRemoveDiscussionNote()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/issues/2/discussions/abc/notes/3')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->removeDiscussionNote(1, 2, 'abc', 3));
     }
 
     /**
@@ -270,6 +390,46 @@ class IssuesTest extends ApiTestCase
         ;
 
         $this->assertEquals($expectedArray, $api->getTimeStats(1, 2));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetIssueAwardEmoji()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'sparkles'),
+            array('id' => 2, 'name' => 'heart_eyes'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/issues/2/award_emoji')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->awardEmoji(1, 2));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetIssueClosedByMergeRequests()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'iid' => '1111', 'title' => 'Just saving the world'),
+            array('id' => 2, 'iid' => '1112', 'title' => 'Adding new feature to get merge requests that close an issue'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/issues/2/closed_by')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->closedByMergeRequests(1, 2));
     }
 
     protected function getApiClass()

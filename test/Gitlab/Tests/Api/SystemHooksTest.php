@@ -1,6 +1,6 @@
 <?php namespace Gitlab\Tests\Api;
 
-class SystemHooksTest extends ApiTestCase
+class SystemHooksTest extends TestCase
 {
     /**
      * @test
