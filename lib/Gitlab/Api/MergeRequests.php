@@ -265,14 +265,19 @@ class MergeRequests extends AbstractApi
      * @param int $project_id
      * @param int $mr_iid
      * @param string $discussion_id
-     * @param string $body
+     * @param string|array $body
      * @return mixed
      */
     public function addDiscussionNote($project_id, $mr_iid, $discussion_id, $body)
     {
-        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/discussions/'.$this->encodePath($discussion_id).'/notes'), array(
-            'body' => $body
-        ));
+        // backwards compatibility
+        if (is_array($body)) {
+            $params = $body;
+        } else {
+            $params = array('body' => $body);
+        }
+
+        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/discussions/'.$this->encodePath($discussion_id).'/notes'), $params);
     }
 
     /**

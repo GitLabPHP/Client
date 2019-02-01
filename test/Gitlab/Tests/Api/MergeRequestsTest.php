@@ -344,12 +344,13 @@ class MergeRequestsTest extends TestCase
         $expectedArray = array('id' => 3, 'body' => 'A new discussion note');
 
         $api = $this->getApiMock();
-        $api->expects($this->once())
+        $api->expects($this->exactly(2))
             ->method('post')
             ->with('projects/1/merge_requests/2/discussions/abc/notes', array('body' => 'A new discussion note'))
             ->will($this->returnValue($expectedArray))
         ;
 
+        $this->assertEquals($expectedArray, $api->addDiscussionNote(1, 2, 'abc', array('body' => 'A new discussion note')));
         $this->assertEquals($expectedArray, $api->addDiscussionNote(1, 2, 'abc', 'A new discussion note'));
     }
 
