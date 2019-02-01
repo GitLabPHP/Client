@@ -192,28 +192,38 @@ class Issues extends AbstractApi
     /**
      * @param int $project_id
      * @param int $issue_iid
-     * @param string $body
+     * @param string|array $body
      * @return mixed
      */
     public function addDiscussion($project_id, $issue_iid, $body)
     {
-        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/discussions'), array(
-            'body' => $body
-        ));
+        // backwards compatibility
+        if (is_array($body)) {
+            $params = $body;
+        } else {
+            $params = array('body' => $body);
+        }
+
+        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/discussions'), $params);
     }
 
     /**
      * @param int $project_id
      * @param int $issue_iid
      * @param string $discussion_id
-     * @param string $body
+     * @param string|array $body
      * @return mixed
      */
     public function addDiscussionNote($project_id, $issue_iid, $discussion_id, $body)
     {
-        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/discussions/'.$this->encodePath($discussion_id).'/notes'), array(
-            'body' => $body
-        ));
+        // backwards compatibility
+        if (is_array($body)) {
+            $params = $body;
+        } else {
+            $params = array('body' => $body);
+        }
+
+        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/discussions/'.$this->encodePath($discussion_id).'/notes'), $params);
     }
 
     /**
