@@ -24,6 +24,23 @@ class ProjectNamespacesTest extends TestCase
         $this->assertEquals($expectedArray, $api->all());
     }
 
+    /**
+     * @test
+     */
+    public function shouldShowNamespace()
+    {
+        $expectedArray = array('id' => 1, 'name' => 'internal');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('namespaces/1')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->show(1));
+    }
+
     protected function getApiClass()
     {
         return 'Gitlab\Api\ProjectNamespaces';

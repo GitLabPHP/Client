@@ -17,4 +17,13 @@ class ProjectNamespaces extends AbstractApi
 
         return $this->get('namespaces', $resolver->resolve($parameters));
     }
+
+    /**
+     * @param integer|string $namespace_id
+     * @return mixed
+     */
+    public function show($namespace_id)
+    {
+        return $this->get('namespaces/'.$this->encodePath($namespace_id));
+    }
 }
