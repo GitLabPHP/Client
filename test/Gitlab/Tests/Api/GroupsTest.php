@@ -328,6 +328,47 @@ class GroupsTest extends TestCase
         $this->assertEquals($expectedArray, $api->variable(1, 'ftp_username'));
     }
 
+    public function shouldAddVariable()
+    {
+        $expectedKey   = 'ftp_port';
+        $expectedValue = '21';
+
+        $expectedArray = array(
+            'key'   => $expectedKey,
+            'value' => $expectedValue,
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('groups/1/variables', $expectedArray)
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->addVariable(1, $expectedKey, $expectedValue));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAddVariableWithProtected()
+    {
+        $expectedArray = array(
+            'key'   => 'DEPLOY_SERVER',
+            'value' => 'stage.example.com',
+            'protected' => true,
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('groups/1/variables', $expectedArray)
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->addVariable(1, 'DEPLOY_SERVER', 'stage.example.com', true));
+    }
+
     protected function getApiClass()
     {
         return 'Gitlab\Api\Groups';
