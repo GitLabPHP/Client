@@ -413,6 +413,23 @@ class GroupsTest extends TestCase
         $this->assertEquals($expectedArray, $api->updateVariable(1, 'DEPLOY_SERVER', 'stage.example.com', true));
     }
 
+    /**
+     * @test
+     */
+    public function shouldRemoveVariable()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('groups/1/variables/ftp_password')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->removeVariable(1, 'ftp_password'));
+    }
+
     protected function getApiClass()
     {
         return 'Gitlab\Api\Groups';
