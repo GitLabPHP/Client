@@ -264,6 +264,27 @@ class Groups extends AbstractApi
         return $this->post($this->getGroupPath($group_id, 'variables'), $payload);
     }
 
+    /**
+     * @param int $group_id
+     * @param string $key
+     * @param string $value
+     * @param bool $protected
+     *
+     * @return mixed
+     */
+    public function updateVariable($group_id, $key, $value, $protected = null)
+    {
+        $payload = array(
+            'value' => $value,
+        );
+
+        if ($protected) {
+            $payload['protected'] = $protected;
+        }
+
+        return $this->put($this->getGroupPath($group_id, 'variables/'.$this->encodePath($key)), $payload);
+    }
+
     private function getGroupSearchResolver()
     {
         $resolver = $this->createOptionsResolver();

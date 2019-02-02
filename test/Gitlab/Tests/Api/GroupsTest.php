@@ -369,6 +369,50 @@ class GroupsTest extends TestCase
         $this->assertEquals($expectedArray, $api->addVariable(1, 'DEPLOY_SERVER', 'stage.example.com', true));
     }
 
+    /**
+     * @test
+     */
+    public function shouldUpdateVariable()
+    {
+        $expectedKey   = 'ftp_port';
+        $expectedValue = '22';
+
+        $expectedArray = array(
+            'key'   => 'ftp_port',
+            'value' => '22',
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('groups/1/variables/'.$expectedKey, array('value' => $expectedValue))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->updateVariable(1, $expectedKey, $expectedValue));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUpdateVariableWithProtected()
+    {
+        $expectedArray = array(
+            'key'   => 'DEPLOY_SERVER',
+            'value' => 'stage.example.com',
+            'protected' => true,
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('groups/1/variables/DEPLOY_SERVER', array('value' => 'stage.example.com', 'protected' => true))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->updateVariable(1, 'DEPLOY_SERVER', 'stage.example.com', true));
+    }
+
     protected function getApiClass()
     {
         return 'Gitlab\Api\Groups';
