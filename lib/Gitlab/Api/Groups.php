@@ -218,6 +218,19 @@ class Groups extends AbstractApi
         return $this->get('groups/'.$this->encodePath($groupId).'/subgroups', $resolver->resolve($parameters));
     }
 
+    /**
+     * @param int $group_id
+     * @param array $parameters
+     *
+     * @return mixed
+     */
+    public function variables($group_id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+
+        return $this->get($this->getGroupPath($group_id, 'variables'), $resolver->resolve($parameters));
+    }
+
     private function getGroupSearchResolver()
     {
         $resolver = $this->createOptionsResolver();
