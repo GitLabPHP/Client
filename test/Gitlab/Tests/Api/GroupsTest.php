@@ -311,6 +311,23 @@ class GroupsTest extends TestCase
         $this->assertEquals($expectedArray, $api->variables(1));
     }
 
+    /**
+     * @test
+     */
+    public function shouldGetVariable()
+    {
+        $expectedArray = array('key' => 'ftp_username', 'value' => 'ftp');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/variables/ftp_username')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->variable(1, 'ftp_username'));
+    }
+
     protected function getApiClass()
     {
         return 'Gitlab\Api\Groups';
