@@ -159,6 +159,15 @@ class Client
     }
 
     /**
+     * @return Api\GroupsBoards
+     */
+    public function groupsBoards()
+    {
+        return new Api\GroupsBoards($this);
+    }
+
+
+    /**
      * @return Api\IssueLinks
      */
     public function issueLinks()
@@ -311,6 +320,9 @@ class Client
             case 'board':
             case 'issue_boards':
                 return $this->issueBoards();
+
+            case 'group_boards':
+                return $this->groupsBoards();
 
             case 'issue_links':
                 return $this->issueLinks();
