@@ -1,6 +1,7 @@
 <?php namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\AbstractApi;
+use Gitlab\Api\Repositories;
 
 class RepositoriesTest extends TestCase
 {
@@ -320,6 +321,39 @@ class RepositoriesTest extends TestCase
         ;
 
         $this->assertEquals($expectedArray, $api->commitRefs(1, 'abcd1234'));
+    }
+
+    /**
+     * @dataProvider dataGetCommitRefsWithParams
+     * @test
+     *
+     * @param string $type
+     * @param array $expectedArray
+     */
+    public function shouldGetCommitRefsWithParams($type, array $expectedArray)
+    {
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/repository/commits/abcd1234/refs', ['type' => $type])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->commitRefs(1, 'abcd1234', ['type' => $type]));
+    }
+
+    public function dataGetCommitRefsWithParams()
+    {
+        return [
+            'type_tag' => [
+                'type' => Repositories::TYPE_TAG,
+                'expectedArray' => [['type' => 'tag', 'name' => 'v1.1.0']]
+            ],
+            'type_branch' => [
+                'type' => Repositories::TYPE_BRANCH,
+                'expectedArray' => [['type' => 'branch', 'name' => 'master']]
+            ],
+        ];
     }
 
     /**
