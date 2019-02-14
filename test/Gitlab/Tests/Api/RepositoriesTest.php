@@ -455,14 +455,31 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldCompare()
+    public function shouldCompareStraight()
     {
         $expectedArray = array('commit' => 'object');
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/repository/compare?from=master&to=feature')
+            ->with('projects/1/repository/compare?from=master&to=feature&straight=true')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->compare(1, 'master', 'feature', true));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotCompareStraight()
+    {
+        $expectedArray = array('commit' => 'object');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/repository/compare?from=master&to=feature&straight=false')
             ->will($this->returnValue($expectedArray))
         ;
 
