@@ -98,4 +98,52 @@ class Runners extends AbstractApi
 
         return $this->get($this->getRunnerPath($runner_id, 'jobs'), $resolver->resolve($parameters));
     }
+
+    /**
+     * @param int $runner_id
+     * @return mixed
+     */
+    public function remove($runner_id)
+    {
+        return $this->delete('runners/'.$this->encodePath($runner_id));
+    }
+
+    /**
+     * @param int $id
+     * @param array $parameters
+     * @return mixed
+     */
+    public function update($id, array $parameters)
+    {
+        $resolver = $this->createOptionsResolver();
+        $booleanNormalizer = function (Options $resolver, $value) {
+            return $value ? 'true' : 'false';
+        };
+
+        $resolver->setDefined('description');
+
+        $resolver->setDefined('active')
+            ->setAllowedTypes('active', 'bool')
+            ->setNormalizer('active', $booleanNormalizer);
+
+        $resolver->setDefined('tag_list')
+            ->setAllowedTypes('tag_list', 'array');
+
+        $resolver->setDefined('run_untagged')
+            ->setAllowedTypes('run_untagged', 'bool')
+            ->setNormalizer('run_untagged', $booleanNormalizer);
+
+        $resolver->setDefined('locked')
+            ->setAllowedTypes('locked', 'bool')
+            ->setNormalizer('locked', $booleanNormalizer);
+
+        $resolver->setDefined('access_level')
+            ->setAllowedValues('access_level', ['not_protected', 'ref_protected']);
+
+        $resolver->setDefined('maximum_timeout')
+            ->setAllowedTypes('maximum_timeout', 'integer');
+
+        return $this->put('runners/'.$this->encodePath($id), $resolver->resolve($parameters));
+    }
+
 }

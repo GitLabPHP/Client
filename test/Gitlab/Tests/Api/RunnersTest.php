@@ -155,6 +155,21 @@ class RunnersTest extends TestCase
         $this->assertEquals($expectedArray, $api->jobs(1));
     }
 
+    /**
+     * @test
+     */
+    public function shouldRemoveRunner()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('runners/1')
+            ->will($this->returnValue($expectedBool));
+        $this->assertEquals($expectedBool, $api->remove(1));
+    }
+
     protected function getMultipleRunnersRequestMock($path, $expectedArray = array(), $expectedParameters = array())
     {
         $api = $this->getApiMock();
