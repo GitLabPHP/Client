@@ -221,6 +221,29 @@ class Projects extends AbstractApi
     }
 
     /**
+     * @param int   $project_id
+     * @param array $parameters (
+     *
+     *     @var string $type       The type of runners to show, one of: instance_type, group_type, project_type
+     *     @var string $status     The status of runners to show, one of: active, paused, online, offline
+     * )
+     * @return mixed
+     */
+    public function runners($project_id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+
+        $resolver->setDefined('type')
+            ->setAllowedValues('type', ['instance_type', 'group_type', 'project_type'])
+        ;
+        $resolver->setDefined('status')
+            ->setAllowedValues('status', ['active', 'paused', 'online', 'offline'])
+        ;
+
+        return $this->get($this->getProjectPath($project_id, 'runners'), $resolver->resolve($parameters));
+    }
+
+    /**
      * @param int $project_id
      * @param int $pipeline_id
      * @return mixed

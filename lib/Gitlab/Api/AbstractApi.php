@@ -186,6 +186,16 @@ abstract class AbstractApi implements ApiInterface
      * @param string $path
      * @return string
      */
+    protected function getRunnerPath($id, $path)
+    {
+        return 'runners/'.$this->encodePath($id).'/'.$path;
+    }
+
+    /**
+     * @param int $id
+     * @param string $path
+     * @return string
+     */
     protected function getGroupPath($id, $path)
     {
         return 'groups/'.$this->encodePath($id).'/'.$path;
