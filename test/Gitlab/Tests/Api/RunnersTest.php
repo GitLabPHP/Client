@@ -196,5 +196,4 @@ class RunnersTest extends TestCase
     {
         return 'Gitlab\Api\Runners';
     }
-
 }

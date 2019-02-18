@@ -4,7 +4,6 @@ use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 use Symfony\Component\OptionsResolver\Options;
 
-
 class Runners extends AbstractApi
 {
     /**
@@ -99,5 +98,4 @@ class Runners extends AbstractApi
 
         return $this->get($this->getRunnerPath($runner_id, 'jobs'), $resolver->resolve($parameters));
     }
-
 }
