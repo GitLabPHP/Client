@@ -434,6 +434,26 @@ class IssuesTest extends TestCase
         $this->assertEquals($expectedArray, $api->closedByMergeRequests(1, 2));
     }
 
+    /**
+     * @test
+     */
+    public function shouldGetProjectIssuesByAssignee()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'title' => 'An issue'),
+            array('id' => 2, 'title' => 'Another issue'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/issues', array('assignee_id' => 1))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->all(1, array('assignee_id' => 1)));
+    }
+
     protected function getApiClass()
     {
         return 'Gitlab\Api\Issues';
