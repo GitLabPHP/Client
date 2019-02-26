@@ -296,6 +296,14 @@ class Client
     }
 
     /**
+     * @return Api\Schedules
+     */
+    public function schedules()
+    {
+        return new Api\Schedules($this);
+    }
+
+    /**
      * @param string $name
      *
      * @return AbstractApi|mixed
@@ -376,6 +384,9 @@ class Client
 
             case 'deployments':
                 return $this->deployments();
+
+            case 'schedules':
+                return $this->schedules();
 
             default:
                 throw new InvalidArgumentException('Invalid endpoint: "'.$name.'"');
