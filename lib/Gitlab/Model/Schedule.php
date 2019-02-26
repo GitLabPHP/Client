@@ -4,6 +4,21 @@ namespace Gitlab\Model;
 
 use Gitlab\Client;
 
+/**
+ * Class Schedule
+ *
+ * @property-read int $id
+ * @property-read int $project_id
+ * @property-read string $title
+ * @property-read string $description
+ * @property-read string $due_date
+ * @property-read string $start_date
+ * @property-read string $state
+ * @property-read bool $closed
+ * @property-read string $updated_at
+ * @property-read string $created_at
+ * @property-read Project $project
+ */
 class Schedule extends AbstractModel
 {
     /**
