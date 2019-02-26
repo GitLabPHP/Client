@@ -11,6 +11,8 @@ class Schedule extends AbstractModel
      */
     protected static $properties = array(
         "id",
+        "project",
+        "project_id",
         "description",
         "ref",
         "cron",
