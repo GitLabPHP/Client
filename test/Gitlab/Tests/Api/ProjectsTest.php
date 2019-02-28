@@ -1105,7 +1105,7 @@ class ProjectsTest extends TestCase
      */
     public function shouldGetLanguages()
     {
-        $expectedArray = ['php1' => 100];
+        $expectedArray = ['php' => 100];
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
