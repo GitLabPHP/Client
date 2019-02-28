@@ -1,4 +1,4 @@
-language: php1
+language: php
 
 sudo: false
 
