@@ -22,4 +22,4 @@ before_script:
 
 script:
   - vendor/bin/phpunit --verbose --coverage-text
-  - if [ "$STATIC_ANALYSIS" != "" ]; then php1 phpstan.phar analyse --level=4 lib; fi;
+  - if [ "$STATIC_ANALYSIS" != "" ]; then php phpstan.phar analyse --level=4 lib; fi;
