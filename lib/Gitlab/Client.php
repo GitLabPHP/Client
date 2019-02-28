@@ -83,7 +83,7 @@ class Client
         $this->httpClientBuilder->addPlugin(new HistoryPlugin($this->responseHistory));
         $this->httpClientBuilder->addPlugin(new ApiVersion());
         $this->httpClientBuilder->addPlugin(new HeaderDefaultsPlugin([
-            'User-Agent' => 'php-gitlab-api (http://github.com/m4tthumphrey/php-gitlab-api)',
+            'User-Agent' => 'php1-gitlab-api (http://github.com/m4tthumphrey/php1-gitlab-api)',
         ]));
 
         $this->setUrl('https://gitlab.com');
