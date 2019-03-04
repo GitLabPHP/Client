@@ -191,6 +191,22 @@ class Project extends AbstractModel
     }
 
     /**
+     * @param string $username_query
+     * @return User[]
+     */
+    public function membersAll($username_query = null)
+    {
+        $data = $this->client->projects()->membersAll($this->id, $username_query);
+
+        $members = array();
+        foreach ($data as $member) {
+            $members[] = User::fromArray($this->getClient(), $member);
+        }
+
+        return $members;
+    }
+
+    /**
      * @param int $user_id
      * @return User
      */
