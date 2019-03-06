@@ -643,6 +643,122 @@ class ProjectsTest extends TestCase
     }
 
     /**
+     * Get expected array for tests which check project members all
+     *
+     * @return array
+     *   Project issues list.
+     */
+    public function getMembersAllExpectedArray()
+    {
+        return [
+            [
+                "id" => 1,
+                "username" => "raymond_smith",
+                "name" => "Raymond Smith",
+                "state" => "active",
+                "avatar_url" => "https://www.gravatar.com/avatar/c2525a7f58ae3776070e44c106c48e15?s=80&d=identicon",
+                "web_url" => "http://192.168.1.8:3000/root",
+                "expires_at" => "2012-10-22T14:13:35Z",
+                "access_level" => 30
+            ],
+            [
+                "id" => 2,
+                "username" => "john_doe",
+                "name" => "John Doe",
+                "state" => "active",
+                "avatar_url" => "https://www.gravatar.com/avatar/c2525a7f58ae3776070e44c106c48e15?s=80&d=identicon",
+                "web_url" => "http://192.168.1.8:3000/root",
+                "expires_at" => "2012-10-22T14:13:35Z",
+                "access_level" => 40
+            ],
+            [
+                "id" => 3,
+                "username" => "mr_admin",
+                "name" => "Mr Admin",
+                "state" => "active",
+                "avatar_url" => "https://www.gravatar.com/avatar/c2525a7f58ae3776070e44c106c48e15?s=80&d=identicon",
+                "web_url" => "http://192.168.1.8:3000/root",
+                "expires_at" => "2012-11-22T14:13:35Z",
+                "access_level" => 50
+            ]
+        ];
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetMembersAll()
+    {
+        $expectedArray = $this->getMembersAllExpectedArray();
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/members/all')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->membersAll(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetMembersAllWithQuery()
+    {
+        $expectedmMembersAllArray = $this->getMembersAllExpectedArray();
+        $expectedArray = array(
+            $expectedmMembersAllArray[0]
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/members/all', array('query' => 'at'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->membersAll(1, 'at'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetMembersAllWithNullQuery()
+    {
+        $expectedArray = $this->getMembersAllExpectedArray();
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/members/all')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->membersAll(1, null));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetMembersAllWithPagination()
+    {
+        $expectedArray = $this->getMembersAllExpectedArray();
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/members/all', array(
+                'page' => 2,
+                'per_page' => 15
+            ))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->membersAll(1, array('page' => 2, 'per_page' => 15)));
+    }
+
+    /**
      * @test
      */
     public function shouldGetMember()
