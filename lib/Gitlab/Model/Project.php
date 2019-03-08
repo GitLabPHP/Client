@@ -1200,4 +1200,56 @@ class Project extends AbstractModel
 
         return Job::fromArray($this->getClient(), $this, $data);
     }
+
+    /**
+     * @return Badge[]
+     */
+    public function badges()
+    {
+        $data = $this->client->projects()->badges($this->id);
+
+        $badges = array();
+        foreach ($data as $badge) {
+            $badges[] = Badge::fromArray($this->getClient(), $this, $badge);
+        }
+
+        return $badges;
+    }
+
+    /**
+     * @param string $link_url
+     * @param string $color
+     * @return Badge
+     */
+    public function addBadge(array $params)
+    {
+        $data = $this->client->projects()->addBadge($this->id, $params);
+
+        return Badge::fromArray($this->getClient(), $this, $data);
+    }
+
+    /**
+     * @param string $name
+     * @param array $params
+     * @return Badge
+     */
+    public function updateBadge($badge_id, array $params)
+    {
+        $params['badge_id'] = $badge_id;
+
+        $data = $this->client->projects()->updateBadge($this->id, $badge_id, $params);
+
+        return Badge::fromArray($this->getClient(), $this, $data);
+    }
+
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public function removeBadge($badge_id)
+    {
+        $this->client->projects()->removeBadge($this->id, $badge_id);
+
+        return true;
+    }
 }
