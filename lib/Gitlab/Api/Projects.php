@@ -837,4 +837,54 @@ class Projects extends AbstractApi
     {
         return $this->delete($this->getProjectPath($project_id, 'services/'.$group_id));
     }
+
+    /**
+     * @param int $project_id
+     * @return mixed
+     */
+    public function badges($project_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'badges'));
+    }
+
+    /**
+     * @param int $project_id
+     * @param string $badge_id
+     * @return mixed
+     */
+    public function badge($project_id, $badge_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'badges/' . $this->encodePath($badge_id)));
+    }
+
+    /**
+     * @param int $project_id
+     * @param array $params
+     * @return mixed
+     */
+    public function addBadge($project_id, array $params = array())
+    {
+        return $this->post($this->getProjectPath($project_id, 'badges'), $params);
+    }
+
+    /**
+     * @param int $project_id
+     * @param string $badge_id
+     * @return mixed
+     */
+    public function removeBadge($project_id, $badge_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'badges/' . $this->encodePath($badge_id)));
+    }
+
+    /**
+     * @param int $project_id
+     * @param string $badge_id
+     * @param array $params
+     * @return mixed
+    */
+    public function updateBadge($project_id, $badge_id, array $params = array())
+    {
+        return $this->put($this->getProjectPath($project_id, 'badges/' . $this->encodePath($badge_id)));
+    }
 }
