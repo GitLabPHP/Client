@@ -14,8 +14,12 @@ class Badge extends AbstractModel
      * @var array
      */
     protected static $properties = array(
+        'id',
         'link_url',
-        'image_url'
+        'image_url',
+        'rendered_link_url',
+        'rendered_image_url',
+        'kind'
     );
 
     /**
