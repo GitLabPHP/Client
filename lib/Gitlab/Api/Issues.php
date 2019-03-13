@@ -260,6 +260,7 @@ class Issues extends AbstractApi
      * @param int $project_id
      * @param int $issue_iid
      * @param string $duration
+     * @return mixed
      */
     public function setTimeEstimate($project_id, $issue_iid, $duration)
     {
@@ -269,6 +270,7 @@ class Issues extends AbstractApi
     /**
      * @param int $project_id
      * @param int $issue_iid
+     * @return mixed
      */
     public function resetTimeEstimate($project_id, $issue_iid)
     {
@@ -279,6 +281,7 @@ class Issues extends AbstractApi
      * @param int $project_id
      * @param int $issue_iid
      * @param string $duration
+     * @return mixed
      */
     public function addSpentTime($project_id, $issue_iid, $duration)
     {
@@ -288,6 +291,7 @@ class Issues extends AbstractApi
     /**
      * @param int $project_id
      * @param int $issue_iid
+     * @return mixed
      */
     public function resetSpentTime($project_id, $issue_iid)
     {

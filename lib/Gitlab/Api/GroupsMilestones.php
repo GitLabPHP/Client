@@ -62,7 +62,7 @@ class GroupsMilestones extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int $group_id
      * @param int $milestone_id
      * @return mixed
      */
@@ -70,7 +70,6 @@ class GroupsMilestones extends AbstractApi
     {
         return $this->delete($this->getGroupPath($group_id, 'milestones/'.$this->encodePath($milestone_id)));
     }
-
 
     /**
      * @param int $group_id

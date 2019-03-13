@@ -71,7 +71,6 @@ class Milestones extends AbstractApi
         return $this->delete($this->getProjectPath($project_id, 'milestones/'.$this->encodePath($milestone_id)));
     }
 
-
     /**
      * @param int $project_id
      * @param int $milestone_id

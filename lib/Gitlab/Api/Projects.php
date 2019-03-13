@@ -373,7 +373,6 @@ class Projects extends AbstractApi
     /**
      * @param int $project_id
      * @param array $parameters
-     *
      * @return mixed
      */
     public function hooks($project_id, array $parameters = [])
@@ -686,7 +685,6 @@ class Projects extends AbstractApi
     /**
      * @param int $project_id
      * @param array $parameters
-     *
      * @return mixed
      */
     public function variables($project_id, array $parameters = [])
@@ -780,7 +778,6 @@ class Projects extends AbstractApi
     /**
      * @param int $project_id
      * @param array $parameters
-     *
      * @return mixed
      */
     public function deployments($project_id, array $parameters = [])

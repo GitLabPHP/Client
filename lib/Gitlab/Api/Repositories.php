@@ -107,10 +107,9 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int $project_id
      * @param string $tag_name
      * @param string $description
-     *
      * @return mixed
      */
     public function createRelease($project_id, $tag_name, $description)
@@ -123,10 +122,9 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int $project_id
      * @param string $tag_name
      * @param string $description
-     *
      * @return mixed
      */
     public function updateRelease($project_id, $tag_name, $description)
@@ -186,7 +184,6 @@ class Repositories extends AbstractApi
      * @param int $project_id
      * @param $sha
      * @param array $parameters
-     *
      * @return mixed
      */
     public function commitRefs($project_id, $sha, array $parameters = [])
@@ -261,10 +258,9 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int $project_id
      * @param string $sha
-     * @param array  $parameters
-     *
+     * @param array $parameters
      * @return mixed
      */
     public function commitComments($project_id, $sha, array $parameters = [])
