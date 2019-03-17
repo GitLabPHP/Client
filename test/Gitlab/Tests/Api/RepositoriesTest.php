@@ -223,6 +223,8 @@ class RepositoriesTest extends TestCase
      */
     public function shouldGetReleases()
     {
+        $project_id  = 1;
+
         $expectedArray = array(
             array(
                 'tag_name' => 'v0.2',
@@ -238,7 +240,7 @@ class RepositoriesTest extends TestCase
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->releases());
+        $this->assertEquals($expectedArray, $api->releases($project_id));
     }
 
     /**
