@@ -217,6 +217,29 @@ class RepositoriesTest extends TestCase
 
         $this->assertEquals($expectedArray, $api->updateRelease($project_id, $tagName, $description));
     }
+    
+    /**
+     * @test
+     */
+    public function shouldGetReleases()
+    {
+        $expectedArray = array(
+            array(
+                'tag_name' => 'v0.2',
+                'description' => '## CHANGELOG\r\n\r\n- Escape label and milestone titles to prevent XSS in GFM autocomplete. !2740\r\n- Prevent private snippets from being embeddable.\r\n- Add subresources removal to member destroy service.',
+                'name' => 'Awesome app v0.2 beta'
+            )
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/releases')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->releases());
+    }
 
     /**
      * @test

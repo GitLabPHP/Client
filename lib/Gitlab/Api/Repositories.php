@@ -138,6 +138,16 @@ class Repositories extends AbstractApi
 
     /**
      * @param int $project_id
+     * @return mixed
+     */
+    public function releases($project_id)
+    {
+        $resolver = $this->createOptionsResolver();
+        return $this->get($this->getProjectPath($project_id, 'releases'));
+    }
+
+    /**
+     * @param int $project_id
      * @param array $parameters (
      *
      *     @var string             $ref_name The name of a repository branch or tag or if not given the default branch.
@@ -190,8 +200,10 @@ class Repositories extends AbstractApi
     {
         $resolver = $this->createOptionsResolver();
 
-        return $this->get($this->getProjectPath($project_id, 'repository/commits/' . $this->encodePath($sha) . '/refs'),
-            $resolver->resolve($parameters));
+        return $this->get(
+            $this->getProjectPath($project_id, 'repository/commits/' . $this->encodePath($sha) . '/refs'),
+            $resolver->resolve($parameters)
+        );
     }
 
     /**
