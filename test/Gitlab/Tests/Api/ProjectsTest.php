@@ -1234,6 +1234,72 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldForkWithNamespace()
+    {
+        $expectedArray = [
+            'namespace' => 'new_namespace',
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/fork', $expectedArray)
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->fork(1, [
+            'namespace' => 'new_namespace',
+        ]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldForkWithNamespaceAndPath()
+    {
+        $expectedArray = [
+            'namespace' => 'new_namespace',
+            'path' => 'new_path',
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/fork', $expectedArray)
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->fork(1, [
+            'namespace' => 'new_namespace',
+            'path' => 'new_path',
+        ]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldForkWithNamespaceAndPathAndName()
+    {
+        $expectedArray = [
+            'namespace' => 'new_namespace',
+            'path' => 'new_path',
+            'name' => 'new_name'
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/fork', $expectedArray)
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->fork(1, [
+            'namespace' => 'new_namespace',
+            'path' => 'new_path',
+            'name' => 'new_name'
+        ]));
+    }
+
+    /**
+     * @test
+     */
     public function shouldCreateForkRelation()
     {
         $expectedArray = array('project_id' => 1, 'forked_id' => 2);
