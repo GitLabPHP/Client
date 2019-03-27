@@ -629,13 +629,15 @@ class Projects extends AbstractApi
      * @param array $params (
      *
      *     @var string $namespace      The ID or path of the namespace that the project will be forked to
+     *     @var string $path           The path of the forked project (optional)
+     *     @var string $name           The name of the forked project (optional)
      * )
      * @return mixed
      */
     public function fork($project_id, array $parameters = [])
     {
         $resolver = new OptionsResolver();
-        $resolver->setDefined('namespace');
+        $resolver->setDefined(['namespace', 'path', 'name']);
 
         $resolved = $resolver->resolve($parameters);
 
