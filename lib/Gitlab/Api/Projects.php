@@ -262,6 +262,19 @@ class Projects extends AbstractApi
     }
 
     /**
+     * @param integer $project_id
+     * @param array $parameters
+     * @return mixed
+     */
+    public function allMembers($project_id, $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+        $resolver->setDefined('query');
+
+        return $this->get('projects/'.$this->encodePath($project_id).'/members/all', $resolver->resolve($parameters));
+    }
+
+    /**
      * @param int $project_id
      * @param array $parameters (
      *
