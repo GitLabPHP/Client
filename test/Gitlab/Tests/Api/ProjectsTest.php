@@ -577,7 +577,7 @@ class ProjectsTest extends TestCase
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->members(1));
+        $this->assertEquals($expectedArray, $api->allMembers(1));
     }
 
     /**
