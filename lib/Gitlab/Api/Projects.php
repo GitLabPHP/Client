@@ -307,37 +307,6 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param array $parameters (
-     *
-     *     @var string $query           The query you want to search members for.
-     * )
-     *
-     * @throws MissingOptionsException  If a required option is not provided
-     *
-     * @return mixed
-     */
-    public function membersAll($project_id, $parameters = [])
-    {
-        if (!is_array($parameters)) {
-            @trigger_error("Deprecated: String parameter of the members() function is deprecated.", E_USER_NOTICE);
-            $username_query = $parameters;
-            $parameters = array();
-            if (!empty($username_query)) {
-                $parameters['query'] = $username_query;
-            }
-        }
-
-        $resolver = $this->createOptionsResolver();
-
-        $resolver->setDefined('query')
-            ->setAllowedTypes('query', 'string')
-        ;
-
-        return $this->get($this->getProjectPath($project_id, 'members/all'), $resolver->resolve($parameters));
-    }
-
-    /**
-     * @param int $project_id
      * @param int $user_id
      * @return mixed
      */
@@ -811,7 +780,7 @@ class Projects extends AbstractApi
     {
         return $this->get($this->getProjectPath($project_id, 'deployments/'.$this->encodePath($deployment_id)));
     }
-
+    
     /**
      * @param mixed $project_id
      * @param array $parameters
@@ -839,7 +808,7 @@ class Projects extends AbstractApi
 
         return $this->post($this->getProjectPath($project_id, 'share'), $resolver->resolve($parameters));
     }
-
+    
     /**
      * @param mixed $project_id
      * @param int $group_id
