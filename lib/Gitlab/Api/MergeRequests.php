@@ -373,4 +373,14 @@ class MergeRequests extends AbstractApi
     {
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/award_emoji'));
     }
+    
+    /**
+     * @param int $project_id
+     * @param int $mr_iid
+     * @return mixed
+     */
+    public function getTimeStats($project_id, $mr_iid)
+    {
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($issue_iid) .'/time_stats'));
+    }
 }
