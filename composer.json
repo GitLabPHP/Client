@@ -44,7 +44,7 @@
 	},
 	"extra": {
 		"branch-alias": {
-			"dev-master": "9.12.x-dev"
+			"dev-extend-protected-branches-tags-runners-keys": "9.12.x-dev"
 		}
 	}
 }
