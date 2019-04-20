@@ -8,6 +8,7 @@ use Gitlab\Client;
  * @property-read int $id
  * @property-read string $title
  * @property-read string $key
+ * @property-read string $can_push
  * @property-read string $created_at
  */
 class Key extends AbstractModel
@@ -19,6 +20,7 @@ class Key extends AbstractModel
         'id',
         'title',
         'key',
+        'can_push',
         'created_at'
     );
 

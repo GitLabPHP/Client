@@ -301,6 +301,30 @@ class Project extends AbstractModel
         return $hook->delete();
     }
 
+    public function protectedBranches(array $parameters = [])
+    {
+        $data = $this->client->projects()->protectedBranches($this->id, $parameters);
+
+        $protectedBranches = array();
+        foreach ($data as $protectedBranch) {
+            $protectedBranches[] = ProjectProtectedBranch::fromArray($this->getClient(), $this, $protectedBranch);
+        }
+
+        return $protectedBranches;
+    }
+
+    public function protectedTags(array $parameters = [])
+    {
+        $data = $this->client->projects()->protectedTags($this->id, $parameters);
+
+        $protectedTags = array();
+        foreach ($data as $protectedTag) {
+            $protectedTags[] = ProjectProtectedTag::fromArray($this->getClient(), $this, $protectedTag);
+        }
+
+        return $protectedTags;
+    }
+
     /**
      * @return Key[]
      */
@@ -363,6 +387,47 @@ class Project extends AbstractModel
     }
 
     /**
+     * @param int $hook_id
+     * @param array $params
+     * @return mixed
+     */
+    public function updateDeployKey($key_id, array $params)
+    {
+        $this->client->projects()->updateDeployKey($this->id, $key_id, $params);
+
+        return true;
+    }
+
+    /**
+     * @return Runner[]
+     */
+    public function runners()
+    {
+        $data = $this->client->projects()->runners($this->id);
+
+        $runners = array();
+        foreach ($data as $runner) {
+            dump($runner);
+            $runners[] = ProjectRunner::fromArray($this->getClient(), $this, $runner);
+        }
+
+        return $runners;
+    }
+
+    /**
+     * @param string $key_id
+     * @return bool
+     */
+    public function enableRunner($runner_id)
+    {
+        $this->client->projects()->enableRunner($this->id, $runner_id);
+
+        return true;
+    }
+
+
+
+    /**
      * @param string $name
      * @param string $ref
      * @return Branch
@@ -412,30 +477,36 @@ class Project extends AbstractModel
         return $branch->show();
     }
 
-    /**
-     * @param string $branch_name
-     * @param bool $devPush
-     * @param bool $devMerge
-     * @return Branch
-     */
-    public function protectBranch($branch_name, $devPush = false, $devMerge = false)
+    public function protectBranch($branch, $data = [])
     {
-        $branch = new Branch($this, $branch_name);
-        $branch->setClient($this->getClient());
+        $data = $this->client->projects()->protectBranch($this->id, $branch, $data);
 
-        return $branch->protect($devPush, $devMerge);
+        return ProjectProtectedBranch::fromArray($this->getClient(), $this, $data);
+    }
+
+    public function protectTag($tag, $data = [])
+    {
+        $data = $this->client->projects()->protectTag($this->id, $tag, $data);
+
+        return ProjectProtectedTag::fromArray($this->getClient(), $this, $data);
     }
 
     /**
      * @param string $branch_name
      * @return Branch
      */
-    public function unprotectBranch($branch_name)
+    public function unprotectBranch($branchPattern)
     {
-        $branch = new Branch($this, $branch_name);
-        $branch->setClient($this->getClient());
+        return $this->client->projects()->unprotectBranch($this->id, $branchPattern);
+    }
 
-        return $branch->unprotect();
+    /**
+     * @param string $branch_name
+     * @return Branch
+     */
+    public function unprotectTag($tagPattern)
+    {
+        return $this->client->projects()->unprotectTag($this->id, $tagPattern);
     }
 
     /**

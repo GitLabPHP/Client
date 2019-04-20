@@ -446,6 +446,54 @@ class Projects extends AbstractApi
         return $this->delete($this->getProjectPath($project_id, 'hooks/'.$this->encodePath($hook_id)));
     }
 
+    public function protectedBranches($project_id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+
+        return $this->get($this->getProjectPath($project_id, 'protected_branches'), $resolver->resolve($parameters));
+    }
+
+    public function protectedBranch($project_id, $protected_branch_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'protected_branches/'.$this->encodePath($protected_branch_id)));
+    }
+
+    public function protectBranch($project_id, $branch, array $params = array())
+    {
+        $params['name'] = $branch;
+
+        return $this->post($this->getProjectPath($project_id, 'protected_branches'), $params);
+    }
+
+    public function unprotectBranch($project_id, $branch)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'protected_branches/'.$this->encodePath($branch)));
+    }
+
+    public function protectedTags($project_id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+
+        return $this->get($this->getProjectPath($project_id, 'protected_tags'), $resolver->resolve($parameters));
+    }
+
+    public function protectedTag($project_id, $tag_pattern)
+    {
+        return $this->get($this->getProjectPath($project_id, 'protected_tags/'.$this->encodePath($tag_pattern)));
+    }
+
+    public function protectTag($project_id, $tagPattern, array $params = array())
+    {
+        $params['name'] = $tagPattern;
+
+        return $this->post($this->getProjectPath($project_id, 'protected_tags'), $params);
+    }
+
+    public function unprotectTag($project_id, $tagPattern)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'protected_tags/'.$this->encodePath($tagPattern)));
+    }
+
     /**
      * @param int $project_id
      * @param mixed $namespace
@@ -509,6 +557,46 @@ class Projects extends AbstractApi
     public function enableDeployKey($project_id, $key_id)
     {
         return $this->post($this->getProjectPath($project_id, 'deploy_keys/'.$this->encodePath($key_id).'/enable'));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $key_id
+     * @param array $params
+     * @return mixed
+     */
+    public function updateDeployKey($project_id, $key_id, $params = [])
+    {
+        return $this->put($this->getProjectPath($project_id, 'deploy_keys/'.$this->encodePath($key_id)), $params);
+    }
+
+    /**
+     * @param int $project_id
+     * @return mixed
+     */
+    public function runners($project_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'runners'));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $runner_id
+     * @return mixed
+     */
+    public function disableRunner($project_id, $runner_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'runners/'.$this->encodePath($runner_id)));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $runner_id
+     * @return mixed
+     */
+    public function enableRunner($project_id, $runner_id)
+    {
+        return $this->post($this->getProjectPath($project_id, 'runners/'.$this->encodePath($runner_id)), ['runner_id' => $runner_id]);
     }
 
     /**
