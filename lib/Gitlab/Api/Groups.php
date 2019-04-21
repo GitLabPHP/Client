@@ -160,15 +160,20 @@ class Groups extends AbstractApi
      * @param $id
      * @param array $parameters (
      *
-     *     @var bool   $archived   Limit by archived status.
-     *     @var string $visibility Limit by visibility public, internal, or private.
-     *     @var string $order_by   Return projects ordered by id, name, path, created_at, updated_at, or last_activity_at fields.
-     *                             Default is created_at.
-     *     @var string $sort       Return projects sorted in asc or desc order. Default is desc.
-     *     @var string $search     Return list of authorized projects matching the search criteria.
-     *     @var bool   $simple     Return only the ID, URL, name, and path of each project.
-     *     @var bool   $owned      Limit by projects owned by the current user.
-     *     @var bool   $starred    Limit by projects starred by the current user.
+     *     @var bool   $archived                    Limit by archived status.
+     *     @var string $visibility                  Limit by visibility public, internal, or private.
+     *     @var string $order_by                    Return projects ordered by id, name, path, created_at, updated_at, or last_activity_at fields.
+     *                                              Default is created_at.
+     *     @var string $sort                        Return projects sorted in asc or desc order. Default is desc.
+     *     @var string $search                      Return list of authorized projects matching the search criteria.
+     *     @var bool   $simple                      Return only the ID, URL, name, and path of each project.
+     *     @var bool   $owned                       Limit by projects owned by the current user.
+     *     @var bool   $starred                     Limit by projects starred by the current user.
+     *     @var bool   $with_issues_enabled         Limit by projects with issues feature enabled. Default is false.
+     *     @var bool   $with_merge_requests_enabled Limit by projects with merge requests feature enabled. Default is false.
+     *     @var bool   $with_shared                 Include projects shared to this group. Default is true.
+     *     @var bool   $include_subgroups           Include projects in subgroups of this group. Default is false.
+     *     @var bool   $with_custom_attributes      Include custom attributes in response (admins only).
      * )
      *
      * @return mixed
@@ -205,6 +210,26 @@ class Groups extends AbstractApi
         $resolver->setDefined('starred')
             ->setAllowedTypes('starred', 'bool')
             ->setNormalizer('starred', $booleanNormalizer)
+        ;
+        $resolver->setDefined('with_issues_enabled')
+            ->setAllowedTypes('with_issues_enabled', 'bool')
+            ->setNormalizer('with_issues_enabled', $booleanNormalizer)
+        ;
+        $resolver->setDefined('with_merge_requests_enabled')
+            ->setAllowedTypes('with_merge_requests_enabled', 'bool')
+            ->setNormalizer('with_merge_requests_enabled', $booleanNormalizer)
+        ;
+        $resolver->setDefined('with_shared')
+            ->setAllowedTypes('with_shared', 'bool')
+            ->setNormalizer('with_shared', $booleanNormalizer)
+        ;
+        $resolver->setDefined('include_subgroups')
+            ->setAllowedTypes('include_subgroups', 'bool')
+            ->setNormalizer('include_subgroups', $booleanNormalizer)
+        ;
+        $resolver->setDefined('with_custom_attributes')
+            ->setAllowedTypes('with_custom_attributes', 'bool')
+            ->setNormalizer('with_custom_attributes', $booleanNormalizer)
         ;
 
         return $this->get('groups/'.$this->encodePath($id).'/projects', $resolver->resolve($parameters));
