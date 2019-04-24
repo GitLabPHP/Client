@@ -26,6 +26,15 @@ class Schedules extends AbstractApi
 
     /**
      * @param int $project_id
+     * @return mixed
+     */
+    public function showAll($project_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'pipeline_schedules'));
+    }
+
+    /**
+     * @param int $project_id
      * @param int $schedule_id
      * @param array $params
      * @return mixed

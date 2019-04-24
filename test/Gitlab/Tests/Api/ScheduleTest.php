@@ -73,6 +73,23 @@ class ScheduleTest extends TestCase
     /**
      * @test
      */
+    public function shouldShowAllSchedule()
+    {
+        $expectedArray = array('id' => 1, 'name' => 'A schedule');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/pipeline_schedules')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->showAll(1));
+    }
+
+    /**
+     * @test
+     */
     public function shouldUpdateSchedule()
     {
         $expectedArray = array('id' => 3, 'title' => 'Updated schedule');
