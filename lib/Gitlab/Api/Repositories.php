@@ -107,10 +107,9 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int $project_id
      * @param string $tag_name
      * @param string $description
-     *
      * @return mixed
      */
     public function createRelease($project_id, $tag_name, $description)
@@ -123,10 +122,9 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int $project_id
      * @param string $tag_name
      * @param string $description
-     *
      * @return mixed
      */
     public function updateRelease($project_id, $tag_name, $description)
@@ -136,6 +134,16 @@ class Repositories extends AbstractApi
             'tag_name'    => $tag_name,
             'description' => $description
         ));
+    }
+
+    /**
+     * @param int $project_id
+     * @return mixed
+     */
+    public function releases($project_id)
+    {
+        $resolver = $this->createOptionsResolver();
+        return $this->get($this->getProjectPath($project_id, 'releases'));
     }
 
     /**
@@ -186,15 +194,16 @@ class Repositories extends AbstractApi
      * @param int $project_id
      * @param $sha
      * @param array $parameters
-     *
      * @return mixed
      */
     public function commitRefs($project_id, $sha, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
 
-        return $this->get($this->getProjectPath($project_id, 'repository/commits/' . $this->encodePath($sha) . '/refs'),
-            $resolver->resolve($parameters));
+        return $this->get(
+            $this->getProjectPath($project_id, 'repository/commits/' . $this->encodePath($sha) . '/refs'),
+            $resolver->resolve($parameters)
+        );
     }
 
     /**
@@ -261,10 +270,9 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int $project_id
      * @param string $sha
-     * @param array  $parameters
-     *
+     * @param array $parameters
      * @return mixed
      */
     public function commitComments($project_id, $sha, array $parameters = [])

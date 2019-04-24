@@ -563,6 +563,26 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetAllMembers()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'Matt'),
+            array('id' => 2, 'name' => 'Bob')
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/members/all')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->allMembers(1));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetMembers()
     {
         $expectedArray = array(
@@ -1118,6 +1138,72 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldForkWithNamespace()
+    {
+        $expectedArray = [
+            'namespace' => 'new_namespace',
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/fork', $expectedArray)
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->fork(1, [
+            'namespace' => 'new_namespace',
+        ]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldForkWithNamespaceAndPath()
+    {
+        $expectedArray = [
+            'namespace' => 'new_namespace',
+            'path' => 'new_path',
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/fork', $expectedArray)
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->fork(1, [
+            'namespace' => 'new_namespace',
+            'path' => 'new_path',
+        ]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldForkWithNamespaceAndPathAndName()
+    {
+        $expectedArray = [
+            'namespace' => 'new_namespace',
+            'path' => 'new_path',
+            'name' => 'new_name'
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/fork', $expectedArray)
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->fork(1, [
+            'namespace' => 'new_namespace',
+            'path' => 'new_path',
+            'name' => 'new_name'
+        ]));
+    }
+
+    /**
+     * @test
+     */
     public function shouldCreateForkRelation()
     {
         $expectedArray = array('project_id' => 1, 'forked_id' => 2);
@@ -1483,6 +1569,124 @@ class ProjectsTest extends TestCase
             [40],
             [50],
         ];
+    }
+
+    public function getBadgeExpectedArray()
+    {
+        return [
+            [
+                "id" => 1,
+                "link_url" => "http://example.com/ci_status.svg?project=%{project_path}&ref=%{default_branch}",
+                "image_url" => "https://shields.io/my/badge",
+                "rendered_link_url" => "http://example.com/ci_status.svg?project=example-org/example-project&ref=master",
+                "rendered_image_url" => "https://shields.io/my/badge",
+                "kind" => "project"
+            ],
+            [
+                "id" => 2,
+                "link_url" => "http://example.com/ci_status.svg?project=%{project_path}&ref=%{default_branch}",
+                "image_url" => "https://shields.io/my/badge",
+                "rendered_link_url" => "http://example.com/ci_status.svg?project=example-org/example-project&ref=master",
+                "rendered_image_url" => "https://shields.io/my/badge",
+                "kind" => "group"
+            ],
+        ];
+    }
+    /**
+     * @test
+     */
+    public function shouldGetBadges()
+    {
+        $expectedArray = $this->getBadgeExpectedArray();
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/badges')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->badges(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetBadge()
+    {
+        $expectedBadgesArray = $this->getBadgeExpectedArray();
+        $expectedArray = array(
+            $expectedBadgesArray[0]
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/badges/1')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->badge(1, 1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAddBadge()
+    {
+        $link_url = 'http://example.com/ci_status.svg?project=%{project_path}&ref=%{default_branch}';
+        $image_url = 'https://shields.io/my/badge';
+        $expectedArray = array(
+            'id' => 3,
+            'link_url' => $link_url,
+            'image_url' => $image_url,
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/badges', array('link_url' => $link_url, 'image_url' => $image_url))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->addBadge(1, array('link_url' => $link_url, 'image_url' => $image_url)));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUpdateBadge()
+    {
+        $image_url = 'https://shields.io/my/new/badge';
+        $expectedArray = array(
+            'id' => 2,
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/badges/2')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->updateBadge(1, 2, array('image_url' => $image_url)));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRemoveBadge()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/badges/1')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->removeBadge(1, 1));
     }
 
     protected function getApiClass()

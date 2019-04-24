@@ -262,6 +262,19 @@ class Projects extends AbstractApi
     }
 
     /**
+     * @param integer $project_id
+     * @param array $parameters
+     * @return mixed
+     */
+    public function allMembers($project_id, $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+        $resolver->setDefined('query');
+
+        return $this->get('projects/'.$this->encodePath($project_id).'/members/all', $resolver->resolve($parameters));
+    }
+
+    /**
      * @param int $project_id
      * @param array $parameters (
      *
@@ -342,7 +355,6 @@ class Projects extends AbstractApi
     /**
      * @param int $project_id
      * @param array $parameters
-     *
      * @return mixed
      */
     public function hooks($project_id, array $parameters = [])
@@ -599,13 +611,15 @@ class Projects extends AbstractApi
      * @param array $params (
      *
      *     @var string $namespace      The ID or path of the namespace that the project will be forked to
+     *     @var string $path           The path of the forked project (optional)
+     *     @var string $name           The name of the forked project (optional)
      * )
      * @return mixed
      */
     public function fork($project_id, array $parameters = [])
     {
         $resolver = new OptionsResolver();
-        $resolver->setDefined('namespace');
+        $resolver->setDefined(['namespace', 'path', 'name']);
 
         $resolved = $resolver->resolve($parameters);
 
@@ -655,7 +669,6 @@ class Projects extends AbstractApi
     /**
      * @param int $project_id
      * @param array $parameters
-     *
      * @return mixed
      */
     public function variables($project_id, array $parameters = [])
@@ -749,7 +762,6 @@ class Projects extends AbstractApi
     /**
      * @param int $project_id
      * @param array $parameters
-     *
      * @return mixed
      */
     public function deployments($project_id, array $parameters = [])
@@ -805,5 +817,55 @@ class Projects extends AbstractApi
     public function removeShare($project_id, $group_id)
     {
         return $this->delete($this->getProjectPath($project_id, 'services/'.$group_id));
+    }
+
+    /**
+     * @param int $project_id
+     * @return mixed
+     */
+    public function badges($project_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'badges'));
+    }
+
+    /**
+     * @param int $project_id
+     * @param string $badge_id
+     * @return mixed
+     */
+    public function badge($project_id, $badge_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'badges/' . $this->encodePath($badge_id)));
+    }
+
+    /**
+     * @param int $project_id
+     * @param array $params
+     * @return mixed
+     */
+    public function addBadge($project_id, array $params = array())
+    {
+        return $this->post($this->getProjectPath($project_id, 'badges'), $params);
+    }
+
+    /**
+     * @param int $project_id
+     * @param string $badge_id
+     * @return mixed
+     */
+    public function removeBadge($project_id, $badge_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'badges/' . $this->encodePath($badge_id)));
+    }
+
+    /**
+     * @param int $project_id
+     * @param string $badge_id
+     * @param array $params
+     * @return mixed
+    */
+    public function updateBadge($project_id, $badge_id, array $params = array())
+    {
+        return $this->put($this->getProjectPath($project_id, 'badges/' . $this->encodePath($badge_id)));
     }
 }

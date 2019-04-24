@@ -90,6 +90,19 @@ class Groups extends AbstractApi
     }
 
     /**
+     * @param integer $id
+     * @param array $parameters
+     * @return mixed
+     */
+    public function allMembers($id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+        $resolver->setDefined('query');
+
+        return $this->get('groups/'.$this->encodePath($id).'/members/all', $resolver->resolve($parameters));
+    }
+
+    /**
      * @param int   $id
      * @param array $parameters (
      *
@@ -198,7 +211,7 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param int $groupId
+     * @param int $group_id
      * @param array $parameters (
      *
      *     @var int[]  $skip_groups   Skip the group IDs passes.
@@ -211,17 +224,60 @@ class Groups extends AbstractApi
      * )
      * @return mixed
      */
-    public function subgroups($groupId, array $parameters = [])
+    public function subgroups($group_id, array $parameters = [])
     {
         $resolver = $this->getGroupSearchResolver();
 
-        return $this->get('groups/'.$this->encodePath($groupId).'/subgroups', $resolver->resolve($parameters));
+        return $this->get('groups/'.$this->encodePath($group_id).'/subgroups', $resolver->resolve($parameters));
     }
 
     /**
      * @param int $group_id
      * @param array $parameters
-     *
+     * @return mixed
+     */
+    public function labels($group_id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+
+        return $this->get('groups/'.$this->encodePath($group_id). '/labels', $resolver->resolve($parameters));
+    }
+
+    /**
+     * @param int $group_id
+     * @param array $params
+     * @return mixed
+     */
+    public function addLabel($group_id, array $params)
+    {
+        return $this->post('groups/'.$this->encodePath($group_id). '/labels', $params);
+    }
+
+    /**
+     * @param int $group_id
+     * @param array $params
+     * @return mixed
+     */
+    public function updateLabel($group_id, array $params)
+    {
+        return $this->put('groups/'.$this->encodePath($group_id). '/labels', $params);
+    }
+
+    /**
+     * @param int $group_id
+     * @param string $name
+     * @return mixed
+     */
+    public function removeLabel($group_id, $name)
+    {
+        return $this->delete('groups/'.$this->encodePath($group_id). '/labels', array(
+            'name' => $name
+        ));
+    }
+
+    /**
+     * @param int $group_id
+     * @param array $parameters
      * @return mixed
      */
     public function variables($group_id, array $parameters = [])
@@ -234,7 +290,6 @@ class Groups extends AbstractApi
     /**
      * @param int $group_id
      * @param string $key
-     *
      * @return mixed
      */
     public function variable($group_id, $key)
@@ -247,7 +302,6 @@ class Groups extends AbstractApi
      * @param string $key
      * @param string $value
      * @param bool $protected
-     *
      * @return mixed
      */
     public function addVariable($group_id, $key, $value, $protected = null)
@@ -269,7 +323,6 @@ class Groups extends AbstractApi
      * @param string $key
      * @param string $value
      * @param bool $protected
-     *
      * @return mixed
      */
     public function updateVariable($group_id, $key, $value, $protected = null)
@@ -288,7 +341,6 @@ class Groups extends AbstractApi
     /**
      * @param int $group_id
      * @param string $key
-     *
      * @return mixed
      */
     public function removeVariable($group_id, $key)

@@ -155,8 +155,8 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
-     * @param int   $mr_id
+     * @param int $project_id
+     * @param int $mr_id
      *
      * @return mixed
      */
@@ -182,7 +182,6 @@ class MergeRequests extends AbstractApi
      * @param int $projectId
      * @param int $mrId
      * @param int $noteId
-     *
      * @return mixed
      */
     public function removeNote($projectId, $mrId, $noteId)
@@ -337,45 +336,41 @@ class MergeRequests extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param int $mr_id
-     *
+     * @param int $mr_iid
      * @return mixed
      */
-    public function approvals($project_id, $merge_request_iid)
+    public function approvals($project_id, $mr_iid)
     {
-        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($merge_request_iid).'/approvals'));
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/approvals'));
     }
 
     /**
      * @param int $project_id
-     * @param int $mr_id
-     *
+     * @param int $mr_iid
      * @return mixed
      */
-    public function approve($project_id, $merge_request_iid)
+    public function approve($project_id, $mr_iid)
     {
-        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($merge_request_iid).'/approve'));
+        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/approve'));
     }
 
     /**
      * @param int $project_id
-     * @param int $mr_id
-     *
+     * @param int $mr_iid
      * @return mixed
      */
-    public function unapprove($project_id, $merge_request_iid)
+    public function unapprove($project_id, $mr_iid)
     {
-        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($merge_request_iid).'/unapprove'));
+        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/unapprove'));
     }
 
     /**
      * @param int $project_id
-     * @param int $merge_request_iid
-     *
+     * @param int $mr_iid
      * @return mixed
      */
-    public function awardEmoji($project_id, $merge_request_iid)
+    public function awardEmoji($project_id, $mr_iid)
     {
-        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($merge_request_iid).'/award_emoji'));
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/award_emoji'));
     }
 }

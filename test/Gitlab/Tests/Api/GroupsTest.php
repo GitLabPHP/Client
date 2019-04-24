@@ -189,6 +189,26 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetAllMembers()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'Matt'),
+            array('id' => 2, 'name' => 'Bob')
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/members/all')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->allMembers(1));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetMembers()
     {
         $expectedArray = array(
@@ -292,6 +312,77 @@ class GroupsTest extends TestCase
         ;
 
         $this->assertEquals($expectedArray, $api->subgroups(1, ['page' => 1, 'per_page' => 10]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetLabels()
+    {
+        $expectedArray = array(
+            array('name' => 'bug', 'color' => '#000000'),
+            array('name' => 'feature', 'color' => '#ff0000')
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/labels')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->labels(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAddLabel()
+    {
+        $expectedArray = array('name' => 'bug', 'color' => '#000000');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('groups/1/labels', array('name' => 'wont-fix', 'color' => '#ffffff'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->addLabel(1, array('name' => 'wont-fix', 'color' => '#ffffff')));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUpdateLabel()
+    {
+        $expectedArray = array('name' => 'bug', 'color' => '#00ffff');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('groups/1/labels', array('name' => 'bug', 'new_name' => 'big-bug', 'color' => '#00ffff'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->updateLabel(1, array('name' => 'bug', 'new_name' => 'big-bug', 'color' => '#00ffff')));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRemoveLabel()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('groups/1/labels', array('name' => 'bug'))
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->removeLabel(1, 'bug'));
     }
 
     public function shouldGetVariables()
