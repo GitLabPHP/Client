@@ -18,11 +18,11 @@ class RepositoriesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/repository/branches')
+            ->with('projects/1/repository/branches', ['search' => '^term'])
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->branches(1));
+        $this->assertEquals($expectedArray, $api->branches(1, ['search' => '^term']));
     }
 
     /**
@@ -217,7 +217,7 @@ class RepositoriesTest extends TestCase
 
         $this->assertEquals($expectedArray, $api->updateRelease($project_id, $tagName, $description));
     }
-    
+
     /**
      * @test
      */
