@@ -182,6 +182,7 @@ class Projects extends AbstractApi
      *     @var string $scope       The scope of pipelines, one of: running, pending, finished, branches, tags.
      *     @var string $status      The status of pipelines, one of: running, pending, success, failed, canceled, skipped.
      *     @var string $ref         The ref of pipelines.
+     *     @var string $sha         The sha of pipelines.
      *     @var bool   $yaml_errors Returns pipelines with invalid configurations.
      *     @var string $name        The name of the user who triggered pipelines.
      *     @var string $username    The username of the user who triggered pipelines.
@@ -204,6 +205,7 @@ class Projects extends AbstractApi
             ->setAllowedValues('status', ['running', 'pending', 'success', 'failed', 'canceled', 'skipped'])
         ;
         $resolver->setDefined('ref');
+        $resolver->setDefined('sha');
         $resolver->setDefined('yaml_errors')
             ->setAllowedTypes('yaml_errors', 'bool')
             ->setNormalizer('yaml_errors', $booleanNormalizer)
