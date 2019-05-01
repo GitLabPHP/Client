@@ -33,21 +33,21 @@ class Wiki extends AbstractModel
      */
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $wiki = new static($project, $data['id'], $client);
+        $wiki = new static($project, $data['slug'], $client);
 
         return $wiki->hydrate($data);
     }
 
     /**
      * @param Project $project
-     * @param int $id
+     * @param string $slug
      * @param Client  $client
      */
-    public function __construct(Project $project, $id = null, Client $client = null)
+    public function __construct(Project $project, $slug = null, Client $client = null)
     {
         $this->setClient($client);
         $this->setData('project', $project);
-        $this->setData('id', $id);
+        $this->setData('slug', $slug);
     }
 
     /**
@@ -55,14 +55,14 @@ class Wiki extends AbstractModel
      */
     public function show()
     {
-        $data = $this->client->wiki()->show($this->project->id, $this->id);
+        $data = $this->client->wiki()->show($this->project->id, $this->slug);
 
         return static::fromArray($this->getClient(), $this->project, $data);
     }
 
     /**
      * @param array $params
-     * @return Schedule
+     * @return Wiki
      */
     public function update(array $params)
     {
