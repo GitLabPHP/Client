@@ -19,6 +19,7 @@ class Wiki extends AbstractModel
      * @var array
      */
     protected static $properties = array(
+        "project",
         "slug",
         "title",
         "format",
@@ -66,7 +67,7 @@ class Wiki extends AbstractModel
      */
     public function update(array $params)
     {
-        $data = $this->client->wiki()->update($this->project->id, $this->id, $params);
+        $data = $this->client->wiki()->update($this->project->id, $this->slug, $params);
 
         return static::fromArray($this->getClient(), $this->project, $data);
     }
