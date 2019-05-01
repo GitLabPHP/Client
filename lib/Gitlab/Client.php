@@ -306,6 +306,14 @@ class Client
     }
 
     /**
+     * @return Api\Wiki
+     */
+    public function wiki()
+    {
+        return new Api\Wiki($this);
+    }
+
+    /**
      * @param string $name
      *
      * @return AbstractApi|mixed
@@ -389,6 +397,9 @@ class Client
 
             case 'schedules':
                 return $this->schedules();
+
+            case 'wiki':
+                return $this->wiki();
 
             default:
                 throw new InvalidArgumentException('Invalid endpoint: "'.$name.'"');
