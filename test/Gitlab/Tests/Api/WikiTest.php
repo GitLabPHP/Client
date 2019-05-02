@@ -42,8 +42,8 @@ class WikiTest extends TestCase
     public function shouldShowWiki()
     {
         $expectedArray = [
-            "slug" => "Test-Wiki", 
-            "title" => "Test Wiki", 
+            "slug" => "Test-Wiki",
+            "title" => "Test Wiki",
             "format" => "markdown"
         ];
 
@@ -62,8 +62,8 @@ class WikiTest extends TestCase
     public function shouldShowAllWiki()
     {
         $expectedArray = [
-            "slug" => "Test-Wiki", 
-            "title" => "Test Wiki", 
+            "slug" => "Test-Wiki",
+            "title" => "Test Wiki",
             "format" => "markdown"
         ];
 
@@ -83,9 +83,9 @@ class WikiTest extends TestCase
     public function shouldUpdateWiki()
     {
         $expectedArray = [
-            'slug' => 'Test-Wiki', 
-            'title' => 'Test Wiki', 
-            "format" => "markdown", 
+            'slug' => 'Test-Wiki',
+            'title' => 'Test Wiki',
+            "format" => "markdown",
             "content" => "This is the test Wiki that has been updated"
         ];
 
