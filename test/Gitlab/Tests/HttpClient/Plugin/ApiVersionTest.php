@@ -36,6 +36,7 @@ class ApiVersionTest extends TestCase
         $request = new Request('GET', 'projects');
         $expected = new Request('GET', '/api/v4/projects');
         $plugin = new ApiVersion();
+        $promise = new HttpFulfilledPromise(new Response());
 
         $callback = $this->getMockBuilder(\stdClass::class)
             ->setMethods(['next'])
@@ -44,6 +45,7 @@ class ApiVersionTest extends TestCase
         $callback->expects($this->once())
             ->method('next')
             ->with($expected)
+            ->willReturn($promise)
         ;
 
         $plugin->handleRequest($request, [$callback, 'next'], function () {
@@ -54,6 +56,7 @@ class ApiVersionTest extends TestCase
     {
         $request = new Request('GET', '/api/v4/projects');
         $plugin = new ApiVersion();
+        $promise = new HttpFulfilledPromise(new Response());
 
         $callback = $this->getMockBuilder(\stdClass::class)
             ->setMethods(['next'])
@@ -62,6 +65,7 @@ class ApiVersionTest extends TestCase
         $callback->expects($this->once())
             ->method('next')
             ->with($request)
+            ->willReturn($promise)
         ;
 
         $plugin->handleRequest($request, [$callback, 'next'], function () {
