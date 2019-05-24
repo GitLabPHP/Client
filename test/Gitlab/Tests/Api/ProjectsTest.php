@@ -482,6 +482,27 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->pipelines(1, ['yaml_errors' => false]));
     }
 
+	/**
+	 * @test
+	 */
+	public function shouldGetPipelinesWithSHA()
+	{
+		$expectedArray = array(
+			array('id' => 1, 'status' => 'success','ref' => 'new-pipeline'),
+			array('id' => 2, 'status' => 'failed', 'ref' => 'new-pipeline'),
+			array('id' => 3, 'status' => 'pending', 'ref' => 'test-pipeline')
+		);
+
+		$api = $this->getApiMock();
+		$api->expects($this->once())
+			->method('get')
+			->with('projects/1/pipelines', ['sha' => '123'])
+			->will($this->returnValue($expectedArray))
+		;
+
+		$this->assertEquals($expectedArray, $api->pipelines(1, ['sha' => '123']));
+	}
+
     /**
      * @test
      */
