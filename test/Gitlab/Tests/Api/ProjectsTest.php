@@ -500,7 +500,7 @@ class ProjectsTest extends TestCase
             ->will($this->returnValue($expectedArray))
         ;
 
-	    $this->assertEquals($expectedArray, $api->pipelines(1, ['sha' => '123']));
+        $this->assertEquals($expectedArray, $api->pipelines(1, ['sha' => '123']));
     }
 
     /**
