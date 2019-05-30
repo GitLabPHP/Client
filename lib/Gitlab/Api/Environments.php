@@ -17,6 +17,16 @@ class Environments extends AbstractApi
 
     /**
      * @param int $project_id
+     * @param int $environment_id
+     * @return mixed
+     */
+    public function show($project_id, $environment_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'environments/'.$this->encodePath($environment_id)));
+    }
+
+    /**
+     * @param int $project_id
      * @param array $parameters (
      *
      *     @var string $name         The name of the environment
