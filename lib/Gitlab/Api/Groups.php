@@ -216,7 +216,7 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param int $groupId
+     * @param int $group_id
      * @param array $parameters (
      *
      *     @var int[]  $skip_groups   Skip the group IDs passes.
