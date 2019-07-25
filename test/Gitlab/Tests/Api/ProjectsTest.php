@@ -584,6 +584,23 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldDeletePipeline()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/pipelines/3')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->deletePipeline(1, 3));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetAllMembers()
     {
         $expectedArray = array(
