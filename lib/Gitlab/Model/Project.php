@@ -151,6 +151,7 @@ class Project extends AbstractModel
 
         return static::fromArray($client, $data);
     }
+
     /**
      * @param int $id
      * @param Client $client
@@ -277,9 +278,9 @@ class Project extends AbstractModel
     /**
      * @param array $parameters
      *
+     * @return ProjectHook[]
      * @see Projects::hooks() for available parameters.
      *
-     * @return ProjectHook[]
      */
     public function hooks(array $parameters = [])
     {
@@ -494,9 +495,9 @@ class Project extends AbstractModel
     /**
      * @param array $parameters
      *
+     * @return Commit[]
      * @see Repositories::commits() for available parameters.
      *
-     * @return Commit[]
      */
     public function commits(array $parameters = [])
     {
@@ -525,9 +526,9 @@ class Project extends AbstractModel
      * @param string $ref
      * @param array $parameters
      *
+     * @return Commit[]
      * @see Repositories::commitComments() for available parameters.
      *
-     * @return Commit[]
      */
     public function commitComments($ref, array $parameters = [])
     {
@@ -621,8 +622,14 @@ class Project extends AbstractModel
      * @param string $author_name
      * @return File
      */
-    public function createFile($file_path, $content, $branch_name, $commit_message, $author_email = null, $author_name = null)
-    {
+    public function createFile(
+        $file_path,
+        $content,
+        $branch_name,
+        $commit_message,
+        $author_email = null,
+        $author_name = null
+    ) {
         $parameters = [
             'file_path' => $file_path,
             'branch' => $branch_name,
@@ -652,8 +659,14 @@ class Project extends AbstractModel
      * @param string $author_name
      * @return File
      */
-    public function updateFile($file_path, $content, $branch_name, $commit_message, $author_email = null, $author_name = null)
-    {
+    public function updateFile(
+        $file_path,
+        $content,
+        $branch_name,
+        $commit_message,
+        $author_email = null,
+        $author_name = null
+    ) {
         $parameters = [
             'file_path' => $file_path,
             'branch' => $branch_name,
@@ -706,9 +719,9 @@ class Project extends AbstractModel
     /**
      * @param array $parameters
      *
+     * @return Event[]
      * @see Projects::events() for available parameters.
      *
-     * @return Event[]
      */
     public function events(array $parameters = [])
     {
@@ -725,9 +738,9 @@ class Project extends AbstractModel
     /**
      * @param array $parameters
      *
+     * @return MergeRequest[]
      * @see MergeRequests::all() for available parameters.
      *
-     * @return MergeRequest[]
      */
     public function mergeRequests(array $parameters = [])
     {
@@ -762,7 +775,8 @@ class Project extends AbstractModel
      */
     public function createMergeRequest($source, $target, $title, $assignee = null, $description = null)
     {
-        $data = $this->client->mergeRequests()->create($this->id, $source, $target, $title, $assignee, $this->id, $description);
+        $data = $this->client->mergeRequests()->create($this->id, $source, $target, $title, $assignee, $this->id,
+            $description);
 
         return MergeRequest::fromArray($this->getClient(), $this, $data);
     }
@@ -815,9 +829,9 @@ class Project extends AbstractModel
     /**
      * @param array $parameters
      *
+     * @return Issue[]
      * @see Issues::all() for available parameters.
      *
-     * @return Issue[]
      */
     public function issues(array $parameters = [])
     {
@@ -893,9 +907,9 @@ class Project extends AbstractModel
     /**
      * @param array $parameters
      *
+     * @return Milestone[]
      * @see Milestones::all() for available parameters.
      *
-     * @return Milestone[]
      */
     public function milestones(array $parameters = [])
     {
@@ -1273,5 +1287,15 @@ class Project extends AbstractModel
         $this->client->projects()->removeBadge($this->id, $badge_id);
 
         return true;
+    }
+
+    /**
+     * @param array $params
+     * @return Branch
+     */
+    public function addProtectedBranch(array $params = [])
+    {
+        $data = $this->client->projects()->addProtectedBranch($this->id, $params);
+        return Branch::fromArray($this->getClient(), $this, $data);
     }
 }
