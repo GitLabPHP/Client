@@ -880,4 +880,15 @@ class Projects extends AbstractApi
     {
         return $this->put($this->getProjectPath($project_id, 'badges/' . $this->encodePath($badge_id)));
     }
+
+
+    /**
+     * @param int $project_id
+     * @param array $params
+     * @return mixed
+     */
+    public function addProtectedBranch(int $project_id, array $params = [])
+    {
+        return $this->post($this->getProjectPath($project_id,'protected_branches'),$params);
+    }
 }
