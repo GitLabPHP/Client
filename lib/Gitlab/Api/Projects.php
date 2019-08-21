@@ -887,8 +887,8 @@ class Projects extends AbstractApi
      * @param array $params
      * @return mixed
      */
-    public function addProtectedBranch(int $project_id, array $params = [])
+    public function addProtectedBranch($project_id, array $params = [])
     {
-        return $this->post($this->getProjectPath($project_id,'protected_branches'),$params);
+        return $this->post($this->getProjectPath($project_id, 'protected_branches'), $params);
     }
 }
