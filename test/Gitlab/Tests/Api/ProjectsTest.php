@@ -1695,7 +1695,6 @@ class ProjectsTest extends TestCase
                 array('name' => 'master', 'push_access_level' => 0, 'merge_access_level' => 30))
             ->will($this->returnValue($expectedArray));
         $this->assertEquals($expectedArray, $api->addProtectedBranch(1, array('name' => 'master', 'push_access_level' => 0, 'merge_access_level' => 30)));
-
     }
 
     protected function getApiClass()
