@@ -828,7 +828,7 @@ class Projects extends AbstractApi
      */
     public function removeShare($project_id, $group_id)
     {
-        return $this->delete($this->getProjectPath($project_id, 'services/'.$group_id));
+        return $this->delete($this->getProjectPath($project_id, 'share/' . $group_id));
     }
 
     /**
