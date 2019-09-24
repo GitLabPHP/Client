@@ -115,6 +115,25 @@ class UsersTest extends TestCase
     /**
      * @test
      */
+    public function shouldShowUsersProjectsWithLimit()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'matt-project-1')
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users/1/projects')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->usersProjects(1, ['per_page'=>1]));
+    }
+
+    /**
+     * @test
+     */
     public function shouldCreateUser()
     {
         $expectedArray = array('id' => 3, 'name' => 'Billy');
