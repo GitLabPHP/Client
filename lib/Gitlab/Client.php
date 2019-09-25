@@ -306,6 +306,14 @@ class Client
     }
 
     /**
+     * @return Api\IssuesStatistics
+     */
+    public function issuesStatistics()
+    {
+        return new Api\IssuesStatistics($this);
+    }
+
+    /**
      * @param string $name
      *
      * @return AbstractApi|mixed
@@ -389,6 +397,10 @@ class Client
 
             case 'schedules':
                 return $this->schedules();
+
+            case 'issues_statistics':
+                return $this->issuesStatistics();
+
 
             default:
                 throw new InvalidArgumentException('Invalid endpoint: "'.$name.'"');
