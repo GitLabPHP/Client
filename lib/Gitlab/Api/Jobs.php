@@ -81,7 +81,7 @@ class Jobs extends AbstractApi
     public function artifactsByRefName($project_id, $ref_name, $job_name)
     {
         return $this->getAsResponse("projects/".$this->encodePath($project_id)."/jobs/artifacts/".$this->encodePath($ref_name)."/download", array(
-            'job' => $this->encodePath($job_name)
+            'job' => $job_name
         ))->getBody();
     }
 
