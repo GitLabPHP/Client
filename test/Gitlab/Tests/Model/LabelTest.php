@@ -2,12 +2,7 @@
 
 namespace Gitlab\Tests\Model;
 
-use Gitlab\Api\Issues;
-use Gitlab\Api\IssueLinks;
-use Gitlab\Api\Projects;
 use Gitlab\Client;
-use Gitlab\Model\Issue;
-use Gitlab\Model\IssueLink;
 use Gitlab\Model\Label;
 use Gitlab\Model\Project;
 use PHPUnit\Framework\TestCase;
