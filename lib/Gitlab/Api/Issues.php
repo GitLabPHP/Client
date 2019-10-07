@@ -6,15 +6,19 @@ class Issues extends AbstractApi
      * @param int $project_id
      * @param array $parameters (
      *
-     *     @var string $state     Return all issues or just those that are opened or closed.
-     *     @var string $labels    Comma-separated list of label names, issues must have all labels to be returned.
-     *                            No+Label lists all issues with no labels.
-     *     @var string $milestone The milestone title.
-     *     @var string scope      Return issues for the given scope: created-by-me, assigned-to-me or all. Defaults to created-by-me
-     *     @var int[]  $iids      Return only the issues having the given iid.
-     *     @var string $order_by  Return requests ordered by created_at or updated_at fields. Default is created_at.
-     *     @var string $sort      Return requests sorted in asc or desc order. Default is desc.
-     *     @var string $search    Search issues against their title and description.
+     *     @var string $state              Return all issues or just those that are opened or closed.
+     *     @var string $labels             Comma-separated list of label names, issues must have all labels to be
+     *                                     returned. No+Label lists all issues with no labels.
+     *     @var bool $with_labels_details  If true, response will return more details for each label in labels field:
+     *                                     :name, :color, :description, :text_color. Default is false.
+     *     @var string $milestone          The milestone title.
+     *     @var string scope               Return issues for the given scope: created-by-me, assigned-to-me or all.
+     *                                     Defaults to created-by-me
+     *     @var int[]  $iids               Return only the issues having the given iid.
+     *     @var string $order_by           Return requests ordered by created_at or updated_at fields. Default is
+     *                                     created_at.
+     *     @var string $sort               Return requests sorted in asc or desc order. Default is desc.
+     *     @var string $search             Search issues against their title and description.
      * )
      *
      * @return mixed
@@ -27,6 +31,11 @@ class Issues extends AbstractApi
             ->setAllowedValues('state', ['opened', 'closed'])
         ;
         $resolver->setDefined('labels');
+
+        $resolver->setDefined('with_labels_details')
+            ->setAllowedValues('with_labels_details', [true, false])
+        ;
+
         $resolver->setDefined('milestone');
         $resolver->setDefined('iids')
             ->setAllowedTypes('iids', 'array')
