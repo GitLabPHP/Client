@@ -320,8 +320,8 @@ class GroupsTest extends TestCase
     public function shouldGetLabels()
     {
         $expectedArray = array(
-            array('name' => 'bug', 'color' => '#000000'),
-            array('name' => 'feature', 'color' => '#ff0000')
+            array('id' => 987, 'name' => 'bug', 'color' => '#000000'),
+            array('id' => 123, 'name' => 'feature', 'color' => '#ff0000')
         );
 
         $api = $this->getApiMock();
