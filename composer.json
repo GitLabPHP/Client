@@ -27,7 +27,7 @@
 		"php-http/client-implementation": "^1.0",
 		"php-http/discovery": "^1.2",
 		"php-http/httplug": "^1.1 || ^2.0",
-		"php-http/multipart-stream-builder": "^1.1",
+		"php-http/multipart-stream-builder": "^1.0",
 		"symfony/options-resolver": "^2.6 || ^3.0 || ^4.0"
 	},
 	"require-dev": {
