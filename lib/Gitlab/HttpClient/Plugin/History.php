@@ -14,6 +14,8 @@ use Psr\Http\Message\ResponseInterface;
  */
 class History implements Journal
 {
+    use HistoryTrait;
+
     /**
      * @var ResponseInterface
      */
@@ -33,12 +35,5 @@ class History implements Journal
     public function addSuccess(RequestInterface $request, ResponseInterface $response)
     {
         $this->lastResponse = $response;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function addFailure(RequestInterface $request, Exception $exception)
-    {
     }
 }
