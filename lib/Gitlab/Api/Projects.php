@@ -387,6 +387,24 @@ class Projects extends AbstractApi
     }
 
     /**
+     * Get project users.
+     *
+     * See https://docs.gitlab.com/ee/api/projects.html#get-project-users for more info.
+     *
+     * @param int $project_id
+     *   Project id.
+     * @param array $parameters
+     *   Url parameters.
+     *
+     * @return array
+     *   List of project users.
+     */
+    public function users($project_id, array $parameters = [])
+    {
+      return $this->get($this->getProjectPath($project_id, 'users'), $parameters);
+    }
+
+    /**
      * Get project issues.
      *
      * See https://docs.gitlab.com/ee/api/issues.html#list-project-issues for more info.
