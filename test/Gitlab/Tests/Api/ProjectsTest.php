@@ -294,15 +294,15 @@ class ProjectsTest extends TestCase
      */
     public function shouldGetProjectUsers()
     {
-      $expectedArray = $this->getProjectUsersExpectedArray();
+        $expectedArray = $this->getProjectUsersExpectedArray();
 
-      $api = $this->getApiMock();
-      $api->expects($this->once())
+        $api = $this->getApiMock();
+        $api->expects($this->once())
         ->method('get')
         ->with('projects/1/users')
         ->will($this->returnValue($expectedArray));
 
-      $this->assertEquals($expectedArray, $api->users(1));
+        $this->assertEquals($expectedArray, $api->users(1));
     }
 
     /**
@@ -402,8 +402,9 @@ class ProjectsTest extends TestCase
      *
      * @return array
      */
-    public function getProjectUsersExpectedArray() {
-      return [
+    public function getProjectUsersExpectedArray()
+    {
+        return [
        [
          'id' => 1,
          'name'       => 'John Doe',

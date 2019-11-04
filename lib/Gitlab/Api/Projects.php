@@ -401,7 +401,7 @@ class Projects extends AbstractApi
      */
     public function users($project_id, array $parameters = [])
     {
-      return $this->get($this->getProjectPath($project_id, 'users'), $parameters);
+        return $this->get($this->getProjectPath($project_id, 'users'), $parameters);
     }
 
     /**
