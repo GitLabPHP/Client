@@ -288,6 +288,24 @@ class ProjectsTest extends TestCase
     }
 
     /**
+     * Check we can request project issues.
+     *
+     * @test
+     */
+    public function shouldGetProjectUsers()
+    {
+      $expectedArray = $this->getProjectUsersExpectedArray();
+
+      $api = $this->getApiMock();
+      $api->expects($this->once())
+        ->method('get')
+        ->with('projects/1/users')
+        ->will($this->returnValue($expectedArray));
+
+      $this->assertEquals($expectedArray, $api->users(1));
+    }
+
+    /**
      * Check we can request project issues with query parameters.
      *
      * @test
@@ -377,6 +395,24 @@ class ProjectsTest extends TestCase
                 ],
             ]
         ];
+    }
+
+    /**
+     * Get expected array for tests which check project users method.
+     *
+     * @return array
+     */
+    public function getProjectUsersExpectedArray() {
+      return [
+       [
+         'id' => 1,
+         'name'       => 'John Doe',
+         'username'   => 'john.doe',
+         'state'      => 'active',
+         'avatar_url' => 'https://example.com',
+         'web_url'    => 'gitlab.com/john.doe',
+       ],
+      ];
     }
 
     /**
