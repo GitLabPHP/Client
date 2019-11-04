@@ -891,4 +891,13 @@ class Projects extends AbstractApi
     {
         return $this->post($this->getProjectPath($project_id, 'protected_branches'), $params);
     }
+
+    /**
+     * @param $project_id
+     * @return mixed
+     */
+    public function deleteAllMergedBranches($project_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'repository/merged_branches'));
+    }
 }

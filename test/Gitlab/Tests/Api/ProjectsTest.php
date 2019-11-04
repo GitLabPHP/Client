@@ -1697,6 +1697,22 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->addProtectedBranch(1, array('name' => 'master', 'push_access_level' => 0, 'merge_access_level' => 30)));
     }
 
+    /**
+     * @test
+     */
+    public function shouldDeleteAllMergedBranches()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/repository/merged_branches')
+            ->will($this->returnValue($expectedBool));
+
+        $this->assertEquals($expectedBool, $api->deleteAllMergedBranches(1));
+    }
+
     protected function getApiClass()
     {
         return 'Gitlab\Api\Projects';
