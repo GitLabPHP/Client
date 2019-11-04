@@ -404,7 +404,7 @@ class ProjectsTest extends TestCase
      */
     public function getProjectUsersExpectedArray()
     {
-        return [
+      return [
        [
          'id' => 1,
          'name'       => 'John Doe',
