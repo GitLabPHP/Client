@@ -410,7 +410,7 @@ class ProjectsTest extends TestCase
          'username'   => 'john.doe',
          'state'      => 'active',
          'avatar_url' => 'https://example.com',
-         'web_url'    => 'gitlab.com/john.doe',
+         'web_url'    => 'https://gitlab.com/john.doe',
        ],
       ];
     }
