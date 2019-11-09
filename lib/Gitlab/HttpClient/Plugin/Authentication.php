@@ -44,6 +44,14 @@ class Authentication implements Plugin
     }
 
     /**
+     * @param string|null $sudo
+     */
+    public function sudo($sudo = null)
+    {
+        $this->sudo = $sudo;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function doHandleRequest(RequestInterface $request, callable $next, callable $first)

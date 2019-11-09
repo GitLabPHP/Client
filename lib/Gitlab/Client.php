@@ -424,6 +424,19 @@ class Client
     }
 
     /**
+     * Sudo as a user for the next request
+     *
+     * @param string $sudo
+     * @return Client $newClient A copy of $this with modified Authentication plugin.
+     */
+    public function sudo($sudo = null)
+    {
+        $newClient = unserialize(serialize($this)); // create a copy of $this
+        $newClient->httpClientBuilder->getPlugin(Authentication::class)->sudo($sudo);
+        return $newClient;
+    }
+
+    /**
      * @param string $url
      *
      * @return $this

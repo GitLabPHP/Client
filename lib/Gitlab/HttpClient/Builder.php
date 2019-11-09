@@ -115,4 +115,19 @@ class Builder
             }
         }
     }
+
+    /**
+     * Get a plugin by its fully qualified class name (FQCN).
+     *
+     * @param string $fqcn
+     */
+    public function getPlugin($fqcn)
+    {
+        foreach ($this->plugins as $idx => $plugin) {
+            if ($plugin instanceof $fqcn) {
+                $this->httpClientModified = true;
+                return $plugin;
+            }
+        }
+    }
 }
