@@ -120,6 +120,7 @@ class Builder
      * Get a plugin by its fully qualified class name (FQCN).
      *
      * @param string $fqcn
+     * @return object $plugin
      */
     public function getPlugin($fqcn)
     {
@@ -129,5 +130,6 @@ class Builder
                 return $plugin;
             }
         }
+        return null;
     }
 }
