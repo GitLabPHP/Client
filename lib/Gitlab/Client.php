@@ -14,6 +14,7 @@ use Http\Client\Common\Plugin\HistoryPlugin;
 use Http\Client\Common\Plugin\RedirectPlugin;
 use Http\Client\HttpClient;
 use Http\Discovery\UriFactoryDiscovery;
+use function DeepCopy\deep_copy;
 
 /**
  * Simple API wrapper for Gitlab
@@ -431,7 +432,7 @@ class Client
      */
     public function sudo($sudo = null)
     {
-        $newClient = unserialize(serialize($this)); // create a copy of $this
+        $newClient = deep_copy($this); // create a copy of $this
         $newClient->httpClientBuilder->getPlugin(Authentication::class)->sudo($sudo);
         return $newClient;
     }
