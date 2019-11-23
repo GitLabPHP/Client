@@ -28,7 +28,7 @@
 		"php-http/discovery": "^1.2",
 		"php-http/httplug": "^1.1 || ^2.0",
 		"php-http/multipart-stream-builder": "^1.0",
-		"symfony/options-resolver": "^2.6 || ^3.0 || ^4.0"
+		"symfony/options-resolver": "^2.6 || ^3.0 || ^4.0 || ^5.0"
 	},
 	"require-dev": {
 		"guzzlehttp/psr7": "^1.2",
