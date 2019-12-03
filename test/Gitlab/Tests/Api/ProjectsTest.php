@@ -404,16 +404,16 @@ class ProjectsTest extends TestCase
      */
     public function getProjectUsersExpectedArray()
     {
-      return [
-       [
-         'id' => 1,
-         'name'       => 'John Doe',
-         'username'   => 'john.doe',
-         'state'      => 'active',
-         'avatar_url' => 'https://example.com',
-         'web_url'    => 'https://gitlab.com/john.doe',
-       ],
-      ];
+        return [
+            [
+                'id' => 1,
+                'name'       => 'John Doe',
+                'username'   => 'john.doe',
+                'state'      => 'active',
+                'avatar_url' => 'https://example.com',
+                'web_url'    => 'https://gitlab.com/john.doe',
+            ],
+        ];
     }
 
     /**
