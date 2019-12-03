@@ -570,6 +570,35 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldCreatePipelineWithVariables()
+    {
+        $expectedArray = array(
+            array('id' => 4, 'status' => 'created', 'ref' => 'test-pipeline')
+        );
+        $variables = array(
+            array(
+                'key' => 'test_var_1',
+                'value' => 'test_value_1'
+            ),
+            array(
+                'key' => 'test_var_2',
+                'variable_type' => 'file',
+                'value' => 'test_value_2'
+            )
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/pipeline', array('ref' => 'test-pipeline', 'variables' => $variables))
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->createPipeline(1, 'test-pipeline', $variables));
+    }
+
+    /**
+     * @test
+     */
     public function shouldRetryPipeline()
     {
         $expectedArray = array(
