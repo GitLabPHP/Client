@@ -12,8 +12,8 @@ php:
 matrix:
   # test latest PHP stable version with lowest dependencies and phpstan static analysis
   include:
-    - php: 7.1
-      env: COMPOSER_FLAGS="--prefer-lowest" STATIC_ANALYSIS=yes
+    - php: 7.3
+      env: STATIC_ANALYSIS=yes
 
 before_script:
   - travis_retry composer self-update
