@@ -22,6 +22,7 @@ class ResultPagerTest extends TestCase
         ;
 
         $api = $this->getMockBuilder(ApiInterface::class)
+            ->disableOriginalConstructor()
             ->setMethods(['__construct', 'all'])
             ->getMock()
         ;
@@ -102,6 +103,7 @@ class ResultPagerTest extends TestCase
         ;
 
         $api = $this->getMockBuilder(ApiInterface::class)
+            ->disableOriginalConstructor()
             ->setMethods(['__construct', 'all'])
             ->getMock();
         $api->expects($this->exactly(1))
