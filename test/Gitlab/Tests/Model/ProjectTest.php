@@ -61,7 +61,7 @@ class ProjectTest extends TestCase
             'request_access_enabled' => false,
             'merge_method' => 'merge',
             'approvals_before_merge' => 0,
-        ], $overrides);;
+        ], $overrides);
 
         return $defaults;
 
