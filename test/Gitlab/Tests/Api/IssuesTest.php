@@ -454,6 +454,40 @@ class IssuesTest extends TestCase
         $this->assertEquals($expectedArray, $api->all(1, array('assignee_id' => 1)));
     }
 
+    /**
+     * @test
+     */
+    public function shouldGetIssueParticipants()
+    {
+        $expectedArray = array(
+            array(
+                "id" => 1,
+                "name" => "John Doe1",
+                "username" => "user1",
+                "state" => "active",
+                "avatar_url" => "http://www.gravatar.com/avatar/c922747a93b40d1ea88262bf1aebee62?s=80&d=identicon",
+                "web_url" => "http://localhost/user1",
+            ),
+            array(
+                "id" => 5,
+                "name" => "John Doe5",
+                "username" => "user5",
+                "state" => "active",
+                "avatar_url" => "http://www.gravatar.com/avatar/4aea8cf834ed91844a2da4ff7ae6b491?s=80&d=identicon",
+                "web_url" => "http://localhost/user5",
+            )
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/issues/2/participants')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->showParticipants(1, 2));
+    }
+
     protected function getApiClass()
     {
         return 'Gitlab\Api\Issues';
