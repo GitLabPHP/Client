@@ -39,7 +39,8 @@ class Commit extends AbstractModel
         'authored_date',
         'committed_date',
         'created_at',
-        'project'
+        'project',
+        'stats'
     );
 
     /**
