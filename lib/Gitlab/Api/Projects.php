@@ -161,6 +161,45 @@ class Projects extends AbstractApi
      * @param int $project_id
      * @return mixed
      */
+    public function export($project_id)
+    {
+        return $this->post("projects/".$this->encodePath($project_id)."/export");
+    }
+
+    /**
+     * @param int $project_id
+     * @return mixed
+     */
+    public function export_status($project_id)
+    {
+        return $this->get("projects/".$this->encodePath($project_id)."/export");
+    }
+
+    /**
+     * @param int $project_id
+     * @return mixed
+     */
+    public function download($project_id)
+    {
+        return $this->get("projects/".$this->encodePath($project_id)."/export/download");
+    }
+
+    /**
+     * @param string $namespace
+     * @param string $name
+     * @param string $path
+     * @param string $filepath
+     * @return mixed
+     */
+    public function import($namespace, $name, $path, $filepath)
+    {
+        return $this->post("projects/import", array('namespace'=> $namespace,'name'=>$name, 'path'=>$path), array(), array('file' => $filepath));
+    }
+
+    /**
+     * @param int $project_id
+     * @return mixed
+     */
     public function archive($project_id)
     {
         return $this->post("projects/".$this->encodePath($project_id)."/archive");
