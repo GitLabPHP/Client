@@ -310,7 +310,7 @@ class Client
      */
     public function wiki()
     {
-        return new Api\Wiki($this); 
+        return new Api\Wiki($this);
     }
 
     /**
