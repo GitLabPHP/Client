@@ -1,8 +1,5 @@
 <?php namespace Gitlab\Tests\Api;
 
-use Gitlab\Api\AbstractApi;
-use Gitlab\Api\Projects;
-
 class ProjectsTest extends TestCase
 {
     /**
@@ -24,9 +21,11 @@ class ProjectsTest extends TestCase
     {
         $expectedArray = $this->getMultipleProjectsData();
 
-        $api = $this->getMultipleProjectsRequestMock('projects', $expectedArray, ['page' => 1, 'per_page' => 5, 'order_by' => 'name', 'sort' => 'asc']);
+        $api = $this->getMultipleProjectsRequestMock('projects', $expectedArray,
+            ['page' => 1, 'per_page' => 5, 'order_by' => 'name', 'sort' => 'asc']);
 
-        $this->assertEquals($expectedArray, $api->all(['page' => 1, 'per_page' => 5, 'order_by' => 'name', 'sort' => 'asc']));
+        $this->assertEquals($expectedArray,
+            $api->all(['page' => 1, 'per_page' => 5, 'order_by' => 'name', 'sort' => 'asc']));
     }
 
     /**
@@ -40,8 +39,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->all());
     }
@@ -117,8 +115,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->show(1));
     }
@@ -144,8 +141,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1', ['statistics' => true])
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->show(1, ['statistics' => true]));
     }
@@ -161,8 +157,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects', array('name' => 'Project Name', 'issues_enabled' => true))
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->create('Project Name', array(
             'issues_enabled' => true
@@ -180,8 +175,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1', array('name' => 'Updated Name', 'issues_enabled' => true))
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->update(1, array(
             'name' => 'Updated Name',
@@ -200,8 +194,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/archive')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->archive(1));
     }
@@ -217,8 +210,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/unarchive')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->unarchive(1));
     }
@@ -234,8 +226,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/user/1', array('name' => 'Project Name', 'issues_enabled' => true))
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->createForUser(1, 'Project Name', array(
             'issues_enabled' => true
@@ -253,8 +244,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1')
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->will($this->returnValue($expectedBool));
 
         $this->assertEquals($expectedBool, $api->remove(1));
     }
@@ -265,17 +255,16 @@ class ProjectsTest extends TestCase
     public function shouldGetPipelines()
     {
         $expectedArray = array(
-            array('id' => 1, 'status' => 'success','ref' => 'new-pipeline'),
+            array('id' => 1, 'status' => 'success', 'ref' => 'new-pipeline'),
             array('id' => 2, 'status' => 'failed', 'ref' => 'new-pipeline'),
-            array('id' => 3, 'status' => 'pending', 'ref'=> 'test-pipeline')
+            array('id' => 3, 'status' => 'pending', 'ref' => 'test-pipeline')
         );
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/pipelines')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->pipelines(1));
     }
@@ -296,6 +285,24 @@ class ProjectsTest extends TestCase
             ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->issues(1));
+    }
+
+    /**
+     * Check we can request project issues.
+     *
+     * @test
+     */
+    public function shouldGetProjectUsers()
+    {
+        $expectedArray = $this->getProjectUsersExpectedArray();
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+        ->method('get')
+        ->with('projects/1/users')
+        ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->users(1));
     }
 
     /**
@@ -326,66 +333,87 @@ class ProjectsTest extends TestCase
     {
         return [
             [
-               'state' => 'opened',
-               'description' => 'Ratione dolores corrupti mollitia soluta quia.',
-               'author' => [
-                  'state' => 'active',
-                  'id' => 18,
-                  'web_url' => 'https => //gitlab.example.com/eileen.lowe',
-                  'name' => 'Alexandra Bashirian',
-                  'avatar_url' => null,
-                  'username' => 'eileen.lowe'
-               ],
-               'milestone' => [
-                  'project_id' => 1,
-                  'description' => 'Ducimus nam enim ex consequatur cumque ratione.',
-                  'state' => 'closed',
-                  'due_date' => null,
-                  'iid' => 2,
-                  'created_at' => '2016-01-04T15 => 31 => 39.996Z',
-                  'title' => 'v4.0',
-                  'id' => 17,
-                  'updated_at' => '2016-01-04T15 => 31 => 39.996Z'
-               ],
-               'project_id' => 1,
-               'assignees' => [[
-                  'state' => 'active',
-                  'id' => 1,
-                  'name' => 'Administrator',
-                  'web_url' => 'https => //gitlab.example.com/root',
-                  'avatar_url' => null,
-                  'username' => 'root'
-               ]],
-               'assignee' => [
-                  'state' => 'active',
-                  'id' => 1,
-                  'name' => 'Administrator',
-                  'web_url' => 'https => //gitlab.example.com/root',
-                  'avatar_url' => null,
-                  'username' => 'root'
-               ],
-               'updated_at' => '2016-01-04T15 => 31 => 51.081Z',
-               'closed_at' => null,
-               'closed_by' => null,
-               'id' => 76,
-               'title' => 'Consequatur vero maxime deserunt laboriosam est voluptas dolorem.',
-               'created_at' => '2016-01-04T15 => 31 => 51.081Z',
-               'iid' => 6,
-               'labels' => [],
-               'user_notes_count' =>  1,
-               'due_date' =>  '2016-07-22',
-               'web_url' =>  'http => //example.com/example/example/issues/6',
-               'confidential' =>  false,
-               'weight' =>  null,
-               'discussion_locked' =>  false,
-               'time_stats' =>  [
-                  'time_estimate' =>  0,
-                  'total_time_spent' =>  0,
-                  'human_time_estimate' =>  null,
-                  'human_total_time_spent' =>  null
-               ],
+                'state' => 'opened',
+                'description' => 'Ratione dolores corrupti mollitia soluta quia.',
+                'author' => [
+                    'state' => 'active',
+                    'id' => 18,
+                    'web_url' => 'https => //gitlab.example.com/eileen.lowe',
+                    'name' => 'Alexandra Bashirian',
+                    'avatar_url' => null,
+                    'username' => 'eileen.lowe'
+                ],
+                'milestone' => [
+                    'project_id' => 1,
+                    'description' => 'Ducimus nam enim ex consequatur cumque ratione.',
+                    'state' => 'closed',
+                    'due_date' => null,
+                    'iid' => 2,
+                    'created_at' => '2016-01-04T15 => 31 => 39.996Z',
+                    'title' => 'v4.0',
+                    'id' => 17,
+                    'updated_at' => '2016-01-04T15 => 31 => 39.996Z'
+                ],
+                'project_id' => 1,
+                'assignees' => [
+                    [
+                        'state' => 'active',
+                        'id' => 1,
+                        'name' => 'Administrator',
+                        'web_url' => 'https => //gitlab.example.com/root',
+                        'avatar_url' => null,
+                        'username' => 'root'
+                    ]
+                ],
+                'assignee' => [
+                    'state' => 'active',
+                    'id' => 1,
+                    'name' => 'Administrator',
+                    'web_url' => 'https => //gitlab.example.com/root',
+                    'avatar_url' => null,
+                    'username' => 'root'
+                ],
+                'updated_at' => '2016-01-04T15 => 31 => 51.081Z',
+                'closed_at' => null,
+                'closed_by' => null,
+                'id' => 76,
+                'title' => 'Consequatur vero maxime deserunt laboriosam est voluptas dolorem.',
+                'created_at' => '2016-01-04T15 => 31 => 51.081Z',
+                'iid' => 6,
+                'labels' => [],
+                'user_notes_count' => 1,
+                'due_date' => '2016-07-22',
+                'web_url' => 'http => //example.com/example/example/issues/6',
+                'confidential' => false,
+                'weight' => null,
+                'discussion_locked' => false,
+                'time_stats' => [
+                    'time_estimate' => 0,
+                    'total_time_spent' => 0,
+                    'human_time_estimate' => null,
+                    'human_total_time_spent' => null
+                ],
             ]
-         ];
+        ];
+    }
+
+    /**
+     * Get expected array for tests which check project users method.
+     *
+     * @return array
+     */
+    public function getProjectUsersExpectedArray()
+    {
+        return [
+            [
+                'id' => 1,
+                'name'       => 'John Doe',
+                'username'   => 'john.doe',
+                'state'      => 'active',
+                'avatar_url' => 'https://example.com',
+                'web_url'    => 'https://gitlab.com/john.doe',
+            ],
+        ];
     }
 
     /**
@@ -414,49 +442,49 @@ class ProjectsTest extends TestCase
     {
         return [
             [
-              'id' => 1,
-              'project' =>  [
-                'id' =>  5,
-                'name' =>  'Diaspora Project Site',
-                'name_with_namespace' =>  'Diaspora / Diaspora Project Site',
-                'path' =>  'diaspora-project-site',
-                'path_with_namespace' =>  'diaspora/diaspora-project-site',
-                'http_url_to_repo' =>  'http => //example.com/diaspora/diaspora-project-site.git',
-                'web_url' =>  'http => //example.com/diaspora/diaspora-project-site'
-              ],
-              'milestone' =>    [
-                'id' =>  12,
-                'title' => '10.0',
-              ],
-              'lists' => [
-                [
-                  'id' => 1,
-                  'label' => [
-                    'name' => 'Testing',
-                    'color' => '#F0AD4E',
-                    'description' => null
-                  ],
-                  'position' => 1
+                'id' => 1,
+                'project' => [
+                    'id' => 5,
+                    'name' => 'Diaspora Project Site',
+                    'name_with_namespace' => 'Diaspora / Diaspora Project Site',
+                    'path' => 'diaspora-project-site',
+                    'path_with_namespace' => 'diaspora/diaspora-project-site',
+                    'http_url_to_repo' => 'http => //example.com/diaspora/diaspora-project-site.git',
+                    'web_url' => 'http => //example.com/diaspora/diaspora-project-site'
                 ],
-                [
-                  'id' => 2,
-                  'label' => [
-                    'name' => 'Ready',
-                    'color' => '#FF0000',
-                    'description' => null
-                  ],
-                  'position' => 2
+                'milestone' => [
+                    'id' => 12,
+                    'title' => '10.0',
                 ],
-                [
-                  'id' => 3,
-                  'label' => [
-                    'name' => 'Production',
-                    'color' => '#FF5F00',
-                    'description' => null
-                  ],
-                  'position' => 3
+                'lists' => [
+                    [
+                        'id' => 1,
+                        'label' => [
+                            'name' => 'Testing',
+                            'color' => '#F0AD4E',
+                            'description' => null
+                        ],
+                        'position' => 1
+                    ],
+                    [
+                        'id' => 2,
+                        'label' => [
+                            'name' => 'Ready',
+                            'color' => '#FF0000',
+                            'description' => null
+                        ],
+                        'position' => 2
+                    ],
+                    [
+                        'id' => 3,
+                        'label' => [
+                            'name' => 'Production',
+                            'color' => '#FF5F00',
+                            'description' => null
+                        ],
+                        'position' => 3
+                    ]
                 ]
-              ]
             ]
         ];
     }
@@ -467,19 +495,38 @@ class ProjectsTest extends TestCase
     public function shouldGetPipelinesWithBooleanParam()
     {
         $expectedArray = array(
-            array('id' => 1, 'status' => 'success','ref' => 'new-pipeline'),
+            array('id' => 1, 'status' => 'success', 'ref' => 'new-pipeline'),
             array('id' => 2, 'status' => 'failed', 'ref' => 'new-pipeline'),
-            array('id' => 3, 'status' => 'pending', 'ref'=> 'test-pipeline')
+            array('id' => 3, 'status' => 'pending', 'ref' => 'test-pipeline')
         );
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/pipelines', ['yaml_errors' => 'false'])
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->pipelines(1, ['yaml_errors' => false]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetPipelinesWithSHA()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'status' => 'success', 'ref' => 'new-pipeline'),
+            array('id' => 2, 'status' => 'failed', 'ref' => 'new-pipeline'),
+            array('id' => 3, 'status' => 'pending', 'ref' => 'test-pipeline')
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/pipelines', ['sha' => '123'])
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->pipelines(1, ['sha' => '123']));
     }
 
     /**
@@ -488,17 +535,16 @@ class ProjectsTest extends TestCase
     public function shouldGetPipeline()
     {
         $expectedArray = array(
-            array('id' => 1, 'status' => 'success','ref' => 'new-pipeline'),
+            array('id' => 1, 'status' => 'success', 'ref' => 'new-pipeline'),
             array('id' => 2, 'status' => 'failed', 'ref' => 'new-pipeline'),
-            array('id' => 3, 'status' => 'pending', 'ref'=> 'test-pipeline')
+            array('id' => 3, 'status' => 'pending', 'ref' => 'test-pipeline')
         );
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/pipelines/3')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->pipeline(1, 3));
     }
@@ -509,17 +555,45 @@ class ProjectsTest extends TestCase
     public function shouldCreatePipeline()
     {
         $expectedArray = array(
-            array('id' => 4, 'status' => 'created', 'ref'=> 'test-pipeline')
+            array('id' => 4, 'status' => 'created', 'ref' => 'test-pipeline')
         );
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/pipeline', array('ref' => 'test-pipeline'))
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->createPipeline(1, 'test-pipeline'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreatePipelineWithVariables()
+    {
+        $expectedArray = array(
+            array('id' => 4, 'status' => 'created', 'ref' => 'test-pipeline')
+        );
+        $variables = array(
+            array(
+                'key' => 'test_var_1',
+                'value' => 'test_value_1'
+            ),
+            array(
+                'key' => 'test_var_2',
+                'variable_type' => 'file',
+                'value' => 'test_value_2'
+            )
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/pipeline', array('ref' => 'test-pipeline', 'variables' => $variables))
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->createPipeline(1, 'test-pipeline', $variables));
     }
 
     /**
@@ -528,15 +602,14 @@ class ProjectsTest extends TestCase
     public function shouldRetryPipeline()
     {
         $expectedArray = array(
-            array('id' => 5, 'status' => 'pending', 'ref'=> 'test-pipeline')
+            array('id' => 5, 'status' => 'pending', 'ref' => 'test-pipeline')
         );
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/pipelines/4/retry')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->retryPipeline(1, 4));
     }
@@ -547,17 +620,32 @@ class ProjectsTest extends TestCase
     public function shouldCancelPipeline()
     {
         $expectedArray = array(
-            array('id' => 6, 'status' => 'cancelled', 'ref'=> 'test-pipeline')
+            array('id' => 6, 'status' => 'cancelled', 'ref' => 'test-pipeline')
         );
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/pipelines/6/cancel')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->cancelPipeline(1, 6));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldDeletePipeline()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/pipelines/3')
+            ->will($this->returnValue($expectedBool));
+
+        $this->assertEquals($expectedBool, $api->deletePipeline(1, 3));
     }
 
     /**
@@ -574,8 +662,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/members/all')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->allMembers(1));
     }
@@ -594,8 +681,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/members')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->members(1));
     }
@@ -613,8 +699,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/members', array('query' => 'at'))
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->members(1, 'at'));
     }
@@ -633,8 +718,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/members')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->members(1, null));
     }
@@ -656,8 +740,7 @@ class ProjectsTest extends TestCase
                 'page' => 2,
                 'per_page' => 15
             ))
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->members(1, array('page' => 2, 'per_page' => 15)));
     }
@@ -673,8 +756,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/members/2')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->member(1, 2));
     }
@@ -690,8 +772,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/members', array('user_id' => 2, 'access_level' => 3))
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->addMember(1, 2, 3));
     }
@@ -707,8 +788,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/members/2', array('access_level' => 4))
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->saveMember(1, 2, 4));
     }
@@ -724,8 +804,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/members/2')
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->will($this->returnValue($expectedBool));
 
         $this->assertEquals($expectedBool, $api->removeMember(1, 2));
     }
@@ -744,8 +823,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/hooks')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->hooks(1));
     }
@@ -761,8 +839,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/hooks/2')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->hook(1, 2));
     }
@@ -777,11 +854,16 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/hooks', array('url' => 'http://www.example.com', 'push_events' => true, 'issues_events' => true, 'merge_requests_events' => true))
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->with('projects/1/hooks', array(
+                'url' => 'http://www.example.com',
+                'push_events' => true,
+                'issues_events' => true,
+                'merge_requests_events' => true
+            ))
+            ->will($this->returnValue($expectedArray));
 
-        $this->assertEquals($expectedArray, $api->addHook(1, 'http://www.example.com', array('push_events' => true, 'issues_events' => true, 'merge_requests_events' => true)));
+        $this->assertEquals($expectedArray, $api->addHook(1, 'http://www.example.com',
+            array('push_events' => true, 'issues_events' => true, 'merge_requests_events' => true)));
     }
 
     /**
@@ -795,8 +877,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/hooks', array('url' => 'http://www.example.com', 'push_events' => true))
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->addHook(1, 'http://www.example.com'));
     }
@@ -812,8 +893,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/hooks', array('url' => 'http://www.example.com', 'push_events' => false))
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->addHook(1, 'http://www.example.com', array('push_events' => false)));
     }
@@ -829,10 +909,10 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/hooks/3', array('url' => 'http://www.example-test.com', 'push_events' => false))
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
-        $this->assertEquals($expectedArray, $api->updateHook(1, 3, array('url' => 'http://www.example-test.com', 'push_events' => false)));
+        $this->assertEquals($expectedArray,
+            $api->updateHook(1, 3, array('url' => 'http://www.example-test.com', 'push_events' => false)));
     }
 
     /**
@@ -846,8 +926,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/hooks/2')
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->will($this->returnValue($expectedBool));
 
         $this->assertEquals($expectedBool, $api->removeHook(1, 2));
     }
@@ -867,8 +946,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/transfer', ['namespace' => 'a_namespace'])
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->transfer(1, 'a_namespace'));
     }
@@ -887,8 +965,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/deploy_keys')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->deployKeys(1));
     }
@@ -904,8 +981,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/deploy_keys/2')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->deployKey(1, 2));
     }
@@ -921,8 +997,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/deploy_keys', array('title' => 'new-key', 'key' => '...', 'can_push' => false))
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->addDeployKey(1, 'new-key', '...'));
     }
@@ -938,8 +1013,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/deploy_keys', array('title' => 'new-key', 'key' => '...', 'can_push' => true))
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->addDeployKey(1, 'new-key', '...', true));
     }
@@ -955,8 +1029,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/deploy_keys/3')
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->will($this->returnValue($expectedBool));
 
         $this->assertEquals($expectedBool, $api->deleteDeployKey(1, 3));
     }
@@ -972,8 +1045,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/deploy_keys/3/enable')
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->will($this->returnValue($expectedBool));
 
         $this->assertEquals($expectedBool, $api->enableDeployKey(1, 3));
     }
@@ -992,8 +1064,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/events', array())
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->events(1));
     }
@@ -1020,8 +1091,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/events', $expectedWithArray)
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->events(1, ['after' => $after, 'before' => $before]));
     }
@@ -1043,8 +1113,7 @@ class ProjectsTest extends TestCase
                 'page' => 2,
                 'per_page' => 15
             ))
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->events(1, ['page' => 2, 'per_page' => 15]));
     }
@@ -1055,16 +1124,15 @@ class ProjectsTest extends TestCase
     public function shouldGetLabels()
     {
         $expectedArray = array(
-            array('name' => 'bug', 'color' => '#000000'),
-            array('name' => 'feature', 'color' => '#ff0000')
+            array('id' => 987, 'name' => 'bug', 'color' => '#000000'),
+            array('id' => 123, 'name' => 'feature', 'color' => '#ff0000')
         );
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/labels')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->labels(1));
     }
@@ -1080,8 +1148,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/labels', array('name' => 'wont-fix', 'color' => '#ffffff'))
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->addLabel(1, array('name' => 'wont-fix', 'color' => '#ffffff')));
     }
@@ -1097,10 +1164,10 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/labels', array('name' => 'bug', 'new_name' => 'big-bug', 'color' => '#00ffff'))
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
-        $this->assertEquals($expectedArray, $api->updateLabel(1, array('name' => 'bug', 'new_name' => 'big-bug', 'color' => '#00ffff')));
+        $this->assertEquals($expectedArray,
+            $api->updateLabel(1, array('name' => 'bug', 'new_name' => 'big-bug', 'color' => '#00ffff')));
     }
 
     /**
@@ -1114,8 +1181,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/labels', array('name' => 'bug'))
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->will($this->returnValue($expectedBool));
 
         $this->assertEquals($expectedBool, $api->removeLabel(1, 'bug'));
     }
@@ -1129,8 +1195,7 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->languages(1));
     }
@@ -1212,8 +1277,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/fork/2')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->createForkRelation(1, 2));
     }
@@ -1229,8 +1293,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/2/fork')
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->will($this->returnValue($expectedBool));
 
         $this->assertEquals($expectedBool, $api->removeForkRelation(2));
     }
@@ -1246,8 +1309,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/services/hipchat', array('param' => 'value'))
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->will($this->returnValue($expectedBool));
 
         $this->assertEquals($expectedBool, $api->setService(1, 'hipchat', array('param' => 'value')));
     }
@@ -1263,8 +1325,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/services/hipchat')
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->will($this->returnValue($expectedBool));
 
         $this->assertEquals($expectedBool, $api->removeService(1, 'hipchat'));
     }
@@ -1283,8 +1344,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/variables')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->variables(1));
     }
@@ -1300,8 +1360,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/variables/ftp_username')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->variable(1, 'ftp_username'));
     }
@@ -1311,11 +1370,11 @@ class ProjectsTest extends TestCase
      */
     public function shouldAddVariable()
     {
-        $expectedKey   = 'ftp_port';
+        $expectedKey = 'ftp_port';
         $expectedValue = '21';
 
         $expectedArray = array(
-            'key'   => $expectedKey,
+            'key' => $expectedKey,
             'value' => $expectedValue,
         );
 
@@ -1323,8 +1382,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/variables', $expectedArray)
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->addVariable(1, $expectedKey, $expectedValue));
     }
@@ -1335,7 +1393,7 @@ class ProjectsTest extends TestCase
     public function shouldAddVariableWithProtected()
     {
         $expectedArray = array(
-            'key'   => 'DEPLOY_SERVER',
+            'key' => 'DEPLOY_SERVER',
             'value' => 'stage.example.com',
             'protected' => true,
         );
@@ -1344,8 +1402,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/variables', $expectedArray)
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->addVariable(1, 'DEPLOY_SERVER', 'stage.example.com', true));
     }
@@ -1356,7 +1413,7 @@ class ProjectsTest extends TestCase
     public function shouldAddVariableWithEnvironment()
     {
         $expectedArray = array(
-            'key'   => 'DEPLOY_SERVER',
+            'key' => 'DEPLOY_SERVER',
             'value' => 'stage.example.com',
             'environment_scope' => 'staging',
         );
@@ -1365,10 +1422,10 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/variables', $expectedArray)
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
-        $this->assertEquals($expectedArray, $api->addVariable(1, 'DEPLOY_SERVER', 'stage.example.com', null, 'staging'));
+        $this->assertEquals($expectedArray,
+            $api->addVariable(1, 'DEPLOY_SERVER', 'stage.example.com', null, 'staging'));
     }
 
     /**
@@ -1377,7 +1434,7 @@ class ProjectsTest extends TestCase
     public function shouldAddVariableWithProtectionAndEnvironment()
     {
         $expectedArray = array(
-            'key'   => 'DEPLOY_SERVER',
+            'key' => 'DEPLOY_SERVER',
             'value' => 'stage.example.com',
             'protected' => true,
             'environment_scope' => 'staging',
@@ -1387,10 +1444,10 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/variables', $expectedArray)
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
-        $this->assertEquals($expectedArray, $api->addVariable(1, 'DEPLOY_SERVER', 'stage.example.com', true, 'staging'));
+        $this->assertEquals($expectedArray,
+            $api->addVariable(1, 'DEPLOY_SERVER', 'stage.example.com', true, 'staging'));
     }
 
     /**
@@ -1398,20 +1455,19 @@ class ProjectsTest extends TestCase
      */
     public function shouldUpdateVariable()
     {
-        $expectedKey   = 'ftp_port';
+        $expectedKey = 'ftp_port';
         $expectedValue = '22';
 
         $expectedArray = array(
-            'key'   => 'ftp_port',
+            'key' => 'ftp_port',
             'value' => '22',
         );
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/variables/'.$expectedKey, array('value' => $expectedValue))
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->with('projects/1/variables/' . $expectedKey, array('value' => $expectedValue))
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->updateVariable(1, $expectedKey, $expectedValue));
     }
@@ -1422,7 +1478,7 @@ class ProjectsTest extends TestCase
     public function shouldUpdateVariableWithProtected()
     {
         $expectedArray = array(
-            'key'   => 'DEPLOY_SERVER',
+            'key' => 'DEPLOY_SERVER',
             'value' => 'stage.example.com',
             'protected' => true,
         );
@@ -1431,8 +1487,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/variables/DEPLOY_SERVER', array('value' => 'stage.example.com', 'protected' => true))
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->updateVariable(1, 'DEPLOY_SERVER', 'stage.example.com', true));
     }
@@ -1443,7 +1498,7 @@ class ProjectsTest extends TestCase
     public function shouldUpdateVariableWithEnvironment()
     {
         $expectedArray = array(
-            'key'   => 'DEPLOY_SERVER',
+            'key' => 'DEPLOY_SERVER',
             'value' => 'stage.example.com',
             'environment_scope' => 'staging',
         );
@@ -1451,11 +1506,12 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/variables/DEPLOY_SERVER', array('value' => 'stage.example.com', 'environment_scope' => 'staging'))
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->with('projects/1/variables/DEPLOY_SERVER',
+                array('value' => 'stage.example.com', 'environment_scope' => 'staging'))
+            ->will($this->returnValue($expectedArray));
 
-        $this->assertEquals($expectedArray, $api->updateVariable(1, 'DEPLOY_SERVER', 'stage.example.com', null, 'staging'));
+        $this->assertEquals($expectedArray,
+            $api->updateVariable(1, 'DEPLOY_SERVER', 'stage.example.com', null, 'staging'));
     }
 
     /**
@@ -1464,7 +1520,7 @@ class ProjectsTest extends TestCase
     public function shouldUpdateVariableWithProtectedAndEnvironment()
     {
         $expectedArray = array(
-            'key'   => 'DEPLOY_SERVER',
+            'key' => 'DEPLOY_SERVER',
             'value' => 'stage.example.com',
             'protected' => true,
             'environment_scope' => 'staging',
@@ -1473,11 +1529,12 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/variables/DEPLOY_SERVER', array('value' => 'stage.example.com', 'protected' => true, 'environment_scope' => 'staging'))
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->with('projects/1/variables/DEPLOY_SERVER',
+                array('value' => 'stage.example.com', 'protected' => true, 'environment_scope' => 'staging'))
+            ->will($this->returnValue($expectedArray));
 
-        $this->assertEquals($expectedArray, $api->updateVariable(1, 'DEPLOY_SERVER', 'stage.example.com', true, 'staging'));
+        $this->assertEquals($expectedArray,
+            $api->updateVariable(1, 'DEPLOY_SERVER', 'stage.example.com', true, 'staging'));
     }
 
     /**
@@ -1491,8 +1548,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/variables/ftp_password')
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->will($this->returnValue($expectedBool));
 
         $this->assertEquals($expectedBool, $api->removeVariable(1, 'ftp_password'));
     }
@@ -1503,8 +1559,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with($path, $expectedParameters)
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         return $api;
     }
@@ -1523,8 +1578,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/deployments', array())
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->deployments(1));
     }
@@ -1546,8 +1600,7 @@ class ProjectsTest extends TestCase
                 'page' => 2,
                 'per_page' => 15
             ))
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->deployments(1, ['page' => 2, 'per_page' => 15]));
     }
@@ -1592,6 +1645,7 @@ class ProjectsTest extends TestCase
             ],
         ];
     }
+
     /**
      * @test
      */
@@ -1603,8 +1657,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/badges')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->badges(1));
     }
@@ -1623,8 +1676,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/badges/1')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->badge(1, 1));
     }
@@ -1646,10 +1698,10 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/badges', array('link_url' => $link_url, 'image_url' => $image_url))
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
-        $this->assertEquals($expectedArray, $api->addBadge(1, array('link_url' => $link_url, 'image_url' => $image_url)));
+        $this->assertEquals($expectedArray,
+            $api->addBadge(1, array('link_url' => $link_url, 'image_url' => $image_url)));
     }
 
     /**
@@ -1666,8 +1718,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/badges/2')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->updateBadge(1, 2, array('image_url' => $image_url)));
     }
@@ -1683,10 +1734,33 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/badges/1')
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->will($this->returnValue($expectedBool));
 
         $this->assertEquals($expectedBool, $api->removeBadge(1, 1));
+    }
+    /**
+     * @test
+     */
+    public function shouldAddProtectedBranch()
+    {
+        $expectedArray = [
+            'name' => 'master',
+            'push_access_level' => [
+                'access_level' => 0,
+                'access_level_description' => 'No one'
+            ],
+            'merge_access_levels' => [
+                'access_level' => 0,
+                'access_level_description' => 'Developers + Maintainers'
+            ]
+        ];
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/protected_branches',
+                array('name' => 'master', 'push_access_level' => 0, 'merge_access_level' => 30))
+            ->will($this->returnValue($expectedArray));
+        $this->assertEquals($expectedArray, $api->addProtectedBranch(1, array('name' => 'master', 'push_access_level' => 0, 'merge_access_level' => 30)));
     }
 
     protected function getApiClass()

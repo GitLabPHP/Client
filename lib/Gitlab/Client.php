@@ -82,11 +82,11 @@ class Client
 
         $this->httpClientBuilder->addPlugin(new GitlabExceptionThrower());
         $this->httpClientBuilder->addPlugin(new HistoryPlugin($this->responseHistory));
-        $this->httpClientBuilder->addPlugin(new ApiVersion());
         $this->httpClientBuilder->addPlugin(new HeaderDefaultsPlugin([
             'User-Agent' => 'php-gitlab-api (http://github.com/m4tthumphrey/php-gitlab-api)',
         ]));
         $this->httpClientBuilder->addPlugin(new RedirectPlugin());
+        $this->httpClientBuilder->addPlugin(new ApiVersion());
 
         $this->setUrl('https://gitlab.com');
     }
@@ -310,7 +310,15 @@ class Client
      */
     public function wiki()
     {
-        return new Api\Wiki($this);
+        return new Api\Wiki($this); 
+    }
+
+    /**
+     * @return Api\IssuesStatistics
+     */
+    public function issuesStatistics()
+    {
+        return new Api\IssuesStatistics($this);
     }
 
     /**
@@ -400,6 +408,9 @@ class Client
 
             case 'wiki':
                 return $this->wiki();
+
+            case 'issues_statistics':
+                return $this->issuesStatistics();
 
             default:
                 throw new InvalidArgumentException('Invalid endpoint: "'.$name.'"');

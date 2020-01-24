@@ -55,4 +55,14 @@ class Environments extends AbstractApi
     {
         return $this->post($this->getProjectPath($project_id, 'environments/'.$this->encodePath($environment_id).'/stop'));
     }
+
+    /**
+     * @param int $project_id
+     * @param string $environment_id
+     * @return mixed
+     */
+    public function show($project_id, $environment_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'environments/' . $this->encodePath($environment_id)));
+    }
 }

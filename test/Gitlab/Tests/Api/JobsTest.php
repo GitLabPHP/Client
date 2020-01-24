@@ -101,6 +101,23 @@ class JobsTest extends TestCase
 
         $this->assertEquals('foobar', $api->artifactsByRefName(1, 'master', 'job_name')->getContents());
     }
+    
+    /**
+     * @test
+     */
+    public function shouldGetArtifactByRefName()
+    {
+        $returnedStream = new Response(200, [], 'foobar');
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('getAsResponse')
+            ->with('projects/1/jobs/artifacts/master/raw/artifact_path', array(
+                'job' => 'job_name'
+            ))
+            ->will($this->returnValue($returnedStream))
+        ;
+        $this->assertEquals('foobar', $api->artifactByRefName(1, 'master', 'job_name', 'artifact_path')->getContents());
+    }
 
     /**
      * @test

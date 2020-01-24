@@ -182,6 +182,7 @@ class Projects extends AbstractApi
      *     @var string $scope       The scope of pipelines, one of: running, pending, finished, branches, tags.
      *     @var string $status      The status of pipelines, one of: running, pending, success, failed, canceled, skipped.
      *     @var string $ref         The ref of pipelines.
+     *     @var string $sha         The sha of pipelines.
      *     @var bool   $yaml_errors Returns pipelines with invalid configurations.
      *     @var string $name        The name of the user who triggered pipelines.
      *     @var string $username    The username of the user who triggered pipelines.
@@ -204,6 +205,7 @@ class Projects extends AbstractApi
             ->setAllowedValues('status', ['running', 'pending', 'success', 'failed', 'canceled', 'skipped'])
         ;
         $resolver->setDefined('ref');
+        $resolver->setDefined('sha');
         $resolver->setDefined('yaml_errors')
             ->setAllowedTypes('yaml_errors', 'bool')
             ->setNormalizer('yaml_errors', $booleanNormalizer)
@@ -233,12 +235,26 @@ class Projects extends AbstractApi
     /**
      * @param int $project_id
      * @param string $commit_ref
+     * @param array $variables (
+     *     @var array (
+     *         @var string $key             The name of the variable
+     *         @var mixed $value            The value of the variable
+     *         @var string $variable_type   env_var (default) or file
+     *     )
+     * )
      * @return mixed
      */
-    public function createPipeline($project_id, $commit_ref)
+    public function createPipeline($project_id, $commit_ref, $variables = null)
     {
-        return $this->post($this->getProjectPath($project_id, 'pipeline'), array(
-            'ref' => $commit_ref));
+        $parameters = array(
+            'ref' => $commit_ref,
+        );
+
+        if ($variables !== null) {
+            $parameters['variables'] = $variables;
+        }
+
+        return $this->post($this->getProjectPath($project_id, 'pipeline'), $parameters);
     }
 
     /**
@@ -260,7 +276,17 @@ class Projects extends AbstractApi
     {
         return $this->post($this->getProjectPath($project_id, 'pipelines/'.$this->encodePath($pipeline_id)).'/cancel');
     }
-
+    
+    /**
+     * @param $project_id
+     * @param $pipeline_id
+     * @return mixed
+     */
+    public function deletePipeline($project_id, $pipeline_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'pipelines/'.$this->encodePath($pipeline_id)));
+    }
+    
     /**
      * @param integer $project_id
      * @param array $parameters
@@ -372,6 +398,24 @@ class Projects extends AbstractApi
     public function hook($project_id, $hook_id)
     {
         return $this->get($this->getProjectPath($project_id, 'hooks/'.$this->encodePath($hook_id)));
+    }
+
+    /**
+     * Get project users.
+     *
+     * See https://docs.gitlab.com/ee/api/projects.html#get-project-users for more info.
+     *
+     * @param int $project_id
+     *   Project id.
+     * @param array $parameters
+     *   Url parameters.
+     *
+     * @return array
+     *   List of project users.
+     */
+    public function users($project_id, array $parameters = [])
+    {
+        return $this->get($this->getProjectPath($project_id, 'users'), $parameters);
     }
 
     /**
@@ -816,7 +860,7 @@ class Projects extends AbstractApi
      */
     public function removeShare($project_id, $group_id)
     {
-        return $this->delete($this->getProjectPath($project_id, 'services/'.$group_id));
+        return $this->delete($this->getProjectPath($project_id, 'share/' . $group_id));
     }
 
     /**
@@ -866,6 +910,17 @@ class Projects extends AbstractApi
     */
     public function updateBadge($project_id, $badge_id, array $params = array())
     {
-        return $this->put($this->getProjectPath($project_id, 'badges/' . $this->encodePath($badge_id)));
+        return $this->put($this->getProjectPath($project_id, 'badges/' . $this->encodePath($badge_id)), $params);
+    }
+
+
+    /**
+     * @param int $project_id
+     * @param array $params
+     * @return mixed
+     */
+    public function addProtectedBranch($project_id, array $params = [])
+    {
+        return $this->post($this->getProjectPath($project_id, 'protected_branches'), $params);
     }
 }

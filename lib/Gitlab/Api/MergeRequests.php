@@ -109,21 +109,27 @@ class MergeRequests extends AbstractApi
      * @param string $source
      * @param string $target
      * @param string $title
-     * @param int $assignee
-     * @param int $target_project_id
-     * @param string $description
+     * @param int $assignee @deprecated will be moved into $optionalParams
+     * @param int $target_project_id @deprecated will be moved into $optionalParams
+     * @param string $description @deprecated will be moved into $optionalParams
+     * @param array $optionalParams
      * @return mixed
      */
-    public function create($project_id, $source, $target, $title, $assignee = null, $target_project_id = null, $description = null)
+    public function create($project_id, $source, $target, $title, $assignee = null, $target_project_id = null, $description = null, array $optionalParams = [])
     {
-        return $this->post($this->getProjectPath($project_id, 'merge_requests'), array(
+        $baseParams = [
             'source_branch' => $source,
             'target_branch' => $target,
             'title' => $title,
             'assignee_id' => $assignee,
+            'description' => $description,
             'target_project_id' => $target_project_id,
-            'description' => $description
-        ));
+        ];
+
+        return $this->post(
+            $this->getProjectPath($project_id, 'merge_requests'),
+            array_merge($baseParams, $optionalParams)
+        );
     }
 
     /**

@@ -320,8 +320,8 @@ class GroupsTest extends TestCase
     public function shouldGetLabels()
     {
         $expectedArray = array(
-            array('name' => 'bug', 'color' => '#000000'),
-            array('name' => 'feature', 'color' => '#ff0000')
+            array('id' => 987, 'name' => 'bug', 'color' => '#000000'),
+            array('id' => 123, 'name' => 'feature', 'color' => '#ff0000')
         );
 
         $api = $this->getApiMock();
@@ -524,5 +524,105 @@ class GroupsTest extends TestCase
     protected function getApiClass()
     {
         return 'Gitlab\Api\Groups';
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAllGroupProjectsWithIssuesEnabled()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'A group', 'issues_enabled' => true),
+            array('id' => 2, 'name' => 'Another group', 'issues_enabled' => true),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/projects', ['with_issues_enabled' => 'true'])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->projects(1, ['with_issues_enabled' => true]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAllGroupProjectsWithMergeRequestsEnabled()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'A group', 'merge_requests_enabled' => true),
+            array('id' => 2, 'name' => 'Another group', 'merge_requests_enabled' => true),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/projects', ['with_merge_requests_enabled' => 'true'])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->projects(1, ['with_merge_requests_enabled' => true]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAllGroupProjectsSharedToGroup()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'A project', 'shared_with_groups' => [1]),
+            array('id' => 2, 'name' => 'Another project', 'shared_with_groups' => [1]),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/projects', ['with_shared' => 'true'])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->projects(1, ['with_shared' => true]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAllGroupProjectsIncludingSubsgroups()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'A project'),
+            array('id' => 2, 'name' => 'Another project', 'shared_with_groups' => [1]),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/projects', ['include_subgroups' => 'true'])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->projects(1, ['include_subgroups' => true]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAllGroupProjectsIncludingCustomAttributes()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'A project', 'custom_Attr' => true),
+            array('id' => 2, 'name' => 'Another project', 'custom_Attr' => true),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/projects', ['with_custom_attributes' => 'true'])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->projects(1, ['with_custom_attributes' => true]));
     }
 }
