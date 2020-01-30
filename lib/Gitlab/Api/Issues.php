@@ -21,36 +21,17 @@ class Issues extends AbstractApi
      */
     public function all($project_id = null, array $parameters = [])
     {
-        $resolver = $this->createOptionsResolver();
-
-        $resolver->setDefined('state')
-            ->setAllowedValues('state', ['opened', 'closed'])
-        ;
-        $resolver->setDefined('labels');
-        $resolver->setDefined('milestone');
-        $resolver->setDefined('iids')
-            ->setAllowedTypes('iids', 'array')
-            ->setAllowedValues('iids', function (array $value) {
-                return count($value) == count(array_filter($value, 'is_int'));
-            })
-        ;
-        $resolver->setDefined('scope')
-            ->setAllowedValues('scope', ['created-by-me', 'assigned-to-me', 'all'])
-        ;
-        $resolver->setDefined('order_by')
-            ->setAllowedValues('order_by', ['created_at', 'updated_at'])
-        ;
-        $resolver->setDefined('sort')
-            ->setAllowedValues('sort', ['asc', 'desc'])
-        ;
-        $resolver->setDefined('search');
-        $resolver->setDefined('assignee_id')
-            ->setAllowedTypes('assignee_id', 'integer')
-        ;
-
         $path = $project_id === null ? 'issues' : $this->getProjectPath($project_id, 'issues');
 
-        return $this->get($path, $resolver->resolve($parameters));
+        return $this->get($path, $this->createOptionsResolver()->resolve($parameters));
+    }
+
+    public function group($group_id, array $parameters = [])
+    {
+        return $this->get(
+            $this->getGroupPath($group_id, 'issues'),
+            $this->createOptionsResolver()->resolve($parameters)
+        );
     }
 
     /**
@@ -337,5 +318,40 @@ class Issues extends AbstractApi
     public function showParticipants($project_id, $issue_iid)
     {
         return $this->get($this->getProjectPath($project_id, 'issues/' .$this->encodePath($issue_iid)).'/participants');
+    }
+  
+    /**
+     * {@inheritDoc}
+     */
+    protected function createOptionsResolver()
+    {
+        $resolver = parent::createOptionsResolver();
+
+        $resolver->setDefined('state')
+            ->setAllowedValues('state', ['opened', 'closed'])
+        ;
+        $resolver->setDefined('labels');
+        $resolver->setDefined('milestone');
+        $resolver->setDefined('iids')
+            ->setAllowedTypes('iids', 'array')
+            ->setAllowedValues('iids', function (array $value) {
+                return count($value) == count(array_filter($value, 'is_int'));
+            })
+        ;
+        $resolver->setDefined('scope')
+            ->setAllowedValues('scope', ['created-by-me', 'assigned-to-me', 'all'])
+        ;
+        $resolver->setDefined('order_by')
+            ->setAllowedValues('order_by', ['created_at', 'updated_at'])
+        ;
+        $resolver->setDefined('sort')
+            ->setAllowedValues('sort', ['asc', 'desc'])
+        ;
+        $resolver->setDefined('search');
+        $resolver->setDefined('assignee_id')
+            ->setAllowedTypes('assignee_id', 'integer')
+        ;
+
+        return $resolver;
     }
 }
