@@ -1298,6 +1298,35 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedBool, $api->removeForkRelation(2));
     }
 
+
+    /**
+     * @test
+     */
+    public function shouldGetForks()
+    {
+        $expectedArray = [
+            [
+                'id' => 2,
+                'forked_from_project' => [
+                    'id' => 1
+                ]
+            ],
+            [
+                'id' => 3,
+                'forked_from_project' => [
+                    'id' => 1
+                ]
+            ],
+        ];
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/forks')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->forks(1));
+    }
+
     /**
      * @test
      */
