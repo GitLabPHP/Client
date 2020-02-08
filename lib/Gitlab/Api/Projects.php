@@ -652,6 +652,18 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
+     * @param array $parameters
+     * @return mixed
+     */
+    public function forks($project_id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+
+        return $this->get($this->getProjectPath($project_id, 'forks'), $resolver->resolve($parameters));
+    }
+
+    /**
+     * @param int $project_id
      * @param array $params (
      *
      *     @var string $namespace      The ID or path of the namespace that the project will be forked to
