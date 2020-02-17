@@ -30,6 +30,25 @@ class EnvironmentsTest extends TestCase
         $this->assertEquals($expectedArray, $api->all(1));
     }
 
+    /** @test */
+    public function shouldFilterEnvironmentByName()
+    {
+        $expected = array(
+            array(
+                'id' => 2,
+                'name' => 'review/fix-bar',
+                'slug' => 'review-fix-bar-dfjre4',
+                'external_url' => 'https://review-fix-bar-dfjre4.example.gitlab.com'
+            ),
+        );
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/environments')
+            ->will($this->returnValue($expected));
+        $this->assertEquals($expected, $api->all(1, ['name' => 'review/fix-bar']));
+    }
+
     /**
      * @test
      */
