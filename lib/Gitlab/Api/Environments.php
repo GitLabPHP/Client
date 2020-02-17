@@ -12,6 +12,11 @@ class Environments extends AbstractApi
     public function all($project_id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
+        $resolver->setDefined('name')
+            ->setAllowedTypes('name', 'string');
+        $resolver->setDefined('search')
+            ->setAllowedTypes('search', 'string');
+
         return $this->get($this->getProjectPath($project_id, 'environments'), $resolver->resolve($parameters));
     }
 
