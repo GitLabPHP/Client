@@ -97,11 +97,23 @@ class MergeRequests extends AbstractApi
     /**
      * @param int $project_id
      * @param int $mr_id
+     * @param array $parameters {
+     *     @var bool               $include_diverged_commits_count      Return the commits behind the target branch
+     *     @var bool               $include_rebase_in_progress          Return whether a rebase operation is in progress
+     * }
      * @return mixed
      */
-    public function show($project_id, $mr_id)
+    public function show($project_id, $mr_id, $parameters = [])
     {
-        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_id)));
+        $resolver = $this->createOptionsResolver();
+        $resolver->setDefined('include_diverged_commits_count')
+            ->setAllowedTypes('include_diverged_commits_count', 'bool')
+        ;
+        $resolver->setDefined('include_rebase_in_progress')
+            ->setAllowedTypes('include_rebase_in_progress', 'bool')
+        ;
+
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_id)), $resolver->resolve($parameters));
     }
 
     /**

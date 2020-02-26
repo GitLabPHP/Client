@@ -108,6 +108,31 @@ class MergeRequestsTest extends TestCase
 
         $this->assertEquals($expectedArray, $api->show(1, 2));
     }
+    
+    /**
+     * @test
+     */
+    public function shouldShowMergeRequestWithOptionalParameters()
+    {
+        $expectedArray = array(
+            'id' => 2,
+            'name' => 'A merge request',
+            'diverged_commits_count' => 0,
+            'rebase_in_progress' => false
+        );
+        
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_requests/2', array('include_diverged_commits_count' => true,  'include_rebase_in_progress' => true))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->show(1, 2, array(
+            'include_diverged_commits_count' => true,
+            'include_rebase_in_progress' => true
+        )));
+    }
 
     /**
      * @test
