@@ -518,4 +518,23 @@ class MergeRequestsTest extends TestCase
     {
         return 'Gitlab\Api\MergeRequests';
     }
+
+    /**
+     * @test
+     */
+    public function shouldRebaseMergeRequest()
+    {
+        $expectedArray = array('rebase_in_progress' => true);
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/merge_requests/2/rebase', array('skip_ci' => true))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->rebase(1, 2, array(
+            'skip_ci' => true,
+        )));
+    }
 }
