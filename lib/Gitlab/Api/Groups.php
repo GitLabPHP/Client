@@ -120,6 +120,20 @@ class Groups extends AbstractApi
     }
 
     /**
+     * @param int   $group_id
+     * @param int   $user_id
+     *
+     * @return mixed
+     */
+    public function member($group_id, $user_id)
+    {
+        $resolver = $this->createOptionsResolver();
+        $resolver->setDefined('query');
+
+        return $this->get('groups/'.$this->encodePath($group_id).'/members/'.$this->encodePath($user_id));
+    }
+    
+    /**
      * @param int $group_id
      * @param int $user_id
      * @param int $access_level
