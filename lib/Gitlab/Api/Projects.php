@@ -286,18 +286,19 @@ class Projects extends AbstractApi
     {
         return $this->delete($this->getProjectPath($project_id, 'pipelines/'.$this->encodePath($pipeline_id)));
     }
-    
+
     /**
      * @param integer $project_id
+     * @param integer|null $user_id
      * @param array $parameters
      * @return mixed
      */
-    public function allMembers($project_id, $parameters = [])
+    public function allMembers($project_id, $user_id = null, $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
         $resolver->setDefined('query');
 
-        return $this->get('projects/'.$this->encodePath($project_id).'/members/all', $resolver->resolve($parameters));
+        return $this->get('projects/'.$this->encodePath($project_id).'/members/all/'.$this->encodePath($user_id), $resolver->resolve($parameters));
     }
 
     /**
