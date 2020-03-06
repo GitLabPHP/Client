@@ -224,14 +224,15 @@ class Project extends AbstractModel
      */
     public function allMembers($user_id = null, $all = false)
     {
-        if ($all)
-            $data = (new \Gitlab\ResultPager($this->client))->fetchAll($this->client->projects(),"allMembers", [$this->id,$user_id]);
-        else
+        if ($all) {
+            $data = (new \Gitlab\ResultPager($this->client))->fetchAll($this->client->projects(), "allMembers", [$this->id, $user_id]);
+        } else {
             $data = $this->client->projects()->allMembers($this->id, $user_id);
+        }
 
-        if ($user_id != null)
+        if ($user_id != null) {
             return User::fromArray($this->getClient(), $data);
-        else {
+        } else {
             $members = array();
             foreach ($data as $member) {
                 $members[] = User::fromArray($this->getClient(), $member);
