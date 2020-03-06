@@ -680,7 +680,7 @@ class ProjectsTest extends TestCase
             ->with('projects/1/members/all/2')
             ->will($this->returnValue($expectedArray));
 
-        $this->assertEquals($expectedArray, $api->allMembers(1,2));
+        $this->assertEquals($expectedArray, $api->allMembers(1, 2));
     }
 
     /**
