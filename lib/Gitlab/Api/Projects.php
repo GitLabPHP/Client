@@ -197,6 +197,9 @@ class Projects extends AbstractApi
         $booleanNormalizer = function (Options $resolver, $value) {
             return $value ? 'true' : 'false';
         };
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value) {
+            return $value->format('Y-m-d');
+        };
 
         $resolver->setDefined('scope')
             ->setAllowedValues('scope', ['running', 'pending', 'finished', 'branches', 'tags'])
@@ -212,6 +215,14 @@ class Projects extends AbstractApi
         ;
         $resolver->setDefined('name');
         $resolver->setDefined('username');
+        $resolver->setDefined('updated_after')
+                 ->setAllowedTypes('updated_after', \DateTimeInterface::class)
+                 ->setNormalizer('updated_after', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('updated_before')
+                 ->setAllowedTypes('updated_before', \DateTimeInterface::class)
+                 ->setNormalizer('updated_before', $datetimeNormalizer)
+        ;
         $resolver->setDefined('order_by')
             ->setAllowedValues('order_by', ['id', 'status', 'ref', 'user_id'])
         ;

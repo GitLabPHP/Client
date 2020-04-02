@@ -512,6 +512,37 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetPipelineWithDateParam()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'status' => 'success', 'ref' => 'new-pipeline'),
+            array('id' => 2, 'status' => 'failed', 'ref' => 'new-pipeline'),
+            array('id' => 3, 'status' => 'pending', 'ref' => 'test-pipeline')
+        );
+
+        $updated_after = new \DateTime('2018-01-01 00:00:00');
+        $updated_before = new \DateTime('2018-01-31 00:00:00');
+
+        $expectedWithArray = [
+            'updated_after' => $updated_after->format('Y-m-d'),
+            'updated_before' => $updated_before->format('Y-m-d'),
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/pipelines', $expectedWithArray)
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->pipelines(1, [
+            'updated_after' => $updated_after,
+            'updated_before' => $updated_before
+        ]));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetPipelinesWithSHA()
     {
         $expectedArray = array(
