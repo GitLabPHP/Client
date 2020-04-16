@@ -4,9 +4,10 @@ interface Noteable
 {
     /**
      * @param string $comment
+     * @param string $created_at
      * @return Note
      */
-    public function addComment($comment);
+    public function addComment($comment, $created_at = null);
 
     /**
      * @return Note[]

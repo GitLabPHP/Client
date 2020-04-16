@@ -140,14 +140,16 @@ class Issue extends AbstractModel implements Noteable
         return $this->open();
     }
 
-    /**
-     * @param string $comment
-     * @return Note
-     */
-    public function addComment($comment)
+  /**
+   * @param string $comment
+   * @param string $created_at
+   * @return Note
+   */
+    public function addComment($comment, $created_at = null)
     {
         $data = $this->client->issues()->addComment($this->project->id, $this->iid, array(
-            'body' => $comment
+            'body' => $comment,
+            'created_at' => $created_at,
         ));
 
         return Note::fromArray($this->getClient(), $this, $data);
