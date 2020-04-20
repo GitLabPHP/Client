@@ -228,7 +228,7 @@ class MergeRequests extends AbstractApi
      * @param string $created_at
      * @return mixed
      */
-    public function addComment($project_id, $mr_id, $note, $created_at = NULL)
+    public function addComment($project_id, $mr_id, $note, $created_at = null)
     {
         @trigger_error(sprintf('The %s() method is deprecated since version 9.1 and will be removed in 10.0. Use the addNote() method instead.', __METHOD__), E_USER_DEPRECATED);
 

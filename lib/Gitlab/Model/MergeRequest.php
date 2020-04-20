@@ -182,7 +182,7 @@ class MergeRequest extends AbstractModel implements Noteable
      * @param string $created_at
      * @return Note
      */
-    public function addComment($comment,  $created_at = null)
+    public function addComment($comment, $created_at = null)
     {
         $data = $this->client->mergeRequests()->addComment($this->project->id, $this->iid, $comment);
 
