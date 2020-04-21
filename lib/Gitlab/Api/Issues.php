@@ -1,5 +1,7 @@
 <?php namespace Gitlab\Api;
 
+use Symfony\Component\OptionsResolver\Options;
+
 class Issues extends AbstractApi
 {
     /**
@@ -328,7 +330,7 @@ class Issues extends AbstractApi
         $resolver = parent::createOptionsResolver();
 
         $resolver->setDefined('state')
-            ->setAllowedValues('state', ['opened', 'closed'])
+            ->setAllowedValues('state', ['all', 'opened', 'closed'])
         ;
         $resolver->setDefined('labels');
         $resolver->setDefined('milestone');
@@ -351,6 +353,26 @@ class Issues extends AbstractApi
         $resolver->setDefined('assignee_id')
             ->setAllowedTypes('assignee_id', 'integer')
         ;
+
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value) {
+            return $value->format('c');
+        };
+
+        $resolver->setDefined('created_after')
+            ->setAllowedTypes('created_after', \DateTimeInterface::class)
+            ->setNormalizer('created_after', $datetimeNormalizer);
+
+        $resolver->setDefined('created_before')
+            ->setAllowedTypes('created_before', \DateTimeInterface::class)
+            ->setNormalizer('created_before', $datetimeNormalizer);
+
+        $resolver->setDefined('updated_after')
+            ->setAllowedTypes('updated_after', \DateTimeInterface::class)
+            ->setNormalizer('updated_after', $datetimeNormalizer);
+
+        $resolver->setDefined('updated_before')
+            ->setAllowedTypes('updated_before', \DateTimeInterface::class)
+            ->setNormalizer('updated_before', $datetimeNormalizer);
 
         return $resolver;
     }
