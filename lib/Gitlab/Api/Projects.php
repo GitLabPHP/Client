@@ -937,7 +937,7 @@ class Projects extends AbstractApi
      * @param  $project_id
      * @return mixed
      */
-    public function getDomains($project_id)
+    public function domains($project_id)
     {
         return $this->get($this->getProjectPath($project_id, 'pages/domains'));
     }
@@ -947,7 +947,7 @@ class Projects extends AbstractApi
      * @param  $domain
      * @return mixed
      */
-    public function getDomain($project_id, $domain)
+    public function domain($project_id, $domain)
     {
         return $this->get($this->getProjectPath($project_id, 'pages/domains/' . $domain));
     }
