@@ -182,6 +182,7 @@ class Repositories extends AbstractApi
         ;
         $resolver->setDefined('all');
         $resolver->setDefined('with_stats');
+        $resolver->setDefined('first_parent');
 
         return $this->get($this->getProjectPath($project_id, 'repository/commits'), $resolver->resolve($parameters));
     }
