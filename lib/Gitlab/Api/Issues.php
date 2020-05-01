@@ -296,7 +296,7 @@ class Issues extends AbstractApi
      * @link https://docs.gitlab.com/ee/api/issues.html#subscribe-to-an-issue
      * @param int|string $project_id The ID or URL-encoded path of the project owned by the authenticated user
      * @param int $issue_iid The internal ID of a project’s issue
-     * @return mixed
+     * @return array|string issue object if change is made, empty string otherwise
      */
     public function subscribe($project_id, $issue_iid)
     {
@@ -310,7 +310,7 @@ class Issues extends AbstractApi
      * @link https://docs.gitlab.com/ee/api/issues.html#unsubscribe-from-an-issue
      * @param int|string $project_id The ID or URL-encoded path of the project owned by the authenticated user
      * @param int $issue_iid The internal ID of a project’s issue
-     * @return mixed
+     * @return array|string issue object if change is made, empty string otherwise
      */
     public function unsubscribe($project_id, $issue_iid)
     {
