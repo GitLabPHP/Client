@@ -949,7 +949,7 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param $project_id
+     * @param int $project_id
      * @return mixed
      */
     public function deleteAllMergedBranches($project_id)
