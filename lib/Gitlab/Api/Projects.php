@@ -197,6 +197,9 @@ class Projects extends AbstractApi
         $booleanNormalizer = function (Options $resolver, $value) {
             return $value ? 'true' : 'false';
         };
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value) {
+            return $value->format('Y-m-d');
+        };
 
         $resolver->setDefined('scope')
             ->setAllowedValues('scope', ['running', 'pending', 'finished', 'branches', 'tags'])
@@ -212,6 +215,14 @@ class Projects extends AbstractApi
         ;
         $resolver->setDefined('name');
         $resolver->setDefined('username');
+        $resolver->setDefined('updated_after')
+                 ->setAllowedTypes('updated_after', \DateTimeInterface::class)
+                 ->setNormalizer('updated_after', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('updated_before')
+                 ->setAllowedTypes('updated_before', \DateTimeInterface::class)
+                 ->setNormalizer('updated_before', $datetimeNormalizer)
+        ;
         $resolver->setDefined('order_by')
             ->setAllowedValues('order_by', ['id', 'status', 'ref', 'user_id'])
         ;
@@ -235,12 +246,26 @@ class Projects extends AbstractApi
     /**
      * @param int $project_id
      * @param string $commit_ref
+     * @param array $variables (
+     *     @var array (
+     *         @var string $key             The name of the variable
+     *         @var mixed $value            The value of the variable
+     *         @var string $variable_type   env_var (default) or file
+     *     )
+     * )
      * @return mixed
      */
-    public function createPipeline($project_id, $commit_ref)
+    public function createPipeline($project_id, $commit_ref, $variables = null)
     {
-        return $this->post($this->getProjectPath($project_id, 'pipeline'), array(
-            'ref' => $commit_ref));
+        $parameters = array(
+            'ref' => $commit_ref,
+        );
+
+        if ($variables !== null) {
+            $parameters['variables'] = $variables;
+        }
+
+        return $this->post($this->getProjectPath($project_id, 'pipeline'), $parameters);
     }
 
     /**
@@ -272,18 +297,19 @@ class Projects extends AbstractApi
     {
         return $this->delete($this->getProjectPath($project_id, 'pipelines/'.$this->encodePath($pipeline_id)));
     }
-    
+
     /**
      * @param integer $project_id
+     * @param integer|null $user_id
      * @param array $parameters
      * @return mixed
      */
-    public function allMembers($project_id, $parameters = [])
+    public function allMembers($project_id, $user_id = null, $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
         $resolver->setDefined('query');
 
-        return $this->get('projects/'.$this->encodePath($project_id).'/members/all', $resolver->resolve($parameters));
+        return $this->get('projects/'.$this->encodePath($project_id).'/members/all/'.$this->encodePath($user_id), $resolver->resolve($parameters));
     }
 
     /**
@@ -384,6 +410,24 @@ class Projects extends AbstractApi
     public function hook($project_id, $hook_id)
     {
         return $this->get($this->getProjectPath($project_id, 'hooks/'.$this->encodePath($hook_id)));
+    }
+
+    /**
+     * Get project users.
+     *
+     * See https://docs.gitlab.com/ee/api/projects.html#get-project-users for more info.
+     *
+     * @param int $project_id
+     *   Project id.
+     * @param array $parameters
+     *   Url parameters.
+     *
+     * @return array
+     *   List of project users.
+     */
+    public function users($project_id, array $parameters = [])
+    {
+        return $this->get($this->getProjectPath($project_id, 'users'), $parameters);
     }
 
     /**
@@ -616,6 +660,18 @@ class Projects extends AbstractApi
     public function languages($project_id)
     {
         return $this->get($this->getProjectPath($project_id, 'languages'));
+    }
+
+    /**
+     * @param int $project_id
+     * @param array $parameters
+     * @return mixed
+     */
+    public function forks($project_id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+
+        return $this->get($this->getProjectPath($project_id, 'forks'), $resolver->resolve($parameters));
     }
 
     /**
@@ -878,7 +934,7 @@ class Projects extends AbstractApi
     */
     public function updateBadge($project_id, $badge_id, array $params = array())
     {
-        return $this->put($this->getProjectPath($project_id, 'badges/' . $this->encodePath($badge_id)));
+        return $this->put($this->getProjectPath($project_id, 'badges/' . $this->encodePath($badge_id)), $params);
     }
 
 

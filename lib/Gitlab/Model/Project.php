@@ -117,6 +117,10 @@ class Project extends AbstractModel
         if (isset($data['shared_with_groups'])) {
             $groups = [];
             foreach ($data['shared_with_groups'] as $group) {
+                foreach ($group as $keys => $value) {
+                    $group[str_replace('group_', '', $keys)] = $value;
+                    unset($group[$keys]);
+                }
                 $groups[] = Group::fromArray($client, $group);
             }
             $data['shared_with_groups'] = $groups;
@@ -211,6 +215,30 @@ class Project extends AbstractModel
         $this->client->projects()->remove($this->id);
 
         return true;
+    }
+
+    /**
+     * @param integer|null $user_id
+     * @param bool $all
+     * @return array|User
+     */
+    public function allMembers($user_id = null, $all = false)
+    {
+        if ($all) {
+            $data = (new \Gitlab\ResultPager($this->client))->fetchAll($this->client->projects(), "allMembers", [$this->id, $user_id]);
+        } else {
+            $data = $this->client->projects()->allMembers($this->id, $user_id);
+        }
+
+        if ($user_id != null) {
+            return User::fromArray($this->getClient(), $data);
+        } else {
+            $members = array();
+            foreach ($data as $member) {
+                $members[] = User::fromArray($this->getClient(), $member);
+            }
+            return $members;
+        }
     }
 
     /**

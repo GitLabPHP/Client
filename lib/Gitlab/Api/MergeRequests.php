@@ -97,11 +97,23 @@ class MergeRequests extends AbstractApi
     /**
      * @param int $project_id
      * @param int $mr_id
+     * @param array $parameters {
+     *     @var bool               $include_diverged_commits_count      Return the commits behind the target branch
+     *     @var bool               $include_rebase_in_progress          Return whether a rebase operation is in progress
+     * }
      * @return mixed
      */
-    public function show($project_id, $mr_id)
+    public function show($project_id, $mr_id, $parameters = [])
     {
-        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_id)));
+        $resolver = $this->createOptionsResolver();
+        $resolver->setDefined('include_diverged_commits_count')
+            ->setAllowedTypes('include_diverged_commits_count', 'bool')
+        ;
+        $resolver->setDefined('include_rebase_in_progress')
+            ->setAllowedTypes('include_rebase_in_progress', 'bool')
+        ;
+
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_id)), $resolver->resolve($parameters));
     }
 
     /**
@@ -109,21 +121,27 @@ class MergeRequests extends AbstractApi
      * @param string $source
      * @param string $target
      * @param string $title
-     * @param int $assignee
-     * @param int $target_project_id
-     * @param string $description
+     * @param int $assignee @deprecated will be moved into $optionalParams
+     * @param int $target_project_id @deprecated will be moved into $optionalParams
+     * @param string $description @deprecated will be moved into $optionalParams
+     * @param array $optionalParams
      * @return mixed
      */
-    public function create($project_id, $source, $target, $title, $assignee = null, $target_project_id = null, $description = null)
+    public function create($project_id, $source, $target, $title, $assignee = null, $target_project_id = null, $description = null, array $optionalParams = [])
     {
-        return $this->post($this->getProjectPath($project_id, 'merge_requests'), array(
+        $baseParams = [
             'source_branch' => $source,
             'target_branch' => $target,
             'title' => $title,
             'assignee_id' => $assignee,
+            'description' => $description,
             'target_project_id' => $target_project_id,
-            'description' => $description
-        ));
+        ];
+
+        return $this->post(
+            $this->getProjectPath($project_id, 'merge_requests'),
+            array_merge($baseParams, $optionalParams)
+        );
     }
 
     /**
@@ -372,5 +390,20 @@ class MergeRequests extends AbstractApi
     public function awardEmoji($project_id, $mr_iid)
     {
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/award_emoji'));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $mr_id
+     * @param array $params
+     * @return mixed
+     */
+    public function rebase($project_id, $mr_id, array $params = [])
+    {
+        $resolver = $this->createOptionsResolver();
+        $resolver->setDefined('skip_ci')
+            ->setAllowedTypes('skip_ci', 'bool');
+
+        return $this->put($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_id)).'/rebase', $resolver->resolve($params));
     }
 }

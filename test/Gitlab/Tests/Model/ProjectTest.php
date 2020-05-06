@@ -11,13 +11,9 @@ use PHPUnit\Framework\TestCase;
 
 class ProjectTest extends TestCase
 {
-    public function testFromArray()
+    public function defaultArray(array $overrides = [])
     {
-        $client = $this->getMockBuilder(Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $data = [
+        $defaults = array_merge([
             'id' => 4,
             'description' => null,
             'default_branch' => 'master',
@@ -59,15 +55,24 @@ class ProjectTest extends TestCase
             'star_count' => 0,
             'runners_token' => 'b8547b1dc37721d05889db52fa2f02',
             'public_jobs' => true,
-            'shared_with_groups' => [
-                ['id' => 12]
-            ],
+            'shared_with_groups' => [],
             'only_allow_merge_if_pipeline_succeeds' => false,
             'only_allow_merge_if_all_discussions_are_resolved' => false,
             'request_access_enabled' => false,
             'merge_method' => 'merge',
             'approvals_before_merge' => 0,
-        ];
+        ], $overrides);
+
+        return $defaults;
+    }
+
+    public function testFromArray()
+    {
+        $client = $this->getMockBuilder(Client::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $data = $this->defaultArray();
 
         $project = Project::fromArray($client, $data);
 
@@ -106,12 +111,64 @@ class ProjectTest extends TestCase
         $this->assertSame($data['star_count'], $project->star_count);
         $this->assertSame($data['runners_token'], $project->runners_token);
         $this->assertSame($data['public_jobs'], $project->public_jobs);
-        $this->assertCount(1, $project->shared_with_groups);
-        $this->assertInstanceOf(Group::class, $project->shared_with_groups[0]);
-        $this->assertSame($data['only_allow_merge_if_pipeline_succeeds'], $project->only_allow_merge_if_pipeline_succeeds);
-        $this->assertSame($data['only_allow_merge_if_all_discussions_are_resolved'], $project->only_allow_merge_if_all_discussions_are_resolved);
+        $this->assertCount(0, $project->shared_with_groups);
+        $this->assertSame($data['only_allow_merge_if_pipeline_succeeds'],
+            $project->only_allow_merge_if_pipeline_succeeds);
+        $this->assertSame($data['only_allow_merge_if_all_discussions_are_resolved'],
+            $project->only_allow_merge_if_all_discussions_are_resolved);
         $this->assertSame($data['request_access_enabled'], $project->request_access_enabled);
         $this->assertSame($data['merge_method'], $project->merge_method);
         $this->assertSame($data['approvals_before_merge'], $project->approvals_before_merge);
+    }
+
+    public function testCreateProjectWhenSharedWithGroup()
+    {
+        $client = $this->getMockBuilder(Client::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $data = $this->defaultArray([
+            'shared_with_groups' => [
+                [
+                    'group_id' => 4,
+                    'group_name' => 'Twitter',
+                    'group_full_path' => 'twitter',
+                    'group_access_level' => 30
+                ]
+            ]
+        ]);
+
+        $project = Project::fromArray($client, $data);
+        $this->assertCount(1, $project->shared_with_groups);
+        $this->assertInstanceOf(Group::class, $project->shared_with_groups[0]);
+    }
+
+    public function testCreateProjectCanSharedWithMultipleGroups()
+    {
+        $client = $this->getMockBuilder(Client::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $data = $this->defaultArray([
+            'shared_with_groups' => [
+                [
+                    'group_id' => 4,
+                    'group_name' => 'Twitter',
+                    'group_full_path' => 'twitter',
+                    'group_access_level' => 30
+                ],
+                [
+                    'group_id' => 3,
+                    'group_name' => 'Gitlab Org',
+                    'group_full_path' => 'gitlab-org',
+                    'group_access_level' => 10
+                ]
+
+            ]
+        ]);
+
+        $project = Project::fromArray($client, $data);
+        $this->assertCount(2, $project->shared_with_groups);
+        $this->assertInstanceOf(Group::class, $project->shared_with_groups[0]);
     }
 }

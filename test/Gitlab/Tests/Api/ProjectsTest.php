@@ -288,6 +288,24 @@ class ProjectsTest extends TestCase
     }
 
     /**
+     * Check we can request project issues.
+     *
+     * @test
+     */
+    public function shouldGetProjectUsers()
+    {
+        $expectedArray = $this->getProjectUsersExpectedArray();
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+        ->method('get')
+        ->with('projects/1/users')
+        ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->users(1));
+    }
+
+    /**
      * Check we can request project issues with query parameters.
      *
      * @test
@@ -376,6 +394,25 @@ class ProjectsTest extends TestCase
                     'human_total_time_spent' => null
                 ],
             ]
+        ];
+    }
+
+    /**
+     * Get expected array for tests which check project users method.
+     *
+     * @return array
+     */
+    public function getProjectUsersExpectedArray()
+    {
+        return [
+            [
+                'id' => 1,
+                'name'       => 'John Doe',
+                'username'   => 'john.doe',
+                'state'      => 'active',
+                'avatar_url' => 'https://example.com',
+                'web_url'    => 'https://gitlab.com/john.doe',
+            ],
         ];
     }
 
@@ -475,6 +512,37 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetPipelineWithDateParam()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'status' => 'success', 'ref' => 'new-pipeline'),
+            array('id' => 2, 'status' => 'failed', 'ref' => 'new-pipeline'),
+            array('id' => 3, 'status' => 'pending', 'ref' => 'test-pipeline')
+        );
+
+        $updated_after = new \DateTime('2018-01-01 00:00:00');
+        $updated_before = new \DateTime('2018-01-31 00:00:00');
+
+        $expectedWithArray = [
+            'updated_after' => $updated_after->format('Y-m-d'),
+            'updated_before' => $updated_before->format('Y-m-d'),
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/pipelines', $expectedWithArray)
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->pipelines(1, [
+            'updated_after' => $updated_after,
+            'updated_before' => $updated_before
+        ]));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetPipelinesWithSHA()
     {
         $expectedArray = array(
@@ -528,6 +596,35 @@ class ProjectsTest extends TestCase
             ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->createPipeline(1, 'test-pipeline'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreatePipelineWithVariables()
+    {
+        $expectedArray = array(
+            array('id' => 4, 'status' => 'created', 'ref' => 'test-pipeline')
+        );
+        $variables = array(
+            array(
+                'key' => 'test_var_1',
+                'value' => 'test_value_1'
+            ),
+            array(
+                'key' => 'test_var_2',
+                'variable_type' => 'file',
+                'value' => 'test_value_2'
+            )
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/pipeline', array('ref' => 'test-pipeline', 'variables' => $variables))
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->createPipeline(1, 'test-pipeline', $variables));
     }
 
     /**
@@ -595,10 +692,26 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/members/all')
+            ->with('projects/1/members/all/')
             ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->allMembers(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAllMembersUserID()
+    {
+        $expectedArray = array('id' => 2, 'name' => 'Bob');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/members/all/2')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->allMembers(1, 2));
     }
 
     /**
@@ -1230,6 +1343,35 @@ class ProjectsTest extends TestCase
             ->will($this->returnValue($expectedBool));
 
         $this->assertEquals($expectedBool, $api->removeForkRelation(2));
+    }
+
+
+    /**
+     * @test
+     */
+    public function shouldGetForks()
+    {
+        $expectedArray = [
+            [
+                'id' => 2,
+                'forked_from_project' => [
+                    'id' => 1
+                ]
+            ],
+            [
+                'id' => 3,
+                'forked_from_project' => [
+                    'id' => 1
+                ]
+            ],
+        ];
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/forks')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->forks(1));
     }
 
     /**

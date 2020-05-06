@@ -117,6 +117,30 @@ class Group extends AbstractModel
     }
 
     /**
+     * @param integer|null $user_id
+     * @param bool $all
+     * @return array|User
+     */
+    public function allMembers($user_id = null, $all = false)
+    {
+        if ($all) {
+            $data = (new \Gitlab\ResultPager($this->client))->fetchAll($this->client->groups(), "allMembers", [$this->id, $user_id]);
+        } else {
+            $data = $this->client->groups()->allMembers($this->id, $user_id);
+        }
+
+        if ($user_id != null) {
+            return User::fromArray($this->getClient(), $data);
+        } else {
+            $members = array();
+            foreach ($data as $member) {
+                $members[] = User::fromArray($this->getClient(), $member);
+            }
+            return $members;
+        }
+    }
+
+    /**
      * @return User[]
      */
     public function members()

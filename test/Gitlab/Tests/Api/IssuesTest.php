@@ -25,6 +25,66 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetAllGroupIssues()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'title' => 'An issue'),
+            array('id' => 2, 'title' => 'Another issue'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/issues', array())
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->group(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetGroupIssuesWithPagination()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'title' => 'An issue'),
+            array('id' => 2, 'title' => 'Another issue'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/issues', array('page' => 2, 'per_page' => 5))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->group(1, ['page' => 2, 'per_page' => 5]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetGroupIssuesWithParams()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'title' => 'An issue'),
+            array('id' => 2, 'title' => 'Another issue'),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/issues', array('order_by' => 'created_at', 'sort' => 'desc', 'labels' => 'foo,bar', 'state' => 'opened'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->group(1, array('order_by' => 'created_at', 'sort' => 'desc', 'labels' => 'foo,bar', 'state' => 'opened')));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetProjectIssuesWithPagination()
     {
         $expectedArray = array(
@@ -452,6 +512,40 @@ class IssuesTest extends TestCase
         ;
 
         $this->assertEquals($expectedArray, $api->all(1, array('assignee_id' => 1)));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetIssueParticipants()
+    {
+        $expectedArray = array(
+            array(
+                "id" => 1,
+                "name" => "John Doe1",
+                "username" => "user1",
+                "state" => "active",
+                "avatar_url" => "http://www.gravatar.com/avatar/c922747a93b40d1ea88262bf1aebee62?s=80&d=identicon",
+                "web_url" => "http://localhost/user1",
+            ),
+            array(
+                "id" => 5,
+                "name" => "John Doe5",
+                "username" => "user5",
+                "state" => "active",
+                "avatar_url" => "http://www.gravatar.com/avatar/4aea8cf834ed91844a2da4ff7ae6b491?s=80&d=identicon",
+                "web_url" => "http://localhost/user5",
+            )
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/issues/2/participants')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->showParticipants(1, 2));
     }
 
     protected function getApiClass()

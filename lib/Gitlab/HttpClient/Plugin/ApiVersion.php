@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Gitlab\HttpClient\Plugin;
 
 use Http\Client\Common\Plugin;
@@ -14,12 +13,14 @@ use Psr\Http\Message\ResponseInterface;
  */
 class ApiVersion implements Plugin
 {
+    use Plugin\VersionBridgePlugin;
+
     private $redirected = false;
 
     /**
      * {@inheritdoc}
      */
-    public function handleRequest(RequestInterface $request, callable $next, callable $first)
+    public function doHandleRequest(RequestInterface $request, callable $next, callable $first)
     {
         $uri = $request->getUri();
 

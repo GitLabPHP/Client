@@ -108,6 +108,31 @@ class MergeRequestsTest extends TestCase
 
         $this->assertEquals($expectedArray, $api->show(1, 2));
     }
+    
+    /**
+     * @test
+     */
+    public function shouldShowMergeRequestWithOptionalParameters()
+    {
+        $expectedArray = array(
+            'id' => 2,
+            'name' => 'A merge request',
+            'diverged_commits_count' => 0,
+            'rebase_in_progress' => false
+        );
+        
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_requests/2', array('include_diverged_commits_count' => true,  'include_rebase_in_progress' => true))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->show(1, 2, array(
+            'include_diverged_commits_count' => true,
+            'include_rebase_in_progress' => true
+        )));
+    }
 
     /**
      * @test
@@ -147,14 +172,27 @@ class MergeRequestsTest extends TestCase
                 'title' => 'Merge Request',
                 'target_branch' => 'master',
                 'source_branch' => 'develop',
-                'description' => 'Some changes',
                 'assignee_id' => 6,
-                'target_project_id' => 20
+                'target_project_id' => 20,
+                'description' => 'Some changes',
+                'remove_source_branch' => true,
             ))
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->create(1, 'develop', 'master', 'Merge Request', 6, 20, 'Some changes'));
+        $this->assertEquals(
+            $expectedArray,
+            $api->create(
+                1,
+                'develop',
+                'master',
+                'Merge Request',
+                6,
+                20,
+                'Some changes',
+                ['remove_source_branch' => true]
+            )
+        );
     }
 
     /**
@@ -504,5 +542,24 @@ class MergeRequestsTest extends TestCase
     protected function getApiClass()
     {
         return 'Gitlab\Api\MergeRequests';
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRebaseMergeRequest()
+    {
+        $expectedArray = array('rebase_in_progress' => true);
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/merge_requests/2/rebase', array('skip_ci' => true))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->rebase(1, 2, array(
+            'skip_ci' => true,
+        )));
     }
 }

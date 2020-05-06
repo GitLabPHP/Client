@@ -14,6 +14,8 @@ use Psr\Http\Message\RequestInterface;
  */
 class Authentication implements Plugin
 {
+    use Plugin\VersionBridgePlugin;
+
     /**
      * @var string
      */
@@ -44,7 +46,7 @@ class Authentication implements Plugin
     /**
      * {@inheritdoc}
      */
-    public function handleRequest(RequestInterface $request, callable $next, callable $first)
+    public function doHandleRequest(RequestInterface $request, callable $next, callable $first)
     {
         switch ($this->method) {
             case Client::AUTH_HTTP_TOKEN:

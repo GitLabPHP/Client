@@ -12,6 +12,11 @@ class Environments extends AbstractApi
     public function all($project_id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
+        $resolver->setDefined('name')
+            ->setAllowedTypes('name', 'string');
+        $resolver->setDefined('search')
+            ->setAllowedTypes('search', 'string');
+
         return $this->get($this->getProjectPath($project_id, 'environments'), $resolver->resolve($parameters));
     }
 
@@ -54,5 +59,15 @@ class Environments extends AbstractApi
     public function stop($project_id, $environment_id)
     {
         return $this->post($this->getProjectPath($project_id, 'environments/'.$this->encodePath($environment_id).'/stop'));
+    }
+
+    /**
+     * @param int $project_id
+     * @param string $environment_id
+     * @return mixed
+     */
+    public function show($project_id, $environment_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'environments/' . $this->encodePath($environment_id)));
     }
 }
