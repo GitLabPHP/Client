@@ -317,7 +317,7 @@ class Issues extends AbstractApi
     */
     public function relatedMergeRequests($project_id, $issue_iid)
     {
-        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid)).'/related_merge_requests');
+        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid) . '/related_merge_requests'));
     }
 
     /**
