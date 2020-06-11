@@ -319,7 +319,7 @@ class Issues extends AbstractApi
     {
         return $this->get($this->getProjectPath($project_id, 'issues/' .$this->encodePath($issue_iid)).'/participants');
     }
-  
+
     /**
      * {@inheritDoc}
      */
@@ -351,6 +351,9 @@ class Issues extends AbstractApi
         $resolver->setDefined('assignee_id')
             ->setAllowedTypes('assignee_id', 'integer')
         ;
+      $resolver->setDefined('weight')
+        ->setAllowedTypes('weight', 'integer')
+      ;
 
         return $resolver;
     }
