@@ -531,6 +531,25 @@ class MergeRequestsTest extends TestCase
         $this->assertEquals($expectedArray, $api->awardEmoji(1, 2));
     }
 
+    /**
+     * @test
+     */
+    public function shoudGetApprovalState()
+    {
+        $expectedArray = [
+            'approval_rules_overwritten' => 1,
+            'rules' => [],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_requests/2/approval_state')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->approvalState(1, 2));
+    }
+
     protected function getMultipleMergeRequestsData()
     {
         return array(
