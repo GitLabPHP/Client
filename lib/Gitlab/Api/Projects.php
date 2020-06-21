@@ -952,4 +952,9 @@ class Projects extends AbstractApi
     {
         return $this->get('projects/'.$this->encodePath($project_id).'/approvals');
     }
+
+    public function approvalsRules($project_id)
+    {
+        return $this->get('projects/'.$this->encodePath($project_id).'/approval_rules');
+    }
 }

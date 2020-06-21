@@ -1861,6 +1861,31 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->approvalsConfiguration(1));
     }
 
+    public function shoudGetApprovalRules()
+    {
+        $expectedArray = [
+            [
+                'id' => 1,
+                'name' => 'All Members',
+                'rule_type' => 'any_approver',
+                'eligible_approvers' => [],
+                'approvals_required' => 1,
+                'users' => [],
+                'groups' => [],
+                'contains_hidden_groups' => false,
+                'protected_branches' => [],
+            ],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/approval_rules')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->approvalRules(1));
+    }
+
     protected function getApiClass()
     {
         return 'Gitlab\Api\Projects';
