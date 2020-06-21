@@ -1839,6 +1839,28 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->addProtectedBranch(1, array('name' => 'master', 'push_access_level' => 0, 'merge_access_level' => 30)));
     }
 
+    public function shoudGetApprovalsConfiguration()
+    {
+        $expectedArray = [
+            'approvers' => [],
+            'approver_groups' => [],
+            'approvals_before_merge' => 1,
+            'reset_approvals_on_push' => true,
+            'disable_overriding_approvers_per_merge_request' => null,
+            'merge_requests_author_approval' => null,
+            'merge_requests_disable_committers_approval' => null,
+            'require_password_to_approve' => null,
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/approvals')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->approvalsConfiguration(1));
+    }
+
     protected function getApiClass()
     {
         return 'Gitlab\Api\Projects';

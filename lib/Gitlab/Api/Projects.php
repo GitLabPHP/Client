@@ -947,4 +947,9 @@ class Projects extends AbstractApi
     {
         return $this->post($this->getProjectPath($project_id, 'protected_branches'), $params);
     }
+
+    public function approvalsConfiguration($project_id)
+    {
+        return $this->get('projects/'.$this->encodePath($project_id).'/approvals');
+    }
 }
