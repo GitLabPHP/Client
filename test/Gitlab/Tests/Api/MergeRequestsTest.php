@@ -550,6 +550,37 @@ class MergeRequestsTest extends TestCase
         $this->assertEquals($expectedArray, $api->approvalState(1, 2));
     }
 
+
+    /**
+     * @test
+     */
+    public function shoudGetLevelRules()
+    {
+        $expectedArray = [
+            [
+                'id' => 1,
+                'name' => 'Foo',
+                'rule_type' => 'regular',
+                'eligible_approvers' => [],
+                'approvals_required' => 1,
+                'users' => [],
+                'groups' => [],
+                'contains_hidden_groups' => null,
+                'section' => null,
+                'source_rule' => null,
+                'overridden' => null,
+            ],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_requests/2/approval_rules')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->levelRules(1, 2));
+    }
+
     protected function getMultipleMergeRequestsData()
     {
         return array(
