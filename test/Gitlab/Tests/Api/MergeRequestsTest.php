@@ -654,6 +654,79 @@ class MergeRequestsTest extends TestCase
         ]));
     }
 
+    /**
+     * @test
+     */
+    public function shoudUpdateLevelRuleWithoutOptionalParameters()
+    {
+        $expectedArray = [
+            'id' => 20892835,
+            'name' => 'Foo',
+            'rule_type' => 'regular',
+            'eligible_approvers' => [],
+            'approvals_required' => 3,
+            'users' => [],
+            'groups' => [],
+            'contains_hidden_groups' => null,
+            'section' => null,
+            'source_rule' => null,
+            'overridden' => null,
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with(
+                'projects/1/merge_requests/2/approval_rules/20892835',
+                [
+                    'name' => 'Foo',
+                    'approvals_required' => 3,
+                ]
+            )
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->updateLevelRule(1, 2, 20892835, 'Foo', 3));
+    }
+
+    /**
+     * @test
+     */
+    public function shoudUpdateLevelRuleWithOptionalParameters()
+    {
+        $expectedArray = [
+            'id' => 20892835,
+            'name' => 'Foo',
+            'rule_type' => 'regular',
+            'eligible_approvers' => [],
+            'approvals_required' => 3,
+            'users' => [1951878],
+            'groups' => [104121],
+            'contains_hidden_groups' => null,
+            'section' => null,
+            'source_rule' => null,
+            'overridden' => null,
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with(
+                'projects/1/merge_requests/2/approval_rules/20892835',
+                [
+                    'name' => 'Foo',
+                    'approvals_required' => 3,
+                    'user_ids' => [1951878],
+                    'group_ids' => [104121],
+                ]
+            )
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->updateLevelRule(1, 2, 20892835, 'Foo', 3, [
+            'user_ids' => [1951878],
+            'group_ids' => [104121],
+        ]));
+    }
+
     protected function getMultipleMergeRequestsData()
     {
         return array(

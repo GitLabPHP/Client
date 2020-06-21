@@ -429,4 +429,17 @@ class MergeRequests extends AbstractApi
             array_merge($baseParam, $optionalParameters)
         );
     }
+
+    public function updateLevelRule($project_id, $mr_iid, $approval_rule_id, $name, $approvals_required, array $optionalParameters = [])
+    {
+        $baseParam = [
+            'name' => $name,
+            'approvals_required' => $approvals_required,
+        ];
+
+        return $this->put(
+            $this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/approval_rules/'.$this->encodePath($approval_rule_id)),
+            array_merge($baseParam, $optionalParameters)
+        );
+    }
 }
