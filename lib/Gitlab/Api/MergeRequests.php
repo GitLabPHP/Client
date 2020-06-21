@@ -416,4 +416,17 @@ class MergeRequests extends AbstractApi
     {
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/approval_rules'));
     }
+
+    public function createLevelRule($project_id, $mr_iid, $name, $approvals_required, array $optionalParameters = [])
+    {
+        $baseParam = [
+            'name' => $name,
+            'approvals_required' => $approvals_required,
+        ];
+
+        return $this->post(
+            $this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/approval_rules'),
+            array_merge($baseParam, $optionalParameters)
+        );
+    }
 }
