@@ -442,4 +442,9 @@ class MergeRequests extends AbstractApi
             array_merge($baseParam, $optionalParameters)
         );
     }
+
+    public function deleteLevelRule($project_id, $mr_iid, $approval_rule_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/approval_rules/'.$this->encodePath($approval_rule_id)));
+    }
 }

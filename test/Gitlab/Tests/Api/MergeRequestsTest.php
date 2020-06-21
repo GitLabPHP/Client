@@ -727,6 +727,22 @@ class MergeRequestsTest extends TestCase
         ]));
     }
 
+    /**
+     * @test
+     */
+    public function shoudDeleteLevelRule()
+    {
+        $expectedValue = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/merge_requests/2/approval_rules/3')
+            ->will($this->returnValue($expectedValue));
+
+        $this->assertEquals($expectedValue, $api->deleteLevelRule(1, 2, 3));
+    }
+
     protected function getMultipleMergeRequestsData()
     {
         return array(
