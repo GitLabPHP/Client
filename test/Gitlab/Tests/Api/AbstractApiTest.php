@@ -1,9 +1,10 @@
 <?php namespace Gitlab\Tests\Api;
 
+use Gitlab\Api\AbstractApi;
 use Gitlab\Client;
-use Http\Client\HttpClient;
 use ReflectionClass;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Client\ClientInterface;
 
 class AbstractApiTest extends TestCase
 {
@@ -36,7 +37,7 @@ class AbstractApiTest extends TestCase
 
     protected function getAbstractApiMock(array $methods = [])
     {
-        $httpClient = $this->getMockBuilder(HttpClient::class)
+        $httpClient = $this->getMockBuilder(ClientInterface::class)
             ->setMethods(array('sendRequest'))
             ->getMock()
         ;
@@ -46,7 +47,7 @@ class AbstractApiTest extends TestCase
         ;
         $client = Client::createWithHttpClient($httpClient);
 
-        $abstractApiMock = $this->getMockBuilder('Gitlab\Api\AbstractApi')
+        $abstractApiMock = $this->getMockBuilder(AbstractApi::class)
             ->setConstructorArgs([
                 $client,
                 null

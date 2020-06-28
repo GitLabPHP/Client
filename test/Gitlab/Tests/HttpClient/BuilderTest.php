@@ -5,10 +5,10 @@ namespace Gitlab\Tests\HttpClient;
 use Gitlab\HttpClient\Builder;
 use Http\Client\Common\HttpMethodsClient;
 use Http\Client\Common\Plugin;
-use Http\Client\HttpClient;
 use Http\Message\RequestFactory;
 use Http\Message\StreamFactory;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Client\ClientInterface;
 
 /**
  * @author Fabien Bourigault <bourigaultfabien@gmail.com>
@@ -23,7 +23,7 @@ class BuilderTest extends TestCase
     public function setUp()
     {
         $this->subject = new Builder(
-            $this->getMockBuilder(HttpClient::class)->getMock(),
+            $this->getMockBuilder(ClientInterface::class)->getMock(),
             $this->getMockBuilder(RequestFactory::class)->getMock(),
             $this->getMockBuilder(StreamFactory::class)->getMock()
         );

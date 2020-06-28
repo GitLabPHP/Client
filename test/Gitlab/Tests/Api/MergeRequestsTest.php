@@ -108,7 +108,7 @@ class MergeRequestsTest extends TestCase
 
         $this->assertEquals($expectedArray, $api->show(1, 2));
     }
-    
+
     /**
      * @test
      */
@@ -120,7 +120,7 @@ class MergeRequestsTest extends TestCase
             'diverged_commits_count' => 0,
             'rebase_in_progress' => false
         );
-        
+
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')

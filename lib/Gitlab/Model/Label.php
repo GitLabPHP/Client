@@ -28,7 +28,7 @@ class Label extends AbstractModel
      */
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $label = new static($project, $client);
+        $label = new self($project, $client);
 
         return $label->hydrate($data);
     }

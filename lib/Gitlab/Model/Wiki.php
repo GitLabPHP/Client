@@ -34,7 +34,7 @@ class Wiki extends AbstractModel
      */
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $wiki = new static($project, $data['slug'], $client);
+        $wiki = new self($project, $data['slug'], $client);
 
         return $wiki->hydrate($data);
     }

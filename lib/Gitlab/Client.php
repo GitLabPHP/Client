@@ -12,8 +12,8 @@ use Http\Client\Common\Plugin\AddHostPlugin;
 use Http\Client\Common\Plugin\HeaderDefaultsPlugin;
 use Http\Client\Common\Plugin\HistoryPlugin;
 use Http\Client\Common\Plugin\RedirectPlugin;
-use Http\Client\HttpClient;
 use Http\Discovery\UriFactoryDiscovery;
+use Psr\Http\Client\ClientInterface;
 
 /**
  * Simple API wrapper for Gitlab
@@ -107,13 +107,13 @@ class Client
     }
 
     /**
-     * Create a Gitlab\Client using an HttpClient.
+     * Create a Gitlab\Client using an Http client.
      *
-     * @param HttpClient $httpClient
+     * @param ClientInterface $httpClient
      *
      * @return Client
      */
-    public static function createWithHttpClient(HttpClient $httpClient)
+    public static function createWithHttpClient(ClientInterface $httpClient)
     {
         $builder = new Builder($httpClient);
 
@@ -336,7 +336,7 @@ class Client
 
             case 'groups':
                 return $this->groups();
-                
+
             case 'groupsMilestones':
                 return $this->groupsMilestones();
 
@@ -377,7 +377,7 @@ class Client
 
             case 'repositoryFiles':
                 return $this->repositoryFiles();
-                
+
             case 'snippets':
                 return $this->snippets();
 

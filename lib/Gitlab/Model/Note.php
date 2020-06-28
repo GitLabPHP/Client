@@ -5,7 +5,7 @@ use Gitlab\Client;
 /**
  * Class Note
  *
- * @property-read integer $id
+ * @property-read int $id
  * @property-read User $author
  * @property-read string $body
  * @property-read string $created_at
@@ -40,7 +40,7 @@ class Note extends AbstractModel
      */
     public static function fromArray(Client $client, Noteable $type, array $data)
     {
-        $comment = new static($type, $client);
+        $comment = new self($type, $client);
 
         if (isset($data['author'])) {
             $data['author'] = User::fromArray($client, $data['author']);

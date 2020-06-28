@@ -34,7 +34,7 @@ class Comparison extends AbstractModel
      */
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $file = new static($project, $client);
+        $file = new self($project, $client);
 
         if (isset($data['commit'])) {
             $data['commit'] = Commit::fromArray($client, $project, $data['commit']);

@@ -158,7 +158,7 @@ class MergeRequests extends AbstractApi
     /**
      * @param int $project_id
      * @param int $mr_id
-     * @param string $message
+     * @param string|array $message
      * @return mixed
      */
     public function merge($project_id, $mr_id, $message = null)

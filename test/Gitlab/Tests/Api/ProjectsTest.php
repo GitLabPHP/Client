@@ -21,11 +21,16 @@ class ProjectsTest extends TestCase
     {
         $expectedArray = $this->getMultipleProjectsData();
 
-        $api = $this->getMultipleProjectsRequestMock('projects', $expectedArray,
-            ['page' => 1, 'per_page' => 5, 'order_by' => 'name', 'sort' => 'asc']);
+        $api = $this->getMultipleProjectsRequestMock(
+            'projects',
+            $expectedArray,
+            ['page' => 1, 'per_page' => 5, 'order_by' => 'name', 'sort' => 'asc']
+        );
 
-        $this->assertEquals($expectedArray,
-            $api->all(['page' => 1, 'per_page' => 5, 'order_by' => 'name', 'sort' => 'asc']));
+        $this->assertEquals(
+            $expectedArray,
+            $api->all(['page' => 1, 'per_page' => 5, 'order_by' => 'name', 'sort' => 'asc'])
+        );
     }
 
     /**
@@ -909,8 +914,11 @@ class ProjectsTest extends TestCase
             ))
             ->will($this->returnValue($expectedArray));
 
-        $this->assertEquals($expectedArray, $api->addHook(1, 'http://www.example.com',
-            array('push_events' => true, 'issues_events' => true, 'merge_requests_events' => true)));
+        $this->assertEquals($expectedArray, $api->addHook(
+            1,
+            'http://www.example.com',
+            array('push_events' => true, 'issues_events' => true, 'merge_requests_events' => true)
+        ));
     }
 
     /**
@@ -958,8 +966,10 @@ class ProjectsTest extends TestCase
             ->with('projects/1/hooks/3', array('url' => 'http://www.example-test.com', 'push_events' => false))
             ->will($this->returnValue($expectedArray));
 
-        $this->assertEquals($expectedArray,
-            $api->updateHook(1, 3, array('url' => 'http://www.example-test.com', 'push_events' => false)));
+        $this->assertEquals(
+            $expectedArray,
+            $api->updateHook(1, 3, array('url' => 'http://www.example-test.com', 'push_events' => false))
+        );
     }
 
     /**
@@ -1213,8 +1223,10 @@ class ProjectsTest extends TestCase
             ->with('projects/1/labels', array('name' => 'bug', 'new_name' => 'big-bug', 'color' => '#00ffff'))
             ->will($this->returnValue($expectedArray));
 
-        $this->assertEquals($expectedArray,
-            $api->updateLabel(1, array('name' => 'bug', 'new_name' => 'big-bug', 'color' => '#00ffff')));
+        $this->assertEquals(
+            $expectedArray,
+            $api->updateLabel(1, array('name' => 'bug', 'new_name' => 'big-bug', 'color' => '#00ffff'))
+        );
     }
 
     /**
@@ -1500,8 +1512,10 @@ class ProjectsTest extends TestCase
             ->with('projects/1/variables', $expectedArray)
             ->will($this->returnValue($expectedArray));
 
-        $this->assertEquals($expectedArray,
-            $api->addVariable(1, 'DEPLOY_SERVER', 'stage.example.com', null, 'staging'));
+        $this->assertEquals(
+            $expectedArray,
+            $api->addVariable(1, 'DEPLOY_SERVER', 'stage.example.com', null, 'staging')
+        );
     }
 
     /**
@@ -1522,8 +1536,10 @@ class ProjectsTest extends TestCase
             ->with('projects/1/variables', $expectedArray)
             ->will($this->returnValue($expectedArray));
 
-        $this->assertEquals($expectedArray,
-            $api->addVariable(1, 'DEPLOY_SERVER', 'stage.example.com', true, 'staging'));
+        $this->assertEquals(
+            $expectedArray,
+            $api->addVariable(1, 'DEPLOY_SERVER', 'stage.example.com', true, 'staging')
+        );
     }
 
     /**
@@ -1582,12 +1598,16 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/variables/DEPLOY_SERVER',
-                array('value' => 'stage.example.com', 'environment_scope' => 'staging'))
+            ->with(
+                'projects/1/variables/DEPLOY_SERVER',
+                array('value' => 'stage.example.com', 'environment_scope' => 'staging')
+            )
             ->will($this->returnValue($expectedArray));
 
-        $this->assertEquals($expectedArray,
-            $api->updateVariable(1, 'DEPLOY_SERVER', 'stage.example.com', null, 'staging'));
+        $this->assertEquals(
+            $expectedArray,
+            $api->updateVariable(1, 'DEPLOY_SERVER', 'stage.example.com', null, 'staging')
+        );
     }
 
     /**
@@ -1605,12 +1625,16 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/variables/DEPLOY_SERVER',
-                array('value' => 'stage.example.com', 'protected' => true, 'environment_scope' => 'staging'))
+            ->with(
+                'projects/1/variables/DEPLOY_SERVER',
+                array('value' => 'stage.example.com', 'protected' => true, 'environment_scope' => 'staging')
+            )
             ->will($this->returnValue($expectedArray));
 
-        $this->assertEquals($expectedArray,
-            $api->updateVariable(1, 'DEPLOY_SERVER', 'stage.example.com', true, 'staging'));
+        $this->assertEquals(
+            $expectedArray,
+            $api->updateVariable(1, 'DEPLOY_SERVER', 'stage.example.com', true, 'staging')
+        );
     }
 
     /**
@@ -1776,8 +1800,10 @@ class ProjectsTest extends TestCase
             ->with('projects/1/badges', array('link_url' => $link_url, 'image_url' => $image_url))
             ->will($this->returnValue($expectedArray));
 
-        $this->assertEquals($expectedArray,
-            $api->addBadge(1, array('link_url' => $link_url, 'image_url' => $image_url)));
+        $this->assertEquals(
+            $expectedArray,
+            $api->addBadge(1, array('link_url' => $link_url, 'image_url' => $image_url))
+        );
     }
 
     /**
@@ -1833,8 +1859,10 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/protected_branches',
-                array('name' => 'master', 'push_access_level' => 0, 'merge_access_level' => 30))
+            ->with(
+                'projects/1/protected_branches',
+                array('name' => 'master', 'push_access_level' => 0, 'merge_access_level' => 30)
+            )
             ->will($this->returnValue($expectedArray));
         $this->assertEquals($expectedArray, $api->addProtectedBranch(1, array('name' => 'master', 'push_access_level' => 0, 'merge_access_level' => 30)));
     }

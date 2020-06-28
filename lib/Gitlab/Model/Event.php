@@ -44,7 +44,7 @@ class Event extends AbstractModel
      */
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $event = new static($project, $client);
+        $event = new self($project, $client);
 
         if (isset($data['author_id'])) {
             $data['author'] = new User($data['author_id'], $client);

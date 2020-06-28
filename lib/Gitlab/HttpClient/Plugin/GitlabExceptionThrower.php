@@ -6,6 +6,7 @@ use Gitlab\Exception\ErrorException;
 use Gitlab\Exception\RuntimeException;
 use Gitlab\HttpClient\Message\ResponseMediator;
 use Http\Client\Common\Plugin;
+use Http\Promise\Promise;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -17,12 +18,10 @@ use Psr\Http\Message\ResponseInterface;
  */
 class GitlabExceptionThrower implements Plugin
 {
-    use Plugin\VersionBridgePlugin;
-
     /**
      * {@inheritdoc}
      */
-    public function doHandleRequest(RequestInterface $request, callable $next, callable $first)
+    public function handleRequest(RequestInterface $request, callable $next, callable $first): Promise
     {
         return $next($request)->then(function (ResponseInterface $response) {
             if ($response->getStatusCode() >= 400 && $response->getStatusCode() < 600) {

@@ -12,15 +12,33 @@ Based on [php-github-api](https://github.com/m4tthumphrey/php-github-api) and co
 Installation
 ------------
 
-Via [composer](https://getcomposer.org)
+Via [Composer](https://getcomposer.org).
+
+### PHP 7.2+:
 
 ```bash
-composer require m4tthumphrey/php-gitlab-api php-http/guzzle6-adapter:^1.0
+composer require m4tthumphrey/php-gitlab-api guzzlehttp/guzzle:^7.0.1
 ```
 
-Why `php-http/guzzle6-adapter`? We are decoupled from any HTTP messaging client with help by [HTTPlug](http://httplug.io).
+### PHP 7.1+:
 
-You can visit [HTTPlug for library users](http://docs.php-http.org/en/latest/httplug/users.html) to get more information about installing HTTPlug related packages.
+```bash
+composer require m4tthumphrey/php-gitlab-api php-http/guzzle6-adapter:^2.0.1
+```
+
+### Laravel 5.5+:
+
+```bash
+composer require graham-campbell/gitlab guzzlehttp/guzzle:^7.0.1
+```
+
+### Symfony 3.4+:
+
+```bash
+composer require zeichen32/gitlabapibundle guzzlehttp/guzzle:^7.0.1
+```
+
+We are decoupled from any HTTP messaging client with help by [HTTPlug](http://httplug.io). You can visit [HTTPlug for library users](https://docs.php-http.org/en/latest/httplug/users.html) to get more information about installing HTTPlug related packages. [graham-campbell/gitlab](https://github.com/GrahamCampbell/Laravel-GitLab) is by [Graham Campbell](https://github.com/GrahamCampbell) and [zeichen32/gitlabapibundle](https://github.com/Zeichen32/GitLabApiBundle) is by [Jens Averkamp](https://github.com/Zeichen32).
 
 Versioning
 ----------
@@ -98,18 +116,9 @@ $issue = $project->createIssue('This does not work.', array(
 $issue->close();
 ```
 
-You get the idea! Take a look around ([API methods](https://github.com/m4tthumphrey/php-gitlab-api/tree/master/lib/Gitlab/Api),
-[models](https://github.com/m4tthumphrey/php-gitlab-api/tree/master/lib/Gitlab/Model)) and please feel free to report any bugs.
-
-Framework Integrations
-----------------------
-- **Symfony** - https://github.com/Zeichen32/GitLabApiBundle
-- **Laravel** - https://github.com/GrahamCampbell/Laravel-GitLab
-
-If you have integrated GitLab into a popular PHP framework, let us know!
+You get the idea! Take a look around ([API methods](https://github.com/m4tthumphrey/php-gitlab-api/tree/master/lib/Gitlab/Api), [models](https://github.com/m4tthumphrey/php-gitlab-api/tree/master/lib/Gitlab/Model)) and please feel free to report any bugs. If you have integrated GitLab into a popular PHP framework, let us know!
 
 Contributing
 ------------
 
-There are many parts of Gitlab that I have not added to this as it was originally created for personal use, hence the
-lack of tests. Feel free to fork and add new functionality and tests, I'll gladly accept decent pull requests.
+There are many parts of Gitlab that I have not added to this as it was originally created for personal use, hence the lack of tests. Feel free to fork and add new functionality and tests, I'll gladly accept decent pull requests.

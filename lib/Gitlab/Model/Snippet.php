@@ -36,7 +36,7 @@ class Snippet extends AbstractModel
      */
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $snippet = new static($project, $data['id'], $client);
+        $snippet = new self($project, $data['id'], $client);
 
         if (isset($data['author'])) {
             $data['author'] = User::fromArray($client, $data['author']);

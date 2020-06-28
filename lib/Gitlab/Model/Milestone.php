@@ -46,7 +46,7 @@ class Milestone extends AbstractModel
      */
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $milestone = new static($project, $data['id'], $client);
+        $milestone = new self($project, $data['id'], $client);
 
         return $milestone->hydrate($data);
     }

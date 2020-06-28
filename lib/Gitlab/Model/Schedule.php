@@ -46,7 +46,7 @@ class Schedule extends AbstractModel
      */
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $schedule = new static($project, $data['id'], $client);
+        $schedule = new self($project, $data['id'], $client);
 
         return $schedule->hydrate($data);
     }

@@ -27,7 +27,7 @@ class IssueLink extends AbstractModel
     public static function fromArray(Client $client, Project $project, array $data)
     {
         $issue = Issue::fromArray($client, $project, $data);
-        $issueLink = new static($issue, $data['issue_link_id'], $client);
+        $issueLink = new self($issue, $data['issue_link_id'], $client);
 
         return $issueLink->hydrate($data);
     }

@@ -6,13 +6,12 @@ use Http\Client\Common\HttpMethodsClient;
 use Http\Client\Common\Plugin;
 use Http\Client\Common\PluginClient;
 use Http\Client\Common\PluginClientFactory;
-use Http\Client\HttpClient;
-use Http\Discovery\HttpClientDiscovery;
 use Http\Discovery\MessageFactoryDiscovery;
+use Http\Discovery\Psr18ClientDiscovery;
 use Http\Discovery\StreamFactoryDiscovery;
-use Http\Message\MessageFactory;
 use Http\Message\RequestFactory;
 use Http\Message\StreamFactory;
+use Psr\Http\Client\ClientInterface;
 
 /**
  * A builder that builds the API client.
@@ -25,7 +24,7 @@ class Builder
     /**
      * The object that sends HTTP messages.
      *
-     * @var HttpClient
+     * @var ClientInterface
      */
     private $httpClient;
 
@@ -37,7 +36,7 @@ class Builder
     private $pluginClient;
 
     /**
-     * @var MessageFactory
+     * @var RequestFactory
      */
     private $requestFactory;
 
@@ -59,16 +58,16 @@ class Builder
     private $plugins = [];
 
     /**
-     * @param HttpClient     $httpClient
-     * @param RequestFactory $requestFactory
-     * @param StreamFactory  $streamFactory
+     * @param ClientInterface $httpClient
+     * @param RequestFactory  $requestFactory
+     * @param StreamFactory   $streamFactory
      */
     public function __construct(
-        HttpClient $httpClient = null,
+        ClientInterface $httpClient = null,
         RequestFactory $requestFactory = null,
         StreamFactory $streamFactory = null
     ) {
-        $this->httpClient = $httpClient ?: HttpClientDiscovery::find();
+        $this->httpClient = $httpClient ?: Psr18ClientDiscovery::find();
         $this->requestFactory = $requestFactory ?: MessageFactoryDiscovery::find();
         $this->streamFactory = $streamFactory ?: StreamFactoryDiscovery::find();
     }

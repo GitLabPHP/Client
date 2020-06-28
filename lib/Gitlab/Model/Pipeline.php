@@ -30,7 +30,7 @@ class Pipeline extends AbstractModel
      */
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $pipeline = new static($project, $data['id'], $client);
+        $pipeline = new self($project, $data['id'], $client);
 
         return $pipeline->hydrate($data);
     }

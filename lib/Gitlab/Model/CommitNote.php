@@ -31,7 +31,7 @@ class CommitNote extends AbstractModel
      */
     public static function fromArray(Client $client, array $data)
     {
-        $comment = new static($client);
+        $comment = new self($client);
 
         if (isset($data['author'])) {
             $data['author'] = User::fromArray($client, $data['author']);

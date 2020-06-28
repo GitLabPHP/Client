@@ -3,6 +3,7 @@
 namespace Gitlab\HttpClient\Plugin;
 
 use Http\Client\Common\Plugin;
+use Http\Promise\Promise;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -13,14 +14,15 @@ use Psr\Http\Message\ResponseInterface;
  */
 class ApiVersion implements Plugin
 {
-    use Plugin\VersionBridgePlugin;
-
+    /**
+     * @var bool
+     */
     private $redirected = false;
 
     /**
      * {@inheritdoc}
      */
-    public function doHandleRequest(RequestInterface $request, callable $next, callable $first)
+    public function handleRequest(RequestInterface $request, callable $next, callable $first): Promise
     {
         $uri = $request->getUri();
 

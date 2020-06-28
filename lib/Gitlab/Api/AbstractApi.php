@@ -248,7 +248,7 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param $file
+     * @param string $file
      *
      * @return string
      */

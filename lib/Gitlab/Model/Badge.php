@@ -30,7 +30,7 @@ class Badge extends AbstractModel
      */
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $badge = new static($project, $client);
+        $badge = new self($project, $client);
 
         return $badge->hydrate($data);
     }
