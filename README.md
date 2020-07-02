@@ -12,44 +12,39 @@ Based on [php-github-api](https://github.com/m4tthumphrey/php-github-api) and co
 Installation
 ------------
 
-Via [Composer](https://getcomposer.org).
-
-### PHP 7.2+:
-
-```bash
-composer require m4tthumphrey/php-gitlab-api guzzlehttp/guzzle:^7.0.1
-```
+Via [Composer](https://getcomposer.org). You will also need to install packages that "provide" [`psr/http-client-implementation`](https://packagist.org/providers/psr/http-client-implementation) and [`psr/http-factory-implementation`](https://packagist.org/providers/psr/http-factory-implementation).
 
 ### PHP 7.1+:
 
 ```bash
-composer require m4tthumphrey/php-gitlab-api php-http/guzzle6-adapter:^2.0.1
+composer require m4tthumphrey/php-gitlab-api:^10.0 php-http/guzzle6-adapter:^2.0.1 http-interop/http-factory-guzzle:^1.0
 ```
 
-### Laravel 5.5+:
+### PHP 7.2+:
 
 ```bash
-composer require graham-campbell/gitlab guzzlehttp/guzzle:^7.0.1
+composer require m4tthumphrey/php-gitlab-api:^10.0 guzzlehttp/guzzle:^7.0.1 http-interop/http-factory-guzzle:^1.0
 ```
 
-### Symfony 3.4+:
+### Laravel 6+:
 
 ```bash
-composer require zeichen32/gitlabapibundle guzzlehttp/guzzle:^7.0.1
+composer require graham-campbell/gitlab:^4.0 guzzlehttp/guzzle:^7.0.1 http-interop/http-factory-guzzle:^1.0
+```
+
+### Symfony 4.4:
+
+```bash
+composer require zeichen32/gitlabapibundle:^5.0 symfony/http-client:^4.4 nyholm/psr7:^1.3
+```
+
+### Symfony 5:
+
+```bash
+composer require zeichen32/gitlabapibundle:^5.0 symfony/http-client:^5.0 nyholm/psr7:^1.3
 ```
 
 We are decoupled from any HTTP messaging client with help by [HTTPlug](http://httplug.io). You can visit [HTTPlug for library users](https://docs.php-http.org/en/latest/httplug/users.html) to get more information about installing HTTPlug related packages. [graham-campbell/gitlab](https://github.com/GrahamCampbell/Laravel-GitLab) is by [Graham Campbell](https://github.com/GrahamCampbell) and [zeichen32/gitlabapibundle](https://github.com/Zeichen32/GitLabApiBundle) is by [Jens Averkamp](https://github.com/Zeichen32).
-
-Versioning
-----------
-
-Depending on your Gitlab server version, you must choose the right version of this library.
-Please refer to the following table to pick the right one.
-
-|Version|Gitlab API Version|Gitlab Version|
-|-------|------------------|--------------|
-|9.x    | V4               | >= 9.0       |
-|8.x    | V3               | < 9.5        |
 
 General API Usage
 -----------------
@@ -84,8 +79,6 @@ $pager = new \Gitlab\ResultPager($client);
 $issues = $pager->fetchAll($client->api('issues'),'all',[null, ['state' => 'closed']]);
 
 ```
-
-
 
 Model Usage
 -----------

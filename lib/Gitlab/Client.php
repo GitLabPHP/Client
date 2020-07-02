@@ -12,7 +12,7 @@ use Http\Client\Common\Plugin\AddHostPlugin;
 use Http\Client\Common\Plugin\HeaderDefaultsPlugin;
 use Http\Client\Common\Plugin\HistoryPlugin;
 use Http\Client\Common\Plugin\RedirectPlugin;
-use Http\Discovery\UriFactoryDiscovery;
+use Http\Discovery\Psr17FactoryDiscovery;
 use Psr\Http\Client\ClientInterface;
 
 /**
@@ -441,7 +441,7 @@ class Client
     public function setUrl($url)
     {
         $this->httpClientBuilder->removePlugin(AddHostPlugin::class);
-        $this->httpClientBuilder->addPlugin(new AddHostPlugin(UriFactoryDiscovery::find()->createUri($url)));
+        $this->httpClientBuilder->addPlugin(new AddHostPlugin(Psr17FactoryDiscovery::findUrlFactory()->createUri($url)));
 
         return $this;
     }
