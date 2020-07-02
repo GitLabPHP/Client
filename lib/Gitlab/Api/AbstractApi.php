@@ -39,7 +39,7 @@ abstract class AbstractApi implements ApiInterface
     public function __construct(Client $client, StreamFactoryInterface $streamFactory = null)
     {
         $this->client = $client;
-        $this->streamFactory = $streamFactory ?: Psr17FactoryDiscovery::findStreamFactory();
+        $this->streamFactory = $streamFactory ?? Psr17FactoryDiscovery::findStreamFactory();
     }
 
     /**

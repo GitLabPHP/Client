@@ -7,7 +7,7 @@ use Gitlab\HttpClient\Plugin\ApiVersion;
 use Gitlab\HttpClient\Plugin\History;
 use Gitlab\HttpClient\Plugin\Authentication;
 use Gitlab\HttpClient\Plugin\GitlabExceptionThrower;
-use Http\Client\Common\HttpMethodsClient;
+use Http\Client\Common\HttpMethodsClientInterface;
 use Http\Client\Common\Plugin\AddHostPlugin;
 use Http\Client\Common\Plugin\HeaderDefaultsPlugin;
 use Http\Client\Common\Plugin\HistoryPlugin;
@@ -78,7 +78,7 @@ class Client
     public function __construct(Builder $httpClientBuilder = null)
     {
         $this->responseHistory = new History();
-        $this->httpClientBuilder = $httpClientBuilder ?: new Builder();
+        $this->httpClientBuilder = $httpClientBuilder ?? new Builder();
 
         $this->httpClientBuilder->addPlugin(new GitlabExceptionThrower());
         $this->httpClientBuilder->addPlugin(new HistoryPlugin($this->responseHistory));
@@ -456,7 +456,7 @@ class Client
     }
 
     /**
-     * @return HttpMethodsClient
+     * @return HttpMethodsClientInterface
      */
     public function getHttpClient()
     {
