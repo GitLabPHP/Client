@@ -293,6 +293,34 @@ class Issues extends AbstractApi
     }
 
     /**
+     * Subscribes the authenticated user to an issue to receive notifications.
+     * If the user is already subscribed to the issue, the status code 304 is returned.
+     *
+     * @link https://docs.gitlab.com/ee/api/issues.html#subscribe-to-an-issue
+     * @param int|string $project_id The ID or URL-encoded path of the project owned by the authenticated user
+     * @param int $issue_iid The internal ID of a project’s issue
+     * @return array|string issue object if change is made, empty string otherwise
+     */
+    public function subscribe($project_id, $issue_iid)
+    {
+        return $this->post($this->getProjectPath($project_id, 'issues/' . $this->encodePath($issue_iid) . '/subscribe'));
+    }
+
+    /**
+     * Unsubscribes the authenticated user from the issue to not receive notifications from it.
+     * If the user is not subscribed to the issue, the status code 304 is returned.
+     *
+     * @link https://docs.gitlab.com/ee/api/issues.html#unsubscribe-from-an-issue
+     * @param int|string $project_id The ID or URL-encoded path of the project owned by the authenticated user
+     * @param int $issue_iid The internal ID of a project’s issue
+     * @return array|string issue object if change is made, empty string otherwise
+     */
+    public function unsubscribe($project_id, $issue_iid)
+    {
+        return $this->post($this->getProjectPath($project_id, 'issues/' . $this->encodePath($issue_iid) . '/unsubscribe'));
+    }
+
+    /**
      * @param int $project_id
      * @param int $issue_iid
      *
