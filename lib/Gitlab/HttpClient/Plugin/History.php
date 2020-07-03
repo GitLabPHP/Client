@@ -16,7 +16,7 @@ class History implements Journal
     use HistoryTrait;
 
     /**
-     * @var ResponseInterface
+     * @var ResponseInterface|null
      */
     private $lastResponse;
 

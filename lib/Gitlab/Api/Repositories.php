@@ -190,7 +190,7 @@ class Repositories extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param $sha
+     * @param string $sha
      * @return mixed
      */
     public function commit($project_id, $sha)
@@ -200,7 +200,7 @@ class Repositories extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param $sha
+     * @param string $sha
      * @param array $parameters
      * @return mixed
      */
