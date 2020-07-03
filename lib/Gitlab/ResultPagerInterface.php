@@ -18,7 +18,7 @@ interface ResultPagerInterface
      *
      * @return array returns the result of the Api::$method() call
      */
-    public function fetch(ApiInterface $api, $method, array $parameters = []);
+    public function fetch(ApiInterface $api, string $method, array $parameters = []);
 
     /**
      * Fetch all results (pages) from an api call
@@ -30,7 +30,7 @@ interface ResultPagerInterface
      *
      * @return array returns a merge of the results of the Api::$method() call
      */
-    public function fetchAll(ApiInterface $api, $method, array $parameters = []);
+    public function fetchAll(ApiInterface $api, string $method, array $parameters = []);
 
     /**
      * Check to determine the availability of a next page.

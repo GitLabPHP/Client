@@ -35,17 +35,17 @@ class ResultPager implements ResultPagerInterface
     /**
      * {@inheritdoc}
      */
-    public function fetch(ApiInterface $api, $method, array $parameters = [])
+    public function fetch(ApiInterface $api, string $method, array $parameters = [])
     {
-        return call_user_func_array([$api, $method], $parameters);
+        return $api->$method(...$parameters);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function fetchAll(ApiInterface $api, $method, array $parameters = [])
+    public function fetchAll(ApiInterface $api, string $method, array $parameters = [])
     {
-        $result = call_user_func_array([$api, $method], $parameters);
+        $result = $api->$method(...$parameters);
         while ($this->hasNext()) {
             $result = array_merge($result, $this->fetchNext());
         }
