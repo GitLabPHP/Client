@@ -90,8 +90,8 @@ class MergeRequest extends AbstractModel implements Noteable
 
     /**
      * @param Project $project
-     * @param int $iid
-     * @param Client $client
+     * @param int|null $iid
+     * @param Client|null $client
      */
     public function __construct(Project $project, $iid = null, Client $client = null)
     {
@@ -122,7 +122,7 @@ class MergeRequest extends AbstractModel implements Noteable
     }
 
     /**
-     * @param string $comment
+     * @param string|null $comment
      * @return MergeRequest
      */
     public function close($comment = null)
@@ -155,7 +155,7 @@ class MergeRequest extends AbstractModel implements Noteable
     }
 
     /**
-     * @param string $message
+     * @param string|null $message
      * @return MergeRequest
      */
     public function merge($message = null)

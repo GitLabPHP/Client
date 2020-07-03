@@ -51,7 +51,7 @@ class Note extends AbstractModel
 
     /**
      * @param Noteable $type
-     * @param Client $client
+     * @param Client|null $client
      */
     public function __construct(Noteable $type, Client $client = null)
     {

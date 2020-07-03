@@ -65,8 +65,8 @@ class Issue extends AbstractModel implements Noteable
 
     /**
      * @param Project $project
-     * @param int $iid
-     * @param Client $client
+     * @param int|null $iid
+     * @param Client|null $client
      */
     public function __construct(Project $project, $iid = null, Client $client = null)
     {
@@ -108,7 +108,7 @@ class Issue extends AbstractModel implements Noteable
     }
 
     /**
-     * @param string $comment
+     * @param string|null $comment
      * @return Issue
      */
     public function close($comment = null)

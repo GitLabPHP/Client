@@ -3,8 +3,8 @@
 class Issues extends AbstractApi
 {
     /**
-     * @param int $project_id
-     * @param array $parameters (
+     * @param int|null $project_id
+     * @param array $parameters {
      *
      *     @var string $state     Return all issues or just those that are opened or closed.
      *     @var string $labels    Comma-separated list of label names, issues must have all labels to be returned.
@@ -15,7 +15,7 @@ class Issues extends AbstractApi
      *     @var string $order_by  Return requests ordered by created_at or updated_at fields. Default is created_at.
      *     @var string $sort      Return requests sorted in asc or desc order. Default is desc.
      *     @var string $search    Search issues against their title and description.
-     * )
+     * }
      *
      * @return mixed
      */

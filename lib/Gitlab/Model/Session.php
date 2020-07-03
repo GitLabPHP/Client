@@ -39,7 +39,7 @@ class Session extends AbstractModel
     }
 
     /**
-     * @param Client $client
+     * @param Client|null $client
      */
     public function __construct(Client $client = null)
     {

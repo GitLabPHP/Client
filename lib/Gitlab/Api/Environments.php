@@ -17,11 +17,11 @@ class Environments extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param array $parameters (
+     * @param array $parameters {
      *
      *     @var string $name         The name of the environment
      *     @var string $external_url Place to link to for this environment
-     * )
+     * }
      * @return mixed
      */
     public function create($project_id, array $parameters = array())

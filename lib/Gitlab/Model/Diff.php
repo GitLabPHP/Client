@@ -47,7 +47,7 @@ class Diff extends AbstractModel
 
     /**
      * @param Project $project
-     * @param Client $client
+     * @param Client|null $client
      */
     public function __construct(Project $project, Client $client = null)
     {

@@ -10,10 +10,10 @@ class Repositories extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param array $parameters (
+     * @param array $parameters {
      *
      *     @var string $search
-     * )
+     * }
      * @return mixed
      */
     public function branches($project_id, array $parameters = [])
@@ -100,7 +100,7 @@ class Repositories extends AbstractApi
      * @param int $project_id
      * @param string $name
      * @param string $ref
-     * @param string $message
+     * @param string|null $message
      * @return mixed
      */
     public function createTag($project_id, $name, $ref, $message = null)
@@ -154,12 +154,12 @@ class Repositories extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param array $parameters (
+     * @param array $parameters {
      *
      *     @var string             $ref_name The name of a repository branch or tag or if not given the default branch.
      *     @var \DateTimeInterface $since    Only commits after or on this date will be returned.
      *     @var \DateTimeInterface $until    Only commits before or on this date will be returned.
-     * )
+     * }
      *
      * @return mixed
      */
@@ -214,22 +214,22 @@ class Repositories extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param array $parameters (
+     * @param array $parameters {
      *
      *     @var string $branch         Name of the branch to commit into. To create a new branch, also provide start_branch.
      *     @var string $commit_message Commit message.
      *     @var string $start_branch   Name of the branch to start the new commit from.
-     *     @var array $actions (
+     *     @var array $actions {
      *
      *         @var string $action        he action to perform, create, delete, move, update.
      *         @var string $file_path     Full path to the file.
      *         @var string $previous_path Original full path to the file being moved.
      *         @var string $content       File content, required for all except delete. Optional for move.
      *         @var string $encoding      text or base64. text is default.
-     *     )
+     *     }
      *     @var string $author_email   Specify the commit author's email address.
      *     @var string $author_name    Specify the commit author's name.
-     * )
+     * }
      *
      * @return mixed
      */
@@ -397,9 +397,9 @@ class Repositories extends AbstractApi
      * @param string $content
      * @param string $branch
      * @param string $commit_message
-     * @param string $encoding
-     * @param string $author_email
-     * @param string $author_name
+     * @param string|null $encoding
+     * @param string|null $author_email
+     * @param string|null $author_name
      * @return mixed
      */
     public function createFile($project_id, $file_path, $content, $branch, $commit_message, $encoding = null, $author_email = null, $author_name = null)
@@ -423,9 +423,9 @@ class Repositories extends AbstractApi
      * @param string $content
      * @param string $branch
      * @param string $commit_message
-     * @param string $encoding
-     * @param string $author_email
-     * @param string $author_name
+     * @param string|null $encoding
+     * @param string|null $author_email
+     * @param string|null $author_name
      * @return mixed
      */
     public function updateFile($project_id, $file_path, $content, $branch, $commit_message, $encoding = null, $author_email = null, $author_name = null)
@@ -448,8 +448,8 @@ class Repositories extends AbstractApi
      * @param string $file_path
      * @param string $branch
      * @param string $commit_message
-     * @param string $author_email
-     * @param string $author_name
+     * @param string|null $author_email
+     * @param string|null $author_name
      * @return mixed
      */
     public function deleteFile($project_id, $file_path, $branch, $commit_message, $author_email = null, $author_name = null)

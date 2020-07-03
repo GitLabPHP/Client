@@ -47,8 +47,8 @@ class Tag extends AbstractModel
 
     /**
      * @param Project $project
-     * @param string $name
-     * @param Client $client
+     * @param string|null $name
+     * @param Client|null $client
      */
     public function __construct(Project $project, $name = null, Client $client = null)
     {

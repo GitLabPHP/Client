@@ -4,12 +4,12 @@ class Milestones extends AbstractApi
 {
     /**
      * @param int $project_id
-     * @param array $parameters (
+     * @param array $parameters {
      *
      *     @var int[]  $iids   Return only the milestones having the given iids.
      *     @var string $state  Return only active or closed milestones.
      *     @var string $search Return only milestones with a title or description matching the provided string.
-     * )
+     * }
      *
      * @return mixed
      */

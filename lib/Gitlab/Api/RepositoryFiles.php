@@ -34,7 +34,7 @@ class RepositoryFiles extends AbstractApi
 
     /**
      * @param int   $project_id
-     * @param array $parameters (
+     * @param array $parameters {
      *
      *     @var string $file_path      Url encoded full path to new file. Ex. lib%2Fclass%2Erb.
      *     @var string $branch         Name of the branch.
@@ -44,7 +44,7 @@ class RepositoryFiles extends AbstractApi
      *     @var string $author_name    Specify the commit author's name.
      *     @var string $content        File content.
      *     @var string $commit_message Commit message.
-     * )
+     * }
      *
      * @return mixed
      */
@@ -69,7 +69,7 @@ class RepositoryFiles extends AbstractApi
 
     /**
      * @param int   $project_id
-     * @param array $parameters (
+     * @param array $parameters {
      *
      *     @var string $file_path      Url encoded full path to new file. Ex. lib%2Fclass%2Erb.
      *     @var string $branch         Name of the branch.
@@ -80,7 +80,7 @@ class RepositoryFiles extends AbstractApi
      *     @var string $content        File content.
      *     @var string $commit_message Commit message.
      *     @var string $last_commit_id Last known file commit id.
-     * )
+     * }
      *
      * @return mixed
      */
@@ -106,7 +106,7 @@ class RepositoryFiles extends AbstractApi
 
     /**
      * @param int   $project_id
-     * @param array $parameters (
+     * @param array $parameters {
      *
      *     @var string $file_path      Url encoded full path to new file. Ex. lib%2Fclass%2Erb.
      *     @var string $branch         Name of the branch.
@@ -114,7 +114,7 @@ class RepositoryFiles extends AbstractApi
      *     @var string $author_email   Specify the commit author's email address.
      *     @var string $author_name    Specify the commit author's name.
      *     @var string $commit_message Commit message.
-     * )
+     * }
      *
      * @return mixed
      */

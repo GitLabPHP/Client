@@ -73,7 +73,7 @@ class Client
     /**
      * Instantiate a new Gitlab client
      *
-     * @param Builder $httpClientBuilder
+     * @param Builder|null $httpClientBuilder
      */
     public function __construct(Builder $httpClientBuilder = null)
     {

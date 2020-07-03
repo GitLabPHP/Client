@@ -41,10 +41,10 @@ class Node extends AbstractModel
 
     /**
      * @param Project $project
-     * @param int $id
-     * @param Client $client
+     * @param int|null $id
+     * @param Client|null $client
      */
-    public function __construct(Project $project, $id = null, Client $client)
+    public function __construct(Project $project, $id = null, Client $client = null)
     {
         $this->setClient($client);
         $this->setData('project', $project);

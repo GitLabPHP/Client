@@ -3,7 +3,7 @@
 class GroupsBoards extends AbstractApi
 {
     /**
-     * @param int $group_id
+     * @param int|null $group_id
      * @param array $parameters
      *
      * @return mixed

@@ -52,7 +52,7 @@ class ProjectHook extends AbstractModel
     /**
      * @param Project $project
      * @param int $id
-     * @param Client $client
+     * @param Client|null $client
      */
     public function __construct(Project $project, $id, Client $client = null)
     {

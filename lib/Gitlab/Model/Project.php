@@ -157,8 +157,8 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int $id
-     * @param Client $client
+     * @param int|null $id
+     * @param Client|null $client
      */
     public function __construct($id = null, Client $client = null)
     {
@@ -659,8 +659,8 @@ class Project extends AbstractModel
      * @param string $content
      * @param string $branch_name
      * @param string $commit_message
-     * @param string $author_email
-     * @param string $author_name
+     * @param string|null $author_email
+     * @param string|null $author_name
      * @return File
      */
     public function updateFile(
@@ -887,7 +887,7 @@ class Project extends AbstractModel
 
     /**
      * @param int $iid
-     * @param string $comment
+     * @param string|null $comment
      * @return Issue
      */
     public function closeIssue($iid, $comment = null)

@@ -46,7 +46,7 @@ class Hook extends AbstractModel
 
     /**
      * @param int $id
-     * @param Client $client
+     * @param Client|null $client
      */
     public function __construct($id, Client $client = null)
     {
