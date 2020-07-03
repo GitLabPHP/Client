@@ -484,7 +484,7 @@ class MergeRequests extends AbstractApi
     /**
      * @param int $project_id
      * @param int $mr_iid
-     * @param int $awardable_id
+     * @param int $award_id
      *
      * @return mixed
      */

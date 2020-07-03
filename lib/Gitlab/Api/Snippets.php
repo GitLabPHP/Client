@@ -156,7 +156,7 @@ class Snippets extends AbstractApi
     /**
      * @param int $project_id
      * @param int $snippet_id
-     * @param int $awardable_id
+     * @param int $award_id
      *
      * @return mixed
      */

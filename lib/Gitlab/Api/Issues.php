@@ -438,7 +438,7 @@ class Issues extends AbstractApi
     /**
      * @param int $project_id
      * @param int $issue_iid
-     * @param int $awardable_id
+     * @param int $award_id
      *
      * @return mixed
      */
