@@ -179,7 +179,7 @@ class MergeRequest extends AbstractModel implements Noteable
 
     /**
      * @param string $comment
-     * @param string $created_at
+     * @param string|null $created_at
      * @return Note
      */
     public function addComment($comment, $created_at = null)
