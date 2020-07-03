@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Model;
+<?php
+
+namespace Gitlab\Model;
 
 use Gitlab\Client;
 
@@ -9,7 +11,17 @@ use Gitlab\Client;
  * @property-read string $name
  * @property-read string $path
  * @property-read string $description
+ * @property-read string $visibility
+ * @property-read bool $lfs_enabled
+ * @property-read string $avatar_url
+ * @property-read string $web_url
+ * @property-read bool $request_access_enabled
+ * @property-read string $full_name
+ * @property-read string $full_path
+ * @property-read int $file_template_project_id
+ * @property-read int|null $parent_id
  * @property-read Project[] $projects
+ * @property-read Project[] $shared_projects
  */
 class Group extends AbstractModel
 {
@@ -21,7 +33,17 @@ class Group extends AbstractModel
         'name',
         'path',
         'description',
-        'projects'
+        'visibility',
+        'lfs_enabled',
+        'avatar_url',
+        'web_url',
+        'request_access_enabled',
+        'full_name',
+        'full_path',
+        'file_template_project_id',
+        'parent_id',
+        'projects',
+        'shared_projects',
     );
 
     /**
@@ -39,6 +61,14 @@ class Group extends AbstractModel
                 $projects[] = Project::fromArray($client, $project);
             }
             $data['projects'] = $projects;
+        }
+
+        if (isset($data['shared_projects'])) {
+            $projects = array();
+            foreach ($data['shared_projects'] as $project) {
+                $projects[] = Project::fromArray($client, $project);
+            }
+            $data['shared_projects'] = $projects;
         }
 
         return $group->hydrate($data);
@@ -89,6 +119,30 @@ class Group extends AbstractModel
     }
 
     /**
+     * @param int|null $user_id
+     * @param bool $all
+     * @return array|User
+     */
+    public function allMembers($user_id = null, $all = false)
+    {
+        if ($all) {
+            $data = (new \Gitlab\ResultPager($this->client))->fetchAll($this->client->groups(), "allMembers", [$this->id, $user_id]);
+        } else {
+            $data = $this->client->groups()->allMembers($this->id, $user_id);
+        }
+
+        if ($user_id != null) {
+            return User::fromArray($this->getClient(), $data);
+        } else {
+            $members = array();
+            foreach ($data as $member) {
+                $members[] = User::fromArray($this->getClient(), $member);
+            }
+            return $members;
+        }
+    }
+
+    /**
      * @return User[]
      */
     public function members()
@@ -127,13 +181,18 @@ class Group extends AbstractModel
     }
 
     /**
-     * @return Group
+     * @return Project[]
      */
     public function projects()
     {
         $data = $this->client->groups()->projects($this->id);
 
-        return Group::fromArray($this->getClient(), $data);
+        $projects = array();
+        foreach ($data as $project) {
+            $projects[] = Project::fromArray($this->getClient(), $project);
+        }
+
+        return $projects;
     }
 
     /**

@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Api;
+<?php
+
+namespace Gitlab\Api;
 
 use Gitlab\Client;
 use Gitlab\HttpClient\Message\QueryStringBuilder;
@@ -123,14 +125,32 @@ abstract class AbstractApi implements ApiInterface
      * @param array $requestHeaders
      * @return mixed
      */
-    protected function put($path, array $parameters = array(), $requestHeaders = array())
+    protected function put($path, array $parameters = array(), $requestHeaders = array(), array $files = array())
     {
         $path = $this->preparePath($path);
 
         $body = null;
-        if (!empty($parameters)) {
+        if (empty($files) && !empty($parameters)) {
             $body = $this->prepareBody($parameters);
             $requestHeaders['Content-Type'] = 'application/x-www-form-urlencoded';
+        } elseif (!empty($files)) {
+            $builder = new MultipartStreamBuilder($this->streamFactory);
+
+            foreach ($parameters as $name => $value) {
+                $builder->addResource($name, $value);
+            }
+
+            foreach ($files as $name => $file) {
+                $builder->addResource($name, fopen($file, 'r'), [
+                    'headers' => [
+                        'Content-Type' => $this->guessContentType($file),
+                    ],
+                    'filename' => basename($file),
+                ]);
+            }
+
+            $body = $builder->build();
+            $requestHeaders['Content-Type'] = 'multipart/form-data; boundary='.$builder->getBoundary();
         }
 
         $response = $this->client->getHttpClient()->put($path, $requestHeaders, $body);
@@ -161,6 +181,16 @@ abstract class AbstractApi implements ApiInterface
     protected function getProjectPath($id, $path)
     {
         return 'projects/'.$this->encodePath($id).'/'.$path;
+    }
+
+    /**
+     * @param int $id
+     * @param string $path
+     * @return string
+     */
+    protected function getGroupPath($id, $path)
+    {
+        return 'groups/'.$this->encodePath($id).'/'.$path;
     }
 
     /**

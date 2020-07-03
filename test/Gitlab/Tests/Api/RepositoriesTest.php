@@ -1,6 +1,9 @@
-<?php namespace Gitlab\Tests\Api;
+<?php
+
+namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\AbstractApi;
+use Gitlab\Api\Repositories;
 
 class RepositoriesTest extends TestCase
 {
@@ -17,11 +20,11 @@ class RepositoriesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/repository/branches')
+            ->with('projects/1/repository/branches', ['search' => '^term'])
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->branches(1));
+        $this->assertEquals($expectedArray, $api->branches(1, ['search' => '^term']));
     }
 
     /**
@@ -220,6 +223,31 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetReleases()
+    {
+        $project_id  = 1;
+
+        $expectedArray = array(
+            array(
+                'tag_name' => 'v0.2',
+                'description' => '## CHANGELOG\r\n\r\n- Escape label and milestone titles to prevent XSS in GFM autocomplete. !2740\r\n- Prevent private snippets from being embeddable.\r\n- Add subresources removal to member destroy service.',
+                'name' => 'Awesome app v0.2 beta'
+            )
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/releases')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->releases($project_id));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetCommits()
     {
         $expectedArray = array(
@@ -250,11 +278,11 @@ class RepositoriesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/repository/commits', array('page' => 2, 'per_page' => 25, 'ref_name' => 'master', 'all' => true, 'with_stats' => true))
+            ->with('projects/1/repository/commits', array('page' => 2, 'per_page' => 25, 'ref_name' => 'master', 'all' => true, 'with_stats' => true, 'path' => 'file_path/file_name'))
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->commits(1, ['page' => 2, 'per_page' => 25, 'ref_name' => 'master', 'all' => true, 'with_stats' => true]));
+        $this->assertEquals($expectedArray, $api->commits(1, ['page' => 2, 'per_page' => 25, 'ref_name' => 'master', 'all' => true, 'with_stats' => true, 'path' => 'file_path/file_name']));
     }
 
     /**
@@ -320,6 +348,39 @@ class RepositoriesTest extends TestCase
         ;
 
         $this->assertEquals($expectedArray, $api->commitRefs(1, 'abcd1234'));
+    }
+
+    /**
+     * @dataProvider dataGetCommitRefsWithParams
+     * @test
+     *
+     * @param string $type
+     * @param array $expectedArray
+     */
+    public function shouldGetCommitRefsWithParams($type, array $expectedArray)
+    {
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/repository/commits/abcd1234/refs', ['type' => $type])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->commitRefs(1, 'abcd1234', ['type' => $type]));
+    }
+
+    public function dataGetCommitRefsWithParams()
+    {
+        return [
+            'type_tag' => [
+                'type' => Repositories::TYPE_TAG,
+                'expectedArray' => [['type' => 'tag', 'name' => 'v1.1.0']]
+            ],
+            'type_branch' => [
+                'type' => Repositories::TYPE_BRANCH,
+                'expectedArray' => [['type' => 'branch', 'name' => 'master']]
+            ],
+        ];
     }
 
     /**
@@ -421,14 +482,31 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldCompare()
+    public function shouldCompareStraight()
     {
         $expectedArray = array('commit' => 'object');
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/repository/compare?from=master&to=feature')
+            ->with('projects/1/repository/compare?from=master&to=feature&straight=true')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->compare(1, 'master', 'feature', true));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldNotCompareStraight()
+    {
+        $expectedArray = array('commit' => 'object');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/repository/compare?from=master&to=feature&straight=false')
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -526,7 +604,7 @@ class RepositoriesTest extends TestCase
             'title' => 'A commit',
             'created_at' => '2018-01-01T00:00:00.000Z',
             'parent_ids' => array(
-               'efgh5678efgh5678efgh5678efgh5678efgh5678',
+                'efgh5678efgh5678efgh5678efgh5678efgh5678',
             ),
             'message' => 'A commit',
             'author_name' => 'Jane Doe',

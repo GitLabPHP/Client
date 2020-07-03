@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Tests\Api;
+<?php
+
+namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\AbstractApi;
 
@@ -189,6 +191,42 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetAllMembers()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'Matt'),
+            array('id' => 2, 'name' => 'Bob')
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/members/all/')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->allMembers(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAllMembersUserID()
+    {
+        $expectedArray = array('id' => 2, 'name' => 'Bob');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/members/all/2')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->allMembers(1, 2));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetMembers()
     {
         $expectedArray = array(
@@ -294,8 +332,315 @@ class GroupsTest extends TestCase
         $this->assertEquals($expectedArray, $api->subgroups(1, ['page' => 1, 'per_page' => 10]));
     }
 
+    /**
+     * @test
+     */
+    public function shouldGetLabels()
+    {
+        $expectedArray = array(
+            array('id' => 987, 'name' => 'bug', 'color' => '#000000'),
+            array('id' => 123, 'name' => 'feature', 'color' => '#ff0000')
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/labels')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->labels(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAddLabel()
+    {
+        $expectedArray = array('name' => 'bug', 'color' => '#000000');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('groups/1/labels', array('name' => 'wont-fix', 'color' => '#ffffff'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->addLabel(1, array('name' => 'wont-fix', 'color' => '#ffffff')));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUpdateLabel()
+    {
+        $expectedArray = array('name' => 'bug', 'color' => '#00ffff');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('groups/1/labels', array('name' => 'bug', 'new_name' => 'big-bug', 'color' => '#00ffff'))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->updateLabel(1, array('name' => 'bug', 'new_name' => 'big-bug', 'color' => '#00ffff')));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRemoveLabel()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('groups/1/labels', array('name' => 'bug'))
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->removeLabel(1, 'bug'));
+    }
+
+    public function shouldGetVariables()
+    {
+        $expectedArray = array(
+            array('key' => 'ftp_username', 'value' => 'ftp'),
+            array('key' => 'ftp_password', 'value' => 'somepassword')
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/variables')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->variables(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetVariable()
+    {
+        $expectedArray = array('key' => 'ftp_username', 'value' => 'ftp');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/variables/ftp_username')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->variable(1, 'ftp_username'));
+    }
+
+    public function shouldAddVariable()
+    {
+        $expectedKey   = 'ftp_port';
+        $expectedValue = '21';
+
+        $expectedArray = array(
+            'key'   => $expectedKey,
+            'value' => $expectedValue,
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('groups/1/variables', $expectedArray)
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->addVariable(1, $expectedKey, $expectedValue));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAddVariableWithProtected()
+    {
+        $expectedArray = array(
+            'key'   => 'DEPLOY_SERVER',
+            'value' => 'stage.example.com',
+            'protected' => true,
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('groups/1/variables', $expectedArray)
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->addVariable(1, 'DEPLOY_SERVER', 'stage.example.com', true));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUpdateVariable()
+    {
+        $expectedKey   = 'ftp_port';
+        $expectedValue = '22';
+
+        $expectedArray = array(
+            'key'   => 'ftp_port',
+            'value' => '22',
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('groups/1/variables/'.$expectedKey, array('value' => $expectedValue))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->updateVariable(1, $expectedKey, $expectedValue));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUpdateVariableWithProtected()
+    {
+        $expectedArray = array(
+            'key'   => 'DEPLOY_SERVER',
+            'value' => 'stage.example.com',
+            'protected' => true,
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('groups/1/variables/DEPLOY_SERVER', array('value' => 'stage.example.com', 'protected' => true))
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->updateVariable(1, 'DEPLOY_SERVER', 'stage.example.com', true));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRemoveVariable()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('groups/1/variables/ftp_password')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->removeVariable(1, 'ftp_password'));
+    }
+
     protected function getApiClass()
     {
         return 'Gitlab\Api\Groups';
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAllGroupProjectsWithIssuesEnabled()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'A group', 'issues_enabled' => true),
+            array('id' => 2, 'name' => 'Another group', 'issues_enabled' => true),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/projects', ['with_issues_enabled' => 'true'])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->projects(1, ['with_issues_enabled' => true]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAllGroupProjectsWithMergeRequestsEnabled()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'A group', 'merge_requests_enabled' => true),
+            array('id' => 2, 'name' => 'Another group', 'merge_requests_enabled' => true),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/projects', ['with_merge_requests_enabled' => 'true'])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->projects(1, ['with_merge_requests_enabled' => true]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAllGroupProjectsSharedToGroup()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'A project', 'shared_with_groups' => [1]),
+            array('id' => 2, 'name' => 'Another project', 'shared_with_groups' => [1]),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/projects', ['with_shared' => 'true'])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->projects(1, ['with_shared' => true]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAllGroupProjectsIncludingSubsgroups()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'A project'),
+            array('id' => 2, 'name' => 'Another project', 'shared_with_groups' => [1]),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/projects', ['include_subgroups' => 'true'])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->projects(1, ['include_subgroups' => true]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAllGroupProjectsIncludingCustomAttributes()
+    {
+        $expectedArray = array(
+            array('id' => 1, 'name' => 'A project', 'custom_Attr' => true),
+            array('id' => 2, 'name' => 'Another project', 'custom_Attr' => true),
+        );
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/projects', ['with_custom_attributes' => 'true'])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->projects(1, ['with_custom_attributes' => true]));
     }
 }

@@ -15,7 +15,7 @@ Installation
 Via [composer](https://getcomposer.org)
 
 ```bash
-composer require m4tthumphrey/php-gitlab-api php-http/guzzle6-adapter
+composer require m4tthumphrey/php-gitlab-api php-http/guzzle6-adapter:^1.0
 ```
 
 Why `php-http/guzzle6-adapter`? We are decoupled from any HTTP messaging client with help by [HTTPlug](http://httplug.io).
@@ -41,6 +41,11 @@ $client = \Gitlab\Client::create('http://git.yourdomain.com')
     ->authenticate('your_gitlab_token_here', \Gitlab\Client::AUTH_URL_TOKEN)
 ;
 
+// or for OAuth2 (see https://github.com/m4tthumphrey/php-gitlab-api/blob/master/lib/Gitlab/HttpClient/Plugin/Authentication.php#L47)
+$client = \Gitlab\Client::create('http://gitlab.yourdomain.com')
+    ->authenticate('your_gitlab_token_here', \Gitlab\Client::AUTH_OAUTH_TOKEN)
+;
+
 $project = $client->api('projects')->create('My Project', array(
   'description' => 'This is a project',
   'issues_enabled' => false
@@ -58,7 +63,7 @@ $client = \Gitlab\Client::create('http://git.yourdomain.com')
     ->authenticate('your_gitlab_token_here', \Gitlab\Client::AUTH_URL_TOKEN)
 ;
 $pager = new \Gitlab\ResultPager($client);
-$issues = $pager->fetchall($client->api('issues'),'all',[null, ['state' => 'closed']]);
+$issues = $pager->fetchAll($client->api('issues'),'all',[null, ['state' => 'closed']]);
 
 ```
 

@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Model;
+<?php
+
+namespace Gitlab\Model;
 
 use Gitlab\Api\Projects;
 use Gitlab\Api\Repositories;
@@ -8,30 +10,45 @@ use Gitlab\Client;
  * Class Project
  *
  * @property-read int $id
- * @property-read string $code
- * @property-read string $name
- * @property-read string $name_with_namespace
  * @property-read string $description
- * @property-read string $path
- * @property-read string $path_with_namespace
+ * @property-read string $default_branch
+ * @property-read string $visibility
  * @property-read string $ssh_url_to_repo
  * @property-read string $http_url_to_repo
  * @property-read string $web_url
- * @property-read string $default_branch
- * @property-read bool $private
- * @property-read bool $public
+ * @property-read string $readme_url
+ * @property-read string[] $tag_list
+ * @property-read User $owner
+ * @property-read string $name
+ * @property-read string $name_with_namespace
+ * @property-read string $path
+ * @property-read string $path_with_namespace
  * @property-read bool $issues_enabled
+ * @property-read int $open_issues_count
  * @property-read bool $merge_requests_enabled
- * @property-read bool $wall_enabled
+ * @property-read bool $jobs_enabled
  * @property-read bool $wiki_enabled
  * @property-read bool $snippets_enabled
+ * @property-read bool $resolve_outdated_diff_discussions
+ * @property-read bool $container_registry_enabled
  * @property-read string $created_at
- * @property-read int $greatest_access_level
  * @property-read string $last_activity_at
- * @property-read string $tag_list
- * @property-read string $avatar_url
- * @property-read User $owner
+ * @property-read int $creator_id
  * @property-read ProjectNamespace $namespace
+ * @property-read string $import_status
+ * @property-read bool $archived
+ * @property-read string $avatar_url
+ * @property-read bool $shared_runners_enabled
+ * @property-read int $forks_count
+ * @property-read int $star_count
+ * @property-read string $runners_token
+ * @property-read bool $public_jobs
+ * @property-read Group[] $shared_with_groups
+ * @property-read bool $only_allow_merge_if_pipeline_succeeds
+ * @property-read bool $only_allow_merge_if_all_discussions_are_resolved
+ * @property-read bool $request_access_enabled
+ * @property-read string $merge_method
+ * @property-read bool $approvals_before_merge
  */
 class Project extends AbstractModel
 {
@@ -40,30 +57,45 @@ class Project extends AbstractModel
      */
     protected static $properties = array(
         'id',
-        'code',
-        'name',
-        'name_with_namespace',
-        'namespace',
         'description',
-        'path',
-        'path_with_namespace',
+        'default_branch',
+        'visibility',
         'ssh_url_to_repo',
         'http_url_to_repo',
         'web_url',
-        'default_branch',
-        'owner',
-        'private',
-        'public',
-        'issues_enabled',
-        'merge_requests_enabled',
-        'wall_enabled',
-        'wiki_enabled',
-        'created_at',
-        'greatest_access_level',
-        'last_activity_at',
-        'snippets_enabled',
+        'readme_url',
         'tag_list',
-        'avatar_url'
+        'owner',
+        'name',
+        'name_with_namespace',
+        'path',
+        'path_with_namespace',
+        'issues_enabled',
+        'open_issues_count',
+        'merge_requests_enabled',
+        'jobs_enabled',
+        'wiki_enabled',
+        'snippets_enabled',
+        'resolve_outdated_diff_discussions',
+        'container_registry_enabled',
+        'created_at',
+        'last_activity_at',
+        'creator_id',
+        'namespace',
+        'import_status',
+        'archived',
+        'avatar_url',
+        'shared_runners_enabled',
+        'forks_count',
+        'star_count',
+        'runners_token',
+        'public_jobs',
+        'shared_with_groups',
+        'only_allow_merge_if_pipeline_succeeds',
+        'only_allow_merge_if_all_discussions_are_resolved',
+        'request_access_enabled',
+        'merge_method',
+        'approvals_before_merge',
     );
 
     /**
@@ -82,6 +114,18 @@ class Project extends AbstractModel
 
         if (isset($data['namespace']) && is_array($data['namespace'])) {
             $data['namespace'] = ProjectNamespace::fromArray($client, $data['namespace']);
+        }
+
+        if (isset($data['shared_with_groups'])) {
+            $groups = [];
+            foreach ($data['shared_with_groups'] as $group) {
+                foreach ($group as $keys => $value) {
+                    $group[str_replace('group_', '', $keys)] = $value;
+                    unset($group[$keys]);
+                }
+                $groups[] = Group::fromArray($client, $group);
+            }
+            $data['shared_with_groups'] = $groups;
         }
 
         return $project->hydrate($data);
@@ -113,6 +157,7 @@ class Project extends AbstractModel
 
         return static::fromArray($client, $data);
     }
+
     /**
      * @param int $id
      * @param Client $client
@@ -172,6 +217,30 @@ class Project extends AbstractModel
         $this->client->projects()->remove($this->id);
 
         return true;
+    }
+
+    /**
+     * @param int|null $user_id
+     * @param bool $all
+     * @return array|User
+     */
+    public function allMembers($user_id = null, $all = false)
+    {
+        if ($all) {
+            $data = (new \Gitlab\ResultPager($this->client))->fetchAll($this->client->projects(), "allMembers", [$this->id, $user_id]);
+        } else {
+            $data = $this->client->projects()->allMembers($this->id, $user_id);
+        }
+
+        if ($user_id != null) {
+            return User::fromArray($this->getClient(), $data);
+        } else {
+            $members = array();
+            foreach ($data as $member) {
+                $members[] = User::fromArray($this->getClient(), $member);
+            }
+            return $members;
+        }
     }
 
     /**
@@ -239,9 +308,9 @@ class Project extends AbstractModel
     /**
      * @param array $parameters
      *
+     * @return ProjectHook[]
      * @see Projects::hooks() for available parameters.
      *
-     * @return ProjectHook[]
      */
     public function hooks(array $parameters = [])
     {
@@ -456,9 +525,9 @@ class Project extends AbstractModel
     /**
      * @param array $parameters
      *
+     * @return Commit[]
      * @see Repositories::commits() for available parameters.
      *
-     * @return Commit[]
      */
     public function commits(array $parameters = [])
     {
@@ -487,9 +556,9 @@ class Project extends AbstractModel
      * @param string $ref
      * @param array $parameters
      *
+     * @return Commit[]
      * @see Repositories::commitComments() for available parameters.
      *
-     * @return Commit[]
      */
     public function commitComments($ref, array $parameters = [])
     {
@@ -583,8 +652,14 @@ class Project extends AbstractModel
      * @param string $author_name
      * @return File
      */
-    public function createFile($file_path, $content, $branch_name, $commit_message, $author_email = null, $author_name = null)
-    {
+    public function createFile(
+        $file_path,
+        $content,
+        $branch_name,
+        $commit_message,
+        $author_email = null,
+        $author_name = null
+    ) {
         $parameters = [
             'file_path' => $file_path,
             'branch' => $branch_name,
@@ -614,8 +689,14 @@ class Project extends AbstractModel
      * @param string $author_name
      * @return File
      */
-    public function updateFile($file_path, $content, $branch_name, $commit_message, $author_email = null, $author_name = null)
-    {
+    public function updateFile(
+        $file_path,
+        $content,
+        $branch_name,
+        $commit_message,
+        $author_email = null,
+        $author_name = null
+    ) {
         $parameters = [
             'file_path' => $file_path,
             'branch' => $branch_name,
@@ -668,9 +749,9 @@ class Project extends AbstractModel
     /**
      * @param array $parameters
      *
+     * @return Event[]
      * @see Projects::events() for available parameters.
      *
-     * @return Event[]
      */
     public function events(array $parameters = [])
     {
@@ -687,9 +768,9 @@ class Project extends AbstractModel
     /**
      * @param array $parameters
      *
+     * @return MergeRequest[]
      * @see MergeRequests::all() for available parameters.
      *
-     * @return MergeRequest[]
      */
     public function mergeRequests(array $parameters = [])
     {
@@ -724,7 +805,15 @@ class Project extends AbstractModel
      */
     public function createMergeRequest($source, $target, $title, $assignee = null, $description = null)
     {
-        $data = $this->client->mergeRequests()->create($this->id, $source, $target, $title, $assignee, $this->id, $description);
+        $data = $this->client->mergeRequests()->create(
+            $this->id,
+            $source,
+            $target,
+            $title,
+            $assignee,
+            $this->id,
+            $description
+        );
 
         return MergeRequest::fromArray($this->getClient(), $this, $data);
     }
@@ -777,9 +866,9 @@ class Project extends AbstractModel
     /**
      * @param array $parameters
      *
+     * @return Issue[]
      * @see Issues::all() for available parameters.
      *
-     * @return Issue[]
      */
     public function issues(array $parameters = [])
     {
@@ -855,9 +944,9 @@ class Project extends AbstractModel
     /**
      * @param array $parameters
      *
+     * @return Milestone[]
      * @see Milestones::all() for available parameters.
      *
-     * @return Milestone[]
      */
     public function milestones(array $parameters = [])
     {
@@ -1183,5 +1272,67 @@ class Project extends AbstractModel
         $data = $this->client->jobs()->show($this->id, $job_id);
 
         return Job::fromArray($this->getClient(), $this, $data);
+    }
+
+    /**
+     * @return Badge[]
+     */
+    public function badges()
+    {
+        $data = $this->client->projects()->badges($this->id);
+
+        $badges = array();
+        foreach ($data as $badge) {
+            $badges[] = Badge::fromArray($this->getClient(), $this, $badge);
+        }
+
+        return $badges;
+    }
+
+    /**
+     * @param string $link_url
+     * @param string $color
+     * @return Badge
+     */
+    public function addBadge(array $params)
+    {
+        $data = $this->client->projects()->addBadge($this->id, $params);
+
+        return Badge::fromArray($this->getClient(), $this, $data);
+    }
+
+    /**
+     * @param string $name
+     * @param array $params
+     * @return Badge
+     */
+    public function updateBadge($badge_id, array $params)
+    {
+        $params['badge_id'] = $badge_id;
+
+        $data = $this->client->projects()->updateBadge($this->id, $badge_id, $params);
+
+        return Badge::fromArray($this->getClient(), $this, $data);
+    }
+
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public function removeBadge($badge_id)
+    {
+        $this->client->projects()->removeBadge($this->id, $badge_id);
+
+        return true;
+    }
+
+    /**
+     * @param array $params
+     * @return Branch
+     */
+    public function addProtectedBranch(array $params = [])
+    {
+        $data = $this->client->projects()->addProtectedBranch($this->id, $params);
+        return Branch::fromArray($this->getClient(), $this, $data);
     }
 }

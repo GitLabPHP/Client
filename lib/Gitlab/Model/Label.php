@@ -1,10 +1,13 @@
-<?php namespace Gitlab\Model;
+<?php
+
+namespace Gitlab\Model;
 
 use Gitlab\Client;
 
 /**
  * Class Label
  *
+ * @property-read int $id
  * @property-read string $name
  * @property-read string $color
  */
@@ -14,6 +17,7 @@ class Label extends AbstractModel
      * @var array
      */
     protected static $properties = array(
+        'id',
         'name',
         'color'
     );

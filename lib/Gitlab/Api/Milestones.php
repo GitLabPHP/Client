@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Api;
+<?php
+
+namespace Gitlab\Api;
 
 class Milestones extends AbstractApi
 {
@@ -70,7 +72,6 @@ class Milestones extends AbstractApi
     {
         return $this->delete($this->getProjectPath($project_id, 'milestones/'.$this->encodePath($milestone_id)));
     }
-
 
     /**
      * @param int $project_id

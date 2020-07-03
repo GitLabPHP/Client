@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Api;
+<?php
+
+namespace Gitlab\Api;
 
 use Symfony\Component\OptionsResolver\Options;
 
@@ -51,7 +53,6 @@ class Users extends AbstractApi
             ->setAllowedValues('blocked', true)
         ;
 
-
         return $this->get('users', $resolver->resolve($parameters));
     }
 
@@ -66,11 +67,78 @@ class Users extends AbstractApi
 
     /**
      * @param int $id
+     * @param array $parameters {
+     *
+     *     @var bool   $archived                    Limit by archived status.
+     *     @var string $visibility                  Limit by visibility public, internal, or private.
+     *     @var string $order_by                    Return projects ordered by id, name, path, created_at, updated_at,
+     *                                              or last_activity_at fields. Default is created_at.
+     *     @var string $sort                        Return projects sorted in asc or desc order. Default is desc.
+     *     @var string $search                      Return list of projects matching the search criteria.
+     *     @var bool   $simple                      Return only the ID, URL, name, and path of each project.
+     *     @var bool   $owned                       Limit by projects owned by the current user.
+     *     @var bool   $membership                  Limit by projects that the current user is a member of.
+     *     @var bool   $starred                     Limit by projects starred by the current user.
+     *     @var bool   $statistics                  Include project statistics.
+     *     @var bool   $with_issues_enabled         Limit by enabled issues feature.
+     *     @var bool   $with_merge_requests_enabled Limit by enabled merge requests feature.
+     *     @var int    $min_access_level            Limit by current user minimal access level
+     * }
      * @return mixed
      */
-    public function usersProjects($id)
+    public function usersProjects($id, array $parameters = [])
     {
-        return $this->get('users/'.$this->encodePath($id).'/projects');
+        $resolver = $this->createOptionsResolver();
+        $booleanNormalizer = function (Options $resolver, $value) {
+            return $value ? 'true' : 'false';
+        };
+        $resolver->setDefined('archived')
+            ->setAllowedTypes('archived', 'bool')
+            ->setNormalizer('archived', $booleanNormalizer)
+        ;
+        $resolver->setDefined('visibility')
+            ->setAllowedValues('visibility', ['public', 'internal', 'private'])
+        ;
+        $resolver->setDefined('order_by')
+            ->setAllowedValues('order_by', ['id', 'name', 'path', 'created_at', 'updated_at', 'last_activity_at'])
+        ;
+        $resolver->setDefined('sort')
+            ->setAllowedValues('sort', ['asc', 'desc'])
+        ;
+        $resolver->setDefined('search');
+        $resolver->setDefined('simple')
+            ->setAllowedTypes('simple', 'bool')
+            ->setNormalizer('simple', $booleanNormalizer)
+        ;
+        $resolver->setDefined('owned')
+            ->setAllowedTypes('owned', 'bool')
+            ->setNormalizer('owned', $booleanNormalizer)
+        ;
+        $resolver->setDefined('membership')
+            ->setAllowedTypes('membership', 'bool')
+            ->setNormalizer('membership', $booleanNormalizer)
+        ;
+        $resolver->setDefined('starred')
+            ->setAllowedTypes('starred', 'bool')
+            ->setNormalizer('starred', $booleanNormalizer)
+        ;
+        $resolver->setDefined('statistics')
+            ->setAllowedTypes('statistics', 'bool')
+            ->setNormalizer('statistics', $booleanNormalizer)
+        ;
+        $resolver->setDefined('with_issues_enabled')
+            ->setAllowedTypes('with_issues_enabled', 'bool')
+            ->setNormalizer('with_issues_enabled', $booleanNormalizer)
+        ;
+        $resolver->setDefined('with_merge_requests_enabled')
+            ->setAllowedTypes('with_merge_requests_enabled', 'bool')
+            ->setNormalizer('with_merge_requests_enabled', $booleanNormalizer)
+        ;
+        $resolver->setDefined('min_access_level')
+            ->setAllowedValues('min_access_level', [null, 10, 20, 30, 40, 50])
+        ;
+
+        return $this->get('users/'.$this->encodePath($id).'/projects', $resolver->resolve($parameters));
     }
 
     /**
@@ -98,11 +166,12 @@ class Users extends AbstractApi
     /**
      * @param int $id
      * @param array $params
+     * @param array $files
      * @return mixed
      */
-    public function update($id, array $params)
+    public function update($id, array $params, array $files = array())
     {
-        return $this->put('users/'.$this->encodePath($id), $params);
+        return $this->put('users/'.$this->encodePath($id), $params, array(), $files);
     }
 
     /**
