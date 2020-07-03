@@ -2,8 +2,6 @@
 
 namespace Gitlab\Tests\Api;
 
-use Gitlab\Api\AbstractApi;
-
 class ProjectNamespacesTest extends TestCase
 {
     /**

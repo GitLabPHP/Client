@@ -310,7 +310,6 @@ class Project extends AbstractModel
      *
      * @return ProjectHook[]
      * @see Projects::hooks() for available parameters.
-     *
      */
     public function hooks(array $parameters = [])
     {
@@ -527,7 +526,6 @@ class Project extends AbstractModel
      *
      * @return Commit[]
      * @see Repositories::commits() for available parameters.
-     *
      */
     public function commits(array $parameters = [])
     {
@@ -558,7 +556,6 @@ class Project extends AbstractModel
      *
      * @return CommitNote[]
      * @see Repositories::commitComments() for available parameters.
-     *
      */
     public function commitComments($ref, array $parameters = [])
     {
@@ -751,7 +748,6 @@ class Project extends AbstractModel
      *
      * @return Event[]
      * @see Projects::events() for available parameters.
-     *
      */
     public function events(array $parameters = [])
     {
@@ -770,7 +766,6 @@ class Project extends AbstractModel
      *
      * @return MergeRequest[]
      * @see MergeRequests::all() for available parameters.
-     *
      */
     public function mergeRequests(array $parameters = [])
     {
@@ -868,7 +863,6 @@ class Project extends AbstractModel
      *
      * @return Issue[]
      * @see Issues::all() for available parameters.
-     *
      */
     public function issues(array $parameters = [])
     {
@@ -946,7 +940,6 @@ class Project extends AbstractModel
      *
      * @return Milestone[]
      * @see Milestones::all() for available parameters.
-     *
      */
     public function milestones(array $parameters = [])
     {
