@@ -129,6 +129,7 @@ class Snippets extends AbstractApi
             'body' => $body,
         ]);
     }
+
     /**
      * @param int $project_id
      * @param int $snippet_id
