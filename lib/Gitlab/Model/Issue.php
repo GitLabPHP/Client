@@ -108,7 +108,7 @@ class Issue extends AbstractModel implements Noteable
     }
 
     /**
-     * @param string $comment
+     * @param string|null $comment
      * @return Issue
      */
     public function close($comment = null)
