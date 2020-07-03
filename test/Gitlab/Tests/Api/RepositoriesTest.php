@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Tests\Api;
+<?php
+
+namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\AbstractApi;
 use Gitlab\Api\Repositories;
@@ -602,7 +604,7 @@ class RepositoriesTest extends TestCase
             'title' => 'A commit',
             'created_at' => '2018-01-01T00:00:00.000Z',
             'parent_ids' => array(
-               'efgh5678efgh5678efgh5678efgh5678efgh5678',
+                'efgh5678efgh5678efgh5678efgh5678efgh5678',
             ),
             'message' => 'A commit',
             'author_name' => 'Jane Doe',

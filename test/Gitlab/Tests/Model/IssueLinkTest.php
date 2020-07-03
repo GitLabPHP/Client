@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Tests\Model;
+<?php
+
+namespace Gitlab\Tests\Model;
 
 use Gitlab\Client;
 use Gitlab\Model\Issue;

@@ -2,11 +2,11 @@
 
 namespace Gitlab\Tests\Model;
 
+use Gitlab\Api\Projects;
 use Gitlab\Api\Tags;
 use Gitlab\Client;
-use Gitlab\Api\Projects;
-use Gitlab\Model\Release;
 use Gitlab\Model\Project;
+use Gitlab\Model\Release;
 use PHPUnit\Framework\TestCase;
 
 class ReleaseTest extends TestCase

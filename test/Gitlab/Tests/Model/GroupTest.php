@@ -2,11 +2,11 @@
 
 namespace Gitlab\Tests\Model;
 
+use Gitlab\Api\Groups;
 use Gitlab\Client;
 use Gitlab\Model\Group;
 use Gitlab\Model\Project;
 use PHPUnit\Framework\TestCase;
-use Gitlab\Api\Groups;
 
 class GroupTest extends TestCase
 {

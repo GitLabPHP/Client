@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Model;
+<?php
+
+namespace Gitlab\Model;
 
 use Gitlab\Client;
 
@@ -24,7 +26,6 @@ class Node extends AbstractModel
         'path',
         'project'
     );
-
 
     /**
      * @param Client  $client

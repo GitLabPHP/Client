@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Tests\Api;
+<?php
+
+namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\Jobs;
 use GuzzleHttp\Psr7\Response;
@@ -101,7 +103,7 @@ class JobsTest extends TestCase
 
         $this->assertEquals('foobar', $api->artifactsByRefName(1, 'master', 'job_name')->getContents());
     }
-    
+
     /**
      * @test
      */

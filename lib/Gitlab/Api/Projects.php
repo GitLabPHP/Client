@@ -1,8 +1,10 @@
-<?php namespace Gitlab\Api;
+<?php
 
-use Symfony\Component\OptionsResolver\Options;
+namespace Gitlab\Api;
+
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Projects extends AbstractApi
@@ -287,7 +289,7 @@ class Projects extends AbstractApi
     {
         return $this->post($this->getProjectPath($project_id, 'pipelines/'.$this->encodePath($pipeline_id)).'/cancel');
     }
-    
+
     /**
      * @param $project_id
      * @param $pipeline_id
@@ -299,8 +301,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param integer $project_id
-     * @param integer|null $user_id
+     * @param int $project_id
+     * @param int|null $user_id
      * @param array $parameters
      * @return mixed
      */
@@ -848,7 +850,7 @@ class Projects extends AbstractApi
     {
         return $this->get($this->getProjectPath($project_id, 'deployments/'.$this->encodePath($deployment_id)));
     }
-    
+
     /**
      * @param mixed $project_id
      * @param array $parameters
@@ -876,7 +878,7 @@ class Projects extends AbstractApi
 
         return $this->post($this->getProjectPath($project_id, 'share'), $resolver->resolve($parameters));
     }
-    
+
     /**
      * @param mixed $project_id
      * @param int $group_id
@@ -931,12 +933,11 @@ class Projects extends AbstractApi
      * @param string $badge_id
      * @param array $params
      * @return mixed
-    */
+     */
     public function updateBadge($project_id, $badge_id, array $params = array())
     {
         return $this->put($this->getProjectPath($project_id, 'badges/' . $this->encodePath($badge_id)), $params);
     }
-
 
     /**
      * @param int $project_id

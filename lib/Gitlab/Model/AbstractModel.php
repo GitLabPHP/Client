@@ -1,8 +1,10 @@
-<?php namespace Gitlab\Model;
+<?php
 
+namespace Gitlab\Model;
+
+use Gitlab\Api\AbstractApi;
 use Gitlab\Client;
 use Gitlab\Exception\RuntimeException;
-use Gitlab\Api\AbstractApi;
 
 abstract class AbstractModel
 {
@@ -107,7 +109,8 @@ abstract class AbstractModel
         if (!in_array($property, static::$properties)) {
             throw new RuntimeException(sprintf(
                 'Property "%s" does not exist for %s object',
-                $property, get_called_class()
+                $property,
+                get_called_class()
             ));
         }
 

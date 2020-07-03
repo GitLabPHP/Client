@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Tests\Api;
+<?php
+
+namespace Gitlab\Tests\Api;
 
 use Gitlab\Client;
 use Http\Client\HttpClient;
@@ -10,7 +12,6 @@ abstract class TestCase extends BaseTestCase
      * @return string
      */
     abstract protected function getApiClass();
-
 
     /**
      * @param array $methods

@@ -2,8 +2,8 @@
 
 namespace Gitlab\Tests\Model;
 
-use Gitlab\Api\Issues;
 use Gitlab\Api\IssueLinks;
+use Gitlab\Api\Issues;
 use Gitlab\Api\Projects;
 use Gitlab\Client;
 use Gitlab\Model\Issue;
@@ -168,10 +168,8 @@ class IssueTest extends TestCase
             ->will($this->onConsecutiveCalls(['id' => 1], ['id' => 2]))
         ;
 
-
         $issue = new Issue(new Project(1, $client), 10, $client);
         $issueLinks = $issue->links();
-
 
         $this->assertInternalType('array', $issueLinks);
         $this->assertCount(2, $issueLinks);
@@ -218,7 +216,6 @@ class IssueTest extends TestCase
 
         $issue = new Issue(new Project(1, $client), 10, $client);
         $issueLinks = $issue->addLink(new Issue(new Project(2, $client), 20, $client));
-
 
         $this->assertInternalType('array', $issueLinks);
         $this->assertCount(2, $issueLinks);
@@ -269,10 +266,8 @@ class IssueTest extends TestCase
             ->willReturn(['id' => 2])
         ;
 
-
         $issue = new Issue(new Project(1, $client), 10, $client);
         $issueLinks = $issue->removeLink(100);
-
 
         $this->assertInternalType('array', $issueLinks);
         $this->assertCount(2, $issueLinks);

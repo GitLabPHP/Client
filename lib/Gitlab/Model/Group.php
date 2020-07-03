@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Model;
+<?php
+
+namespace Gitlab\Model;
 
 use Gitlab\Client;
 
@@ -117,7 +119,7 @@ class Group extends AbstractModel
     }
 
     /**
-     * @param integer|null $user_id
+     * @param int|null $user_id
      * @param bool $all
      * @return array|User
      */

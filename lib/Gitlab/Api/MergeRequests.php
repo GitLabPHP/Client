@@ -1,8 +1,10 @@
-<?php namespace Gitlab\Api;
+<?php
 
-use Symfony\Component\OptionsResolver\Options;
+namespace Gitlab\Api;
+
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
+use Symfony\Component\OptionsResolver\Options;
 
 class MergeRequests extends AbstractApi
 {
