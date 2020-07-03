@@ -187,14 +187,14 @@ class MergeRequests extends AbstractApi
      * @param int $project_id
      * @param int $mr_id
      * @param string $note
-     * @param string $created_at
+     * @param string|null $created_at
      * @return mixed
      */
     public function addNote($project_id, $mr_id, $note, $created_at = null)
     {
         return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_id).'/notes'), array(
             'body' => $note,
-            'craeted_at' => $created_at,
+            'created_at' => $created_at,
         ));
     }
 
