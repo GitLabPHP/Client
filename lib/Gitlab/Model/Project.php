@@ -164,6 +164,8 @@ class Project extends AbstractModel
     /**
      * @param int    $id
      * @param Client $client
+     *
+     * @return void
      */
     public function __construct($id = null, Client $client = null)
     {

@@ -58,6 +58,8 @@ class Milestone extends AbstractModel
      * @param Project $project
      * @param int     $id
      * @param Client  $client
+     *
+     * @return void
      */
     public function __construct(Project $project, $id, Client $client = null)
     {

@@ -24,6 +24,8 @@ class ResultPager implements ResultPagerInterface
      * $pager = new \Gitlab\ResultPager($client);
      *
      * @param \Gitlab\Client $client
+     *
+     * @return void
      */
     public function __construct(Client $client)
     {

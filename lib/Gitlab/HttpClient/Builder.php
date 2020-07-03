@@ -82,6 +82,8 @@ class Builder
      * @param HttpClient|null     $httpClient
      * @param RequestFactory|null $requestFactory
      * @param StreamFactory|null  $streamFactory
+     *
+     * @return void
      */
     public function __construct(
         HttpClient $httpClient = null,

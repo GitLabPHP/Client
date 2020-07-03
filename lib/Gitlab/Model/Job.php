@@ -76,6 +76,8 @@ class Job extends AbstractModel
      * @param Project $project
      * @param int     $id
      * @param Client  $client
+     *
+     * @return void
      */
     public function __construct(Project $project, $id = null, Client $client = null)
     {
