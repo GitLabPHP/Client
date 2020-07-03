@@ -1,9 +1,11 @@
-<?php namespace Gitlab\Tests\Api;
+<?php
+
+namespace Gitlab\Tests\Api;
 
 use Gitlab\Client;
 use Http\Client\HttpClient;
-use ReflectionClass;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 
 class AbstractApiTest extends TestCase
 {
@@ -31,7 +33,7 @@ class AbstractApiTest extends TestCase
             ]
         );
 
-        $this->assertEquals($expectedBody, urldecode((string)$stream));
+        $this->assertEquals($expectedBody, urldecode((string) $stream));
     }
 
     protected function getAbstractApiMock(array $methods = [])

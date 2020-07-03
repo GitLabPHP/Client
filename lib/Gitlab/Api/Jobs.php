@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Api;
+<?php
+
+namespace Gitlab\Api;
 
 use Psr\Http\Message\StreamInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

@@ -1,12 +1,14 @@
-<?php namespace Gitlab;
+<?php
+
+namespace Gitlab;
 
 use Gitlab\Api\AbstractApi;
 use Gitlab\Exception\InvalidArgumentException;
 use Gitlab\HttpClient\Builder;
 use Gitlab\HttpClient\Plugin\ApiVersion;
-use Gitlab\HttpClient\Plugin\History;
 use Gitlab\HttpClient\Plugin\Authentication;
 use Gitlab\HttpClient\Plugin\GitlabExceptionThrower;
+use Gitlab\HttpClient\Plugin\History;
 use Http\Client\Common\HttpMethodsClient;
 use Http\Client\Common\Plugin\AddHostPlugin;
 use Http\Client\Common\Plugin\HeaderDefaultsPlugin;
@@ -167,7 +169,6 @@ class Client
     {
         return new Api\GroupsBoards($this);
     }
-
 
     /**
      * @return Api\IssueLinks
@@ -336,7 +337,7 @@ class Client
 
             case 'groups':
                 return $this->groups();
-                
+
             case 'groupsMilestones':
                 return $this->groupsMilestones();
 
@@ -377,7 +378,7 @@ class Client
 
             case 'repositoryFiles':
                 return $this->repositoryFiles();
-                
+
             case 'snippets':
                 return $this->snippets();
 

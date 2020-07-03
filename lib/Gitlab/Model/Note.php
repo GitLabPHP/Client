@@ -1,11 +1,13 @@
-<?php namespace Gitlab\Model;
+<?php
+
+namespace Gitlab\Model;
 
 use Gitlab\Client;
 
 /**
  * Class Note
  *
- * @property-read integer $id
+ * @property-read int $id
  * @property-read User $author
  * @property-read string $body
  * @property-read string $created_at

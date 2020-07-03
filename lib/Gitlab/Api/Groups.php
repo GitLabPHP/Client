@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Api;
+<?php
+
+namespace Gitlab\Api;
 
 use Symfony\Component\OptionsResolver\Options;
 
@@ -90,8 +92,8 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param integer $id
-     * @param integer|null $user_id
+     * @param int $id
+     * @param int|null $user_id
      * @param array $parameters
      * @return mixed
      */

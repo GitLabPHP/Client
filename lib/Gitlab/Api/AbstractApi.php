@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Api;
+<?php
+
+namespace Gitlab\Api;
 
 use Gitlab\Client;
 use Gitlab\HttpClient\Message\QueryStringBuilder;

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Gitlab\Tests\HttpClient\Message;
 
 use Gitlab\HttpClient\Message\QueryStringBuilder;
