@@ -14,12 +14,14 @@ class MergeRequests extends AbstractApi
     const STATE_CLOSED = 'closed';
 
     /**
-     * @param int   $project_id
+     * @param int|null   $project_id               Return the merge requests for all projects or a specific project
      * @param array $parameters {
      *
      *     @var int[]              $iids           Return the request having the given iid.
      *     @var string             $state          Return all merge requests or just those that are opened, closed, or
      *                                             merged.
+     *     @var string             $scope          Return merge requests for the given scope: created-by-me,
+     *                                             assigned-to-me or all. Defaults to created-by-me.
      *     @var string             $order_by       Return requests ordered by created_at or updated_at fields. Default
      *                                             is created_at.
      *     @var string             $sort           Return requests sorted in asc or desc order. Default is desc.
@@ -36,7 +38,7 @@ class MergeRequests extends AbstractApi
      *
      * @return mixed
      */
-    public function all($project_id, array $parameters = [])
+    public function all($project_id = null, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
         $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value) {
@@ -50,6 +52,9 @@ class MergeRequests extends AbstractApi
         ;
         $resolver->setDefined('state')
             ->setAllowedValues('state', ['all', 'opened', 'merged', 'closed'])
+        ;
+        $resolver->setDefined('scope')
+            ->setAllowedValues('scope', ['created-by-me', 'assigned-to-me', 'all'])
         ;
         $resolver->setDefined('order_by')
             ->setAllowedValues('order_by', ['created_at', 'updated_at'])
@@ -93,7 +98,9 @@ class MergeRequests extends AbstractApi
         $resolver->setDefined('source_branch');
         $resolver->setDefined('target_branch');
 
-        return $this->get($this->getProjectPath($project_id, 'merge_requests'), $resolver->resolve($parameters));
+        $path = $project_id === null ? 'merge_requests' : $this->getProjectPath($project_id, 'merge_requests');
+
+        return $this->get($path, $resolver->resolve($parameters));
     }
 
     /**
