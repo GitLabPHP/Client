@@ -263,7 +263,7 @@ class Projects extends AbstractApi
             'ref' => $commit_ref,
         );
 
-        if ($variables !== null) {
+        if (null !== $variables) {
             $parameters['variables'] = $variables;
         }
 

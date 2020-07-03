@@ -24,12 +24,12 @@ class ApiVersion implements Plugin
     {
         $uri = $request->getUri();
 
-        if (substr($uri->getPath(), 0, 8) !== '/api/v4/' && !$this->redirected) {
+        if ('/api/v4/' !== substr($uri->getPath(), 0, 8) && !$this->redirected) {
             $request = $request->withUri($uri->withPath('/api/v4/'.$uri->getPath()));
         }
 
         return $next($request)->then(function (ResponseInterface $response) {
-            $this->redirected = $response->getStatusCode() === 302;
+            $this->redirected = 302 === $response->getStatusCode();
 
             return $response;
         });

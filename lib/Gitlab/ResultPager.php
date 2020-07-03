@@ -105,12 +105,12 @@ class ResultPager implements ResultPagerInterface
     protected function has($key)
     {
         $lastResponse = $this->client->getResponseHistory()->getLastResponse();
-        if ($lastResponse == null) {
+        if (null == $lastResponse) {
             return false;
         }
 
         $pagination = ResponseMediator::getPagination($lastResponse);
-        if ($pagination == null) {
+        if (null == $pagination) {
             return false;
         }
 

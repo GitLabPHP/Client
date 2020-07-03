@@ -71,7 +71,7 @@ final class QueryStringBuilder
      */
     private static function rawurlencode($value)
     {
-        if ($value === false) {
+        if (false === $value) {
             return '0';
         }
 
