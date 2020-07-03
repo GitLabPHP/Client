@@ -253,7 +253,8 @@ abstract class AbstractApi implements ApiInterface
 
     /**
      * @param string $path
-     * @param array $parameters
+     * @param array  $parameters
+     *
      * @return string
      */
     private function preparePath($path, array $parameters = [])

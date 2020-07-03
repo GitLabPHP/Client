@@ -983,15 +983,15 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $badge_id
+     * @param int   $project_id
+     * @param int   $badge_id
      * @param array $parameters
      *
      * @return mixed
      */
     public function updateBadge($project_id, $badge_id, array $parameters = [])
     {
-        return $this->put($this->getProjectPath($project_id, 'badges/' . $this->encodePath($badge_id)), $parameters);
+        return $this->put($this->getProjectPath($project_id, 'badges/'.$this->encodePath($badge_id)), $parameters);
     }
 
     /**

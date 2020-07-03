@@ -297,6 +297,7 @@ class Users extends AbstractApi
     /**
      * @param int $user_id
      * @param int $key_id
+     *
      * @return mixed
      */
     public function userKey($user_id, $key_id)

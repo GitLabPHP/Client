@@ -30,7 +30,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int    $project_id
      * @param string $branch
      *
      * @return mixed

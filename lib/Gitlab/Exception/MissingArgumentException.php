@@ -12,8 +12,8 @@ use Exception;
 class MissingArgumentException extends ErrorException implements ExceptionInterface
 {
     /**
-     * @param string|array $required
-     * @param int $code
+     * @param string|array   $required
+     * @param int            $code
      * @param Exception|null $previous
      */
     public function __construct($required, $code = 0, $previous = null)

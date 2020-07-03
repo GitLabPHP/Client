@@ -30,8 +30,9 @@ class Issues extends AbstractApi
     }
 
     /**
-     * @param int $group_id
+     * @param int   $group_id
      * @param array $parameters
+     *
      * @return mixed
      */
     public function group($group_id, array $parameters = [])

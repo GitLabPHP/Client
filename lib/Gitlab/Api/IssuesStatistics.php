@@ -9,6 +9,7 @@ class IssuesStatistics extends AbstractApi
 {
     /**
      * @param array $parameters
+     *
      * @return mixed
      */
     public function all($parameters)
@@ -17,8 +18,9 @@ class IssuesStatistics extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int   $project_id
      * @param array $parameters
+     *
      * @return mixed
      */
     public function project($project_id, $parameters)
@@ -27,8 +29,9 @@ class IssuesStatistics extends AbstractApi
     }
 
     /**
-     * @param int $group_id
+     * @param int   $group_id
      * @param array $parameters
+     *
      * @return mixed
      */
     public function group($group_id, $parameters)
