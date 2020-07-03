@@ -2,9 +2,9 @@
 
 class Version extends AbstractApi
 {
-	/**
-	 * @return mixed
-	 */
+    /**
+     * @return mixed
+     */
     public function show()
     {
         return $this->get('version');
