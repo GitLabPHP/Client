@@ -110,7 +110,7 @@ class Issue extends AbstractModel implements Noteable
     }
 
     /**
-     * @param string $comment
+     * @param string|null $comment
      * @return Issue
      */
     public function close($comment = null)
@@ -144,12 +144,14 @@ class Issue extends AbstractModel implements Noteable
 
     /**
      * @param string $comment
+     * @param string|null $created_at
      * @return Note
      */
-    public function addComment($comment)
+    public function addComment($comment, $created_at = null)
     {
         $data = $this->client->issues()->addComment($this->project->id, $this->iid, array(
-            'body' => $comment
+            'body' => $comment,
+            'created_at' => $created_at,
         ));
 
         return Note::fromArray($this->getClient(), $this, $data);

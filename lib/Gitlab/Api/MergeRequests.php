@@ -189,12 +189,14 @@ class MergeRequests extends AbstractApi
      * @param int $project_id
      * @param int $mr_id
      * @param string $note
+     * @param string|null $created_at
      * @return mixed
      */
-    public function addNote($project_id, $mr_id, $note)
+    public function addNote($project_id, $mr_id, $note, $created_at = null)
     {
         return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_id).'/notes'), array(
-            'body' => $note
+            'body' => $note,
+            'created_at' => $created_at,
         ));
     }
 
@@ -225,13 +227,14 @@ class MergeRequests extends AbstractApi
      * @param int $project_id
      * @param int $mr_id
      * @param string $note
+     * @param string|null $created_at
      * @return mixed
      */
-    public function addComment($project_id, $mr_id, $note)
+    public function addComment($project_id, $mr_id, $note, $created_at = null)
     {
         @trigger_error(sprintf('The %s() method is deprecated since version 9.1 and will be removed in 10.0. Use the addNote() method instead.', __METHOD__), E_USER_DEPRECATED);
 
-        return $this->addNote($project_id, $mr_id, $note);
+        return $this->addNote($project_id, $mr_id, $note, $created_at);
     }
 
     /**
