@@ -117,37 +117,37 @@ class Projects extends AbstractApi
 
     /**
      * @param string $name
-     * @param array $params
+     * @param array $parameters
      * @return mixed
      */
-    public function create($name, array $params = array())
+    public function create($name, array $parameters = array())
     {
-        $params['name'] = $name;
+        $parameters['name'] = $name;
 
-        return $this->post('projects', $params);
+        return $this->post('projects', $parameters);
     }
 
     /**
      * @param int $user_id
      * @param string $name
-     * @param array $params
+     * @param array $parameters
      * @return mixed
      */
-    public function createForUser($user_id, $name, array $params = array())
+    public function createForUser($user_id, $name, array $parameters = array())
     {
-        $params['name'] = $name;
+        $parameters['name'] = $name;
 
-        return $this->post('projects/user/'.$this->encodePath($user_id), $params);
+        return $this->post('projects/user/'.$this->encodePath($user_id), $parameters);
     }
 
     /**
      * @param int $project_id
-     * @param array $params
+     * @param array $parameters
      * @return mixed
      */
-    public function update($project_id, array $params)
+    public function update($project_id, array $parameters)
     {
-        return $this->put('projects/'.$this->encodePath($project_id), $params);
+        return $this->put('projects/'.$this->encodePath($project_id), $parameters);
     }
 
     /**
@@ -291,8 +291,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param $project_id
-     * @param $pipeline_id
+     * @param int $project_id
+     * @param int $pipeline_id
      * @return mixed
      */
     public function deletePipeline($project_id, $pipeline_id)
@@ -320,8 +320,6 @@ class Projects extends AbstractApi
      *
      *     @var string $query           The query you want to search members for.
      * )
-     *
-     * @throws MissingOptionsException  If a required option is not provided
      *
      * @return mixed
      */
@@ -469,29 +467,29 @@ class Projects extends AbstractApi
     /**
      * @param int $project_id
      * @param string $url
-     * @param array $params
+     * @param array $parameters
      * @return mixed
      */
-    public function addHook($project_id, $url, array $params = array())
+    public function addHook($project_id, $url, array $parameters = array())
     {
-        if (empty($params)) {
-            $params = array('push_events' => true);
+        if (empty($parameters)) {
+            $parameters = array('push_events' => true);
         }
 
-        $params['url'] = $url;
+        $parameters['url'] = $url;
 
-        return $this->post($this->getProjectPath($project_id, 'hooks'), $params);
+        return $this->post($this->getProjectPath($project_id, 'hooks'), $parameters);
     }
 
     /**
      * @param int $project_id
      * @param int $hook_id
-     * @param array $params
+     * @param array $parameters
      * @return mixed
      */
-    public function updateHook($project_id, $hook_id, array $params)
+    public function updateHook($project_id, $hook_id, array $parameters)
     {
-        return $this->put($this->getProjectPath($project_id, 'hooks/'.$this->encodePath($hook_id)), $params);
+        return $this->put($this->getProjectPath($project_id, 'hooks/'.$this->encodePath($hook_id)), $parameters);
     }
 
     /**
@@ -623,22 +621,22 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param array $params
+     * @param array $parameters
      * @return mixed
      */
-    public function addLabel($project_id, array $params)
+    public function addLabel($project_id, array $parameters)
     {
-        return $this->post($this->getProjectPath($project_id, 'labels'), $params);
+        return $this->post($this->getProjectPath($project_id, 'labels'), $parameters);
     }
 
     /**
      * @param int $project_id
-     * @param array $params
+     * @param array $parameters
      * @return mixed
      */
-    public function updateLabel($project_id, array $params)
+    public function updateLabel($project_id, array $parameters)
     {
-        return $this->put($this->getProjectPath($project_id, 'labels'), $params);
+        return $this->put($this->getProjectPath($project_id, 'labels'), $parameters);
     }
 
     /**
@@ -678,7 +676,7 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param array $params (
+     * @param array $parameters (
      *
      *     @var string $namespace      The ID or path of the namespace that the project will be forked to
      *     @var string $path           The path of the forked project (optional)
@@ -718,12 +716,12 @@ class Projects extends AbstractApi
     /**
      * @param int $project_id
      * @param string $service_name
-     * @param array $params
+     * @param array $parameters
      * @return mixed
      */
-    public function setService($project_id, $service_name, array $params = array())
+    public function setService($project_id, $service_name, array $parameters = array())
     {
-        return $this->put($this->getProjectPath($project_id, 'services/'.$this->encodePath($service_name)), $params);
+        return $this->put($this->getProjectPath($project_id, 'services/'.$this->encodePath($service_name)), $parameters);
     }
 
     /**
@@ -910,12 +908,12 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param array $params
+     * @param array $parameters
      * @return mixed
      */
-    public function addBadge($project_id, array $params = array())
+    public function addBadge($project_id, array $parameters = array())
     {
-        return $this->post($this->getProjectPath($project_id, 'badges'), $params);
+        return $this->post($this->getProjectPath($project_id, 'badges'), $parameters);
     }
 
     /**
@@ -931,22 +929,22 @@ class Projects extends AbstractApi
     /**
      * @param int $project_id
      * @param string $badge_id
-     * @param array $params
+     * @param array $parameters
      * @return mixed
      */
-    public function updateBadge($project_id, $badge_id, array $params = array())
+    public function updateBadge($project_id, $badge_id, array $parameters = array())
     {
-        return $this->put($this->getProjectPath($project_id, 'badges/' . $this->encodePath($badge_id)), $params);
+        return $this->put($this->getProjectPath($project_id, 'badges/' . $this->encodePath($badge_id)), $parameters);
     }
 
     /**
      * @param int $project_id
-     * @param array $params
+     * @param array $parameters
      * @return mixed
      */
-    public function addProtectedBranch($project_id, array $params = [])
+    public function addProtectedBranch($project_id, array $parameters = [])
     {
-        return $this->post($this->getProjectPath($project_id, 'protected_branches'), $params);
+        return $this->post($this->getProjectPath($project_id, 'protected_branches'), $parameters);
     }
 
     public function approvalsConfiguration($project_id)

@@ -9,7 +9,6 @@ php:
   - 7.4
 
 matrix:
-  # test latest PHP stable version with lowest dependencies and phpstan static analysis
   include:
     - php: 7.3
       env: STATIC_ANALYSIS=yes
@@ -17,7 +16,7 @@ matrix:
 before_script:
   - travis_retry composer self-update
   - travis_retry composer update --no-interaction ${COMPOSER_FLAGS}
-  - if [ "$STATIC_ANALYSIS" != "" ]; then curl -L https://github.com/phpstan/phpstan/releases/download/0.8/phpstan.phar -o phpstan.phar; fi;
+  - if [ "$STATIC_ANALYSIS" != "" ]; then curl -L https://github.com/phpstan/phpstan/releases/download/0.10.8/phpstan.phar -o phpstan.phar; fi;
 
 script:
   - vendor/bin/phpunit --verbose --coverage-text

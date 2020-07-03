@@ -160,7 +160,7 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @param array $parameters (
      *
      *     @var bool   $archived                    Limit by archived status.
