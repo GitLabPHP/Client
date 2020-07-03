@@ -47,6 +47,8 @@ class Branch extends AbstractModel
      * @param Project $project
      * @param string  $name
      * @param Client  $client
+     *
+     * @return void
      */
     public function __construct(Project $project, $name = null, Client $client = null)
     {

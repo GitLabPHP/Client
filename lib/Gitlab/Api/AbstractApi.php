@@ -38,6 +38,8 @@ abstract class AbstractApi implements ApiInterface
     /**
      * @param Client                      $client
      * @param StreamFactoryInterface|null $streamFactory
+     *
+     * @return void
      */
     public function __construct(Client $client, StreamFactoryInterface $streamFactory = null)
     {

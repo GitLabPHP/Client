@@ -58,6 +58,8 @@ class GroupMilestone extends AbstractModel
      * @param Group       $group
      * @param int         $id
      * @param Client|null $client
+     *
+     * @return void
      */
     public function __construct(Group $group, $id, Client $client = null)
     {

@@ -70,6 +70,8 @@ class Issue extends AbstractModel implements Noteable
      * @param Project $project
      * @param int     $iid
      * @param Client  $client
+     *
+     * @return void
      */
     public function __construct(Project $project, $iid = null, Client $client = null)
     {

@@ -39,6 +39,8 @@ class Key extends AbstractModel
 
     /**
      * @param Client $client
+     *
+     * @return void
      */
     public function __construct(Client $client = null)
     {

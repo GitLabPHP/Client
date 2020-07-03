@@ -82,6 +82,8 @@ class Builder
      * @param ClientInterface|null         $httpClient
      * @param RequestFactoryInterface|null $requestFactory
      * @param StreamFactoryInterface|null  $streamFactory
+     *
+     * @return void
      */
     public function __construct(
         ClientInterface $httpClient = null,
