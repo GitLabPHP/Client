@@ -547,7 +547,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetIssueAwardEmoji()
+    public function shouldIssueAwardEmoji()
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'sparkles'],
@@ -562,6 +562,23 @@ class IssuesTest extends TestCase
         ;
 
         $this->assertEquals($expectedArray, $api->awardEmoji(1, 2));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRevokeAwardEmoji()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/issues/2/award_emoji/3')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals(true, $api->removeAwardEmoji(1, 2, 3));
     }
 
     /**

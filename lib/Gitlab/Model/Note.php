@@ -54,7 +54,7 @@ class Note extends AbstractModel
 
     /**
      * @param Noteable|Notable $type
-     * @param Client           $client
+     * @param Client|null      $client
      *
      * @return void
      */

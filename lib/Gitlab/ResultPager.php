@@ -102,7 +102,9 @@ class ResultPager implements ResultPagerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $key
+     *
+     * @return bool
      */
     protected function has($key)
     {
@@ -120,7 +122,9 @@ class ResultPager implements ResultPagerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $key
+     *
+     * @return array
      */
     protected function get($key)
     {

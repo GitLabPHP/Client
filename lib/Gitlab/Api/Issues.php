@@ -5,20 +5,19 @@ namespace Gitlab\Api;
 class Issues extends AbstractApi
 {
     /**
-     * @param int   $project_id
-     * @param array $parameters (
+     * @param int|null $project_id
+     * @param array    $parameters {
      *
-     *     @var string $state        return all issues or just those that are opened or closed
-     *     @var string $labels       Comma-separated list of label names, issues must have all labels to be returned.
-     *                               No+Label lists all issues with no labels.
-     *     @var string $milestone    the milestone title
-     *     @var string scope         Return issues for the given scope: created-by-me, assigned-to-me or all. Defaults to created-by-me
-     *     @var int[]  $iids         return only the issues having the given iid
-     *     @var string $order_by     Return requests ordered by created_at or updated_at fields. Default is created_at.
-     *     @var string $sort         Return requests sorted in asc or desc order. Default is desc.
-     *     @var string $search       search issues against their title and description
-     *     @var int    $assignee_id  Search issues against their assignee.
-     * )
+     *     @var string $state     return all issues or just those that are opened or closed
+     *     @var string $labels    Comma-separated list of label names, issues must have all labels to be returned.
+     *                            No+Label lists all issues with no labels.
+     *     @var string $milestone the milestone title
+     *     @var string scope      Return issues for the given scope: created-by-me, assigned-to-me or all. Defaults to created-by-me
+     *     @var int[]  $iids      return only the issues having the given iid
+     *     @var string $order_by  Return requests ordered by created_at or updated_at fields. Default is created_at.
+     *     @var string $sort      Return requests sorted in asc or desc order. Default is desc.
+     *     @var string $search    Search issues against their title and description.
+     * }
      *
      * @return mixed
      */
@@ -29,6 +28,12 @@ class Issues extends AbstractApi
         return $this->get($path, $this->createOptionsResolver()->resolve($parameters));
     }
 
+    /**
+     * @param int   $group_id
+     * @param array $parameters
+     *
+     * @return mixed
+     */
     public function group($group_id, array $parameters = [])
     {
         return $this->get(
@@ -433,6 +438,18 @@ class Issues extends AbstractApi
     public function awardEmoji($project_id, $issue_iid)
     {
         return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/award_emoji'));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $issue_iid
+     * @param int $award_id
+     *
+     * @return mixed
+     */
+    public function removeAwardEmoji($project_id, $issue_iid, $award_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/award_emoji/'.$this->encodePath($award_id)));
     }
 
     /**

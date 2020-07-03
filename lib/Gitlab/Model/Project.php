@@ -162,8 +162,8 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int    $id
-     * @param Client $client
+     * @param int|null    $id
+     * @param Client|null $client
      *
      * @return void
      */
@@ -252,13 +252,13 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $username_query
+     * @param string|null $username_query
      *
      * @return User[]
      */
     public function members($username_query = null)
     {
-        $data = $this->client->projects()->members($this->id, $username_query);
+        $data = $this->client->projects()->members($this->id, ['query' => $username_query]);
 
         $members = [];
         foreach ($data as $member) {
@@ -429,7 +429,7 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $key_id
+     * @param int $key_id
      *
      * @return bool
      */
@@ -441,7 +441,7 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $key_id
+     * @param int $key_id
      *
      * @return bool
      */
@@ -729,12 +729,12 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $file_path
-     * @param string $content
-     * @param string $branch_name
-     * @param string $commit_message
-     * @param string $author_email
-     * @param string $author_name
+     * @param string      $file_path
+     * @param string      $content
+     * @param string      $branch_name
+     * @param string      $commit_message
+     * @param string|null $author_email
+     * @param string|null $author_name
      *
      * @return File
      */
@@ -978,8 +978,8 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int    $iid
-     * @param string $comment
+     * @param int         $iid
+     * @param string|null $comment
      *
      * @return Issue
      */

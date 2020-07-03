@@ -11,7 +11,7 @@ php:
 matrix:
   include:
     - php: 7.4
-      name: phpstan
+      name: PHPStan
       script:
         - vendor/bin/phpstan analyse --no-progress
 

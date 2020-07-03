@@ -32,7 +32,7 @@ abstract class AbstractModel
     }
 
     /**
-     * @param Client $client
+     * @param Client|null $client
      *
      * @return $this
      */
@@ -62,10 +62,8 @@ abstract class AbstractModel
      */
     protected function hydrate(array $data = [])
     {
-        if (!empty($data)) {
-            foreach ($data as $field => $value) {
-                $this->setData($field, $value);
-            }
+        foreach ($data as $field => $value) {
+            $this->setData($field, $value);
         }
 
         return $this;

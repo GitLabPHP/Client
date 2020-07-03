@@ -35,7 +35,7 @@ class Release extends AbstractModel
     }
 
     /**
-     * @param Client $client
+     * @param Client|null $client
      *
      * @return void
      */

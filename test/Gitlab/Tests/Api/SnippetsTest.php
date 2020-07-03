@@ -200,7 +200,7 @@ class SnippetsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetSnippetAwardEmoji()
+    public function shouldIssueSnippetAwardEmoji()
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'sparkles'],
@@ -215,6 +215,23 @@ class SnippetsTest extends TestCase
         ;
 
         $this->assertEquals($expectedArray, $api->awardEmoji(1, 2));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRevokeSnippetAwardEmoji()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/snippets/2/award_emoji/3')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals(true, $api->removeAwardEmoji(1, 2, 3));
     }
 
     protected function getApiClass()

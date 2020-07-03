@@ -584,7 +584,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetMergeRequestAwardEmoji()
+    public function shouldIssueMergeRequestAwardEmoji()
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'sparkles'],
@@ -599,6 +599,23 @@ class MergeRequestsTest extends TestCase
         ;
 
         $this->assertEquals($expectedArray, $api->awardEmoji(1, 2));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRevokeMergeRequestAwardEmoji()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/merge_requests/2/award_emoji/3')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals(true, $api->removeAwardEmoji(1, 2, 3));
     }
 
     /**

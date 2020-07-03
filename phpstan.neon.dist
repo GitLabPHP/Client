@@ -1,4 +1,8 @@
+includes:
+    - phpstan-baseline.neon
+
 parameters:
-    level: 4
+    level: 6
+    checkMissingIterableValueType: false
     paths:
         - lib

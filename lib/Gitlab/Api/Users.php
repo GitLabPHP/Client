@@ -294,9 +294,10 @@ class Users extends AbstractApi
         return $this->get('users/'.$this->encodePath($user_id).'/keys');
     }
 
-    /*
+    /**
      * @param int $user_id
      * @param int $key_id
+     *
      * @return mixed
      */
     public function userKey($user_id, $key_id)
@@ -413,10 +414,10 @@ class Users extends AbstractApi
     }
 
     /**
-     * @param int    $user_id
-     * @param string $name
-     * @param array  $scopes
-     * @param null   $expires_at
+     * @param int         $user_id
+     * @param string      $name
+     * @param array       $scopes
+     * @param string|null $expires_at
      *
      * @return mixed
      */

@@ -152,4 +152,16 @@ class Snippets extends AbstractApi
     {
         return $this->get($this->getProjectPath($project_id, 'snippets/'.$this->encodePath($snippet_id).'/award_emoji'));
     }
+
+    /**
+     * @param int $project_id
+     * @param int $snippet_id
+     * @param int $award_id
+     *
+     * @return mixed
+     */
+    public function removeAwardEmoji($project_id, $snippet_id, $award_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'snippets/'.$this->encodePath($snippet_id).'/award_emoji/'.$this->encodePath($award_id)));
+    }
 }

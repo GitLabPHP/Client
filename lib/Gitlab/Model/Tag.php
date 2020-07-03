@@ -49,9 +49,9 @@ class Tag extends AbstractModel
     }
 
     /**
-     * @param Project $project
-     * @param string  $name
-     * @param Client  $client
+     * @param Project     $project
+     * @param string|null $name
+     * @param Client|null $client
      *
      * @return void
      */

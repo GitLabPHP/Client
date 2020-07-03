@@ -54,6 +54,9 @@
     "autoload-dev": {
         "psr-4": { "Gitlab\\Tests\\": "test/Gitlab/Tests/" }
     },
+    "config": {
+        "preferred-install": "dist"
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "10.0-dev"
