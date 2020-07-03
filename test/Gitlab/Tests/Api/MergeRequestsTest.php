@@ -550,6 +550,218 @@ class MergeRequestsTest extends TestCase
         $this->assertEquals($expectedArray, $api->awardEmoji(1, 2));
     }
 
+    /**
+     * @test
+     */
+    public function shoudGetApprovalState()
+    {
+        $expectedArray = [
+            'approval_rules_overwritten' => 1,
+            'rules' => [],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_requests/2/approval_state')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->approvalState(1, 2));
+    }
+
+
+    /**
+     * @test
+     */
+    public function shoudGetLevelRules()
+    {
+        $expectedArray = [
+            [
+                'id' => 1,
+                'name' => 'Foo',
+                'rule_type' => 'regular',
+                'eligible_approvers' => [],
+                'approvals_required' => 1,
+                'users' => [],
+                'groups' => [],
+                'contains_hidden_groups' => null,
+                'section' => null,
+                'source_rule' => null,
+                'overridden' => null,
+            ],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_requests/2/approval_rules')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->levelRules(1, 2));
+    }
+
+    /**
+     * @test
+     */
+    public function shoudCreateLevelRuleWithoutOptionalParameters()
+    {
+        $expectedArray = [
+            'id' => 20892835,
+            'name' => 'Foo',
+            'rule_type' => 'regular',
+            'eligible_approvers' => [],
+            'approvals_required' => 3,
+            'users' => [],
+            'groups' => [],
+            'contains_hidden_groups' => null,
+            'section' => null,
+            'source_rule' => null,
+            'overridden' => null,
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with(
+                'projects/1/merge_requests/2/approval_rules',
+                [
+                    'name' => 'Foo',
+                    'approvals_required' => 3,
+                ]
+            )
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->createLevelRule(1, 2, 'Foo', 3));
+    }
+
+    /**
+     * @test
+     */
+    public function shoudCreateLevelRuleWithOptionalParameters()
+    {
+        $expectedArray = [
+            'id' => 20892835,
+            'name' => 'Foo',
+            'rule_type' => 'regular',
+            'eligible_approvers' => [],
+            'approvals_required' => 3,
+            'users' => [1951878],
+            'groups' => [104121],
+            'contains_hidden_groups' => null,
+            'section' => null,
+            'source_rule' => null,
+            'overridden' => null,
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with(
+                'projects/1/merge_requests/2/approval_rules',
+                [
+                    'name' => 'Foo',
+                    'approvals_required' => 3,
+                    'user_ids' => [1951878],
+                    'group_ids' => [104121],
+                ]
+            )
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->createLevelRule(1, 2, 'Foo', 3, [
+            'user_ids' => [1951878],
+            'group_ids' => [104121],
+        ]));
+    }
+
+    /**
+     * @test
+     */
+    public function shoudUpdateLevelRuleWithoutOptionalParameters()
+    {
+        $expectedArray = [
+            'id' => 20892835,
+            'name' => 'Foo',
+            'rule_type' => 'regular',
+            'eligible_approvers' => [],
+            'approvals_required' => 3,
+            'users' => [],
+            'groups' => [],
+            'contains_hidden_groups' => null,
+            'section' => null,
+            'source_rule' => null,
+            'overridden' => null,
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with(
+                'projects/1/merge_requests/2/approval_rules/20892835',
+                [
+                    'name' => 'Foo',
+                    'approvals_required' => 3,
+                ]
+            )
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->updateLevelRule(1, 2, 20892835, 'Foo', 3));
+    }
+
+    /**
+     * @test
+     */
+    public function shoudUpdateLevelRuleWithOptionalParameters()
+    {
+        $expectedArray = [
+            'id' => 20892835,
+            'name' => 'Foo',
+            'rule_type' => 'regular',
+            'eligible_approvers' => [],
+            'approvals_required' => 3,
+            'users' => [1951878],
+            'groups' => [104121],
+            'contains_hidden_groups' => null,
+            'section' => null,
+            'source_rule' => null,
+            'overridden' => null,
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with(
+                'projects/1/merge_requests/2/approval_rules/20892835',
+                [
+                    'name' => 'Foo',
+                    'approvals_required' => 3,
+                    'user_ids' => [1951878],
+                    'group_ids' => [104121],
+                ]
+            )
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->updateLevelRule(1, 2, 20892835, 'Foo', 3, [
+            'user_ids' => [1951878],
+            'group_ids' => [104121],
+        ]));
+    }
+
+    /**
+     * @test
+     */
+    public function shoudDeleteLevelRule()
+    {
+        $expectedValue = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/merge_requests/2/approval_rules/3')
+            ->will($this->returnValue($expectedValue));
+
+        $this->assertEquals($expectedValue, $api->deleteLevelRule(1, 2, 3));
+    }
+
     protected function getMultipleMergeRequestsData()
     {
         return array(

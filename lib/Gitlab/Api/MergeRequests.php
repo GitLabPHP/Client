@@ -418,4 +418,45 @@ class MergeRequests extends AbstractApi
 
         return $this->put($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_id)).'/rebase', $resolver->resolve($params));
     }
+
+    public function approvalState($project_id, $mr_iid)
+    {
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/approval_state'));
+    }
+
+    public function levelRules($project_id, $mr_iid)
+    {
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/approval_rules'));
+    }
+
+    public function createLevelRule($project_id, $mr_iid, $name, $approvals_required, array $optionalParameters = [])
+    {
+        $baseParam = [
+            'name' => $name,
+            'approvals_required' => $approvals_required,
+        ];
+
+        return $this->post(
+            $this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/approval_rules'),
+            array_merge($baseParam, $optionalParameters)
+        );
+    }
+
+    public function updateLevelRule($project_id, $mr_iid, $approval_rule_id, $name, $approvals_required, array $optionalParameters = [])
+    {
+        $baseParam = [
+            'name' => $name,
+            'approvals_required' => $approvals_required,
+        ];
+
+        return $this->put(
+            $this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/approval_rules/'.$this->encodePath($approval_rule_id)),
+            array_merge($baseParam, $optionalParameters)
+        );
+    }
+
+    public function deleteLevelRule($project_id, $mr_iid, $approval_rule_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/approval_rules/'.$this->encodePath($approval_rule_id)));
+    }
 }
