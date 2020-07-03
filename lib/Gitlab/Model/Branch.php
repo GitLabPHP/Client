@@ -111,45 +111,4 @@ class Branch extends AbstractModel
     {
         return $this->project->commits($parameters);
     }
-
-    /**
-     * @param string $file_path
-     * @param string $content
-     * @param string $commit_message
-     *
-     * @return File
-     */
-    public function createFile($file_path, $content, $commit_message)
-    {
-        $data = $this->client->repositories()->createFile($this->project->id, $file_path, $content, $this->name, $commit_message);
-
-        return File::fromArray($this->getClient(), $this->project, $data);
-    }
-
-    /**
-     * @param string $file_path
-     * @param string $content
-     * @param string $commit_message
-     *
-     * @return File
-     */
-    public function updateFile($file_path, $content, $commit_message)
-    {
-        $data = $this->client->repositories()->updateFile($this->project->id, $file_path, $content, $this->name, $commit_message);
-
-        return File::fromArray($this->getClient(), $this->project, $data);
-    }
-
-    /**
-     * @param string $file_path
-     * @param string $commit_message
-     *
-     * @return bool
-     */
-    public function deleteFile($file_path, $commit_message)
-    {
-        $this->client->repositories()->deleteFile($this->project->id, $file_path, $this->name, $commit_message);
-
-        return true;
-    }
 }

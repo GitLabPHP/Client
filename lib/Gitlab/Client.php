@@ -428,7 +428,7 @@ class Client
     public function authenticate(string $token, string $authMethod = null, string $sudo = null)
     {
         $this->httpClientBuilder->removePlugin(Authentication::class);
-        $this->httpClientBuilder->addPlugin(new Authentication($authMethod ?? self::AUTH_URL_TOKEN, $token, $sudo));
+        $this->httpClientBuilder->addPlugin(new Authentication($authMethod ?? self::AUTH_HTTP_TOKEN, $token, $sudo));
 
         return $this;
     }

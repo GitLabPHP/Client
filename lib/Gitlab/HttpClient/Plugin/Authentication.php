@@ -62,7 +62,7 @@ class Authentication implements Plugin
                 break;
 
             default:
-                throw new RuntimeException(sprintf('Authentication method "%s" not implemented.', $method));
+                throw new RuntimeException(sprintf('Authentication method "%s" not implemented.', $this->method));
         }
 
         if (!is_null($this->sudo)) {

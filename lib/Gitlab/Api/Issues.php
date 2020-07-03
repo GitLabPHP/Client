@@ -102,75 +102,6 @@ class Issues extends AbstractApi
      *
      * @return mixed
      */
-    public function showComments($project_id, $issue_iid)
-    {
-        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid)).'/notes');
-    }
-
-    /**
-     * @param int $project_id
-     * @param int $issue_iid
-     * @param int $note_id
-     *
-     * @return mixed
-     */
-    public function showComment($project_id, $issue_iid, $note_id)
-    {
-        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid)).'/notes/'.$this->encodePath($note_id));
-    }
-
-    /**
-     * @param int          $project_id
-     * @param int          $issue_iid
-     * @param string|array $body
-     *
-     * @return mixed
-     */
-    public function addComment($project_id, $issue_iid, $body)
-    {
-        // backwards compatibility
-        if (is_array($body)) {
-            $params = $body;
-        } else {
-            $params = ['body' => $body];
-        }
-
-        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/notes'), $params);
-    }
-
-    /**
-     * @param int    $project_id
-     * @param int    $issue_iid
-     * @param int    $note_id
-     * @param string $body
-     *
-     * @return mixed
-     */
-    public function updateComment($project_id, $issue_iid, $note_id, $body)
-    {
-        return $this->put($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/notes/'.$this->encodePath($note_id)), [
-            'body' => $body,
-        ]);
-    }
-
-    /**
-     * @param int $project_id
-     * @param int $issue_iid
-     * @param int $note_id
-     *
-     * @return mixed
-     */
-    public function removeComment($project_id, $issue_iid, $note_id)
-    {
-        return $this->delete($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/notes/'.$this->encodePath($note_id)));
-    }
-
-    /**
-     * @param int $project_id
-     * @param int $issue_iid
-     *
-     * @return mixed
-     */
     public function showDiscussions($project_id, $issue_iid)
     {
         return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid)).'/discussions');
@@ -189,42 +120,28 @@ class Issues extends AbstractApi
     }
 
     /**
-     * @param int          $project_id
-     * @param int          $issue_iid
-     * @param string|array $body
+     * @param int    $project_id
+     * @param int    $issue_iid
+     * @param array  $parameters
      *
      * @return mixed
      */
-    public function addDiscussion($project_id, $issue_iid, $body)
+    public function addDiscussion($project_id, $issue_iid, array $parameters)
     {
-        // backwards compatibility
-        if (is_array($body)) {
-            $params = $body;
-        } else {
-            $params = ['body' => $body];
-        }
-
-        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/discussions'), $params);
+        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/discussions'), $parameters);
     }
 
     /**
-     * @param int          $project_id
-     * @param int          $issue_iid
-     * @param string       $discussion_id
-     * @param string|array $body
+     * @param int    $project_id
+     * @param int    $issue_iid
+     * @param string $discussion_id
+     * @param array  $parameters
      *
      * @return mixed
      */
-    public function addDiscussionNote($project_id, $issue_iid, $discussion_id, $body)
+    public function addDiscussionNote($project_id, $issue_iid, $discussion_id, array $parameters)
     {
-        // backwards compatibility
-        if (is_array($body)) {
-            $params = $body;
-        } else {
-            $params = ['body' => $body];
-        }
-
-        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/discussions/'.$this->encodePath($discussion_id).'/notes'), $params);
+        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/discussions/'.$this->encodePath($discussion_id).'/notes'), $parameters);
     }
 
     /**

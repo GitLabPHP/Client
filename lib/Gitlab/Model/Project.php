@@ -654,28 +654,6 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $sha
-     * @param string $filepath
-     *
-     * @return string
-     */
-    public function blob($sha, $filepath)
-    {
-        return $this->client->repositories()->blob($this->id, $sha, $filepath);
-    }
-
-    /**
-     * @param string $sha
-     * @param string $filepath
-     *
-     * @return array
-     */
-    public function getFile($sha, $filepath)
-    {
-        return $this->client->repositories()->getFile($this->id, $filepath, $sha);
-    }
-
-    /**
      * @param string      $file_path
      * @param string      $content
      * @param string      $branch_name
@@ -835,21 +813,24 @@ class Project extends AbstractModel
      * @param string $source
      * @param string $target
      * @param string $title
-     * @param int    $assignee
-     * @param string $description
+     * @param array  $parameters {
+     *
+     *     @var int    $assignee_id       The optional assignee
+     *     @var string $description       The optional description
+     * }
      *
      * @return MergeRequest
      */
-    public function createMergeRequest($source, $target, $title, $assignee = null, $description = null)
+    public function createMergeRequest($source, $target, $title, array $parameters = [])
     {
+        $parameters['target_project_id'] = $this->id;
+
         $data = $this->client->mergeRequests()->create(
             $this->id,
             $source,
             $target,
             $title,
-            $assignee,
-            $this->id,
-            $description
+            $parameters
         );
 
         return MergeRequest::fromArray($this->getClient(), $this, $data);
@@ -857,15 +838,15 @@ class Project extends AbstractModel
 
     /**
      * @param int   $id
-     * @param array $params
+     * @param array $parameters
      *
      * @return MergeRequest
      */
-    public function updateMergeRequest($id, array $params)
+    public function updateMergeRequest($id, array $parameters)
     {
         $mr = new MergeRequest($this, $id, $this->getClient());
 
-        return $mr->update($params);
+        return $mr->update($parameters);
     }
 
     /**
@@ -963,16 +944,15 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int    $iid
-     * @param string $comment
+     * @param int $iid
      *
      * @return Issue
      */
-    public function closeIssue($iid, $comment = null)
+    public function closeIssue($iid)
     {
         $issue = new Issue($this, $iid, $this->getClient());
 
-        return $issue->close($comment);
+        return $issue->close();
     }
 
     /**

@@ -128,16 +128,10 @@ class MergeRequest extends AbstractModel implements Noteable
     }
 
     /**
-     * @param string|null $comment
-     *
      * @return MergeRequest
      */
-    public function close($comment = null)
+    public function close()
     {
-        if ($comment) {
-            $this->addComment($comment);
-        }
-
         return $this->update([
             'state_event' => 'close',
         ]);
@@ -183,34 +177,6 @@ class MergeRequest extends AbstractModel implements Noteable
         return $this->update([
             'state_event' => 'merge',
         ]);
-    }
-
-    /**
-     * @param string      $comment
-     * @param string|null $created_at
-     *
-     * @return Note
-     */
-    public function addComment($comment, $created_at = null)
-    {
-        $data = $this->client->mergeRequests()->addComment($this->project->id, $this->iid, $comment);
-
-        return Note::fromArray($this->getClient(), $this, $data);
-    }
-
-    /**
-     * @return Note[]
-     */
-    public function showComments()
-    {
-        $notes = [];
-        $data = $this->client->mergeRequests()->showComments($this->project->id, $this->iid);
-
-        foreach ($data as $note) {
-            $notes[] = Note::fromArray($this->getClient(), $this, $note);
-        }
-
-        return $notes;
     }
 
     /**

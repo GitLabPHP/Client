@@ -195,78 +195,6 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetIssueComments()
-    {
-        $expectedArray = [
-            ['id' => 1, 'body' => 'A comment'],
-            ['id' => 2, 'body' => 'Another comment'],
-        ];
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('get')
-            ->with('projects/1/issues/2/notes')
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->showComments(1, 2));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetIssueComment()
-    {
-        $expectedArray = ['id' => 3, 'body' => 'A new comment'];
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('get')
-            ->with('projects/1/issues/2/notes/3')
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->showComment(1, 2, 3));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldCreateComment()
-    {
-        $expectedArray = ['id' => 3, 'body' => 'A new comment'];
-
-        $api = $this->getApiMock();
-        $api->expects($this->exactly(2))
-            ->method('post')
-            ->with('projects/1/issues/2/notes', ['body' => 'A new comment'])
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->addComment(1, 2, ['body' => 'A new comment']));
-        $this->assertEquals($expectedArray, $api->addComment(1, 2, 'A new comment'));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldUpdateComment()
-    {
-        $expectedArray = ['id' => 3, 'body' => 'An edited comment'];
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('put')
-            ->with('projects/1/issues/2/notes/3', ['body' => 'An edited comment'])
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->updateComment(1, 2, 3, 'An edited comment'));
-    }
-
-    /**
-     * @test
-     */
     public function shouldGetIssueDiscussions()
     {
         $expectedArray = [
@@ -309,14 +237,13 @@ class IssuesTest extends TestCase
         $expectedArray = ['id' => 'abc', 'body' => 'A new discussion'];
 
         $api = $this->getApiMock();
-        $api->expects($this->exactly(2))
+        $api->expects($this->once())
             ->method('post')
             ->with('projects/1/issues/2/discussions', ['body' => 'A new discussion'])
             ->will($this->returnValue($expectedArray))
         ;
 
         $this->assertEquals($expectedArray, $api->addDiscussion(1, 2, ['body' => 'A new discussion']));
-        $this->assertEquals($expectedArray, $api->addDiscussion(1, 2, 'A new discussion'));
     }
 
     /**
@@ -327,14 +254,13 @@ class IssuesTest extends TestCase
         $expectedArray = ['id' => 3, 'body' => 'A new discussion note'];
 
         $api = $this->getApiMock();
-        $api->expects($this->exactly(2))
+        $api->expects($this->once())
             ->method('post')
             ->with('projects/1/issues/2/discussions/abc/notes', ['body' => 'A new discussion note'])
             ->will($this->returnValue($expectedArray))
         ;
 
         $this->assertEquals($expectedArray, $api->addDiscussionNote(1, 2, 'abc', ['body' => 'A new discussion note']));
-        $this->assertEquals($expectedArray, $api->addDiscussionNote(1, 2, 'abc', 'A new discussion note'));
     }
 
     /**

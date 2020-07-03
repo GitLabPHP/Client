@@ -22,7 +22,7 @@ interface Noteable
      *
      * @return static
      */
-    public function close($comment = null);
+    public function close();
 
     /**
      * @return static
