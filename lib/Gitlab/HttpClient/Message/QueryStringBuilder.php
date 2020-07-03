@@ -18,7 +18,7 @@ final class QueryStringBuilder
             return static::rawurlencode($query);
         }
         $query = array_filter($query, function ($value) {
-            return (null !== $value);
+            return null !== $value;
         });
 
         return implode('&', array_map(function ($value, $key) {
@@ -27,8 +27,9 @@ final class QueryStringBuilder
     }
 
     /**
-     * Encode a value
-     * @param mixed $query
+     * Encode a value.
+     *
+     * @param mixed  $query
      * @param string $prefix
      *
      * @return string
@@ -40,8 +41,10 @@ final class QueryStringBuilder
         }
 
         $isIndexedArray = static::isIndexedArray($query);
+
         return implode('&', array_map(function ($value, $key) use ($prefix, $isIndexedArray) {
             $prefix = $isIndexedArray ? $prefix.'[]' : $prefix.'['.$key.']';
+
             return static::encode($value, $prefix);
         }, $query, array_keys($query)));
     }

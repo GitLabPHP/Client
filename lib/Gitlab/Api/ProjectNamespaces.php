@@ -22,6 +22,7 @@ class ProjectNamespaces extends AbstractApi
 
     /**
      * @param int|string $namespace_id
+     *
      * @return mixed
      */
     public function show($namespace_id)

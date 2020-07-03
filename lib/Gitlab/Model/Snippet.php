@@ -5,7 +5,7 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Snippet
+ * Class Snippet.
  *
  * @property-read int $id
  * @property-read string $title
@@ -20,20 +20,21 @@ class Snippet extends AbstractModel
     /**
      * @var array
      */
-    protected static $properties = array(
+    protected static $properties = [
         'id',
         'title',
         'file_name',
         'author',
         'updated_at',
         'created_at',
-        'project'
-    );
+        'project',
+    ];
 
     /**
      * @param Client  $client
      * @param Project $project
      * @param array   $data
+     *
      * @return Snippet
      */
     public static function fromArray(Client $client, Project $project, array $data)
@@ -49,8 +50,8 @@ class Snippet extends AbstractModel
 
     /**
      * @param Project $project
-     * @param int $id
-     * @param Client $client
+     * @param int     $id
+     * @param Client  $client
      */
     public function __construct(Project $project, $id = null, Client $client = null)
     {
@@ -71,6 +72,7 @@ class Snippet extends AbstractModel
 
     /**
      * @param array $params
+     *
      * @return Snippet
      */
     public function update(array $params)

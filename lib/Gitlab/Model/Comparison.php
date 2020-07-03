@@ -5,7 +5,7 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Comparison
+ * Class Comparison.
  *
  * @property-read bool $compare_timeout
  * @property-read bool $compare_same_ref
@@ -19,19 +19,20 @@ class Comparison extends AbstractModel
     /**
      * @var array
      */
-    protected static $properties = array(
+    protected static $properties = [
         'commit',
         'commits',
         'diffs',
         'compare_timeout',
         'compare_same_ref',
-        'project'
-    );
+        'project',
+    ];
 
     /**
-     * @param Client $client
+     * @param Client  $client
      * @param Project $project
-     * @param array $data
+     * @param array   $data
+     *
      * @return Comparison
      */
     public static function fromArray(Client $client, Project $project, array $data)
@@ -43,7 +44,7 @@ class Comparison extends AbstractModel
         }
 
         if (isset($data['commits'])) {
-            $commits = array();
+            $commits = [];
             foreach ($data['commits'] as $commit) {
                 $commits[] = Commit::fromArray($client, $project, $commit);
             }
@@ -52,7 +53,7 @@ class Comparison extends AbstractModel
         }
 
         if (isset($data['diffs'])) {
-            $diffs = array();
+            $diffs = [];
             foreach ($data['diffs'] as $diff) {
                 $diffs[] = Diff::fromArray($client, $project, $diff);
             }
@@ -65,7 +66,7 @@ class Comparison extends AbstractModel
 
     /**
      * @param Project $project
-     * @param Client $client
+     * @param Client  $client
      */
     public function __construct(Project $project, Client $client = null)
     {

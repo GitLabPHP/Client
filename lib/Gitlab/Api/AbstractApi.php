@@ -13,7 +13,7 @@ use Psr\Http\Message\StreamInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Abstract class for Api classes
+ * Abstract class for Api classes.
  *
  * @author Joseph Bielawski <stloyd@gmail.com>
  * @author Matt Humphrey <matt@m4tt.co>
@@ -36,7 +36,7 @@ abstract class AbstractApi implements ApiInterface
     private $streamFactory;
 
     /**
-     * @param Client $client
+     * @param Client                      $client
      * @param StreamFactoryInterface|null $streamFactory
      */
     public function __construct(Client $client, StreamFactoryInterface $streamFactory = null)
@@ -57,11 +57,12 @@ abstract class AbstractApi implements ApiInterface
      * Performs a GET query and returns the response as a PSR-7 response object.
      *
      * @param string $path
-     * @param array $parameters
-     * @param array $requestHeaders
+     * @param array  $parameters
+     * @param array  $requestHeaders
+     *
      * @return ResponseInterface
      */
-    protected function getAsResponse($path, array $parameters = array(), $requestHeaders = array())
+    protected function getAsResponse($path, array $parameters = [], $requestHeaders = [])
     {
         $path = $this->preparePath($path, $parameters);
 
@@ -70,23 +71,25 @@ abstract class AbstractApi implements ApiInterface
 
     /**
      * @param string $path
-     * @param array $parameters
-     * @param array $requestHeaders
+     * @param array  $parameters
+     * @param array  $requestHeaders
+     *
      * @return mixed
      */
-    protected function get($path, array $parameters = array(), $requestHeaders = array())
+    protected function get($path, array $parameters = [], $requestHeaders = [])
     {
         return ResponseMediator::getContent($this->getAsResponse($path, $parameters, $requestHeaders));
     }
 
     /**
      * @param string $path
-     * @param array $parameters
-     * @param array $requestHeaders
-     * @param array $files
+     * @param array  $parameters
+     * @param array  $requestHeaders
+     * @param array  $files
+     *
      * @return mixed
      */
-    protected function post($path, array $parameters = array(), $requestHeaders = array(), array $files = array())
+    protected function post($path, array $parameters = [], $requestHeaders = [], array $files = [])
     {
         $path = $this->preparePath($path);
 
@@ -121,11 +124,12 @@ abstract class AbstractApi implements ApiInterface
 
     /**
      * @param string $path
-     * @param array $parameters
-     * @param array $requestHeaders
+     * @param array  $parameters
+     * @param array  $requestHeaders
+     *
      * @return mixed
      */
-    protected function put($path, array $parameters = array(), $requestHeaders = array(), array $files = array())
+    protected function put($path, array $parameters = [], $requestHeaders = [], array $files = [])
     {
         $path = $this->preparePath($path);
 
@@ -160,11 +164,12 @@ abstract class AbstractApi implements ApiInterface
 
     /**
      * @param string $path
-     * @param array $parameters
-     * @param array $requestHeaders
+     * @param array  $parameters
+     * @param array  $requestHeaders
+     *
      * @return mixed
      */
-    protected function delete($path, array $parameters = array(), $requestHeaders = array())
+    protected function delete($path, array $parameters = [], $requestHeaders = [])
     {
         $path = $this->preparePath($path, $parameters);
 
@@ -174,8 +179,9 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param int $id
+     * @param int    $id
      * @param string $path
+     *
      * @return string
      */
     protected function getProjectPath($id, $path)
@@ -184,8 +190,9 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param int $id
+     * @param int    $id
      * @param string $path
+     *
      * @return string
      */
     protected function getGroupPath($id, $path)
@@ -195,6 +202,7 @@ abstract class AbstractApi implements ApiInterface
 
     /**
      * @param string $path
+     *
      * @return string
      */
     protected function encodePath($path)
@@ -230,6 +238,7 @@ abstract class AbstractApi implements ApiInterface
 
     /**
      * @param array $parameters
+     *
      * @return StreamInterface
      */
     private function prepareBody(array $parameters = [])

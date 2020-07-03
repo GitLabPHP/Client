@@ -37,7 +37,7 @@ class Authentication implements Plugin
      */
     public function __construct($method, $token, $sudo = null)
     {
-        $this->method  = $method;
+        $this->method = $method;
         $this->token = $token;
         $this->sudo = $sudo;
     }
@@ -53,6 +53,7 @@ class Authentication implements Plugin
                 if (!is_null($this->sudo)) {
                     $request = $request->withHeader('SUDO', $this->sudo);
                 }
+
                 break;
 
             case Client::AUTH_URL_TOKEN:
@@ -72,6 +73,7 @@ class Authentication implements Plugin
 
                 $uri = $uri->withQuery($query);
                 $request = $request->withUri($uri);
+
                 break;
 
             case Client::AUTH_OAUTH_TOKEN:
@@ -79,6 +81,7 @@ class Authentication implements Plugin
                 if (!is_null($this->sudo)) {
                     $request = $request->withHeader('SUDO', $this->sudo);
                 }
+
                 break;
         }
 

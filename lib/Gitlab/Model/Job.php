@@ -5,7 +5,7 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Commit
+ * Class Commit.
  *
  * @property-read Commit $commit
  * @property-read int $id
@@ -28,7 +28,7 @@ class Job extends AbstractModel
     /**
      * @var array
      */
-    protected static $properties = array(
+    protected static $properties = [
         'id',
         'commit',
         'coverage',
@@ -43,13 +43,14 @@ class Job extends AbstractModel
         'started_at',
         'status',
         'tag',
-        'user'
-    );
+        'user',
+    ];
 
     /**
      * @param Client  $client
      * @param Project $project
      * @param array   $data
+     *
      * @return Job
      */
     public static function fromArray(Client $client, Project $project, array $data)
@@ -73,7 +74,7 @@ class Job extends AbstractModel
 
     /**
      * @param Project $project
-     * @param int $id
+     * @param int     $id
      * @param Client  $client
      */
     public function __construct(Project $project, $id = null, Client $client = null)

@@ -5,7 +5,7 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Node
+ * Class Node.
  *
  * @property-read string $name
  * @property-read string $type
@@ -18,19 +18,20 @@ class Node extends AbstractModel
     /**
      * @var array
      */
-    protected static $properties = array(
+    protected static $properties = [
         'name',
         'type',
         'mode',
         'id',
         'path',
-        'project'
-    );
+        'project',
+    ];
 
     /**
      * @param Client  $client
      * @param Project $project
      * @param array   $data
+     *
      * @return Node
      */
     public static function fromArray(Client $client, Project $project, array $data)
@@ -42,8 +43,8 @@ class Node extends AbstractModel
 
     /**
      * @param Project $project
-     * @param int $id
-     * @param Client $client
+     * @param int     $id
+     * @param Client  $client
      */
     public function __construct(Project $project, $id = null, Client $client)
     {

@@ -10,45 +10,45 @@ class ScheduleTest extends TestCase
     public function shouldCreateSchedule()
     {
         $expectedArray = [
-            "id" => 13,
-            "description" => "Test schedule pipeline",
-            "ref" => "master",
-            "cron" => "* * * * *",
-            "cron_timezone" => "Asia/Tokyo",
-            "next_run_at" => "2017-05-19T13:41:00.000Z",
-            "active" => true,
-            "created_at" => "2017-05-19T13:31:08.849Z",
-            "updated_at" => "2017-05-19T13:40:17.727Z"
+            'id' => 13,
+            'description' => 'Test schedule pipeline',
+            'ref' => 'master',
+            'cron' => '* * * * *',
+            'cron_timezone' => 'Asia/Tokyo',
+            'next_run_at' => '2017-05-19T13:41:00.000Z',
+            'active' => true,
+            'created_at' => '2017-05-19T13:31:08.849Z',
+            'updated_at' => '2017-05-19T13:40:17.727Z',
         ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/pipeline_schedules', [
-                "id" => 13,
-                "description" => "Test schedule pipeline",
-                "ref" => "master",
-                "cron" => "* * * * *",
-                "cron_timezone" => "Asia/Tokyo",
-                "next_run_at" => "2017-05-19T13:41:00.000Z",
-                "active" => true,
-                "created_at" => "2017-05-19T13:31:08.849Z",
-                "updated_at" => "2017-05-19T13:40:17.727Z"
+                'id' => 13,
+                'description' => 'Test schedule pipeline',
+                'ref' => 'master',
+                'cron' => '* * * * *',
+                'cron_timezone' => 'Asia/Tokyo',
+                'next_run_at' => '2017-05-19T13:41:00.000Z',
+                'active' => true,
+                'created_at' => '2017-05-19T13:31:08.849Z',
+                'updated_at' => '2017-05-19T13:40:17.727Z',
             ])
             ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->create(
             1,
             [
-                "id" => 13,
-                "description" => "Test schedule pipeline",
-                "ref" => "master",
-                "cron" => "* * * * *",
-                "cron_timezone" => "Asia/Tokyo",
-                "next_run_at" => "2017-05-19T13:41:00.000Z",
-                "active" => true,
-                "created_at" => "2017-05-19T13:31:08.849Z",
-                "updated_at" => "2017-05-19T13:40:17.727Z"
+                'id' => 13,
+                'description' => 'Test schedule pipeline',
+                'ref' => 'master',
+                'cron' => '* * * * *',
+                'cron_timezone' => 'Asia/Tokyo',
+                'next_run_at' => '2017-05-19T13:41:00.000Z',
+                'active' => true,
+                'created_at' => '2017-05-19T13:31:08.849Z',
+                'updated_at' => '2017-05-19T13:40:17.727Z',
             ]
         ));
     }
@@ -58,7 +58,7 @@ class ScheduleTest extends TestCase
      */
     public function shouldShowSchedule()
     {
-        $expectedArray = array('id' => 1, 'name' => 'A schedule');
+        $expectedArray = ['id' => 1, 'name' => 'A schedule'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -75,7 +75,7 @@ class ScheduleTest extends TestCase
      */
     public function shouldShowAllSchedule()
     {
-        $expectedArray = array('id' => 1, 'name' => 'A schedule');
+        $expectedArray = ['id' => 1, 'name' => 'A schedule'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -92,16 +92,16 @@ class ScheduleTest extends TestCase
      */
     public function shouldUpdateSchedule()
     {
-        $expectedArray = array('id' => 3, 'title' => 'Updated schedule');
+        $expectedArray = ['id' => 3, 'title' => 'Updated schedule'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/pipeline_schedules/3', array('title' => 'Updated schedule', 'due_date' => '2015-04-01', 'state_event' => 'close'))
+            ->with('projects/1/pipeline_schedules/3', ['title' => 'Updated schedule', 'due_date' => '2015-04-01', 'state_event' => 'close'])
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->update(1, 3, array('title' => 'Updated schedule', 'due_date' => '2015-04-01', 'state_event' => 'close')));
+        $this->assertEquals($expectedArray, $api->update(1, 3, ['title' => 'Updated schedule', 'due_date' => '2015-04-01', 'state_event' => 'close']));
     }
 
     /**

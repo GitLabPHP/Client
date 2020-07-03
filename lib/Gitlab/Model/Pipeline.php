@@ -5,7 +5,7 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Commit
+ * Class Commit.
  *
  * @property-read int $id
  * @property-read string $ref
@@ -17,17 +17,18 @@ class Pipeline extends AbstractModel
     /**
      * @var array
      */
-    protected static $properties = array(
+    protected static $properties = [
         'id',
         'ref',
         'sha',
-        'status'
-    );
+        'status',
+    ];
 
     /**
      * @param Client  $client
      * @param Project $project
      * @param array   $data
+     *
      * @return Pipeline
      */
     public static function fromArray(Client $client, Project $project, array $data)
@@ -39,7 +40,7 @@ class Pipeline extends AbstractModel
 
     /**
      * @param Project $project
-     * @param int $id
+     * @param int     $id
      * @param Client  $client
      */
     public function __construct(Project $project, $id = null, Client $client = null)

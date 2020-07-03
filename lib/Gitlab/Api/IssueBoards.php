@@ -5,7 +5,7 @@ namespace Gitlab\Api;
 class IssueBoards extends AbstractApi
 {
     /**
-     * @param int $project_id
+     * @param int   $project_id
      * @param array $parameters
      *
      * @return mixed
@@ -22,6 +22,7 @@ class IssueBoards extends AbstractApi
     /**
      * @param int $project_id
      * @param int $board_id
+     *
      * @return mixed
      */
     public function show($project_id, $board_id)
@@ -30,8 +31,9 @@ class IssueBoards extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int   $project_id
      * @param array $params
+     *
      * @return mixed
      */
     public function create($project_id, array $params)
@@ -40,9 +42,10 @@ class IssueBoards extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $board_id
+     * @param int   $project_id
+     * @param int   $board_id
      * @param array $params
+     *
      * @return mixed
      */
     public function update($project_id, $board_id, array $params)
@@ -53,6 +56,7 @@ class IssueBoards extends AbstractApi
     /**
      * @param int $project_id
      * @param int $board_id
+     *
      * @return mixed
      */
     public function remove($project_id, $board_id)
@@ -63,6 +67,7 @@ class IssueBoards extends AbstractApi
     /**
      * @param int $project_id
      * @param int $board_id
+     *
      * @return mixed
      */
     public function allLists($project_id, $board_id)
@@ -74,6 +79,7 @@ class IssueBoards extends AbstractApi
      * @param int $project_id
      * @param int $board_id
      * @param int $list_id
+     *
      * @return mixed
      */
     public function showList($project_id, $board_id, $list_id)
@@ -85,13 +91,14 @@ class IssueBoards extends AbstractApi
      * @param int $project_id
      * @param int $board_id
      * @param int $label_id
+     *
      * @return mixed
      */
     public function createList($project_id, $board_id, $label_id)
     {
-        $params = array(
-            'label_id' => $label_id
-        );
+        $params = [
+            'label_id' => $label_id,
+        ];
 
         return $this->post($this->getProjectPath($project_id, 'boards/'.$this->encodePath($board_id).'/lists'), $params);
     }
@@ -101,13 +108,14 @@ class IssueBoards extends AbstractApi
      * @param int $board_id
      * @param int $list_id
      * @param int $position
+     *
      * @return mixed
      */
     public function updateList($project_id, $board_id, $list_id, $position)
     {
-        $params = array(
-            'position' => $position
-        );
+        $params = [
+            'position' => $position,
+        ];
 
         return $this->put($this->getProjectPath($project_id, 'boards/'.$this->encodePath($board_id).'/lists/'.$this->encodePath($list_id)), $params);
     }
@@ -116,6 +124,7 @@ class IssueBoards extends AbstractApi
      * @param int $project_id
      * @param int $board_id
      * @param int $list_id
+     *
      * @return mixed
      */
     public function deleteList($project_id, $board_id, $list_id)

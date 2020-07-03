@@ -9,10 +9,10 @@ class SnippetsTest extends TestCase
      */
     public function shouldGetAllSnippets()
     {
-        $expectedArray = array(
-            array('id' => 1, 'title' => 'A snippet'),
-            array('id' => 2, 'title' => 'Another snippet'),
-        );
+        $expectedArray = [
+            ['id' => 1, 'title' => 'A snippet'],
+            ['id' => 2, 'title' => 'Another snippet'],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -29,7 +29,7 @@ class SnippetsTest extends TestCase
      */
     public function shouldShowSnippet()
     {
-        $expectedArray = array('id' => 2, 'title' => 'Another snippet');
+        $expectedArray = ['id' => 2, 'title' => 'Another snippet'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -46,12 +46,12 @@ class SnippetsTest extends TestCase
      */
     public function shouldCreateSnippet()
     {
-        $expectedArray = array('id' => 3, 'title' => 'A new snippet');
+        $expectedArray = ['id' => 3, 'title' => 'A new snippet'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/snippets', array('title' => 'A new snippet', 'code' => 'A file', 'file_name' => 'file.txt', 'visibility' => 'public'))
+            ->with('projects/1/snippets', ['title' => 'A new snippet', 'code' => 'A file', 'file_name' => 'file.txt', 'visibility' => 'public'])
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -63,16 +63,16 @@ class SnippetsTest extends TestCase
      */
     public function shouldUpdateSnippet()
     {
-        $expectedArray = array('id' => 3, 'title' => 'Updated snippet');
+        $expectedArray = ['id' => 3, 'title' => 'Updated snippet'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/snippets/3', array('title' => 'Updated snippet', 'code' => 'New content', 'file_name' => 'new_file.txt'))
+            ->with('projects/1/snippets/3', ['title' => 'Updated snippet', 'code' => 'New content', 'file_name' => 'new_file.txt'])
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->update(1, 3, array('file_name' => 'new_file.txt', 'code' => 'New content', 'title' => 'Updated snippet')));
+        $this->assertEquals($expectedArray, $api->update(1, 3, ['file_name' => 'new_file.txt', 'code' => 'New content', 'title' => 'Updated snippet']));
     }
 
     /**
@@ -114,10 +114,10 @@ class SnippetsTest extends TestCase
      */
     public function shouldGetSnippetAwardEmoji()
     {
-        $expectedArray = array(
-            array('id' => 1, 'name' => 'sparkles'),
-            array('id' => 2, 'name' => 'heart_eyes'),
-        );
+        $expectedArray = [
+            ['id' => 1, 'name' => 'sparkles'],
+            ['id' => 2, 'name' => 'heart_eyes'],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())

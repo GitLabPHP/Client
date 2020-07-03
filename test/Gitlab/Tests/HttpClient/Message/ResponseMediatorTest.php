@@ -13,10 +13,10 @@ class ResponseMediatorTest extends TestCase
 {
     public function testGetContent()
     {
-        $body = array('foo' => 'bar');
+        $body = ['foo' => 'bar'];
         $response = new Response(
             200,
-            array('Content-Type'=>'application/json'),
+            ['Content-Type' => 'application/json'],
             \GuzzleHttp\Psr7\stream_for(json_encode($body))
         );
 
@@ -31,7 +31,7 @@ class ResponseMediatorTest extends TestCase
         $body = 'foobar';
         $response = new Response(
             200,
-            array(),
+            [],
             \GuzzleHttp\Psr7\stream_for($body)
         );
 
@@ -39,14 +39,14 @@ class ResponseMediatorTest extends TestCase
     }
 
     /**
-     * Make sure we return the body if we have invalid json
+     * Make sure we return the body if we have invalid json.
      */
     public function testGetContentInvalidJson()
     {
         $body = 'foobar';
         $response = new Response(
             200,
-            array('Content-Type'=>'application/json'),
+            ['Content-Type' => 'application/json'],
             \GuzzleHttp\Psr7\stream_for($body)
         );
 
@@ -55,22 +55,22 @@ class ResponseMediatorTest extends TestCase
 
     public function testGetPagination()
     {
-        $header = <<<TEXT
+        $header = <<<'TEXT'
 <https://example.gitlab.com>; rel="first",
 <https://example.gitlab.com>; rel="next",
 <https://example.gitlab.com>; rel="prev",
 <https://example.gitlab.com>; rel="last",
 TEXT;
 
-        $pagination = array(
+        $pagination = [
             'first' => 'https://example.gitlab.com',
             'next' => 'https://example.gitlab.com',
             'prev' => 'https://example.gitlab.com',
-            'last' => 'https://example.gitlab.com'
-        );
+            'last' => 'https://example.gitlab.com',
+        ];
 
         // response mock
-        $response = new Response(200, array('link'=>$header));
+        $response = new Response(200, ['link' => $header]);
         $result = ResponseMediator::getPagination($response);
 
         $this->assertEquals($pagination, $result);

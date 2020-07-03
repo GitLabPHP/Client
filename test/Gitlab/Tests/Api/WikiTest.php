@@ -10,28 +10,28 @@ class WikiTest extends TestCase
     public function shouldCreateWiki()
     {
         $expectedArray = [
-            "format" => "markdown",
-            "slug" => "Test-Wiki",
-            "title" => "Test Wiki",
-            "content" => "This is the test Wiki",
+            'format' => 'markdown',
+            'slug' => 'Test-Wiki',
+            'title' => 'Test Wiki',
+            'content' => 'This is the test Wiki',
         ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/wikis', [
-                "format" => "markdown",
-                "title" => "Test Wiki",
-                "content" => "This is the test Wiki"
+                'format' => 'markdown',
+                'title' => 'Test Wiki',
+                'content' => 'This is the test Wiki',
             ])
             ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->create(
             1,
             [
-                "format" => "markdown",
-                "title" => "Test Wiki",
-                "content" => "This is the test Wiki"
+                'format' => 'markdown',
+                'title' => 'Test Wiki',
+                'content' => 'This is the test Wiki',
             ]
         ));
     }
@@ -42,9 +42,9 @@ class WikiTest extends TestCase
     public function shouldShowWiki()
     {
         $expectedArray = [
-            "slug" => "Test-Wiki",
-            "title" => "Test Wiki",
-            "format" => "markdown"
+            'slug' => 'Test-Wiki',
+            'title' => 'Test Wiki',
+            'format' => 'markdown',
         ];
 
         $api = $this->getApiMock();
@@ -53,7 +53,7 @@ class WikiTest extends TestCase
             ->with('projects/1/wikis/Test-Wiki')
             ->will($this->returnValue($expectedArray));
 
-        $this->assertEquals($expectedArray, $api->show(1, "Test-Wiki"));
+        $this->assertEquals($expectedArray, $api->show(1, 'Test-Wiki'));
     }
 
     /**
@@ -62,9 +62,9 @@ class WikiTest extends TestCase
     public function shouldShowAllWiki()
     {
         $expectedArray = [
-            "slug" => "Test-Wiki",
-            "title" => "Test Wiki",
-            "format" => "markdown"
+            'slug' => 'Test-Wiki',
+            'title' => 'Test Wiki',
+            'format' => 'markdown',
         ];
 
         $api = $this->getApiMock();
@@ -85,18 +85,18 @@ class WikiTest extends TestCase
         $expectedArray = [
             'slug' => 'Test-Wiki',
             'title' => 'Test Wiki',
-            "format" => "markdown",
-            "content" => "This is the test Wiki that has been updated"
+            'format' => 'markdown',
+            'content' => 'This is the test Wiki that has been updated',
         ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/wikis/Test-Wiki', ["content" => "This is the test Wiki that has been updated"])
+            ->with('projects/1/wikis/Test-Wiki', ['content' => 'This is the test Wiki that has been updated'])
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->update(1, "Test-Wiki", ["content" => "This is the test Wiki that has been updated"]));
+        $this->assertEquals($expectedArray, $api->update(1, 'Test-Wiki', ['content' => 'This is the test Wiki that has been updated']));
     }
 
     /**
@@ -113,7 +113,7 @@ class WikiTest extends TestCase
             ->will($this->returnValue($expectedBool))
         ;
 
-        $this->assertEquals($expectedBool, $api->remove(1, "Test-Wiki"));
+        $this->assertEquals($expectedBool, $api->remove(1, 'Test-Wiki'));
     }
 
     protected function getApiClass()

@@ -4,10 +4,10 @@ namespace Gitlab\Api;
 
 class Wiki extends AbstractApi
 {
-
     /**
-     * @param int $project_id
+     * @param int   $project_id
      * @param array $params
+     *
      * @return mixed
      */
     public function create($project_id, array $params)
@@ -18,6 +18,7 @@ class Wiki extends AbstractApi
     /**
      * @param int $project_id
      * @param int $wiki_slug
+     *
      * @return mixed
      */
     public function show($project_id, $wiki_slug)
@@ -27,6 +28,7 @@ class Wiki extends AbstractApi
 
     /**
      * @param int $project_id
+     *
      * @return mixed
      */
     public function showAll($project_id)
@@ -35,8 +37,9 @@ class Wiki extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int   $project_id
      * @param array $params
+     *
      * @return mixed
      */
     public function update($project_id, $wiki_slug, array $params)
@@ -47,6 +50,7 @@ class Wiki extends AbstractApi
     /**
      * @param int $project_id
      * @param int $wiki_slug
+     *
      * @return mixed
      */
     public function remove($project_id, $wiki_slug)

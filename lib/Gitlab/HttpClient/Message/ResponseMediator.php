@@ -12,6 +12,7 @@ class ResponseMediator
     /**
      * Return the response body as a string or json array if content type is application/json.
      *.
+     *
      * @param ResponseInterface $response
      *
      * @return array|string
@@ -43,7 +44,7 @@ class ResponseMediator
         }
 
         $header = self::getHeader($response, 'Link');
-        $pagination = array();
+        $pagination = [];
         foreach (explode(',', $header) as $link) {
             preg_match('/<(.*)>; rel="(.*)"/i', trim($link, ','), $match);
 
@@ -59,7 +60,7 @@ class ResponseMediator
      * Get the value for a single header.
      *
      * @param ResponseInterface $response
-     * @param string $name
+     * @param string            $name
      *
      * @return string|null
      */

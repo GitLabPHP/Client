@@ -5,7 +5,7 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Note
+ * Class Note.
  *
  * @property-read int $id
  * @property-read User $author
@@ -22,7 +22,7 @@ class Note extends AbstractModel
     /**
      * @var array
      */
-    protected static $properties = array(
+    protected static $properties = [
         'id',
         'author',
         'body',
@@ -31,13 +31,14 @@ class Note extends AbstractModel
         'parent_type',
         'parent',
         'attachment',
-        'system'
-    );
+        'system',
+    ];
 
     /**
-     * @param Client $client
+     * @param Client   $client
      * @param Noteable $type
-     * @param array $data
+     * @param array    $data
+     *
      * @return mixed
      */
     public static function fromArray(Client $client, Noteable $type, array $data)
@@ -53,7 +54,7 @@ class Note extends AbstractModel
 
     /**
      * @param Noteable $type
-     * @param Client $client
+     * @param Client   $client
      */
     public function __construct(Noteable $type, Client $client = null)
     {

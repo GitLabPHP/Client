@@ -8,14 +8,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class Repositories extends AbstractApi
 {
     const TYPE_BRANCH = 'branch';
+
     const TYPE_TAG = 'tag';
 
     /**
-     * @param int $project_id
+     * @param int   $project_id
      * @param array $parameters (
      *
      *     @var string $search
      * )
+     *
      * @return mixed
      */
     public function branches($project_id, array $parameters = [])
@@ -30,6 +32,7 @@ class Repositories extends AbstractApi
     /**
      * @param int $project_id
      * @param int $branch_id
+     *
      * @return mixed
      */
     public function branch($project_id, $branch_id)
@@ -38,22 +41,24 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int    $project_id
      * @param string $branch
      * @param string $ref
+     *
      * @return mixed
      */
     public function createBranch($project_id, $branch, $ref)
     {
-        return $this->post($this->getProjectPath($project_id, 'repository/branches'), array(
+        return $this->post($this->getProjectPath($project_id, 'repository/branches'), [
             'branch' => $branch,
-            'ref' => $ref
-        ));
+            'ref' => $ref,
+        ]);
     }
 
     /**
-     * @param int $project_id
+     * @param int    $project_id
      * @param string $branch
+     *
      * @return mixed
      */
     public function deleteBranch($project_id, $branch)
@@ -62,23 +67,25 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int    $project_id
      * @param string $branch_name
-     * @param bool $devPush
-     * @param bool $devMerge
+     * @param bool   $devPush
+     * @param bool   $devMerge
+     *
      * @return mixed
      */
     public function protectBranch($project_id, $branch_name, $devPush = false, $devMerge = false)
     {
-        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch_name).'/protect'), array(
+        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch_name).'/protect'), [
             'developers_can_push' => $devPush,
-            'developers_can_merge' => $devMerge
-        ));
+            'developers_can_merge' => $devMerge,
+        ]);
     }
 
     /**
-     * @param int $project_id
+     * @param int    $project_id
      * @param string $branch_name
+     *
      * @return mixed
      */
     public function unprotectBranch($project_id, $branch_name)
@@ -87,8 +94,9 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int   $project_id
      * @param array $parameters
+     *
      * @return mixed
      */
     public function tags($project_id, array $parameters = [])
@@ -99,67 +107,72 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int    $project_id
      * @param string $name
      * @param string $ref
      * @param string $message
+     *
      * @return mixed
      */
     public function createTag($project_id, $name, $ref, $message = null)
     {
-        return $this->post($this->getProjectPath($project_id, 'repository/tags'), array(
+        return $this->post($this->getProjectPath($project_id, 'repository/tags'), [
             'tag_name' => $name,
             'ref' => $ref,
-            'message' => $message
-        ));
+            'message' => $message,
+        ]);
     }
 
     /**
-     * @param int $project_id
+     * @param int    $project_id
      * @param string $tag_name
      * @param string $description
+     *
      * @return mixed
      */
     public function createRelease($project_id, $tag_name, $description)
     {
-        return $this->post($this->getProjectPath($project_id, 'repository/tags/' . $this->encodePath($tag_name) . '/release'), array(
-            'id'          => $project_id,
-            'tag_name'    => $tag_name,
-            'description' => $description
-        ));
+        return $this->post($this->getProjectPath($project_id, 'repository/tags/'.$this->encodePath($tag_name).'/release'), [
+            'id' => $project_id,
+            'tag_name' => $tag_name,
+            'description' => $description,
+        ]);
     }
 
     /**
-     * @param int $project_id
+     * @param int    $project_id
      * @param string $tag_name
      * @param string $description
+     *
      * @return mixed
      */
     public function updateRelease($project_id, $tag_name, $description)
     {
-        return $this->put($this->getProjectPath($project_id, 'repository/tags/' . $this->encodePath($tag_name) . '/release'), array(
-            'id'          => $project_id,
-            'tag_name'    => $tag_name,
-            'description' => $description
-        ));
+        return $this->put($this->getProjectPath($project_id, 'repository/tags/'.$this->encodePath($tag_name).'/release'), [
+            'id' => $project_id,
+            'tag_name' => $tag_name,
+            'description' => $description,
+        ]);
     }
 
     /**
      * @param int $project_id
+     *
      * @return mixed
      */
     public function releases($project_id)
     {
         $resolver = $this->createOptionsResolver();
+
         return $this->get($this->getProjectPath($project_id, 'releases'));
     }
 
     /**
-     * @param int $project_id
+     * @param int   $project_id
      * @param array $parameters (
      *
-     *     @var string             $ref_name The name of a repository branch or tag or if not given the default branch.
-     *     @var \DateTimeInterface $since    Only commits after or on this date will be returned.
+     *     @var string             $ref_name the name of a repository branch or tag or if not given the default branch
+     *     @var \DateTimeInterface $since    only commits after or on this date will be returned
      *     @var \DateTimeInterface $until    Only commits before or on this date will be returned.
      * )
      *
@@ -189,8 +202,9 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int    $project_id
      * @param string $sha
+     *
      * @return mixed
      */
     public function commit($project_id, $sha)
@@ -199,9 +213,10 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int    $project_id
      * @param string $sha
-     * @param array $parameters
+     * @param array  $parameters
+     *
      * @return mixed
      */
     public function commitRefs($project_id, $sha, array $parameters = [])
@@ -209,27 +224,26 @@ class Repositories extends AbstractApi
         $resolver = $this->createOptionsResolver();
 
         return $this->get(
-            $this->getProjectPath($project_id, 'repository/commits/' . $this->encodePath($sha) . '/refs'),
+            $this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/refs'),
             $resolver->resolve($parameters)
         );
     }
 
     /**
-     * @param int $project_id
+     * @param int   $project_id
      * @param array $parameters (
      *
      *     @var string $branch         Name of the branch to commit into. To create a new branch, also provide start_branch.
-     *     @var string $commit_message Commit message.
-     *     @var string $start_branch   Name of the branch to start the new commit from.
+     *     @var string $commit_message commit message
+     *     @var string $start_branch   name of the branch to start the new commit from
      *     @var array $actions (
-     *
-     *         @var string $action        he action to perform, create, delete, move, update.
-     *         @var string $file_path     Full path to the file.
-     *         @var string $previous_path Original full path to the file being moved.
+     *         @var string $action        he action to perform, create, delete, move, update
+     *         @var string $file_path     full path to the file
+     *         @var string $previous_path original full path to the file being moved
      *         @var string $content       File content, required for all except delete. Optional for move.
      *         @var string $encoding      text or base64. text is default.
      *     )
-     *     @var string $author_email   Specify the commit author's email address.
+     *     @var string $author_email   specify the commit author's email address
      *     @var string $author_name    Specify the commit author's name.
      * )
      *
@@ -278,9 +292,10 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int    $project_id
      * @param string $sha
-     * @param array $parameters
+     * @param array  $parameters
+     *
      * @return mixed
      */
     public function commitComments($project_id, $sha, array $parameters = [])
@@ -294,13 +309,14 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int    $project_id
      * @param string $sha
      * @param string $note
-     * @param array $params
+     * @param array  $params
+     *
      * @return mixed
      */
-    public function createCommitComment($project_id, $sha, $note, array $params = array())
+    public function createCommitComment($project_id, $sha, $note, array $params = [])
     {
         $params['note'] = $note;
 
@@ -308,24 +324,26 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int    $project_id
      * @param string $sha
-     * @param array $params
+     * @param array  $params
+     *
      * @return mixed
      */
-    public function getCommitBuildStatus($project_id, $sha, array $params = array())
+    public function getCommitBuildStatus($project_id, $sha, array $params = [])
     {
         return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/statuses'), $params);
     }
 
     /**
-     * @param int $project_id
+     * @param int    $project_id
      * @param string $sha
      * @param string $state
-     * @param array $params
+     * @param array  $params
+     *
      * @return mixed
      */
-    public function postCommitBuildStatus($project_id, $sha, $state, array $params = array())
+    public function postCommitBuildStatus($project_id, $sha, $state, array $params = [])
     {
         $params['state'] = $state;
 
@@ -333,10 +351,11 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int    $project_id
      * @param string $fromShaOrMaster
      * @param string $toShaOrMaster
-     * @param bool $straight
+     * @param bool   $straight
+     *
      * @return mixed
      */
     public function compare($project_id, $fromShaOrMaster, $toShaOrMaster, $straight = false)
@@ -348,8 +367,9 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int    $project_id
      * @param string $sha
+     *
      * @return string
      */
     public function diff($project_id, $sha)
@@ -358,19 +378,21 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int   $project_id
      * @param array $params
+     *
      * @return mixed
      */
-    public function tree($project_id, array $params = array())
+    public function tree($project_id, array $params = [])
     {
         return $this->get($this->getProjectPath($project_id, 'repository/tree'), $params);
     }
 
     /**
-     * @param int $project_id
+     * @param int    $project_id
      * @param string $sha
      * @param string $filepath
+     *
      * @return mixed
      */
     public function blob($project_id, $sha, $filepath)
@@ -381,9 +403,10 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int    $project_id
      * @param string $file_path
      * @param string $ref
+     *
      * @return mixed
      */
     public function getFile($project_id, $file_path, $ref)
@@ -394,7 +417,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int    $project_id
      * @param string $file_path
      * @param string $content
      * @param string $branch
@@ -402,6 +425,7 @@ class Repositories extends AbstractApi
      * @param string $encoding
      * @param string $author_email
      * @param string $author_name
+     *
      * @return mixed
      */
     public function createFile($project_id, $file_path, $content, $branch, $commit_message, $encoding = null, $author_email = null, $author_name = null)
@@ -420,7 +444,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int    $project_id
      * @param string $file_path
      * @param string $content
      * @param string $branch
@@ -428,6 +452,7 @@ class Repositories extends AbstractApi
      * @param string $encoding
      * @param string $author_email
      * @param string $author_name
+     *
      * @return mixed
      */
     public function updateFile($project_id, $file_path, $content, $branch, $commit_message, $encoding = null, $author_email = null, $author_name = null)
@@ -446,12 +471,13 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int    $project_id
      * @param string $file_path
      * @param string $branch
      * @param string $commit_message
      * @param string $author_email
      * @param string $author_name
+     *
      * @return mixed
      */
     public function deleteFile($project_id, $file_path, $branch, $commit_message, $author_email = null, $author_name = null)
@@ -469,6 +495,7 @@ class Repositories extends AbstractApi
 
     /**
      * @param int $project_id
+     *
      * @return mixed
      */
     public function contributors($project_id)
@@ -477,31 +504,33 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param array $params
-     * @param string $format Options: "tar.gz", "zip", "tar.bz2" and "tar"
+     * @param int    $project_id
+     * @param array  $params
+     * @param string $format     Options: "tar.gz", "zip", "tar.bz2" and "tar"
+     *
      * @return mixed
      */
-    public function archive($project_id, $params = array(), $format = 'tar.gz')
+    public function archive($project_id, $params = [], $format = 'tar.gz')
     {
         return $this->get($this->getProjectPath($project_id, 'repository/archive.'.$format), $params);
     }
 
     /**
-     * @param int $project_id
+     * @param int   $project_id
      * @param array $refs
+     *
      * @return mixed
      */
     public function mergeBase($project_id, $refs)
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/merge_base'), array('refs' => $refs));
+        return $this->get($this->getProjectPath($project_id, 'repository/merge_base'), ['refs' => $refs]);
     }
 
     protected function createOptionsResolver()
     {
         $allowedTypeValues = [
             self::TYPE_BRANCH,
-            self::TYPE_TAG
+            self::TYPE_TAG,
         ];
 
         $resolver = parent::createOptionsResolver();

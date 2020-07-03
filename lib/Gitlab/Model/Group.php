@@ -5,7 +5,7 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Group
+ * Class Group.
  *
  * @property-read int $id
  * @property-read string $name
@@ -28,7 +28,7 @@ class Group extends AbstractModel
     /**
      * @var array
      */
-    protected static $properties = array(
+    protected static $properties = [
         'id',
         'name',
         'path',
@@ -44,11 +44,12 @@ class Group extends AbstractModel
         'parent_id',
         'projects',
         'shared_projects',
-    );
+    ];
 
     /**
      * @param Client $client
      * @param array  $data
+     *
      * @return Group
      */
     public static function fromArray(Client $client, array $data)
@@ -56,7 +57,7 @@ class Group extends AbstractModel
         $group = new self($data['id'], $client);
 
         if (isset($data['projects'])) {
-            $projects = array();
+            $projects = [];
             foreach ($data['projects'] as $project) {
                 $projects[] = Project::fromArray($client, $project);
             }
@@ -64,7 +65,7 @@ class Group extends AbstractModel
         }
 
         if (isset($data['shared_projects'])) {
-            $projects = array();
+            $projects = [];
             foreach ($data['shared_projects'] as $project) {
                 $projects[] = Project::fromArray($client, $project);
             }
@@ -78,6 +79,7 @@ class Group extends AbstractModel
      * @param Client $client
      * @param string $name
      * @param string $path
+     *
      * @return Group
      */
     public static function create(Client $client, $name, $path)
@@ -88,7 +90,7 @@ class Group extends AbstractModel
     }
 
     /**
-     * @param int $id
+     * @param int    $id
      * @param Client $client
      */
     public function __construct($id, Client $client = null)
@@ -104,29 +106,31 @@ class Group extends AbstractModel
     {
         $data = $this->client->groups()->show($this->id);
 
-        return Group::fromArray($this->getClient(), $data);
+        return self::fromArray($this->getClient(), $data);
     }
 
     /**
      * @param int $project_id
+     *
      * @return Group
      */
     public function transfer($project_id)
     {
         $data = $this->client->groups()->transfer($this->id, $project_id);
 
-        return Group::fromArray($this->getClient(), $data);
+        return self::fromArray($this->getClient(), $data);
     }
 
     /**
      * @param int|null $user_id
-     * @param bool $all
+     * @param bool     $all
+     *
      * @return array|User
      */
     public function allMembers($user_id = null, $all = false)
     {
         if ($all) {
-            $data = (new \Gitlab\ResultPager($this->client))->fetchAll($this->client->groups(), "allMembers", [$this->id, $user_id]);
+            $data = (new \Gitlab\ResultPager($this->client))->fetchAll($this->client->groups(), 'allMembers', [$this->id, $user_id]);
         } else {
             $data = $this->client->groups()->allMembers($this->id, $user_id);
         }
@@ -134,10 +138,11 @@ class Group extends AbstractModel
         if (null != $user_id) {
             return User::fromArray($this->getClient(), $data);
         } else {
-            $members = array();
+            $members = [];
             foreach ($data as $member) {
                 $members[] = User::fromArray($this->getClient(), $member);
             }
+
             return $members;
         }
     }
@@ -149,7 +154,7 @@ class Group extends AbstractModel
     {
         $data = $this->client->groups()->members($this->id);
 
-        $members = array();
+        $members = [];
         foreach ($data as $member) {
             $members[] = User::fromArray($this->getClient(), $member);
         }
@@ -160,6 +165,7 @@ class Group extends AbstractModel
     /**
      * @param int $user_id
      * @param int $access_level
+     *
      * @return User
      */
     public function addMember($user_id, $access_level)
@@ -171,6 +177,7 @@ class Group extends AbstractModel
 
     /**
      * @param int $user_id
+     *
      * @return bool
      */
     public function removeMember($user_id)
@@ -187,7 +194,7 @@ class Group extends AbstractModel
     {
         $data = $this->client->groups()->projects($this->id);
 
-        $projects = array();
+        $projects = [];
         foreach ($data as $project) {
             $projects[] = Project::fromArray($this->getClient(), $project);
         }
@@ -202,9 +209,9 @@ class Group extends AbstractModel
     {
         $data = $this->client->groups()->subgroups($this->id);
 
-        $groups = array();
+        $groups = [];
         foreach ($data as $group) {
-            $groups[] = Group::fromArray($this->getClient(), $group);
+            $groups[] = self::fromArray($this->getClient(), $group);
         }
 
         return $groups;

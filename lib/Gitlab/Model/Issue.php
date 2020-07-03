@@ -5,7 +5,7 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Issue
+ * Class Issue.
  *
  * @property-read int $id
  * @property-read int $iid
@@ -27,7 +27,7 @@ class Issue extends AbstractModel implements Noteable
     /**
      * @var array
      */
-    protected static $properties = array(
+    protected static $properties = [
         'id',
         'iid',
         'project_id',
@@ -41,13 +41,14 @@ class Issue extends AbstractModel implements Noteable
         'updated_at',
         'created_at',
         'project',
-        'state'
-    );
+        'state',
+    ];
 
     /**
      * @param Client  $client
      * @param Project $project
      * @param array   $data
+     *
      * @return Issue
      */
     public static function fromArray(Client $client, Project $project, array $data)
@@ -67,8 +68,8 @@ class Issue extends AbstractModel implements Noteable
 
     /**
      * @param Project $project
-     * @param int $iid
-     * @param Client $client
+     * @param int     $iid
+     * @param Client  $client
      */
     public function __construct(Project $project, $iid = null, Client $client = null)
     {
@@ -89,6 +90,7 @@ class Issue extends AbstractModel implements Noteable
 
     /**
      * @param array $params
+     *
      * @return Issue
      */
     public function update(array $params)
@@ -100,6 +102,7 @@ class Issue extends AbstractModel implements Noteable
 
     /**
      * @param Project $toProject
+     *
      * @return Issue
      */
     public function move(Project $toProject)
@@ -111,6 +114,7 @@ class Issue extends AbstractModel implements Noteable
 
     /**
      * @param string|null $comment
+     *
      * @return Issue
      */
     public function close($comment = null)
@@ -119,9 +123,9 @@ class Issue extends AbstractModel implements Noteable
             $this->addComment($comment);
         }
 
-        return $this->update(array(
-            'state_event' => 'close'
-        ));
+        return $this->update([
+            'state_event' => 'close',
+        ]);
     }
 
     /**
@@ -129,9 +133,9 @@ class Issue extends AbstractModel implements Noteable
      */
     public function open()
     {
-        return $this->update(array(
-            'state_event' => 'reopen'
-        ));
+        return $this->update([
+            'state_event' => 'reopen',
+        ]);
     }
 
     /**
@@ -143,16 +147,17 @@ class Issue extends AbstractModel implements Noteable
     }
 
     /**
-     * @param string $comment
+     * @param string      $comment
      * @param string|null $created_at
+     *
      * @return Note
      */
     public function addComment($comment, $created_at = null)
     {
-        $data = $this->client->issues()->addComment($this->project->id, $this->iid, array(
+        $data = $this->client->issues()->addComment($this->project->id, $this->iid, [
             'body' => $comment,
             'created_at' => $created_at,
-        ));
+        ]);
 
         return Note::fromArray($this->getClient(), $this, $data);
     }
@@ -162,7 +167,7 @@ class Issue extends AbstractModel implements Noteable
      */
     public function showComments()
     {
-        $notes = array();
+        $notes = [];
         $data = $this->client->issues()->showComments($this->project->id, $this->iid);
 
         foreach ($data as $note) {
@@ -182,6 +187,7 @@ class Issue extends AbstractModel implements Noteable
 
     /**
      * @param string $label
+     *
      * @return bool
      */
     public function hasLabel($label)
@@ -196,7 +202,7 @@ class Issue extends AbstractModel implements Noteable
     {
         $data = $this->client->issueLinks()->all($this->project->id, $this->iid);
         if (!is_array($data)) {
-            return array();
+            return [];
         }
 
         $projects = $this->client->projects();
@@ -212,13 +218,14 @@ class Issue extends AbstractModel implements Noteable
 
     /**
      * @param Issue $target
+     *
      * @return Issue[]
      */
-    public function addLink(Issue $target)
+    public function addLink(self $target)
     {
         $data = $this->client->issueLinks()->create($this->project->id, $this->iid, $target->project->id, $target->iid);
         if (!is_array($data)) {
-            return array();
+            return [];
         }
 
         return [
@@ -229,6 +236,7 @@ class Issue extends AbstractModel implements Noteable
 
     /**
      * @param int $issue_link_id
+     *
      * @return Issue[]
      */
     public function removeLink($issue_link_id)
@@ -236,7 +244,7 @@ class Issue extends AbstractModel implements Noteable
         // The two related issues have the same link ID.
         $data = $this->client->issueLinks()->remove($this->project->id, $this->iid, $issue_link_id);
         if (!is_array($data)) {
-            return array();
+            return [];
         }
 
         $targetProject = Project::fromArray(

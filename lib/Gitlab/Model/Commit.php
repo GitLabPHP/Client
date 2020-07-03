@@ -5,7 +5,7 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Commit
+ * Class Commit.
  *
  * @property-read string $id
  * @property-read string $short_id
@@ -27,7 +27,7 @@ class Commit extends AbstractModel
     /**
      * @var array
      */
-    protected static $properties = array(
+    protected static $properties = [
         'id',
         'short_id',
         'parents',
@@ -42,13 +42,14 @@ class Commit extends AbstractModel
         'committed_date',
         'created_at',
         'project',
-        'stats'
-    );
+        'stats',
+    ];
 
     /**
      * @param Client  $client
      * @param Project $project
      * @param array   $data
+     *
      * @return Commit
      */
     public static function fromArray(Client $client, Project $project, array $data)
@@ -56,7 +57,7 @@ class Commit extends AbstractModel
         $commit = new self($project, $data['id'], $client);
 
         if (isset($data['parents'])) {
-            $parents = array();
+            $parents = [];
             foreach ($data['parents'] as $parent) {
                 $parents[] = static::fromArray($client, $project, $parent);
             }
@@ -77,7 +78,7 @@ class Commit extends AbstractModel
 
     /**
      * @param Project $project
-     * @param int $id
+     * @param int     $id
      * @param Client  $client
      */
     public function __construct(Project $project, $id = null, Client $client = null)

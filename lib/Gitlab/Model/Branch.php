@@ -6,7 +6,7 @@ use Gitlab\Api\Projects;
 use Gitlab\Client;
 
 /**
- * Class Branch
+ * Class Branch.
  *
  * @property-read string $name
  * @property-read bool $protected
@@ -18,17 +18,18 @@ class Branch extends AbstractModel
     /**
      * @var array
      */
-    protected static $properties = array(
+    protected static $properties = [
         'name',
         'commit',
         'project',
-        'protected'
-    );
+        'protected',
+    ];
 
     /**
      * @param Client  $client
      * @param Project $project
      * @param array   $data
+     *
      * @return Branch
      */
     public static function fromArray(Client $client, Project $project, array $data)
@@ -44,8 +45,8 @@ class Branch extends AbstractModel
 
     /**
      * @param Project $project
-     * @param string $name
-     * @param Client $client
+     * @param string  $name
+     * @param Client  $client
      */
     public function __construct(Project $project, $name = null, Client $client = null)
     {
@@ -67,6 +68,7 @@ class Branch extends AbstractModel
     /**
      * @param bool $devPush
      * @param bool $devMerge
+     *
      * @return Branch
      */
     public function protect($devPush = false, $devMerge = false)
@@ -112,6 +114,7 @@ class Branch extends AbstractModel
      * @param string $file_path
      * @param string $content
      * @param string $commit_message
+     *
      * @return File
      */
     public function createFile($file_path, $content, $commit_message)
@@ -125,6 +128,7 @@ class Branch extends AbstractModel
      * @param string $file_path
      * @param string $content
      * @param string $commit_message
+     *
      * @return File
      */
     public function updateFile($file_path, $content, $commit_message)
@@ -137,6 +141,7 @@ class Branch extends AbstractModel
     /**
      * @param string $file_path
      * @param string $commit_message
+     *
      * @return bool
      */
     public function deleteFile($file_path, $commit_message)

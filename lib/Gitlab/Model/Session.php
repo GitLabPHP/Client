@@ -5,7 +5,7 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Session
+ * Class Session.
  *
  * @property-read int $id
  * @property-read string $email
@@ -19,18 +19,19 @@ class Session extends AbstractModel
     /**
      * @var array
      */
-    protected static $properties = array(
+    protected static $properties = [
         'id',
         'email',
         'name',
         'private_token',
         'created_at',
-        'blocked'
-    );
+        'blocked',
+    ];
 
     /**
      * @param Client $client
      * @param array  $data
+     *
      * @return Session
      */
     public static function fromArray(Client $client, array $data)
@@ -61,6 +62,7 @@ class Session extends AbstractModel
     /**
      * @param string $email
      * @param string $password
+     *
      * @return Session
      */
     public function login($email, $password)

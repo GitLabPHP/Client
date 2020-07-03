@@ -6,7 +6,7 @@ use Gitlab\Api\ApiInterface;
 use Gitlab\HttpClient\Message\ResponseMediator;
 
 /**
- * Pager class for supporting pagination in Gitlab classes
+ * Pager class for supporting pagination in Gitlab classes.
  */
 class ResultPager implements ResultPagerInterface
 {
@@ -17,7 +17,7 @@ class ResultPager implements ResultPagerInterface
 
     /**
      * The Gitlab client to use for pagination. This must be the same
-     * instance that you got the Api instance from, i.e.:
+     * instance that you got the Api instance from, i.e.:.
      *
      * $client = new \Gitlab\Client();
      * $api = $client->api('someApi');
@@ -33,17 +33,17 @@ class ResultPager implements ResultPagerInterface
     /**
      * {@inheritdoc}
      */
-    public function fetch(ApiInterface $api, $method, array $parameters = array())
+    public function fetch(ApiInterface $api, $method, array $parameters = [])
     {
-        return call_user_func_array(array($api, $method), $parameters);
+        return call_user_func_array([$api, $method], $parameters);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function fetchAll(ApiInterface $api, $method, array $parameters = array())
+    public function fetchAll(ApiInterface $api, $method, array $parameters = [])
     {
-        $result = call_user_func_array(array($api, $method), $parameters);
+        $result = call_user_func_array([$api, $method], $parameters);
         while ($this->hasNext()) {
             $result = array_merge($result, $this->fetchNext());
         }
