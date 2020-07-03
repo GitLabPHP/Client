@@ -19,26 +19,24 @@ This is strongly based on [php-github-api](https://github.com/KnpLabs/php-github
 Installation
 ------------
 
-This version requires [PHP](https://php.net) 5.6-7.4.
-
-To get the latest version, simply require the project using [Composer](https://getcomposer.org). You will need to install any package that "provides" [`php-http/client-implementation`](https://packagist.org/providers/php-http/client-implementation).
+This version supports [PHP](https://php.net) 5.6-7.4. To get started, simply require the project using [Composer](https://getcomposer.org). You will also need to install any package that "provides" [`php-http/client-implementation`](https://packagist.org/providers/php-http/client-implementation).
 
 ### PHP 5.6+:
 
 ```bash
-composer require m4tthumphrey/php-gitlab-api:^9.18 php-http/guzzle6-adapter:^2.0.1
+$ composer require m4tthumphrey/php-gitlab-api:^9.18 php-http/guzzle6-adapter:^2.0.1
 ```
 
 ### Laravel 5.5+:
 
 ```bash
-composer require graham-campbell/gitlab:^2.7 php-http/guzzle6-adapter:^2.0.1
+$ composer require graham-campbell/gitlab:^2.7 php-http/guzzle6-adapter:^2.0.1
 ```
 
 ### Symfony 3+:
 
 ```bash
-composer require zeichen32/gitlabapibundle:^2.6 php-http/guzzle6-adapter:^2.0.1
+$ composer require zeichen32/gitlabapibundle:^2.6 php-http/guzzle6-adapter:^2.0.1
 ```
 
 We are decoupled from any HTTP messaging client with help by [HTTPlug](http://httplug.io). You can visit [HTTPlug for library users](https://docs.php-http.org/en/latest/httplug/users.html) to get more information about installing HTTPlug related packages. [graham-campbell/gitlab](https://github.com/GrahamCampbell/Laravel-GitLab) is by [Graham Campbell](https://github.com/GrahamCampbell) and [zeichen32/gitlabapibundle](https://github.com/Zeichen32/GitLabApiBundle) is by [Jens Averkamp](https://github.com/Zeichen32).
@@ -123,9 +121,19 @@ $builder->addPlugin($plugin);
 
 $client = new Gitlab\Client($builder);
 ```
-One can read more about HTTPlug plugins [here](https://docs.php-http.org/en/latest/plugins/introduction.html#how-it-works). Take a look around ([API methods](https://github.com/m4tthumphrey/php-gitlab-api/tree/9.18/lib/Gitlab/Api), [models](https://github.com/m4tthumphrey/php-gitlab-api/tree/9.18/lib/Gitlab/Model)) and please feel free to report any bugs.
+One can read more about HTTPlug plugins [here](https://docs.php-http.org/en/latest/plugins/introduction.html#how-it-works). Take a look around ([API methods](https://github.com/m4tthumphrey/php-gitlab-api/tree/9.18/lib/Gitlab/Api), [models](https://github.com/m4tthumphrey/php-gitlab-api/tree/9.18/lib/Gitlab/Model)) and please feel free to report any bugs, noting our [code of conduct](.github/CODE_OF_CONDUCT.md).
 
 Contributing
 ------------
 
-Not all endpoints of the API are implemented yet. We will gladly review and accept pull requests!
+Not all endpoints of the API are implemented yet. We will gladly review and accept pull requests, in accordance with our [contribution guidelines](.github/CONTRIBUTING.md)!
+
+Security
+--------
+
+If you discover a security vulnerability within this package, please send an email to Graham Campbell at graham@alt-three.com or Miguel Piedrafita at github@miguelpiedrafita.com. All security vulnerabilities will be promptly addressed. You may view our full security policy [here](https://github.com/m4tthumphrey/php-gitlab-api/security/policy).
+
+License
+-------
+
+PHP GitLab API is licensed under [The MIT License (MIT)](LICENSE).
