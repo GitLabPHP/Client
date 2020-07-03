@@ -6,7 +6,6 @@ use Gitlab\Api\AbstractApi;
 use Gitlab\Client;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Client\ClientInterface;
-use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
 class AbstractApiTest extends TestCase
