@@ -569,7 +569,6 @@ class MergeRequestsTest extends TestCase
         $this->assertEquals($expectedArray, $api->approvalState(1, 2));
     }
 
-
     /**
      * @test
      */
