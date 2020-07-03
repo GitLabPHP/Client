@@ -5,7 +5,7 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Event
+ * Class Event.
  *
  * @property-read string $title
  * @property-read int $id
@@ -24,7 +24,7 @@ class Event extends AbstractModel
     /**
      * @var array
      */
-    protected static $properties = array(
+    protected static $properties = [
         'title',
         'project_id',
         'action_name',
@@ -35,13 +35,14 @@ class Event extends AbstractModel
         'data',
         'target_title',
         'author',
-        'project'
-    );
+        'project',
+    ];
 
     /**
      * @param Client  $client
      * @param Project $project
      * @param array   $data
+     *
      * @return Event
      */
     public static function fromArray(Client $client, Project $project, array $data)

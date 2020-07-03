@@ -5,18 +5,18 @@ namespace Gitlab\Api;
 class Issues extends AbstractApi
 {
     /**
-     * @param int $project_id
+     * @param int   $project_id
      * @param array $parameters (
      *
-     *     @var string $state        Return all issues or just those that are opened or closed.
+     *     @var string $state        return all issues or just those that are opened or closed
      *     @var string $labels       Comma-separated list of label names, issues must have all labels to be returned.
      *                               No+Label lists all issues with no labels.
-     *     @var string $milestone    The milestone title.
+     *     @var string $milestone    the milestone title
      *     @var string scope         Return issues for the given scope: created-by-me, assigned-to-me or all. Defaults to created-by-me
-     *     @var int[]  $iids         Return only the issues having the given iid.
+     *     @var int[]  $iids         return only the issues having the given iid
      *     @var string $order_by     Return requests ordered by created_at or updated_at fields. Default is created_at.
      *     @var string $sort         Return requests sorted in asc or desc order. Default is desc.
-     *     @var string $search       Search issues against their title and description.
+     *     @var string $search       search issues against their title and description
      *     @var int    $assignee_id  Search issues against their assignee.
      * )
      *
@@ -40,6 +40,7 @@ class Issues extends AbstractApi
     /**
      * @param int $project_id
      * @param int $issue_iid
+     *
      * @return mixed
      */
     public function show($project_id, $issue_iid)
@@ -48,8 +49,9 @@ class Issues extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int   $project_id
      * @param array $params
+     *
      * @return mixed
      */
     public function create($project_id, array $params)
@@ -58,9 +60,10 @@ class Issues extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $issue_iid
+     * @param int   $project_id
+     * @param int   $issue_iid
      * @param array $params
+     *
      * @return mixed
      */
     public function update($project_id, $issue_iid, array $params)
@@ -72,18 +75,20 @@ class Issues extends AbstractApi
      * @param int $project_id
      * @param int $issue_iid
      * @param int $to_project_id
+     *
      * @return mixed
      */
     public function move($project_id, $issue_iid, $to_project_id)
     {
-        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid)).'/move', array(
-            'to_project_id' => $to_project_id
-        ));
+        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid)).'/move', [
+            'to_project_id' => $to_project_id,
+        ]);
     }
 
     /**
      * @param int $project_id
      * @param int $issue_iid
+     *
      * @return mixed
      */
     public function remove($project_id, $issue_iid)
@@ -94,6 +99,7 @@ class Issues extends AbstractApi
     /**
      * @param int $project_id
      * @param int $issue_iid
+     *
      * @return mixed
      */
     public function showComments($project_id, $issue_iid)
@@ -105,6 +111,7 @@ class Issues extends AbstractApi
      * @param int $project_id
      * @param int $issue_iid
      * @param int $note_id
+     *
      * @return mixed
      */
     public function showComment($project_id, $issue_iid, $note_id)
@@ -113,9 +120,10 @@ class Issues extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $issue_iid
+     * @param int          $project_id
+     * @param int          $issue_iid
      * @param string|array $body
+     *
      * @return mixed
      */
     public function addComment($project_id, $issue_iid, $body)
@@ -124,30 +132,32 @@ class Issues extends AbstractApi
         if (is_array($body)) {
             $params = $body;
         } else {
-            $params = array('body' => $body);
+            $params = ['body' => $body];
         }
 
         return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/notes'), $params);
     }
 
     /**
-     * @param int $project_id
-     * @param int $issue_iid
-     * @param int $note_id
+     * @param int    $project_id
+     * @param int    $issue_iid
+     * @param int    $note_id
      * @param string $body
+     *
      * @return mixed
      */
     public function updateComment($project_id, $issue_iid, $note_id, $body)
     {
-        return $this->put($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/notes/'.$this->encodePath($note_id)), array(
-            'body' => $body
-        ));
+        return $this->put($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/notes/'.$this->encodePath($note_id)), [
+            'body' => $body,
+        ]);
     }
 
     /**
      * @param int $project_id
      * @param int $issue_iid
      * @param int $note_id
+     *
      * @return mixed
      */
     public function removeComment($project_id, $issue_iid, $note_id)
@@ -158,6 +168,7 @@ class Issues extends AbstractApi
     /**
      * @param int $project_id
      * @param int $issue_iid
+     *
      * @return mixed
      */
     public function showDiscussions($project_id, $issue_iid)
@@ -166,9 +177,10 @@ class Issues extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $issue_iid
+     * @param int    $project_id
+     * @param int    $issue_iid
      * @param string $discussion_id
+     *
      * @return mixed
      */
     public function showDiscussion($project_id, $issue_iid, $discussion_id)
@@ -177,9 +189,10 @@ class Issues extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $issue_iid
+     * @param int          $project_id
+     * @param int          $issue_iid
      * @param string|array $body
+     *
      * @return mixed
      */
     public function addDiscussion($project_id, $issue_iid, $body)
@@ -188,17 +201,18 @@ class Issues extends AbstractApi
         if (is_array($body)) {
             $params = $body;
         } else {
-            $params = array('body' => $body);
+            $params = ['body' => $body];
         }
 
         return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/discussions'), $params);
     }
 
     /**
-     * @param int $project_id
-     * @param int $issue_iid
-     * @param string $discussion_id
+     * @param int          $project_id
+     * @param int          $issue_iid
+     * @param string       $discussion_id
      * @param string|array $body
+     *
      * @return mixed
      */
     public function addDiscussionNote($project_id, $issue_iid, $discussion_id, $body)
@@ -207,32 +221,34 @@ class Issues extends AbstractApi
         if (is_array($body)) {
             $params = $body;
         } else {
-            $params = array('body' => $body);
+            $params = ['body' => $body];
         }
 
         return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/discussions/'.$this->encodePath($discussion_id).'/notes'), $params);
     }
 
     /**
-     * @param int $project_id
-     * @param int $issue_iid
+     * @param int    $project_id
+     * @param int    $issue_iid
      * @param string $discussion_id
-     * @param int $note_id
+     * @param int    $note_id
      * @param string $body
+     *
      * @return mixed
      */
     public function updateDiscussionNote($project_id, $issue_iid, $discussion_id, $note_id, $body)
     {
-        return $this->put($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/discussions/'.$this->encodePath($discussion_id).'/notes/'.$this->encodePath($note_id)), array(
-            'body' => $body
-        ));
+        return $this->put($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/discussions/'.$this->encodePath($discussion_id).'/notes/'.$this->encodePath($note_id)), [
+            'body' => $body,
+        ]);
     }
 
     /**
-     * @param int $project_id
-     * @param int $issue_iid
+     * @param int    $project_id
+     * @param int    $issue_iid
      * @param string $discussion_id
-     * @param int $note_id
+     * @param int    $note_id
+     *
      * @return mixed
      */
     public function removeDiscussionNote($project_id, $issue_iid, $discussion_id, $note_id)
@@ -241,19 +257,21 @@ class Issues extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $issue_iid
+     * @param int    $project_id
+     * @param int    $issue_iid
      * @param string $duration
+     *
      * @return mixed
      */
     public function setTimeEstimate($project_id, $issue_iid, $duration)
     {
-        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/time_estimate'), array('duration' => $duration));
+        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/time_estimate'), ['duration' => $duration]);
     }
 
     /**
      * @param int $project_id
      * @param int $issue_iid
+     *
      * @return mixed
      */
     public function resetTimeEstimate($project_id, $issue_iid)
@@ -262,19 +280,21 @@ class Issues extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $issue_iid
+     * @param int    $project_id
+     * @param int    $issue_iid
      * @param string $duration
+     *
      * @return mixed
      */
     public function addSpentTime($project_id, $issue_iid, $duration)
     {
-        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/add_spent_time'), array('duration' => $duration));
+        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/add_spent_time'), ['duration' => $duration]);
     }
 
     /**
      * @param int $project_id
      * @param int $issue_iid
+     *
      * @return mixed
      */
     public function resetSpentTime($project_id, $issue_iid)
@@ -285,11 +305,12 @@ class Issues extends AbstractApi
     /**
      * @param int $project_id
      * @param int $issue_iid
+     *
      * @return mixed
      */
     public function getTimeStats($project_id, $issue_iid)
     {
-        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid) .'/time_stats'));
+        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/time_stats'));
     }
 
     /**
@@ -297,13 +318,15 @@ class Issues extends AbstractApi
      * If the user is already subscribed to the issue, the status code 304 is returned.
      *
      * @see https://docs.gitlab.com/ee/api/issues.html#subscribe-to-an-issue
+     *
      * @param int|string $project_id The ID or URL-encoded path of the project owned by the authenticated user
-     * @param int $issue_iid The internal ID of a project’s issue
+     * @param int        $issue_iid  The internal ID of a project’s issue
+     *
      * @return array|string issue object if change is made, empty string otherwise
      */
     public function subscribe($project_id, $issue_iid)
     {
-        return $this->post($this->getProjectPath($project_id, 'issues/' . $this->encodePath($issue_iid) . '/subscribe'));
+        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/subscribe'));
     }
 
     /**
@@ -311,13 +334,15 @@ class Issues extends AbstractApi
      * If the user is not subscribed to the issue, the status code 304 is returned.
      *
      * @see https://docs.gitlab.com/ee/api/issues.html#unsubscribe-from-an-issue
+     *
      * @param int|string $project_id The ID or URL-encoded path of the project owned by the authenticated user
-     * @param int $issue_iid The internal ID of a project’s issue
+     * @param int        $issue_iid  The internal ID of a project’s issue
+     *
      * @return array|string issue object if change is made, empty string otherwise
      */
     public function unsubscribe($project_id, $issue_iid)
     {
-        return $this->post($this->getProjectPath($project_id, 'issues/' . $this->encodePath($issue_iid) . '/unsubscribe'));
+        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/unsubscribe'));
     }
 
     /**
@@ -334,6 +359,7 @@ class Issues extends AbstractApi
     /**
      * @param int $project_id
      * @param int $issue_iid
+     *
      * @return mixed
      */
     public function closedByMergeRequests($project_id, $issue_iid)
@@ -344,11 +370,12 @@ class Issues extends AbstractApi
     /**
      * @param int $project_id
      * @param int $issue_iid
+     *
      * @return mixed
      */
     public function showParticipants($project_id, $issue_iid)
     {
-        return $this->get($this->getProjectPath($project_id, 'issues/' .$this->encodePath($issue_iid)).'/participants');
+        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid)).'/participants');
     }
 
     /**

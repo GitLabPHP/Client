@@ -5,7 +5,7 @@ namespace Gitlab\Api;
 use Gitlab\Client;
 
 /**
- * Api interface
+ * Api interface.
  */
 interface ApiInterface
 {

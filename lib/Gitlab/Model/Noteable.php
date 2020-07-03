@@ -5,8 +5,9 @@ namespace Gitlab\Model;
 interface Noteable
 {
     /**
-     * @param string $comment
+     * @param string      $comment
      * @param string|null $created_at
+     *
      * @return Note
      */
     public function addComment($comment, $created_at = null);
@@ -18,6 +19,7 @@ interface Noteable
 
     /**
      * @param string|null $comment
+     *
      * @return static
      */
     public function close($comment = null);

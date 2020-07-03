@@ -24,7 +24,7 @@ class ProjectTest extends TestCase
             'readme_url' => 'http://example.com/diaspora/diaspora-client/blob/master/README.md',
             'tag_list' => [
                 'example',
-                'disapora client'
+                'disapora client',
             ],
             'owner' => [
                 'id' => 3,
@@ -137,9 +137,9 @@ class ProjectTest extends TestCase
                     'group_id' => 4,
                     'group_name' => 'Twitter',
                     'group_full_path' => 'twitter',
-                    'group_access_level' => 30
-                ]
-            ]
+                    'group_access_level' => 30,
+                ],
+            ],
         ]);
 
         $project = Project::fromArray($client, $data);
@@ -159,16 +159,15 @@ class ProjectTest extends TestCase
                     'group_id' => 4,
                     'group_name' => 'Twitter',
                     'group_full_path' => 'twitter',
-                    'group_access_level' => 30
+                    'group_access_level' => 30,
                 ],
                 [
                     'group_id' => 3,
                     'group_name' => 'Gitlab Org',
                     'group_full_path' => 'gitlab-org',
-                    'group_access_level' => 10
-                ]
-
-            ]
+                    'group_access_level' => 10,
+                ],
+            ],
         ]);
 
         $project = Project::fromArray($client, $data);

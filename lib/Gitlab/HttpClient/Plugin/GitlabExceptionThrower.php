@@ -65,7 +65,7 @@ class GitlabExceptionThrower implements Plugin
 
         if (is_array($message)) {
             $format = '"%s" %s';
-            $errors = array();
+            $errors = [];
 
             foreach ($message as $field => $messages) {
                 if (is_array($messages)) {
@@ -73,7 +73,7 @@ class GitlabExceptionThrower implements Plugin
                     foreach ($messages as $error) {
                         $errors[] = sprintf($format, $field, $error);
                     }
-                } elseif (is_integer($field)) {
+                } elseif (is_int($field)) {
                     $errors[] = $messages;
                 } else {
                     $errors[] = sprintf($format, $field, $messages);

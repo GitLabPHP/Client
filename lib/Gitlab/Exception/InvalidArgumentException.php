@@ -3,7 +3,7 @@
 namespace Gitlab\Exception;
 
 /**
- * InvalidArgumentException
+ * InvalidArgumentException.
  *
  * @author Joseph Bielawski <stloyd@gmail.com>
  */

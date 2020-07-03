@@ -5,11 +5,11 @@ namespace Gitlab\Api;
 class GroupsMilestones extends AbstractApi
 {
     /**
-     * @param int $group_id
+     * @param int   $group_id
      * @param array $parameters (
      *
-     *     @var int[]  $iids   Return only the milestones having the given iids.
-     *     @var string $state  Return only active or closed milestones.
+     *     @var int[]  $iids   return only the milestones having the given iids
+     *     @var string $state  return only active or closed milestones
      *     @var string $search Return only milestones with a title or description matching the provided string.
      * )
      *
@@ -35,6 +35,7 @@ class GroupsMilestones extends AbstractApi
     /**
      * @param int $group_id
      * @param int $milestone_id
+     *
      * @return mixed
      */
     public function show($group_id, $milestone_id)
@@ -43,8 +44,9 @@ class GroupsMilestones extends AbstractApi
     }
 
     /**
-     * @param int $group_id
+     * @param int   $group_id
      * @param array $params
+     *
      * @return mixed
      */
     public function create($group_id, array $params)
@@ -53,9 +55,10 @@ class GroupsMilestones extends AbstractApi
     }
 
     /**
-     * @param int $group_id
-     * @param int $milestone_id
+     * @param int   $group_id
+     * @param int   $milestone_id
      * @param array $params
+     *
      * @return mixed
      */
     public function update($group_id, $milestone_id, array $params)
@@ -66,6 +69,7 @@ class GroupsMilestones extends AbstractApi
     /**
      * @param int $group_id
      * @param int $milestone_id
+     *
      * @return mixed
      */
     public function remove($group_id, $milestone_id)
@@ -76,6 +80,7 @@ class GroupsMilestones extends AbstractApi
     /**
      * @param int $group_id
      * @param int $milestone_id
+     *
      * @return mixed
      */
     public function issues($group_id, $milestone_id)
@@ -86,6 +91,7 @@ class GroupsMilestones extends AbstractApi
     /**
      * @param int $group_id
      * @param int $milestone_id
+     *
      * @return mixed
      */
     public function mergeRequests($group_id, $milestone_id)
