@@ -394,6 +394,8 @@ class Repositories extends AbstractApi
      * @param string $filepath
      *
      * @return mixed
+     *
+     * @deprecated since version 9.2 and will be removed in 10.0. Use the RepositoryFiles::getRawFile() method instead.
      */
     public function blob($project_id, $sha, $filepath)
     {
@@ -408,6 +410,8 @@ class Repositories extends AbstractApi
      * @param string $ref
      *
      * @return mixed
+     *
+     * @deprecated since version 9.2 and will be removed in 10.0. Use the RepositoryFiles::getFile() method instead.
      */
     public function getFile($project_id, $file_path, $ref)
     {
@@ -427,6 +431,8 @@ class Repositories extends AbstractApi
      * @param string $author_name
      *
      * @return mixed
+     *
+     * @deprecated since version 9.2 and will be removed in 10.0. Use the RepositoryFiles::createFile() method instead.
      */
     public function createFile($project_id, $file_path, $content, $branch, $commit_message, $encoding = null, $author_email = null, $author_name = null)
     {
@@ -454,6 +460,8 @@ class Repositories extends AbstractApi
      * @param string $author_name
      *
      * @return mixed
+     *
+     * @deprecated since version 9.2 and will be removed in 10.0. Use the RepositoryFiles::updateFile() method instead.
      */
     public function updateFile($project_id, $file_path, $content, $branch, $commit_message, $encoding = null, $author_email = null, $author_name = null)
     {
@@ -479,6 +487,8 @@ class Repositories extends AbstractApi
      * @param string $author_name
      *
      * @return mixed
+     *
+     * @deprecated since version 9.2 and will be removed in 10.0. Use the RepositoryFiles::deleteFile() method instead.
      */
     public function deleteFile($project_id, $file_path, $branch, $commit_message, $author_email = null, $author_name = null)
     {
