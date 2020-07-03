@@ -9,13 +9,13 @@ class Users extends AbstractApi
     /**
      * @param array $parameters {
      *
-     *     @var string             $search         search for user by email or username
-     *     @var string             $username       lookup for user by username
-     *     @var bool               $external       search for external users only
-     *     @var string             $extern_uid     lookup for users by external uid
-     *     @var string             $provider       lookup for users by provider
-     *     @var \DateTimeInterface $created_before return users created before the given time (inclusive)
-     *     @var \DateTimeInterface $created_after  return users created after the given time (inclusive)
+     *     @var string             $search         Search for user by email or username.
+     *     @var string             $username       Lookup for user by username.
+     *     @var bool               $external       Search for external users only.
+     *     @var string             $extern_uid     Lookup for users by external uid.
+     *     @var string             $provider       Lookup for users by provider.
+     *     @var \DateTimeInterface $created_before Return users created before the given time (inclusive).
+     *     @var \DateTimeInterface $created_after  Return users created after the given time (inclusive).
      *     @var bool               $active         Return only active users. It does not support filtering inactive users.
      *     @var bool               $blocked        Return only blocked users. It does not support filtering non-blocked users.
      * }
@@ -414,10 +414,10 @@ class Users extends AbstractApi
     }
 
     /**
-     * @param int    $user_id
-     * @param string $name
-     * @param array  $scopes
-     * @param null   $expires_at
+     * @param int         $user_id
+     * @param string      $name
+     * @param array       $scopes
+     * @param string|null $expires_at
      *
      * @return mixed
      */

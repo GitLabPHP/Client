@@ -43,8 +43,8 @@ class Contributor extends AbstractModel
     }
 
     /**
-     * @param Project $project
-     * @param Client  $client
+     * @param Project     $project
+     * @param Client|null $client
      *
      * @return void
      */

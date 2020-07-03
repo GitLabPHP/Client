@@ -49,9 +49,9 @@ class Snippet extends AbstractModel implements Notable
     }
 
     /**
-     * @param Project $project
-     * @param int     $id
-     * @param Client  $client
+     * @param Project     $project
+     * @param int         $id
+     * @param Client|null $client
      *
      * @return void
      */

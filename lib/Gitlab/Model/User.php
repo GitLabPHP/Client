@@ -96,8 +96,8 @@ class User extends AbstractModel
     }
 
     /**
-     * @param int    $id
-     * @param Client $client
+     * @param int|null    $id
+     * @param Client|null $client
      *
      * @return void
      */

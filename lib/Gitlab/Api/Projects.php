@@ -187,7 +187,7 @@ class Projects extends AbstractApi
 
     /**
      * @param int   $project_id
-     * @param array $parameters (
+     * @param array $parameters {
      *
      *     @var string $scope       the scope of pipelines, one of: running, pending, finished, branches, tags
      *     @var string $status      the status of pipelines, one of: running, pending, success, failed, canceled, skipped
@@ -198,7 +198,7 @@ class Projects extends AbstractApi
      *     @var string $username    the username of the user who triggered pipelines
      *     @var string $order_by    order pipelines by id, status, ref, or user_id (default: id)
      *     @var string $order       Sort pipelines in asc or desc order (default: desc).
-     * )
+     * }
      *
      * @return mixed
      */
@@ -258,14 +258,12 @@ class Projects extends AbstractApi
     /**
      * @param int    $project_id
      * @param string $commit_ref
-     * @param array  $variables  (
+     * @param array|null $variables {
      *
-     *     @var array (
-     *         @var string $key             The name of the variable
-     *         @var mixed $value            The value of the variable
-     *         @var string $variable_type   env_var (default) or file
-     *     )
-     * )
+     *     @var string $key            The name of the variable
+     *     @var mixed $value           The value of the variable
+     *     @var string $variable_type  env_var (default) or file
+     * }
      *
      * @return mixed
      */
@@ -332,10 +330,10 @@ class Projects extends AbstractApi
 
     /**
      * @param int   $project_id
-     * @param array $parameters (
+     * @param array $parameters {
      *
      *     @var string $query           The query you want to search members for.
-     * )
+     * }
      *
      * @return mixed
      */
@@ -600,14 +598,14 @@ class Projects extends AbstractApi
 
     /**
      * @param int   $project_id
-     * @param array $parameters (
+     * @param array $parameters {
      *
      *     @var string             $action      include only events of a particular action type
      *     @var string             $target_type include only events of a particular target type
      *     @var \DateTimeInterface $before      include only events created before a particular date
      *     @var \DateTimeInterface $after       include only events created after a particular date
      *     @var string             $sort        Sort events in asc or desc order by created_at. Default is desc.
-     * )
+     * }
      *
      * @return mixed
      */
@@ -713,12 +711,12 @@ class Projects extends AbstractApi
 
     /**
      * @param int   $project_id
-     * @param array $parameters (
+     * @param array $parameters {
      *
      *     @var string $namespace      The ID or path of the namespace that the project will be forked to
      *     @var string $path           The path of the forked project (optional)
      *     @var string $name           The name of the forked project (optional)
-     * )
+     * }
      *
      * @return mixed
      */
@@ -801,11 +799,11 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
-     * @param string $key
-     * @param string $value
-     * @param bool   $protected
-     * @param string $environment_scope
+     * @param int         $project_id
+     * @param string      $key
+     * @param string      $value
+     * @param bool|null   $protected
+     * @param string|null $environment_scope
      *
      * @return mixed
      */
@@ -828,11 +826,11 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
-     * @param string $key
-     * @param string $value
-     * @param bool   $protected
-     * @param string $environment_scope
+     * @param int         $project_id
+     * @param string      $key
+     * @param string      $value
+     * @param bool|null   $protected
+     * @param string|null $environment_scope
      *
      * @return mixed
      */

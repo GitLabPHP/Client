@@ -67,9 +67,9 @@ class Issue extends AbstractModel implements Noteable, Notable
     }
 
     /**
-     * @param Project $project
-     * @param int     $iid
-     * @param Client  $client
+     * @param Project     $project
+     * @param int|null    $iid
+     * @param Client|null $client
      *
      * @return void
      */

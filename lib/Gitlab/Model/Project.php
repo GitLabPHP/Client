@@ -162,8 +162,8 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int    $id
-     * @param Client $client
+     * @param int|null    $id
+     * @param Client|null $client
      *
      * @return void
      */
@@ -733,8 +733,8 @@ class Project extends AbstractModel
      * @param string $content
      * @param string $branch_name
      * @param string $commit_message
-     * @param string $author_email
-     * @param string $author_name
+     * @param string|null $author_email
+     * @param string|null $author_name
      *
      * @return File
      */
@@ -978,8 +978,8 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int    $iid
-     * @param string $comment
+     * @param int $iid
+     * @param string|null $comment
      *
      * @return Issue
      */

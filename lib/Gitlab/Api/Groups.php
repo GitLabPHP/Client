@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class Groups extends AbstractApi
 {
     /**
-     * @param array $parameters (
+     * @param array $parameters {
      *
      *     @var int[]  $skip_groups   skip the group IDs passes
      *     @var bool   $all_available show all the groups you have access to
@@ -17,7 +17,7 @@ class Groups extends AbstractApi
      *     @var string $sort          Order groups in asc or desc order. Default is asc.
      *     @var bool   $statistics    include group statistics (admins only)
      *     @var bool   $owned         Limit by groups owned by the current user.
-     * )
+     * }
      *
      * @return mixed
      */
@@ -115,10 +115,10 @@ class Groups extends AbstractApi
 
     /**
      * @param int   $id
-     * @param array $parameters (
+     * @param array $parameters {
      *
      *     @var string $query A query string to search for members.
-     * )
+     * }
      *
      * @return mixed
      */
@@ -172,7 +172,7 @@ class Groups extends AbstractApi
 
     /**
      * @param int   $id
-     * @param array $parameters (
+     * @param array $parameters {
      *
      *     @var bool   $archived                    limit by archived status
      *     @var string $visibility                  limit by visibility public, internal, or private
@@ -188,7 +188,7 @@ class Groups extends AbstractApi
      *     @var bool   $with_shared                 Include projects shared to this group. Default is true.
      *     @var bool   $include_subgroups           Include projects in subgroups of this group. Default is false.
      *     @var bool   $with_custom_attributes      Include custom attributes in response (admins only).
-     * )
+     * }
      *
      * @return mixed
      */
@@ -251,7 +251,7 @@ class Groups extends AbstractApi
 
     /**
      * @param int   $group_id
-     * @param array $parameters (
+     * @param array $parameters {
      *
      *     @var int[]  $skip_groups   skip the group IDs passes
      *     @var bool   $all_available show all the groups you have access to
@@ -260,7 +260,7 @@ class Groups extends AbstractApi
      *     @var string $sort          Order groups in asc or desc order. Default is asc.
      *     @var bool   $statistics    include group statistics (admins only)
      *     @var bool   $owned         Limit by groups owned by the current user.
-     * )
+     * }
      *
      * @return mixed
      */
@@ -344,10 +344,10 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param int    $group_id
-     * @param string $key
-     * @param string $value
-     * @param bool   $protected
+     * @param int       $group_id
+     * @param string    $key
+     * @param string    $value
+     * @param bool|null $protected
      *
      * @return mixed
      */
@@ -366,10 +366,10 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param int    $group_id
-     * @param string $key
-     * @param string $value
-     * @param bool   $protected
+     * @param int       $group_id
+     * @param string    $key
+     * @param string    $value
+     * @param bool|null $protected
      *
      * @return mixed
      */

@@ -40,7 +40,7 @@ class Badge extends AbstractModel
 
     /**
      * @param Project $project
-     * @param Client  $client
+     * @param Client|null $client
      *
      * @return void
      */

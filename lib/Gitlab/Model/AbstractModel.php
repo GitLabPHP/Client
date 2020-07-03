@@ -32,7 +32,7 @@ abstract class AbstractModel
     }
 
     /**
-     * @param Client $client
+     * @param Client|null $client
      *
      * @return $this
      */
