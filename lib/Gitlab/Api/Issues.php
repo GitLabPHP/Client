@@ -24,7 +24,7 @@ class Issues extends AbstractApi
      */
     public function all($project_id = null, array $parameters = [])
     {
-        $path = $project_id === null ? 'issues' : $this->getProjectPath($project_id, 'issues');
+        $path = null === $project_id ? 'issues' : $this->getProjectPath($project_id, 'issues');
 
         return $this->get($path, $this->createOptionsResolver()->resolve($parameters));
     }
@@ -296,7 +296,7 @@ class Issues extends AbstractApi
      * Subscribes the authenticated user to an issue to receive notifications.
      * If the user is already subscribed to the issue, the status code 304 is returned.
      *
-     * @link https://docs.gitlab.com/ee/api/issues.html#subscribe-to-an-issue
+     * @see https://docs.gitlab.com/ee/api/issues.html#subscribe-to-an-issue
      * @param int|string $project_id The ID or URL-encoded path of the project owned by the authenticated user
      * @param int $issue_iid The internal ID of a project’s issue
      * @return array|string issue object if change is made, empty string otherwise
@@ -310,7 +310,7 @@ class Issues extends AbstractApi
      * Unsubscribes the authenticated user from the issue to not receive notifications from it.
      * If the user is not subscribed to the issue, the status code 304 is returned.
      *
-     * @link https://docs.gitlab.com/ee/api/issues.html#unsubscribe-from-an-issue
+     * @see https://docs.gitlab.com/ee/api/issues.html#unsubscribe-from-an-issue
      * @param int|string $project_id The ID or URL-encoded path of the project owned by the authenticated user
      * @param int $issue_iid The internal ID of a project’s issue
      * @return array|string issue object if change is made, empty string otherwise
@@ -352,7 +352,7 @@ class Issues extends AbstractApi
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function createOptionsResolver()
     {

@@ -102,7 +102,7 @@ class Builder
             $this->httpClientModified = false;
 
             $plugins = $this->plugins;
-            if ($this->cachePlugin !== null) {
+            if (null !== $this->cachePlugin) {
                 $plugins[] = $this->cachePlugin;
             }
 

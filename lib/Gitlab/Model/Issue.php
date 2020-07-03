@@ -177,7 +177,7 @@ class Issue extends AbstractModel implements Noteable
      */
     public function isClosed()
     {
-        return $this->state === 'closed';
+        return 'closed' === $this->state;
     }
 
     /**
