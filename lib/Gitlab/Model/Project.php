@@ -729,10 +729,10 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $file_path
-     * @param string $content
-     * @param string $branch_name
-     * @param string $commit_message
+     * @param string      $file_path
+     * @param string      $content
+     * @param string      $branch_name
+     * @param string      $commit_message
      * @param string|null $author_email
      * @param string|null $author_name
      *
@@ -978,7 +978,7 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int $iid
+     * @param int         $iid
      * @param string|null $comment
      *
      * @return Issue

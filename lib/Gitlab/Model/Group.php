@@ -90,7 +90,7 @@ class Group extends AbstractModel
     }
 
     /**
-     * @param int $id
+     * @param int         $id
      * @param Client|null $client
      *
      * @return void

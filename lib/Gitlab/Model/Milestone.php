@@ -55,7 +55,7 @@ class Milestone extends AbstractModel
     }
 
     /**
-     * @param Project    $project
+     * @param Project     $project
      * @param int         $id
      * @param Client|null $client
      *
