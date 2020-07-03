@@ -14,7 +14,7 @@ class GroupsBoards extends AbstractApi
     {
         $resolver = $this->createOptionsResolver();
 
-        $path = $group_id === null ? 'boards' : $this->getGroupPath($group_id, 'boards');
+        $path = null === $group_id ? 'boards' : $this->getGroupPath($group_id, 'boards');
 
         return $this->get($path, $resolver->resolve($parameters));
     }

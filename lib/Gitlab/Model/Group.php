@@ -131,7 +131,7 @@ class Group extends AbstractModel
             $data = $this->client->groups()->allMembers($this->id, $user_id);
         }
 
-        if ($user_id != null) {
+        if (null != $user_id) {
             return User::fromArray($this->getClient(), $data);
         } else {
             $members = array();

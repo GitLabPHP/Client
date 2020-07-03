@@ -7,7 +7,7 @@ use Gitlab\Api\IssueLinks;
 class IssueLinksTest extends TestCase
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getApiClass()
     {

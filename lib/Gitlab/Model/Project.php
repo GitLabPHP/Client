@@ -232,7 +232,7 @@ class Project extends AbstractModel
             $data = $this->client->projects()->allMembers($this->id, $user_id);
         }
 
-        if ($user_id != null) {
+        if (null != $user_id) {
             return User::fromArray($this->getClient(), $data);
         } else {
             $members = array();
@@ -664,11 +664,11 @@ class Project extends AbstractModel
             'commit_message' => $commit_message,
         ];
 
-        if ($author_email !== null) {
+        if (null !== $author_email) {
             $parameters['author_email'] = $author_email;
         }
 
-        if ($author_name !== null) {
+        if (null !== $author_name) {
             $parameters['author_name'] = $author_name;
         }
 
@@ -701,11 +701,11 @@ class Project extends AbstractModel
             'commit_message' => $commit_message,
         ];
 
-        if ($author_email !== null) {
+        if (null !== $author_email) {
             $parameters['author_email'] = $author_email;
         }
 
-        if ($author_name !== null) {
+        if (null !== $author_name) {
             $parameters['author_name'] = $author_name;
         }
 
@@ -730,11 +730,11 @@ class Project extends AbstractModel
             'commit_message' => $commit_message,
         ];
 
-        if ($author_email !== null) {
+        if (null !== $author_email) {
             $parameters['author_email'] = $author_email;
         }
 
-        if ($author_name !== null) {
+        if (null !== $author_name) {
             $parameters['author_name'] = $author_name;
         }
 

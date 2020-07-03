@@ -14,7 +14,7 @@ class IssueBoards extends AbstractApi
     {
         $resolver = $this->createOptionsResolver();
 
-        $path = $project_id === null ? 'boards' : $this->getProjectPath($project_id, 'boards');
+        $path = null === $project_id ? 'boards' : $this->getProjectPath($project_id, 'boards');
 
         return $this->get($path, $resolver->resolve($parameters));
     }
