@@ -45,24 +45,14 @@ use Psr\Http\Client\ClientInterface;
 class Client
 {
     /**
-     * Constant for authentication method. Indicates the default, but deprecated
-     * login with username and token in URL.
-     *
-     * @var string
-     */
-    const AUTH_URL_TOKEN = 'url_token';
-
-    /**
-     * Constant for authentication method. Indicates the new login method with
-     * with username and token via HTTP Authentication.
+     * The private token authentication method.
      *
      * @var string
      */
     const AUTH_HTTP_TOKEN = 'http_token';
 
     /**
-     * Constant for authentication method. Indicates the OAuth method with a key
-     * obtain using Gitlab's OAuth provider.
+     * The OAuth 2 token authentication method.
      *
      * @var string
      */

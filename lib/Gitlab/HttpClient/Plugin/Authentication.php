@@ -3,6 +3,7 @@
 namespace Gitlab\HttpClient\Plugin;
 
 use Gitlab\Client;
+use Gitlab\Exception\RuntimeException;
 use Http\Client\Common\Plugin;
 use Http\Promise\Promise;
 use Psr\Http\Message\RequestInterface;
@@ -52,39 +53,20 @@ class Authentication implements Plugin
         switch ($this->method) {
             case Client::AUTH_HTTP_TOKEN:
                 $request = $request->withHeader('PRIVATE-TOKEN', $this->token);
-                if (!is_null($this->sudo)) {
-                    $request = $request->withHeader('SUDO', $this->sudo);
-                }
-
-                break;
-
-            case Client::AUTH_URL_TOKEN:
-                $uri = $request->getUri();
-                $query = $uri->getQuery();
-
-                $parameters = [
-                    'private_token' => $this->token,
-                ];
-
-                if (!is_null($this->sudo)) {
-                    $parameters['sudo'] = $this->sudo;
-                }
-
-                $query .= empty($query) ? '' : '&';
-                $query .= utf8_encode(http_build_query($parameters, '', '&'));
-
-                $uri = $uri->withQuery($query);
-                $request = $request->withUri($uri);
 
                 break;
 
             case Client::AUTH_OAUTH_TOKEN:
-                $request = $request->withHeader('Authorization', 'Bearer '.$this->token);
-                if (!is_null($this->sudo)) {
-                    $request = $request->withHeader('SUDO', $this->sudo);
-                }
+                $request = $request->withHeader('Authorization', sprintf('Bearer %s', $this->token));
 
                 break;
+
+            default:
+                throw new RuntimeException(sprintf('Authentication method "%s" not implemented.', $method));
+        }
+
+        if (!is_null($this->sudo)) {
+            $request = $request->withHeader('SUDO', $this->sudo);
         }
 
         return $next($request);

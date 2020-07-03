@@ -59,7 +59,7 @@ General API Usage
 ```php
 // Token authentication
 $client = Gitlab\Client::create('http://git.yourdomain.com')
-    ->authenticate('your_gitlab_token_here', Gitlab\Client::AUTH_URL_TOKEN)
+    ->authenticate('your_gitlab_token_here', Gitlab\Client::AUTH_HTTP_TOKEN)
 ;
 
 // OAuth2 authentication
@@ -81,7 +81,7 @@ to fetch all your closed issue with pagination ( on the gitlab api )
 
 ```php
 $client = Gitlab\Client::create('http://git.yourdomain.com')
-    ->authenticate('your_gitlab_token_here', Gitlab\Client::AUTH_URL_TOKEN)
+    ->authenticate('your_gitlab_token_here', Gitlab\Client::AUTH_HTTP_TOKEN)
 ;
 
 $pager = new Gitlab\ResultPager($client);
@@ -96,7 +96,7 @@ You can also use the library in an object oriented manner:
 
 ```php
 $client = Gitlab\Client::create('http://git.yourdomain.com')
-    ->authenticate('your_gitlab_token_here', Gitlab\Client::AUTH_URL_TOKEN)
+    ->authenticate('your_gitlab_token_here', Gitlab\Client::AUTH_HTTP_TOKEN)
 ;
 
 // Creating a new project
