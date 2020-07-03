@@ -21,13 +21,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 abstract class AbstractApi implements ApiInterface
 {
     /**
-     * The client
+     * The client instance.
      *
      * @var Client
      */
     protected $client;
 
     /**
+     * The HTTP stream factory.
+     *
      * @var StreamFactory
      */
     private $streamFactory;
@@ -44,7 +46,6 @@ abstract class AbstractApi implements ApiInterface
 
     /**
      * @return $this
-     * @codeCoverageIgnore
      */
     public function configure()
     {
@@ -248,7 +249,7 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param $file
+     * @param string $file
      *
      * @return string
      */

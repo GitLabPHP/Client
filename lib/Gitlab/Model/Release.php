@@ -20,8 +20,8 @@ class Release extends AbstractModel
     );
 
     /**
-     * @param Client  $client
-     * @param array   $data
+     * @param Client $client
+     * @param array  $data
      * @return Release
      */
     public static function fromArray(Client $client, array $data)
@@ -32,9 +32,7 @@ class Release extends AbstractModel
     }
 
     /**
-     * @param Project $project
-     * @param int $id
-     * @param Client  $client
+     * @param Client $client
      */
     public function __construct(Client $client = null)
     {

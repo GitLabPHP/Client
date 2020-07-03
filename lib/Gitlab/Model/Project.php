@@ -530,7 +530,7 @@ class Project extends AbstractModel
      * @param string $ref
      * @param array $parameters
      *
-     * @return Commit[]
+     * @return CommitNote[]
      * @see Repositories::commitComments() for available parameters.
      *
      */
@@ -607,8 +607,8 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param $sha
-     * @param $filepath
+     * @param string $sha
+     * @param string $filepath
      *
      * @return array
      */
@@ -622,8 +622,8 @@ class Project extends AbstractModel
      * @param string $content
      * @param string $branch_name
      * @param string $commit_message
-     * @param string $author_email
-     * @param string $author_name
+     * @param string|null $author_email
+     * @param string|null $author_name
      * @return File
      */
     public function createFile(
@@ -1257,8 +1257,7 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $link_url
-     * @param string $color
+     * @param array $params
      * @return Badge
      */
     public function addBadge(array $params)
@@ -1269,7 +1268,7 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $name
+     * @param int $badge_id
      * @param array $params
      * @return Badge
      */
@@ -1283,7 +1282,7 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $name
+     * @param int $badge_id
      * @return bool
      */
     public function removeBadge($badge_id)
@@ -1300,6 +1299,7 @@ class Project extends AbstractModel
     public function addProtectedBranch(array $params = [])
     {
         $data = $this->client->projects()->addProtectedBranch($this->id, $params);
+
         return Branch::fromArray($this->getClient(), $this, $data);
     }
 }
