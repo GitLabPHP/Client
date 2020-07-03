@@ -1,23 +1,28 @@
 {
 	"name": "m4tthumphrey/php-gitlab-api",
-	"type": "library",
 	"description": "GitLab API client",
-	"homepage": "https://github.com/m4tthumphrey/php-gitlab-api",
 	"keywords": ["gitlab", "api"],
 	"license": "MIT",
 	"authors": [
 		{
+			"name": "Fabien Bourigault",
+			"email": "bourigaultfabien@gmail.com",
+			"homepage": "https://github.com/fbourigault"
+		},
+		{
+			"name": "Graham Campbell",
+			"email": "graham@alt-three.com",
+			"homepage": "https://gjcampbell.co.uk"
+		},
+		{
 			"name": "Matt Humphrey",
+			"email": "matth@windsor-telecom.co.uk",
 			"homepage": "http://m4tt.io"
 		},
 		{
-			"name": "KnpLabs Team",
-			"homepage": "http://knplabs.com"
-		},
-		{
-			"name": "Thibault Duplessis",
-			"email": "thibault.duplessis@gmail.com",
-			"homepage": "http://ornicar.github.com"
+			"name": "Miguel Piedrafita",
+			"email": "github@miguelpiedrafita.com",
+			"homepage": "https://miguelpiedrafita.com"
 		}
 	],
 	"require": {
@@ -41,10 +46,5 @@
 	},
 	"autoload-dev": {
 		"psr-4": { "Gitlab\\Tests\\": "test/Gitlab/Tests/" }
-	},
-	"extra": {
-		"branch-alias": {
-			"dev-master": "9.17-dev"
-		}
 	}
 }
