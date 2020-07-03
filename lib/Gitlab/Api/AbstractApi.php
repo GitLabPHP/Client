@@ -5,7 +5,6 @@ namespace Gitlab\Api;
 use Gitlab\Client;
 use Gitlab\HttpClient\Message\QueryStringBuilder;
 use Gitlab\HttpClient\Message\ResponseMediator;
-use Gitlab\Tests\HttpClient\Message\QueryStringBuilderTest;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Message\MultipartStream\MultipartStreamBuilder;
 use Psr\Http\Message\ResponseInterface;
