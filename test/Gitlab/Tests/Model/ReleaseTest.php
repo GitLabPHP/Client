@@ -2,8 +2,6 @@
 
 namespace Gitlab\Tests\Model;
 
-use Gitlab\Api\Projects;
-use Gitlab\Api\Tags;
 use Gitlab\Client;
 use Gitlab\Model\Project;
 use Gitlab\Model\Release;

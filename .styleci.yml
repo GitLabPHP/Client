@@ -7,8 +7,10 @@ enabled:
   - lowercase_cast
   - no_empty_phpdoc
   - no_extra_consecutive_blank_lines
+  - no_unused_imports
   - phpdoc_indent
   - phpdoc_scalar
+  - phpdoc_trim
   - short_scalar_cast
 
 disabled:

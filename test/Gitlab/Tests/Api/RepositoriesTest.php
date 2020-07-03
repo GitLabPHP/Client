@@ -2,7 +2,6 @@
 
 namespace Gitlab\Tests\Api;
 
-use Gitlab\Api\AbstractApi;
 use Gitlab\Api\Repositories;
 
 class RepositoriesTest extends TestCase
