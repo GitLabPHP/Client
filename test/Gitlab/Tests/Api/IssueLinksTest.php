@@ -19,10 +19,10 @@ class IssueLinksTest extends TestCase
      */
     public function shouldGetIssueLinks()
     {
-        $expectedArray = array(
-            array('issue_link_id' => 100),
-            array('issue_link_id' => 101),
-        );
+        $expectedArray = [
+            ['issue_link_id' => 100],
+            ['issue_link_id' => 101],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -39,15 +39,15 @@ class IssueLinksTest extends TestCase
      */
     public function shouldCreateIssueLink()
     {
-        $expectedArray = array(
-            'source_issue' => array('iid' => 10, 'project_id' => 1),
-            'target_issue' => array('iid' => 20, 'project_id' => 2),
-        );
+        $expectedArray = [
+            'source_issue' => ['iid' => 10, 'project_id' => 1],
+            'target_issue' => ['iid' => 20, 'project_id' => 2],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/issues/10/links', array('target_project_id' => 2, 'target_issue_iid' => 20))
+            ->with('projects/1/issues/10/links', ['target_project_id' => 2, 'target_issue_iid' => 20])
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -59,10 +59,10 @@ class IssueLinksTest extends TestCase
      */
     public function shouldRemoveIssueLink()
     {
-        $expectedArray = array(
-            'source_issue' => array('iid' => 10, 'project_id' => 1),
-            'target_issue' => array('iid' => 20, 'project_id' => 2),
-        );
+        $expectedArray = [
+            'source_issue' => ['iid' => 10, 'project_id' => 1],
+            'target_issue' => ['iid' => 20, 'project_id' => 2],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())

@@ -5,7 +5,7 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Badge
+ * Class Badge.
  *
  * @property-read string $link_url
  * @property-read string $image_url
@@ -15,19 +15,20 @@ class Badge extends AbstractModel
     /**
      * @var array
      */
-    protected static $properties = array(
+    protected static $properties = [
         'id',
         'link_url',
         'image_url',
         'rendered_link_url',
         'rendered_image_url',
-        'kind'
-    );
+        'kind',
+    ];
 
     /**
-     * @param Client $client
+     * @param Client  $client
      * @param Project $project
-     * @param array  $data
+     * @param array   $data
+     *
      * @return Badge
      */
     public static function fromArray(Client $client, Project $project, array $data)
@@ -39,7 +40,7 @@ class Badge extends AbstractModel
 
     /**
      * @param Project $project
-     * @param Client $client
+     * @param Client  $client
      */
     public function __construct(Project $project, Client $client = null)
     {

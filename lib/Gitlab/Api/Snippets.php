@@ -6,6 +6,7 @@ class Snippets extends AbstractApi
 {
     /**
      * @param int $project_id
+     *
      * @return mixed
      */
     public function all($project_id)
@@ -16,6 +17,7 @@ class Snippets extends AbstractApi
     /**
      * @param int $project_id
      * @param int $snippet_id
+     *
      * @return mixed
      */
     public function show($project_id, $snippet_id)
@@ -24,27 +26,29 @@ class Snippets extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int    $project_id
      * @param string $title
      * @param string $filename
      * @param string $code
      * @param string $visibility
+     *
      * @return mixed
      */
     public function create($project_id, $title, $filename, $code, $visibility)
     {
-        return $this->post($this->getProjectPath($project_id, 'snippets'), array(
-            'title'      => $title,
-            'file_name'  => $filename,
-            'code'       => $code,
-            'visibility' => $visibility
-        ));
+        return $this->post($this->getProjectPath($project_id, 'snippets'), [
+            'title' => $title,
+            'file_name' => $filename,
+            'code' => $code,
+            'visibility' => $visibility,
+        ]);
     }
 
     /**
-     * @param int $project_id
-     * @param int $snippet_id
+     * @param int   $project_id
+     * @param int   $snippet_id
      * @param array $params
+     *
      * @return mixed
      */
     public function update($project_id, $snippet_id, array $params)
@@ -55,6 +59,7 @@ class Snippets extends AbstractApi
     /**
      * @param int $project_id
      * @param int $snippet_id
+     *
      * @return string
      */
     public function content($project_id, $snippet_id)
@@ -65,6 +70,7 @@ class Snippets extends AbstractApi
     /**
      * @param int $project_id
      * @param int $snippet_id
+     *
      * @return mixed
      */
     public function remove($project_id, $snippet_id)

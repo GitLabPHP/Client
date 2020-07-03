@@ -5,7 +5,7 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class MergeRequest
+ * Class MergeRequest.
  *
  * @property-read int $id
  * @property-read int $iid
@@ -33,7 +33,7 @@ class MergeRequest extends AbstractModel implements Noteable
     /**
      * @var array
      */
-    protected static $properties = array(
+    protected static $properties = [
         'id',
         'iid',
         'target_branch',
@@ -53,13 +53,14 @@ class MergeRequest extends AbstractModel implements Noteable
         'downvotes',
         'labels',
         'milestone',
-        'files'
-    );
+        'files',
+    ];
 
     /**
      * @param Client  $client
      * @param Project $project
      * @param array   $data
+     *
      * @return MergeRequest
      */
     public static function fromArray(Client $client, Project $project, array $data)
@@ -79,7 +80,7 @@ class MergeRequest extends AbstractModel implements Noteable
         }
 
         if (isset($data['files'])) {
-            $files = array();
+            $files = [];
             foreach ($data['files'] as $file) {
                 $files[] = File::fromArray($client, $project, $file);
             }
@@ -92,8 +93,8 @@ class MergeRequest extends AbstractModel implements Noteable
 
     /**
      * @param Project $project
-     * @param int $iid
-     * @param Client $client
+     * @param int     $iid
+     * @param Client  $client
      */
     public function __construct(Project $project, $iid = null, Client $client = null)
     {
@@ -114,6 +115,7 @@ class MergeRequest extends AbstractModel implements Noteable
 
     /**
      * @param array $params
+     *
      * @return MergeRequest
      */
     public function update(array $params)
@@ -125,6 +127,7 @@ class MergeRequest extends AbstractModel implements Noteable
 
     /**
      * @param string|null $comment
+     *
      * @return MergeRequest
      */
     public function close($comment = null)
@@ -133,9 +136,9 @@ class MergeRequest extends AbstractModel implements Noteable
             $this->addComment($comment);
         }
 
-        return $this->update(array(
-            'state_event' => 'close'
-        ));
+        return $this->update([
+            'state_event' => 'close',
+        ]);
     }
 
     /**
@@ -143,9 +146,9 @@ class MergeRequest extends AbstractModel implements Noteable
      */
     public function reopen()
     {
-        return $this->update(array(
-            'state_event' => 'reopen'
-        ));
+        return $this->update([
+            'state_event' => 'reopen',
+        ]);
     }
 
     /**
@@ -158,13 +161,14 @@ class MergeRequest extends AbstractModel implements Noteable
 
     /**
      * @param string $message
+     *
      * @return MergeRequest
      */
     public function merge($message = null)
     {
-        $data = $this->client->mergeRequests()->merge($this->project->id, $this->iid, array(
-            'merge_commit_message' => $message
-        ));
+        $data = $this->client->mergeRequests()->merge($this->project->id, $this->iid, [
+            'merge_commit_message' => $message,
+        ]);
 
         return static::fromArray($this->getClient(), $this->project, $data);
     }
@@ -174,14 +178,15 @@ class MergeRequest extends AbstractModel implements Noteable
      */
     public function merged()
     {
-        return $this->update(array(
-            'state_event' => 'merge'
-        ));
+        return $this->update([
+            'state_event' => 'merge',
+        ]);
     }
 
     /**
-     * @param string $comment
+     * @param string      $comment
      * @param string|null $created_at
+     *
      * @return Note
      */
     public function addComment($comment, $created_at = null)
@@ -196,7 +201,7 @@ class MergeRequest extends AbstractModel implements Noteable
      */
     public function showComments()
     {
-        $notes = array();
+        $notes = [];
         $data = $this->client->mergeRequests()->showComments($this->project->id, $this->iid);
 
         foreach ($data as $note) {
@@ -211,7 +216,7 @@ class MergeRequest extends AbstractModel implements Noteable
      */
     public function isClosed()
     {
-        if (in_array($this->state, array('closed', 'merged'))) {
+        if (in_array($this->state, ['closed', 'merged'])) {
             return true;
         }
 

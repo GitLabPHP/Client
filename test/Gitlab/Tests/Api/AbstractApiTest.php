@@ -17,8 +17,8 @@ class AbstractApiTest extends TestCase
         $parameters = [
             'array_param' => [
                 'value1',
-                'value2'
-            ]
+                'value2',
+            ],
         ];
         $expectedBody = 'array_param[]=value1&array_param[]=value2';
 
@@ -29,7 +29,7 @@ class AbstractApiTest extends TestCase
         $stream = $method->invokeArgs(
             $abstractApiMock,
             [
-                $parameters
+                $parameters,
             ]
         );
 
@@ -39,7 +39,7 @@ class AbstractApiTest extends TestCase
     protected function getAbstractApiMock(array $methods = [])
     {
         $httpClient = $this->getMockBuilder(HttpClient::class)
-            ->setMethods(array('sendRequest'))
+            ->setMethods(['sendRequest'])
             ->getMock()
         ;
         $httpClient
@@ -51,7 +51,7 @@ class AbstractApiTest extends TestCase
         $abstractApiMock = $this->getMockBuilder('Gitlab\Api\AbstractApi')
             ->setConstructorArgs([
                 $client,
-                null
+                null,
             ])
             ->setMethods($methods)
             ->getMockForAbstractClass()

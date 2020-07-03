@@ -16,7 +16,7 @@ abstract class AbstractModel
     /**
      * @var array
      */
-    protected $data = array();
+    protected $data = [];
 
     /**
      * @var Client
@@ -33,6 +33,7 @@ abstract class AbstractModel
 
     /**
      * @param Client $client
+     *
      * @return $this
      */
     public function setClient(Client $client = null)
@@ -46,6 +47,7 @@ abstract class AbstractModel
 
     /**
      * @param string $api
+     *
      * @return AbstractApi|mixed
      */
     public function api($api)
@@ -55,9 +57,10 @@ abstract class AbstractModel
 
     /**
      * @param array $data
+     *
      * @return $this
      */
-    protected function hydrate(array $data = array())
+    protected function hydrate(array $data = [])
     {
         if (!empty($data)) {
             foreach ($data as $field => $value) {
@@ -70,7 +73,8 @@ abstract class AbstractModel
 
     /**
      * @param string $field
-     * @param mixed $value
+     * @param mixed  $value
+     *
      * @return $this
      */
     protected function setData($field, $value)
@@ -92,7 +96,8 @@ abstract class AbstractModel
 
     /**
      * @param string $property
-     * @param mixed $value
+     * @param mixed  $value
+     *
      * @throws RuntimeException
      */
     public function __set($property, $value)
@@ -102,16 +107,13 @@ abstract class AbstractModel
 
     /**
      * @param string $property
+     *
      * @return mixed
      */
     public function __get($property)
     {
         if (!in_array($property, static::$properties)) {
-            throw new RuntimeException(sprintf(
-                'Property "%s" does not exist for %s object',
-                $property,
-                get_called_class()
-            ));
+            throw new RuntimeException(sprintf('Property "%s" does not exist for %s object', $property, get_called_class()));
         }
 
         if (isset($this->data[$property])) {
@@ -123,6 +125,7 @@ abstract class AbstractModel
 
     /**
      * @param string $property
+     *
      * @return bool
      */
     public function __isset($property)

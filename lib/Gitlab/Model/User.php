@@ -5,7 +5,7 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class User
+ * Class User.
  *
  * @property-read int $id
  * @property-read string $email
@@ -37,7 +37,7 @@ class User extends AbstractModel
     /**
      * @var array
      */
-    protected static $properties = array(
+    protected static $properties = [
         'id',
         'email',
         'password',
@@ -62,12 +62,13 @@ class User extends AbstractModel
         'can_create_project',
         'avatar_url',
         'current_sign_in_at',
-        'two_factor_enabled'
-    );
+        'two_factor_enabled',
+    ];
 
     /**
      * @param Client $client
      * @param array  $data
+     *
      * @return User
      */
     public static function fromArray(Client $client, array $data)
@@ -84,9 +85,10 @@ class User extends AbstractModel
      * @param string $email
      * @param string $password
      * @param array  $params
+     *
      * @return User
      */
-    public static function create(Client $client, $email, $password, array $params = array())
+    public static function create(Client $client, $email, $password, array $params = [])
     {
         $data = $client->users()->create($email, $password, $params);
 
@@ -94,7 +96,7 @@ class User extends AbstractModel
     }
 
     /**
-     * @param int $id
+     * @param int    $id
      * @param Client $client
      */
     public function __construct($id = null, Client $client = null)
@@ -115,6 +117,7 @@ class User extends AbstractModel
 
     /**
      * @param array $params
+     *
      * @return User
      */
     public function update(array $params)
@@ -161,7 +164,7 @@ class User extends AbstractModel
     {
         $data = $this->client->users()->keys();
 
-        $keys = array();
+        $keys = [];
         foreach ($data as $key) {
             $keys[] = Key::fromArray($this->getClient(), $key);
         }
@@ -172,6 +175,7 @@ class User extends AbstractModel
     /**
      * @param string $title
      * @param string $key
+     *
      * @return Key
      */
     public function createKey($title, $key)
@@ -184,6 +188,7 @@ class User extends AbstractModel
     /**
      * @param string $title
      * @param string $key
+     *
      * @return Key
      */
     public function createKeyForUser($user_id, $title, $key)
@@ -195,6 +200,7 @@ class User extends AbstractModel
 
     /**
      * @param int $id
+     *
      * @return bool
      */
     public function removeKey($id)
@@ -207,6 +213,7 @@ class User extends AbstractModel
     /**
      * @param int $group_id
      * @param int $access_level
+     *
      * @return User
      */
     public function addToGroup($group_id, $access_level)
@@ -218,6 +225,7 @@ class User extends AbstractModel
 
     /**
      * @param int $group_id
+     *
      * @return bool
      */
     public function removeFromGroup($group_id)

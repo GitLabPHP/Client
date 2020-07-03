@@ -5,7 +5,7 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class CommitNote
+ * Class CommitNote.
  *
  * @property-read string $note
  * @property-read string $path
@@ -18,17 +18,18 @@ class CommitNote extends AbstractModel
     /**
      * @var array
      */
-    protected static $properties = array(
+    protected static $properties = [
         'note',
         'path',
         'line',
         'line_type',
-        'author'
-    );
+        'author',
+    ];
 
     /**
      * @param Client $client
      * @param array  $data
+     *
      * @return CommitNote
      */
     public static function fromArray(Client $client, array $data)

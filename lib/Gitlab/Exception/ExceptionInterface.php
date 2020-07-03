@@ -5,7 +5,7 @@ namespace Gitlab\Exception;
 use Http\Client\Exception;
 
 /**
- * ExceptionInterface
+ * ExceptionInterface.
  *
  * @author Graham Campbell <graham@alt-three.com>
  */

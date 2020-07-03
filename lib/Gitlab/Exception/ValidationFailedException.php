@@ -3,7 +3,7 @@
 namespace Gitlab\Exception;
 
 /**
- * ValidationFailedException
+ * ValidationFailedException.
  *
  * @author Joseph Bielawski <stloyd@gmail.com>
  */

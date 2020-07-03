@@ -9,32 +9,35 @@ use Symfony\Component\OptionsResolver\Options;
 class MergeRequests extends AbstractApi
 {
     const STATE_ALL = 'all';
+
     const STATE_MERGED = 'merged';
+
     const STATE_OPENED = 'opened';
+
     const STATE_CLOSED = 'closed';
 
     /**
-     * @param int|null   $project_id               Return the merge requests for all projects or a specific project
-     * @param array $parameters {
+     * @param int|null $project_id Return the merge requests for all projects or a specific project
+     * @param array    $parameters {
      *
-     *     @var int[]              $iids           Return the request having the given iid.
-     *     @var string             $state          Return all merge requests or just those that are opened, closed, or
-     *                                             merged.
+     *     @var int[]              $iids           return the request having the given iid
+     *     @var string             $state          return all merge requests or just those that are opened, closed, or
+     *                                             merged
      *     @var string             $scope          Return merge requests for the given scope: created-by-me,
      *                                             assigned-to-me or all. Defaults to created-by-me.
      *     @var string             $order_by       Return requests ordered by created_at or updated_at fields. Default
      *                                             is created_at.
      *     @var string             $sort           Return requests sorted in asc or desc order. Default is desc.
-     *     @var string             $milestone      Return merge requests for a specific milestone.
-     *     @var string             $view           If simple, returns the iid, URL, title, description, and basic state
-     *                                             of merge request.
-     *     @var string             $labels         Return merge requests matching a comma separated list of labels.
-     *     @var \DateTimeInterface $created_after  Return merge requests created after the given time (inclusive).
+     *     @var string             $milestone      return merge requests for a specific milestone
+     *     @var string             $view           if simple, returns the iid, URL, title, description, and basic state
+     *                                             of merge request
+     *     @var string             $labels         return merge requests matching a comma separated list of labels
+     *     @var \DateTimeInterface $created_after  return merge requests created after the given time (inclusive)
      *     @var \DateTimeInterface $created_before Return merge requests created before the given time (inclusive).
      * }
      *
-     * @throws UndefinedOptionsException If an option name is undefined.
-     * @throws InvalidOptionsException   If an option doesn't fulfill the specified validation rules.
+     * @throws UndefinedOptionsException if an option name is undefined
+     * @throws InvalidOptionsException   if an option doesn't fulfill the specified validation rules
      *
      * @return mixed
      */
@@ -104,12 +107,14 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $mr_id
+     * @param int   $project_id
+     * @param int   $mr_id
      * @param array $parameters {
+     *
      *     @var bool               $include_diverged_commits_count      Return the commits behind the target branch
      *     @var bool               $include_rebase_in_progress          Return whether a rebase operation is in progress
      * }
+     *
      * @return mixed
      */
     public function show($project_id, $mr_id, $parameters = [])
@@ -126,14 +131,15 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int    $project_id
      * @param string $source
      * @param string $target
      * @param string $title
-     * @param int $assignee @deprecated will be moved into $optionalParams
-     * @param int $target_project_id @deprecated will be moved into $optionalParams
-     * @param string $description @deprecated will be moved into $optionalParams
-     * @param array $optionalParams
+     * @param int    $assignee          @deprecated will be moved into $optionalParams
+     * @param int    $target_project_id @deprecated will be moved into $optionalParams
+     * @param string $description       @deprecated will be moved into $optionalParams
+     * @param array  $optionalParams
+     *
      * @return mixed
      */
     public function create($project_id, $source, $target, $title, $assignee = null, $target_project_id = null, $description = null, array $optionalParams = [])
@@ -154,9 +160,10 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $mr_id
+     * @param int   $project_id
+     * @param int   $mr_id
      * @param array $params
+     *
      * @return mixed
      */
     public function update($project_id, $mr_id, array $params)
@@ -165,9 +172,10 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $mr_id
+     * @param int               $project_id
+     * @param int               $mr_id
      * @param string|array|null $message
+     *
      * @return mixed
      */
     public function merge($project_id, $mr_id, $message = null)
@@ -175,7 +183,7 @@ class MergeRequests extends AbstractApi
         if (is_array($message)) {
             $params = $message;
         } else {
-            $params = array('merge_commit_message' => $message);
+            $params = ['merge_commit_message' => $message];
         }
 
         return $this->put($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_id).'/merge'), $params);
@@ -193,24 +201,26 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $mr_id
-     * @param string $note
+     * @param int         $project_id
+     * @param int         $mr_id
+     * @param string      $note
      * @param string|null $created_at
+     *
      * @return mixed
      */
     public function addNote($project_id, $mr_id, $note, $created_at = null)
     {
-        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_id).'/notes'), array(
+        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_id).'/notes'), [
             'body' => $note,
             'created_at' => $created_at,
-        ));
+        ]);
     }
 
     /**
      * @param int $projectId
      * @param int $mrId
      * @param int $noteId
+     *
      * @return mixed
      */
     public function removeNote($projectId, $mrId, $noteId)
@@ -221,6 +231,7 @@ class MergeRequests extends AbstractApi
     /**
      * @param int $project_id
      * @param int $mr_id
+     *
      * @return mixed
      */
     public function showComments($project_id, $mr_id)
@@ -231,10 +242,11 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $mr_id
-     * @param string $note
+     * @param int         $project_id
+     * @param int         $mr_id
+     * @param string      $note
      * @param string|null $created_at
+     *
      * @return mixed
      */
     public function addComment($project_id, $mr_id, $note, $created_at = null)
@@ -247,6 +259,7 @@ class MergeRequests extends AbstractApi
     /**
      * @param int $project_id
      * @param int $mr_iid
+     *
      * @return mixed
      */
     public function showDiscussions($project_id, $mr_iid)
@@ -255,9 +268,10 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $mr_iid
+     * @param int    $project_id
+     * @param int    $mr_iid
      * @param string $discussion_id
+     *
      * @return mixed
      */
     public function showDiscussion($project_id, $mr_iid, $discussion_id)
@@ -266,9 +280,10 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $mr_iid
+     * @param int   $project_id
+     * @param int   $mr_iid
      * @param array $params
+     *
      * @return mixed
      */
     public function addDiscussion($project_id, $mr_iid, array $params)
@@ -277,24 +292,26 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $mr_iid
+     * @param int    $project_id
+     * @param int    $mr_iid
      * @param string $discussion_id
-     * @param bool $resolved
+     * @param bool   $resolved
+     *
      * @return mixed
      */
     public function resolveDiscussion($project_id, $mr_iid, $discussion_id, $resolved = true)
     {
-        return $this->put($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/discussions/'.$this->encodePath($discussion_id)), array(
-            'resolved' => $resolved
-        ));
+        return $this->put($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/discussions/'.$this->encodePath($discussion_id)), [
+            'resolved' => $resolved,
+        ]);
     }
 
     /**
-     * @param int $project_id
-     * @param int $mr_iid
-     * @param string $discussion_id
+     * @param int          $project_id
+     * @param int          $mr_iid
+     * @param string       $discussion_id
      * @param string|array $body
+     *
      * @return mixed
      */
     public function addDiscussionNote($project_id, $mr_iid, $discussion_id, $body)
@@ -303,18 +320,19 @@ class MergeRequests extends AbstractApi
         if (is_array($body)) {
             $params = $body;
         } else {
-            $params = array('body' => $body);
+            $params = ['body' => $body];
         }
 
         return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/discussions/'.$this->encodePath($discussion_id).'/notes'), $params);
     }
 
     /**
-     * @param int $project_id
-     * @param int $mr_iid
+     * @param int    $project_id
+     * @param int    $mr_iid
      * @param string $discussion_id
-     * @param int $note_id
-     * @param array $params
+     * @param int    $note_id
+     * @param array  $params
+     *
      * @return mixed
      */
     public function updateDiscussionNote($project_id, $mr_iid, $discussion_id, $note_id, array $params)
@@ -323,10 +341,11 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $mr_iid
+     * @param int    $project_id
+     * @param int    $mr_iid
      * @param string $discussion_id
-     * @param int $note_id
+     * @param int    $note_id
+     *
      * @return mixed
      */
     public function removeDiscussionNote($project_id, $mr_iid, $discussion_id, $note_id)
@@ -337,6 +356,7 @@ class MergeRequests extends AbstractApi
     /**
      * @param int $project_id
      * @param int $mr_id
+     *
      * @return mixed
      */
     public function changes($project_id, $mr_id)
@@ -347,6 +367,7 @@ class MergeRequests extends AbstractApi
     /**
      * @param int $project_id
      * @param int $mr_id
+     *
      * @return mixed
      */
     public function commits($project_id, $mr_id)
@@ -357,6 +378,7 @@ class MergeRequests extends AbstractApi
     /**
      * @param int $project_id
      * @param int $mr_id
+     *
      * @return mixed
      */
     public function closesIssues($project_id, $mr_id)
@@ -367,6 +389,7 @@ class MergeRequests extends AbstractApi
     /**
      * @param int $project_id
      * @param int $mr_iid
+     *
      * @return mixed
      */
     public function approvals($project_id, $mr_iid)
@@ -377,6 +400,7 @@ class MergeRequests extends AbstractApi
     /**
      * @param int $project_id
      * @param int $mr_iid
+     *
      * @return mixed
      */
     public function approve($project_id, $mr_iid)
@@ -387,6 +411,7 @@ class MergeRequests extends AbstractApi
     /**
      * @param int $project_id
      * @param int $mr_iid
+     *
      * @return mixed
      */
     public function unapprove($project_id, $mr_iid)
@@ -397,6 +422,7 @@ class MergeRequests extends AbstractApi
     /**
      * @param int $project_id
      * @param int $mr_iid
+     *
      * @return mixed
      */
     public function awardEmoji($project_id, $mr_iid)
@@ -405,9 +431,10 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $mr_id
+     * @param int   $project_id
+     * @param int   $mr_id
      * @param array $params
+     *
      * @return mixed
      */
     public function rebase($project_id, $mr_id, array $params = [])

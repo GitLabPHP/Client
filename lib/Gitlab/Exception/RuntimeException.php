@@ -3,7 +3,7 @@
 namespace Gitlab\Exception;
 
 /**
- * RuntimeException
+ * RuntimeException.
  *
  * @author Joseph Bielawski <stloyd@gmail.com>
  */
