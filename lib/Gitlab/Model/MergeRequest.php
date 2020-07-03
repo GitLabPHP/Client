@@ -122,7 +122,7 @@ class MergeRequest extends AbstractModel implements Noteable
     }
 
     /**
-     * @param string $comment
+     * @param string|null $comment
      * @return MergeRequest
      */
     public function close($comment = null)
