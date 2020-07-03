@@ -339,17 +339,8 @@ class Projects extends AbstractApi
      *
      * @return mixed
      */
-    public function members($project_id, $parameters = [])
+    public function members($project_id, array $parameters = [])
     {
-        if (!is_array($parameters)) {
-            @trigger_error('Deprecated: String parameter of the members() function is deprecated.', E_USER_NOTICE);
-            $username_query = $parameters;
-            $parameters = [];
-            if (!empty($username_query)) {
-                $parameters['query'] = $username_query;
-            }
-        }
-
         $resolver = $this->createOptionsResolver();
 
         $resolver->setDefined('query')

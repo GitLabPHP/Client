@@ -135,27 +135,26 @@ class MergeRequests extends AbstractApi
      * @param string $source
      * @param string $target
      * @param string $title
-     * @param int    $assignee          @deprecated will be moved into $optionalParams
-     * @param int    $target_project_id @deprecated will be moved into $optionalParams
-     * @param string $description       @deprecated will be moved into $optionalParams
-     * @param array  $optionalParams
+     * @param array  $parameters {
+     *
+     *     @var int    $assignee          The optional assignee
+     *     @var int    $target_project_id The optional project ID
+     *     @var string $description       The optional description
+     }
      *
      * @return mixed
      */
-    public function create($project_id, $source, $target, $title, $assignee = null, $target_project_id = null, $description = null, array $optionalParams = [])
+    public function create($project_id, $source, $target, $title, array $parameters = [])
     {
         $baseParams = [
             'source_branch' => $source,
             'target_branch' => $target,
             'title' => $title,
-            'assignee_id' => $assignee,
-            'description' => $description,
-            'target_project_id' => $target_project_id,
         ];
 
         return $this->post(
             $this->getProjectPath($project_id, 'merge_requests'),
-            array_merge($baseParams, $optionalParams)
+            array_merge($baseParams, $parameters)
         );
     }
 
@@ -226,34 +225,6 @@ class MergeRequests extends AbstractApi
     public function removeNote($projectId, $mrId, $noteId)
     {
         return $this->delete($this->getProjectPath($projectId, 'merge_requests/'.$this->encodePath($mrId).'/notes/'.$this->encodePath($noteId)));
-    }
-
-    /**
-     * @param int $project_id
-     * @param int $mr_id
-     *
-     * @return mixed
-     */
-    public function showComments($project_id, $mr_id)
-    {
-        @trigger_error(sprintf('The %s() method is deprecated since version 9.1 and will be removed in 10.0. Use the showNotes() method instead.', __METHOD__), E_USER_DEPRECATED);
-
-        return $this->showNotes($project_id, $mr_id);
-    }
-
-    /**
-     * @param int         $project_id
-     * @param int         $mr_id
-     * @param string      $note
-     * @param string|null $created_at
-     *
-     * @return mixed
-     */
-    public function addComment($project_id, $mr_id, $note, $created_at = null)
-    {
-        @trigger_error(sprintf('The %s() method is deprecated since version 9.1 and will be removed in 10.0. Use the addNote() method instead.', __METHOD__), E_USER_DEPRECATED);
-
-        return $this->addNote($project_id, $mr_id, $note, $created_at);
     }
 
     /**
