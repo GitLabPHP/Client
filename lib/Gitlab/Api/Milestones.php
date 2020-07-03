@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Api;
+<?php
+
+namespace Gitlab\Api;
 
 class Milestones extends AbstractApi
 {
@@ -59,6 +61,16 @@ class Milestones extends AbstractApi
     public function update($project_id, $milestone_id, array $params)
     {
         return $this->put($this->getProjectPath($project_id, 'milestones/'.$this->encodePath($milestone_id)), $params);
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $milestone_id
+     * @return mixed
+     */
+    public function remove($project_id, $milestone_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'milestones/'.$this->encodePath($milestone_id)));
     }
 
     /**

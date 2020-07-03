@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Model;
+<?php
+
+namespace Gitlab\Model;
 
 use Gitlab\Client;
 
@@ -122,7 +124,7 @@ class MergeRequest extends AbstractModel implements Noteable
     }
 
     /**
-     * @param string $comment
+     * @param string|null $comment
      * @return MergeRequest
      */
     public function close($comment = null)
@@ -179,9 +181,10 @@ class MergeRequest extends AbstractModel implements Noteable
 
     /**
      * @param string $comment
+     * @param string|null $created_at
      * @return Note
      */
-    public function addComment($comment)
+    public function addComment($comment, $created_at = null)
     {
         $data = $this->client->mergeRequests()->addComment($this->project->id, $this->iid, $comment);
 

@@ -1,11 +1,11 @@
 <?php
 
-
 namespace Gitlab\Tests\HttpClient\Message;
 
 use Gitlab\HttpClient\Message\QueryStringBuilder;
+use PHPUnit\Framework\TestCase;
 
-class QueryStringBuilderTest extends \PHPUnit_Framework_TestCase
+class QueryStringBuilderTest extends TestCase
 {
     /**
      * @dataProvider queryStringProvider
@@ -38,6 +38,18 @@ class QueryStringBuilderTest extends \PHPUnit_Framework_TestCase
             ['iids' => [0 => 88, 2 => 86]],
             //iids[0]=88&iids[2]=86
             'iids%5B0%5D=88&iids%5B2%5D=86'
+        ];
+
+        yield [
+            [
+                'source_branch'     => 'test_source',
+                'target_branch'     => 'test_master',
+                'title'             => 'test',
+                'assignee_id'       => null,
+                'target_project_id' => null,
+                'description'       => null
+            ],
+            'source_branch=test_source&target_branch=test_master&title=test'
         ];
 
         //Boolean encoding

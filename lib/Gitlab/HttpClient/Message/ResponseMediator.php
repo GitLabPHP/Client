@@ -55,7 +55,6 @@ class ResponseMediator
         return $pagination;
     }
 
-
     /**
      * Get the value for a single header.
      *

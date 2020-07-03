@@ -1,0 +1,8 @@
+version: "3"
+services:
+  php:
+    build: etc/docker/dev/php
+    volumes:
+      - .:/app
+    working_dir: /app
+    command: tail -f /dev/null

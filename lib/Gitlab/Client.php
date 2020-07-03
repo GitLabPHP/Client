@@ -1,16 +1,19 @@
-<?php namespace Gitlab;
+<?php
+
+namespace Gitlab;
 
 use Gitlab\Api\AbstractApi;
 use Gitlab\Exception\InvalidArgumentException;
 use Gitlab\HttpClient\Builder;
 use Gitlab\HttpClient\Plugin\ApiVersion;
-use Gitlab\HttpClient\Plugin\History;
 use Gitlab\HttpClient\Plugin\Authentication;
 use Gitlab\HttpClient\Plugin\GitlabExceptionThrower;
+use Gitlab\HttpClient\Plugin\History;
 use Http\Client\Common\HttpMethodsClient;
 use Http\Client\Common\Plugin\AddHostPlugin;
 use Http\Client\Common\Plugin\HeaderDefaultsPlugin;
 use Http\Client\Common\Plugin\HistoryPlugin;
+use Http\Client\Common\Plugin\RedirectPlugin;
 use Http\Client\HttpClient;
 use Http\Discovery\UriFactoryDiscovery;
 
@@ -81,10 +84,11 @@ class Client
 
         $this->httpClientBuilder->addPlugin(new GitlabExceptionThrower());
         $this->httpClientBuilder->addPlugin(new HistoryPlugin($this->responseHistory));
-        $this->httpClientBuilder->addPlugin(new ApiVersion());
         $this->httpClientBuilder->addPlugin(new HeaderDefaultsPlugin([
             'User-Agent' => 'php-gitlab-api (http://github.com/m4tthumphrey/php-gitlab-api)',
         ]));
+        $this->httpClientBuilder->addPlugin(new RedirectPlugin());
+        $this->httpClientBuilder->addPlugin(new ApiVersion());
 
         $this->setUrl('https://gitlab.com');
     }
@@ -127,19 +131,19 @@ class Client
     }
 
     /**
-     * @return Api\Environments
-     */
-    public function environments()
-    {
-        return new Api\Environments($this);
-    }
-    
-    /**
      * @return Api\Groups
      */
     public function groups()
     {
         return new Api\Groups($this);
+    }
+
+    /**
+     * @return Api\GroupsMilestones
+     */
+    public function groupsMilestones()
+    {
+        return new Api\GroupsMilestones($this);
     }
 
     /**
@@ -156,6 +160,22 @@ class Client
     public function issueBoards()
     {
         return new Api\IssueBoards($this);
+    }
+
+    /**
+     * @return Api\GroupsBoards
+     */
+    public function groupsBoards()
+    {
+        return new Api\GroupsBoards($this);
+    }
+
+    /**
+     * @return Api\IssueLinks
+     */
+    public function issueLinks()
+    {
+        return new Api\IssueLinks($this);
     }
 
     /**
@@ -263,6 +283,46 @@ class Client
     }
 
     /**
+     * @return Api\Deployments
+     */
+    public function deployments()
+    {
+        return new Api\Deployments($this);
+    }
+
+    /**
+     * @return Api\Environments
+     */
+    public function environments()
+    {
+        return new Api\Environments($this);
+    }
+
+    /**
+     * @return Api\Schedules
+     */
+    public function schedules()
+    {
+        return new Api\Schedules($this);
+    }
+
+    /**
+     * @return Api\Wiki
+     */
+    public function wiki()
+    {
+        return new Api\Wiki($this);
+    }
+
+    /**
+     * @return Api\IssuesStatistics
+     */
+    public function issuesStatistics()
+    {
+        return new Api\IssuesStatistics($this);
+    }
+
+    /**
      * @param string $name
      *
      * @return AbstractApi|mixed
@@ -275,11 +335,11 @@ class Client
             case 'deploy_keys':
                 return $this->deployKeys();
 
-            case 'environments':
-                return $this->environments();
-                
             case 'groups':
                 return $this->groups();
+
+            case 'groupsMilestones':
+                return $this->groupsMilestones();
 
             case 'issues':
                 return $this->issues();
@@ -287,6 +347,13 @@ class Client
             case 'board':
             case 'issue_boards':
                 return $this->issueBoards();
+
+            case 'group_boards':
+                return $this->groupsBoards();
+
+            case 'issue_links':
+                return $this->issueLinks();
+
             case 'jobs':
                 return $this->jobs();
 
@@ -311,7 +378,7 @@ class Client
 
             case 'repositoryFiles':
                 return $this->repositoryFiles();
-                
+
             case 'snippets':
                 return $this->snippets();
 
@@ -330,6 +397,21 @@ class Client
 
             case 'version':
                 return $this->version();
+
+            case 'environments':
+                return $this->environments();
+
+            case 'deployments':
+                return $this->deployments();
+
+            case 'schedules':
+                return $this->schedules();
+
+            case 'wiki':
+                return $this->wiki();
+
+            case 'issues_statistics':
+                return $this->issuesStatistics();
 
             default:
                 throw new InvalidArgumentException('Invalid endpoint: "'.$name.'"');

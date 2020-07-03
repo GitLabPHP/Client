@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Model;
+<?php
+
+namespace Gitlab\Model;
 
 use Gitlab\Client;
 
@@ -97,7 +99,18 @@ class Issue extends AbstractModel implements Noteable
     }
 
     /**
-     * @param string $comment
+     * @param Project $toProject
+     * @return Issue
+     */
+    public function move(Project $toProject)
+    {
+        $data = $this->client->issues()->move($this->project->id, $this->iid, $toProject->id);
+
+        return static::fromArray($this->getClient(), $toProject, $data);
+    }
+
+    /**
+     * @param string|null $comment
      * @return Issue
      */
     public function close($comment = null)
@@ -131,12 +144,14 @@ class Issue extends AbstractModel implements Noteable
 
     /**
      * @param string $comment
+     * @param string|null $created_at
      * @return Note
      */
-    public function addComment($comment)
+    public function addComment($comment, $created_at = null)
     {
         $data = $this->client->issues()->addComment($this->project->id, $this->iid, array(
-            'body' => $comment
+            'body' => $comment,
+            'created_at' => $created_at,
         ));
 
         return Note::fromArray($this->getClient(), $this, $data);
@@ -162,10 +177,76 @@ class Issue extends AbstractModel implements Noteable
      */
     public function isClosed()
     {
-        if ($this->state == 'closed') {
-            return true;
+        return $this->state === 'closed';
+    }
+
+    /**
+     * @param string $label
+     * @return bool
+     */
+    public function hasLabel($label)
+    {
+        return in_array($label, $this->labels);
+    }
+
+    /**
+     * @return IssueLink[]
+     */
+    public function links()
+    {
+        $data = $this->client->issueLinks()->all($this->project->id, $this->iid);
+        if (!is_array($data)) {
+            return array();
         }
 
-        return false;
+        $projects = $this->client->projects();
+
+        return array_map(function ($data) use ($projects) {
+            return IssueLink::fromArray(
+                $this->client,
+                Project::fromArray($this->client, $projects->show($data['project_id'])),
+                $data
+            );
+        }, $data);
+    }
+
+    /**
+     * @param Issue $target
+     * @return Issue[]
+     */
+    public function addLink(Issue $target)
+    {
+        $data = $this->client->issueLinks()->create($this->project->id, $this->iid, $target->project->id, $target->iid);
+        if (!is_array($data)) {
+            return array();
+        }
+
+        return [
+            'source_issue' => static::fromArray($this->client, $this->project, $data['source_issue']),
+            'target_issue' => static::fromArray($this->client, $target->project, $data['target_issue']),
+        ];
+    }
+
+    /**
+     * @param int $issue_link_id
+     * @return Issue[]
+     */
+    public function removeLink($issue_link_id)
+    {
+        // The two related issues have the same link ID.
+        $data = $this->client->issueLinks()->remove($this->project->id, $this->iid, $issue_link_id);
+        if (!is_array($data)) {
+            return array();
+        }
+
+        $targetProject = Project::fromArray(
+            $this->client,
+            $this->client->projects()->show($data['target_issue']['project_id'])
+        );
+
+        return [
+            'source_issue' => static::fromArray($this->client, $this->project, $data['source_issue']),
+            'target_issue' => static::fromArray($this->client, $targetProject, $data['target_issue']),
+        ];
     }
 }

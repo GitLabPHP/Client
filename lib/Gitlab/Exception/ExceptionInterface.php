@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Exception;
+<?php
+
+namespace Gitlab\Exception;
 
 use Http\Client\Exception;
 

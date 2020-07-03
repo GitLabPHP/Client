@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Api;
+<?php
+
+namespace Gitlab\Api;
 
 use Psr\Http\Message\StreamInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -81,6 +83,20 @@ class Jobs extends AbstractApi
     public function artifactsByRefName($project_id, $ref_name, $job_name)
     {
         return $this->getAsResponse("projects/".$this->encodePath($project_id)."/jobs/artifacts/".$this->encodePath($ref_name)."/download", array(
+            'job' => $this->encodePath($job_name)
+        ))->getBody();
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param string $ref_name
+     * @param string $job_name
+     * @param string $artifact_path
+     * @return StreamInterface
+     */
+    public function artifactByRefName($project_id, $ref_name, $job_name, $artifact_path)
+    {
+        return $this->getAsResponse("projects/".$this->encodePath($project_id)."/jobs/artifacts/".$this->encodePath($ref_name)."/raw/".$this->encodePath($artifact_path), array(
             'job' => $this->encodePath($job_name)
         ))->getBody();
     }

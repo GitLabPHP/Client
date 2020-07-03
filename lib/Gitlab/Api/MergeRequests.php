@@ -1,8 +1,10 @@
-<?php namespace Gitlab\Api;
+<?php
 
-use Symfony\Component\OptionsResolver\Options;
+namespace Gitlab\Api;
+
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
+use Symfony\Component\OptionsResolver\Options;
 
 class MergeRequests extends AbstractApi
 {
@@ -12,12 +14,14 @@ class MergeRequests extends AbstractApi
     const STATE_CLOSED = 'closed';
 
     /**
-     * @param int   $project_id
+     * @param int|null   $project_id               Return the merge requests for all projects or a specific project
      * @param array $parameters {
      *
      *     @var int[]              $iids           Return the request having the given iid.
      *     @var string             $state          Return all merge requests or just those that are opened, closed, or
      *                                             merged.
+     *     @var string             $scope          Return merge requests for the given scope: created-by-me,
+     *                                             assigned-to-me or all. Defaults to created-by-me.
      *     @var string             $order_by       Return requests ordered by created_at or updated_at fields. Default
      *                                             is created_at.
      *     @var string             $sort           Return requests sorted in asc or desc order. Default is desc.
@@ -34,7 +38,7 @@ class MergeRequests extends AbstractApi
      *
      * @return mixed
      */
-    public function all($project_id, array $parameters = [])
+    public function all($project_id = null, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
         $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value) {
@@ -48,6 +52,9 @@ class MergeRequests extends AbstractApi
         ;
         $resolver->setDefined('state')
             ->setAllowedValues('state', ['all', 'opened', 'merged', 'closed'])
+        ;
+        $resolver->setDefined('scope')
+            ->setAllowedValues('scope', ['created-by-me', 'assigned-to-me', 'all'])
         ;
         $resolver->setDefined('order_by')
             ->setAllowedValues('order_by', ['created_at', 'updated_at'])
@@ -68,19 +75,54 @@ class MergeRequests extends AbstractApi
             ->setAllowedTypes('created_before', \DateTimeInterface::class)
             ->setNormalizer('created_before', $datetimeNormalizer)
         ;
+
+        $resolver->setDefined('updated_after')
+            ->setAllowedTypes('updated_after', \DateTimeInterface::class)
+            ->setNormalizer('updated_after', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('updated_before')
+            ->setAllowedTypes('updated_before', \DateTimeInterface::class)
+            ->setNormalizer('updated_before', $datetimeNormalizer)
+        ;
+
+        $resolver->setDefined('scope')
+            ->setAllowedValues('scope', ['created_by_me', 'assigned_to_me', 'all'])
+        ;
+        $resolver->setDefined('author_id')
+            ->setAllowedTypes('author_id', 'integer');
+
+        $resolver->setDefined('assignee_id')
+            ->setAllowedTypes('assignee_id', 'integer');
+
         $resolver->setDefined('search');
-        
-        return $this->get($this->getProjectPath($project_id, 'merge_requests'), $resolver->resolve($parameters));
+        $resolver->setDefined('source_branch');
+        $resolver->setDefined('target_branch');
+
+        $path = $project_id === null ? 'merge_requests' : $this->getProjectPath($project_id, 'merge_requests');
+
+        return $this->get($path, $resolver->resolve($parameters));
     }
 
     /**
      * @param int $project_id
      * @param int $mr_id
+     * @param array $parameters {
+     *     @var bool               $include_diverged_commits_count      Return the commits behind the target branch
+     *     @var bool               $include_rebase_in_progress          Return whether a rebase operation is in progress
+     * }
      * @return mixed
      */
-    public function show($project_id, $mr_id)
+    public function show($project_id, $mr_id, $parameters = [])
     {
-        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_id)));
+        $resolver = $this->createOptionsResolver();
+        $resolver->setDefined('include_diverged_commits_count')
+            ->setAllowedTypes('include_diverged_commits_count', 'bool')
+        ;
+        $resolver->setDefined('include_rebase_in_progress')
+            ->setAllowedTypes('include_rebase_in_progress', 'bool')
+        ;
+
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_id)), $resolver->resolve($parameters));
     }
 
     /**
@@ -88,21 +130,27 @@ class MergeRequests extends AbstractApi
      * @param string $source
      * @param string $target
      * @param string $title
-     * @param int $assignee
-     * @param int $target_project_id
-     * @param string $description
+     * @param int $assignee @deprecated will be moved into $optionalParams
+     * @param int $target_project_id @deprecated will be moved into $optionalParams
+     * @param string $description @deprecated will be moved into $optionalParams
+     * @param array $optionalParams
      * @return mixed
      */
-    public function create($project_id, $source, $target, $title, $assignee = null, $target_project_id = null, $description = null)
+    public function create($project_id, $source, $target, $title, $assignee = null, $target_project_id = null, $description = null, array $optionalParams = [])
     {
-        return $this->post($this->getProjectPath($project_id, 'merge_requests'), array(
+        $baseParams = [
             'source_branch' => $source,
             'target_branch' => $target,
             'title' => $title,
             'assignee_id' => $assignee,
+            'description' => $description,
             'target_project_id' => $target_project_id,
-            'description' => $description
-        ));
+        ];
+
+        return $this->post(
+            $this->getProjectPath($project_id, 'merge_requests'),
+            array_merge($baseParams, $optionalParams)
+        );
     }
 
     /**
@@ -134,8 +182,8 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
-     * @param int   $mr_id
+     * @param int $project_id
+     * @param int $mr_id
      *
      * @return mixed
      */
@@ -148,12 +196,14 @@ class MergeRequests extends AbstractApi
      * @param int $project_id
      * @param int $mr_id
      * @param string $note
+     * @param string|null $created_at
      * @return mixed
      */
-    public function addNote($project_id, $mr_id, $note)
+    public function addNote($project_id, $mr_id, $note, $created_at = null)
     {
         return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_id).'/notes'), array(
-            'body' => $note
+            'body' => $note,
+            'created_at' => $created_at,
         ));
     }
 
@@ -161,7 +211,6 @@ class MergeRequests extends AbstractApi
      * @param int $projectId
      * @param int $mrId
      * @param int $noteId
-     *
      * @return mixed
      */
     public function removeNote($projectId, $mrId, $noteId)
@@ -185,13 +234,104 @@ class MergeRequests extends AbstractApi
      * @param int $project_id
      * @param int $mr_id
      * @param string $note
+     * @param string|null $created_at
      * @return mixed
      */
-    public function addComment($project_id, $mr_id, $note)
+    public function addComment($project_id, $mr_id, $note, $created_at = null)
     {
         @trigger_error(sprintf('The %s() method is deprecated since version 9.1 and will be removed in 10.0. Use the addNote() method instead.', __METHOD__), E_USER_DEPRECATED);
 
-        return $this->addNote($project_id, $mr_id, $note);
+        return $this->addNote($project_id, $mr_id, $note, $created_at);
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $mr_iid
+     * @return mixed
+     */
+    public function showDiscussions($project_id, $mr_iid)
+    {
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid)).'/discussions');
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $mr_iid
+     * @param string $discussion_id
+     * @return mixed
+     */
+    public function showDiscussion($project_id, $mr_iid, $discussion_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid)).'/discussions/'.$this->encodePath($discussion_id));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $mr_iid
+     * @param array $params
+     * @return mixed
+     */
+    public function addDiscussion($project_id, $mr_iid, array $params)
+    {
+        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/discussions'), $params);
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $mr_iid
+     * @param string $discussion_id
+     * @param bool $resolved
+     * @return mixed
+     */
+    public function resolveDiscussion($project_id, $mr_iid, $discussion_id, $resolved = true)
+    {
+        return $this->put($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/discussions/'.$this->encodePath($discussion_id)), array(
+            'resolved' => $resolved
+        ));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $mr_iid
+     * @param string $discussion_id
+     * @param string|array $body
+     * @return mixed
+     */
+    public function addDiscussionNote($project_id, $mr_iid, $discussion_id, $body)
+    {
+        // backwards compatibility
+        if (is_array($body)) {
+            $params = $body;
+        } else {
+            $params = array('body' => $body);
+        }
+
+        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/discussions/'.$this->encodePath($discussion_id).'/notes'), $params);
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $mr_iid
+     * @param string $discussion_id
+     * @param int $note_id
+     * @param array $params
+     * @return mixed
+     */
+    public function updateDiscussionNote($project_id, $mr_iid, $discussion_id, $note_id, array $params)
+    {
+        return $this->put($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/discussions/'.$this->encodePath($discussion_id).'/notes/'.$this->encodePath($note_id)), $params);
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $mr_iid
+     * @param string $discussion_id
+     * @param int $note_id
+     * @return mixed
+     */
+    public function removeDiscussionNote($project_id, $mr_iid, $discussion_id, $note_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/discussions/'.$this->encodePath($discussion_id).'/notes/'.$this->encodePath($note_id)));
     }
 
     /**
@@ -226,45 +366,97 @@ class MergeRequests extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param int $mr_id
-     *
+     * @param int $mr_iid
      * @return mixed
      */
-    public function approvals($project_id, $merge_request_iid)
+    public function approvals($project_id, $mr_iid)
     {
-        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($merge_request_iid).'/approvals'));
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/approvals'));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $mr_iid
+     * @return mixed
+     */
+    public function approve($project_id, $mr_iid)
+    {
+        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/approve'));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $mr_iid
+     * @return mixed
+     */
+    public function unapprove($project_id, $mr_iid)
+    {
+        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/unapprove'));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $mr_iid
+     * @return mixed
+     */
+    public function awardEmoji($project_id, $mr_iid)
+    {
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/award_emoji'));
     }
 
     /**
      * @param int $project_id
      * @param int $mr_id
-     *
+     * @param array $params
      * @return mixed
      */
-    public function approve($project_id, $merge_request_iid)
+    public function rebase($project_id, $mr_id, array $params = [])
     {
-        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($merge_request_iid).'/approve'));
+        $resolver = $this->createOptionsResolver();
+        $resolver->setDefined('skip_ci')
+            ->setAllowedTypes('skip_ci', 'bool');
+
+        return $this->put($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_id)).'/rebase', $resolver->resolve($params));
     }
 
-    /**
-     * @param int $project_id
-     * @param int $mr_id
-     *
-     * @return mixed
-     */
-    public function unapprove($project_id, $merge_request_iid)
+    public function approvalState($project_id, $mr_iid)
     {
-        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($merge_request_iid).'/unapprove'));
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/approval_state'));
     }
 
-    /**
-     * @param int $project_id
-     * @param int $merge_request_iid
-     *
-     * @return mixed
-     */
-    public function awardEmoji($project_id, $merge_request_iid)
+    public function levelRules($project_id, $mr_iid)
     {
-        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($merge_request_iid).'/award_emoji'));
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/approval_rules'));
+    }
+
+    public function createLevelRule($project_id, $mr_iid, $name, $approvals_required, array $optionalParameters = [])
+    {
+        $baseParam = [
+            'name' => $name,
+            'approvals_required' => $approvals_required,
+        ];
+
+        return $this->post(
+            $this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/approval_rules'),
+            array_merge($baseParam, $optionalParameters)
+        );
+    }
+
+    public function updateLevelRule($project_id, $mr_iid, $approval_rule_id, $name, $approvals_required, array $optionalParameters = [])
+    {
+        $baseParam = [
+            'name' => $name,
+            'approvals_required' => $approvals_required,
+        ];
+
+        return $this->put(
+            $this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/approval_rules/'.$this->encodePath($approval_rule_id)),
+            array_merge($baseParam, $optionalParameters)
+        );
+    }
+
+    public function deleteLevelRule($project_id, $mr_iid, $approval_rule_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/approval_rules/'.$this->encodePath($approval_rule_id)));
     }
 }
