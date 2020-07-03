@@ -7,13 +7,13 @@ use Gitlab\HttpClient\Plugin\ApiVersion;
 use Gitlab\HttpClient\Plugin\History;
 use Gitlab\HttpClient\Plugin\Authentication;
 use Gitlab\HttpClient\Plugin\GitlabExceptionThrower;
-use Http\Client\Common\HttpMethodsClient;
+use Http\Client\Common\HttpMethodsClientInterface;
 use Http\Client\Common\Plugin\AddHostPlugin;
 use Http\Client\Common\Plugin\HeaderDefaultsPlugin;
 use Http\Client\Common\Plugin\HistoryPlugin;
 use Http\Client\Common\Plugin\RedirectPlugin;
-use Http\Client\HttpClient;
-use Http\Discovery\UriFactoryDiscovery;
+use Http\Discovery\Psr17FactoryDiscovery;
+use Psr\Http\Client\ClientInterface;
 
 /**
  * Simple API wrapper for Gitlab
@@ -78,7 +78,7 @@ class Client
     public function __construct(Builder $httpClientBuilder = null)
     {
         $this->responseHistory = new History();
-        $this->httpClientBuilder = $httpClientBuilder ?: new Builder();
+        $this->httpClientBuilder = $httpClientBuilder ?? new Builder();
 
         $this->httpClientBuilder->addPlugin(new GitlabExceptionThrower());
         $this->httpClientBuilder->addPlugin(new HistoryPlugin($this->responseHistory));
@@ -107,13 +107,13 @@ class Client
     }
 
     /**
-     * Create a Gitlab\Client using an HttpClient.
+     * Create a Gitlab\Client using an Http client.
      *
-     * @param HttpClient $httpClient
+     * @param ClientInterface $httpClient
      *
      * @return Client
      */
-    public static function createWithHttpClient(HttpClient $httpClient)
+    public static function createWithHttpClient(ClientInterface $httpClient)
     {
         $builder = new Builder($httpClient);
 
@@ -336,7 +336,7 @@ class Client
 
             case 'groups':
                 return $this->groups();
-                
+
             case 'groupsMilestones':
                 return $this->groupsMilestones();
 
@@ -377,7 +377,7 @@ class Client
 
             case 'repositoryFiles':
                 return $this->repositoryFiles();
-                
+
             case 'snippets':
                 return $this->snippets();
 
@@ -441,7 +441,7 @@ class Client
     public function setUrl($url)
     {
         $this->httpClientBuilder->removePlugin(AddHostPlugin::class);
-        $this->httpClientBuilder->addPlugin(new AddHostPlugin(UriFactoryDiscovery::find()->createUri($url)));
+        $this->httpClientBuilder->addPlugin(new AddHostPlugin(Psr17FactoryDiscovery::findUrlFactory()->createUri($url)));
 
         return $this;
     }
@@ -456,7 +456,7 @@ class Client
     }
 
     /**
-     * @return HttpMethodsClient
+     * @return HttpMethodsClientInterface
      */
     public function getHttpClient()
     {

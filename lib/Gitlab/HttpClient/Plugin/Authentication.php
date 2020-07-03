@@ -4,6 +4,7 @@ namespace Gitlab\HttpClient\Plugin;
 
 use Gitlab\Client;
 use Http\Client\Common\Plugin;
+use Http\Promise\Promise;
 use Psr\Http\Message\RequestInterface;
 
 /**
@@ -14,8 +15,6 @@ use Psr\Http\Message\RequestInterface;
  */
 class Authentication implements Plugin
 {
-    use Plugin\VersionBridgePlugin;
-
     /**
      * @var string
      */
@@ -46,7 +45,7 @@ class Authentication implements Plugin
     /**
      * {@inheritdoc}
      */
-    public function doHandleRequest(RequestInterface $request, callable $next, callable $first)
+    public function handleRequest(RequestInterface $request, callable $next, callable $first): Promise
     {
         switch ($this->method) {
             case Client::AUTH_HTTP_TOKEN:

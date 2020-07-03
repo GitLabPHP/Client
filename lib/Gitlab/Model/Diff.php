@@ -40,7 +40,7 @@ class Diff extends AbstractModel
      */
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $diff = new static($project, $client);
+        $diff = new self($project, $client);
 
         return $diff->hydrate($data);
     }

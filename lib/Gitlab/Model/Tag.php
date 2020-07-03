@@ -32,7 +32,7 @@ class Tag extends AbstractModel
      */
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $branch = new static($project, $data['name'], $client);
+        $branch = new self($project, $data['name'], $client);
 
         if (isset($data['commit'])) {
             $data['commit'] = Commit::fromArray($client, $project, $data['commit']);

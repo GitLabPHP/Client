@@ -28,7 +28,7 @@ class File extends AbstractModel
      */
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $file = new static($project, $data['file_path'], $client);
+        $file = new self($project, $data['file_path'], $client);
 
         return $file->hydrate($data);
     }

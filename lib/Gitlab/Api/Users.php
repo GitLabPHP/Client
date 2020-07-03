@@ -323,7 +323,7 @@ class Users extends AbstractApi
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return mixed
      */
     public function email($id)

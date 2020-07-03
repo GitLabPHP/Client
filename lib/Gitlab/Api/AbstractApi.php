@@ -4,10 +4,10 @@ use Gitlab\Client;
 use Gitlab\HttpClient\Message\QueryStringBuilder;
 use Gitlab\HttpClient\Message\ResponseMediator;
 use Gitlab\Tests\HttpClient\Message\QueryStringBuilderTest;
-use Http\Discovery\StreamFactoryDiscovery;
+use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Message\MultipartStream\MultipartStreamBuilder;
-use Http\Message\StreamFactory;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -28,18 +28,18 @@ abstract class AbstractApi implements ApiInterface
     protected $client;
 
     /**
-     * @var StreamFactory
+     * @var StreamFactoryInterface
      */
     private $streamFactory;
 
     /**
      * @param Client $client
-     * @param StreamFactory|null $streamFactory
+     * @param StreamFactoryInterface|null $streamFactory
      */
-    public function __construct(Client $client, StreamFactory $streamFactory = null)
+    public function __construct(Client $client, StreamFactoryInterface $streamFactory = null)
     {
         $this->client = $client;
-        $this->streamFactory = $streamFactory ?: StreamFactoryDiscovery::find();
+        $this->streamFactory = $streamFactory ?? Psr17FactoryDiscovery::findStreamFactory();
     }
 
     /**
@@ -248,7 +248,7 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param $file
+     * @param string $file
      *
      * @return string
      */

@@ -103,7 +103,7 @@ class Project extends AbstractModel
      */
     public static function fromArray(Client $client, array $data)
     {
-        $project = new static($data['id']);
+        $project = new self($data['id']);
         $project->setClient($client);
 
         if (isset($data['owner'])) {
@@ -218,7 +218,7 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param integer|null $user_id
+     * @param int|null $user_id
      * @param bool $all
      * @return array|User
      */
@@ -554,7 +554,7 @@ class Project extends AbstractModel
      * @param string $ref
      * @param array $parameters
      *
-     * @return Commit[]
+     * @return CommitNote[]
      * @see Repositories::commitComments() for available parameters.
      *
      */
@@ -631,8 +631,8 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param $sha
-     * @param $filepath
+     * @param string $sha
+     * @param string $filepath
      *
      * @return array
      */
@@ -646,8 +646,8 @@ class Project extends AbstractModel
      * @param string $content
      * @param string $branch_name
      * @param string $commit_message
-     * @param string $author_email
-     * @param string $author_name
+     * @param string|null $author_email
+     * @param string|null $author_name
      * @return File
      */
     public function createFile(
@@ -803,8 +803,15 @@ class Project extends AbstractModel
      */
     public function createMergeRequest($source, $target, $title, $assignee = null, $description = null)
     {
-        $data = $this->client->mergeRequests()->create($this->id, $source, $target, $title, $assignee, $this->id,
-            $description);
+        $data = $this->client->mergeRequests()->create(
+            $this->id,
+            $source,
+            $target,
+            $title,
+            $assignee,
+            $this->id,
+            $description
+        );
 
         return MergeRequest::fromArray($this->getClient(), $this, $data);
     }
@@ -1281,8 +1288,7 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $link_url
-     * @param string $color
+     * @param array $params
      * @return Badge
      */
     public function addBadge(array $params)
@@ -1293,7 +1299,7 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $name
+     * @param int $badge_id
      * @param array $params
      * @return Badge
      */
@@ -1307,7 +1313,7 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $name
+     * @param int $badge_id
      * @return bool
      */
     public function removeBadge($badge_id)

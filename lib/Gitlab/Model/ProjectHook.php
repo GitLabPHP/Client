@@ -44,7 +44,7 @@ class ProjectHook extends AbstractModel
      */
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $hook = new static($project, $data['id'], $client);
+        $hook = new self($project, $data['id'], $client);
 
         return $hook->hydrate($data);
     }

@@ -34,7 +34,7 @@ class Contributor extends AbstractModel
      */
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $contributor = new static($project, $client);
+        $contributor = new self($project, $client);
 
         return $contributor->hydrate($data);
     }

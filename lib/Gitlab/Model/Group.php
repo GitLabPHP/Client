@@ -51,7 +51,7 @@ class Group extends AbstractModel
      */
     public static function fromArray(Client $client, array $data)
     {
-        $group = new static($data['id'], $client);
+        $group = new self($data['id'], $client);
 
         if (isset($data['projects'])) {
             $projects = array();
@@ -117,7 +117,7 @@ class Group extends AbstractModel
     }
 
     /**
-     * @param integer|null $user_id
+     * @param int|null $user_id
      * @param bool $all
      * @return array|User
      */

@@ -287,10 +287,10 @@ class Projects extends AbstractApi
     {
         return $this->post($this->getProjectPath($project_id, 'pipelines/'.$this->encodePath($pipeline_id)).'/cancel');
     }
-    
+
     /**
-     * @param $project_id
-     * @param $pipeline_id
+     * @param int $project_id
+     * @param int $pipeline_id
      * @return mixed
      */
     public function deletePipeline($project_id, $pipeline_id)
@@ -299,8 +299,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param integer $project_id
-     * @param integer|null $user_id
+     * @param int $project_id
+     * @param int|null $user_id
      * @param array $parameters
      * @return mixed
      */
@@ -315,11 +315,10 @@ class Projects extends AbstractApi
     /**
      * @param int $project_id
      * @param array $parameters (
-     *
      *     @var string $query           The query you want to search members for.
      * )
      *
-     * @throws MissingOptionsException  If a required option is not provided
+     * @throws \Symfony\Component\OptionsResolver\Exception\MissingOptionsException  If a required option is not provided
      *
      * @return mixed
      */
@@ -664,32 +663,31 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param array $parameters
+     * @param array $params
      * @return mixed
      */
-    public function forks($project_id, array $parameters = [])
+    public function forks($project_id, array $params = [])
     {
         $resolver = $this->createOptionsResolver();
 
-        return $this->get($this->getProjectPath($project_id, 'forks'), $resolver->resolve($parameters));
+        return $this->get($this->getProjectPath($project_id, 'forks'), $resolver->resolve($params));
     }
 
     /**
      * @param int $project_id
      * @param array $params (
-     *
      *     @var string $namespace      The ID or path of the namespace that the project will be forked to
      *     @var string $path           The path of the forked project (optional)
      *     @var string $name           The name of the forked project (optional)
      * )
      * @return mixed
      */
-    public function fork($project_id, array $parameters = [])
+    public function fork($project_id, array $params = [])
     {
         $resolver = new OptionsResolver();
         $resolver->setDefined(['namespace', 'path', 'name']);
 
-        $resolved = $resolver->resolve($parameters);
+        $resolved = $resolver->resolve($params);
 
         return $this->post($this->getProjectPath($project_id, 'fork'), $resolved);
     }
@@ -848,7 +846,7 @@ class Projects extends AbstractApi
     {
         return $this->get($this->getProjectPath($project_id, 'deployments/'.$this->encodePath($deployment_id)));
     }
-    
+
     /**
      * @param mixed $project_id
      * @param array $parameters
@@ -876,7 +874,7 @@ class Projects extends AbstractApi
 
         return $this->post($this->getProjectPath($project_id, 'share'), $resolver->resolve($parameters));
     }
-    
+
     /**
      * @param mixed $project_id
      * @param int $group_id
@@ -931,7 +929,7 @@ class Projects extends AbstractApi
      * @param string $badge_id
      * @param array $params
      * @return mixed
-    */
+     */
     public function updateBadge($project_id, $badge_id, array $params = array())
     {
         return $this->put($this->getProjectPath($project_id, 'badges/' . $this->encodePath($badge_id)), $params);

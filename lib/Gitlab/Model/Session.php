@@ -33,7 +33,7 @@ class Session extends AbstractModel
      */
     public static function fromArray(Client $client, array $data)
     {
-        $session = new static($client);
+        $session = new self($client);
 
         return $session->hydrate($data);
     }

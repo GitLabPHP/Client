@@ -46,7 +46,7 @@ class GroupMilestone extends AbstractModel
      */
     public static function fromArray(Client $client, Group $group, array $data)
     {
-        $milestone = new static($group, $data['id'], $client);
+        $milestone = new self($group, $data['id'], $client);
 
         return $milestone->hydrate($data);
     }
@@ -54,7 +54,7 @@ class GroupMilestone extends AbstractModel
     /**
      * GroupMilestone constructor.
      * @param Group $group
-     * @param $id
+     * @param int $id
      * @param Client|null $client
      */
     public function __construct(Group $group, $id, Client $client = null)

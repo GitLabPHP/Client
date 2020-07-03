@@ -50,7 +50,7 @@ class Issue extends AbstractModel implements Noteable
      */
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $issue = new static($project, $data['iid'], $client);
+        $issue = new self($project, $data['iid'], $client);
 
         if (isset($data['author'])) {
             $data['author'] = User::fromArray($client, $data['author']);

@@ -50,7 +50,7 @@ class Commit extends AbstractModel
      */
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $commit = new static($project, $data['id'], $client);
+        $commit = new self($project, $data['id'], $client);
 
         if (isset($data['parents'])) {
             $parents = array();

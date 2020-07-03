@@ -62,7 +62,7 @@ class MergeRequest extends AbstractModel implements Noteable
      */
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $mr = new static($project, $data['id'], $client);
+        $mr = new self($project, $data['id'], $client);
 
         if (isset($data['author'])) {
             $data['author'] = User::fromArray($client, $data['author']);

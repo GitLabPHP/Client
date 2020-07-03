@@ -52,7 +52,7 @@ class Job extends AbstractModel
      */
     public static function fromArray(Client $client, Project $project, array $data)
     {
-        $job = new static($project, $data['id'], $client);
+        $job = new self($project, $data['id'], $client);
 
         if (isset($data['user'])) {
             $data['user'] = User::fromArray($client, $data['user']);

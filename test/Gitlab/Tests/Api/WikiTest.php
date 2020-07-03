@@ -27,7 +27,8 @@ class WikiTest extends TestCase
             ])
             ->will($this->returnValue($expectedArray));
 
-        $this->assertEquals($expectedArray, $api->create(1,
+        $this->assertEquals($expectedArray, $api->create(
+            1,
             [
                 "format" => "markdown",
                 "title" => "Test Wiki",

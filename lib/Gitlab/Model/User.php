@@ -72,7 +72,7 @@ class User extends AbstractModel
     {
         $id = isset($data['id']) ? $data['id'] : 0;
 
-        $user = new static($id, $client);
+        $user = new self($id, $client);
 
         return $user->hydrate($data);
     }

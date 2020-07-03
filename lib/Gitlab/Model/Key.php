@@ -29,7 +29,7 @@ class Key extends AbstractModel
      */
     public static function fromArray(Client $client, array $data)
     {
-        $key = new static($client);
+        $key = new self($client);
 
         return $key->hydrate($data);
     }

@@ -3,12 +3,12 @@
 namespace Gitlab\Tests\HttpClient;
 
 use Gitlab\HttpClient\Builder;
-use Http\Client\Common\HttpMethodsClient;
+use Http\Client\Common\HttpMethodsClientInterface;
 use Http\Client\Common\Plugin;
-use Http\Client\HttpClient;
-use Http\Message\RequestFactory;
-use Http\Message\StreamFactory;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 
 /**
  * @author Fabien Bourigault <bourigaultfabien@gmail.com>
@@ -20,12 +20,15 @@ class BuilderTest extends TestCase
      */
     private $subject;
 
-    public function setUp()
+    /**
+     * @before
+     */
+    public function initBuilder()
     {
         $this->subject = new Builder(
-            $this->getMockBuilder(HttpClient::class)->getMock(),
-            $this->getMockBuilder(RequestFactory::class)->getMock(),
-            $this->getMockBuilder(StreamFactory::class)->getMock()
+            $this->getMockBuilder(ClientInterface::class)->getMock(),
+            $this->getMockBuilder(RequestFactoryInterface::class)->getMock(),
+            $this->getMockBuilder(StreamFactoryInterface::class)->getMock()
         );
     }
 
@@ -51,6 +54,6 @@ class BuilderTest extends TestCase
 
     public function testHttpClientShouldBeAnHttpMethodsClient()
     {
-        $this->assertInstanceOf(HttpMethodsClient::class, $this->subject->getHttpClient());
+        $this->assertInstanceOf(HttpMethodsClientInterface::class, $this->subject->getHttpClient());
     }
 }
