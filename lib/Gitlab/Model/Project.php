@@ -258,7 +258,7 @@ class Project extends AbstractModel
      */
     public function members($username_query = null)
     {
-        $data = $this->client->projects()->members($this->id, array('query' => $username_query));
+        $data = $this->client->projects()->members($this->id, ['query' => $username_query]);
 
         $members = [];
         foreach ($data as $member) {

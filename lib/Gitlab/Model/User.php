@@ -188,7 +188,7 @@ class User extends AbstractModel
     }
 
     /**
-     * @param int $user_id
+     * @param int    $user_id
      * @param string $title
      * @param string $key
      *
