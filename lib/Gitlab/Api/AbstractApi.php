@@ -181,8 +181,8 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param int    $id
-     * @param string $path
+     * @param string|int $id
+     * @param string     $path
      *
      * @return string
      */
@@ -251,6 +251,11 @@ abstract class AbstractApi implements ApiInterface
         return $stream;
     }
 
+    /**
+     * @param string $path
+     * @param array $parameters
+     * @return string
+     */
     private function preparePath($path, array $parameters = [])
     {
         if (count($parameters) > 0) {

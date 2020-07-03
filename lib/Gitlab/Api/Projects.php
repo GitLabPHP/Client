@@ -394,7 +394,7 @@ class Projects extends AbstractApi
      */
     public function saveMember($project_id, $user_id, $access_level)
     {
-        return $this->put($this->getProjectPath($project_id, 'members/'.urldecode($user_id)), [
+        return $this->put($this->getProjectPath($project_id, 'members/'.$this->encodePath($user_id)), [
             'access_level' => $access_level,
         ]);
     }
@@ -407,7 +407,7 @@ class Projects extends AbstractApi
      */
     public function removeMember($project_id, $user_id)
     {
-        return $this->delete($this->getProjectPath($project_id, 'members/'.urldecode($user_id)));
+        return $this->delete($this->getProjectPath($project_id, 'members/'.$this->encodePath($user_id)));
     }
 
     /**
@@ -950,8 +950,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
-     * @param string $badge_id
+     * @param int $project_id
+     * @param int $badge_id
      *
      * @return mixed
      */
@@ -972,8 +972,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
-     * @param string $badge_id
+     * @param int $project_id
+     * @param int $badge_id
      *
      * @return mixed
      */
@@ -983,15 +983,15 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
-     * @param string $badge_id
-     * @param array  $parameters
+     * @param int $project_id
+     * @param int $badge_id
+     * @param array $parameters
      *
      * @return mixed
      */
     public function updateBadge($project_id, $badge_id, array $parameters = [])
     {
-        return $this->put($this->getProjectPath($project_id, 'badges/'.$this->encodePath($badge_id)), $parameters);
+        return $this->put($this->getProjectPath($project_id, 'badges/' . $this->encodePath($badge_id)), $parameters);
     }
 
     /**
@@ -1005,11 +1005,21 @@ class Projects extends AbstractApi
         return $this->post($this->getProjectPath($project_id, 'protected_branches'), $parameters);
     }
 
+    /**
+     * @param int $project_id
+     *
+     * @return mixed
+     */
     public function approvalsConfiguration($project_id)
     {
         return $this->get('projects/'.$this->encodePath($project_id).'/approvals');
     }
 
+    /**
+     * @param int $project_id
+     *
+     * @return mixed
+     */
     public function approvalsRules($project_id)
     {
         return $this->get('projects/'.$this->encodePath($project_id).'/approval_rules');

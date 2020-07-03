@@ -29,6 +29,11 @@ class Issues extends AbstractApi
         return $this->get($path, $this->createOptionsResolver()->resolve($parameters));
     }
 
+    /**
+     * @param int $group_id
+     * @param array $parameters
+     * @return mixed
+     */
     public function group($group_id, array $parameters = [])
     {
         return $this->get(

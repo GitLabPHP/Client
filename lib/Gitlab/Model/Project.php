@@ -254,11 +254,14 @@ class Project extends AbstractModel
     /**
      * @param string $username_query
      *
+=======
+     * @param string|null $username_query
+>>>>>>> 9.17
      * @return User[]
      */
     public function members($username_query = null)
     {
-        $data = $this->client->projects()->members($this->id, $username_query);
+        $data = $this->client->projects()->members($this->id, array('query' => $username_query));
 
         $members = [];
         foreach ($data as $member) {
@@ -429,7 +432,7 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $key_id
+     * @param int $key_id
      *
      * @return bool
      */
@@ -441,7 +444,7 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $key_id
+     * @param int $key_id
      *
      * @return bool
      */
