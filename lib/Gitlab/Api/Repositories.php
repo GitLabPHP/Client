@@ -263,7 +263,7 @@ class Repositories extends AbstractApi
                 $actionsOptionsResolver->setDefined('previous_path');
                 $actionsOptionsResolver->setDefined('content');
                 $actionsOptionsResolver->setDefined('encoding')
-                    ->setAllowedValues('encoding', ['test', 'base64'])
+                    ->setAllowedValues('encoding', ['text', 'base64'])
                 ;
 
                 return array_map(function ($action) use ($actionsOptionsResolver) {
