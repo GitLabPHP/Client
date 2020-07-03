@@ -755,7 +755,7 @@ class ProjectsTest extends TestCase
             ->with('projects/1/members', ['query' => 'at'])
             ->will($this->returnValue($expectedArray));
 
-        $this->assertEquals($expectedArray, $api->members(1, 'at'));
+        $this->assertEquals($expectedArray, $api->members(1, ['query' => 'at']));
     }
 
     /**
@@ -772,9 +772,28 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/members')
+            ->will($this->returnValue($expectedArray, ['query' => null]));
+
+        $this->assertEquals($expectedArray, $api->members(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetMembersWithoutQuery()
+    {
+        $expectedArray = [
+            ['id' => 1, 'name' => 'Matt'],
+            ['id' => 2, 'name' => 'Bob'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/members')
             ->will($this->returnValue($expectedArray));
 
-        $this->assertEquals($expectedArray, $api->members(1, null));
+        $this->assertEquals($expectedArray, $api->members(1));
     }
 
     /**

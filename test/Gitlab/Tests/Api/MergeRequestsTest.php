@@ -165,9 +165,6 @@ class MergeRequestsTest extends TestCase
                 'title' => 'Merge Request',
                 'target_branch' => 'master',
                 'source_branch' => 'develop',
-                'description' => null,
-                'assignee_id' => null,
-                'target_project_id' => null,
             ])
             ->will($this->returnValue($expectedArray))
         ;
@@ -204,10 +201,7 @@ class MergeRequestsTest extends TestCase
                 'develop',
                 'master',
                 'Merge Request',
-                6,
-                20,
-                'Some changes',
-                ['remove_source_branch' => true]
+                ['assignee_id' => 6, 'target_project_id' => 20, 'description' => 'Some changes', 'remove_source_branch' => true]
             )
         );
     }
