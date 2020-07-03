@@ -234,13 +234,13 @@ class Issues extends AbstractApi
      *
      * @return mixed
      *
-     * @derpecated since version 9.18 and will be removed in 10.0. Use the remoteNote() method instead.
+     * @derpecated since version 9.18 and will be removed in 10.0. Use the removeNote() method instead.
      */
     public function removeComment($project_id, $issue_iid, $note_id)
     {
-        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the remoteNote() method instead.', __METHOD__), E_USER_DEPRECATED);
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the removeNote() method instead.', __METHOD__), E_USER_DEPRECATED);
 
-        return $this->remoteNote($project_id, $issue_iid, $note_id);
+        return $this->removeNote($project_id, $issue_iid, $note_id);
     }
 
     /**
