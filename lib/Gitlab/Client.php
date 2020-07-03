@@ -423,9 +423,9 @@ class Client
     /**
      * Authenticate a user for all next requests.
      *
-     * @param string $token      Gitlab private token
-     * @param string $authMethod One of the AUTH_* class constants
-     * @param string $sudo
+     * @param string      $token      Gitlab private token
+     * @param string      $authMethod One of the AUTH_* class constants
+     * @param string|null $sudo
      *
      * @return $this
      */
