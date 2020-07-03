@@ -230,21 +230,20 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int   $project_id
      * @param array $parameters {
      *
      *     @var string $branch         Name of the branch to commit into. To create a new branch, also provide start_branch.
-     *     @var string $commit_message Commit message.
-     *     @var string $start_branch   Name of the branch to start the new commit from.
+     *     @var string $commit_message commit message
+     *     @var string $start_branch   name of the branch to start the new commit from
      *     @var array $actions {
-     *
-     *         @var string $action        he action to perform, create, delete, move, update.
-     *         @var string $file_path     Full path to the file.
-     *         @var string $previous_path Original full path to the file being moved.
+     *         @var string $action        he action to perform, create, delete, move, update
+     *         @var string $file_path     full path to the file
+     *         @var string $previous_path original full path to the file being moved
      *         @var string $content       File content, required for all except delete. Optional for move.
      *         @var string $encoding      text or base64. text is default.
      *     }
-     *     @var string $author_email   Specify the commit author's email address.
+     *     @var string $author_email   specify the commit author's email address
      *     @var string $author_name    Specify the commit author's name.
      * }
      *
@@ -422,11 +421,11 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
-     * @param string $file_path
-     * @param string $content
-     * @param string $branch
-     * @param string $commit_message
+     * @param int         $project_id
+     * @param string      $file_path
+     * @param string      $content
+     * @param string      $branch
+     * @param string      $commit_message
      * @param string|null $encoding
      * @param string|null $author_email
      * @param string|null $author_name
@@ -451,11 +450,11 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
-     * @param string $file_path
-     * @param string $content
-     * @param string $branch
-     * @param string $commit_message
+     * @param int         $project_id
+     * @param string      $file_path
+     * @param string      $content
+     * @param string      $branch
+     * @param string      $commit_message
      * @param string|null $encoding
      * @param string|null $author_email
      * @param string|null $author_name
@@ -480,10 +479,10 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
-     * @param string $file_path
-     * @param string $branch
-     * @param string $commit_message
+     * @param int         $project_id
+     * @param string      $file_path
+     * @param string      $branch
+     * @param string      $commit_message
      * @param string|null $author_email
      * @param string|null $author_name
      *

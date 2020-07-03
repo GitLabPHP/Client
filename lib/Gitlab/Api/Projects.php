@@ -256,9 +256,9 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
-     * @param string $commit_ref
-     * @param array|null $variables {
+     * @param int        $project_id
+     * @param string     $commit_ref
+     * @param array|null $variables  {
      *
      *     @var string $key            The name of the variable
      *     @var mixed $value           The value of the variable

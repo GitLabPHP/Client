@@ -43,7 +43,7 @@ class Jobs extends AbstractApi
     /**
      * @param int|string $project_id
      * @param int        $pipeline_id
-     * @param array      $parameters {
+     * @param array      $parameters  {
      *
      *     @var string|string[] $scope The scope of jobs to show, one or array of: created, pending, running, failed,
      *                                 success, canceled, skipped, manual; showing all jobs if none provided.
