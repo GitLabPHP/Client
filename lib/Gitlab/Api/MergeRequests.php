@@ -482,6 +482,18 @@ class MergeRequests extends AbstractApi
     }
 
     /**
+     * @param int $project_id
+     * @param int $mr_iid
+     * @param int $awardable_id
+     *
+     * @return mixed
+     */
+    public function removeAwardEmoji($project_id, $mr_iid, $award_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/award_emoji/'.$this->encodePath($award_id)));
+    }
+
+    /**
      * @param int   $project_id
      * @param int   $mr_iid
      * @param array $params

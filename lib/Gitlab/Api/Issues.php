@@ -438,6 +438,18 @@ class Issues extends AbstractApi
     /**
      * @param int $project_id
      * @param int $issue_iid
+     * @param int $awardable_id
+     *
+     * @return mixed
+     */
+    public function removeAwardEmoji($project_id, $issue_iid, $award_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/award_emoji/'.$this->encodePath($award_id)));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $issue_iid
      *
      * @return mixed
      */
