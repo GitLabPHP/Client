@@ -16,7 +16,7 @@ class RepositoryFilesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt/raw', array('ref' => 'abcd1234'))
+            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt/raw', ['ref' => 'abcd1234'])
             ->will($this->returnValue($expectedString))
         ;
 
@@ -28,12 +28,12 @@ class RepositoryFilesTest extends TestCase
      */
     public function shouldGetFile()
     {
-        $expectedArray = array('file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt');
+        $expectedArray = ['file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt', array('ref' => 'abcd1234'))
+            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt', ['ref' => 'abcd1234'])
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -45,17 +45,17 @@ class RepositoryFilesTest extends TestCase
      */
     public function shouldCreateFile()
     {
-        $expectedArray = array('file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt');
+        $expectedArray = ['file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt', array(
+            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt', [
                 'file_path' => 'dir/file1.txt',
                 'branch' => 'master',
                 'content' => 'some contents',
                 'commit_message' => 'Added new file',
-            ))
+            ])
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -72,18 +72,18 @@ class RepositoryFilesTest extends TestCase
      */
     public function shouldCreateFileWithEncoding()
     {
-        $expectedArray = array('file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt');
+        $expectedArray = ['file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt', array(
+            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt', [
                 'file_path' => 'dir/file1.txt',
                 'branch' => 'master',
                 'encoding' => 'text',
                 'content' => 'some contents',
                 'commit_message' => 'Added new file',
-            ))
+            ])
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -101,19 +101,19 @@ class RepositoryFilesTest extends TestCase
      */
     public function shouldCreateFileWithAuthor()
     {
-        $expectedArray = array('file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt');
+        $expectedArray = ['file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt', array(
+            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt', [
                 'file_path' => 'dir/file1.txt',
                 'branch' => 'master',
                 'content' => 'some contents',
                 'commit_message' => 'Added new file',
                 'author_email' => 'gitlab@example.com',
                 'author_name' => 'GitLab User',
-            ))
+            ])
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -132,17 +132,17 @@ class RepositoryFilesTest extends TestCase
      */
     public function shouldUpdateFile()
     {
-        $expectedArray = array('file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt');
+        $expectedArray = ['file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt', array(
+            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt', [
                 'file_path' => 'dir/file1.txt',
                 'branch' => 'master',
                 'content' => 'some new contents',
                 'commit_message' => 'Updated new file',
-            ))
+            ])
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -159,18 +159,18 @@ class RepositoryFilesTest extends TestCase
      */
     public function shouldUpdateFileWithEncoding()
     {
-        $expectedArray = array('file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt');
+        $expectedArray = ['file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt', array(
+            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt', [
                 'file_path' => 'dir/file1.txt',
                 'branch' => 'master',
                 'encoding' => 'base64',
                 'content' => 'c29tZSBuZXcgY29udGVudHM=',
                 'commit_message' => 'Updated file',
-            ))
+            ])
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -188,19 +188,19 @@ class RepositoryFilesTest extends TestCase
      */
     public function shouldUpdateFileWithAuthor()
     {
-        $expectedArray = array('file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt');
+        $expectedArray = ['file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt', array(
+            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt', [
                 'file_path' => 'dir/file1.txt',
                 'branch' => 'master',
                 'content' => 'some new contents',
                 'commit_message' => 'Updated file',
                 'author_email' => 'gitlab@example.com',
                 'author_name' => 'GitLab User',
-            ))
+            ])
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -219,23 +219,23 @@ class RepositoryFilesTest extends TestCase
      */
     public function shouldDeleteFile()
     {
-        $expectedArray = ["file_name" => "app/project.rb", "branch" => "master"];
+        $expectedArray = ['file_name' => 'app/project.rb', 'branch' => 'master'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('delete')
-            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt', array(
+            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt', [
                 'file_path' => 'dir/file1.txt',
                 'branch' => 'master',
                 'commit_message' => 'Deleted file',
-            ))
+            ])
             ->will($this->returnValue($expectedArray))
         ;
 
         $this->assertEquals($expectedArray, $api->deleteFile(1, [
             'file_path' => 'dir/file1.txt',
             'branch' => 'master',
-            'commit_message' => 'Deleted file'
+            'commit_message' => 'Deleted file',
         ]));
     }
 
@@ -244,18 +244,18 @@ class RepositoryFilesTest extends TestCase
      */
     public function shouldDeleteFileWithAuthor()
     {
-        $expectedArray = ["file_name" => "app/project.rb", "branch" => "master"];
+        $expectedArray = ['file_name' => 'app/project.rb', 'branch' => 'master'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('delete')
-            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt', array(
+            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt', [
                 'file_path' => 'dir/file1.txt',
                 'branch' => 'master',
                 'commit_message' => 'Deleted file',
                 'author_email' => 'gitlab@example.com',
                 'author_name' => 'GitLab User',
-            ))
+            ])
             ->will($this->returnValue($expectedArray))
         ;
 

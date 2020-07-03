@@ -3,7 +3,7 @@
 namespace Gitlab\Exception;
 
 /**
- * ErrorException
+ * ErrorException.
  *
  * @author Joseph Bielawski <stloyd@gmail.com>
  */

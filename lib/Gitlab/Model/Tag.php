@@ -5,7 +5,7 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Tag
+ * Class Tag.
  *
  * @property-read string $name
  * @property-read bool $protected
@@ -17,19 +17,20 @@ class Tag extends AbstractModel
     /**
      * @var array
      */
-    protected static $properties = array(
+    protected static $properties = [
         'name',
         'message',
         'commit',
         'release',
         'project',
-        'protected'
-    );
+        'protected',
+    ];
 
     /**
      * @param Client  $client
      * @param Project $project
      * @param array   $data
+     *
      * @return Tag
      */
     public static function fromArray(Client $client, Project $project, array $data)
@@ -49,8 +50,8 @@ class Tag extends AbstractModel
 
     /**
      * @param Project $project
-     * @param string $name
-     * @param Client $client
+     * @param string  $name
+     * @param Client  $client
      */
     public function __construct(Project $project, $name = null, Client $client = null)
     {

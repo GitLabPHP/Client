@@ -79,9 +79,9 @@ class Builder
     /**
      * Create a new http client builder instance.
      *
-     * @param HttpClient|null      $httpClient
-     * @param RequestFactory|null  $requestFactory
-     * @param StreamFactory|null   $streamFactory
+     * @param HttpClient|null     $httpClient
+     * @param RequestFactory|null $requestFactory
+     * @param StreamFactory|null  $streamFactory
      */
     public function __construct(
         HttpClient $httpClient = null,

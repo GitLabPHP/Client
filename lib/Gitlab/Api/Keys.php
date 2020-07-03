@@ -6,6 +6,7 @@ class Keys extends AbstractApi
 {
     /**
      * @param int $id
+     *
      * @return mixed
      */
     public function show($id)

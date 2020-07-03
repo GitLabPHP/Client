@@ -5,7 +5,7 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Hook
+ * Class Hook.
  *
  * @property-read int $id
  * @property-read string $url
@@ -16,15 +16,16 @@ class Hook extends AbstractModel
     /**
      * @var array
      */
-    protected static $properties = array(
+    protected static $properties = [
         'id',
         'url',
-        'created_at'
-    );
+        'created_at',
+    ];
 
     /**
      * @param Client $client
      * @param array  $data
+     *
      * @return Hook
      */
     public static function fromArray(Client $client, array $data)
@@ -37,6 +38,7 @@ class Hook extends AbstractModel
     /**
      * @param Client $client
      * @param string $url
+     *
      * @return Hook
      */
     public static function create(Client $client, $url)
@@ -47,7 +49,7 @@ class Hook extends AbstractModel
     }
 
     /**
-     * @param int $id
+     * @param int    $id
      * @param Client $client
      */
     public function __construct($id, Client $client = null)

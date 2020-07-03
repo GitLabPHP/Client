@@ -78,16 +78,16 @@ class IssueTest extends TestCase
 
     public function testIsClosed()
     {
-        $opened_data  = [
-            'iid'   => 1,
+        $opened_data = [
+            'iid' => 1,
             'state' => 'opened',
         ];
         $opened_issue = $this->getIssueMock($opened_data);
 
         $this->assertFalse($opened_issue->isClosed());
 
-        $closed_data  = [
-            'iid'   => 1,
+        $closed_data = [
+            'iid' => 1,
             'state' => 'closed',
         ];
         $closed_issue = $this->getIssueMock($closed_data);
@@ -97,8 +97,8 @@ class IssueTest extends TestCase
 
     public function testHasLabel()
     {
-        $data  = [
-            'iid'    => 1,
+        $data = [
+            'iid' => 1,
             'labels' => ['foo', 'bar'],
         ];
         $issue = $this->getIssueMock($data);
@@ -159,7 +159,7 @@ class IssueTest extends TestCase
             ->with(1, 10)
             ->willReturn([
                 ['issue_link_id' => 100, 'iid' => 10, 'project_id' => 1],
-                ['issue_link_id' => 200, 'iid' => 20, 'project_id' => 2]
+                ['issue_link_id' => 200, 'iid' => 20, 'project_id' => 2],
             ])
         ;
         $projects->expects($this->exactly(2))
@@ -210,7 +210,7 @@ class IssueTest extends TestCase
             ->with(1, 10, 2, 20)
             ->willReturn([
                 'source_issue' => ['iid' => 10, 'project_id' => 1],
-                'target_issue' => ['iid' => 20, 'project_id' => 2]
+                'target_issue' => ['iid' => 20, 'project_id' => 2],
             ])
         ;
 
@@ -257,7 +257,7 @@ class IssueTest extends TestCase
             ->with(1, 10, 100)
             ->willReturn([
                 'source_issue' => ['iid' => 10, 'project_id' => 1],
-                'target_issue' => ['iid' => 20, 'project_id' => 2]
+                'target_issue' => ['iid' => 20, 'project_id' => 2],
             ])
         ;
         $projects->expects($this->once())

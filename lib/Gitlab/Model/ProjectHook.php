@@ -5,7 +5,7 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class ProjectHook
+ * Class ProjectHook.
  *
  * @property-read int $id
  * @property-read string $url
@@ -24,7 +24,7 @@ class ProjectHook extends AbstractModel
     /**
      * @var array
      */
-    protected static $properties = array(
+    protected static $properties = [
         'id',
         'project',
         'url',
@@ -35,13 +35,14 @@ class ProjectHook extends AbstractModel
         'job_events',
         'tag_push_events',
         'pipeline_events',
-        'created_at'
-    );
+        'created_at',
+    ];
 
     /**
      * @param Client  $client
      * @param Project $project
      * @param array   $data
+     *
      * @return ProjectHook
      */
     public static function fromArray(Client $client, Project $project, array $data)
@@ -53,8 +54,8 @@ class ProjectHook extends AbstractModel
 
     /**
      * @param Project $project
-     * @param int $id
-     * @param Client $client
+     * @param int     $id
+     * @param Client  $client
      */
     public function __construct(Project $project, $id, Client $client = null)
     {
@@ -93,6 +94,7 @@ class ProjectHook extends AbstractModel
 
     /**
      * @param array $params
+     *
      * @return ProjectHook
      */
     public function update(array $params)

@@ -18,7 +18,7 @@ use Http\Client\HttpClient;
 use Http\Discovery\UriFactoryDiscovery;
 
 /**
- * Simple API wrapper for Gitlab
+ * Simple API wrapper for Gitlab.
  *
  * @author Matt Humphrey <matt@m4tt.co>
  *
@@ -73,7 +73,7 @@ class Client
     private $httpClientBuilder;
 
     /**
-     * Instantiate a new Gitlab client
+     * Instantiate a new Gitlab client.
      *
      * @param Builder $httpClientBuilder
      */
@@ -326,12 +326,12 @@ class Client
      * @param string $name
      *
      * @return AbstractApi|mixed
+     *
      * @throws InvalidArgumentException
      */
     public function api($name)
     {
         switch ($name) {
-
             case 'deploy_keys':
                 return $this->deployKeys();
 
@@ -419,11 +419,12 @@ class Client
     }
 
     /**
-     * Authenticate a user for all next requests
+     * Authenticate a user for all next requests.
      *
-     * @param string $token Gitlab private token
+     * @param string $token      Gitlab private token
      * @param string $authMethod One of the AUTH_* class constants
      * @param string $sudo
+     *
      * @return $this
      */
     public function authenticate($token, $authMethod = self::AUTH_URL_TOKEN, $sudo = null)
@@ -449,6 +450,7 @@ class Client
 
     /**
      * @param string $api
+     *
      * @return AbstractApi
      */
     public function __get($api)
