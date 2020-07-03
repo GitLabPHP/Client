@@ -236,6 +236,7 @@ class MergeRequests extends AbstractApi
     {
         if (null !== $created_at) {
             @trigger_error(sprintf('The %s() method\'s $created_at parameter is deprecated since version 9.18 and will be removed in 10.0. There is no replacement as this parameter was removed by GitLab.', __METHOD__), E_USER_DEPRECATED);
+
             return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/notes'), [
                 'body' => $body,
                 'created_at' => $created_at,
@@ -261,6 +262,7 @@ class MergeRequests extends AbstractApi
             'body' => $body,
         ]);
     }
+
     /**
      * @param int $project_id
      * @param int $mr_iid
