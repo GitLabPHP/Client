@@ -658,10 +658,25 @@ class Project extends AbstractModel
      * @param string $filepath
      *
      * @return string
+     *
+     * @deprecated deprecated since version 9.18 and will be removed in 10.0. Use the getRawFile() method instead.
      */
     public function blob($sha, $filepath)
     {
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the getRawFile() method instead.', __METHOD__), E_USER_DEPRECATED);
+
         return $this->client->repositories()->blob($this->id, $sha, $filepath);
+    }
+
+    /**
+     * @param string $sha
+     * @param string $filepath
+     *
+     * @return string
+     */
+    public function getRawFile($sha, $filepath)
+    {
+        return $this->client->repositoryFiles()->getRawFile($this->id, $sha, $filepath);
     }
 
     /**
@@ -672,7 +687,7 @@ class Project extends AbstractModel
      */
     public function getFile($sha, $filepath)
     {
-        return $this->client->repositories()->getFile($this->id, $filepath, $sha);
+        return $this->client->repositoryFiles()->getFile($this->id, $filepath, $sha);
     }
 
     /**

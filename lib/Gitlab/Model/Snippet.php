@@ -15,7 +15,7 @@ use Gitlab\Client;
  * @property-read Project $project
  * @property-read User $author
  */
-class Snippet extends AbstractModel
+class Snippet extends AbstractModel implements Notable
 {
     /**
      * @var array
@@ -100,5 +100,17 @@ class Snippet extends AbstractModel
         $this->client->snippets()->remove($this->project->id, $this->id);
 
         return true;
+    }
+
+    /**
+     * @param string $body
+     *
+     * @return Note
+     */
+    public function addNote($body)
+    {
+        $data = $this->client->snippets()->addNote($this->project->id, $this->id, $body);
+
+        return Note::fromArray($this->getClient(), $this, $data);
     }
 }
