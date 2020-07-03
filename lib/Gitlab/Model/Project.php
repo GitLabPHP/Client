@@ -252,11 +252,8 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $username_query
-     *
-=======
      * @param string|null $username_query
->>>>>>> 9.17
+     *
      * @return User[]
      */
     public function members($username_query = null)
