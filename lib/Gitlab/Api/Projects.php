@@ -361,7 +361,7 @@ class Projects extends AbstractApi
      */
     public function saveMember($project_id, $user_id, $access_level)
     {
-        return $this->put($this->getProjectPath($project_id, 'members/'.urldecode($user_id)), array(
+        return $this->put($this->getProjectPath($project_id, 'members/'.$this->encodePath($user_id)), array(
             'access_level' => $access_level
         ));
     }
@@ -373,7 +373,7 @@ class Projects extends AbstractApi
      */
     public function removeMember($project_id, $user_id)
     {
-        return $this->delete($this->getProjectPath($project_id, 'members/'.urldecode($user_id)));
+        return $this->delete($this->getProjectPath($project_id, 'members/'.$this->encodePath($user_id)));
     }
 
     /**
@@ -884,7 +884,7 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param string $badge_id
+     * @param int $badge_id
      * @return mixed
      */
     public function badge($project_id, $badge_id)
@@ -904,7 +904,7 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param string $badge_id
+     * @param int $badge_id
      * @return mixed
      */
     public function removeBadge($project_id, $badge_id)
@@ -914,7 +914,7 @@ class Projects extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param string $badge_id
+     * @param int $badge_id
      * @param array $parameters
      * @return mixed
     */

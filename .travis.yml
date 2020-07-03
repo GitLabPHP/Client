@@ -10,14 +10,13 @@ php:
 
 matrix:
   include:
-    - php: 7.3
+    - php: 7.4
       env: STATIC_ANALYSIS=yes
+      script: then php phpstan.phar analyse
 
 before_script:
-  - travis_retry composer self-update
-  - travis_retry composer update --no-interaction ${COMPOSER_FLAGS}
-  - if [ "$STATIC_ANALYSIS" != "" ]; then curl -L https://github.com/phpstan/phpstan/releases/download/0.10.8/phpstan.phar -o phpstan.phar; fi;
+  - travis_retry composer update --no-interaction
+  - if [ "$STATIC_ANALYSIS" != "" ]; then curl -L https://github.com/phpstan/phpstan/releases/download/0.12.32/phpstan.phar -o phpstan.phar; fi;
 
 script:
   - vendor/bin/phpunit --verbose --coverage-text
-  - if [ "$STATIC_ANALYSIS" != "" ]; then php phpstan.phar analyse --level=4 lib; fi;

@@ -15,7 +15,7 @@ class Wiki extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param int $wiki_slug
+     * @param string $wiki_slug
      * @return mixed
      */
     public function show($project_id, $wiki_slug)
@@ -34,6 +34,7 @@ class Wiki extends AbstractApi
 
     /**
      * @param int $project_id
+     * @param string $wiki_slug
      * @param array $params
      * @return mixed
      */
@@ -44,7 +45,7 @@ class Wiki extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param int $wiki_slug
+     * @param string $wiki_slug
      * @return mixed
      */
     public function remove($project_id, $wiki_slug)

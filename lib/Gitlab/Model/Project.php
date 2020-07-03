@@ -218,12 +218,12 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $username_query
+     * @param string|null $username_query
      * @return User[]
      */
     public function members($username_query = null)
     {
-        $data = $this->client->projects()->members($this->id, $username_query);
+        $data = $this->client->projects()->members($this->id, array('query' => $username_query));
 
         $members = array();
         foreach ($data as $member) {
@@ -384,7 +384,7 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $key_id
+     * @param int $key_id
      * @return bool
      */
     public function deleteDeployKey($key_id)
@@ -395,7 +395,7 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $key_id
+     * @param int $key_id
      * @return bool
      */
     public function enableDeployKey($key_id)

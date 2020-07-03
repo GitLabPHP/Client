@@ -27,12 +27,12 @@ class Repositories extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param int $branch_id
+     * @param string $branch
      * @return mixed
      */
-    public function branch($project_id, $branch_id)
+    public function branch($project_id, $branch)
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch_id)));
+        return $this->get($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch)));
     }
 
     /**
@@ -61,14 +61,14 @@ class Repositories extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param string $branch_name
+     * @param string $branch
      * @param bool $devPush
      * @param bool $devMerge
      * @return mixed
      */
-    public function protectBranch($project_id, $branch_name, $devPush = false, $devMerge = false)
+    public function protectBranch($project_id, $branch, $devPush = false, $devMerge = false)
     {
-        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch_name).'/protect'), array(
+        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch).'/protect'), array(
             'developers_can_push' => $devPush,
             'developers_can_merge' => $devMerge
         ));
@@ -76,12 +76,12 @@ class Repositories extends AbstractApi
 
     /**
      * @param int $project_id
-     * @param string $branch_name
+     * @param string $branch
      * @return mixed
      */
-    public function unprotectBranch($project_id, $branch_name)
+    public function unprotectBranch($project_id, $branch)
     {
-        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch_name).'/unprotect'));
+        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch).'/unprotect'));
     }
 
     /**

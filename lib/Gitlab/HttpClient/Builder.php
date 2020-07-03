@@ -10,7 +10,6 @@ use Http\Client\HttpClient;
 use Http\Discovery\HttpClientDiscovery;
 use Http\Discovery\MessageFactoryDiscovery;
 use Http\Discovery\StreamFactoryDiscovery;
-use Http\Message\MessageFactory;
 use Http\Message\RequestFactory;
 use Http\Message\StreamFactory;
 
@@ -37,7 +36,7 @@ class Builder
     private $pluginClient;
 
     /**
-     * @var MessageFactory
+     * @var RequestFactory
      */
     private $requestFactory;
 
@@ -94,6 +93,7 @@ class Builder
      * Add a new plugin to the end of the plugin chain.
      *
      * @param Plugin $plugin
+     * @return void
      */
     public function addPlugin(Plugin $plugin)
     {
@@ -105,6 +105,7 @@ class Builder
      * Remove a plugin by its fully qualified class name (FQCN).
      *
      * @param string $fqcn
+     * @return void
      */
     public function removePlugin($fqcn)
     {

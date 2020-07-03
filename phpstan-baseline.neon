@@ -1,0 +1,202 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Parameter \\#1 \\$streamFactory of class Http\\\\Message\\\\MultipartStream\\\\MultipartStreamBuilder constructor expects Http\\\\Message\\\\MultipartStream\\\\StreamFactory\\|Psr\\\\Http\\\\Message\\\\StreamFactoryInterface\\|null, Http\\\\Message\\\\StreamFactory given\\.$#"
+			count: 2
+			path: lib/Gitlab/Api/AbstractApi.php
+
+		-
+			message: "#^Parameter \\#2 \\$callback of function array_filter expects callable\\(mixed, mixed\\)\\: bool, 'strlen' given\\.$#"
+			count: 1
+			path: lib/Gitlab/Api/Groups.php
+
+		-
+			message: "#^Method Gitlab\\\\HttpClient\\\\Plugin\\\\ApiVersion\\:\\:doHandleRequest\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: lib/Gitlab/HttpClient/Plugin/ApiVersion.php
+
+		-
+			message: "#^Method Gitlab\\\\HttpClient\\\\Plugin\\\\Authentication\\:\\:doHandleRequest\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: lib/Gitlab/HttpClient/Plugin/Authentication.php
+
+		-
+			message: "#^Method Gitlab\\\\HttpClient\\\\Plugin\\\\GitlabExceptionThrower\\:\\:doHandleRequest\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: lib/Gitlab/HttpClient/Plugin/GitlabExceptionThrower.php
+
+		-
+			message: "#^Method Gitlab\\\\HttpClient\\\\Plugin\\\\History\\:\\:addSuccess\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: lib/Gitlab/HttpClient/Plugin/History.php
+
+		-
+			message: "#^Method Gitlab\\\\HttpClient\\\\Plugin\\\\History\\:\\:addFailure\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: lib/Gitlab/HttpClient/Plugin/History.php
+
+		-
+			message: "#^Method Gitlab\\\\Model\\\\AbstractModel\\:\\:__set\\(\\) has no return typehint specified\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/AbstractModel.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/Badge.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/Branch.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/Commit.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/CommitNote.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/Comparison.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/Contributor.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/Diff.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/Event.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/File.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/Group.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/GroupMilestone.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/Hook.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/Issue.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/IssueLink.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/Job.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/Key.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/Label.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/MergeRequest.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/Milestone.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/Node.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/Note.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/Pipeline.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/Project.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/ProjectHook.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/ProjectNamespace.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/Release.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/Schedule.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/Session.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/Snippet.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/Tag.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/User.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: lib/Gitlab/Model/Wiki.php
+

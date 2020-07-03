@@ -1,6 +1,7 @@
 <?php namespace Gitlab\Api;
 
 use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Groups extends AbstractApi
 {
@@ -373,6 +374,9 @@ class Groups extends AbstractApi
         return $this->delete($this->getGroupPath($group_id, 'variables/'.$this->encodePath($key)));
     }
 
+    /**
+     * @return OptionsResolver
+     */
     private function getGroupSearchResolver()
     {
         $resolver = $this->createOptionsResolver();

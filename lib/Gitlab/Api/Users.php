@@ -280,7 +280,7 @@ class Users extends AbstractApi
         return $this->get('users/'.$this->encodePath($user_id).'/keys');
     }
 
-    /*
+    /**
      * @param int $user_id
      * @param int $key_id
      * @return mixed
