@@ -120,9 +120,9 @@ class Issues extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
-     * @param int    $issue_iid
-     * @param array  $parameters
+     * @param int   $project_id
+     * @param int   $issue_iid
+     * @param array $parameters
      *
      * @return mixed
      */
