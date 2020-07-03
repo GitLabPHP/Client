@@ -35,13 +35,13 @@ class Note extends AbstractModel
     ];
 
     /**
-     * @param Client   $client
-     * @param Noteable $type
-     * @param array    $data
+     * @param Client           $client
+     * @param Noteable|Notable $type
+     * @param array            $data
      *
      * @return mixed
      */
-    public static function fromArray(Client $client, Noteable $type, array $data)
+    public static function fromArray(Client $client, $type, array $data)
     {
         $comment = new static($type, $client);
 
@@ -53,12 +53,12 @@ class Note extends AbstractModel
     }
 
     /**
-     * @param Noteable $type
-     * @param Client   $client
+     * @param Noteable|Notable $type
+     * @param Client           $client
      *
      * @return void
      */
-    public function __construct(Noteable $type, Client $client = null)
+    public function __construct($type, Client $client = null)
     {
         $this->setClient($client);
         $this->setData('parent_type', get_class($type));

@@ -102,9 +102,9 @@ class Issues extends AbstractApi
      *
      * @return mixed
      */
-    public function showComments($project_id, $issue_iid)
+    public function showNotes($project_id, $issue_iid)
     {
-        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid)).'/notes');
+        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/notes'));
     }
 
     /**
@@ -114,28 +114,23 @@ class Issues extends AbstractApi
      *
      * @return mixed
      */
-    public function showComment($project_id, $issue_iid, $note_id)
+    public function showNote($project_id, $issue_iid, $note_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid)).'/notes/'.$this->encodePath($note_id));
+        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/notes/'.$this->encodePath($note_id)));
     }
 
     /**
-     * @param int          $project_id
-     * @param int          $issue_iid
-     * @param string|array $body
+     * @param int    $project_id
+     * @param int    $issue_iid
+     * @param string $body
      *
      * @return mixed
      */
-    public function addComment($project_id, $issue_iid, $body)
+    public function addNote($project_id, $issue_iid, $body)
     {
-        // backwards compatibility
-        if (is_array($body)) {
-            $params = $body;
-        } else {
-            $params = ['body' => $body];
-        }
-
-        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/notes'), $params);
+        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/notes'), [
+            'body' => $body,
+        ]);
     }
 
     /**
@@ -146,11 +141,37 @@ class Issues extends AbstractApi
      *
      * @return mixed
      */
-    public function updateComment($project_id, $issue_iid, $note_id, $body)
+    public function updateNote($project_id, $issue_iid, $note_id, $body)
     {
         return $this->put($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/notes/'.$this->encodePath($note_id)), [
             'body' => $body,
         ]);
+    }
+    /**
+     * @param int $project_id
+     * @param int $issue_iid
+     * @param int $note_id
+     *
+     * @return mixed
+     */
+    public function removeNote($project_id, $issue_iid, $note_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/notes/'.$this->encodePath($note_id)));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $issue_iid
+     *
+     * @return mixed
+     *
+     * @derpecated since version 9.18 and will be removed in 10.0. Use the showNotes() method instead.
+     */
+    public function showComments($project_id, $issue_iid)
+    {
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the showNotes() method instead.', __METHOD__), E_USER_DEPRECATED);
+
+        return $this->showNotes($project_id, $issue_iid);
     }
 
     /**
@@ -159,10 +180,67 @@ class Issues extends AbstractApi
      * @param int $note_id
      *
      * @return mixed
+     *
+     * @derpecated since version 9.18 and will be removed in 10.0. Use the showNote() method instead.
+     */
+    public function showComment($project_id, $issue_iid, $note_id)
+    {
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the showNote() method instead.', __METHOD__), E_USER_DEPRECATED);
+
+        return $this->showNote($project_id, $issue_iid, $note_id);
+    }
+
+    /**
+     * @param int          $project_id
+     * @param int          $issue_iid
+     * @param string|array $body
+     *
+     * @return mixed
+     *
+     * @derpecated since version 9.18 and will be removed in 10.0. Use the addNote() method instead.
+     */
+    public function addComment($project_id, $issue_iid, $body)
+    {
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the addNote() method instead.', __METHOD__), E_USER_DEPRECATED);
+
+        if (is_array($body)) {
+            return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/notes'), $body);
+        }
+
+        return $this->addNote($project_id, $issue_iid, $body);
+    }
+
+    /**
+     * @param int    $project_id
+     * @param int    $issue_iid
+     * @param int    $note_id
+     * @param string $body
+     *
+     * @return mixed
+     *
+     * @derpecated since version 9.18 and will be removed in 10.0. Use the updateNote() method instead.
+     */
+    public function updateComment($project_id, $issue_iid, $note_id, $body)
+    {
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the updateNote() method instead.', __METHOD__), E_USER_DEPRECATED);
+
+        return $this->updateNote($project_id, $issue_iid, $note_id, $body);
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $issue_iid
+     * @param int $note_id
+     *
+     * @return mixed
+     *
+     * @derpecated since version 9.18 and will be removed in 10.0. Use the deleteNote() method instead.
      */
     public function removeComment($project_id, $issue_iid, $note_id)
     {
-        return $this->delete($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/notes/'.$this->encodePath($note_id)));
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the deleteNote() method instead.', __METHOD__), E_USER_DEPRECATED);
+
+        return $this->deleteNote($project_id, $issue_iid, $note_id);
     }
 
     /**
