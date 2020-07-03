@@ -203,13 +203,13 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param string $path
+     * @param string|int $path
      *
      * @return string
      */
     protected function encodePath($path)
     {
-        $path = rawurlencode($path);
+        $path = rawurlencode((string) $path);
 
         return str_replace('.', '%2E', $path);
     }
