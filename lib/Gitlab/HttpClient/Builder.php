@@ -137,7 +137,7 @@ class Builder
      *
      * @return void
      */
-    public function removePlugin($fqcn)
+    public function removePlugin(string $fqcn)
     {
         foreach ($this->plugins as $idx => $plugin) {
             if ($plugin instanceof $fqcn) {

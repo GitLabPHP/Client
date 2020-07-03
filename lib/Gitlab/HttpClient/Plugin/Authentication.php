@@ -37,7 +37,7 @@ class Authentication implements Plugin
      *
      * @return void
      */
-    public function __construct($method, $token, $sudo = null)
+    public function __construct(string $method, string $token, string $sudo = null)
     {
         $this->method = $method;
         $this->token = $token;

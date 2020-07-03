@@ -102,7 +102,7 @@ class Client
      *
      * @return Client
      */
-    public static function create($url)
+    public static function create(string $url)
     {
         $client = new self();
         $client->setUrl($url);
@@ -331,7 +331,7 @@ class Client
      *
      * @throws InvalidArgumentException
      */
-    public function api($name)
+    public function api(string $name)
     {
         switch ($name) {
             case 'deploy_keys':
@@ -423,16 +423,16 @@ class Client
     /**
      * Authenticate a user for all next requests.
      *
-     * @param string $token      Gitlab private token
-     * @param string $authMethod One of the AUTH_* class constants
-     * @param string $sudo
+     * @param string      $token      Gitlab private token
+     * @param string|null $authMethod One of the AUTH_* class constants
+     * @param string|null $sudo
      *
      * @return $this
      */
-    public function authenticate($token, $authMethod = self::AUTH_URL_TOKEN, $sudo = null)
+    public function authenticate(string $token, string $authMethod = null, string $sudo = null)
     {
         $this->httpClientBuilder->removePlugin(Authentication::class);
-        $this->httpClientBuilder->addPlugin(new Authentication($authMethod, $token, $sudo));
+        $this->httpClientBuilder->addPlugin(new Authentication($authMethod ?? self::AUTH_URL_TOKEN, $token, $sudo));
 
         return $this;
     }
@@ -442,7 +442,7 @@ class Client
      *
      * @return $this
      */
-    public function setUrl($url)
+    public function setUrl(string $url)
     {
         $this->httpClientBuilder->removePlugin(AddHostPlugin::class);
         $this->httpClientBuilder->addPlugin(new AddHostPlugin(Psr17FactoryDiscovery::findUrlFactory()->createUri($url)));
