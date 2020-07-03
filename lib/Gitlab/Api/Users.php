@@ -7,18 +7,18 @@ use Symfony\Component\OptionsResolver\Options;
 class Users extends AbstractApi
 {
     /**
-     * @param array $parameters (
+     * @param array $parameters {
      *
-     * @var string             $search         Search for user by email or username.
-     * @var string             $username       Lookup for user by username.
-     * @var bool               $external       Search for external users only.
-     * @var string             $extern_uid     Lookup for users by external uid.
-     * @var string             $provider       Lookup for users by provider.
-     * @var \DateTimeInterface $created_before Return users created before the given time (inclusive).
-     * @var \DateTimeInterface $created_after  Return users created after the given time (inclusive).
-     * @var bool               $active         Return only active users. It does not support filtering inactive users.
-     * @var bool               $blocked        Return only blocked users. It does not support filtering non-blocked users.
-     * )
+     *     @var string             $search         Search for user by email or username.
+     *     @var string             $username       Lookup for user by username.
+     *     @var bool               $external       Search for external users only.
+     *     @var string             $extern_uid     Lookup for users by external uid.
+     *     @var string             $provider       Lookup for users by provider.
+     *     @var \DateTimeInterface $created_before Return users created before the given time (inclusive).
+     *     @var \DateTimeInterface $created_after  Return users created after the given time (inclusive).
+     *     @var bool               $active         Return only active users. It does not support filtering inactive users.
+     *     @var bool               $blocked        Return only blocked users. It does not support filtering non-blocked users.
+     * }
      *
      * @return mixed
      */
