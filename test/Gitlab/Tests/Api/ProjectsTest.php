@@ -345,7 +345,7 @@ class ProjectsTest extends TestCase
                 'author' => [
                     'state' => 'active',
                     'id' => 18,
-                    'web_url' => 'https => //gitlab.example.com/eileen.lowe',
+                    'web_url' => 'https://gitlab.example.com/eileen.lowe',
                     'name' => 'Alexandra Bashirian',
                     'avatar_url' => null,
                     'username' => 'eileen.lowe'
@@ -356,10 +356,10 @@ class ProjectsTest extends TestCase
                     'state' => 'closed',
                     'due_date' => null,
                     'iid' => 2,
-                    'created_at' => '2016-01-04T15 => 31 => 39.996Z',
+                    'created_at' => '2016-01-04T15:31:39.996Z',
                     'title' => 'v4.0',
                     'id' => 17,
-                    'updated_at' => '2016-01-04T15 => 31 => 39.996Z'
+                    'updated_at' => '2016-01-04T15:31:39.996Z'
                 ],
                 'project_id' => 1,
                 'assignees' => [
@@ -367,7 +367,7 @@ class ProjectsTest extends TestCase
                         'state' => 'active',
                         'id' => 1,
                         'name' => 'Administrator',
-                        'web_url' => 'https => //gitlab.example.com/root',
+                        'web_url' => 'https://gitlab.example.com/root',
                         'avatar_url' => null,
                         'username' => 'root'
                     ]
@@ -376,21 +376,21 @@ class ProjectsTest extends TestCase
                     'state' => 'active',
                     'id' => 1,
                     'name' => 'Administrator',
-                    'web_url' => 'https => //gitlab.example.com/root',
+                    'web_url' => 'https://gitlab.example.com/root',
                     'avatar_url' => null,
                     'username' => 'root'
                 ],
-                'updated_at' => '2016-01-04T15 => 31 => 51.081Z',
+                'updated_at' => '2016-01-04T15:31:51.081Z',
                 'closed_at' => null,
                 'closed_by' => null,
                 'id' => 76,
                 'title' => 'Consequatur vero maxime deserunt laboriosam est voluptas dolorem.',
-                'created_at' => '2016-01-04T15 => 31 => 51.081Z',
+                'created_at' => '2016-01-04T15:31:51.081Z',
                 'iid' => 6,
                 'labels' => [],
                 'user_notes_count' => 1,
                 'due_date' => '2016-07-22',
-                'web_url' => 'http => //example.com/example/example/issues/6',
+                'web_url' => 'http://example.com/example/example/issues/6',
                 'confidential' => false,
                 'weight' => null,
                 'discussion_locked' => false,
@@ -456,8 +456,8 @@ class ProjectsTest extends TestCase
                     'name_with_namespace' => 'Diaspora / Diaspora Project Site',
                     'path' => 'diaspora-project-site',
                     'path_with_namespace' => 'diaspora/diaspora-project-site',
-                    'http_url_to_repo' => 'http => //example.com/diaspora/diaspora-project-site.git',
-                    'web_url' => 'http => //example.com/diaspora/diaspora-project-site'
+                    'http_url_to_repo' => 'http://example.com/diaspora/diaspora-project-site.git',
+                    'web_url' => 'http://example.com/diaspora/diaspora-project-site'
                 ],
                 'milestone' => [
                     'id' => 12,
