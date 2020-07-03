@@ -11,7 +11,9 @@ enabled:
   - phpdoc_indent
   - phpdoc_scalar
   - phpdoc_trim
+  - single_line_after_imports
   - short_scalar_cast
+  - yoda_style
 
 disabled:
   - concat_with_spaces
