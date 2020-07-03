@@ -351,9 +351,9 @@ class Issues extends AbstractApi
         $resolver->setDefined('assignee_id')
             ->setAllowedTypes('assignee_id', 'integer')
         ;
-      $resolver->setDefined('weight')
-        ->setAllowedTypes('weight', 'integer')
-      ;
+        $resolver->setDefined('weight')
+            ->setAllowedTypes('weight', 'integer')
+        ;
 
         return $resolver;
     }
