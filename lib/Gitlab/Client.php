@@ -1,4 +1,6 @@
-<?php namespace Gitlab;
+<?php
+
+namespace Gitlab;
 
 use Gitlab\Api\AbstractApi;
 use Gitlab\Exception\InvalidArgumentException;
@@ -167,7 +169,6 @@ class Client
     {
         return new Api\GroupsBoards($this);
     }
-
 
     /**
      * @return Api\IssueLinks

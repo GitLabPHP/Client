@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <phpunit backupGlobals="false"
-				 backupStaticAttributes="false"
-				 colors="true"
-				 convertErrorsToExceptions="true"
-				 convertNoticesToExceptions="true"
-				 convertWarningsToExceptions="true"
-				 processIsolation="false"
-				 stopOnFailure="false"
-				 bootstrap="vendor/autoload.php"
-	>
-	<testsuites>
-		<testsuite name="php-gitlab-api Test Suite">
-			<directory>./test/Gitlab/</directory>
-		</testsuite>
-	</testsuites>
+                 backupStaticAttributes="false"
+                 colors="true"
+                 convertErrorsToExceptions="true"
+                 convertNoticesToExceptions="true"
+                 convertWarningsToExceptions="true"
+                 processIsolation="false"
+                 stopOnFailure="false"
+                 bootstrap="vendor/autoload.php"
+    >
+    <testsuites>
+        <testsuite name="php-gitlab-api Test Suite">
+            <directory>./test/Gitlab/</directory>
+        </testsuite>
+    </testsuites>
 
-	<filter>
-		<whitelist>
-			<directory suffix=".php">./lib/Gitlab/</directory>
-		</whitelist>
-	</filter>
+    <filter>
+        <whitelist>
+            <directory suffix=".php">./lib/Gitlab/</directory>
+        </whitelist>
+    </filter>
 </phpunit>

@@ -1,8 +1,10 @@
-<?php namespace Gitlab\Model;
+<?php
 
+namespace Gitlab\Model;
+
+use Gitlab\Api\AbstractApi;
 use Gitlab\Client;
 use Gitlab\Exception\RuntimeException;
-use Gitlab\Api\AbstractApi;
 
 abstract class AbstractModel
 {

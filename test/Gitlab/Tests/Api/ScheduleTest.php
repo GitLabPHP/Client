@@ -21,7 +21,6 @@ class ScheduleTest extends TestCase
             "updated_at" => "2017-05-19T13:40:17.727Z"
         ];
 
-
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
@@ -121,7 +120,6 @@ class ScheduleTest extends TestCase
 
         $this->assertEquals($expectedBool, $api->remove(1, 2));
     }
-
 
     protected function getApiClass()
     {

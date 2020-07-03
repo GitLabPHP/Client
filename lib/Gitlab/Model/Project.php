@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Model;
+<?php
+
+namespace Gitlab\Model;
 
 use Gitlab\Api\Projects;
 use Gitlab\Api\Repositories;
@@ -1330,6 +1332,7 @@ class Project extends AbstractModel
     public function addProtectedBranch(array $params = [])
     {
         $data = $this->client->projects()->addProtectedBranch($this->id, $params);
+
         return Branch::fromArray($this->getClient(), $this, $data);
     }
 }

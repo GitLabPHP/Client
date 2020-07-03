@@ -16,7 +16,7 @@ matrix:
         - vendor/bin/phpstan analyse --no-progress
 
 install:
-  - travis_retry composer update --no-interaction ${COMPOSER_FLAGS}
+  - travis_retry composer update --no-interaction
 
 script:
   - vendor/bin/phpunit --verbose --coverage-text

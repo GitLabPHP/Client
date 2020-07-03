@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Api;
+<?php
+
+namespace Gitlab\Api;
 
 class Issues extends AbstractApi
 {
@@ -6,15 +8,16 @@ class Issues extends AbstractApi
      * @param int $project_id
      * @param array $parameters (
      *
-     *     @var string $state     Return all issues or just those that are opened or closed.
-     *     @var string $labels    Comma-separated list of label names, issues must have all labels to be returned.
-     *                            No+Label lists all issues with no labels.
-     *     @var string $milestone The milestone title.
-     *     @var string scope      Return issues for the given scope: created-by-me, assigned-to-me or all. Defaults to created-by-me
-     *     @var int[]  $iids      Return only the issues having the given iid.
-     *     @var string $order_by  Return requests ordered by created_at or updated_at fields. Default is created_at.
-     *     @var string $sort      Return requests sorted in asc or desc order. Default is desc.
-     *     @var string $search    Search issues against their title and description.
+     *     @var string $state        Return all issues or just those that are opened or closed.
+     *     @var string $labels       Comma-separated list of label names, issues must have all labels to be returned.
+     *                               No+Label lists all issues with no labels.
+     *     @var string $milestone    The milestone title.
+     *     @var string scope         Return issues for the given scope: created-by-me, assigned-to-me or all. Defaults to created-by-me
+     *     @var int[]  $iids         Return only the issues having the given iid.
+     *     @var string $order_by     Return requests ordered by created_at or updated_at fields. Default is created_at.
+     *     @var string $sort         Return requests sorted in asc or desc order. Default is desc.
+     *     @var string $search       Search issues against their title and description.
+     *     @var int    $assignee_id  Search issues against their assignee.
      * )
      *
      * @return mixed
@@ -290,6 +293,34 @@ class Issues extends AbstractApi
     }
 
     /**
+     * Subscribes the authenticated user to an issue to receive notifications.
+     * If the user is already subscribed to the issue, the status code 304 is returned.
+     *
+     * @link https://docs.gitlab.com/ee/api/issues.html#subscribe-to-an-issue
+     * @param int|string $project_id The ID or URL-encoded path of the project owned by the authenticated user
+     * @param int $issue_iid The internal ID of a project’s issue
+     * @return array|string issue object if change is made, empty string otherwise
+     */
+    public function subscribe($project_id, $issue_iid)
+    {
+        return $this->post($this->getProjectPath($project_id, 'issues/' . $this->encodePath($issue_iid) . '/subscribe'));
+    }
+
+    /**
+     * Unsubscribes the authenticated user from the issue to not receive notifications from it.
+     * If the user is not subscribed to the issue, the status code 304 is returned.
+     *
+     * @link https://docs.gitlab.com/ee/api/issues.html#unsubscribe-from-an-issue
+     * @param int|string $project_id The ID or URL-encoded path of the project owned by the authenticated user
+     * @param int $issue_iid The internal ID of a project’s issue
+     * @return array|string issue object if change is made, empty string otherwise
+     */
+    public function unsubscribe($project_id, $issue_iid)
+    {
+        return $this->post($this->getProjectPath($project_id, 'issues/' . $this->encodePath($issue_iid) . '/unsubscribe'));
+    }
+
+    /**
      * @param int $project_id
      * @param int $issue_iid
      *
@@ -348,8 +379,15 @@ class Issues extends AbstractApi
             ->setAllowedValues('sort', ['asc', 'desc'])
         ;
         $resolver->setDefined('search');
+        $resolver->setDefined('created_after');
+        $resolver->setDefined('created_before');
+        $resolver->setDefined('updated_after');
+        $resolver->setDefined('updated_before');
         $resolver->setDefined('assignee_id')
             ->setAllowedTypes('assignee_id', 'integer')
+        ;
+        $resolver->setDefined('weight')
+            ->setAllowedTypes('weight', 'integer')
         ;
 
         return $resolver;

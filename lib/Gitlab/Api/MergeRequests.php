@@ -1,8 +1,10 @@
-<?php namespace Gitlab\Api;
+<?php
 
-use Symfony\Component\OptionsResolver\Options;
+namespace Gitlab\Api;
+
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
+use Symfony\Component\OptionsResolver\Options;
 
 class MergeRequests extends AbstractApi
 {
@@ -12,12 +14,14 @@ class MergeRequests extends AbstractApi
     const STATE_CLOSED = 'closed';
 
     /**
-     * @param int   $project_id
+     * @param int|null   $project_id               Return the merge requests for all projects or a specific project
      * @param array $parameters {
      *
      *     @var int[]              $iids           Return the request having the given iid.
      *     @var string             $state          Return all merge requests or just those that are opened, closed, or
      *                                             merged.
+     *     @var string             $scope          Return merge requests for the given scope: created-by-me,
+     *                                             assigned-to-me or all. Defaults to created-by-me.
      *     @var string             $order_by       Return requests ordered by created_at or updated_at fields. Default
      *                                             is created_at.
      *     @var string             $sort           Return requests sorted in asc or desc order. Default is desc.
@@ -34,7 +38,7 @@ class MergeRequests extends AbstractApi
      *
      * @return mixed
      */
-    public function all($project_id, array $parameters = [])
+    public function all($project_id = null, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
         $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value) {
@@ -48,6 +52,9 @@ class MergeRequests extends AbstractApi
         ;
         $resolver->setDefined('state')
             ->setAllowedValues('state', ['all', 'opened', 'merged', 'closed'])
+        ;
+        $resolver->setDefined('scope')
+            ->setAllowedValues('scope', ['created-by-me', 'assigned-to-me', 'all'])
         ;
         $resolver->setDefined('order_by')
             ->setAllowedValues('order_by', ['created_at', 'updated_at'])
@@ -91,7 +98,9 @@ class MergeRequests extends AbstractApi
         $resolver->setDefined('source_branch');
         $resolver->setDefined('target_branch');
 
-        return $this->get($this->getProjectPath($project_id, 'merge_requests'), $resolver->resolve($parameters));
+        $path = $project_id === null ? 'merge_requests' : $this->getProjectPath($project_id, 'merge_requests');
+
+        return $this->get($path, $resolver->resolve($parameters));
     }
 
     /**
@@ -158,7 +167,7 @@ class MergeRequests extends AbstractApi
     /**
      * @param int $project_id
      * @param int $mr_id
-     * @param string|array $message
+     * @param string|array|null $message
      * @return mixed
      */
     public function merge($project_id, $mr_id, $message = null)
@@ -187,12 +196,14 @@ class MergeRequests extends AbstractApi
      * @param int $project_id
      * @param int $mr_id
      * @param string $note
+     * @param string|null $created_at
      * @return mixed
      */
-    public function addNote($project_id, $mr_id, $note)
+    public function addNote($project_id, $mr_id, $note, $created_at = null)
     {
         return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_id).'/notes'), array(
-            'body' => $note
+            'body' => $note,
+            'created_at' => $created_at,
         ));
     }
 
@@ -223,13 +234,14 @@ class MergeRequests extends AbstractApi
      * @param int $project_id
      * @param int $mr_id
      * @param string $note
+     * @param string|null $created_at
      * @return mixed
      */
-    public function addComment($project_id, $mr_id, $note)
+    public function addComment($project_id, $mr_id, $note, $created_at = null)
     {
         @trigger_error(sprintf('The %s() method is deprecated since version 9.1 and will be removed in 10.0. Use the addNote() method instead.', __METHOD__), E_USER_DEPRECATED);
 
-        return $this->addNote($project_id, $mr_id, $note);
+        return $this->addNote($project_id, $mr_id, $note, $created_at);
     }
 
     /**
@@ -405,5 +417,46 @@ class MergeRequests extends AbstractApi
             ->setAllowedTypes('skip_ci', 'bool');
 
         return $this->put($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_id)).'/rebase', $resolver->resolve($params));
+    }
+
+    public function approvalState($project_id, $mr_iid)
+    {
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/approval_state'));
+    }
+
+    public function levelRules($project_id, $mr_iid)
+    {
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/approval_rules'));
+    }
+
+    public function createLevelRule($project_id, $mr_iid, $name, $approvals_required, array $optionalParameters = [])
+    {
+        $baseParam = [
+            'name' => $name,
+            'approvals_required' => $approvals_required,
+        ];
+
+        return $this->post(
+            $this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/approval_rules'),
+            array_merge($baseParam, $optionalParameters)
+        );
+    }
+
+    public function updateLevelRule($project_id, $mr_iid, $approval_rule_id, $name, $approvals_required, array $optionalParameters = [])
+    {
+        $baseParam = [
+            'name' => $name,
+            'approvals_required' => $approvals_required,
+        ];
+
+        return $this->put(
+            $this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/approval_rules/'.$this->encodePath($approval_rule_id)),
+            array_merge($baseParam, $optionalParameters)
+        );
+    }
+
+    public function deleteLevelRule($project_id, $mr_iid, $approval_rule_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/approval_rules/'.$this->encodePath($approval_rule_id)));
     }
 }

@@ -23,8 +23,8 @@
     "require": {
         "php": "^7.1",
         "ext-xml": "*",
-        "php-http/client-common": "^2.2",
         "php-http/cache-plugin": "^1.7",
+        "php-http/client-common": "^2.2",
         "php-http/discovery": "^1.9",
         "php-http/httplug": "^2.1",
         "php-http/multipart-stream-builder": "^1.1",

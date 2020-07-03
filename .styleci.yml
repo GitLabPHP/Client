@@ -1,9 +1,15 @@
 preset: psr12
 
 enabled:
+  - alpha_ordered_imports
+  - array_indentation
+  - cast_spaces
+  - lowercase_cast
+  - no_empty_phpdoc
+  - no_extra_consecutive_blank_lines
   - phpdoc_indent
   - phpdoc_scalar
+  - short_scalar_cast
 
 disabled:
-  - blank_line_after_opening_tag
   - concat_with_spaces

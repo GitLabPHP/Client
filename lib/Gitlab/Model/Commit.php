@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Model;
+<?php
+
+namespace Gitlab\Model;
 
 use Gitlab\Client;
 
@@ -39,7 +41,8 @@ class Commit extends AbstractModel
         'authored_date',
         'committed_date',
         'created_at',
-        'project'
+        'project',
+        'stats'
     );
 
     /**

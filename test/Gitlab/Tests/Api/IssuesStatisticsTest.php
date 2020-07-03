@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Tests\Api;
+<?php
+
+namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\IssuesStatistics;
 
@@ -83,7 +85,6 @@ class IssuesStatisticsTest extends TestCase
 
         $this->assertEquals($expectedArray, $api->group(1, []));
     }
-
 
     protected function getApiClass()
     {

@@ -16,7 +16,6 @@ class WikiTest extends TestCase
             "content" => "This is the test Wiki",
         ];
 
-
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
@@ -116,7 +115,6 @@ class WikiTest extends TestCase
 
         $this->assertEquals($expectedBool, $api->remove(1, "Test-Wiki"));
     }
-
 
     protected function getApiClass()
     {

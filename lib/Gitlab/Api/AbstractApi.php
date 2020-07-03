@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Api;
+<?php
+
+namespace Gitlab\Api;
 
 use Gitlab\Client;
 use Gitlab\HttpClient\Message\QueryStringBuilder;
@@ -21,13 +23,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 abstract class AbstractApi implements ApiInterface
 {
     /**
-     * The client
+     * The client instance.
      *
      * @var Client
      */
     protected $client;
 
     /**
+     * The HTTP stream factory.
+     *
      * @var StreamFactoryInterface
      */
     private $streamFactory;
@@ -44,7 +48,6 @@ abstract class AbstractApi implements ApiInterface
 
     /**
      * @return $this
-     * @codeCoverageIgnore
      */
     public function configure()
     {
