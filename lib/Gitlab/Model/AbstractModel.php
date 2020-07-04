@@ -46,13 +46,19 @@ abstract class AbstractModel
     }
 
     /**
-     * @param string $api
+     * @param string $name
      *
      * @return AbstractApi|mixed
+     *
+     * @throws InvalidArgumentException
+     *
+     * @deprecated since version 9.18 and will be removed in 10.0. Use the direct methods instead.
      */
-    public function api($api)
+    public function api($name)
     {
-        return $this->getClient()->api($api);
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the direct methods instead.', __METHOD__), E_USER_DEPRECATED);
+
+        return $this->getClient()->api($name);
     }
 
     /**
