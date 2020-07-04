@@ -277,6 +277,45 @@ class ProjectsTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function shouldGetTriggers()
+    {
+        $expectedArray = [
+            ['id' => 1, 'description' => 'foo', 'token' => '6d056f63e50fe6f8c5f8f4aa10edb7'],
+            ['id' => 2, 'description' => 'bar', 'token' => '7bde01aa4f8f5c8f6ef05e36f650d6'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/triggers')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->triggers(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetTrigger()
+    {
+        $expectedArray = [
+            'id' => 3,
+            'description' => 'foo',
+            'token' => '6d056f63e50fe6f8c5f8f4aa10edb7',
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/triggers/3')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->trigger(1, 3));
+    }
+
+    /**
      * Check we can request project issues.
      *
      * @test
@@ -499,6 +538,26 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldCreateTrigger()
+    {
+        $expectedArray = [
+            'id' => 4,
+            'description' => 'foobar',
+            'token' => '6d056f63e50fe6f8c5f8f4aa10edb7',
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/triggers', ['description' => 'foobar'])
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->createTrigger(1, 'foobar'));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetPipelinesWithBooleanParam()
     {
         $expectedArray = [
@@ -585,6 +644,25 @@ class ProjectsTest extends TestCase
             ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->pipeline(1, 3));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetPipelineVariables()
+    {
+        $expectedArray = [
+            ['key' => 'foo', 'value' => 'bar'],
+            ['key' => 'baz', 'value' => '1234'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/pipelines/3/variables')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->pipelineVariables(1, 3));
     }
 
     /**
