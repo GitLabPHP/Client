@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gitlab\Api;
 
 class Deployments extends AbstractApi

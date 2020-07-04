@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gitlab\Tests\HttpClient\Plugin;
 
 use Gitlab\HttpClient\Plugin\ApiVersion;

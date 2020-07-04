@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gitlab\HttpClient\Plugin;
 
 use Gitlab\Exception\ApiLimitExceededException;
