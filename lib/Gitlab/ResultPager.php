@@ -109,7 +109,7 @@ class ResultPager implements ResultPagerInterface
      *
      * @return bool
      */
-    protected function has($key)
+    protected function has(string $key)
     {
         $lastResponse = $this->client->getLastResponse();
         if (null == $lastResponse) {
@@ -129,7 +129,7 @@ class ResultPager implements ResultPagerInterface
      *
      * @return array<string,mixed>
      */
-    protected function get($key)
+    protected function get(string $key)
     {
         if (!$this->has($key)) {
             return [];
