@@ -113,7 +113,7 @@ class MergeRequest extends AbstractModel implements Notable, Stateful
     {
         $data = $this->client->mergeRequests()->show($this->project->id, $this->iid);
 
-        return static::fromArray($this->getClient(), $this->project, $data);
+        return self::fromArray($this->getClient(), $this->project, $data);
     }
 
     /**
@@ -125,7 +125,7 @@ class MergeRequest extends AbstractModel implements Notable, Stateful
     {
         $data = $this->client->mergeRequests()->update($this->project->id, $this->iid, $params);
 
-        return static::fromArray($this->getClient(), $this->project, $data);
+        return self::fromArray($this->getClient(), $this->project, $data);
     }
 
     /**
@@ -173,7 +173,7 @@ class MergeRequest extends AbstractModel implements Notable, Stateful
             'merge_commit_message' => $message,
         ]);
 
-        return static::fromArray($this->getClient(), $this->project, $data);
+        return self::fromArray($this->getClient(), $this->project, $data);
     }
 
     /**
@@ -213,6 +213,6 @@ class MergeRequest extends AbstractModel implements Notable, Stateful
     {
         $data = $this->client->mergeRequests()->changes($this->project->id, $this->iid);
 
-        return static::fromArray($this->getClient(), $this->project, $data);
+        return self::fromArray($this->getClient(), $this->project, $data);
     }
 }

@@ -69,6 +69,6 @@ class Trigger extends AbstractModel
     {
         $data = $this->client->projects()->trigger($this->project->id, $this->id);
 
-        return static::fromArray($this->client, $this->project, $data);
+        return self::fromArray($this->client, $this->project, $data);
     }
 }

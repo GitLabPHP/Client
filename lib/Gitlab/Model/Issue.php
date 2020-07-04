@@ -88,7 +88,7 @@ class Issue extends AbstractModel implements Notable, Stateful
     {
         $data = $this->client->issues()->show($this->project->id, $this->iid);
 
-        return static::fromArray($this->getClient(), $this->project, $data);
+        return self::fromArray($this->getClient(), $this->project, $data);
     }
 
     /**
@@ -100,7 +100,7 @@ class Issue extends AbstractModel implements Notable, Stateful
     {
         $data = $this->client->issues()->update($this->project->id, $this->iid, $params);
 
-        return static::fromArray($this->getClient(), $this->project, $data);
+        return self::fromArray($this->getClient(), $this->project, $data);
     }
 
     /**
@@ -112,7 +112,7 @@ class Issue extends AbstractModel implements Notable, Stateful
     {
         $data = $this->client->issues()->move($this->project->id, $this->iid, $toProject->id);
 
-        return static::fromArray($this->getClient(), $toProject, $data);
+        return self::fromArray($this->getClient(), $toProject, $data);
     }
 
     /**
@@ -213,8 +213,8 @@ class Issue extends AbstractModel implements Notable, Stateful
         }
 
         return [
-            'source_issue' => static::fromArray($this->client, $this->project, $data['source_issue']),
-            'target_issue' => static::fromArray($this->client, $target->project, $data['target_issue']),
+            'source_issue' => self::fromArray($this->client, $this->project, $data['source_issue']),
+            'target_issue' => self::fromArray($this->client, $target->project, $data['target_issue']),
         ];
     }
 
@@ -237,8 +237,8 @@ class Issue extends AbstractModel implements Notable, Stateful
         );
 
         return [
-            'source_issue' => static::fromArray($this->client, $this->project, $data['source_issue']),
-            'target_issue' => static::fromArray($this->client, $targetProject, $data['target_issue']),
+            'source_issue' => self::fromArray($this->client, $this->project, $data['source_issue']),
+            'target_issue' => self::fromArray($this->client, $targetProject, $data['target_issue']),
         ];
     }
 }

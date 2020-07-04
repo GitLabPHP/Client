@@ -64,7 +64,7 @@ class Branch extends AbstractModel
     {
         $data = $this->client->repositories()->branch($this->project->id, $this->name);
 
-        return static::fromArray($this->getClient(), $this->project, $data);
+        return self::fromArray($this->getClient(), $this->project, $data);
     }
 
     /**
@@ -77,7 +77,7 @@ class Branch extends AbstractModel
     {
         $data = $this->client->repositories()->protectBranch($this->project->id, $this->name, $devPush, $devMerge);
 
-        return static::fromArray($this->getClient(), $this->project, $data);
+        return self::fromArray($this->getClient(), $this->project, $data);
     }
 
     /**
@@ -87,7 +87,7 @@ class Branch extends AbstractModel
     {
         $data = $this->client->repositories()->unprotectBranch($this->project->id, $this->name);
 
-        return static::fromArray($this->getClient(), $this->project, $data);
+        return self::fromArray($this->getClient(), $this->project, $data);
     }
 
     /**

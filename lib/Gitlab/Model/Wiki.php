@@ -61,7 +61,7 @@ class Wiki extends AbstractModel
     {
         $data = $this->client->wiki()->show($this->project->id, $this->slug);
 
-        return static::fromArray($this->getClient(), $this->project, $data);
+        return self::fromArray($this->getClient(), $this->project, $data);
     }
 
     /**
@@ -73,6 +73,6 @@ class Wiki extends AbstractModel
     {
         $data = $this->client->wiki()->update($this->project->id, $this->slug, $params);
 
-        return static::fromArray($this->getClient(), $this->project, $data);
+        return self::fromArray($this->getClient(), $this->project, $data);
     }
 }

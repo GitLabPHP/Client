@@ -143,7 +143,7 @@ class Project extends AbstractModel
     {
         $data = $client->projects()->create($name, $params);
 
-        return static::fromArray($client, $data);
+        return self::fromArray($client, $data);
     }
 
     /**
@@ -158,7 +158,7 @@ class Project extends AbstractModel
     {
         $data = $client->projects()->createForUser($user_id, $name, $params);
 
-        return static::fromArray($client, $data);
+        return self::fromArray($client, $data);
     }
 
     /**
@@ -180,7 +180,7 @@ class Project extends AbstractModel
     {
         $data = $this->client->projects()->show($this->id);
 
-        return static::fromArray($this->getClient(), $data);
+        return self::fromArray($this->getClient(), $data);
     }
 
     /**
@@ -192,7 +192,7 @@ class Project extends AbstractModel
     {
         $data = $this->client->projects()->update($this->id, $params);
 
-        return static::fromArray($this->getClient(), $data);
+        return self::fromArray($this->getClient(), $data);
     }
 
     /**
@@ -202,7 +202,7 @@ class Project extends AbstractModel
     {
         $data = $this->client->projects()->archive($this->id);
 
-        return static::fromArray($this->getClient(), $data);
+        return self::fromArray($this->getClient(), $data);
     }
 
     /**
@@ -212,7 +212,7 @@ class Project extends AbstractModel
     {
         $data = $this->client->projects()->unarchive($this->id);
 
-        return static::fromArray($this->getClient(), $data);
+        return self::fromArray($this->getClient(), $data);
     }
 
     /**

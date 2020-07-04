@@ -60,7 +60,7 @@ class Commit extends AbstractModel
         if (isset($data['parents'])) {
             $parents = [];
             foreach ($data['parents'] as $parent) {
-                $parents[] = static::fromArray($client, $project, $parent);
+                $parents[] = self::fromArray($client, $project, $parent);
             }
 
             $data['parents'] = $parents;

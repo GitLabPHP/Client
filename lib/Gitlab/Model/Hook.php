@@ -45,7 +45,7 @@ class Hook extends AbstractModel
     {
         $data = $client->systemHooks()->create($url);
 
-        return static::fromArray($client, $data);
+        return self::fromArray($client, $data);
     }
 
     /**

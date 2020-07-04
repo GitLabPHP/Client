@@ -94,6 +94,6 @@ class Pipeline extends AbstractModel
         $data = $projectsApi->pipeline($this->project->id, $this->id);
         $data['variables'] = $projectsApi->pipelineVariables($this->project->id, $this->id);
 
-        return static::fromArray($this->client, $this->project, $data);
+        return self::fromArray($this->client, $this->project, $data);
     }
 }

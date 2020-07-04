@@ -69,7 +69,7 @@ class Snippet extends AbstractModel implements Notable
     {
         $data = $this->client->snippets()->show($this->project->id, $this->id);
 
-        return static::fromArray($this->getClient(), $this->project, $data);
+        return self::fromArray($this->getClient(), $this->project, $data);
     }
 
     /**
@@ -81,7 +81,7 @@ class Snippet extends AbstractModel implements Notable
     {
         $data = $this->client->snippets()->update($this->project->id, $this->id, $params);
 
-        return static::fromArray($this->getClient(), $this->project, $data);
+        return self::fromArray($this->getClient(), $this->project, $data);
     }
 
     /**

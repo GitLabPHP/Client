@@ -86,7 +86,7 @@ class Group extends AbstractModel
     {
         $data = $client->groups()->create($name, $path);
 
-        return static::fromArray($client, $data);
+        return self::fromArray($client, $data);
     }
 
     /**

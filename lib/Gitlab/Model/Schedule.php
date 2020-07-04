@@ -73,7 +73,7 @@ class Schedule extends AbstractModel
     {
         $data = $this->client->schedules()->show($this->project->id, $this->id);
 
-        return static::fromArray($this->getClient(), $this->project, $data);
+        return self::fromArray($this->getClient(), $this->project, $data);
     }
 
     /**
@@ -85,6 +85,6 @@ class Schedule extends AbstractModel
     {
         $data = $this->client->schedules()->update($this->project->id, $this->id, $params);
 
-        return static::fromArray($this->getClient(), $this->project, $data);
+        return self::fromArray($this->getClient(), $this->project, $data);
     }
 }

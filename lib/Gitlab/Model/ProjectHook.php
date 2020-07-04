@@ -73,7 +73,7 @@ class ProjectHook extends AbstractModel
     {
         $data = $this->client->projects()->hook($this->project->id, $this->id);
 
-        return static::fromArray($this->getClient(), $this->project, $data);
+        return self::fromArray($this->getClient(), $this->project, $data);
     }
 
     /**
@@ -103,6 +103,6 @@ class ProjectHook extends AbstractModel
     {
         $data = $this->client->projects()->updateHook($this->project->id, $this->id, $params);
 
-        return static::fromArray($this->getClient(), $this->project, $data);
+        return self::fromArray($this->getClient(), $this->project, $data);
     }
 }

@@ -93,7 +93,7 @@ class User extends AbstractModel
     {
         $data = $client->users()->create($email, $password, $params);
 
-        return static::fromArray($client, $data);
+        return self::fromArray($client, $data);
     }
 
     /**
@@ -115,7 +115,7 @@ class User extends AbstractModel
     {
         $data = $this->client->users()->show($this->id);
 
-        return static::fromArray($this->getClient(), $data);
+        return self::fromArray($this->getClient(), $data);
     }
 
     /**
@@ -127,7 +127,7 @@ class User extends AbstractModel
     {
         $data = $this->client->users()->update($this->id, $params);
 
-        return static::fromArray($this->getClient(), $data);
+        return self::fromArray($this->getClient(), $data);
     }
 
     /**
