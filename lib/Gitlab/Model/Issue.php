@@ -7,7 +7,7 @@ use Gitlab\Client;
  *
  * @property-read int $id
  * @property-read int $iid
- * @property-read int $project_id,
+ * @property-read int|string $project_id,
  * @property-read string $title
  * @property-read string $description
  * @property-read array $labels

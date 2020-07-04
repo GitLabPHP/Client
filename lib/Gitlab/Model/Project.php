@@ -7,7 +7,7 @@ use Gitlab\Client;
 /**
  * Class Project
  *
- * @property-read int $id
+ * @property-read int|string $id
  * @property-read string $description
  * @property-read string $default_branch
  * @property-read string $visibility
@@ -157,7 +157,7 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int|null $id
+     * @param int|string|null $id
      * @param Client|null $client
      */
     public function __construct($id = null, Client $client = null)

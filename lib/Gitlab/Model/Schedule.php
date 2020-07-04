@@ -8,7 +8,7 @@ use Gitlab\Client;
  * Class Schedule
  *
  * @property-read int $id
- * @property-read int $project_id
+ * @property-read int|string $project_id
  * @property-read string $title
  * @property-read string $description
  * @property-read string $due_date

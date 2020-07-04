@@ -7,7 +7,7 @@ use Gitlab\Client;
  *
  * @property-read int $id
  * @property-read string $url
- * @property-read int $project_id
+ * @property-read int|string $project_id
  * @property-read bool $push_events
  * @property-read bool $issues_events
  * @property-read bool $merge_requests_events

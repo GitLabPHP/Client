@@ -3,7 +3,7 @@
 class Snippets extends AbstractApi
 {
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @return mixed
      */
     public function all($project_id)
@@ -12,7 +12,7 @@ class Snippets extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $snippet_id
      * @return mixed
      */
@@ -22,7 +22,7 @@ class Snippets extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param string $title
      * @param string $filename
      * @param string $code
@@ -40,7 +40,7 @@ class Snippets extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $snippet_id
      * @param array $params
      * @return mixed
@@ -51,7 +51,7 @@ class Snippets extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $snippet_id
      * @return string
      */
@@ -61,7 +61,7 @@ class Snippets extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $snippet_id
      * @return mixed
      */
@@ -71,7 +71,7 @@ class Snippets extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $snippet_id
      *
      * @return mixed

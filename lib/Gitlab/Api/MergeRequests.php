@@ -12,7 +12,7 @@ class MergeRequests extends AbstractApi
     const STATE_CLOSED = 'closed';
 
     /**
-     * @param int   $project_id
+     * @param int|string $project_id
      * @param array $parameters {
      *
      *     @var int[]              $iids           Return the request having the given iid.
@@ -95,7 +95,7 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $mr_id
      * @return mixed
      */
@@ -105,7 +105,7 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param string $source
      * @param string $target
      * @param string $title
@@ -133,7 +133,7 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $mr_id
      * @param array $params
      * @return mixed
@@ -144,7 +144,7 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $mr_id
      * @param string|array|null $message
      * @return mixed
@@ -161,7 +161,7 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $mr_id
      *
      * @return mixed
@@ -172,7 +172,7 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $mr_id
      * @param string $note
      * @return mixed
@@ -185,18 +185,18 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $projectId
-     * @param int $mrId
-     * @param int $noteId
+     * @param int|string $project_id
+     * @param int $mr_id
+     * @param int $note_id
      * @return mixed
      */
-    public function removeNote($projectId, $mrId, $noteId)
+    public function removeNote($project_id, $mr_id, $note_id)
     {
-        return $this->delete($this->getProjectPath($projectId, 'merge_requests/'.$this->encodePath($mrId).'/notes/'.$this->encodePath($noteId)));
+        return $this->delete($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_id).'/notes/'.$this->encodePath($note_id)));
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $mr_id
      * @return mixed
      */
@@ -208,7 +208,7 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $mr_id
      * @param string $note
      * @return mixed
@@ -221,7 +221,7 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $mr_iid
      * @return mixed
      */
@@ -231,7 +231,7 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $mr_iid
      * @param string $discussion_id
      * @return mixed
@@ -242,7 +242,7 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $mr_iid
      * @param array $params
      * @return mixed
@@ -253,7 +253,7 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $mr_iid
      * @param string $discussion_id
      * @param bool $resolved
@@ -267,7 +267,7 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $mr_iid
      * @param string $discussion_id
      * @param string|array $body
@@ -286,7 +286,7 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $mr_iid
      * @param string $discussion_id
      * @param int $note_id
@@ -299,7 +299,7 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $mr_iid
      * @param string $discussion_id
      * @param int $note_id
@@ -311,7 +311,7 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $mr_id
      * @return mixed
      */
@@ -321,7 +321,7 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $mr_id
      * @return mixed
      */
@@ -331,7 +331,7 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $mr_id
      * @return mixed
      */
@@ -341,7 +341,7 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $mr_iid
      * @return mixed
      */
@@ -351,7 +351,7 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $mr_iid
      * @return mixed
      */
@@ -361,7 +361,7 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $mr_iid
      * @return mixed
      */
@@ -371,7 +371,7 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $mr_iid
      * @return mixed
      */

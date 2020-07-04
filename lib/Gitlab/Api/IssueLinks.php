@@ -3,7 +3,7 @@
 class IssueLinks extends AbstractApi
 {
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $issue_iid
      * @return mixed
      */
@@ -28,7 +28,7 @@ class IssueLinks extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $issue_iid
      * @param int $issue_link_id
      * @return mixed

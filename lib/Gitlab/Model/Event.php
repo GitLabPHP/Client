@@ -6,7 +6,7 @@ use Gitlab\Client;
  * Class Event
  *
  * @property-read string $title
- * @property-read int $id
+ * @property-read int|string $project_id
  * @property-read string $action_name
  * @property-read string $data
  * @property-read int $target_id

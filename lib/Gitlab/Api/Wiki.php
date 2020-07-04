@@ -4,7 +4,7 @@ class Wiki extends AbstractApi
 {
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param array $params
      * @return mixed
      */
@@ -14,7 +14,7 @@ class Wiki extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param string $wiki_slug
      * @return mixed
      */
@@ -24,7 +24,7 @@ class Wiki extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @return mixed
      */
     public function showAll($project_id)
@@ -33,7 +33,7 @@ class Wiki extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param string $wiki_slug
      * @param array $params
      * @return mixed
@@ -44,7 +44,7 @@ class Wiki extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param string $wiki_slug
      * @return mixed
      */

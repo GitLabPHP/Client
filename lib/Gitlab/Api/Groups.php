@@ -82,7 +82,7 @@ class Groups extends AbstractApi
 
     /**
      * @param int $group_id
-     * @param int $project_id
+     * @param int|string $project_id
      * @return mixed
      */
     public function transfer($group_id, $project_id)
