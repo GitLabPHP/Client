@@ -663,8 +663,8 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param $sha
-     * @param $filepath
+     * @param string $sha
+     * @param string $filepath
      *
      * @return array
      */
@@ -1334,6 +1334,7 @@ class Project extends AbstractModel
 
     /**
      * @param int $id
+     *
      * @return Pipeline
      */
     public function pipeline($id)
