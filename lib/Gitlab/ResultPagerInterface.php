@@ -21,8 +21,7 @@ interface ResultPagerInterface
     public function fetch(ApiInterface $api, $method, array $parameters = []);
 
     /**
-     * Fetch all results (pages) from an api call
-     * Use with care - there is no maximum.
+     * Fetch all results (pages) from an api call.
      *
      * @param ApiInterface $api        the Api instance
      * @param string       $method     the method name to call on the Api instance
