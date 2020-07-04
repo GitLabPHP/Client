@@ -1300,8 +1300,7 @@ class Project extends AbstractModel
         $data = $this->client->projects()->triggers($this->id);
 
         $triggers = [];
-        foreach ($data as $triggerData)
-        {
+        foreach ($data as $triggerData) {
             $triggers[] = Trigger::fromArray($this->client, $this, $triggerData);
         }
 

@@ -57,7 +57,7 @@ class Pipeline extends AbstractModel
 
         if (isset($data['variables'])) {
             $valueMap = [];
-            foreach ($data['variables'] as $variableData)   {
+            foreach ($data['variables'] as $variableData) {
                 $valueMap[$variableData['key']] = $variableData['value'];
             }
             $data['variables'] = $valueMap;

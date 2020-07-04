@@ -292,6 +292,7 @@ class Projects extends AbstractApi
     /**
      * @param int $project_id
      * @param int $pipeline_id
+     *
      * @return mixed
      */
     public function pipelineVariables($project_id, $pipeline_id)
