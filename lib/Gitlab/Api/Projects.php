@@ -681,7 +681,7 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param int $forked_project_id
+     * @param int|string $forked_project_id
      * @return mixed
      */
     public function createForkRelation($project_id, $forked_project_id)

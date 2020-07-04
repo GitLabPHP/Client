@@ -773,8 +773,8 @@ class Project extends AbstractModel
      * @param string $source
      * @param string $target
      * @param string $title
-     * @param int $assignee
-     * @param string $description
+     * @param int|null $assignee
+     * @param string|null $description
      * @return MergeRequest
      */
     public function createMergeRequest($source, $target, $title, $assignee = null, $description = null)

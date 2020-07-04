@@ -2,7 +2,9 @@ includes:
     - phpstan-baseline.neon
 
 parameters:
-    level: 6
+    level: max
     checkMissingIterableValueType: false
     paths:
         - lib
+    ignoreErrors:
+        - "#^Unsafe usage of new static\\(\\)\\.$#"

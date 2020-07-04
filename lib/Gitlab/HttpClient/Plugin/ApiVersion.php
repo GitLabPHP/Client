@@ -3,6 +3,7 @@
 namespace Gitlab\HttpClient\Plugin;
 
 use Http\Client\Common\Plugin;
+use Http\Promise\Promise;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -21,7 +22,12 @@ class ApiVersion implements Plugin
     private $redirected = false;
 
     /**
-     * {@inheritdoc}
+     * Handle the request and return the response coming from the next callable.
+     *
+     * @param RequestInterface $request
+     * @param callable $next
+     * @param callable $first
+     * @return Promise
      */
     public function doHandleRequest(RequestInterface $request, callable $next, callable $first)
     {

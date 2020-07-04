@@ -52,7 +52,7 @@ abstract class AbstractModel
     }
 
     /**
-     * @param array $data
+     * @param array<string,mixed> $data
      * @return $this
      */
     protected function hydrate(array $data = array())
@@ -91,6 +91,7 @@ abstract class AbstractModel
     /**
      * @param string $property
      * @param mixed $value
+     * @return void
      * @throws RuntimeException
      */
     public function __set($property, $value)
@@ -101,6 +102,7 @@ abstract class AbstractModel
     /**
      * @param string $property
      * @return mixed
+     * @throws RuntimeException
      */
     public function __get($property)
     {

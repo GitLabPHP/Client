@@ -6,6 +6,7 @@ use Gitlab\Exception\ErrorException;
 use Gitlab\Exception\RuntimeException;
 use Gitlab\HttpClient\Message\ResponseMediator;
 use Http\Client\Common\Plugin;
+use Http\Promise\Promise;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -20,7 +21,12 @@ class GitlabExceptionThrower implements Plugin
     use Plugin\VersionBridgePlugin;
 
     /**
-     * {@inheritdoc}
+     * Handle the request and return the response coming from the next callable.
+     *
+     * @param RequestInterface $request
+     * @param callable $next
+     * @param callable $first
+     * @return Promise
      */
     public function doHandleRequest(RequestInterface $request, callable $next, callable $first)
     {
@@ -35,6 +41,7 @@ class GitlabExceptionThrower implements Plugin
                     }
                 }
 
+                /** @var array<string,mixed> $content */
                 $errorMessage = null;
                 if (isset($content['error'])) {
                     $errorMessage = $content['error'];

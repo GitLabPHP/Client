@@ -3,7 +3,7 @@
 class IssueBoards extends AbstractApi
 {
     /**
-     * @param int|null $project_id
+     * @param int|string|null $project_id
      * @param array $parameters
      *
      * @return mixed

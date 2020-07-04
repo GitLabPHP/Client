@@ -42,6 +42,7 @@ class ResponseMediator
             return null;
         }
 
+        /** @var string */
         $header = self::getHeader($response, 'Link');
         $pagination = array();
         foreach (explode(',', $header) as $link) {

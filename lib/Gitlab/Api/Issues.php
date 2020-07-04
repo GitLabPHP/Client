@@ -3,7 +3,7 @@
 class Issues extends AbstractApi
 {
     /**
-     * @param int|null $project_id
+     * @param int|string|null $project_id
      * @param array $parameters {
      *
      *     @var string $state     Return all issues or just those that are opened or closed.
@@ -73,7 +73,7 @@ class Issues extends AbstractApi
     /**
      * @param int|string $project_id
      * @param int $issue_iid
-     * @param int $to_project_id
+     * @param int|string $to_project_id
      * @return mixed
      */
     public function move($project_id, $issue_iid, $to_project_id)
