@@ -20,18 +20,3 @@ parameters:
 			count: 1
 			path: lib/Gitlab/Model/AbstractModel.php
 
-		-
-			message: "#^Call to deprecated method createFile\\(\\) of class Gitlab\\\\Api\\\\Repositories\\:\nsince version 9\\.2 and will be removed in 10\\.0\\. Use the RepositoryFiles\\:\\:createFile\\(\\) method instead\\.$#"
-			count: 1
-			path: lib/Gitlab/Model/Branch.php
-
-		-
-			message: "#^Call to deprecated method updateFile\\(\\) of class Gitlab\\\\Api\\\\Repositories\\:\nsince version 9\\.2 and will be removed in 10\\.0\\. Use the RepositoryFiles\\:\\:updateFile\\(\\) method instead\\.$#"
-			count: 1
-			path: lib/Gitlab/Model/Branch.php
-
-		-
-			message: "#^Call to deprecated method deleteFile\\(\\) of class Gitlab\\\\Api\\\\Repositories\\:\nsince version 9\\.2 and will be removed in 10\\.0\\. Use the RepositoryFiles\\:\\:deleteFile\\(\\) method instead\\.$#"
-			count: 1
-			path: lib/Gitlab/Model/Branch.php
-
