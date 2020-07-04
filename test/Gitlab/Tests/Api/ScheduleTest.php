@@ -38,7 +38,8 @@ class ScheduleTest extends TestCase
             ])
             ->will($this->returnValue($expectedArray));
 
-        $this->assertEquals($expectedArray, $api->create(1,
+        $this->assertEquals($expectedArray, $api->create(
+            1,
             [
                 "id" => 13,
                 "description" => "Test schedule pipeline",

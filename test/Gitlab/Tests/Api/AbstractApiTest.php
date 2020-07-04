@@ -33,7 +33,7 @@ class AbstractApiTest extends TestCase
             ]
         );
 
-        $this->assertEquals($expectedBody, urldecode((string)$stream));
+        $this->assertEquals($expectedBody, urldecode((string) $stream));
     }
 
     protected function getAbstractApiMock(array $methods = [])

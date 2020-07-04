@@ -95,7 +95,7 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param integer $id
+     * @param int $id
      * @param array $parameters
      * @return mixed
      */
