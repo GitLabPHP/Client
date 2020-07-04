@@ -4,9 +4,9 @@ namespace Gitlab\Api;
 
 class Issues extends AbstractApi
 {
-    const STATE_OPENED = 'opened';
+    public const STATE_OPENED = 'opened';
 
-    const STATE_CLOSED = 'closed';
+    public const STATE_CLOSED = 'closed';
 
     /**
      * @param int|string|null $project_id
