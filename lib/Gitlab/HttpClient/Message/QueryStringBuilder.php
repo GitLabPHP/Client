@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Gitlab\HttpClient\Message;
 
+/**
+ * @internal
+ */
 final class QueryStringBuilder
 {
     /**
