@@ -695,8 +695,8 @@ class Project extends AbstractModel
      * @param string $file_path
      * @param string $branch_name
      * @param string $commit_message
-     * @param string $author_email
-     * @param string $author_name
+     * @param string|null $author_email
+     * @param string|null $author_name
      * @return bool
      */
     public function deleteFile($file_path, $branch_name, $commit_message, $author_email = null, $author_name = null)
