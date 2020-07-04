@@ -58,20 +58,25 @@ use Psr\Http\Message\ResponseInterface;
 class Client
 {
     /**
-     * Constant for authentication method. Indicates the default, but deprecated
-     * login with username and token in URL.
+     * The URL token authentication method.
+     *
+     * @var string
+     *
+     * @deprecated since version 9.18 and will be removed in 10.0.
      */
     const AUTH_URL_TOKEN = 'url_token';
 
     /**
-     * Constant for authentication method. Indicates the new login method with
-     * with username and token via HTTP Authentication.
+     * The private token authentication method.
+     *
+     * @var string
      */
     const AUTH_HTTP_TOKEN = 'http_token';
 
     /**
-     * Constant for authentication method. Indicates the OAuth method with a key
-     * obtain using Gitlab's OAuth provider.
+     * The OAuth 2 token authentication method.
+     *
+     * @var string
      */
     const AUTH_OAUTH_TOKEN = 'oauth_token';
 
@@ -441,13 +446,22 @@ class Client
      * Authenticate a user for all next requests.
      *
      * @param string      $token      Gitlab private token
-     * @param string      $authMethod One of the AUTH_* class constants
+     * @param string|null $authMethod One of the AUTH_* class constants
      * @param string|null $sudo
      *
      * @return $this
      */
-    public function authenticate($token, $authMethod = self::AUTH_URL_TOKEN, $sudo = null)
+    public function authenticate($token, $authMethod = null, $sudo = null)
     {
+        if (null === $authMethod) {
+            @trigger_error(sprintf('The $authMethod will become required in version 10.0. Not providing an explicit authentication method is deprecated since version 9.18.', __METHOD__), E_USER_DEPRECATED);
+            $authMethod = self::AUTH_URL_TOKEN;
+        } elseif (self::AUTH_URL_TOKEN === $authMethod) {
+            @trigger_error(sprintf('The AUTH_URL_TOKEN authentivation method is deprecated since version 9.18 and will be removed in 10.0. Use AUTH_HTTP_TOKEN instead.', __METHOD__), E_USER_DEPRECATED);
+        } elseif (self::AUTH_HTTP_TOKEN !== $authMethod && self::AUTH_OAUTH_TOKEN !== $authMethod) {
+            @trigger_error(sprintf('Passing an invalid authentication method is deprecated since version 9.1 and will be banned in version 10.0.', __METHOD__), E_USER_DEPRECATED);
+        }
+
         $this->getHttpClientBuilder()->removePlugin(Authentication::class);
         $this->getHttpClientBuilder()->addPlugin(new Authentication($authMethod, $token, $sudo));
 
