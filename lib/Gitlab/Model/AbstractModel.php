@@ -2,7 +2,6 @@
 
 namespace Gitlab\Model;
 
-use Gitlab\Api\AbstractApi;
 use Gitlab\Client;
 use Gitlab\Exception\RuntimeException;
 
