@@ -15,20 +15,21 @@ final class QueryStringBuilder
     public static function build($query)
     {
         if (!is_array($query)) {
-            return static::rawurlencode($query);
+            return self::rawurlencode($query);
         }
         $query = array_filter($query, function ($value) {
-            return (null !== $value);
+            return null !== $value;
         });
 
         return implode('&', array_map(function ($value, $key) {
-            return static::encode($value, $key);
+            return self::encode($value, $key);
         }, $query, array_keys($query)));
     }
 
     /**
-     * Encode a value
-     * @param mixed $query
+     * Encode a value.
+     *
+     * @param mixed  $query
      * @param string $prefix
      *
      * @return string
@@ -36,13 +37,15 @@ final class QueryStringBuilder
     private static function encode($query, $prefix)
     {
         if (!is_array($query)) {
-            return static::rawurlencode($prefix).'='.static::rawurlencode($query);
+            return self::rawurlencode($prefix).'='.self::rawurlencode($query);
         }
 
-        $isIndexedArray = static::isIndexedArray($query);
+        $isIndexedArray = self::isIndexedArray($query);
+
         return implode('&', array_map(function ($value, $key) use ($prefix, $isIndexedArray) {
             $prefix = $isIndexedArray ? $prefix.'[]' : $prefix.'['.$key.']';
-            return static::encode($value, $prefix);
+
+            return self::encode($value, $prefix);
         }, $query, array_keys($query)));
     }
 
@@ -71,10 +74,10 @@ final class QueryStringBuilder
      */
     private static function rawurlencode($value)
     {
-        if ($value === false) {
+        if (false === $value) {
             return '0';
         }
 
-        return rawurlencode($value);
+        return rawurlencode((string) $value);
     }
 }
