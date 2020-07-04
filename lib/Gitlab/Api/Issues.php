@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Api;
+<?php
+
+namespace Gitlab\Api;
 
 class Issues extends AbstractApi
 {

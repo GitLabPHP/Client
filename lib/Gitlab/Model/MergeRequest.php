@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Model;
+<?php
+
+namespace Gitlab\Model;
 
 use Gitlab\Client;
 

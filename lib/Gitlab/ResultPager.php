@@ -1,4 +1,6 @@
-<?php namespace Gitlab;
+<?php
+
+namespace Gitlab;
 
 use Gitlab\Api\ApiInterface;
 use Gitlab\HttpClient\Message\ResponseMediator;
