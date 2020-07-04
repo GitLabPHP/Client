@@ -13,8 +13,9 @@ if (interface_exists(HttpMethodsClientInterface::class)) {
         /**
          * Record a failed call.
          *
-         * @param RequestInterface $request
+         * @param RequestInterface         $request
          * @param ClientExceptionInterface $exception
+         *
          * @return void
          */
         public function addFailure(RequestInterface $request, ClientExceptionInterface $exception)
@@ -28,7 +29,8 @@ if (interface_exists(HttpMethodsClientInterface::class)) {
          * Record a failed call.
          *
          * @param RequestInterface $request
-         * @param Exception $exception
+         * @param Exception        $exception
+         *
          * @return void
          */
         public function addFailure(RequestInterface $request, Exception $exception)

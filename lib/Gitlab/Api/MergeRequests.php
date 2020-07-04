@@ -54,7 +54,7 @@ class MergeRequests extends AbstractApi
             })
         ;
         $resolver->setDefined('state')
-            ->setAllowedValues('state', [SELF::STATE_ALL, self::STATE_MERGED, self::STATE_OPENED, self::STATE_CLOSED])
+            ->setAllowedValues('state', [self::STATE_ALL, self::STATE_MERGED, self::STATE_OPENED, self::STATE_CLOSED])
         ;
         $resolver->setDefined('scope')
             ->setAllowedValues('scope', ['created-by-me', 'assigned-to-me', 'all'])
@@ -131,15 +131,15 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int|string $project_id
-     * @param string     $source
-     * @param string     $target
-     * @param string     $title
-     * @param int        $assignee          @deprecated since version 9.18 and will be removed in 10.0. Use $parameters['assignee_id'] instead.
-     * @param int        $target_project_id @deprecated since version 9.18 and will be removed in 10.0. Use $parameters['target_project_id'] instead.
-     * @param string     $description       @deprecated since version 9.18 and will be removed in 10.0. Use $parameters['description'] instead
-     * @param array      $parameters
-     * @param array<string,mixed> $parameters {
+     * @param int|string          $project_id
+     * @param string              $source
+     * @param string              $target
+     * @param string              $title
+     * @param int                 $assignee          @deprecated since version 9.18 and will be removed in 10.0. Use $parameters['assignee_id'] instead.
+     * @param int                 $target_project_id @deprecated since version 9.18 and will be removed in 10.0. Use $parameters['target_project_id'] instead.
+     * @param string              $description       @deprecated since version 9.18 and will be removed in 10.0. Use $parameters['description'] instead
+     * @param array               $parameters
+     * @param array<string,mixed> $parameters        {
      *
      *     @var int        $assignee_id the assignee id
      *     @var int|string $target_project_id the target project id

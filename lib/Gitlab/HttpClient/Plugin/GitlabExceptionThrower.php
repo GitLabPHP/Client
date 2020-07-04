@@ -24,8 +24,9 @@ class GitlabExceptionThrower implements Plugin
      * Handle the request and return the response coming from the next callable.
      *
      * @param RequestInterface $request
-     * @param callable $next
-     * @param callable $first
+     * @param callable         $next
+     * @param callable         $first
+     *
      * @return Promise
      */
     public function doHandleRequest(RequestInterface $request, callable $next, callable $first)
