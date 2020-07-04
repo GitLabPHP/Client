@@ -38,11 +38,15 @@ class Client
     public const AUTH_OAUTH_TOKEN = 'oauth_token';
 
     /**
+     * The HTTP client builder.
+     *
      * @var Builder
      */
     private $httpClientBuilder;
 
     /**
+     * The response history plugin.
+     *
      * @var History
      */
     private $responseHistory;
@@ -71,7 +75,7 @@ class Client
     }
 
     /**
-     * Create a Gitlab\Client using an Http client.
+     * Create a Gitlab\Client using an HTTP client.
      *
      * @param ClientInterface $httpClient
      *
@@ -325,7 +329,9 @@ class Client
     }
 
     /**
-     * @return HttpMethodsClientInterface
+     * Get the HTTP client.
+     *
+     * @return HttpMethodsClient
      */
     public function getHttpClient()
     {
@@ -333,7 +339,7 @@ class Client
     }
 
     /**
-     * Get the http client builder.
+     * Get the HTTP client builder.
      *
      * @return Builder
      */
