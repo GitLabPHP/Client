@@ -351,7 +351,6 @@ class Client
         @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the direct methods instead.', __METHOD__), E_USER_DEPRECATED);
 
         switch ($name) {
-
             case 'deploy_keys':
                 return $this->deployKeys();
 
