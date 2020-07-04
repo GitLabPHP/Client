@@ -18,7 +18,7 @@ use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 
 /**
- * A builder that builds the API client.
+ * The HTTP client builder class.
  *
  * This will allow you to fluently add and remove plugins.
  *
