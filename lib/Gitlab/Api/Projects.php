@@ -187,6 +187,40 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
+     *
+     * @return mixed
+     */
+    public function triggers($project_id)
+    {
+        return $this->get('projects/'.$this->encodePath($project_id).'/triggers');
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param int        $trigger_id
+     *
+     * @return mixed
+     */
+    public function trigger($project_id, $trigger_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'triggers/'.$this->encodePath($trigger_id)));
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param string     $description
+     *
+     * @return mixed
+     */
+    public function createTrigger($project_id, $description)
+    {
+        return $this->post($this->getProjectPath($project_id, 'triggers'), [
+            'description' => $description,
+        ]);
+    }
+
+    /**
+     * @param int|string $project_id
      * @param array      $parameters {
      *
      *     @var string $scope       the scope of pipelines, one of: running, pending, finished, branches, tags
@@ -253,6 +287,17 @@ class Projects extends AbstractApi
     public function pipeline($project_id, $pipeline_id)
     {
         return $this->get($this->getProjectPath($project_id, 'pipelines/'.$this->encodePath($pipeline_id)));
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param int        $pipeline_id
+     *
+     * @return mixed
+     */
+    public function pipelineVariables($project_id, $pipeline_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'pipelines/'.$this->encodePath($pipeline_id).'/variables'));
     }
 
     /**
