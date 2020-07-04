@@ -1,1 +1,4 @@
 preset: psr2
+
+enabled:
+  - blank_line_after_opening_tag
