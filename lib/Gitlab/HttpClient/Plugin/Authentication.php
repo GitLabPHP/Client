@@ -58,26 +58,6 @@ class Authentication implements Plugin
 
                 break;
 
-            case Client::AUTH_URL_TOKEN:
-                $uri = $request->getUri();
-                $query = $uri->getQuery();
-
-                $parameters = [
-                    'private_token' => $this->token,
-                ];
-
-                if (!is_null($this->sudo)) {
-                    $parameters['sudo'] = $this->sudo;
-                }
-
-                $query .= empty($query) ? '' : '&';
-                $query .= utf8_encode(http_build_query($parameters, '', '&'));
-
-                $uri = $uri->withQuery($query);
-                $request = $request->withUri($uri);
-
-                break;
-
             case Client::AUTH_OAUTH_TOKEN:
                 $request = $request->withHeader('Authorization', 'Bearer '.$this->token);
                 if (!is_null($this->sudo)) {
