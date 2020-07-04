@@ -175,7 +175,7 @@ class Issues extends AbstractApi
      *
      * @return mixed
      *
-     * @derpecated since version 9.18 and will be removed in 10.0. Use the showNotes() method instead.
+     * @deprecated since version 9.18 and will be removed in 10.0. Use the showNotes() method instead.
      */
     public function showComments($project_id, $issue_iid)
     {
@@ -191,7 +191,7 @@ class Issues extends AbstractApi
      *
      * @return mixed
      *
-     * @derpecated since version 9.18 and will be removed in 10.0. Use the showNote() method instead.
+     * @deprecated since version 9.18 and will be removed in 10.0. Use the showNote() method instead.
      */
     public function showComment($project_id, $issue_iid, $note_id)
     {
@@ -207,7 +207,7 @@ class Issues extends AbstractApi
      *
      * @return mixed
      *
-     * @derpecated since version 9.18 and will be removed in 10.0. Use the addNote() method instead.
+     * @deprecated since version 9.18 and will be removed in 10.0. Use the addNote() method instead.
      */
     public function addComment($project_id, $issue_iid, $body)
     {
@@ -228,7 +228,7 @@ class Issues extends AbstractApi
      *
      * @return mixed
      *
-     * @derpecated since version 9.18 and will be removed in 10.0. Use the updateNote() method instead.
+     * @deprecated since version 9.18 and will be removed in 10.0. Use the updateNote() method instead.
      */
     public function updateComment($project_id, $issue_iid, $note_id, $body)
     {
@@ -244,7 +244,7 @@ class Issues extends AbstractApi
      *
      * @return mixed
      *
-     * @derpecated since version 9.18 and will be removed in 10.0. Use the removeNote() method instead.
+     * @deprecated since version 9.18 and will be removed in 10.0. Use the removeNote() method instead.
      */
     public function removeComment($project_id, $issue_iid, $note_id)
     {
