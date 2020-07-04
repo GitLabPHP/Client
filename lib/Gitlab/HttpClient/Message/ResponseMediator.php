@@ -9,7 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * Utilities to parse response headers and content.
  */
-class ResponseMediator
+final class ResponseMediator
 {
     /**
      * Return the response body as a string or json array if content type is application/json.
