@@ -1,11 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Parameter \\#1 \\$streamFactory of class Http\\\\Message\\\\MultipartStream\\\\MultipartStreamBuilder constructor expects Http\\\\Message\\\\MultipartStream\\\\StreamFactory\\|Psr\\\\Http\\\\Message\\\\StreamFactoryInterface\\|null, Http\\\\Message\\\\StreamFactory given\\.$#"
-			count: 2
-			path: lib/Gitlab/Api/AbstractApi.php
-
-		-
 			message: "#^Parameter \\#2 \\$callback of function array_filter expects callable\\(mixed, mixed\\)\\: bool, 'strlen' given\\.$#"
 			count: 1
 			path: lib/Gitlab/Api/Groups.php
