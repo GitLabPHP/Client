@@ -6,7 +6,7 @@ class Wiki extends AbstractApi
 {
     /**
      * @param int|string $project_id
-     * @param array $params
+     * @param array      $params
      *
      * @return mixed
      */
@@ -17,7 +17,7 @@ class Wiki extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param string $wiki_slug
+     * @param string     $wiki_slug
      *
      * @return mixed
      */
@@ -38,8 +38,8 @@ class Wiki extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param string $wiki_slug
-     * @param array  $params
+     * @param string     $wiki_slug
+     * @param array      $params
      *
      * @return mixed
      */
@@ -50,7 +50,7 @@ class Wiki extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param string $wiki_slug
+     * @param string     $wiki_slug
      *
      * @return mixed
      */

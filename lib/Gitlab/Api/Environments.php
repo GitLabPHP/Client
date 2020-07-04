@@ -8,7 +8,7 @@ class Environments extends AbstractApi
 {
     /**
      * @param int|string $project_id
-     * @param array $parameters
+     * @param array      $parameters
      *
      * @return mixed
      */
@@ -25,7 +25,7 @@ class Environments extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param array $parameters {
+     * @param array      $parameters {
      *
      *     @var string $name         The name of the environment
      *     @var string $external_url Place to link to for this environment
@@ -47,7 +47,7 @@ class Environments extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param string $environment_id
+     * @param string     $environment_id
      *
      * @return mixed
      */
@@ -58,7 +58,7 @@ class Environments extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param string $environment_id
+     * @param string     $environment_id
      *
      * @return mixed
      */
@@ -69,7 +69,7 @@ class Environments extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param string $environment_id
+     * @param string     $environment_id
      *
      * @return mixed
      */
