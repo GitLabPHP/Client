@@ -1,6 +1,9 @@
 preset: symfony
 
 enabled:
+  - align_phpdoc
+  - alpha_ordered_imports
+  - array_indentation
   - short_array_syntax
 
 disabled:
