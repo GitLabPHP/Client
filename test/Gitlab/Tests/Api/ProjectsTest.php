@@ -777,26 +777,10 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/members/all/')
+            ->with('projects/1/members/all')
             ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->allMembers(1));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldGetAllMembersUserID()
-    {
-        $expectedArray = ['id' => 2, 'name' => 'Bob'];
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('get')
-            ->with('projects/1/members/all/2')
-            ->will($this->returnValue($expectedArray));
-
-        $this->assertEquals($expectedArray, $api->allMembers(1, 2));
     }
 
     /**

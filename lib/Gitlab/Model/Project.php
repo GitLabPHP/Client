@@ -226,32 +226,6 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int|null $user_id
-     * @param bool     $all
-     *
-     * @return array|User
-     */
-    public function allMembers($user_id = null, $all = false)
-    {
-        if ($all) {
-            $data = (new \Gitlab\ResultPager($this->client))->fetchAll($this->client->projects(), 'allMembers', [$this->id, $user_id]);
-        } else {
-            $data = $this->client->projects()->allMembers($this->id, $user_id);
-        }
-
-        if (null != $user_id) {
-            return User::fromArray($this->getClient(), $data);
-        } else {
-            $members = [];
-            foreach ($data as $member) {
-                $members[] = User::fromArray($this->getClient(), $member);
-            }
-
-            return $members;
-        }
-    }
-
-    /**
      * @param string|null $username_query
      *
      * @return User[]
