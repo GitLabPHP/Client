@@ -8,8 +8,8 @@ class RepositoryFiles extends AbstractApi
 {
     /**
      * @param int|string $project_id
-     * @param string $file_path
-     * @param string $ref
+     * @param string     $file_path
+     * @param string     $ref
      *
      * @return mixed
      */
@@ -22,8 +22,8 @@ class RepositoryFiles extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param string $file_path
-     * @param string $ref
+     * @param string     $file_path
+     * @param string     $ref
      *
      * @return mixed
      */
@@ -36,7 +36,7 @@ class RepositoryFiles extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param array $parameters {
+     * @param array      $parameters {
      *
      *     @var string $file_path      Url encoded full path to new file. Ex. lib%2Fclass%2Erb.
      *     @var string $branch         name of the branch
@@ -71,7 +71,7 @@ class RepositoryFiles extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param array $parameters {
+     * @param array      $parameters {
      *
      *     @var string $file_path      Url encoded full path to new file. Ex. lib%2Fclass%2Erb.
      *     @var string $branch         name of the branch
@@ -108,7 +108,7 @@ class RepositoryFiles extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param array $parameters {
+     * @param array      $parameters {
      *
      *     @var string $file_path      Url encoded full path to new file. Ex. lib%2Fclass%2Erb.
      *     @var string $branch         name of the branch

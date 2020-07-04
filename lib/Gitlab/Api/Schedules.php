@@ -6,7 +6,7 @@ class Schedules extends AbstractApi
 {
     /**
      * @param int|string $project_id
-     * @param array $params
+     * @param array      $params
      *
      * @return mixed
      */
@@ -17,7 +17,7 @@ class Schedules extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param int $schedule_id
+     * @param int        $schedule_id
      *
      * @return mixed
      */
@@ -38,8 +38,8 @@ class Schedules extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param int   $schedule_id
-     * @param array $params
+     * @param int        $schedule_id
+     * @param array      $params
      *
      * @return mixed
      */
@@ -50,7 +50,7 @@ class Schedules extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param int $schedule_id
+     * @param int        $schedule_id
      *
      * @return mixed
      */

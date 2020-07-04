@@ -16,7 +16,7 @@ class Snippets extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param int $snippet_id
+     * @param int        $snippet_id
      *
      * @return mixed
      */
@@ -27,10 +27,10 @@ class Snippets extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param string $title
-     * @param string $filename
-     * @param string $code
-     * @param string $visibility
+     * @param string     $title
+     * @param string     $filename
+     * @param string     $code
+     * @param string     $visibility
      *
      * @return mixed
      */
@@ -46,8 +46,8 @@ class Snippets extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param int   $snippet_id
-     * @param array $params
+     * @param int        $snippet_id
+     * @param array      $params
      *
      * @return mixed
      */
@@ -58,7 +58,7 @@ class Snippets extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param int $snippet_id
+     * @param int        $snippet_id
      *
      * @return string
      */
@@ -69,7 +69,7 @@ class Snippets extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param int $snippet_id
+     * @param int        $snippet_id
      *
      * @return mixed
      */
@@ -80,7 +80,7 @@ class Snippets extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param int $snippet_id
+     * @param int        $snippet_id
      *
      * @return mixed
      */
@@ -91,8 +91,8 @@ class Snippets extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param int $snippet_id
-     * @param int $note_id
+     * @param int        $snippet_id
+     * @param int        $note_id
      *
      * @return mixed
      */
@@ -103,8 +103,8 @@ class Snippets extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param int    $snippet_id
-     * @param string $body
+     * @param int        $snippet_id
+     * @param string     $body
      *
      * @return mixed
      */
@@ -117,9 +117,9 @@ class Snippets extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param int    $snippet_id
-     * @param int    $note_id
-     * @param string $body
+     * @param int        $snippet_id
+     * @param int        $note_id
+     * @param string     $body
      *
      * @return mixed
      */
@@ -132,8 +132,8 @@ class Snippets extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param int $snippet_id
-     * @param int $note_id
+     * @param int        $snippet_id
+     * @param int        $note_id
      *
      * @return mixed
      */
@@ -144,7 +144,7 @@ class Snippets extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param int $snippet_id
+     * @param int        $snippet_id
      *
      * @return mixed
      */
@@ -155,8 +155,8 @@ class Snippets extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param int $snippet_id
-     * @param int $award_id
+     * @param int        $snippet_id
+     * @param int        $award_id
      *
      * @return mixed
      */
