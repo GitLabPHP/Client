@@ -4,6 +4,10 @@ namespace Gitlab\Api;
 
 class GroupsMilestones extends AbstractApi
 {
+    const STATE_ACTIVE = 'active';
+
+    const STATE_CLOSED = 'closed';
+
     /**
      * @param int   $group_id
      * @param array $parameters {
@@ -25,7 +29,7 @@ class GroupsMilestones extends AbstractApi
             })
         ;
         $resolver->setDefined('state')
-            ->setAllowedValues('state', ['active', 'closed'])
+            ->setAllowedValues('state', [self::STATE_ACTIVE, self::STATE_CLOSED])
         ;
         $resolver->setDefined('search');
 

@@ -2,6 +2,7 @@
 
 namespace Gitlab\Model;
 
+use Gitlab\Api\Issues;
 use Gitlab\Client;
 
 /**
@@ -208,7 +209,7 @@ class Issue extends AbstractModel implements Noteable, Notable
      */
     public function isClosed()
     {
-        return 'closed' === $this->state;
+        return Issues::STATE_CLOSED === $this->state;
     }
 
     /**
@@ -218,7 +219,7 @@ class Issue extends AbstractModel implements Noteable, Notable
      */
     public function hasLabel($label)
     {
-        return in_array($label, $this->labels);
+        return in_array($label, $this->labels, true);
     }
 
     /**

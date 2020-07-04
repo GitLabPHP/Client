@@ -4,6 +4,10 @@ namespace Gitlab\Api;
 
 class Issues extends AbstractApi
 {
+    const STATE_OPENED = 'opened';
+
+    const STATE_CLOSED = 'closed';
+
     /**
      * @param int|string|null $project_id
      * @param array           $parameters {
@@ -482,7 +486,7 @@ class Issues extends AbstractApi
         $resolver = parent::createOptionsResolver();
 
         $resolver->setDefined('state')
-            ->setAllowedValues('state', ['opened', 'closed'])
+            ->setAllowedValues('state', [self::STATE_OPENED, self::STATE_CLOSED])
         ;
         $resolver->setDefined('labels');
         $resolver->setDefined('milestone');

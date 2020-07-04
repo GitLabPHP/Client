@@ -84,7 +84,7 @@ abstract class AbstractModel
      */
     protected function setData($field, $value)
     {
-        if (in_array($field, static::$properties)) {
+        if (in_array($field, static::$properties, true)) {
             $this->data[$field] = $value;
         }
 
@@ -121,7 +121,7 @@ abstract class AbstractModel
      */
     public function __get($property)
     {
-        if (!in_array($property, static::$properties)) {
+        if (!in_array($property, static::$properties, true)) {
             throw new RuntimeException(sprintf('Property "%s" does not exist for %s object', $property, get_called_class()));
         }
 

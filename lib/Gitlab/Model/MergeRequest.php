@@ -2,6 +2,7 @@
 
 namespace Gitlab\Model;
 
+use Gitlab\Api\MergeRequests;
 use Gitlab\Client;
 
 /**
@@ -242,11 +243,7 @@ class MergeRequest extends AbstractModel implements Noteable, Notable
      */
     public function isClosed()
     {
-        if (in_array($this->state, ['closed', 'merged'])) {
-            return true;
-        }
-
-        return false;
+        return MergeRequests::STATE_CLOSED === $this->state || MergeRequests::STATE_MERGED === $this->state;
     }
 
     /**
