@@ -3,7 +3,6 @@
 namespace Gitlab\Model;
 
 use Gitlab\Client;
-use Gitlab\Exception\InvalidArgumentException;
 use Gitlab\Exception\RuntimeException;
 
 abstract class AbstractModel
