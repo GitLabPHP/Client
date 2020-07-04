@@ -2,8 +2,6 @@
 
 namespace Gitlab;
 
-use Gitlab\Api\AbstractApi;
-use Gitlab\Exception\InvalidArgumentException;
 use Gitlab\HttpClient\Builder;
 use Gitlab\HttpClient\Plugin\ApiVersion;
 use Gitlab\HttpClient\Plugin\Authentication;
