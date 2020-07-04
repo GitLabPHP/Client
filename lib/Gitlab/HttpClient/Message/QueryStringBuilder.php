@@ -55,7 +55,7 @@ final class QueryStringBuilder
      */
     public static function isIndexedArray(array $query)
     {
-        if (empty($query) || !isset($query[0])) {
+        if (0 === count($query) || !isset($query[0])) {
             return false;
         }
 

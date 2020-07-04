@@ -63,7 +63,7 @@ abstract class AbstractApi implements ApiInterface
      * @param array<string,string> $requestHeaders
      * @return ResponseInterface
      */
-    protected function getAsResponse($path, array $parameters = array(), $requestHeaders = array())
+    protected function getAsResponse($path, array $parameters = array(), array $requestHeaders = array())
     {
         $path = $this->preparePath($path, $parameters);
 
@@ -76,7 +76,7 @@ abstract class AbstractApi implements ApiInterface
      * @param array<string,string> $requestHeaders
      * @return mixed
      */
-    protected function get($path, array $parameters = array(), $requestHeaders = array())
+    protected function get($path, array $parameters = array(), array $requestHeaders = array())
     {
         return ResponseMediator::getContent($this->getAsResponse($path, $parameters, $requestHeaders));
     }
@@ -88,15 +88,15 @@ abstract class AbstractApi implements ApiInterface
      * @param array<string,string> $files
      * @return mixed
      */
-    protected function post($path, array $parameters = array(), $requestHeaders = array(), array $files = array())
+    protected function post($path, array $parameters = array(), array $requestHeaders = array(), array $files = array())
     {
         $path = $this->preparePath($path);
 
         $body = null;
-        if (empty($files) && !empty($parameters)) {
+        if (0 === count($files) && 0 < count($parameters)) {
             $body = $this->prepareBody($parameters);
             $requestHeaders['Content-Type'] = 'application/x-www-form-urlencoded';
-        } elseif (!empty($files)) {
+        } elseif (0 < count($files)) {
             $builder = new MultipartStreamBuilder($this->streamFactory);
 
             foreach ($parameters as $name => $value) {
@@ -128,15 +128,15 @@ abstract class AbstractApi implements ApiInterface
      * @param array<string,string> $files
      * @return mixed
      */
-    protected function put($path, array $parameters = array(), $requestHeaders = array(), array $files = array())
+    protected function put($path, array $parameters = array(), array $requestHeaders = array(), array $files = array())
     {
         $path = $this->preparePath($path);
 
         $body = null;
-        if (empty($files) && !empty($parameters)) {
+        if (0 === count($files) && 0 < count($parameters)) {
             $body = $this->prepareBody($parameters);
             $requestHeaders['Content-Type'] = 'application/x-www-form-urlencoded';
-        } elseif (!empty($files)) {
+        } elseif (0 < count($files)) {
             $builder = new MultipartStreamBuilder($this->streamFactory);
 
             foreach ($parameters as $name => $value) {
@@ -167,7 +167,7 @@ abstract class AbstractApi implements ApiInterface
      * @param array<string,string> $requestHeaders
      * @return mixed
      */
-    protected function delete($path, array $parameters = array(), $requestHeaders = array())
+    protected function delete($path, array $parameters = array(), array $requestHeaders = array())
     {
         $path = $this->preparePath($path, $parameters);
 

@@ -59,10 +59,8 @@ abstract class AbstractModel
      */
     protected function hydrate(array $data = array())
     {
-        if (!empty($data)) {
-            foreach ($data as $field => $value) {
-                $this->setData($field, $value);
-            }
+        foreach ($data as $field => $value) {
+            $this->setData($field, $value);
         }
 
         return $this;
