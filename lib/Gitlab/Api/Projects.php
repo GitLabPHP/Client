@@ -483,12 +483,9 @@ class Projects extends AbstractApi
      * See https://docs.gitlab.com/ee/api/projects.html#get-project-users for more info.
      *
      * @param int|string $project_id
-     *                               Project id
      * @param array      $parameters
-     *                               Url parameters
      *
      * @return array
-     *               List of project users
      */
     public function users($project_id, array $parameters = [])
     {
@@ -501,9 +498,7 @@ class Projects extends AbstractApi
      * See https://docs.gitlab.com/ee/api/issues.html#list-project-issues for more info.
      *
      * @param int|string $project_id
-     *                               Project id
      * @param array      $parameters
-     *                               Url parameters. For example: issue state (opened / closed).
      *
      * @return array
      *               List of project issues
@@ -519,10 +514,8 @@ class Projects extends AbstractApi
      * See https://docs.gitlab.com/ee/api/boards.html for more info.
      *
      * @param int|string $project_id
-     *                               Project id
      *
      * @return array
-     *               List of project boards
      */
     public function boards($project_id)
     {
@@ -972,7 +965,7 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param mixed $project_id
+     * @param int|string $project_id
      * @param int   $group_id
      *
      * @return mixed

@@ -17,7 +17,7 @@ class MergeRequests extends AbstractApi
     const STATE_CLOSED = 'closed';
 
     /**
-     * @param int|null $project_id Return the merge requests for all projects or a specific project
+     * @param int|null $project_id
      * @param array    $parameters {
      *
      *     @var int[]              $iids           return the request having the given iid
