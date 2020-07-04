@@ -5,18 +5,17 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Node.
- *
  * @property-read string $name
  * @property-read string $type
  * @property-read string $mode
  * @property-read int $id
+ * @property-read string $path
  * @property-read Project $project
  */
 class Node extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected static $properties = [
         'name',

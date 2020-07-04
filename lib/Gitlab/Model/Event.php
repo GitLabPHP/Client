@@ -5,8 +5,6 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Event.
- *
  * @property-read string $title
  * @property-read int $id
  * @property-read string $action_name
@@ -16,13 +14,13 @@ use Gitlab\Client;
  * @property-read string $target_title
  * @property-read int $author_id
  * @property-read string $author_username
- * @property-read User $author
+ * @property-read User|null $author
  * @property-read Project $project
  */
 class Event extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected static $properties = [
         'title',

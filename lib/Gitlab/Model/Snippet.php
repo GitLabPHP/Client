@@ -5,20 +5,18 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Snippet.
- *
  * @property-read int $id
  * @property-read string $title
  * @property-read string $file_name
  * @property-read string $updated_at
  * @property-read string $created_at
  * @property-read Project $project
- * @property-read User $author
+ * @property-read User|null $author
  */
 class Snippet extends AbstractModel implements Notable
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected static $properties = [
         'id',

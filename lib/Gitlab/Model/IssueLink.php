@@ -5,15 +5,13 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class IssueLink.
- *
  * @property-read int $issue_link_id
  * @property-read Issue $issue
  */
 class IssueLink extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected static $properties = [
         'issue_link_id',

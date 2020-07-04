@@ -10,7 +10,7 @@ use Gitlab\Exception\RuntimeException;
 abstract class AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected static $properties;
 

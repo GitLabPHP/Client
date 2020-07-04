@@ -5,8 +5,6 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class User.
- *
  * @property-read int $id
  * @property-read string $email
  * @property-read string $password
@@ -20,6 +18,7 @@ use Gitlab\Client;
  * @property-read int $theme_id
  * @property-read int $color_scheme_id
  * @property-read bool $blocked
+ * @property-read int|null $project_limit
  * @property-read int $access_level
  * @property-read string $created_at
  * @property-read string $extern_uid
@@ -35,7 +34,7 @@ use Gitlab\Client;
 class User extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected static $properties = [
         'id',

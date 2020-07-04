@@ -5,8 +5,6 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Contributor.
- *
  * @property-read string $name
  * @property-read string $email
  * @property-read int $commits
@@ -17,7 +15,7 @@ use Gitlab\Client;
 class Contributor extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected static $properties = [
         'name',

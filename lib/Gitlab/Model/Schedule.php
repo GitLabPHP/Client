@@ -5,8 +5,6 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Schedule.
- *
  * @property-read int $id
  * @property-read int|string $project_id
  * @property-read string $title
@@ -22,7 +20,7 @@ use Gitlab\Client;
 class Schedule extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected static $properties = [
         'id',

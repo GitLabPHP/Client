@@ -5,28 +5,26 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Commit.
- *
- * @property-read Commit $commit
+ * @property-read Commit|null $commit
  * @property-read int $id
  * @property-read string $coverage
  * @property-read string $created_at
  * @property-read string $artifacts_file
  * @property-read string $finished_at
  * @property-read string $name
- * @property-read Pipeline $pipeline
+ * @property-read Pipeline|null $pipeline
  * @property-read string $ref
  * @property-read string $runner
  * @property-read string $stage
  * @property-read string $started_at
  * @property-read string $status
  * @property-read string|bool $tag
- * @property-read User $user
+ * @property-read User|null $user
  */
 class Job extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected static $properties = [
         'id',

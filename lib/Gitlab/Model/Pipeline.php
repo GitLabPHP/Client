@@ -5,14 +5,12 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Pipeline.
- *
  * @property-read int $id
  * @property-read string $ref
  * @property-read string $sha
  * @property-read string $status
  * @property-read Project $project
- * @property-read array $variables
+ * @property-read array|null $variables
  * @property-read string $created_at
  * @property-read string $updated_at
  * @property-read string $started_at
@@ -20,12 +18,12 @@ use Gitlab\Client;
  * @property-read string $committed_at
  * @property-read int $duration
  * @property-read string $web_url
- * @property-read User $user
+ * @property-read User|null $user
  */
 class Pipeline extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected static $properties = [
         'id',

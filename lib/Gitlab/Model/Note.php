@@ -5,10 +5,8 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Note.
- *
  * @property-read int $id
- * @property-read User $author
+ * @property-read User|null $author
  * @property-read string $body
  * @property-read string $created_at
  * @property-read string $updated_at
@@ -20,7 +18,7 @@ use Gitlab\Client;
 class Note extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected static $properties = [
         'id',

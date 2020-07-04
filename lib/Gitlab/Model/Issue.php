@@ -6,8 +6,6 @@ use Gitlab\Api\Issues;
 use Gitlab\Client;
 
 /**
- * Class Issue.
- *
  * @property-read int $id
  * @property-read int $iid
  * @property-read int|string $project_id,
@@ -18,15 +16,15 @@ use Gitlab\Client;
  * @property-read string $updated_at
  * @property-read string $created_at
  * @property-read string $state
- * @property-read User $assignee
- * @property-read User $author
+ * @property-read User|null $assignee
+ * @property-read User|null $author
  * @property-read Milestone $milestone
  * @property-read Project $project
  */
 class Issue extends AbstractModel implements Noteable, Notable
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected static $properties = [
         'id',

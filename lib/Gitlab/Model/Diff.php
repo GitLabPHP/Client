@@ -5,8 +5,6 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Diff.
- *
  * @property-read string $old_path
  * @property-read string $new_path
  * @property-read string $a_mode
@@ -20,7 +18,7 @@ use Gitlab\Client;
 class Diff extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected static $properties = [
         'old_path',

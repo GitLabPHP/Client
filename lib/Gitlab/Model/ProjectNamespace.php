@@ -5,8 +5,6 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class ProjectNamespace.
- *
  * @property-read int $id
  * @property-read string $name
  * @property-read string $path
@@ -19,7 +17,7 @@ use Gitlab\Client;
 class ProjectNamespace extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected static $properties = [
         'id',

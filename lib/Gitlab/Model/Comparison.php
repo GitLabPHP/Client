@@ -5,19 +5,17 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Comparison.
- *
  * @property-read bool $compare_timeout
  * @property-read bool $compare_same_ref
- * @property-read Commit $commit
- * @property-read Commit[] $commits
- * @property-read Diff[] $diffs
+ * @property-read Commit|null $commit
+ * @property-read Commit[]|null $commits
+ * @property-read Diff[]|null $diffs
  * @property-read Project $project
  */
 class Comparison extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected static $properties = [
         'commit',

@@ -5,15 +5,17 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Badge.
- *
+ * @property-read int    $id
  * @property-read string $link_url
  * @property-read string $image_url
+ * @property-read string $rendered_image_url
+ * @property-read string $rendered_image_url
+ * @property-read string $kind
  */
 class Badge extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected static $properties = [
         'id',

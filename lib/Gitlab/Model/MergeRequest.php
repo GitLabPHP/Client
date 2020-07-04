@@ -6,8 +6,6 @@ use Gitlab\Api\MergeRequests;
 use Gitlab\Client;
 
 /**
- * Class MergeRequest.
- *
  * @property-read int $id
  * @property-read int $iid
  * @property-read string $target_branch
@@ -23,16 +21,16 @@ use Gitlab\Client;
  * @property-read int $upvotes
  * @property-read int $downvotes
  * @property-read array $labels
- * @property-read User $author
- * @property-read User $assignee
+ * @property-read User|null $author
+ * @property-read User|null $assignee
  * @property-read Project $project
- * @property-read Milestone $milestone
- * @property-read File[] $files
+ * @property-read Milestone|null $milestone
+ * @property-read File[]|null $files
  */
 class MergeRequest extends AbstractModel implements Noteable, Notable
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected static $properties = [
         'id',

@@ -6,17 +6,15 @@ use Gitlab\Api\Projects;
 use Gitlab\Client;
 
 /**
- * Class Branch.
- *
  * @property-read string $name
  * @property-read bool $protected
- * @property-read Commit $commit
+ * @property-read Commit|null $commit
  * @property-read Project $project
  */
 class Branch extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected static $properties = [
         'name',
