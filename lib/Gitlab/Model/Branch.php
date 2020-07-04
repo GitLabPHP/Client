@@ -121,7 +121,7 @@ class Branch extends AbstractModel
      */
     public function createFile($file_path, $content, $commit_message)
     {
-        $data = $this->client->repositories()->createFile($this->project->id, $file_path, $content, $this->name, $commit_message);
+        $data = $this->client->repositoryFiles()->createFile($this->project->id, $file_path, $content, $this->name, $commit_message);
 
         return File::fromArray($this->getClient(), $this->project, $data);
     }
@@ -135,7 +135,7 @@ class Branch extends AbstractModel
      */
     public function updateFile($file_path, $content, $commit_message)
     {
-        $data = $this->client->repositories()->updateFile($this->project->id, $file_path, $content, $this->name, $commit_message);
+        $data = $this->client->repositoryFiles()->updateFile($this->project->id, $file_path, $content, $this->name, $commit_message);
 
         return File::fromArray($this->getClient(), $this->project, $data);
     }
@@ -148,7 +148,7 @@ class Branch extends AbstractModel
      */
     public function deleteFile($file_path, $commit_message)
     {
-        $this->client->repositories()->deleteFile($this->project->id, $file_path, $this->name, $commit_message);
+        $this->client->repositoryFiles()->deleteFile($this->project->id, $file_path, $this->name, $commit_message);
 
         return true;
     }
