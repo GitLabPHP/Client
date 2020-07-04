@@ -5,7 +5,7 @@ namespace Gitlab\Api;
 class Deployments extends AbstractApi
 {
     /**
-     * @param int   $project_id
+     * @param int|string $project_id
      * @param array $parameters
      *
      * @return mixed
@@ -18,7 +18,7 @@ class Deployments extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int|string $project_id
      * @param string $deployment_id
      *
      * @return mixed

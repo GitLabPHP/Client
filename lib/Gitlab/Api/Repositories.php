@@ -12,7 +12,7 @@ class Repositories extends AbstractApi
     const TYPE_TAG = 'tag';
 
     /**
-     * @param int   $project_id
+     * @param int|string $project_id
      * @param array $parameters {
      *
      *     @var string $search
@@ -30,7 +30,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int|string $project_id
      * @param string $branch
      *
      * @return mixed
@@ -41,7 +41,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int|string $project_id
      * @param string $branch
      * @param string $ref
      *
@@ -56,7 +56,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int|string $project_id
      * @param string $branch
      *
      * @return mixed
@@ -67,7 +67,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int|string $project_id
      * @param string $branch
      * @param bool   $devPush
      * @param bool   $devMerge
@@ -83,7 +83,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int|string $project_id
      * @param string $branch
      *
      * @return mixed
@@ -94,7 +94,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
+     * @param int|string $project_id
      * @param array $parameters
      *
      * @return mixed
@@ -107,7 +107,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int         $project_id
+     * @param int|string $project_id
      * @param string      $name
      * @param string      $ref
      * @param string|null $message
@@ -124,7 +124,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int|string $project_id
      * @param string $tag_name
      * @param string $description
      *
@@ -140,7 +140,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int|string $project_id
      * @param string $tag_name
      * @param string $description
      *
@@ -156,7 +156,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      *
      * @return mixed
      */
@@ -168,7 +168,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
+     * @param int|string $project_id
      * @param array $parameters {
      *
      *     @var string             $ref_name the name of a repository branch or tag or if not given the default branch
@@ -202,7 +202,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int|string $project_id
      * @param string $sha
      *
      * @return mixed
@@ -213,7 +213,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int|string $project_id
      * @param string $sha
      * @param array  $parameters
      *
@@ -230,7 +230,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
+     * @param int|string $project_id
      * @param array $parameters {
      *
      *     @var string $branch         Name of the branch to commit into. To create a new branch, also provide start_branch.
@@ -292,7 +292,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int|string $project_id
      * @param string $sha
      * @param array  $parameters
      *
@@ -309,7 +309,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int|string $project_id
      * @param string $sha
      * @param string $note
      * @param array  $params
@@ -324,7 +324,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int|string $project_id
      * @param string $sha
      * @param array  $params
      *
@@ -336,7 +336,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int|string $project_id
      * @param string $sha
      * @param string $state
      * @param array  $params
@@ -351,7 +351,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int|string $project_id
      * @param string $fromShaOrMaster
      * @param string $toShaOrMaster
      * @param bool   $straight
@@ -367,7 +367,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int|string $project_id
      * @param string $sha
      *
      * @return string
@@ -378,7 +378,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
+     * @param int|string $project_id
      * @param array $params
      *
      * @return mixed
@@ -389,7 +389,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int|string $project_id
      * @param string $sha
      * @param string $filepath
      *
@@ -405,7 +405,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int|string $project_id
      * @param string $file_path
      * @param string $ref
      *
@@ -421,7 +421,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int         $project_id
+     * @param int|string $project_id
      * @param string      $file_path
      * @param string      $content
      * @param string      $branch
@@ -450,7 +450,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int         $project_id
+     * @param int|string $project_id
      * @param string      $file_path
      * @param string      $content
      * @param string      $branch
@@ -479,7 +479,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int         $project_id
+     * @param int|string $project_id
      * @param string      $file_path
      * @param string      $branch
      * @param string      $commit_message
@@ -504,7 +504,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      *
      * @return mixed
      */
@@ -514,7 +514,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int|string $project_id
      * @param array  $params
      * @param string $format     Options: "tar.gz", "zip", "tar.bz2" and "tar"
      *
@@ -526,7 +526,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
+     * @param int|string $project_id
      * @param array $refs
      *
      * @return mixed

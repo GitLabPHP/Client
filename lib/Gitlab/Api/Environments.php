@@ -7,7 +7,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class Environments extends AbstractApi
 {
     /**
-     * @param int   $project_id
+     * @param int|string $project_id
      * @param array $parameters
      *
      * @return mixed
@@ -24,7 +24,7 @@ class Environments extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
+     * @param int|string $project_id
      * @param array $parameters {
      *
      *     @var string $name         The name of the environment
@@ -46,7 +46,7 @@ class Environments extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int|string $project_id
      * @param string $environment_id
      *
      * @return mixed
@@ -57,7 +57,7 @@ class Environments extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int|string $project_id
      * @param string $environment_id
      *
      * @return mixed
@@ -68,7 +68,7 @@ class Environments extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int|string $project_id
      * @param string $environment_id
      *
      * @return mixed

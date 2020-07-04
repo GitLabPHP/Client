@@ -7,7 +7,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class RepositoryFiles extends AbstractApi
 {
     /**
-     * @param int    $project_id
+     * @param int|string $project_id
      * @param string $file_path
      * @param string $ref
      *
@@ -21,7 +21,7 @@ class RepositoryFiles extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
+     * @param int|string $project_id
      * @param string $file_path
      * @param string $ref
      *
@@ -35,7 +35,7 @@ class RepositoryFiles extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
+     * @param int|string $project_id
      * @param array $parameters {
      *
      *     @var string $file_path      Url encoded full path to new file. Ex. lib%2Fclass%2Erb.
@@ -70,7 +70,7 @@ class RepositoryFiles extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
+     * @param int|string $project_id
      * @param array $parameters {
      *
      *     @var string $file_path      Url encoded full path to new file. Ex. lib%2Fclass%2Erb.
@@ -107,7 +107,7 @@ class RepositoryFiles extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
+     * @param int|string $project_id
      * @param array $parameters {
      *
      *     @var string $file_path      Url encoded full path to new file. Ex. lib%2Fclass%2Erb.

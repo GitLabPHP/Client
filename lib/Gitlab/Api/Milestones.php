@@ -5,7 +5,7 @@ namespace Gitlab\Api;
 class Milestones extends AbstractApi
 {
     /**
-     * @param int   $project_id
+     * @param int|string $project_id
      * @param array $parameters {
      *
      *     @var int[]  $iids   return only the milestones having the given iids
@@ -33,7 +33,7 @@ class Milestones extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $milestone_id
      *
      * @return mixed
@@ -44,7 +44,7 @@ class Milestones extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
+     * @param int|string $project_id
      * @param array $params
      *
      * @return mixed
@@ -55,7 +55,7 @@ class Milestones extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
+     * @param int|string $project_id
      * @param int   $milestone_id
      * @param array $params
      *
@@ -67,7 +67,7 @@ class Milestones extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $milestone_id
      *
      * @return mixed
@@ -78,7 +78,7 @@ class Milestones extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      * @param int $milestone_id
      *
      * @return mixed
