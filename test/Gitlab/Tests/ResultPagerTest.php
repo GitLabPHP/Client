@@ -4,7 +4,6 @@ namespace Gitlab\Tests;
 
 use Gitlab\Api\ApiInterface;
 use Gitlab\Client;
-use Gitlab\HttpClient\Plugin\History;
 use Gitlab\ResultPager;
 use GuzzleHttp\Psr7\Response;
 use function GuzzleHttp\Psr7\stream_for;
@@ -45,11 +44,6 @@ class ResultPagerTest extends TestCase
             ->getMock()
         ;
 
-        $history = $this->getMockBuilder(History::class)
-            ->disableOriginalConstructor()
-            ->getMock()
-        ;
-
         $response1 = (new Response())->withHeader('Link', '<https://example.gitlab.com/projects?page=2>; rel="next",');
         $response2 = (new Response())->withHeader('Link', '<https://example.gitlab.com/projects?page=3>; rel="next",')
             ->withHeader('Content-Type', 'application/json')
@@ -59,7 +53,7 @@ class ResultPagerTest extends TestCase
             ->withBody(stream_for('["project5", "project6"]'))
         ;
 
-        $history
+        $client
             ->method('getLastResponse')
             ->will($this->onConsecutiveCalls(
                 $response1,
@@ -93,10 +87,6 @@ class ResultPagerTest extends TestCase
             ))
         ;
 
-        $client
-            ->method('getResponseHistory')
-            ->willReturn($history)
-        ;
         $client
             ->method('getHttpClient')
             ->willReturn($httpClient)
