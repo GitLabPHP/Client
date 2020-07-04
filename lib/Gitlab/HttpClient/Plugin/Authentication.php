@@ -65,9 +65,11 @@ final class Authentication implements Plugin
         switch ($method) {
             case Client::AUTH_HTTP_TOKEN:
                 $headers['PRIVATE-TOKEN'] = $token;
+
                 break;
             case Client::AUTH_OAUTH_TOKEN:
                 $headers['Authorization'] = sprintf('Bearer %s', $token);
+
                 break;
             default:
                 throw new RuntimeException(sprintf('Authentication method "%s" not implemented.', $method));
