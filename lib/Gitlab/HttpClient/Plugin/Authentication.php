@@ -59,7 +59,7 @@ class Authentication implements Plugin
         switch ($this->method) {
             case Client::AUTH_HTTP_TOKEN:
                 $request = $request->withHeader('PRIVATE-TOKEN', $this->token);
-                if (!is_null($this->sudo)) {
+                if (null !== $this->sudo) {
                     $request = $request->withHeader('SUDO', $this->sudo);
                 }
 
@@ -73,11 +73,11 @@ class Authentication implements Plugin
                     'private_token' => $this->token,
                 ];
 
-                if (!is_null($this->sudo)) {
+                if (null !== $this->sudo) {
                     $parameters['sudo'] = $this->sudo;
                 }
 
-                $query .= empty($query) ? '' : '&';
+                $query .= '' === $query ? '' : '&';
                 $query .= utf8_encode(http_build_query($parameters, '', '&'));
 
                 $uri = $uri->withQuery($query);
@@ -87,7 +87,7 @@ class Authentication implements Plugin
 
             case Client::AUTH_OAUTH_TOKEN:
                 $request = $request->withHeader('Authorization', 'Bearer '.$this->token);
-                if (!is_null($this->sudo)) {
+                if (null !== $this->sudo) {
                     $request = $request->withHeader('SUDO', $this->sudo);
                 }
 

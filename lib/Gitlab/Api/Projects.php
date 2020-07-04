@@ -375,7 +375,7 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param array      $parameters {
+     * @param array|string|null $parameters {
      *
      *     @var string $query           The query you want to search members for.
      * }
@@ -388,7 +388,7 @@ class Projects extends AbstractApi
             @trigger_error('Deprecated: String parameter of the members() function is deprecated and will not be allowed in 10.0.', E_USER_NOTICE);
             $username_query = $parameters;
             $parameters = [];
-            if (!empty($username_query)) {
+            if (null !== $username_query && '' !== $username_query) {
                 $parameters['query'] = $username_query;
             }
         }
@@ -538,7 +538,7 @@ class Projects extends AbstractApi
      */
     public function addHook($project_id, $url, array $parameters = [])
     {
-        if (empty($parameters)) {
+        if (0 === count($parameters)) {
             $parameters = ['push_events' => true];
         }
 
