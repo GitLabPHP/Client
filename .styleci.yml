@@ -5,4 +5,5 @@ enabled:
 
 disabled:
   - phpdoc_no_empty_return
+  - phpdoc_to_comment
   - phpdoc_var_without_name
