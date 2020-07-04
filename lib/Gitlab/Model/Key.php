@@ -5,8 +5,6 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Key.
- *
  * @property-read int $id
  * @property-read string $title
  * @property-read string $key
@@ -15,7 +13,7 @@ use Gitlab\Client;
 class Key extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected static $properties = [
         'id',

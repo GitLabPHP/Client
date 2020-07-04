@@ -5,8 +5,6 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class GroupMilestone.
- *
  * @property-read int $id
  * @property-read int $iid
  * @property-read Group $group
@@ -22,7 +20,7 @@ use Gitlab\Client;
 class GroupMilestone extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected static $properties = [
         'id',

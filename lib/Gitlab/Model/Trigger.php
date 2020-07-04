@@ -5,21 +5,19 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Trigger.
- *
  * @property-read int $id
  * @property-read string $description
  * @property-read string $created_at
  * @property-read string $last_used
  * @property-read string $token
  * @property-read string $updated_at
- * @property-read User $owner
+ * @property-read User|null $owner
  * @property-read Project $project
  */
 class Trigger extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected static $properties = [
         'id',

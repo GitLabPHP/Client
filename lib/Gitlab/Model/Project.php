@@ -7,8 +7,6 @@ use Gitlab\Api\Repositories;
 use Gitlab\Client;
 
 /**
- * Class Project.
- *
  * @property-read int|string $id
  * @property-read string $description
  * @property-read string $default_branch
@@ -18,7 +16,7 @@ use Gitlab\Client;
  * @property-read string $web_url
  * @property-read string $readme_url
  * @property-read string[] $tag_list
- * @property-read User $owner
+ * @property-read User|null $owner
  * @property-read string $name
  * @property-read string $name_with_namespace
  * @property-read string $path
@@ -34,7 +32,7 @@ use Gitlab\Client;
  * @property-read string $created_at
  * @property-read string $last_activity_at
  * @property-read int $creator_id
- * @property-read ProjectNamespace $namespace
+ * @property-read ProjectNamespace|null $namespace
  * @property-read string $import_status
  * @property-read bool $archived
  * @property-read string $avatar_url
@@ -43,7 +41,7 @@ use Gitlab\Client;
  * @property-read int $star_count
  * @property-read string $runners_token
  * @property-read bool $public_jobs
- * @property-read Group[] $shared_with_groups
+ * @property-read Group[]|null $shared_with_groups
  * @property-read bool $only_allow_merge_if_pipeline_succeeds
  * @property-read bool $only_allow_merge_if_all_discussions_are_resolved
  * @property-read bool $request_access_enabled
@@ -53,7 +51,7 @@ use Gitlab\Client;
 class Project extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected static $properties = [
         'id',

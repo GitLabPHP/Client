@@ -5,16 +5,13 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Release.
- *
  * @property-read string $tag_name
  * @property-read string $description
- * @property-read Commit $commit
  */
 class Release extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected static $properties = [
         'tag_name',

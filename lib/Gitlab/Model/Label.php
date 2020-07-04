@@ -5,8 +5,6 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Label.
- *
  * @property-read int $id
  * @property-read string $name
  * @property-read string $color
@@ -14,7 +12,7 @@ use Gitlab\Client;
 class Label extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected static $properties = [
         'id',

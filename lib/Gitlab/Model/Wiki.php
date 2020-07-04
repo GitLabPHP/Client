@@ -5,8 +5,6 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Wiki.
- *
  * @property-read string $slug
  * @property-read string $title
  * @property-read string $format
@@ -16,7 +14,7 @@ use Gitlab\Client;
 class Wiki extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected static $properties = [
         'project',

@@ -5,8 +5,6 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Group.
- *
  * @property-read int $id
  * @property-read string $name
  * @property-read string $path
@@ -20,13 +18,13 @@ use Gitlab\Client;
  * @property-read string $full_path
  * @property-read int|string $file_template_project_id
  * @property-read int|null $parent_id
- * @property-read Project[] $projects
- * @property-read Project[] $shared_projects
+ * @property-read Project[]|null $projects
+ * @property-read Project[]|null $shared_projects
  */
 class Group extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected static $properties = [
         'id',

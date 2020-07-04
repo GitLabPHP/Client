@@ -5,8 +5,6 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Milestone.
- *
  * @property-read int $id
  * @property-read int $iid
  * @property-read int|string $project_id
@@ -23,7 +21,7 @@ use Gitlab\Client;
 class Milestone extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected static $properties = [
         'id',

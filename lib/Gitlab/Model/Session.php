@@ -5,8 +5,6 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Session.
- *
  * @property-read int $id
  * @property-read string $email
  * @property-read string $name
@@ -17,7 +15,7 @@ use Gitlab\Client;
 class Session extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected static $properties = [
         'id',
