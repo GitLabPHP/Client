@@ -18,7 +18,7 @@ use Gitlab\Client;
  * @property-read bool $request_access_enabled
  * @property-read string $full_name
  * @property-read string $full_path
- * @property-read int $file_template_project_id
+ * @property-read int|string $file_template_project_id
  * @property-read int|null $parent_id
  * @property-read Project[] $projects
  * @property-read Project[] $shared_projects
@@ -112,7 +112,7 @@ class Group extends AbstractModel
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      *
      * @return Group
      */

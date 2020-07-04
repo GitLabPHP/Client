@@ -145,8 +145,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
-     * @param array $parameters
+     * @param int|string $project_id
+     * @param array      $parameters
      *
      * @return mixed
      */
@@ -156,7 +156,7 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      *
      * @return mixed
      */
@@ -166,7 +166,7 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      *
      * @return mixed
      */
@@ -176,7 +176,7 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      *
      * @return mixed
      */
@@ -186,8 +186,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
-     * @param array $parameters {
+     * @param int|string $project_id
+     * @param array      $parameters {
      *
      *     @var string $scope       the scope of pipelines, one of: running, pending, finished, branches, tags
      *     @var string $status      the status of pipelines, one of: running, pending, success, failed, canceled, skipped
@@ -245,8 +245,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $pipeline_id
+     * @param int|string $project_id
+     * @param int        $pipeline_id
      *
      * @return mixed
      */
@@ -256,7 +256,7 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int        $project_id
+     * @param int|string $project_id
      * @param string     $commit_ref
      * @param array|null $variables  {
      *
@@ -281,8 +281,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $pipeline_id
+     * @param int|string $project_id
+     * @param int        $pipeline_id
      *
      * @return mixed
      */
@@ -292,8 +292,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $pipeline_id
+     * @param int|string $project_id
+     * @param int        $pipeline_id
      *
      * @return mixed
      */
@@ -303,8 +303,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $pipeline_id
+     * @param int|string $project_id
+     * @param int        $pipeline_id
      *
      * @return mixed
      */
@@ -314,9 +314,9 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int      $project_id
-     * @param int|null $user_id
-     * @param array    $parameters
+     * @param int|string $project_id
+     * @param int|null   $user_id
+     * @param array      $parameters
      *
      * @return mixed
      */
@@ -329,8 +329,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
-     * @param array $parameters {
+     * @param int|string $project_id
+     * @param array      $parameters {
      *
      *     @var string $query           The query you want to search members for.
      * }
@@ -358,8 +358,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $user_id
+     * @param int|string $project_id
+     * @param int        $user_id
      *
      * @return mixed
      */
@@ -369,9 +369,9 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $user_id
-     * @param int $access_level
+     * @param int|string $project_id
+     * @param int        $user_id
+     * @param int        $access_level
      *
      * @return mixed
      */
@@ -384,9 +384,9 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $user_id
-     * @param int $access_level
+     * @param int|string $project_id
+     * @param int        $user_id
+     * @param int        $access_level
      *
      * @return mixed
      */
@@ -398,8 +398,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $user_id
+     * @param int|string $project_id
+     * @param int        $user_id
      *
      * @return mixed
      */
@@ -409,8 +409,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
-     * @param array $parameters
+     * @param int|string $project_id
+     * @param array      $parameters
      *
      * @return mixed
      */
@@ -422,8 +422,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $hook_id
+     * @param int|string $project_id
+     * @param int        $hook_id
      *
      * @return mixed
      */
@@ -437,10 +437,10 @@ class Projects extends AbstractApi
      *
      * See https://docs.gitlab.com/ee/api/projects.html#get-project-users for more info.
      *
-     * @param int   $project_id
-     *                          Project id
-     * @param array $parameters
-     *                          Url parameters
+     * @param int|string $project_id
+     *                               Project id
+     * @param array      $parameters
+     *                               Url parameters
      *
      * @return array
      *               List of project users
@@ -455,10 +455,10 @@ class Projects extends AbstractApi
      *
      * See https://docs.gitlab.com/ee/api/issues.html#list-project-issues for more info.
      *
-     * @param int   $project_id
-     *                          Project id
-     * @param array $parameters
-     *                          Url parameters. For example: issue state (opened / closed).
+     * @param int|string $project_id
+     *                               Project id
+     * @param array      $parameters
+     *                               Url parameters. For example: issue state (opened / closed).
      *
      * @return array
      *               List of project issues
@@ -473,8 +473,8 @@ class Projects extends AbstractApi
      *
      * See https://docs.gitlab.com/ee/api/boards.html for more info.
      *
-     * @param int $project_id
-     *                        Project id
+     * @param int|string $project_id
+     *                               Project id
      *
      * @return array
      *               List of project boards
@@ -485,9 +485,9 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
-     * @param string $url
-     * @param array  $parameters
+     * @param int|string $project_id
+     * @param string     $url
+     * @param array      $parameters
      *
      * @return mixed
      */
@@ -503,9 +503,9 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
-     * @param int   $hook_id
-     * @param array $parameters
+     * @param int|string $project_id
+     * @param int        $hook_id
+     * @param array      $parameters
      *
      * @return mixed
      */
@@ -515,8 +515,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $hook_id
+     * @param int|string $project_id
+     * @param int        $hook_id
      *
      * @return mixed
      */
@@ -526,8 +526,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
-     * @param mixed $namespace
+     * @param int|string $project_id
+     * @param mixed      $namespace
      *
      * @return mixed
      */
@@ -537,7 +537,7 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      *
      * @return mixed
      */
@@ -547,8 +547,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $key_id
+     * @param int|string $project_id
+     * @param int        $key_id
      *
      * @return mixed
      */
@@ -558,10 +558,10 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
-     * @param string $title
-     * @param string $key
-     * @param bool   $canPush
+     * @param int|string $project_id
+     * @param string     $title
+     * @param string     $key
+     * @param bool       $canPush
      *
      * @return mixed
      */
@@ -575,8 +575,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $key_id
+     * @param int|string $project_id
+     * @param int        $key_id
      *
      * @return mixed
      */
@@ -586,8 +586,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $key_id
+     * @param int|string $project_id
+     * @param int        $key_id
      *
      * @return mixed
      */
@@ -597,8 +597,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
-     * @param array $parameters {
+     * @param int|string $project_id
+     * @param array      $parameters {
      *
      *     @var string             $action      include only events of a particular action type
      *     @var string             $target_type include only events of a particular target type
@@ -637,8 +637,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
-     * @param array $parameters
+     * @param int|string $project_id
+     * @param array      $parameters
      *
      * @return mixed
      */
@@ -650,8 +650,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
-     * @param array $parameters
+     * @param int|string $project_id
+     * @param array      $parameters
      *
      * @return mixed
      */
@@ -661,8 +661,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
-     * @param array $parameters
+     * @param int|string $project_id
+     * @param array      $parameters
      *
      * @return mixed
      */
@@ -672,8 +672,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
-     * @param string $name
+     * @param int|string $project_id
+     * @param string     $name
      *
      * @return mixed
      */
@@ -687,7 +687,7 @@ class Projects extends AbstractApi
     /**
      * Get languages used in a project with percentage value.
      *
-     * @param int $project_id
+     * @param int|string $project_id
      *
      * @return mixed
      */
@@ -697,8 +697,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
-     * @param array $parameters
+     * @param int|string $project_id
+     * @param array      $parameters
      *
      * @return mixed
      */
@@ -710,8 +710,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
-     * @param array $parameters {
+     * @param int|string $project_id
+     * @param array      $parameters {
      *
      *     @var string $namespace      The ID or path of the namespace that the project will be forked to
      *     @var string $path           The path of the forked project (optional)
@@ -731,8 +731,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $forked_project_id
+     * @param int|string $project_id
+     * @param int        $forked_project_id
      *
      * @return mixed
      */
@@ -742,7 +742,7 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      *
      * @return mixed
      */
@@ -752,9 +752,9 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
-     * @param string $service_name
-     * @param array  $parameters
+     * @param int|string $project_id
+     * @param string     $service_name
+     * @param array      $parameters
      *
      * @return mixed
      */
@@ -764,8 +764,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
-     * @param string $service_name
+     * @param int|string $project_id
+     * @param string     $service_name
      *
      * @return mixed
      */
@@ -775,8 +775,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
-     * @param array $parameters
+     * @param int|string $project_id
+     * @param array      $parameters
      *
      * @return mixed
      */
@@ -788,8 +788,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
-     * @param string $key
+     * @param int|string $project_id
+     * @param string     $key
      *
      * @return mixed
      */
@@ -799,7 +799,7 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int         $project_id
+     * @param int|string  $project_id
      * @param string      $key
      * @param string      $value
      * @param bool|null   $protected
@@ -826,7 +826,7 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int         $project_id
+     * @param int|string  $project_id
      * @param string      $key
      * @param string      $value
      * @param bool|null   $protected
@@ -852,8 +852,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
-     * @param string $key
+     * @param int|string $project_id
+     * @param string     $key
      *
      * @return mixed
      */
@@ -863,8 +863,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
-     * @param string $file
+     * @param int|string $project_id
+     * @param string     $file
      *
      * @return mixed
      */
@@ -874,8 +874,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
-     * @param array $parameters
+     * @param int|string $project_id
+     * @param array      $parameters
      *
      * @return mixed
      */
@@ -887,8 +887,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $deployment_id
+     * @param int|string $project_id
+     * @param int        $deployment_id
      *
      * @return mixed
      */
@@ -938,7 +938,7 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      *
      * @return mixed
      */
@@ -948,8 +948,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $badge_id
+     * @param int|string $project_id
+     * @param int        $badge_id
      *
      * @return mixed
      */
@@ -959,8 +959,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
-     * @param array $parameters
+     * @param int|string $project_id
+     * @param array      $parameters
      *
      * @return mixed
      */
@@ -970,8 +970,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $badge_id
+     * @param int|string $project_id
+     * @param int        $badge_id
      *
      * @return mixed
      */
@@ -981,9 +981,9 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
-     * @param int   $badge_id
-     * @param array $parameters
+     * @param int|string $project_id
+     * @param int        $badge_id
+     * @param array      $parameters
      *
      * @return mixed
      */
@@ -993,8 +993,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
-     * @param array $parameters
+     * @param int|string $project_id
+     * @param array      $parameters
      *
      * @return mixed
      */
@@ -1004,7 +1004,7 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      *
      * @return mixed
      */
@@ -1014,7 +1014,7 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      *
      * @return mixed
      */

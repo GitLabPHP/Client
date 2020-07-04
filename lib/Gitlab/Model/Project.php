@@ -9,7 +9,7 @@ use Gitlab\Client;
 /**
  * Class Project.
  *
- * @property-read int $id
+ * @property-read int|string $id
  * @property-read string $description
  * @property-read string $default_branch
  * @property-read string $visibility
@@ -162,8 +162,8 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int|null    $id
-     * @param Client|null $client
+     * @param int|string|null $id
+     * @param Client|null     $client
      *
      * @return void
      */

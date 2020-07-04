@@ -181,7 +181,7 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param string|int $id
+     * @param int|string $id
      * @param string     $path
      *
      * @return string
@@ -203,7 +203,7 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param string|int $path
+     * @param int|string $path
      *
      * @return string
      */

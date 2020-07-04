@@ -11,7 +11,7 @@ use Gitlab\Client;
  * @property-read int $iid
  * @property-read string $target_branch
  * @property-read string $source_branch
- * @property-read int $project_id
+ * @property-read int|string $project_id
  * @property-read string $title
  * @property-read string $description
  * @property-read bool $closed
