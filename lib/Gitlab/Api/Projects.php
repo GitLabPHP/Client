@@ -373,8 +373,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int|string        $project_id
-     * @param array|string|null $parameters {
+     * @param int|string $project_id
+     * @param array      $parameters {
      *
      *     @var string $query           The query you want to search members for.
      * }
