@@ -331,7 +331,7 @@ class Client
     /**
      * Get the HTTP client.
      *
-     * @return HttpMethodsClient
+     * @return HttpMethodsClientInterface
      */
     public function getHttpClient()
     {
