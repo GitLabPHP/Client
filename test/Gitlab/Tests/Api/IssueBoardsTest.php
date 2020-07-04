@@ -40,7 +40,7 @@ class IssueBoardsTest extends TestCase
 
         $this->assertEquals($expectedArray, $api->show(1, 2));
     }
-    
+
     /**
      * @test
      */
@@ -123,7 +123,7 @@ class IssueBoardsTest extends TestCase
             ->with('projects/1/boards/2/lists')
             ->will($this->returnValue($expectedArray))
         ;
-    
+
         $this->assertEquals($expectedArray, $api->allLists(1, 2));
     }
 
@@ -143,14 +143,14 @@ class IssueBoardsTest extends TestCase
                 'position' => 3
             )
         );
-    
+
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/boards/2/lists/3')
             ->will($this->returnValue($expectedArray))
         ;
-    
+
         $this->assertEquals($expectedArray, $api->showList(1, 2, 3));
     }
 
@@ -170,7 +170,7 @@ class IssueBoardsTest extends TestCase
                 'position' => 3
             )
         );
-    
+
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
@@ -197,14 +197,14 @@ class IssueBoardsTest extends TestCase
                 'position' => 1
             )
         );
-    
+
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
             ->with('projects/5/boards/2/lists/3', array('position' => 1))
             ->will($this->returnValue($expectedArray))
         ;
-    
+
         $this->assertEquals($expectedArray, $api->updateList(5, 2, 3, 1));
     }
 
@@ -214,14 +214,14 @@ class IssueBoardsTest extends TestCase
     public function shouldDeleteList()
     {
         $expectedBool = true;
-    
+
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/boards/2/lists/3')
             ->will($this->returnValue($expectedBool))
         ;
-    
+
         $this->assertEquals($expectedBool, $api->deleteList(1, 2, 3));
     }
 

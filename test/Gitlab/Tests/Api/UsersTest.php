@@ -125,7 +125,7 @@ class UsersTest extends TestCase
 
         $this->assertEquals($expectedArray, $api->usersProjects(1));
     }
-    
+
     /**
      * @test
      */
@@ -134,7 +134,7 @@ class UsersTest extends TestCase
         $expectedArray = [$this->getUsersProjectsData()[0]];
 
         $api = $this->getUsersProjectsRequestMock('users/1/projects', $expectedArray, ['per_page' => 1]);
-     
+
         $this->assertEquals($expectedArray, $api->usersProjects(1, ['per_page' => 1]));
     }
 
@@ -145,11 +145,16 @@ class UsersTest extends TestCase
     {
         $expectedArray = $this->getUsersProjectsData();
 
-        $api = $this->getUsersProjectsRequestMock('users/1/projects', $expectedArray,
-            ['page' => 1, 'per_page' => 5, 'order_by' => 'name', 'sort' => 'asc']);
+        $api = $this->getUsersProjectsRequestMock(
+            'users/1/projects',
+            $expectedArray,
+            ['page' => 1, 'per_page' => 5, 'order_by' => 'name', 'sort' => 'asc']
+        );
 
-        $this->assertEquals($expectedArray,
-            $api->usersProjects(1, ['page' => 1, 'per_page' => 5, 'order_by' => 'name', 'sort' => 'asc']));
+        $this->assertEquals(
+            $expectedArray,
+            $api->usersProjects(1, ['page' => 1, 'per_page' => 5, 'order_by' => 'name', 'sort' => 'asc'])
+        );
     }
 
     /**

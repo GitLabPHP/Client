@@ -277,7 +277,7 @@ class Projects extends AbstractApi
     {
         return $this->post($this->getProjectPath($project_id, 'pipelines/'.$this->encodePath($pipeline_id)).'/cancel');
     }
-    
+
     /**
      * @param int|string $project_id
      * @param int $pipeline_id
@@ -287,9 +287,9 @@ class Projects extends AbstractApi
     {
         return $this->delete($this->getProjectPath($project_id, 'pipelines/'.$this->encodePath($pipeline_id)));
     }
-    
+
     /**
-     * @param integer $project_id
+     * @param int $project_id
      * @param array $parameters
      * @return mixed
      */
@@ -835,7 +835,7 @@ class Projects extends AbstractApi
     {
         return $this->get($this->getProjectPath($project_id, 'deployments/'.$this->encodePath($deployment_id)));
     }
-    
+
     /**
      * @param mixed $project_id
      * @param array $parameters
@@ -863,7 +863,7 @@ class Projects extends AbstractApi
 
         return $this->post($this->getProjectPath($project_id, 'share'), $resolver->resolve($parameters));
     }
-    
+
     /**
      * @param mixed $project_id
      * @param int $group_id
@@ -918,7 +918,7 @@ class Projects extends AbstractApi
      * @param int $badge_id
      * @param array $parameters
      * @return mixed
-    */
+     */
     public function updateBadge($project_id, $badge_id, array $parameters = array())
     {
         return $this->put($this->getProjectPath($project_id, 'badges/' . $this->encodePath($badge_id)), $parameters);

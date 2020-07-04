@@ -50,12 +50,12 @@ class ResultPagerTest extends TestCase
             ->getMock()
         ;
 
-        $response1 = (new Response)->withHeader('Link', '<https://example.gitlab.com/projects?page=2>; rel="next",');
-        $response2 = (new Response)->withHeader('Link', '<https://example.gitlab.com/projects?page=3>; rel="next",')
+        $response1 = (new Response())->withHeader('Link', '<https://example.gitlab.com/projects?page=2>; rel="next",');
+        $response2 = (new Response())->withHeader('Link', '<https://example.gitlab.com/projects?page=3>; rel="next",')
             ->withHeader('Content-Type', 'application/json')
             ->withBody(stream_for('["project3", "project4"]'))
         ;
-        $response3 = (new Response)->withHeader('Content-Type', 'application/json')
+        $response3 = (new Response())->withHeader('Content-Type', 'application/json')
             ->withBody(stream_for('["project5", "project6"]'))
         ;
 

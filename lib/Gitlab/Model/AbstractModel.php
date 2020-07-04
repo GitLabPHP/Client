@@ -109,7 +109,8 @@ abstract class AbstractModel
         if (!in_array($property, static::$properties)) {
             throw new RuntimeException(sprintf(
                 'Property "%s" does not exist for %s object',
-                $property, get_called_class()
+                $property,
+                get_called_class()
             ));
         }
 
