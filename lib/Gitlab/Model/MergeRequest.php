@@ -2,6 +2,7 @@
 
 namespace Gitlab\Model;
 
+use Gitlab\Api\MergeRequests;
 use Gitlab\Client;
 
 /**
@@ -17,8 +18,8 @@ use Gitlab\Client;
  * @property-read bool $closed
  * @property-read bool $merged
  * @property-read string $state
- * @property-read int $source_project_id
- * @property-read int $target_project_id
+ * @property-read int|string $source_project_id
+ * @property-read int|string $target_project_id
  * @property-read int $upvotes
  * @property-read int $downvotes
  * @property-read array $labels
@@ -202,11 +203,7 @@ class MergeRequest extends AbstractModel implements Notable, Stateful
      */
     public function isClosed()
     {
-        if (in_array($this->state, ['closed', 'merged'])) {
-            return true;
-        }
-
-        return false;
+        return MergeRequests::STATE_CLOSED === $this->state || MergeRequests::STATE_MERGED === $this->state;
     }
 
     /**

@@ -21,7 +21,13 @@ use Psr\Http\Message\ResponseInterface;
 final class GitlabExceptionThrower implements Plugin
 {
     /**
-     * {@inheritdoc}
+     * Handle the request and return the response coming from the next callable.
+     *
+     * @param RequestInterface $request
+     * @param callable         $next
+     * @param callable         $first
+     *
+     * @return Promise
      */
     public function handleRequest(RequestInterface $request, callable $next, callable $first): Promise
     {
@@ -36,6 +42,7 @@ final class GitlabExceptionThrower implements Plugin
                     }
                 }
 
+                /** @var array<string,mixed> $content */
                 $errorMessage = null;
                 if (isset($content['error'])) {
                     $errorMessage = $content['error'];

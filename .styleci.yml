@@ -1,8 +1,12 @@
 preset: symfony
 
 enabled:
+  - align_phpdoc
+  - alpha_ordered_imports
+  - array_indentation
   - short_array_syntax
 
 disabled:
   - phpdoc_no_empty_return
+  - phpdoc_to_comment
   - phpdoc_var_without_name

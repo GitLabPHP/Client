@@ -17,7 +17,7 @@ class MergeRequests extends AbstractApi
     public const STATE_CLOSED = 'closed';
 
     /**
-     * @param int|null $project_id Return the merge requests for all projects or a specific project
+     * @param int|null $project_id
      * @param array    $parameters {
      *
      *     @var int[]              $iids           return the request having the given iid
@@ -54,7 +54,7 @@ class MergeRequests extends AbstractApi
             })
         ;
         $resolver->setDefined('state')
-            ->setAllowedValues('state', ['all', 'opened', 'merged', 'closed'])
+            ->setAllowedValues('state', [self::STATE_ALL, self::STATE_MERGED, self::STATE_OPENED, self::STATE_CLOSED])
         ;
         $resolver->setDefined('scope')
             ->setAllowedValues('scope', ['created-by-me', 'assigned-to-me', 'all'])
@@ -131,11 +131,16 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int|string $project_id
-     * @param string     $source
-     * @param string     $target
-     * @param string     $title
-     * @param array      $parameters
+     * @param int|string          $project_id
+     * @param string              $source
+     * @param string              $target
+     * @param string              $title
+     * @param array<string,mixed> $parameters {
+     *
+     *     @var int        $assignee_id the assignee id
+     *     @var int|string $target_project_id the target project id
+     *     @var string     $description the description
+     * }
      *
      * @return mixed
      */

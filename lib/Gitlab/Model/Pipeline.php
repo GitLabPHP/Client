@@ -5,12 +5,22 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Commit.
+ * Class Pipeline.
  *
  * @property-read int $id
  * @property-read string $ref
  * @property-read string $sha
  * @property-read string $status
+ * @property-read Project $project
+ * @property-read array $variables
+ * @property-read string $created_at
+ * @property-read string $updated_at
+ * @property-read string $started_at
+ * @property-read string $finished_at
+ * @property-read string $committed_at
+ * @property-read int $duration
+ * @property-read string $web_url
+ * @property-read User $user
  */
 class Pipeline extends AbstractModel
 {
@@ -22,6 +32,16 @@ class Pipeline extends AbstractModel
         'ref',
         'sha',
         'status',
+        'project',
+        'variables',
+        'created_at',
+        'updated_at',
+        'started_at',
+        'finished_at',
+        'committed_at',
+        'duration',
+        'web_url',
+        'user',
     ];
 
     /**
@@ -34,6 +54,18 @@ class Pipeline extends AbstractModel
     public static function fromArray(Client $client, Project $project, array $data)
     {
         $pipeline = new self($project, $data['id'], $client);
+
+        if (isset($data['variables'])) {
+            $valueMap = [];
+            foreach ($data['variables'] as $variableData) {
+                $valueMap[$variableData['key']] = $variableData['value'];
+            }
+            $data['variables'] = $valueMap;
+        }
+
+        if (isset($data['user'])) {
+            $data['user'] = User::fromArray($client, $data['user']);
+        }
 
         return $pipeline->hydrate($data);
     }
@@ -50,5 +82,18 @@ class Pipeline extends AbstractModel
         $this->setClient($client);
         $this->setData('project', $project);
         $this->setData('id', $id);
+    }
+
+    /**
+     * @return Pipeline
+     */
+    public function show()
+    {
+        $projectsApi = $this->client->projects();
+
+        $data = $projectsApi->pipeline($this->project->id, $this->id);
+        $data['variables'] = $projectsApi->pipelineVariables($this->project->id, $this->id);
+
+        return static::fromArray($this->client, $this->project, $data);
     }
 }

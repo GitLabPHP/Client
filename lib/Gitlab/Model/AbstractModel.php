@@ -3,6 +3,7 @@
 namespace Gitlab\Model;
 
 use Gitlab\Client;
+use Gitlab\Exception\InvalidArgumentException;
 use Gitlab\Exception\RuntimeException;
 
 abstract class AbstractModel
@@ -45,7 +46,7 @@ abstract class AbstractModel
     }
 
     /**
-     * @param array $data
+     * @param array<string,mixed> $data
      *
      * @return $this
      */
@@ -66,7 +67,7 @@ abstract class AbstractModel
      */
     protected function setData($field, $value)
     {
-        if (in_array($field, static::$properties)) {
+        if (in_array($field, static::$properties, true)) {
             $this->data[$field] = $value;
         }
 
@@ -85,6 +86,8 @@ abstract class AbstractModel
      * @param string $property
      * @param mixed  $value
      *
+     * @return void
+     *
      * @throws RuntimeException
      */
     public function __set($property, $value)
@@ -96,10 +99,12 @@ abstract class AbstractModel
      * @param string $property
      *
      * @return mixed
+     *
+     * @throws RuntimeException
      */
     public function __get($property)
     {
-        if (!in_array($property, static::$properties)) {
+        if (!in_array($property, static::$properties, true)) {
             throw new RuntimeException(sprintf('Property "%s" does not exist for %s object', $property, get_called_class()));
         }
 

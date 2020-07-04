@@ -263,7 +263,7 @@ class Repositories extends AbstractApi
             ->setRequired('actions')
             ->setAllowedTypes('actions', 'array')
             ->setAllowedValues('actions', function (array $actions) {
-                return !empty($actions);
+                return 0 < count($actions);
             })
             ->setNormalizer('actions', function (Options $resolver, array $actions) {
                 $actionsOptionsResolver = new OptionsResolver();

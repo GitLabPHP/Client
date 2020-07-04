@@ -15,6 +15,8 @@ class MissingArgumentException extends ErrorException implements ExceptionInterf
      * @param string|array   $required
      * @param int            $code
      * @param Exception|null $previous
+     *
+     * @return void
      */
     public function __construct($required, $code = 0, $previous = null)
     {

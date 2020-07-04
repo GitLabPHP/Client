@@ -63,7 +63,9 @@ class Groups extends AbstractApi
             'shared_runners_minutes_limit' => $shared_runners_minutes_limit,
         ];
 
-        return $this->post('groups', array_filter($params, 'strlen'));
+        return $this->post('groups', array_filter($params, function ($value) {
+            return null !== $value && (!is_string($value) || strlen($value) > 0);
+        }));
     }
 
     /**

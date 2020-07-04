@@ -16,10 +16,10 @@ class IssueLinks extends AbstractApi
     }
 
     /**
-     * @param int $source_project_id
-     * @param int $source_issue_iid
-     * @param int $target_project_id
-     * @param int $target_issue_iid
+     * @param int|string $source_project_id
+     * @param int|string $source_issue_iid
+     * @param int|string $target_project_id
+     * @param int|string $target_issue_iid
      *
      * @return mixed
      */

@@ -1,12 +1,2 @@
 parameters:
 	ignoreErrors:
-		-
-			message: "#^Parameter \\#2 \\$callback of function array_filter expects callable\\(mixed, mixed\\)\\: bool, 'strlen' given\\.$#"
-			count: 1
-			path: lib/Gitlab/Api/Groups.php
-
-		-
-			message: "#^Method Gitlab\\\\Model\\\\AbstractModel\\:\\:__set\\(\\) has no return typehint specified\\.$#"
-			count: 1
-			path: lib/Gitlab/Model/AbstractModel.php
-
