@@ -8,22 +8,23 @@ use Gitlab\Api\ApiInterface;
 use Gitlab\HttpClient\Message\ResponseMediator;
 
 /**
- * Pager class for supporting pagination in Gitlab classes.
+ * This is the result pager class.
+ *
+ * @author Ramon de la Fuente <ramon@future500.nl>
+ * @author Mitchel Verschoof <mitchel@future500.nl>
+ * @author Graham Campbell <graham@alt-three.com>
  */
 class ResultPager implements ResultPagerInterface
 {
     /**
+     * The client to use for pagination.
+     *
      * @var \Gitlab\Client client
      */
     protected $client;
 
     /**
-     * The Gitlab client to use for pagination. This must be the same
-     * instance that you got the Api instance from, i.e.:.
-     *
-     * $client = new \Gitlab\Client();
-     * $api = $client->repositories();
-     * $pager = new \Gitlab\ResultPager($client);
+     * Create a new result pager instance.
      *
      * @param \Gitlab\Client $client
      *

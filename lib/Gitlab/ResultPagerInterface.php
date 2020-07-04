@@ -7,7 +7,11 @@ namespace Gitlab;
 use Gitlab\Api\ApiInterface;
 
 /**
- * Pager interface.
+ * This is the result pager interface.
+ *
+ * @author Ramon de la Fuente <ramon@future500.nl>
+ * @author Mitchel Verschoof <mitchel@future500.nl>
+ * @author Graham Campbell <graham@alt-three.com>
  */
 interface ResultPagerInterface
 {
