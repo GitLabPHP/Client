@@ -124,7 +124,7 @@ class ResultPager implements ResultPagerInterface
     /**
      * @param string $key
      *
-     * @return array
+     * @return array<string,mixed>
      */
     protected function get($key)
     {
@@ -134,6 +134,7 @@ class ResultPager implements ResultPagerInterface
 
         $pagination = ResponseMediator::getPagination($this->client->getLastResponse());
 
+        /** @var array<string,mixed> */
         return ResponseMediator::getContent($this->client->getHttpClient()->get($pagination[$key]));
     }
 }

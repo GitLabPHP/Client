@@ -5,8 +5,8 @@ namespace Gitlab\Api;
 class Issues extends AbstractApi
 {
     /**
-     * @param int|null $project_id
-     * @param array    $parameters {
+     * @param int|string|null $project_id
+     * @param array           $parameters {
      *
      *     @var string $state     return all issues or just those that are opened or closed
      *     @var string $labels    Comma-separated list of label names, issues must have all labels to be returned.
@@ -79,7 +79,7 @@ class Issues extends AbstractApi
     /**
      * @param int|string $project_id
      * @param int        $issue_iid
-     * @param int        $to_project_id
+     * @param int|string $to_project_id
      *
      * @return mixed
      */

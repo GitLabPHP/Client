@@ -29,7 +29,11 @@ class History implements Journal
     }
 
     /**
-     * {@inheritdoc}
+     * Record a successful call.
+     *
+     * @param RequestInterface $request
+     * @param ResponseInterface $response
+     * @return void
      */
     public function addSuccess(RequestInterface $request, ResponseInterface $response)
     {

@@ -17,8 +17,8 @@ use Gitlab\Client;
  * @property-read bool $closed
  * @property-read bool $merged
  * @property-read string $state
- * @property-read int $source_project_id
- * @property-read int $target_project_id
+ * @property-read int|string $source_project_id
+ * @property-read int|string $target_project_id
  * @property-read int $upvotes
  * @property-read int $downvotes
  * @property-read array $labels

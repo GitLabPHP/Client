@@ -847,11 +847,11 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $source
-     * @param string $target
-     * @param string $title
-     * @param int    $assignee
-     * @param string $description
+     * @param string      $source
+     * @param string      $target
+     * @param string      $title
+     * @param int|null    $assignee
+     * @param string|null $description
      *
      * @return MergeRequest
      */

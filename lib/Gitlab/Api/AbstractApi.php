@@ -3,6 +3,7 @@
 namespace Gitlab\Api;
 
 use Gitlab\Client;
+use Gitlab\Exception\RuntimeException;
 use Gitlab\HttpClient\Message\QueryStringBuilder;
 use Gitlab\HttpClient\Message\ResponseMediator;
 use Http\Discovery\StreamFactoryDiscovery;
@@ -58,9 +59,9 @@ abstract class AbstractApi implements ApiInterface
     /**
      * Performs a GET query and returns the response as a PSR-7 response object.
      *
-     * @param string $path
-     * @param array  $parameters
-     * @param array  $requestHeaders
+     * @param string               $path
+     * @param array<string,mixed>  $parameters
+     * @param array<string,string> $requestHeaders
      *
      * @return ResponseInterface
      */
@@ -72,9 +73,9 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param string $path
-     * @param array  $parameters
-     * @param array  $requestHeaders
+     * @param string               $path
+     * @param array<string,mixed>  $parameters
+     * @param array<string,string> $requestHeaders
      *
      * @return mixed
      */
@@ -84,10 +85,10 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param string $path
-     * @param array  $parameters
-     * @param array  $requestHeaders
-     * @param array  $files
+     * @param string               $path
+     * @param array<string,mixed>  $parameters
+     * @param array<string,string> $requestHeaders
+     * @param array<string,string> $files
      *
      * @return mixed
      */
@@ -107,7 +108,7 @@ abstract class AbstractApi implements ApiInterface
             }
 
             foreach ($files as $name => $file) {
-                $builder->addResource($name, fopen($file, 'r'), [
+                $builder->addResource($name, self::tryFopen($file, 'r'), [
                     'headers' => [
                         'Content-Type' => $this->guessContentType($file),
                     ],
@@ -125,9 +126,10 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param string $path
-     * @param array  $parameters
-     * @param array  $requestHeaders
+     * @param string               $path
+     * @param array<string,mixed>  $parameters
+     * @param array<string,string> $requestHeaders
+     * @param array<string,string> $files
      *
      * @return mixed
      */
@@ -147,7 +149,7 @@ abstract class AbstractApi implements ApiInterface
             }
 
             foreach ($files as $name => $file) {
-                $builder->addResource($name, fopen($file, 'r'), [
+                $builder->addResource($name, self::tryFopen($file, 'r'), [
                     'headers' => [
                         'Content-Type' => $this->guessContentType($file),
                     ],
@@ -165,9 +167,9 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param string $path
-     * @param array  $parameters
-     * @param array  $requestHeaders
+     * @param string               $path
+     * @param array<string,mixed>  $parameters
+     * @param array<string,string> $requestHeaders
      *
      * @return mixed
      */
@@ -278,6 +280,44 @@ abstract class AbstractApi implements ApiInterface
         }
         $finfo = new \finfo(FILEINFO_MIME_TYPE);
 
-        return $finfo->file($file);
+        return $finfo->file($file) ?: 'application/octet-stream';
+    }
+
+    /**
+     * Safely opens a PHP stream resource using a filename.
+     *
+     * When fopen fails, PHP normally raises a warning. This function adds an
+     * error handler that checks for errors and throws an exception instead.
+     *
+     * @param string $filename File to open
+     * @param string $mode     Mode used to open the file
+     *
+     * @return resource
+     *
+     * @throws RuntimeException if the file cannot be opened
+     *
+     * @see https://github.com/guzzle/psr7/blob/1.6.1/src/functions.php#L287-L320
+     */
+    private static function tryFopen($filename, $mode)
+    {
+        $ex = null;
+        set_error_handler(function () use ($filename, $mode, &$ex) {
+            $ex = new RuntimeException(sprintf(
+                'Unable to open %s using mode %s: %s',
+                $filename,
+                $mode,
+                func_get_args()[1]
+            ));
+        });
+
+        $handle = fopen($filename, $mode);
+        restore_error_handler();
+
+        if (null !== $ex) {
+            throw $ex;
+        }
+
+        /** @var resource */
+        return $handle;
     }
 }

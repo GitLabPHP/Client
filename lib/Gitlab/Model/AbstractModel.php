@@ -3,8 +3,8 @@
 namespace Gitlab\Model;
 
 use Gitlab\Api\AbstractApi;
-use Gitlab\Exception\InvalidArgumentException;
 use Gitlab\Client;
+use Gitlab\Exception\InvalidArgumentException;
 use Gitlab\Exception\RuntimeException;
 
 abstract class AbstractModel
@@ -63,7 +63,7 @@ abstract class AbstractModel
     }
 
     /**
-     * @param array $data
+     * @param array<string,mixed> $data
      *
      * @return $this
      */
@@ -103,6 +103,8 @@ abstract class AbstractModel
      * @param string $property
      * @param mixed  $value
      *
+     * @return void
+     *
      * @throws RuntimeException
      */
     public function __set($property, $value)
@@ -114,6 +116,8 @@ abstract class AbstractModel
      * @param string $property
      *
      * @return mixed
+     *
+     * @throws RuntimeException
      */
     public function __get($property)
     {
