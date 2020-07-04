@@ -12,8 +12,10 @@ use Psr\Http\Message\RequestInterface;
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  * @author Fabien Bourigault <bourigaultfabien@gmail.com>
+ *
+ * @internal
  */
-class Authentication implements Plugin
+final class Authentication implements Plugin
 {
     /**
      * @var string

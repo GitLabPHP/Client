@@ -11,8 +11,10 @@ use Psr\Http\Message\ResponseInterface;
  * Prefix requests path with /api/v4/ if required.
  *
  * @author Fabien Bourigault <bourigaultfabien@gmail.com>
+ *
+ * @internal
  */
-class ApiVersion implements Plugin
+final class ApiVersion implements Plugin
 {
     /**
      * @var bool

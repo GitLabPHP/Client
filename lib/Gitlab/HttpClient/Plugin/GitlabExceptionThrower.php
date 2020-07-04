@@ -15,8 +15,10 @@ use Psr\Http\Message\ResponseInterface;
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  * @author Fabien Bourigault <bourigaultfabien@gmail.com>
+ *
+ * @internal
  */
-class GitlabExceptionThrower implements Plugin
+final class GitlabExceptionThrower implements Plugin
 {
     /**
      * {@inheritdoc}
