@@ -6,16 +6,6 @@ parameters:
 			path: lib/Gitlab/Api/Groups.php
 
 		-
-			message: "#^Method Gitlab\\\\HttpClient\\\\Plugin\\\\History\\:\\:addSuccess\\(\\) has no return typehint specified\\.$#"
-			count: 1
-			path: lib/Gitlab/HttpClient/Plugin/History.php
-
-		-
-			message: "#^Method Gitlab\\\\HttpClient\\\\Plugin\\\\History\\:\\:addFailure\\(\\) has no return typehint specified\\.$#"
-			count: 1
-			path: lib/Gitlab/HttpClient/Plugin/History.php
-
-		-
 			message: "#^Method Gitlab\\\\Model\\\\AbstractModel\\:\\:__set\\(\\) has no return typehint specified\\.$#"
 			count: 1
 			path: lib/Gitlab/Model/AbstractModel.php
