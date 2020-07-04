@@ -8,13 +8,13 @@ use Symfony\Component\OptionsResolver\Options;
 
 class MergeRequests extends AbstractApi
 {
-    const STATE_ALL = 'all';
+    public const STATE_ALL = 'all';
 
-    const STATE_MERGED = 'merged';
+    public const STATE_MERGED = 'merged';
 
-    const STATE_OPENED = 'opened';
+    public const STATE_OPENED = 'opened';
 
-    const STATE_CLOSED = 'closed';
+    public const STATE_CLOSED = 'closed';
 
     /**
      * @param int|null $project_id Return the merge requests for all projects or a specific project

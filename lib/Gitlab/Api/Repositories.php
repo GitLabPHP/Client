@@ -7,9 +7,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Repositories extends AbstractApi
 {
-    const TYPE_BRANCH = 'branch';
+    public const TYPE_BRANCH = 'branch';
 
-    const TYPE_TAG = 'tag';
+    public const TYPE_TAG = 'tag';
 
     /**
      * @param int   $project_id

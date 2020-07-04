@@ -61,19 +61,19 @@ class Client
      * Constant for authentication method. Indicates the default, but deprecated
      * login with username and token in URL.
      */
-    const AUTH_URL_TOKEN = 'url_token';
+    public const AUTH_URL_TOKEN = 'url_token';
 
     /**
      * Constant for authentication method. Indicates the new login method with
      * with username and token via HTTP Authentication.
      */
-    const AUTH_HTTP_TOKEN = 'http_token';
+    public const AUTH_HTTP_TOKEN = 'http_token';
 
     /**
      * Constant for authentication method. Indicates the OAuth method with a key
      * obtain using Gitlab's OAuth provider.
      */
-    const AUTH_OAUTH_TOKEN = 'oauth_token';
+    public const AUTH_OAUTH_TOKEN = 'oauth_token';
 
     /**
      * @var Builder
