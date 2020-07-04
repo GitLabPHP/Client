@@ -88,8 +88,8 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param int $group_id
-     * @param int $project_id
+     * @param int        $group_id
+     * @param int|string $project_id
      *
      * @return mixed
      */

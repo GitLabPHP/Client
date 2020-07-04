@@ -5,7 +5,7 @@ namespace Gitlab\Api;
 class Tags extends AbstractApi
 {
     /**
-     * @param int $project_id
+     * @param int|string $project_id
      *
      * @return mixed
      */
@@ -15,8 +15,8 @@ class Tags extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
-     * @param string $tag_name
+     * @param int|string $project_id
+     * @param string     $tag_name
      *
      * @return mixed
      */
@@ -26,8 +26,8 @@ class Tags extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
-     * @param array $params
+     * @param int|string $project_id
+     * @param array      $params
      *
      * @return mixed
      */
@@ -37,8 +37,8 @@ class Tags extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
-     * @param string $tag_name
+     * @param int|string $project_id
+     * @param string     $tag_name
      *
      * @return mixed
      */
@@ -48,9 +48,9 @@ class Tags extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
-     * @param string $tag_name
-     * @param array  $params
+     * @param int|string $project_id
+     * @param string     $tag_name
+     * @param array      $params
      *
      * @return mixed
      */
@@ -60,9 +60,9 @@ class Tags extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
-     * @param string $tag_name
-     * @param array  $params
+     * @param int|string $project_id
+     * @param string     $tag_name
+     * @param array      $params
      *
      * @return mixed
      */
