@@ -119,9 +119,13 @@ class Client
      * @param string $url
      *
      * @return Client
+     *
+     * @deprecated since version 9.18 and will be removed in 10.0. Use the setUrl() method after instantiation instead.
      */
     public static function create($url)
     {
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the setUrl() method after instantiation instead.', __METHOD__), E_USER_DEPRECATED);
+
         $client = new self();
         $client->setUrl($url);
 
@@ -129,7 +133,7 @@ class Client
     }
 
     /**
-     * Create a Gitlab\Client using an HttpClient.
+     * Create a Gitlab\Client using an Http client.
      *
      * @param HttpClient $httpClient
      *
