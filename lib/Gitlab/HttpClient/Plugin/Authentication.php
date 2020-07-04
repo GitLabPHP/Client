@@ -3,6 +3,7 @@
 namespace Gitlab\HttpClient\Plugin;
 
 use Gitlab\Client;
+use Gitlab\Exception\RuntimeException;
 use Http\Client\Common\Plugin;
 use Http\Promise\Promise;
 use Psr\Http\Message\RequestInterface;
@@ -18,19 +19,9 @@ use Psr\Http\Message\RequestInterface;
 final class Authentication implements Plugin
 {
     /**
-     * @var string
+     * @var array<string,string>
      */
-    private $method;
-
-    /**
-     * @var string
-     */
-    private $token;
-
-    /**
-     * @var string|null
-     */
-    private $sudo;
+    private $headers;
 
     /**
      * @param string      $method
@@ -41,9 +32,7 @@ final class Authentication implements Plugin
      */
     public function __construct(string $method, string $token, string $sudo = null)
     {
-        $this->method = $method;
-        $this->token = $token;
-        $this->sudo = $sudo;
+        $this->headers = self::buildHeaders($method, $token, $sudo);
     }
 
     /**
@@ -51,24 +40,45 @@ final class Authentication implements Plugin
      */
     public function handleRequest(RequestInterface $request, callable $next, callable $first): Promise
     {
-        switch ($this->method) {
-            case Client::AUTH_HTTP_TOKEN:
-                $request = $request->withHeader('PRIVATE-TOKEN', $this->token);
-                if (!is_null($this->sudo)) {
-                    $request = $request->withHeader('SUDO', $this->sudo);
-                }
-
-                break;
-
-            case Client::AUTH_OAUTH_TOKEN:
-                $request = $request->withHeader('Authorization', 'Bearer '.$this->token);
-                if (!is_null($this->sudo)) {
-                    $request = $request->withHeader('SUDO', $this->sudo);
-                }
-
-                break;
+        foreach ($this->headers as $header => $value) {
+            $request = $request->withHeader($header, $value);
         }
 
         return $next($request);
+    }
+
+    /**
+     * Build the headers to be attached to the request.
+     *
+     * @param string      $method
+     * @param string      $token
+     * @param string|null $sudo
+     *
+     * @throws RuntimeException
+     *
+     * @return array<string,string>
+     */
+    private static function buildHeaders(string $method, string $token, string $sudo = null)
+    {
+        $headers = [];
+
+        switch ($method) {
+            case Client::AUTH_HTTP_TOKEN:
+                $headers['PRIVATE-TOKEN'] = $token;
+
+                break;
+            case Client::AUTH_OAUTH_TOKEN:
+                $headers['Authorization'] = sprintf('Bearer %s', $token);
+
+                break;
+            default:
+                throw new RuntimeException(sprintf('Authentication method "%s" not implemented.', $method));
+        }
+
+        if (null !== $sudo) {
+            $headers['SUDO'] = $sudo;
+        }
+
+        return $headers;
     }
 }

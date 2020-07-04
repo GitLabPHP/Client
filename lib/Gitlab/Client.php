@@ -310,10 +310,6 @@ class Client
      */
     public function authenticate(string $token, string $authMethod, string $sudo = null)
     {
-        if (self::AUTH_HTTP_TOKEN !== $authMethod && self::AUTH_OAUTH_TOKEN !== $authMethod) {
-            @trigger_error(sprintf('Passing an invalid authentication method is deprecated since version 9.1 and will be banned in version 10.0.'), E_USER_DEPRECATED);
-        }
-
         $this->getHttpClientBuilder()->removePlugin(Authentication::class);
         $this->getHttpClientBuilder()->addPlugin(new Authentication($authMethod, $token, $sudo));
 

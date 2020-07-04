@@ -755,7 +755,7 @@ class ProjectsTest extends TestCase
             ->with('projects/1/members', ['query' => 'at'])
             ->will($this->returnValue($expectedArray));
 
-        $this->assertEquals($expectedArray, $api->members(1, 'at'));
+        $this->assertEquals($expectedArray, $api->members(1, ['query' => 'at']));
     }
 
     /**
@@ -774,7 +774,7 @@ class ProjectsTest extends TestCase
             ->with('projects/1/members')
             ->will($this->returnValue($expectedArray));
 
-        $this->assertEquals($expectedArray, $api->members(1, null));
+        $this->assertEquals($expectedArray, $api->members(1));
     }
 
     /**

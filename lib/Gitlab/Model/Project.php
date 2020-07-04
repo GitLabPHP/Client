@@ -835,21 +835,24 @@ class Project extends AbstractModel
      * @param string $source
      * @param string $target
      * @param string $title
-     * @param int    $assignee
-     * @param string $description
+     * @param array  $parameters {
+     *
+     *     @var int    $assignee
+     *     @var string $description
+     * }
      *
      * @return MergeRequest
      */
-    public function createMergeRequest($source, $target, $title, $assignee = null, $description = null)
+    public function createMergeRequest($source, $target, $title, array $parameters = [])
     {
+        $parameters['target_project_id'] = $this->id;
+
         $data = $this->client->mergeRequests()->create(
             $this->id,
             $source,
             $target,
             $title,
-            $assignee,
-            $this->id,
-            $description
+            $parameters
         );
 
         return MergeRequest::fromArray($this->getClient(), $this, $data);
