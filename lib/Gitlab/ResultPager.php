@@ -20,7 +20,7 @@ class ResultPager implements ResultPagerInterface
      * instance that you got the Api instance from, i.e.:.
      *
      * $client = new \Gitlab\Client();
-     * $api = $client->api('someApi');
+     * $api = $client->repositories();
      * $pager = new \Gitlab\ResultPager($client);
      *
      * @param \Gitlab\Client $client
