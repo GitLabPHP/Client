@@ -7,7 +7,6 @@ use Gitlab\Client;
 /**
  * @property-read string $tag_name
  * @property-read string $description
- * @property-read Commit $commit
  */
 class Release extends AbstractModel
 {
