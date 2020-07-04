@@ -192,7 +192,7 @@ class Projects extends AbstractApi
      */
     public function triggers($project_id)
     {
-        return $this->get("projects/{$this->encodePath($project_id)}/triggers");
+        return $this->get('projects/'.$this->encodePath($project_id).'/triggers');
     }
 
     /**
@@ -203,7 +203,7 @@ class Projects extends AbstractApi
      */
     public function trigger($project_id, $trigger_id)
     {
-        return $this->get("projects/{$this->encodePath($project_id)}/triggers/{$trigger_id}");
+        return $this->get($this->getProjectPath($project_id, 'triggers/'.$this->encodePath($trigger_id)));
     }
 
     /**
@@ -297,7 +297,7 @@ class Projects extends AbstractApi
      */
     public function pipelineVariables($project_id, $pipeline_id)
     {
-        return $this->get($this->getProjectPath($project_id, "pipelines/{$this->encodePath($pipeline_id)}/variables"));
+        return $this->get($this->getProjectPath($project_id, 'pipelines/'.$this->encodePath($pipeline_id).'/variables'));
     }
 
     /**
