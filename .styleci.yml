@@ -1,4 +1,12 @@
-preset: psr2
+preset: psr12
 
 enabled:
-  - blank_line_after_opening_tag
+  - array_indentation
+  - cast_spaces
+  - no_empty_phpdoc
+  - phpdoc_indent
+  - phpdoc_scalar
+  - short_scalar_cast
+
+disabled:
+  - concat_with_spaces
