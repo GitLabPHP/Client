@@ -663,8 +663,8 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $sha
-     * @param string $filepath
+     * @param $sha
+     * @param $filepath
      *
      * @return array
      */
@@ -1290,6 +1290,72 @@ class Project extends AbstractModel
         }
 
         return $contributors;
+    }
+
+    /**
+     * @return Trigger[]
+     */
+    public function triggers()
+    {
+        $data = $this->client->projects()->triggers($this->id);
+
+        $triggers = [];
+        foreach ($data as $triggerData)
+        {
+            $triggers[] = Trigger::fromArray($this->client, $this, $triggerData);
+        }
+
+        return $triggers;
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return Trigger
+     */
+    public function trigger($id)
+    {
+        $trigger = new Trigger($this, $id, $this->client);
+
+        return $trigger->show();
+    }
+
+    /**
+     * @param string $description
+     *
+     * @return Trigger
+     */
+    public function createTrigger($description)
+    {
+        $data = $this->client->projects()->createTrigger($this->id, $description);
+
+        return Trigger::fromArray($this->client, $this, $data);
+    }
+
+    /**
+     * @param int $id
+     * @return Pipeline
+     */
+    public function pipeline($id)
+    {
+        $pipeline = new Pipeline($this, $id, $this->client);
+
+        return $pipeline->show();
+    }
+
+    /**
+     * @return Pipeline[]
+     */
+    public function pipelines()
+    {
+        $data = $this->client->projects()->pipelines($this->id);
+
+        $pipelines = [];
+        foreach ($data as $pipelineData) {
+            $pipelines[] = Pipeline::fromArray($this->client, $this, $pipelineData);
+        }
+
+        return $pipelines;
     }
 
     /**
