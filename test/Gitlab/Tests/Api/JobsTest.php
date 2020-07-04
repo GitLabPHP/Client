@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Tests\Api;
+<?php
+
+namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\Jobs;
 use GuzzleHttp\Psr7\Response;

@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Tests\Api;
+<?php
+
+namespace Gitlab\Tests\Api;
 
 class MilestonesTest extends TestCase
 {
