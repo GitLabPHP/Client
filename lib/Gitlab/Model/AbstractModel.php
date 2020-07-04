@@ -15,7 +15,7 @@ abstract class AbstractModel
     protected static $properties;
 
     /**
-     * @var array
+     * @var array<string,mixed>
      */
     protected $data = [];
 
