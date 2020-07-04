@@ -162,8 +162,10 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int    $id
-     * @param Client $client
+     * @param int|null    $id
+     * @param Client|null $client
+     *
+     * @return void
      */
     public function __construct($id = null, Client $client = null)
     {
@@ -250,13 +252,13 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $username_query
+     * @param string|null $username_query
      *
      * @return User[]
      */
     public function members($username_query = null)
     {
-        $data = $this->client->projects()->members($this->id, $username_query);
+        $data = $this->client->projects()->members($this->id, ['query' => $username_query]);
 
         $members = [];
         foreach ($data as $member) {
@@ -427,7 +429,7 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $key_id
+     * @param int $key_id
      *
      * @return bool
      */
@@ -439,7 +441,7 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $key_id
+     * @param int $key_id
      *
      * @return bool
      */
@@ -656,10 +658,25 @@ class Project extends AbstractModel
      * @param string $filepath
      *
      * @return string
+     *
+     * @deprecated deprecated since version 9.18 and will be removed in 10.0. Use the getRawFile() method instead.
      */
     public function blob($sha, $filepath)
     {
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the getRawFile() method instead.', __METHOD__), E_USER_DEPRECATED);
+
         return $this->client->repositories()->blob($this->id, $sha, $filepath);
+    }
+
+    /**
+     * @param string $sha
+     * @param string $filepath
+     *
+     * @return string
+     */
+    public function getRawFile($sha, $filepath)
+    {
+        return $this->client->repositoryFiles()->getRawFile($this->id, $sha, $filepath);
     }
 
     /**
@@ -670,7 +687,7 @@ class Project extends AbstractModel
      */
     public function getFile($sha, $filepath)
     {
-        return $this->client->repositories()->getFile($this->id, $filepath, $sha);
+        return $this->client->repositoryFiles()->getFile($this->id, $filepath, $sha);
     }
 
     /**
@@ -712,12 +729,12 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $file_path
-     * @param string $content
-     * @param string $branch_name
-     * @param string $commit_message
-     * @param string $author_email
-     * @param string $author_name
+     * @param string      $file_path
+     * @param string      $content
+     * @param string      $branch_name
+     * @param string      $commit_message
+     * @param string|null $author_email
+     * @param string|null $author_name
      *
      * @return File
      */
@@ -750,11 +767,11 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $file_path
-     * @param string $branch_name
-     * @param string $commit_message
-     * @param string $author_email
-     * @param string $author_name
+     * @param string      $file_path
+     * @param string      $branch_name
+     * @param string      $commit_message
+     * @param string|null $author_email
+     * @param string|null $author_name
      *
      * @return bool
      */
@@ -961,8 +978,8 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int    $iid
-     * @param string $comment
+     * @param int         $iid
+     * @param string|null $comment
      *
      * @return Issue
      */

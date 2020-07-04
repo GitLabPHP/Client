@@ -20,10 +20,12 @@ class ResultPager implements ResultPagerInterface
      * instance that you got the Api instance from, i.e.:.
      *
      * $client = new \Gitlab\Client();
-     * $api = $client->api('someApi');
+     * $api = $client->repositories();
      * $pager = new \Gitlab\ResultPager($client);
      *
      * @param \Gitlab\Client $client
+     *
+     * @return void
      */
     public function __construct(Client $client)
     {
@@ -100,11 +102,13 @@ class ResultPager implements ResultPagerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $key
+     *
+     * @return bool
      */
     protected function has($key)
     {
-        $lastResponse = $this->client->getResponseHistory()->getLastResponse();
+        $lastResponse = $this->client->getLastResponse();
         if (null == $lastResponse) {
             return false;
         }
@@ -118,7 +122,9 @@ class ResultPager implements ResultPagerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $key
+     *
+     * @return array
      */
     protected function get($key)
     {
@@ -126,7 +132,7 @@ class ResultPager implements ResultPagerInterface
             return [];
         }
 
-        $pagination = ResponseMediator::getPagination($this->client->getResponseHistory()->getLastResponse());
+        $pagination = ResponseMediator::getPagination($this->client->getLastResponse());
 
         return ResponseMediator::getContent($this->client->getHttpClient()->get($pagination[$key]));
     }

@@ -195,7 +195,95 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetIssueComments()
+    public function shouldGetNotes()
+    {
+        $expectedArray = [
+            ['id' => 1, 'body' => 'A note'],
+            ['id' => 2, 'body' => 'Another note'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/issues/2/notes')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->showNotes(1, 2));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetNote()
+    {
+        $expectedArray = ['id' => 3, 'body' => 'A new note'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/issues/2/notes/3')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->showNote(1, 2, 3));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreateNote()
+    {
+        $expectedArray = ['id' => 3, 'body' => 'A new note'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/issues/2/notes', ['body' => 'A new note'])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->addNote(1, 2, 'A new note'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUpdateNote()
+    {
+        $expectedArray = ['id' => 3, 'body' => 'An edited comment'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/issues/2/notes/3', ['body' => 'An edited comment'])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->updateNote(1, 2, 3, 'An edited comment'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRemoveNote()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/issues/2/notes/3')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->removeNote(1, 2, 3));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetComments()
     {
         $expectedArray = [
             ['id' => 1, 'body' => 'A comment'],
@@ -215,7 +303,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetIssueComment()
+    public function shouldGetComment()
     {
         $expectedArray = ['id' => 3, 'body' => 'A new comment'];
 
@@ -459,7 +547,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetIssueAwardEmoji()
+    public function shouldIssueAwardEmoji()
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'sparkles'],
@@ -474,6 +562,23 @@ class IssuesTest extends TestCase
         ;
 
         $this->assertEquals($expectedArray, $api->awardEmoji(1, 2));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRevokeAwardEmoji()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/issues/2/award_emoji/3')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals(true, $api->removeAwardEmoji(1, 2, 3));
     }
 
     /**

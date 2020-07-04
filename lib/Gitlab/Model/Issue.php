@@ -22,7 +22,7 @@ use Gitlab\Client;
  * @property-read Milestone $milestone
  * @property-read Project $project
  */
-class Issue extends AbstractModel implements Noteable
+class Issue extends AbstractModel implements Noteable, Notable
 {
     /**
      * @var array
@@ -67,9 +67,11 @@ class Issue extends AbstractModel implements Noteable
     }
 
     /**
-     * @param Project $project
-     * @param int     $iid
-     * @param Client  $client
+     * @param Project     $project
+     * @param int|null    $iid
+     * @param Client|null $client
+     *
+     * @return void
      */
     public function __construct(Project $project, $iid = null, Client $client = null)
     {
@@ -113,14 +115,14 @@ class Issue extends AbstractModel implements Noteable
     }
 
     /**
-     * @param string|null $comment
+     * @param string|null $note
      *
      * @return Issue
      */
-    public function close($comment = null)
+    public function close($note = null)
     {
-        if ($comment) {
-            $this->addComment($comment);
+        if (null !== $note) {
+            $this->addNote($note);
         }
 
         return $this->update([
@@ -147,13 +149,33 @@ class Issue extends AbstractModel implements Noteable
     }
 
     /**
+     * @param string $body
+     *
+     * @return Note
+     */
+    public function addNote($body)
+    {
+        $data = $this->client->issues()->addNote($this->project->id, $this->iid, $body);
+
+        return Note::fromArray($this->getClient(), $this, $data);
+    }
+
+    /**
      * @param string      $comment
      * @param string|null $created_at
      *
      * @return Note
+     *
+     * @deprecated since version 9.18 and will be removed in 10.0. Use the addNote() method instead.
      */
     public function addComment($comment, $created_at = null)
     {
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the addNote() method instead.', __METHOD__), E_USER_DEPRECATED);
+
+        if (null === $created_at) {
+            return $this->addNote($comment);
+        }
+
         $data = $this->client->issues()->addComment($this->project->id, $this->iid, [
             'body' => $comment,
             'created_at' => $created_at,
@@ -164,11 +186,15 @@ class Issue extends AbstractModel implements Noteable
 
     /**
      * @return Note[]
+     *
+     * @deprecated since version 9.18 and will be removed in 10.0. Use the result pager with the conventional API methods.
      */
     public function showComments()
     {
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the result pager with the conventional API methods.', __METHOD__), E_USER_DEPRECATED);
+
         $notes = [];
-        $data = $this->client->issues()->showComments($this->project->id, $this->iid);
+        $data = $this->client->issues()->showNotes($this->project->id, $this->iid);
 
         foreach ($data as $note) {
             $notes[] = Note::fromArray($this->getClient(), $this, $note);

@@ -3,6 +3,7 @@
 namespace Gitlab\Model;
 
 use Gitlab\Api\AbstractApi;
+use Gitlab\Exception\InvalidArgumentException;
 use Gitlab\Client;
 use Gitlab\Exception\RuntimeException;
 
@@ -32,7 +33,7 @@ abstract class AbstractModel
     }
 
     /**
-     * @param Client $client
+     * @param Client|null $client
      *
      * @return $this
      */
@@ -46,13 +47,19 @@ abstract class AbstractModel
     }
 
     /**
-     * @param string $api
+     * @param string $name
      *
      * @return AbstractApi|mixed
+     *
+     * @throws InvalidArgumentException
+     *
+     * @deprecated since version 9.18 and will be removed in 10.0. Use the direct methods instead.
      */
-    public function api($api)
+    public function api($name)
     {
-        return $this->getClient()->api($api);
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the direct methods instead.', __METHOD__), E_USER_DEPRECATED);
+
+        return $this->getClient()->api($name);
     }
 
     /**
@@ -62,10 +69,8 @@ abstract class AbstractModel
      */
     protected function hydrate(array $data = [])
     {
-        if (!empty($data)) {
-            foreach ($data as $field => $value) {
-                $this->setData($field, $value);
-            }
+        foreach ($data as $field => $value) {
+            $this->setData($field, $value);
         }
 
         return $this;

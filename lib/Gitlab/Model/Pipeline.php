@@ -71,9 +71,11 @@ class Pipeline extends AbstractModel
     }
 
     /**
-     * @param Project $project
-     * @param int     $id
-     * @param Client  $client
+     * @param Project     $project
+     * @param int|null    $id
+     * @param Client|null $client
+     *
+     * @return void
      */
     public function __construct(Project $project, $id = null, Client $client = null)
     {

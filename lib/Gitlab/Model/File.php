@@ -37,9 +37,11 @@ class File extends AbstractModel
     }
 
     /**
-     * @param Project $project
-     * @param string  $file_path
-     * @param Client  $client
+     * @param Project     $project
+     * @param string|null $file_path
+     * @param Client|null $client
+     *
+     * @return void
      */
     public function __construct(Project $project, $file_path = null, Client $client = null)
     {

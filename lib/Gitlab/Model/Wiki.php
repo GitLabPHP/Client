@@ -41,9 +41,11 @@ class Wiki extends AbstractModel
     }
 
     /**
-     * @param Project $project
-     * @param string  $slug
-     * @param Client  $client
+     * @param Project     $project
+     * @param string|null $slug
+     * @param Client|null $client
+     *
+     * @return void
      */
     public function __construct(Project $project, $slug = null, Client $client = null)
     {

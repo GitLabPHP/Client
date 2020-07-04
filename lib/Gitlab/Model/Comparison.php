@@ -65,8 +65,10 @@ class Comparison extends AbstractModel
     }
 
     /**
-     * @param Project $project
-     * @param Client  $client
+     * @param Project     $project
+     * @param Client|null $client
+     *
+     * @return void
      */
     public function __construct(Project $project, Client $client = null)
     {

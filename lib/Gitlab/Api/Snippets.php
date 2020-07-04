@@ -84,8 +84,84 @@ class Snippets extends AbstractApi
      *
      * @return mixed
      */
+    public function showNotes($project_id, $snippet_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'snippets/'.$this->encodePath($snippet_id).'/notes'));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $snippet_id
+     * @param int $note_id
+     *
+     * @return mixed
+     */
+    public function showNote($project_id, $snippet_id, $note_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'snippets/'.$this->encodePath($snippet_id).'/notes/'.$this->encodePath($note_id)));
+    }
+
+    /**
+     * @param int    $project_id
+     * @param int    $snippet_id
+     * @param string $body
+     *
+     * @return mixed
+     */
+    public function addNote($project_id, $snippet_id, $body)
+    {
+        return $this->post($this->getProjectPath($project_id, 'snippets/'.$this->encodePath($snippet_id).'/notes'), [
+            'body' => $body,
+        ]);
+    }
+
+    /**
+     * @param int    $project_id
+     * @param int    $snippet_id
+     * @param int    $note_id
+     * @param string $body
+     *
+     * @return mixed
+     */
+    public function updateNote($project_id, $snippet_id, $note_id, $body)
+    {
+        return $this->put($this->getProjectPath($project_id, 'snippets/'.$this->encodePath($snippet_id).'/notes/'.$this->encodePath($note_id)), [
+            'body' => $body,
+        ]);
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $snippet_id
+     * @param int $note_id
+     *
+     * @return mixed
+     */
+    public function removeNote($project_id, $snippet_id, $note_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'snippets/'.$this->encodePath($snippet_id).'/notes/'.$this->encodePath($note_id)));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $snippet_id
+     *
+     * @return mixed
+     */
     public function awardEmoji($project_id, $snippet_id)
     {
         return $this->get($this->getProjectPath($project_id, 'snippets/'.$this->encodePath($snippet_id).'/award_emoji'));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $snippet_id
+     * @param int $award_id
+     *
+     * @return mixed
+     */
+    public function removeAwardEmoji($project_id, $snippet_id, $award_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'snippets/'.$this->encodePath($snippet_id).'/award_emoji/'.$this->encodePath($award_id)));
     }
 }

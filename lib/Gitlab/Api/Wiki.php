@@ -16,8 +16,8 @@ class Wiki extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $wiki_slug
+     * @param int    $project_id
+     * @param string $wiki_slug
      *
      * @return mixed
      */
@@ -37,8 +37,9 @@ class Wiki extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
-     * @param array $params
+     * @param int    $project_id
+     * @param string $wiki_slug
+     * @param array  $params
      *
      * @return mixed
      */
@@ -48,8 +49,8 @@ class Wiki extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $wiki_slug
+     * @param int    $project_id
+     * @param string $wiki_slug
      *
      * @return mixed
      */

@@ -15,6 +15,9 @@ class ApiVersion implements Plugin
 {
     use Plugin\VersionBridgePlugin;
 
+    /**
+     * @var bool
+     */
     private $redirected = false;
 
     /**

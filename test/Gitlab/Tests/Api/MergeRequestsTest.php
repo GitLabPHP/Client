@@ -254,11 +254,11 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetMergeRequestNotes()
+    public function shouldGetNotes()
     {
         $expectedArray = [
-            ['id' => 1, 'body' => 'A comment'],
-            ['id' => 2, 'body' => 'Another comment'],
+            ['id' => 1, 'body' => 'A note'],
+            ['id' => 2, 'body' => 'Another note'],
         ];
 
         $api = $this->getApiMock();
@@ -274,16 +274,69 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveMergeRequestNote()
+    public function shouldGetNote()
+    {
+        $expectedArray = ['id' => 3, 'body' => 'A new note'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_requests/2/notes/3')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->showNote(1, 2, 3));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreateNote()
+    {
+        $expectedArray = ['id' => 3, 'body' => 'A new note'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/merge_requests/2/notes', ['body' => 'A new note'])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->addNote(1, 2, 'A new note'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUpdateNote()
+    {
+        $expectedArray = ['id' => 3, 'body' => 'An edited comment'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/merge_requests/2/notes/3', ['body' => 'An edited comment'])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->updateNote(1, 2, 3, 'An edited comment'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRemoveNote()
     {
         $expectedBool = true;
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('delete')
-            ->with('projects/1/merge_requests/2/notes/1')
-            ->will($this->returnValue($expectedBool));
-        $this->assertEquals($expectedBool, $api->removeNote(1, 2, 1));
+            ->with('projects/1/merge_requests/2/notes/3')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->removeNote(1, 2, 3));
     }
 
     /**
@@ -531,7 +584,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetMergeRequestAwardEmoji()
+    public function shouldIssueMergeRequestAwardEmoji()
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'sparkles'],
@@ -546,6 +599,23 @@ class MergeRequestsTest extends TestCase
         ;
 
         $this->assertEquals($expectedArray, $api->awardEmoji(1, 2));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRevokeMergeRequestAwardEmoji()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/merge_requests/2/award_emoji/3')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals(true, $api->removeAwardEmoji(1, 2, 3));
     }
 
     /**

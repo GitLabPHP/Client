@@ -96,8 +96,10 @@ class User extends AbstractModel
     }
 
     /**
-     * @param int    $id
-     * @param Client $client
+     * @param int|null    $id
+     * @param Client|null $client
+     *
+     * @return void
      */
     public function __construct($id = null, Client $client = null)
     {
@@ -186,6 +188,7 @@ class User extends AbstractModel
     }
 
     /**
+     * @param int    $user_id
      * @param string $title
      * @param string $key
      *

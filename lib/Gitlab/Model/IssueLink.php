@@ -39,6 +39,8 @@ class IssueLink extends AbstractModel
      * @param Issue       $issue
      * @param int|null    $issue_link_id
      * @param Client|null $client
+     *
+     * @return void
      */
     public function __construct(Issue $issue, $issue_link_id = null, Client $client = null)
     {

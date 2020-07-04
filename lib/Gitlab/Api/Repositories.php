@@ -13,10 +13,10 @@ class Repositories extends AbstractApi
 
     /**
      * @param int   $project_id
-     * @param array $parameters (
+     * @param array $parameters {
      *
      *     @var string $search
-     * )
+     * }
      *
      * @return mixed
      */
@@ -30,14 +30,14 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $branch_id
+     * @param int    $project_id
+     * @param string $branch
      *
      * @return mixed
      */
-    public function branch($project_id, $branch_id)
+    public function branch($project_id, $branch)
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch_id)));
+        return $this->get($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch)));
     }
 
     /**
@@ -68,15 +68,15 @@ class Repositories extends AbstractApi
 
     /**
      * @param int    $project_id
-     * @param string $branch_name
+     * @param string $branch
      * @param bool   $devPush
      * @param bool   $devMerge
      *
      * @return mixed
      */
-    public function protectBranch($project_id, $branch_name, $devPush = false, $devMerge = false)
+    public function protectBranch($project_id, $branch, $devPush = false, $devMerge = false)
     {
-        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch_name).'/protect'), [
+        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch).'/protect'), [
             'developers_can_push' => $devPush,
             'developers_can_merge' => $devMerge,
         ]);
@@ -84,13 +84,13 @@ class Repositories extends AbstractApi
 
     /**
      * @param int    $project_id
-     * @param string $branch_name
+     * @param string $branch
      *
      * @return mixed
      */
-    public function unprotectBranch($project_id, $branch_name)
+    public function unprotectBranch($project_id, $branch)
     {
-        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch_name).'/unprotect'));
+        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch).'/unprotect'));
     }
 
     /**
@@ -107,10 +107,10 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
-     * @param string $name
-     * @param string $ref
-     * @param string $message
+     * @param int         $project_id
+     * @param string      $name
+     * @param string      $ref
+     * @param string|null $message
      *
      * @return mixed
      */
@@ -169,12 +169,12 @@ class Repositories extends AbstractApi
 
     /**
      * @param int   $project_id
-     * @param array $parameters (
+     * @param array $parameters {
      *
      *     @var string             $ref_name the name of a repository branch or tag or if not given the default branch
      *     @var \DateTimeInterface $since    only commits after or on this date will be returned
      *     @var \DateTimeInterface $until    Only commits before or on this date will be returned.
-     * )
+     * }
      *
      * @return mixed
      */
@@ -231,21 +231,21 @@ class Repositories extends AbstractApi
 
     /**
      * @param int   $project_id
-     * @param array $parameters (
+     * @param array $parameters {
      *
      *     @var string $branch         Name of the branch to commit into. To create a new branch, also provide start_branch.
      *     @var string $commit_message commit message
      *     @var string $start_branch   name of the branch to start the new commit from
-     *     @var array $actions (
+     *     @var array $actions {
      *         @var string $action        he action to perform, create, delete, move, update
      *         @var string $file_path     full path to the file
      *         @var string $previous_path original full path to the file being moved
      *         @var string $content       File content, required for all except delete. Optional for move.
      *         @var string $encoding      text or base64. text is default.
-     *     )
+     *     }
      *     @var string $author_email   specify the commit author's email address
      *     @var string $author_name    Specify the commit author's name.
-     * )
+     * }
      *
      * @return mixed
      */
@@ -394,6 +394,8 @@ class Repositories extends AbstractApi
      * @param string $filepath
      *
      * @return mixed
+     *
+     * @deprecated since version 9.2 and will be removed in 10.0. Use the RepositoryFiles::getRawFile() method instead.
      */
     public function blob($project_id, $sha, $filepath)
     {
@@ -408,6 +410,8 @@ class Repositories extends AbstractApi
      * @param string $ref
      *
      * @return mixed
+     *
+     * @deprecated since version 9.2 and will be removed in 10.0. Use the RepositoryFiles::getFile() method instead.
      */
     public function getFile($project_id, $file_path, $ref)
     {
@@ -417,16 +421,18 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
-     * @param string $file_path
-     * @param string $content
-     * @param string $branch
-     * @param string $commit_message
-     * @param string $encoding
-     * @param string $author_email
-     * @param string $author_name
+     * @param int         $project_id
+     * @param string      $file_path
+     * @param string      $content
+     * @param string      $branch
+     * @param string      $commit_message
+     * @param string|null $encoding
+     * @param string|null $author_email
+     * @param string|null $author_name
      *
      * @return mixed
+     *
+     * @deprecated since version 9.2 and will be removed in 10.0. Use the RepositoryFiles::createFile() method instead.
      */
     public function createFile($project_id, $file_path, $content, $branch, $commit_message, $encoding = null, $author_email = null, $author_name = null)
     {
@@ -444,16 +450,18 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
-     * @param string $file_path
-     * @param string $content
-     * @param string $branch
-     * @param string $commit_message
-     * @param string $encoding
-     * @param string $author_email
-     * @param string $author_name
+     * @param int         $project_id
+     * @param string      $file_path
+     * @param string      $content
+     * @param string      $branch
+     * @param string      $commit_message
+     * @param string|null $encoding
+     * @param string|null $author_email
+     * @param string|null $author_name
      *
      * @return mixed
+     *
+     * @deprecated since version 9.2 and will be removed in 10.0. Use the RepositoryFiles::updateFile() method instead.
      */
     public function updateFile($project_id, $file_path, $content, $branch, $commit_message, $encoding = null, $author_email = null, $author_name = null)
     {
@@ -471,14 +479,16 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int    $project_id
-     * @param string $file_path
-     * @param string $branch
-     * @param string $commit_message
-     * @param string $author_email
-     * @param string $author_name
+     * @param int         $project_id
+     * @param string      $file_path
+     * @param string      $branch
+     * @param string      $commit_message
+     * @param string|null $author_email
+     * @param string|null $author_name
      *
      * @return mixed
+     *
+     * @deprecated since version 9.2 and will be removed in 10.0. Use the RepositoryFiles::deleteFile() method instead.
      */
     public function deleteFile($project_id, $file_path, $branch, $commit_message, $author_email = null, $author_name = null)
     {
