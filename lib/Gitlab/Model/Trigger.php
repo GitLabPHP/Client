@@ -7,7 +7,7 @@ use Gitlab\Client;
 /**
  * Class Trigger.
  *
- * @property-read string $id
+ * @property-read int $id
  * @property-read string $description
  * @property-read string $created_at
  * @property-read string $last_used
@@ -52,7 +52,7 @@ class Trigger extends AbstractModel
 
     /**
      * @param Project     $project
-     * @param int         $id
+     * @param int|null    $id
      * @param Client|null $client
      */
     public function __construct(Project $project, $id = null, Client $client = null)
