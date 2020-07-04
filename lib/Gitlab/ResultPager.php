@@ -108,7 +108,7 @@ class ResultPager implements ResultPagerInterface
      */
     protected function has($key)
     {
-        $lastResponse = $this->client->getResponseHistory()->getLastResponse();
+        $lastResponse = $this->client->getLastResponse();
         if (null == $lastResponse) {
             return false;
         }
@@ -132,7 +132,7 @@ class ResultPager implements ResultPagerInterface
             return [];
         }
 
-        $pagination = ResponseMediator::getPagination($this->client->getResponseHistory()->getLastResponse());
+        $pagination = ResponseMediator::getPagination($this->client->getLastResponse());
 
         return ResponseMediator::getContent($this->client->getHttpClient()->get($pagination[$key]));
     }

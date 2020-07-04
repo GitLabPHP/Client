@@ -22,37 +22,37 @@ use Http\Discovery\UriFactoryDiscovery;
  *
  * @author Matt Humphrey <matt@m4tt.co>
  *
- * @property-read \Gitlab\Api\DeployKeys $deploy_keys
- * @property-read \Gitlab\Api\Deployments $deployments
- * @property-read \Gitlab\Api\Environments $environments
- * @property-read \Gitlab\Api\Groups $groups
- * @property-read \Gitlab\Api\GroupsBoards $groups_boards
- * @property-read \Gitlab\Api\GroupsMilestones $groups_milestones
- * @property-read \Gitlab\Api\IssueBoards $board
- * @property-read \Gitlab\Api\IssueBoards $issue_boards
- * @property-read \Gitlab\Api\IssueLinks $issue_links
- * @property-read \Gitlab\Api\Issues $issues
- * @property-read \Gitlab\Api\IssuesStatistics $issues_statistics
- * @property-read \Gitlab\Api\Jobs $jobs
- * @property-read \Gitlab\Api\Keys $keys
- * @property-read \Gitlab\Api\MergeRequests $merge_requests
- * @property-read \Gitlab\Api\MergeRequests $mr
- * @property-read \Gitlab\Api\Milestones $milestones
- * @property-read \Gitlab\Api\Milestones $ms
- * @property-read \Gitlab\Api\ProjectNamespaces $namespaces
- * @property-read \Gitlab\Api\ProjectNamespaces $ns
- * @property-read \Gitlab\Api\Projects $projects
- * @property-read \Gitlab\Api\Repositories $repo
- * @property-read \Gitlab\Api\Repositories $repositories
- * @property-read \Gitlab\Api\RepositoryFiles $repositoryFiles
- * @property-read \Gitlab\Api\Schedules $schedules
- * @property-read \Gitlab\Api\Snippets $snippets
- * @property-read \Gitlab\Api\SystemHooks $hooks
- * @property-read \Gitlab\Api\SystemHooks $system_hooks
- * @property-read \Gitlab\Api\Users $users
- * @property-read \Gitlab\Api\Tags $tags
- * @property-read \Gitlab\Api\Version $version
- * @property-read \Gitlab\Api\Wiki $wiki
+ * @property-read \Gitlab\Api\DeployKeys $deploy_keys @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\Deployments $deployments @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\Environments $environments @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\Groups $groups @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\GroupsBoards $groups_boards @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\GroupsMilestones $groups_milestones @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\IssueBoards $board @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\IssueBoards $issue_boards @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\IssueLinks $issue_links @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\Issues $issues @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\IssuesStatistics $issues_statistics @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\Jobs $jobs @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\Keys $keys @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\MergeRequests $merge_requests @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\MergeRequests $mr @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\Milestones $milestones @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\Milestones $ms @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\ProjectNamespaces $namespaces @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\ProjectNamespaces $ns @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\Projects $projects @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\Repositories $repo @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\Repositories $repositories @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\RepositoryFiles $repositoryFiles @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\Schedules $schedules @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\Snippets $snippets @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\SystemHooks $hooks @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\SystemHooks $system_hooks @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\Users $users @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\Tags $tags @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\Version $version @deprecated since version 9.18 and will be removed in 10.0.
+ * @property-read \Gitlab\Api\Wiki $wiki @deprecated since version 9.18 and will be removed in 10.0.
  */
 class Client
 {
@@ -75,14 +75,14 @@ class Client
     const AUTH_OAUTH_TOKEN = 'oauth_token';
 
     /**
-     * @var History
-     */
-    private $responseHistory;
-
-    /**
      * @var Builder
      */
     private $httpClientBuilder;
+
+    /**
+     * @var History
+     */
+    private $responseHistory;
 
     /**
      * Instantiate a new Gitlab client.
@@ -93,16 +93,16 @@ class Client
      */
     public function __construct(Builder $httpClientBuilder = null)
     {
+        $this->httpClientBuilder = $builder = $httpClientBuilder ?: new Builder();
         $this->responseHistory = new History();
-        $this->httpClientBuilder = $httpClientBuilder ?: new Builder();
 
-        $this->httpClientBuilder->addPlugin(new GitlabExceptionThrower());
-        $this->httpClientBuilder->addPlugin(new HistoryPlugin($this->responseHistory));
-        $this->httpClientBuilder->addPlugin(new HeaderDefaultsPlugin([
+        $builder->addPlugin(new GitlabExceptionThrower());
+        $builder->addPlugin(new HistoryPlugin($this->responseHistory));
+        $builder->addPlugin(new HeaderDefaultsPlugin([
             'User-Agent' => 'php-gitlab-api (http://github.com/m4tthumphrey/php-gitlab-api)',
         ]));
-        $this->httpClientBuilder->addPlugin(new RedirectPlugin());
-        $this->httpClientBuilder->addPlugin(new ApiVersion());
+        $builder->addPlugin(new RedirectPlugin());
+        $builder->addPlugin(new ApiVersion());
 
         $this->setUrl('https://gitlab.com');
     }
@@ -340,10 +340,15 @@ class Client
      * @param string $name
      *
      * @return AbstractApi|mixed
+     *
      * @throws InvalidArgumentException
+     *
+     * @deprecated since version 9.18 and will be removed in 10.0. Use the direct methods instead.
      */
     public function api($name)
     {
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the direct methods instead.', __METHOD__), E_USER_DEPRECATED);
+
         switch ($name) {
 
             case 'deploy_keys':
@@ -443,8 +448,8 @@ class Client
      */
     public function authenticate($token, $authMethod = self::AUTH_URL_TOKEN, $sudo = null)
     {
-        $this->httpClientBuilder->removePlugin(Authentication::class);
-        $this->httpClientBuilder->addPlugin(new Authentication($authMethod, $token, $sudo));
+        $this->getHttpClientBuilder()->removePlugin(Authentication::class);
+        $this->getHttpClientBuilder()->addPlugin(new Authentication($authMethod, $token, $sudo));
 
         return $this;
     }
@@ -456,8 +461,8 @@ class Client
      */
     public function setUrl($url)
     {
-        $this->httpClientBuilder->removePlugin(AddHostPlugin::class);
-        $this->httpClientBuilder->addPlugin(new AddHostPlugin(UriFactoryDiscovery::find()->createUri($url)));
+        $this->getHttpClientBuilder()->removePlugin(AddHostPlugin::class);
+        $this->getHttpClientBuilder()->addPlugin(new AddHostPlugin(UriFactoryDiscovery::find()->createUri($url)));
 
         return $this;
     }
@@ -466,10 +471,36 @@ class Client
      * @param string $api
      *
      * @return AbstractApi
+     *
+     * @deprecated since version 9.18 and will be removed in 10.0. Use the direct methods instead.
      */
     public function __get($api)
     {
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the direct methods instead.', __METHOD__), E_USER_DEPRECATED);
+
         return $this->api($api);
+    }
+
+    /**
+     * Get the last response.
+     *
+     * @return \Psr\Http\Message\ResponseInterface|null
+     */
+    public function getLastResponse()
+    {
+        return $this->responseHistory->getLastResponse();
+    }
+
+    /**
+     * @return History
+     *
+     * @deprecated since version 9.18 and will be removed in 10.0. Use the getLastResponse() method instead.
+     */
+    public function getResponseHistory()
+    {
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the getLastResponse() method instead.', __METHOD__), E_USER_DEPRECATED);
+
+        return $this->responseHistory;
     }
 
     /**
@@ -477,14 +508,16 @@ class Client
      */
     public function getHttpClient()
     {
-        return $this->httpClientBuilder->getHttpClient();
+        return $this->getHttpClientBuilder()->getHttpClient();
     }
 
     /**
-     * @return History
+     * Get the http client builder.
+     *
+     * @return Builder
      */
-    public function getResponseHistory()
+    protected function getHttpClientBuilder()
     {
-        return $this->responseHistory;
+        return $this->httpClientBuilder;
     }
 }
