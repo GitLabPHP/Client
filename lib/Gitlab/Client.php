@@ -22,38 +22,6 @@ use Psr\Http\Message\ResponseInterface;
  * Simple API wrapper for Gitlab.
  *
  * @author Matt Humphrey <matt@m4tt.co>
- *
- * @property-read \Gitlab\Api\DeployKeys $deploy_keys @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Deployments $deployments @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Environments $environments @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Groups $groups @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\GroupsBoards $groups_boards @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\GroupsMilestones $groups_milestones @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\IssueBoards $board @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\IssueBoards $issue_boards @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\IssueLinks $issue_links @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Issues $issues @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\IssuesStatistics $issues_statistics @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Jobs $jobs @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Keys $keys @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\MergeRequests $merge_requests @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\MergeRequests $mr @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Milestones $milestones @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Milestones $ms @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\ProjectNamespaces $namespaces @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\ProjectNamespaces $ns @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Projects $projects @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Repositories $repo @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Repositories $repositories @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\RepositoryFiles $repositoryFiles @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Schedules $schedules @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Snippets $snippets @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\SystemHooks $hooks @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\SystemHooks $system_hooks @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Users $users @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Tags $tags @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Version $version @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Wiki $wiki @deprecated since version 9.18 and will be removed in 10.0.
  */
 class Client
 {
@@ -338,106 +306,6 @@ class Client
     }
 
     /**
-     * @param string $name
-     *
-     * @return AbstractApi|mixed
-     *
-     * @throws InvalidArgumentException
-     *
-     * @deprecated since version 9.18 and will be removed in 10.0. Use the direct methods instead.
-     */
-    public function api(string $name)
-    {
-        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the direct methods instead.', __METHOD__), E_USER_DEPRECATED);
-
-        switch ($name) {
-            case 'deploy_keys':
-                return $this->deployKeys();
-
-            case 'deployments':
-                return $this->deployments();
-
-            case 'environments':
-                return $this->environments();
-
-            case 'groups':
-                return $this->groups();
-
-            case 'groups_boards':
-                return $this->groupsBoards();
-
-            case 'groups_milestones':
-                return $this->groupsMilestones();
-
-            case 'board':
-            case 'issue_boards':
-                return $this->issueBoards();
-
-            case 'issue_links':
-                return $this->issueLinks();
-
-            case 'issues':
-                return $this->issues();
-
-            case 'issues_statistics':
-                return $this->issuesStatistics();
-
-            case 'jobs':
-                return $this->jobs();
-
-            case 'keys':
-                return $this->keys();
-
-            case 'merge_requests':
-            case 'mr':
-                return $this->mergeRequests();
-
-            case 'milestones':
-            case 'ms':
-                return $this->milestones();
-
-            case 'namespaces':
-            case 'ns':
-                return $this->namespaces();
-
-            case 'projects':
-                return $this->projects();
-
-            case 'repo':
-            case 'repositories':
-                return $this->repositories();
-
-            case 'repositoryFiles':
-                return $this->repositoryFiles();
-
-            case 'schedules':
-                return $this->schedules();
-
-            case 'snippets':
-                return $this->snippets();
-
-            case 'hooks':
-            case 'system_hooks':
-                return $this->systemHooks();
-
-            case 'users':
-                return $this->users();
-
-            case 'tags':
-                return $this->tags();
-
-            case 'version':
-                return $this->version();
-
-            case 'wiki':
-                return $this->wiki();
-
-            default:
-                throw new InvalidArgumentException('Invalid endpoint: "'.$name.'"');
-        }
-    }
-
-    /**
      * Authenticate a user for all next requests.
      *
      * @param string      $token      Gitlab private token
@@ -468,20 +336,6 @@ class Client
     }
 
     /**
-     * @param string $api
-     *
-     * @return AbstractApi
-     *
-     * @deprecated since version 9.18 and will be removed in 10.0. Use the direct methods instead.
-     */
-    public function __get($api)
-    {
-        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the direct methods instead.', __METHOD__), E_USER_DEPRECATED);
-
-        return $this->api($api);
-    }
-
-    /**
      * Get the last response.
      *
      * @return ResponseInterface|null
@@ -489,18 +343,6 @@ class Client
     public function getLastResponse()
     {
         return $this->responseHistory->getLastResponse();
-    }
-
-    /**
-     * @return History
-     *
-     * @deprecated since version 9.18 and will be removed in 10.0. Use the getLastResponse() method instead.
-     */
-    public function getResponseHistory()
-    {
-        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the getLastResponse() method instead.', __METHOD__), E_USER_DEPRECATED);
-
-        return $this->responseHistory;
     }
 
     /**

@@ -22,7 +22,7 @@ use Gitlab\Client;
  * @property-read Milestone $milestone
  * @property-read Project $project
  */
-class Issue extends AbstractModel implements Noteable, Notable
+class Issue extends AbstractModel implements Notable, Stateful
 {
     /**
      * @var array
@@ -158,49 +158,6 @@ class Issue extends AbstractModel implements Noteable, Notable
         $data = $this->client->issues()->addNote($this->project->id, $this->iid, $body);
 
         return Note::fromArray($this->getClient(), $this, $data);
-    }
-
-    /**
-     * @param string      $comment
-     * @param string|null $created_at
-     *
-     * @return Note
-     *
-     * @deprecated since version 9.18 and will be removed in 10.0. Use the addNote() method instead.
-     */
-    public function addComment($comment, $created_at = null)
-    {
-        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the addNote() method instead.', __METHOD__), E_USER_DEPRECATED);
-
-        if (null === $created_at) {
-            return $this->addNote($comment);
-        }
-
-        $data = $this->client->issues()->addComment($this->project->id, $this->iid, [
-            'body' => $comment,
-            'created_at' => $created_at,
-        ]);
-
-        return Note::fromArray($this->getClient(), $this, $data);
-    }
-
-    /**
-     * @return Note[]
-     *
-     * @deprecated since version 9.18 and will be removed in 10.0. Use the result pager with the conventional API methods.
-     */
-    public function showComments()
-    {
-        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the result pager with the conventional API methods.', __METHOD__), E_USER_DEPRECATED);
-
-        $notes = [];
-        $data = $this->client->issues()->showNotes($this->project->id, $this->iid);
-
-        foreach ($data as $note) {
-            $notes[] = Note::fromArray($this->getClient(), $this, $note);
-        }
-
-        return $notes;
     }
 
     /**
