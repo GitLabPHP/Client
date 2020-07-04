@@ -22,9 +22,19 @@ use Http\Discovery\UriFactoryDiscovery;
  *
  * @author Matt Humphrey <matt@m4tt.co>
  *
+ * @property-read \Gitlab\Api\DeployKeys $deploy_keys
+ * @property-read \Gitlab\Api\Deployments $deployments
+ * @property-read \Gitlab\Api\Environments $environments
  * @property-read \Gitlab\Api\Groups $groups
+ * @property-read \Gitlab\Api\GroupsBoards $groups_boards
+ * @property-read \Gitlab\Api\GroupsMilestones $groups_milestones
+ * @property-read \Gitlab\Api\IssueBoards $board
+ * @property-read \Gitlab\Api\IssueBoards $issue_boards
+ * @property-read \Gitlab\Api\IssueLinks $issue_links
  * @property-read \Gitlab\Api\Issues $issues
+ * @property-read \Gitlab\Api\IssuesStatistics $issues_statistics
  * @property-read \Gitlab\Api\Jobs $jobs
+ * @property-read \Gitlab\Api\Keys $keys
  * @property-read \Gitlab\Api\MergeRequests $merge_requests
  * @property-read \Gitlab\Api\MergeRequests $mr
  * @property-read \Gitlab\Api\Milestones $milestones
@@ -32,15 +42,17 @@ use Http\Discovery\UriFactoryDiscovery;
  * @property-read \Gitlab\Api\ProjectNamespaces $namespaces
  * @property-read \Gitlab\Api\ProjectNamespaces $ns
  * @property-read \Gitlab\Api\Projects $projects
- * @property-read \Gitlab\Api\Repositories $repositories
  * @property-read \Gitlab\Api\Repositories $repo
+ * @property-read \Gitlab\Api\Repositories $repositories
+ * @property-read \Gitlab\Api\RepositoryFiles $repositoryFiles
+ * @property-read \Gitlab\Api\Schedules $schedules
  * @property-read \Gitlab\Api\Snippets $snippets
  * @property-read \Gitlab\Api\SystemHooks $hooks
  * @property-read \Gitlab\Api\SystemHooks $system_hooks
  * @property-read \Gitlab\Api\Users $users
- * @property-read \Gitlab\Api\Keys $keys
  * @property-read \Gitlab\Api\Tags $tags
  * @property-read \Gitlab\Api\Version $version
+ * @property-read \Gitlab\Api\Wiki $wiki
  */
 class Client
 {
@@ -133,35 +145,27 @@ class Client
     }
 
     /**
+     * @return Api\Deployments
+     */
+    public function deployments()
+    {
+        return new Api\Deployments($this);
+    }
+
+    /**
+     * @return Api\Environments
+     */
+    public function environments()
+    {
+        return new Api\Environments($this);
+    }
+
+    /**
      * @return Api\Groups
      */
     public function groups()
     {
         return new Api\Groups($this);
-    }
-
-    /**
-     * @return Api\GroupsMilestones
-     */
-    public function groupsMilestones()
-    {
-        return new Api\GroupsMilestones($this);
-    }
-
-    /**
-     * @return Api\Issues
-     */
-    public function issues()
-    {
-        return new Api\Issues($this);
-    }
-
-    /**
-     * @return Api\IssueBoards
-     */
-    public function issueBoards()
-    {
-        return new Api\IssueBoards($this);
     }
 
     /**
@@ -173,6 +177,22 @@ class Client
     }
 
     /**
+     * @return Api\GroupsMilestones
+     */
+    public function groupsMilestones()
+    {
+        return new Api\GroupsMilestones($this);
+    }
+
+    /**
+     * @return Api\IssueBoards
+     */
+    public function issueBoards()
+    {
+        return new Api\IssueBoards($this);
+    }
+
+    /**
      * @return Api\IssueLinks
      */
     public function issueLinks()
@@ -181,11 +201,35 @@ class Client
     }
 
     /**
+     * @return Api\Issues
+     */
+    public function issues()
+    {
+        return new Api\Issues($this);
+    }
+
+    /**
+     * @return Api\IssuesStatistics
+     */
+    public function issuesStatistics()
+    {
+        return new Api\IssuesStatistics($this);
+    }
+
+    /**
      * @return Api\Jobs
      */
     public function jobs()
     {
         return new Api\Jobs($this);
+    }
+
+    /**
+     * @return Api\Keys
+     */
+    public function keys()
+    {
+        return new Api\Keys($this);
     }
 
     /**
@@ -237,6 +281,14 @@ class Client
     }
 
     /**
+     * @return Api\Schedules
+     */
+    public function schedules()
+    {
+        return new Api\Schedules($this);
+    }
+
+    /**
      * @return Api\Snippets
      */
     public function snippets()
@@ -261,14 +313,6 @@ class Client
     }
 
     /**
-     * @return Api\Keys
-     */
-    public function keys()
-    {
-        return new Api\Keys($this);
-    }
-
-    /**
      * @return Api\Tags
      */
     public function tags()
@@ -285,30 +329,6 @@ class Client
     }
 
     /**
-     * @return Api\Deployments
-     */
-    public function deployments()
-    {
-        return new Api\Deployments($this);
-    }
-
-    /**
-     * @return Api\Environments
-     */
-    public function environments()
-    {
-        return new Api\Environments($this);
-    }
-
-    /**
-     * @return Api\Schedules
-     */
-    public function schedules()
-    {
-        return new Api\Schedules($this);
-    }
-
-    /**
      * @return Api\Wiki
      */
     public function wiki()
@@ -317,50 +337,54 @@ class Client
     }
 
     /**
-     * @return Api\IssuesStatistics
-     */
-    public function issuesStatistics()
-    {
-        return new Api\IssuesStatistics($this);
-    }
-
-    /**
      * @param string $name
      *
      * @return AbstractApi|mixed
-     *
      * @throws InvalidArgumentException
      */
     public function api($name)
     {
         switch ($name) {
+
             case 'deploy_keys':
                 return $this->deployKeys();
+
+            case 'deployments':
+                return $this->deployments();
+
+            case 'environments':
+                return $this->environments();
 
             case 'groups':
                 return $this->groups();
 
-            case 'groupsMilestones':
-                return $this->groupsMilestones();
+            case 'groups_boards':
+                return $this->groupsBoards();
 
-            case 'issues':
-                return $this->issues();
+            case 'groups_milestones':
+                return $this->groupsMilestones();
 
             case 'board':
             case 'issue_boards':
                 return $this->issueBoards();
 
-            case 'group_boards':
-                return $this->groupsBoards();
-
             case 'issue_links':
                 return $this->issueLinks();
+
+            case 'issues':
+                return $this->issues();
+
+            case 'issues_statistics':
+                return $this->issuesStatistics();
 
             case 'jobs':
                 return $this->jobs();
 
-            case 'mr':
+            case 'keys':
+                return $this->keys();
+
             case 'merge_requests':
+            case 'mr':
                 return $this->mergeRequests();
 
             case 'milestones':
@@ -381,6 +405,9 @@ class Client
             case 'repositoryFiles':
                 return $this->repositoryFiles();
 
+            case 'schedules':
+                return $this->schedules();
+
             case 'snippets':
                 return $this->snippets();
 
@@ -391,29 +418,14 @@ class Client
             case 'users':
                 return $this->users();
 
-            case 'keys':
-                return $this->keys();
-
             case 'tags':
                 return $this->tags();
 
             case 'version':
                 return $this->version();
 
-            case 'environments':
-                return $this->environments();
-
-            case 'deployments':
-                return $this->deployments();
-
-            case 'schedules':
-                return $this->schedules();
-
             case 'wiki':
                 return $this->wiki();
-
-            case 'issues_statistics':
-                return $this->issuesStatistics();
 
             default:
                 throw new InvalidArgumentException('Invalid endpoint: "'.$name.'"');
