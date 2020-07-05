@@ -57,7 +57,7 @@ final class GitlabExceptionThrower implements Plugin
      *
      * @return void
      */
-    private static function handleError($status, $content)
+    private static function handleError(int $status, $content)
     {
         if (is_array($content) && isset($content['message'])) {
             if (400 === $status || 422 === $status) {
