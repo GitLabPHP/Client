@@ -21,6 +21,7 @@ matrix:
         - php phpstan.phar analyse --no-progress
 
 before_script:
+  - travis_retry composer self-update --2
   - travis_retry composer update --no-interaction
 
 script:
