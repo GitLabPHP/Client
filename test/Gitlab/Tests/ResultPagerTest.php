@@ -34,7 +34,7 @@ class ResultPagerTest extends TestCase
 
         $result = $pager->fetch($api, 'all');
 
-        $this->assertEquals(['project1', 'project2'], $result);
+        $this->assertSame(['project1', 'project2'], $result);
     }
 
     public function testFetchAll()
@@ -105,6 +105,6 @@ class ResultPagerTest extends TestCase
 
         $result = $pager->fetchAll($api, 'all');
 
-        $this->assertEquals(['project1', 'project2', 'project3', 'project4', 'project5', 'project6'], $result);
+        $this->assertSame(['project1', 'project2', 'project3', 'project4', 'project5', 'project6'], $result);
     }
 }

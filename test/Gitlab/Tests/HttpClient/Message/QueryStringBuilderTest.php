@@ -15,7 +15,7 @@ class QueryStringBuilderTest extends TestCase
      */
     public function testBuild($query, $expected)
     {
-        $this->assertEquals($expected, QueryStringBuilder::build($query));
+        $this->assertSame($expected, QueryStringBuilder::build($query));
     }
 
     public function queryStringProvider()
