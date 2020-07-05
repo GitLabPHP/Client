@@ -173,7 +173,7 @@ class IssueTest extends TestCase
         $issue = new Issue(new Project(1, $client), 10, $client);
         $issueLinks = $issue->links();
 
-        $this->assertInternalType('array', $issueLinks);
+        $this->assertIsArray($issueLinks);
         $this->assertCount(2, $issueLinks);
 
         $this->assertInstanceOf(IssueLink::class, $issueLinks[0]);
@@ -219,7 +219,7 @@ class IssueTest extends TestCase
         $issue = new Issue(new Project(1, $client), 10, $client);
         $issueLinks = $issue->addLink(new Issue(new Project(2, $client), 20, $client));
 
-        $this->assertInternalType('array', $issueLinks);
+        $this->assertIsArray($issueLinks);
         $this->assertCount(2, $issueLinks);
 
         $this->assertInstanceOf(Issue::class, $issueLinks['source_issue']);
@@ -271,7 +271,7 @@ class IssueTest extends TestCase
         $issue = new Issue(new Project(1, $client), 10, $client);
         $issueLinks = $issue->removeLink(100);
 
-        $this->assertInternalType('array', $issueLinks);
+        $this->assertIsArray($issueLinks);
         $this->assertCount(2, $issueLinks);
 
         $this->assertInstanceOf(Issue::class, $issueLinks['source_issue']);
