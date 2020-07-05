@@ -22,7 +22,7 @@ class ResponseMediatorTest extends TestCase
             \GuzzleHttp\Psr7\stream_for(json_encode($body))
         );
 
-        $this->assertEquals($body, ResponseMediator::getContent($response));
+        $this->assertSame($body, ResponseMediator::getContent($response));
     }
 
     /**
@@ -37,7 +37,7 @@ class ResponseMediatorTest extends TestCase
             \GuzzleHttp\Psr7\stream_for($body)
         );
 
-        $this->assertEquals($body, ResponseMediator::getContent($response));
+        $this->assertSame($body, ResponseMediator::getContent($response));
     }
 
     /**
@@ -52,7 +52,7 @@ class ResponseMediatorTest extends TestCase
             \GuzzleHttp\Psr7\stream_for($body)
         );
 
-        $this->assertEquals($body, ResponseMediator::getContent($response));
+        $this->assertSame($body, ResponseMediator::getContent($response));
     }
 
     public function testGetPagination()
@@ -75,6 +75,6 @@ TEXT;
         $response = new Response(200, ['link' => $header]);
         $result = ResponseMediator::getPagination($response);
 
-        $this->assertEquals($pagination, $result);
+        $this->assertSame($pagination, $result);
     }
 }
