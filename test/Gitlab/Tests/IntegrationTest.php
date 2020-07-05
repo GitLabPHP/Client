@@ -16,7 +16,7 @@ class IntegrationTest extends TestCase
             ->repositories()
             ->contributors(5315609);
 
-        $this->assertIsArray($response);
+        $this->assertInternalType('array', $response);
         $this->assertTrue(isset($response[2]));
         $this->assertTrue(isset($response[2]['name']));
     }
