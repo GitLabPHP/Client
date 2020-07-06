@@ -75,8 +75,8 @@ class Users extends AbstractApi
      *     @var bool   $archived                    limit by archived status
      *     @var string $visibility                  limit by visibility public, internal, or private
      *     @var string $order_by                    Return projects ordered by id, name, path, created_at, updated_at,
-     *                                              or last_activity_at fields. Default is created_at.
-     *     @var string $sort                        Return projects sorted in asc or desc order. Default is desc.
+     *                                              or last_activity_at fields (default is created_at)
+     *     @var string $sort                        Return projects sorted in asc or desc order (default is desc)
      *     @var string $search                      return list of projects matching the search criteria
      *     @var bool   $simple                      return only the ID, URL, name, and path of each project
      *     @var bool   $owned                       limit by projects owned by the current user

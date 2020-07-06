@@ -15,10 +15,10 @@ class Groups extends AbstractApi
      *     @var int[]  $skip_groups   skip the group IDs passes
      *     @var bool   $all_available show all the groups you have access to
      *     @var string $search        return list of authorized groups matching the search criteria
-     *     @var string $order_by      Order groups by name or path. Default is name.
-     *     @var string $sort          Order groups in asc or desc order. Default is asc.
+     *     @var string $order_by      Order groups by name or path (default is name)
+     *     @var string $sort          Order groups in asc or desc order (default is asc)
      *     @var bool   $statistics    include group statistics (admins only)
-     *     @var bool   $owned         Limit by groups owned by the current user.
+     *     @var bool   $owned         limit by groups owned by the current user
      * }
      *
      * @return mixed
@@ -181,15 +181,15 @@ class Groups extends AbstractApi
      *     @var string $visibility                  limit by visibility public, internal, or private
      *     @var string $order_by                    Return projects ordered by id, name, path, created_at, updated_at, or last_activity_at fields.
      *                                              Default is created_at.
-     *     @var string $sort                        Return projects sorted in asc or desc order. Default is desc.
+     *     @var string $sort                        Return projects sorted in asc or desc order (default is desc)
      *     @var string $search                      return list of authorized projects matching the search criteria
      *     @var bool   $simple                      return only the ID, URL, name, and path of each project
      *     @var bool   $owned                       limit by projects owned by the current user
      *     @var bool   $starred                     limit by projects starred by the current user
-     *     @var bool   $with_issues_enabled         Limit by projects with issues feature enabled. Default is false.
-     *     @var bool   $with_merge_requests_enabled Limit by projects with merge requests feature enabled. Default is false.
-     *     @var bool   $with_shared                 Include projects shared to this group. Default is true.
-     *     @var bool   $include_subgroups           Include projects in subgroups of this group. Default is false.
+     *     @var bool   $with_issues_enabled         Limit by projects with issues feature enabled (default is false)
+     *     @var bool   $with_merge_requests_enabled Limit by projects with merge requests feature enabled (default is false)
+     *     @var bool   $with_shared                 Include projects shared to this group (default is true)
+     *     @var bool   $include_subgroups           Include projects in subgroups of this group (default is false)
      *     @var bool   $with_custom_attributes      Include custom attributes in response (admins only).
      * }
      *
@@ -259,8 +259,8 @@ class Groups extends AbstractApi
      *     @var int[]  $skip_groups   skip the group IDs passes
      *     @var bool   $all_available show all the groups you have access to
      *     @var string $search        return list of authorized groups matching the search criteria
-     *     @var string $order_by      Order groups by name or path. Default is name.
-     *     @var string $sort          Order groups in asc or desc order. Default is asc.
+     *     @var string $order_by      Order groups by name or path (default is name)
+     *     @var string $sort          Order groups in asc or desc order (default is asc)
      *     @var bool   $statistics    include group statistics (admins only)
      *     @var bool   $owned         Limit by groups owned by the current user.
      * }

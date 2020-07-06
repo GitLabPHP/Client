@@ -23,31 +23,31 @@ This version supports [PHP](https://php.net) 7.1-7.4. To get started, simply req
 
 ### PHP 7.1+:
 
-```bash
+```
 $ composer require m4tthumphrey/php-gitlab-api:^10.0 php-http/guzzle6-adapter:^2.0.1 http-interop/http-factory-guzzle:^1.0
 ```
 
 ### PHP 7.2+:
 
-```bash
+```
 $ composer require m4tthumphrey/php-gitlab-api:^10.0 guzzlehttp/guzzle:^7.0.1 http-interop/http-factory-guzzle:^1.0
 ```
 
 ### Laravel 6+:
 
-```bash
+```
 $ composer require graham-campbell/gitlab:^4.0 guzzlehttp/guzzle:^7.0.1 http-interop/http-factory-guzzle:^1.0
 ```
 
 ### Symfony 4:
 
-```bash
+```
 $ composer require zeichen32/gitlabapibundle:^5.0 symfony/http-client:^4.4 nyholm/psr7:^1.3
 ```
 
 ### Symfony 5:
 
-```bash
+```
 $ composer require zeichen32/gitlabapibundle:^5.0 symfony/http-client:^5.0 nyholm/psr7:^1.3
 ```
 
@@ -141,7 +141,7 @@ Contributing
 
 Not all endpoints of the API are implemented yet. We will gladly review and accept pull requests, in accordance with our [contribution guidelines](.github/CONTRIBUTING.md)!
 
-```bash
+```
 $ make install
 $ make test
 ```

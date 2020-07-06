@@ -17,8 +17,8 @@ class Projects extends AbstractApi
      *     @var bool   $archived                    limit by archived status
      *     @var string $visibility                  limit by visibility public, internal, or private
      *     @var string $order_by                    Return projects ordered by id, name, path, created_at, updated_at,
-     *                                              or last_activity_at fields. Default is created_at.
-     *     @var string $sort                        Return projects sorted in asc or desc order. Default is desc.
+     *                                              or last_activity_at fields (default is created_at)
+     *     @var string $sort                        Return projects sorted in asc or desc order (default is desc)
      *     @var string $search                      return list of projects matching the search criteria
      *     @var bool   $simple                      return only the ID, URL, name, and path of each project
      *     @var bool   $owned                       limit by projects owned by the current user
@@ -634,7 +634,7 @@ class Projects extends AbstractApi
      *     @var string             $target_type include only events of a particular target type
      *     @var \DateTimeInterface $before      include only events created before a particular date
      *     @var \DateTimeInterface $after       include only events created after a particular date
-     *     @var string             $sort        Sort events in asc or desc order by created_at. Default is desc.
+     *     @var string             $sort        Sort events in asc or desc order by created_at (default is desc)
      * }
      *
      * @return mixed
@@ -1051,5 +1051,15 @@ class Projects extends AbstractApi
     public function approvalsRules($project_id)
     {
         return $this->get('projects/'.$this->encodePath($project_id).'/approval_rules');
+    }
+
+    /**
+     * @param int|string $project_id
+     *
+     * @return mixed
+     */
+    public function deleteAllMergedBranches($project_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'repository/merged_branches'));
     }
 }
