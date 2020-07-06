@@ -6,6 +6,8 @@ use Gitlab\Api\Projects;
 use Gitlab\Client;
 
 /**
+ * @final
+ *
  * @property-read string $name
  * @property-read bool $protected
  * @property-read Commit|null $commit

@@ -6,6 +6,8 @@ use Gitlab\Api\Issues;
 use Gitlab\Client;
 
 /**
+ * @final
+ *
  * @property-read int $id
  * @property-read int $iid
  * @property-read int|string $project_id,

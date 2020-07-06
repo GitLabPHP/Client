@@ -5,6 +5,8 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
+ * @final
+ *
  * @property-read int $id
  * @property-read int|string $project_id
  * @property-read string $title

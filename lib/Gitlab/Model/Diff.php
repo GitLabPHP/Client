@@ -5,6 +5,8 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
+ * @final
+ *
  * @property-read string $old_path
  * @property-read string $new_path
  * @property-read string $a_mode

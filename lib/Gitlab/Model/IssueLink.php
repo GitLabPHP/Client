@@ -5,6 +5,8 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
+ * @final
+ *
  * @property-read int $issue_link_id
  * @property-read Issue $issue
  */

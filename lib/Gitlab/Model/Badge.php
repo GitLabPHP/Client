@@ -5,6 +5,8 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
+ * @final
+ *
  * @property-read int    $id
  * @property-read string $link_url
  * @property-read string $image_url

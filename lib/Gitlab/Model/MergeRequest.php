@@ -6,6 +6,8 @@ use Gitlab\Api\MergeRequests;
 use Gitlab\Client;
 
 /**
+ * @final
+ *
  * @property-read int $id
  * @property-read int $iid
  * @property-read string $target_branch
