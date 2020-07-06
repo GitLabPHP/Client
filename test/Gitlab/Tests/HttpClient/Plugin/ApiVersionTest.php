@@ -21,13 +21,11 @@ class ApiVersionTest extends TestCase
 
         $callback = $this->getMockBuilder(\stdClass::class)
             ->setMethods(['next'])
-            ->getMock()
-        ;
+            ->getMock();
         $callback->expects($this->once())
             ->method('next')
             ->with($this->isInstanceOf(RequestInterface::class))
-            ->willReturn($promise)
-        ;
+            ->willReturn($promise);
 
         $this->assertEquals($promise, $plugin->handleRequest($request, [$callback, 'next'], function () {
         }));
@@ -42,13 +40,11 @@ class ApiVersionTest extends TestCase
 
         $callback = $this->getMockBuilder(\stdClass::class)
             ->setMethods(['next'])
-            ->getMock()
-        ;
+            ->getMock();
         $callback->expects($this->once())
             ->method('next')
             ->with($expected)
-            ->willReturn($promise)
-        ;
+            ->willReturn($promise);
 
         $plugin->handleRequest($request, [$callback, 'next'], function () {
         });
@@ -62,13 +58,11 @@ class ApiVersionTest extends TestCase
 
         $callback = $this->getMockBuilder(\stdClass::class)
             ->setMethods(['next'])
-            ->getMock()
-        ;
+            ->getMock();
         $callback->expects($this->once())
             ->method('next')
             ->with($request)
-            ->willReturn($promise)
-        ;
+            ->willReturn($promise);
 
         $plugin->handleRequest($request, [$callback, 'next'], function () {
         });

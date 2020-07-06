@@ -28,11 +28,9 @@ class GroupsMilestones extends AbstractApi
             ->setAllowedTypes('iids', 'array')
             ->setAllowedValues('iids', function (array $value) {
                 return count($value) == count(array_filter($value, 'is_int'));
-            })
-        ;
+            });
         $resolver->setDefined('state')
-            ->setAllowedValues('state', [self::STATE_ACTIVE, self::STATE_CLOSED])
-        ;
+            ->setAllowedValues('state', [self::STATE_ACTIVE, self::STATE_CLOSED]);
         $resolver->setDefined('search');
 
         return $this->get($this->getGroupPath($group_id, 'milestones'), $resolver->resolve($parameters));

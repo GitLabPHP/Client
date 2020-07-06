@@ -43,12 +43,10 @@ class AbstractApiTest extends TestCase
     {
         $httpClient = $this->getMockBuilder(ClientInterface::class)
             ->setMethods(['sendRequest'])
-            ->getMock()
-        ;
+            ->getMock();
         $httpClient
             ->expects($this->any())
-            ->method('sendRequest')
-        ;
+            ->method('sendRequest');
         $client = Client::createWithHttpClient($httpClient);
 
         $abstractApiMock = $this->getMockBuilder(AbstractApi::class)
@@ -57,8 +55,7 @@ class AbstractApiTest extends TestCase
                 null,
             ])
             ->setMethods($methods)
-            ->getMockForAbstractClass()
-        ;
+            ->getMockForAbstractClass();
 
         return $abstractApiMock;
     }

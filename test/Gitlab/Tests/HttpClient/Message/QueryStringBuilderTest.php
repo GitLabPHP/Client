@@ -44,12 +44,12 @@ class QueryStringBuilderTest extends TestCase
 
         yield [
             [
-                'source_branch' => 'test_source',
-                'target_branch' => 'test_master',
-                'title' => 'test',
-                'assignee_id' => null,
+                'source_branch'     => 'test_source',
+                'target_branch'     => 'test_master',
+                'title'             => 'test',
+                'assignee_id'       => null,
                 'target_project_id' => null,
-                'description' => null,
+                'description'       => null,
             ],
             'source_branch=test_source&target_branch=test_master&title=test',
         ];
@@ -64,9 +64,9 @@ class QueryStringBuilderTest extends TestCase
         yield [
             [
                 'search' => 'a project',
-                'owned' => 'true',
-                'iids' => [88, 86],
-                'assoc' => [
+                'owned'  => 'true',
+                'iids'   => [88, 86],
+                'assoc'  => [
                     'a' => 'b',
                     'c' => [
                         'd' => 'e',

@@ -12,7 +12,7 @@ class VersionTest extends TestCase
     public function shouldShowVersion()
     {
         $expectedArray = [
-            'version' => '8.13.0-pre',
+            'version'  => '8.13.0-pre',
             'revision' => '4e963fe',
         ];
 

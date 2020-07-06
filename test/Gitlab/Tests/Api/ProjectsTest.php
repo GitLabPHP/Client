@@ -135,13 +135,13 @@ class ProjectsTest extends TestCase
     public function shouldShowProjectWithStatistics()
     {
         $expectedArray = [
-            'id' => 1,
-            'name' => 'Project Name',
+            'id'         => 1,
+            'name'       => 'Project Name',
             'statistics' => [
-                'commit_count' => 37,
-                'storage_size' => 1038090,
-                'repository_size' => 1038090,
-                'lfs_objects_size' => 0,
+                'commit_count'       => 37,
+                'storage_size'       => 1038090,
+                'repository_size'    => 1038090,
+                'lfs_objects_size'   => 0,
                 'job_artifacts_size' => 0,
             ],
         ];
@@ -187,7 +187,7 @@ class ProjectsTest extends TestCase
             ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->update(1, [
-            'name' => 'Updated Name',
+            'name'           => 'Updated Name',
             'issues_enabled' => true,
         ]));
     }
@@ -303,9 +303,9 @@ class ProjectsTest extends TestCase
     public function shouldGetTrigger()
     {
         $expectedArray = [
-            'id' => 3,
+            'id'          => 3,
             'description' => 'foo',
-            'token' => '6d056f63e50fe6f8c5f8f4aa10edb7',
+            'token'       => '6d056f63e50fe6f8c5f8f4aa10edb7',
         ];
 
         $api = $this->getApiMock();
@@ -381,64 +381,64 @@ class ProjectsTest extends TestCase
     {
         return [
             [
-                'state' => 'opened',
+                'state'       => 'opened',
                 'description' => 'Ratione dolores corrupti mollitia soluta quia.',
-                'author' => [
-                    'state' => 'active',
-                    'id' => 18,
-                    'web_url' => 'https://gitlab.example.com/eileen.lowe',
-                    'name' => 'Alexandra Bashirian',
+                'author'      => [
+                    'state'      => 'active',
+                    'id'         => 18,
+                    'web_url'    => 'https://gitlab.example.com/eileen.lowe',
+                    'name'       => 'Alexandra Bashirian',
                     'avatar_url' => null,
-                    'username' => 'eileen.lowe',
+                    'username'   => 'eileen.lowe',
                 ],
                 'milestone' => [
-                    'project_id' => 1,
+                    'project_id'  => 1,
                     'description' => 'Ducimus nam enim ex consequatur cumque ratione.',
-                    'state' => 'closed',
-                    'due_date' => null,
-                    'iid' => 2,
-                    'created_at' => '2016-01-04T15:31:39.996Z',
-                    'title' => 'v4.0',
-                    'id' => 17,
-                    'updated_at' => '2016-01-04T15:31:39.996Z',
+                    'state'       => 'closed',
+                    'due_date'    => null,
+                    'iid'         => 2,
+                    'created_at'  => '2016-01-04T15:31:39.996Z',
+                    'title'       => 'v4.0',
+                    'id'          => 17,
+                    'updated_at'  => '2016-01-04T15:31:39.996Z',
                 ],
                 'project_id' => 1,
-                'assignees' => [
+                'assignees'  => [
                     [
-                        'state' => 'active',
-                        'id' => 1,
-                        'name' => 'Administrator',
-                        'web_url' => 'https://gitlab.example.com/root',
+                        'state'      => 'active',
+                        'id'         => 1,
+                        'name'       => 'Administrator',
+                        'web_url'    => 'https://gitlab.example.com/root',
                         'avatar_url' => null,
-                        'username' => 'root',
+                        'username'   => 'root',
                     ],
                 ],
                 'assignee' => [
-                    'state' => 'active',
-                    'id' => 1,
-                    'name' => 'Administrator',
-                    'web_url' => 'https://gitlab.example.com/root',
+                    'state'      => 'active',
+                    'id'         => 1,
+                    'name'       => 'Administrator',
+                    'web_url'    => 'https://gitlab.example.com/root',
                     'avatar_url' => null,
-                    'username' => 'root',
+                    'username'   => 'root',
                 ],
-                'updated_at' => '2016-01-04T15:31:51.081Z',
-                'closed_at' => null,
-                'closed_by' => null,
-                'id' => 76,
-                'title' => 'Consequatur vero maxime deserunt laboriosam est voluptas dolorem.',
-                'created_at' => '2016-01-04T15:31:51.081Z',
-                'iid' => 6,
-                'labels' => [],
-                'user_notes_count' => 1,
-                'due_date' => '2016-07-22',
-                'web_url' => 'http://example.com/example/example/issues/6',
-                'confidential' => false,
-                'weight' => null,
+                'updated_at'        => '2016-01-04T15:31:51.081Z',
+                'closed_at'         => null,
+                'closed_by'         => null,
+                'id'                => 76,
+                'title'             => 'Consequatur vero maxime deserunt laboriosam est voluptas dolorem.',
+                'created_at'        => '2016-01-04T15:31:51.081Z',
+                'iid'               => 6,
+                'labels'            => [],
+                'user_notes_count'  => 1,
+                'due_date'          => '2016-07-22',
+                'web_url'           => 'http://example.com/example/example/issues/6',
+                'confidential'      => false,
+                'weight'            => null,
                 'discussion_locked' => false,
-                'time_stats' => [
-                    'time_estimate' => 0,
-                    'total_time_spent' => 0,
-                    'human_time_estimate' => null,
+                'time_stats'        => [
+                    'time_estimate'          => 0,
+                    'total_time_spent'       => 0,
+                    'human_time_estimate'    => null,
                     'human_total_time_spent' => null,
                 ],
             ],
@@ -454,12 +454,12 @@ class ProjectsTest extends TestCase
     {
         return [
             [
-                'id' => 1,
-                'name' => 'John Doe',
-                'username' => 'john.doe',
-                'state' => 'active',
+                'id'         => 1,
+                'name'       => 'John Doe',
+                'username'   => 'john.doe',
+                'state'      => 'active',
                 'avatar_url' => 'https://example.com',
-                'web_url' => 'https://gitlab.com/john.doe',
+                'web_url'    => 'https://gitlab.com/john.doe',
             ],
         ];
     }
@@ -490,44 +490,44 @@ class ProjectsTest extends TestCase
     {
         return [
             [
-                'id' => 1,
+                'id'      => 1,
                 'project' => [
-                    'id' => 5,
-                    'name' => 'Diaspora Project Site',
+                    'id'                  => 5,
+                    'name'                => 'Diaspora Project Site',
                     'name_with_namespace' => 'Diaspora / Diaspora Project Site',
-                    'path' => 'diaspora-project-site',
+                    'path'                => 'diaspora-project-site',
                     'path_with_namespace' => 'diaspora/diaspora-project-site',
-                    'http_url_to_repo' => 'http://example.com/diaspora/diaspora-project-site.git',
-                    'web_url' => 'http://example.com/diaspora/diaspora-project-site',
+                    'http_url_to_repo'    => 'http://example.com/diaspora/diaspora-project-site.git',
+                    'web_url'             => 'http://example.com/diaspora/diaspora-project-site',
                 ],
                 'milestone' => [
-                    'id' => 12,
+                    'id'    => 12,
                     'title' => '10.0',
                 ],
                 'lists' => [
                     [
-                        'id' => 1,
+                        'id'    => 1,
                         'label' => [
-                            'name' => 'Testing',
-                            'color' => '#F0AD4E',
+                            'name'        => 'Testing',
+                            'color'       => '#F0AD4E',
                             'description' => null,
                         ],
                         'position' => 1,
                     ],
                     [
-                        'id' => 2,
+                        'id'    => 2,
                         'label' => [
-                            'name' => 'Ready',
-                            'color' => '#FF0000',
+                            'name'        => 'Ready',
+                            'color'       => '#FF0000',
                             'description' => null,
                         ],
                         'position' => 2,
                     ],
                     [
-                        'id' => 3,
+                        'id'    => 3,
                         'label' => [
-                            'name' => 'Production',
-                            'color' => '#FF5F00',
+                            'name'        => 'Production',
+                            'color'       => '#FF5F00',
                             'description' => null,
                         ],
                         'position' => 3,
@@ -543,9 +543,9 @@ class ProjectsTest extends TestCase
     public function shouldCreateTrigger()
     {
         $expectedArray = [
-            'id' => 4,
+            'id'          => 4,
             'description' => 'foobar',
-            'token' => '6d056f63e50fe6f8c5f8f4aa10edb7',
+            'token'       => '6d056f63e50fe6f8c5f8f4aa10edb7',
         ];
 
         $api = $this->getApiMock();
@@ -592,7 +592,7 @@ class ProjectsTest extends TestCase
         $updated_before = new \DateTime('2018-01-31 00:00:00');
 
         $expectedWithArray = [
-            'updated_after' => $updated_after->format('Y-m-d'),
+            'updated_after'  => $updated_after->format('Y-m-d'),
             'updated_before' => $updated_before->format('Y-m-d'),
         ];
 
@@ -603,7 +603,7 @@ class ProjectsTest extends TestCase
             ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->pipelines(1, [
-            'updated_after' => $updated_after,
+            'updated_after'  => $updated_after,
             'updated_before' => $updated_before,
         ]));
     }
@@ -695,13 +695,13 @@ class ProjectsTest extends TestCase
         ];
         $variables = [
             [
-                'key' => 'test_var_1',
+                'key'   => 'test_var_1',
                 'value' => 'test_value_1',
             ],
             [
-                'key' => 'test_var_2',
+                'key'           => 'test_var_2',
                 'variable_type' => 'file',
-                'value' => 'test_value_2',
+                'value'         => 'test_value_2',
             ],
         ];
 
@@ -855,7 +855,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/members', [
-                'page' => 2,
+                'page'     => 2,
                 'per_page' => 15,
             ])
             ->will($this->returnValue($expectedArray));
@@ -973,9 +973,9 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/hooks', [
-                'url' => 'http://www.example.com',
-                'push_events' => true,
-                'issues_events' => true,
+                'url'                   => 'http://www.example.com',
+                'push_events'           => true,
+                'issues_events'         => true,
                 'merge_requests_events' => true,
             ])
             ->will($this->returnValue($expectedArray));
@@ -1060,8 +1060,8 @@ class ProjectsTest extends TestCase
     public function shouldTransfer()
     {
         $expectedArray = [
-            'id' => 1,
-            'name' => 'Project Name',
+            'id'        => 1,
+            'name'      => 'Project Name',
             'namespace' => ['name' => 'a_namespace'],
         ];
 
@@ -1206,7 +1206,7 @@ class ProjectsTest extends TestCase
         $before = new \DateTime('2018-01-31 00:00:00');
 
         $expectedWithArray = [
-            'after' => $after->format('Y-m-d'),
+            'after'  => $after->format('Y-m-d'),
             'before' => $before->format('Y-m-d'),
         ];
 
@@ -1233,7 +1233,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/events', [
-                'page' => 2,
+                'page'     => 2,
                 'per_page' => 15,
             ])
             ->will($this->returnValue($expectedArray));
@@ -1352,7 +1352,7 @@ class ProjectsTest extends TestCase
     {
         $expectedArray = [
             'namespace' => 'new_namespace',
-            'path' => 'new_path',
+            'path'      => 'new_path',
         ];
 
         $api = $this->getApiMock();
@@ -1363,7 +1363,7 @@ class ProjectsTest extends TestCase
 
         $this->assertEquals($expectedArray, $api->fork(1, [
             'namespace' => 'new_namespace',
-            'path' => 'new_path',
+            'path'      => 'new_path',
         ]));
     }
 
@@ -1374,8 +1374,8 @@ class ProjectsTest extends TestCase
     {
         $expectedArray = [
             'namespace' => 'new_namespace',
-            'path' => 'new_path',
-            'name' => 'new_name',
+            'path'      => 'new_path',
+            'name'      => 'new_name',
         ];
 
         $api = $this->getApiMock();
@@ -1386,8 +1386,8 @@ class ProjectsTest extends TestCase
 
         $this->assertEquals($expectedArray, $api->fork(1, [
             'namespace' => 'new_namespace',
-            'path' => 'new_path',
-            'name' => 'new_name',
+            'path'      => 'new_path',
+            'name'      => 'new_name',
         ]));
     }
 
@@ -1430,13 +1430,13 @@ class ProjectsTest extends TestCase
     {
         $expectedArray = [
             [
-                'id' => 2,
+                'id'                  => 2,
                 'forked_from_project' => [
                     'id' => 1,
                 ],
             ],
             [
-                'id' => 3,
+                'id'                  => 3,
                 'forked_from_project' => [
                     'id' => 1,
                 ],
@@ -1527,7 +1527,7 @@ class ProjectsTest extends TestCase
         $expectedValue = '21';
 
         $expectedArray = [
-            'key' => $expectedKey,
+            'key'   => $expectedKey,
             'value' => $expectedValue,
         ];
 
@@ -1546,8 +1546,8 @@ class ProjectsTest extends TestCase
     public function shouldAddVariableWithProtected()
     {
         $expectedArray = [
-            'key' => 'DEPLOY_SERVER',
-            'value' => 'stage.example.com',
+            'key'       => 'DEPLOY_SERVER',
+            'value'     => 'stage.example.com',
             'protected' => true,
         ];
 
@@ -1566,8 +1566,8 @@ class ProjectsTest extends TestCase
     public function shouldAddVariableWithEnvironment()
     {
         $expectedArray = [
-            'key' => 'DEPLOY_SERVER',
-            'value' => 'stage.example.com',
+            'key'               => 'DEPLOY_SERVER',
+            'value'             => 'stage.example.com',
             'environment_scope' => 'staging',
         ];
 
@@ -1589,9 +1589,9 @@ class ProjectsTest extends TestCase
     public function shouldAddVariableWithProtectionAndEnvironment()
     {
         $expectedArray = [
-            'key' => 'DEPLOY_SERVER',
-            'value' => 'stage.example.com',
-            'protected' => true,
+            'key'               => 'DEPLOY_SERVER',
+            'value'             => 'stage.example.com',
+            'protected'         => true,
             'environment_scope' => 'staging',
         ];
 
@@ -1616,7 +1616,7 @@ class ProjectsTest extends TestCase
         $expectedValue = '22';
 
         $expectedArray = [
-            'key' => 'ftp_port',
+            'key'   => 'ftp_port',
             'value' => '22',
         ];
 
@@ -1635,8 +1635,8 @@ class ProjectsTest extends TestCase
     public function shouldUpdateVariableWithProtected()
     {
         $expectedArray = [
-            'key' => 'DEPLOY_SERVER',
-            'value' => 'stage.example.com',
+            'key'       => 'DEPLOY_SERVER',
+            'value'     => 'stage.example.com',
             'protected' => true,
         ];
 
@@ -1655,8 +1655,8 @@ class ProjectsTest extends TestCase
     public function shouldUpdateVariableWithEnvironment()
     {
         $expectedArray = [
-            'key' => 'DEPLOY_SERVER',
-            'value' => 'stage.example.com',
+            'key'               => 'DEPLOY_SERVER',
+            'value'             => 'stage.example.com',
             'environment_scope' => 'staging',
         ];
 
@@ -1681,9 +1681,9 @@ class ProjectsTest extends TestCase
     public function shouldUpdateVariableWithProtectedAndEnvironment()
     {
         $expectedArray = [
-            'key' => 'DEPLOY_SERVER',
-            'value' => 'stage.example.com',
-            'protected' => true,
+            'key'               => 'DEPLOY_SERVER',
+            'value'             => 'stage.example.com',
+            'protected'         => true,
             'environment_scope' => 'staging',
         ];
 
@@ -1762,7 +1762,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/deployments', [
-                'page' => 2,
+                'page'     => 2,
                 'per_page' => 15,
             ])
             ->will($this->returnValue($expectedArray));
@@ -1793,20 +1793,20 @@ class ProjectsTest extends TestCase
     {
         return [
             [
-                'id' => 1,
-                'link_url' => 'http://example.com/ci_status.svg?project=%{project_path}&ref=%{default_branch}',
-                'image_url' => 'https://shields.io/my/badge',
-                'rendered_link_url' => 'http://example.com/ci_status.svg?project=example-org/example-project&ref=master',
+                'id'                 => 1,
+                'link_url'           => 'http://example.com/ci_status.svg?project=%{project_path}&ref=%{default_branch}',
+                'image_url'          => 'https://shields.io/my/badge',
+                'rendered_link_url'  => 'http://example.com/ci_status.svg?project=example-org/example-project&ref=master',
                 'rendered_image_url' => 'https://shields.io/my/badge',
-                'kind' => 'project',
+                'kind'               => 'project',
             ],
             [
-                'id' => 2,
-                'link_url' => 'http://example.com/ci_status.svg?project=%{project_path}&ref=%{default_branch}',
-                'image_url' => 'https://shields.io/my/badge',
-                'rendered_link_url' => 'http://example.com/ci_status.svg?project=example-org/example-project&ref=master',
+                'id'                 => 2,
+                'link_url'           => 'http://example.com/ci_status.svg?project=%{project_path}&ref=%{default_branch}',
+                'image_url'          => 'https://shields.io/my/badge',
+                'rendered_link_url'  => 'http://example.com/ci_status.svg?project=example-org/example-project&ref=master',
                 'rendered_image_url' => 'https://shields.io/my/badge',
-                'kind' => 'group',
+                'kind'               => 'group',
             ],
         ];
     }
@@ -1854,8 +1854,8 @@ class ProjectsTest extends TestCase
         $link_url = 'http://example.com/ci_status.svg?project=%{project_path}&ref=%{default_branch}';
         $image_url = 'https://shields.io/my/badge';
         $expectedArray = [
-            'id' => 3,
-            'link_url' => $link_url,
+            'id'        => 3,
+            'link_url'  => $link_url,
             'image_url' => $image_url,
         ];
 
@@ -1912,13 +1912,13 @@ class ProjectsTest extends TestCase
     public function shouldAddProtectedBranch()
     {
         $expectedArray = [
-            'name' => 'master',
+            'name'              => 'master',
             'push_access_level' => [
-                'access_level' => 0,
+                'access_level'             => 0,
                 'access_level_description' => 'No one',
             ],
             'merge_access_levels' => [
-                'access_level' => 0,
+                'access_level'             => 0,
                 'access_level_description' => 'Developers + Maintainers',
             ],
         ];
@@ -1936,14 +1936,14 @@ class ProjectsTest extends TestCase
     public function shoudGetApprovalsConfiguration()
     {
         $expectedArray = [
-            'approvers' => [],
-            'approver_groups' => [],
-            'approvals_before_merge' => 1,
-            'reset_approvals_on_push' => true,
+            'approvers'                                      => [],
+            'approver_groups'                                => [],
+            'approvals_before_merge'                         => 1,
+            'reset_approvals_on_push'                        => true,
             'disable_overriding_approvers_per_merge_request' => null,
-            'merge_requests_author_approval' => null,
-            'merge_requests_disable_committers_approval' => null,
-            'require_password_to_approve' => null,
+            'merge_requests_author_approval'                 => null,
+            'merge_requests_disable_committers_approval'     => null,
+            'require_password_to_approve'                    => null,
         ];
 
         $api = $this->getApiMock();
@@ -1959,15 +1959,15 @@ class ProjectsTest extends TestCase
     {
         $expectedArray = [
             [
-                'id' => 1,
-                'name' => 'All Members',
-                'rule_type' => 'any_approver',
-                'eligible_approvers' => [],
-                'approvals_required' => 1,
-                'users' => [],
-                'groups' => [],
+                'id'                     => 1,
+                'name'                   => 'All Members',
+                'rule_type'              => 'any_approver',
+                'eligible_approvers'     => [],
+                'approvals_required'     => 1,
+                'users'                  => [],
+                'groups'                 => [],
                 'contains_hidden_groups' => false,
-                'protected_branches' => [],
+                'protected_branches'     => [],
             ],
         ];
 

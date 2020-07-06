@@ -20,8 +20,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('users', [])
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->all());
     }
@@ -40,8 +39,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('users', ['active' => true])
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->all(['active' => true]));
     }
@@ -60,7 +58,7 @@ class UsersTest extends TestCase
         $createdBefore = new \DateTime('2018-01-31 00:00:00');
 
         $expectedWithArray = [
-            'created_after' => $createdAfter->format(DATE_ATOM),
+            'created_after'  => $createdAfter->format(DATE_ATOM),
             'created_before' => $createdBefore->format(DATE_ATOM),
         ];
 
@@ -68,8 +66,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('users', $expectedWithArray)
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals(
             $expectedArray,
@@ -88,8 +85,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('users/1')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->show(1));
     }
@@ -108,8 +104,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with($path, $expectedParameters)
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         return $api;
     }
@@ -227,8 +222,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('users', ['email' => 'billy@example.com', 'password' => 'password'])
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->create('billy@example.com', 'password'));
     }
@@ -244,8 +238,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('users', ['email' => 'billy@example.com', 'password' => 'password', 'name' => 'Billy', 'bio' => 'A person'])
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->create('billy@example.com', 'password', ['name' => 'Billy', 'bio' => 'A person']));
     }
@@ -261,8 +254,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('users/3', ['name' => 'Billy Bob'])
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->update(3, ['name' => 'Billy Bob']));
 
@@ -272,8 +264,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('users/4', [], [], ['avatar' => '/some/image.jpg'])
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->update(4, [], ['avatar' => '/some/image.jpg']));
     }
@@ -289,8 +280,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('users/1')
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->will($this->returnValue($expectedBool));
 
         $this->assertEquals($expectedBool, $api->remove(1));
     }
@@ -306,8 +296,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('users/1/block')
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->will($this->returnValue($expectedBool));
 
         $this->assertEquals($expectedBool, $api->block(1));
     }
@@ -323,8 +312,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('users/1/unblock')
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->will($this->returnValue($expectedBool));
 
         $this->assertEquals($expectedBool, $api->unblock(1));
     }
@@ -340,8 +328,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('user')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->me());
     }
@@ -360,8 +347,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('user/keys')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->keys(1));
     }
@@ -377,8 +363,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('user/keys/1')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->key(1));
     }
@@ -394,8 +379,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('user/keys', ['title' => 'A new key', 'key' => '...'])
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->createKey('A new key', '...'));
     }
@@ -411,8 +395,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('user/keys/3')
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->will($this->returnValue($expectedBool));
 
         $this->assertEquals($expectedBool, $api->removeKey(3));
     }
@@ -431,8 +414,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('users/1/keys')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->userKeys(1));
     }
@@ -448,8 +430,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('users/1/keys/2')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->userKey(1, 2));
     }
@@ -465,8 +446,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('users/1/keys', ['title' => 'A new key', 'key' => '...'])
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->createKeyForUser(1, 'A new key', '...'));
     }
@@ -482,8 +462,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('users/1/keys/3')
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->will($this->returnValue($expectedBool));
 
         $this->assertEquals($expectedBool, $api->removeUserKey(1, 3));
     }
@@ -537,8 +516,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('users/1/emails')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->userEmails(1));
     }
@@ -554,8 +532,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('users/1/emails', ['email' => 'foo@bar.example', 'skip_confirmation' => false])
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->createEmailForUser(1, 'foo@bar.example'));
     }
@@ -571,8 +548,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('users/1/emails', ['email' => 'foo@baz.example', 'skip_confirmation' => true])
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->createEmailForUser(1, 'foo@baz.example', true));
     }
@@ -588,8 +564,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('users/1/emails/3')
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->will($this->returnValue($expectedBool));
 
         $this->assertEquals($expectedBool, $api->removeUserEmail(1, 3));
     }
@@ -608,8 +583,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('users/1/impersonation_tokens')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->userImpersonationTokens(1));
     }
@@ -625,8 +599,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('users/1/impersonation_tokens/1')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->userImpersonationToken(1, 1));
     }
@@ -642,8 +615,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('users/1/impersonation_tokens', ['name' => 'name', 'scopes' => ['api'], 'expires_at' => null])
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->createImpersonationToken(1, 'name', ['api']));
     }
@@ -659,8 +631,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('users/1/impersonation_tokens/1')
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->will($this->returnValue($expectedBool));
 
         $this->assertEquals($expectedBool, $api->removeImpersonationToken(1, 1));
     }
@@ -678,8 +649,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('users/1/impersonation_tokens')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->userImpersonationTokens(1, ['state' => 'active']));
     }
@@ -697,8 +667,7 @@ class UsersTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('users/1/impersonation_tokens')
-            ->will($this->returnValue($expectedArray))
-        ;
+            ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->userImpersonationTokens(1, ['state' => 'inactive']));
     }

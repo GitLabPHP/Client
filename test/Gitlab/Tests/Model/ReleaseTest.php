@@ -14,15 +14,14 @@ class ReleaseTest extends TestCase
     public function testFromArray()
     {
         $params = [
-            'tag_name' => 'v1.0.0',
+            'tag_name'    => 'v1.0.0',
             'description' => 'Amazing release. Wow',
         ];
 
         $project = new Project();
         $client = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
 
         $release = Release::fromArray($client, $params);
 

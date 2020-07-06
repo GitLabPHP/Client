@@ -59,8 +59,7 @@ class RepositoryFiles extends AbstractApi
         $resolver->setRequired('branch');
         $resolver->setDefined('start_branch');
         $resolver->setDefined('encoding')
-            ->setAllowedValues('encoding', ['text', 'base64'])
-        ;
+            ->setAllowedValues('encoding', ['text', 'base64']);
         $resolver->setDefined('author_email');
         $resolver->setDefined('author_name');
         $resolver->setRequired('content');
@@ -95,8 +94,7 @@ class RepositoryFiles extends AbstractApi
         $resolver->setRequired('branch');
         $resolver->setDefined('start_branch');
         $resolver->setDefined('encoding')
-            ->setAllowedValues('encoding', ['text', 'base64'])
-        ;
+            ->setAllowedValues('encoding', ['text', 'base64']);
         $resolver->setDefined('author_email');
         $resolver->setDefined('author_name');
         $resolver->setRequired('content');

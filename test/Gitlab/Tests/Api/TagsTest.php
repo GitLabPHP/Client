@@ -51,9 +51,9 @@ class TagsTest extends TestCase
         ];
 
         $params = [
-            'id' => 1,
+            'id'       => 1,
             'tag_name' => 'v1.1.0',
-            'ref' => 'ref/heads/master',
+            'ref'      => 'ref/heads/master',
         ];
 
         $api = $this->getApiMock();
@@ -132,18 +132,18 @@ class TagsTest extends TestCase
     {
         return [
             [
-                'tagName' => 'v1.1.0',
-                'description' => 'Amazing release. Wow',
+                'tagName'        => 'v1.1.0',
+                'description'    => 'Amazing release. Wow',
                 'expectedResult' => [
-                    'tag_name' => '1.0.0',
+                    'tag_name'    => '1.0.0',
                     'description' => 'Amazing release. Wow',
                 ],
             ],
             [
-                'tagName' => 'version/1.1.0',
-                'description' => 'Amazing release. Wow',
+                'tagName'        => 'version/1.1.0',
+                'description'    => 'Amazing release. Wow',
                 'expectedResult' => [
-                    'tag_name' => 'version/1.1.0',
+                    'tag_name'    => 'version/1.1.0',
                     'description' => 'Amazing release. Wow',
                 ],
             ],

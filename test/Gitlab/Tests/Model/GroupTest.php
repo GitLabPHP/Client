@@ -19,20 +19,20 @@ class GroupTest extends TestCase
             ->getMock();
 
         $data = [
-            'id' => 1,
-            'name' => 'Foobar Group',
-            'path' => 'foo-bar',
-            'description' => 'An interesting group',
-            'visibility' => 'public',
-            'lfs_enabled' => true,
-            'avatar_url' => 'http://localhost:3000/uploads/group/avatar/1/foo.jpg',
-            'web_url' => 'http://localhost:3000/groups/foo-bar',
-            'request_access_enabled' => false,
-            'full_name' => 'Foobar Group',
-            'full_path' => 'foo-bar',
+            'id'                       => 1,
+            'name'                     => 'Foobar Group',
+            'path'                     => 'foo-bar',
+            'description'              => 'An interesting group',
+            'visibility'               => 'public',
+            'lfs_enabled'              => true,
+            'avatar_url'               => 'http://localhost:3000/uploads/group/avatar/1/foo.jpg',
+            'web_url'                  => 'http://localhost:3000/groups/foo-bar',
+            'request_access_enabled'   => false,
+            'full_name'                => 'Foobar Group',
+            'full_path'                => 'foo-bar',
             'file_template_project_id' => 1,
-            'parent_id' => null,
-            'projects' => [
+            'parent_id'                => null,
+            'projects'                 => [
                 ['id' => 1],
             ],
             'shared_projects' => [
@@ -67,25 +67,23 @@ class GroupTest extends TestCase
     public function testProjects()
     {
         $group_data = [
-            'id' => 1,
-            'name' => 'Grouped',
-            'path' => '',
+            'id'          => 1,
+            'name'        => 'Grouped',
+            'path'        => '',
             'description' => 'Amazing group. Wow',
         ];
         $project_data = [
-            'id' => 1,
+            'id'   => 1,
             'name' => 'A Project',
         ];
 
         //Mock API methods
         $client = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
         $groups = $this->getMockBuilder(Groups::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
         $client->method('groups')->willReturn($groups);
         $groups->method('projects')->willReturn([$project_data]);
 

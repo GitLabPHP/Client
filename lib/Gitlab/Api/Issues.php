@@ -409,40 +409,32 @@ class Issues extends AbstractApi
         };
 
         $resolver->setDefined('state')
-            ->setAllowedValues('state', [self::STATE_OPENED, self::STATE_CLOSED])
-        ;
+            ->setAllowedValues('state', [self::STATE_OPENED, self::STATE_CLOSED]);
         $resolver->setDefined('labels');
         $resolver->setDefined('milestone');
         $resolver->setDefined('with_labels_details')
             ->setAllowedTypes('with_labels_details', 'bool')
-            ->setNormalizer('with_labels_details', $booleanNormalizer)
-        ;
+            ->setNormalizer('with_labels_details', $booleanNormalizer);
         $resolver->setDefined('iids')
             ->setAllowedTypes('iids', 'array')
             ->setAllowedValues('iids', function (array $value) {
                 return count($value) == count(array_filter($value, 'is_int'));
-            })
-        ;
+            });
         $resolver->setDefined('scope')
-            ->setAllowedValues('scope', ['created-by-me', 'assigned-to-me', 'all'])
-        ;
+            ->setAllowedValues('scope', ['created-by-me', 'assigned-to-me', 'all']);
         $resolver->setDefined('order_by')
-            ->setAllowedValues('order_by', ['created_at', 'updated_at'])
-        ;
+            ->setAllowedValues('order_by', ['created_at', 'updated_at']);
         $resolver->setDefined('sort')
-            ->setAllowedValues('sort', ['asc', 'desc'])
-        ;
+            ->setAllowedValues('sort', ['asc', 'desc']);
         $resolver->setDefined('search');
         $resolver->setDefined('created_after');
         $resolver->setDefined('created_before');
         $resolver->setDefined('updated_after');
         $resolver->setDefined('updated_before');
         $resolver->setDefined('assignee_id')
-            ->setAllowedTypes('assignee_id', 'integer')
-        ;
+            ->setAllowedTypes('assignee_id', 'integer');
         $resolver->setDefined('weight')
-            ->setAllowedTypes('weight', 'integer')
-        ;
+            ->setAllowedTypes('weight', 'integer');
 
         return $resolver;
     }

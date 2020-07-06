@@ -34,26 +34,21 @@ class Users extends AbstractApi
         $resolver->setDefined('search');
         $resolver->setDefined('username');
         $resolver->setDefined('external')
-            ->setAllowedTypes('external', 'bool')
-        ;
+            ->setAllowedTypes('external', 'bool');
         $resolver->setDefined('extern_uid');
         $resolver->setDefined('provider');
         $resolver->setDefined('created_before')
             ->setAllowedTypes('created_before', \DateTimeInterface::class)
-            ->setNormalizer('created_before', $datetimeNormalizer)
-        ;
+            ->setNormalizer('created_before', $datetimeNormalizer);
         $resolver->setDefined('created_after')
             ->setAllowedTypes('created_after', \DateTimeInterface::class)
-            ->setNormalizer('created_after', $datetimeNormalizer)
-        ;
+            ->setNormalizer('created_after', $datetimeNormalizer);
         $resolver->setDefined('active')
             ->setAllowedTypes('active', 'bool')
-            ->setAllowedValues('active', true)
-        ;
+            ->setAllowedValues('active', true);
         $resolver->setDefined('blocked')
             ->setAllowedTypes('blocked', 'bool')
-            ->setAllowedValues('blocked', true)
-        ;
+            ->setAllowedValues('blocked', true);
 
         return $this->get('users', $resolver->resolve($parameters));
     }
@@ -98,49 +93,37 @@ class Users extends AbstractApi
         };
         $resolver->setDefined('archived')
             ->setAllowedTypes('archived', 'bool')
-            ->setNormalizer('archived', $booleanNormalizer)
-        ;
+            ->setNormalizer('archived', $booleanNormalizer);
         $resolver->setDefined('visibility')
-            ->setAllowedValues('visibility', ['public', 'internal', 'private'])
-        ;
+            ->setAllowedValues('visibility', ['public', 'internal', 'private']);
         $resolver->setDefined('order_by')
-            ->setAllowedValues('order_by', ['id', 'name', 'path', 'created_at', 'updated_at', 'last_activity_at'])
-        ;
+            ->setAllowedValues('order_by', ['id', 'name', 'path', 'created_at', 'updated_at', 'last_activity_at']);
         $resolver->setDefined('sort')
-            ->setAllowedValues('sort', ['asc', 'desc'])
-        ;
+            ->setAllowedValues('sort', ['asc', 'desc']);
         $resolver->setDefined('search');
         $resolver->setDefined('simple')
             ->setAllowedTypes('simple', 'bool')
-            ->setNormalizer('simple', $booleanNormalizer)
-        ;
+            ->setNormalizer('simple', $booleanNormalizer);
         $resolver->setDefined('owned')
             ->setAllowedTypes('owned', 'bool')
-            ->setNormalizer('owned', $booleanNormalizer)
-        ;
+            ->setNormalizer('owned', $booleanNormalizer);
         $resolver->setDefined('membership')
             ->setAllowedTypes('membership', 'bool')
-            ->setNormalizer('membership', $booleanNormalizer)
-        ;
+            ->setNormalizer('membership', $booleanNormalizer);
         $resolver->setDefined('starred')
             ->setAllowedTypes('starred', 'bool')
-            ->setNormalizer('starred', $booleanNormalizer)
-        ;
+            ->setNormalizer('starred', $booleanNormalizer);
         $resolver->setDefined('statistics')
             ->setAllowedTypes('statistics', 'bool')
-            ->setNormalizer('statistics', $booleanNormalizer)
-        ;
+            ->setNormalizer('statistics', $booleanNormalizer);
         $resolver->setDefined('with_issues_enabled')
             ->setAllowedTypes('with_issues_enabled', 'bool')
-            ->setNormalizer('with_issues_enabled', $booleanNormalizer)
-        ;
+            ->setNormalizer('with_issues_enabled', $booleanNormalizer);
         $resolver->setDefined('with_merge_requests_enabled')
             ->setAllowedTypes('with_merge_requests_enabled', 'bool')
-            ->setNormalizer('with_merge_requests_enabled', $booleanNormalizer)
-        ;
+            ->setNormalizer('with_merge_requests_enabled', $booleanNormalizer);
         $resolver->setDefined('min_access_level')
-            ->setAllowedValues('min_access_level', [null, 10, 20, 30, 40, 50])
-        ;
+            ->setAllowedValues('min_access_level', [null, 10, 20, 30, 40, 50]);
 
         return $this->get('users/'.$this->encodePath($id).'/projects', $resolver->resolve($parameters));
     }
@@ -246,7 +229,7 @@ class Users extends AbstractApi
     {
         return $this->post('user/keys', [
             'title' => $title,
-            'key' => $key,
+            'key'   => $key,
         ]);
     }
 
@@ -292,7 +275,7 @@ class Users extends AbstractApi
     {
         return $this->post('users/'.$this->encodePath($user_id).'/keys', [
             'title' => $title,
-            'key' => $key,
+            'key'   => $key,
         ]);
     }
 
@@ -345,7 +328,7 @@ class Users extends AbstractApi
     public function createEmailForUser($user_id, $email, $skip_confirmation = false)
     {
         return $this->post('users/'.$this->encodePath($user_id).'/emails', [
-            'email' => $email,
+            'email'             => $email,
             'skip_confirmation' => $skip_confirmation,
         ]);
     }
@@ -372,8 +355,7 @@ class Users extends AbstractApi
         $resolver = $this->createOptionsResolver();
 
         $resolver->setDefined('state')
-            ->setAllowedValues('state', ['all', 'active', 'inactive'])
-        ;
+            ->setAllowedValues('state', ['all', 'active', 'inactive']);
 
         return $this->get('users/'.$this->encodePath($user_id).'/impersonation_tokens', $resolver->resolve($params));
     }
@@ -400,8 +382,8 @@ class Users extends AbstractApi
     public function createImpersonationToken($user_id, $name, array $scopes, $expires_at = null)
     {
         return $this->post('users/'.$this->encodePath($user_id).'/impersonation_tokens', [
-            'name' => $name,
-            'scopes' => $scopes,
+            'name'       => $name,
+            'scopes'     => $scopes,
             'expires_at' => $expires_at,
         ]);
     }

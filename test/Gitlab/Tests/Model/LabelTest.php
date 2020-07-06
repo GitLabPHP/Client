@@ -25,8 +25,7 @@ class LabelTest extends TestCase
         $project = new Project();
         $client = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
 
         $sUT = new Label($project, $client);
 
@@ -38,8 +37,7 @@ class LabelTest extends TestCase
         $project = new Project();
         $client = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
-            ->getMock()
-        ;
+            ->getMock();
 
         $sUT = Label::fromArray($client, $project, ['color' => '#FF0000', 'name' => 'Testing', 'id' => 123]);
 
