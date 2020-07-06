@@ -136,7 +136,6 @@ class MergeRequests extends AbstractApi
      * @param int                 $assignee          @deprecated since version 9.18 and will be removed in 10.0. Use $parameters['assignee_id'] instead.
      * @param int|string          $target_project_id @deprecated since version 9.18 and will be removed in 10.0. Use $parameters['target_project_id'] instead.
      * @param string              $description       @deprecated since version 9.18 and will be removed in 10.0. Use $parameters['description'] instead
-     * @param array               $parameters
      * @param array<string,mixed> $parameters        {
      *
      *     @var int        $assignee_id the assignee id
