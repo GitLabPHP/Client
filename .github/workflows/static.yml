@@ -1,0 +1,32 @@
+name: Static analysis
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  phpstan:
+
+    name: PHPStan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+          extensions: curl, xml
+          tools: composer:v2
+          coverage: none
+
+      - name: Install Dependencies
+        run: composer update --no-interaction --no-progress
+
+      - name: Install PHPStan
+        run: composer bin phpstan update --no-interaction --no-progress
+
+      - name: Execute PHPStan
+        run: vendor/bin/phpstan analyse --no-progress

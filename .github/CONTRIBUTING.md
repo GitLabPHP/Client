@@ -27,5 +27,5 @@ Then run [PHPUnit](https://phpunit.de/):
 $ vendor/bin/phpunit
 ```
 
-* The tests will be automatically run by [Travis CI](https://travis-ci.org/) against pull requests.
+* The tests will be automatically run by [GitHub Actions](https://github.com/features/actions) against pull requests.
 * We also have [StyleCI](https://styleci.io/) setup to automatically fix any code style issues.

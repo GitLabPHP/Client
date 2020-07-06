@@ -4,7 +4,7 @@ PHP GitLab API
 We present a PHP client for [GitLab](https://gitlab.com/)'s [API v4](https://gitlab.com/gitlab-org/gitlab/-/tree/master/doc/api).
 
 [![Build Status](
-https://img.shields.io/travis/m4tthumphrey/php-gitlab-api/9.18?style=flat-square)](https://travis-ci.org/m4tthumphrey/php-gitlab-api)
+https://img.shields.io/github/workflow/status/GitLabPHP/Client/tests?style=flat-square)](https://github.com/GitLabPHP/Client/actions?query=workflow%3ATests)
 [![StyleCI](https://github.styleci.io/repos/6816335/shield?branch=9.18)](https://github.styleci.io/repos/6816335?branch=9.18)
 [![Latest Stable Version](https://poser.pugx.org/m4tthumphrey/php-gitlab-api/version?format=flat-square)](https://packagist.org/packages/m4tthumphrey/php-gitlab-api)
 [![Total Downloads](https://poser.pugx.org/m4tthumphrey/php-gitlab-api/downloads?format=flat-square)](https://packagist.org/packages/m4tthumphrey/php-gitlab-api)
@@ -121,7 +121,7 @@ $builder->addPlugin($plugin);
 
 $client = new Gitlab\Client($builder);
 ```
-One can read more about HTTPlug plugins [here](https://docs.php-http.org/en/latest/plugins/introduction.html#how-it-works). Take a look around ([API methods](https://github.com/m4tthumphrey/php-gitlab-api/tree/9.18/lib/Gitlab/Api), [models](https://github.com/m4tthumphrey/php-gitlab-api/tree/9.18/lib/Gitlab/Model)) and please feel free to report any bugs, noting our [code of conduct](.github/CODE_OF_CONDUCT.md).
+One can read more about HTTPlug plugins [here](https://docs.php-http.org/en/latest/plugins/introduction.html#how-it-works). Take a look around ([API methods](https://github.com/GitLabPHP/Client/tree/9.18/lib/Gitlab/Api), [models](https://github.com/GitLabPHP/Client/tree/9.18/lib/Gitlab/Model)) and please feel free to report any bugs, noting our [code of conduct](.github/CODE_OF_CONDUCT.md).
 
 Contributing
 ------------
@@ -131,7 +131,7 @@ Not all endpoints of the API are implemented yet. We will gladly review and acce
 Security
 --------
 
-If you discover a security vulnerability within this package, please send an email to Graham Campbell at graham@alt-three.com or Miguel Piedrafita at github@miguelpiedrafita.com. All security vulnerabilities will be promptly addressed. You may view our full security policy [here](https://github.com/m4tthumphrey/php-gitlab-api/security/policy).
+If you discover a security vulnerability within this package, please send an email to Graham Campbell at graham@alt-three.com or Miguel Piedrafita at github@miguelpiedrafita.com. All security vulnerabilities will be promptly addressed. You may view our full security policy [here](https://github.com/GitLabPHP/Client/security/policy).
 
 License
 -------
