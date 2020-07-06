@@ -18,15 +18,18 @@ class ResultPagerTest extends TestCase
     {
         $client = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMock()
+        ;
 
         $api = $this->getMockBuilder(ApiInterface::class)
             ->disableOriginalConstructor()
             ->setMethods(['__construct', 'all'])
-            ->getMock();
+            ->getMock()
+        ;
         $api->expects($this->once())
             ->method('all')
-            ->willReturn(['project1', 'project2']);
+            ->willReturn(['project1', 'project2'])
+        ;
 
         $pager = new ResultPager($client);
 
@@ -39,14 +42,17 @@ class ResultPagerTest extends TestCase
     {
         $client = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMock()
+        ;
 
         $response1 = (new Response())->withHeader('Link', '<https://example.gitlab.com/projects?page=2>; rel="next",');
         $response2 = (new Response())->withHeader('Link', '<https://example.gitlab.com/projects?page=3>; rel="next",')
             ->withHeader('Content-Type', 'application/json')
-            ->withBody(stream_for('["project3", "project4"]'));
+            ->withBody(stream_for('["project3", "project4"]'))
+        ;
         $response3 = (new Response())->withHeader('Content-Type', 'application/json')
-            ->withBody(stream_for('["project5", "project6"]'));
+            ->withBody(stream_for('["project5", "project6"]'))
+        ;
 
         $client
             ->method('getLastResponse')
@@ -58,7 +64,8 @@ class ResultPagerTest extends TestCase
                 $response2,
                 $response2,
                 $response3
-            ));
+            ))
+        ;
 
         $httpClient = $this->createMock(HttpMethodsClientInterface::class);
 
@@ -71,11 +78,13 @@ class ResultPagerTest extends TestCase
             ->will($this->onConsecutiveCalls(
                 $response2,
                 $response3
-            ));
+            ))
+        ;
 
         $client
             ->method('getHttpClient')
-            ->willReturn($httpClient);
+            ->willReturn($httpClient)
+        ;
 
         $api = $this->getMockBuilder(ApiInterface::class)
             ->disableOriginalConstructor()
@@ -83,7 +92,8 @@ class ResultPagerTest extends TestCase
             ->getMock();
         $api->expects($this->exactly(1))
             ->method('all')
-            ->willReturn(['project1', 'project2']);
+            ->willReturn(['project1', 'project2'])
+        ;
 
         $pager = new ResultPager($client);
 

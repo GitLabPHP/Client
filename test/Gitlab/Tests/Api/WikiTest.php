@@ -12,9 +12,9 @@ class WikiTest extends TestCase
     public function shouldCreateWiki()
     {
         $expectedArray = [
-            'format'  => 'markdown',
-            'slug'    => 'Test-Wiki',
-            'title'   => 'Test Wiki',
+            'format' => 'markdown',
+            'slug' => 'Test-Wiki',
+            'title' => 'Test Wiki',
             'content' => 'This is the test Wiki',
         ];
 
@@ -22,8 +22,8 @@ class WikiTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/wikis', [
-                'format'  => 'markdown',
-                'title'   => 'Test Wiki',
+                'format' => 'markdown',
+                'title' => 'Test Wiki',
                 'content' => 'This is the test Wiki',
             ])
             ->will($this->returnValue($expectedArray));
@@ -31,8 +31,8 @@ class WikiTest extends TestCase
         $this->assertEquals($expectedArray, $api->create(
             1,
             [
-                'format'  => 'markdown',
-                'title'   => 'Test Wiki',
+                'format' => 'markdown',
+                'title' => 'Test Wiki',
                 'content' => 'This is the test Wiki',
             ]
         ));
@@ -44,8 +44,8 @@ class WikiTest extends TestCase
     public function shouldShowWiki()
     {
         $expectedArray = [
-            'slug'   => 'Test-Wiki',
-            'title'  => 'Test Wiki',
+            'slug' => 'Test-Wiki',
+            'title' => 'Test Wiki',
             'format' => 'markdown',
         ];
 
@@ -64,8 +64,8 @@ class WikiTest extends TestCase
     public function shouldShowAllWiki()
     {
         $expectedArray = [
-            'slug'   => 'Test-Wiki',
-            'title'  => 'Test Wiki',
+            'slug' => 'Test-Wiki',
+            'title' => 'Test Wiki',
             'format' => 'markdown',
         ];
 
@@ -73,7 +73,8 @@ class WikiTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/wikis')
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->showAll(1));
     }
@@ -84,9 +85,9 @@ class WikiTest extends TestCase
     public function shouldUpdateWiki()
     {
         $expectedArray = [
-            'slug'    => 'Test-Wiki',
-            'title'   => 'Test Wiki',
-            'format'  => 'markdown',
+            'slug' => 'Test-Wiki',
+            'title' => 'Test Wiki',
+            'format' => 'markdown',
             'content' => 'This is the test Wiki that has been updated',
         ];
 
@@ -94,7 +95,8 @@ class WikiTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/wikis/Test-Wiki', ['content' => 'This is the test Wiki that has been updated'])
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->update(1, 'Test-Wiki', ['content' => 'This is the test Wiki that has been updated']));
     }
@@ -110,7 +112,8 @@ class WikiTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/wikis/Test-Wiki')
-            ->will($this->returnValue($expectedBool));
+            ->will($this->returnValue($expectedBool))
+        ;
 
         $this->assertEquals($expectedBool, $api->remove(1, 'Test-Wiki'));
     }

@@ -29,7 +29,7 @@ class IssueLinks extends AbstractApi
     {
         return $this->post($this->getProjectPath($source_project_id, 'issues/'.$this->encodePath($source_issue_iid).'/links'), [
             'target_project_id' => $target_project_id,
-            'target_issue_iid'  => $target_issue_iid,
+            'target_issue_iid' => $target_issue_iid,
         ]);
     }
 

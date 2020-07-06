@@ -129,9 +129,9 @@ class Branch extends AbstractModel
         $author_name = null
     ) {
         $parameters = [
-            'file_path'      => $file_path,
-            'branch'         => $this->name,
-            'content'        => $content,
+            'file_path' => $file_path,
+            'branch' => $this->name,
+            'content' => $content,
             'commit_message' => $commit_message,
         ];
 
@@ -165,9 +165,9 @@ class Branch extends AbstractModel
         $author_name = null
     ) {
         $parameters = [
-            'file_path'      => $file_path,
-            'branch'         => $this->name,
-            'content'        => $content,
+            'file_path' => $file_path,
+            'branch' => $this->name,
+            'content' => $content,
             'commit_message' => $commit_message,
         ];
 
@@ -195,8 +195,8 @@ class Branch extends AbstractModel
     public function deleteFile($file_path, $commit_message, $author_email = null, $author_name = null)
     {
         $parameters = [
-            'file_path'      => $file_path,
-            'branch'         => $this->name,
+            'file_path' => $file_path,
+            'branch' => $this->name,
             'commit_message' => $commit_message,
         ];
 

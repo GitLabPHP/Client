@@ -51,35 +51,46 @@ class MergeRequests extends AbstractApi
             ->setAllowedTypes('iids', 'array')
             ->setAllowedValues('iids', function (array $value) {
                 return count($value) == count(array_filter($value, 'is_int'));
-            });
+            })
+        ;
         $resolver->setDefined('state')
-            ->setAllowedValues('state', [self::STATE_ALL, self::STATE_MERGED, self::STATE_OPENED, self::STATE_CLOSED]);
+            ->setAllowedValues('state', [self::STATE_ALL, self::STATE_MERGED, self::STATE_OPENED, self::STATE_CLOSED])
+        ;
         $resolver->setDefined('scope')
-            ->setAllowedValues('scope', ['created-by-me', 'assigned-to-me', 'all']);
+            ->setAllowedValues('scope', ['created-by-me', 'assigned-to-me', 'all'])
+        ;
         $resolver->setDefined('order_by')
-            ->setAllowedValues('order_by', ['created_at', 'updated_at']);
+            ->setAllowedValues('order_by', ['created_at', 'updated_at'])
+        ;
         $resolver->setDefined('sort')
-            ->setAllowedValues('sort', ['asc', 'desc']);
+            ->setAllowedValues('sort', ['asc', 'desc'])
+        ;
         $resolver->setDefined('milestone');
         $resolver->setDefined('view')
-            ->setAllowedValues('view', ['simple']);
+            ->setAllowedValues('view', ['simple'])
+        ;
         $resolver->setDefined('labels');
         $resolver->setDefined('created_after')
             ->setAllowedTypes('created_after', \DateTimeInterface::class)
-            ->setNormalizer('created_after', $datetimeNormalizer);
+            ->setNormalizer('created_after', $datetimeNormalizer)
+        ;
         $resolver->setDefined('created_before')
             ->setAllowedTypes('created_before', \DateTimeInterface::class)
-            ->setNormalizer('created_before', $datetimeNormalizer);
+            ->setNormalizer('created_before', $datetimeNormalizer)
+        ;
 
         $resolver->setDefined('updated_after')
             ->setAllowedTypes('updated_after', \DateTimeInterface::class)
-            ->setNormalizer('updated_after', $datetimeNormalizer);
+            ->setNormalizer('updated_after', $datetimeNormalizer)
+        ;
         $resolver->setDefined('updated_before')
             ->setAllowedTypes('updated_before', \DateTimeInterface::class)
-            ->setNormalizer('updated_before', $datetimeNormalizer);
+            ->setNormalizer('updated_before', $datetimeNormalizer)
+        ;
 
         $resolver->setDefined('scope')
-            ->setAllowedValues('scope', ['created_by_me', 'assigned_to_me', 'all']);
+            ->setAllowedValues('scope', ['created_by_me', 'assigned_to_me', 'all'])
+        ;
         $resolver->setDefined('author_id')
             ->setAllowedTypes('author_id', 'integer');
 
@@ -110,9 +121,11 @@ class MergeRequests extends AbstractApi
     {
         $resolver = $this->createOptionsResolver();
         $resolver->setDefined('include_diverged_commits_count')
-            ->setAllowedTypes('include_diverged_commits_count', 'bool');
+            ->setAllowedTypes('include_diverged_commits_count', 'bool')
+        ;
         $resolver->setDefined('include_rebase_in_progress')
-            ->setAllowedTypes('include_rebase_in_progress', 'bool');
+            ->setAllowedTypes('include_rebase_in_progress', 'bool')
+        ;
 
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid)), $resolver->resolve($parameters));
     }
@@ -136,7 +149,7 @@ class MergeRequests extends AbstractApi
         $baseParams = [
             'source_branch' => $source,
             'target_branch' => $target,
-            'title'         => $title,
+            'title' => $title,
         ];
 
         return $this->post(
@@ -475,7 +488,7 @@ class MergeRequests extends AbstractApi
     public function createLevelRule($project_id, $mr_iid, $name, $approvals_required, array $parameters = [])
     {
         $baseParam = [
-            'name'               => $name,
+            'name' => $name,
             'approvals_required' => $approvals_required,
         ];
 
@@ -498,7 +511,7 @@ class MergeRequests extends AbstractApi
     public function updateLevelRule($project_id, $mr_iid, $approval_rule_id, $name, $approvals_required, array $parameters = [])
     {
         $baseParam = [
-            'name'               => $name,
+            'name' => $name,
             'approvals_required' => $approvals_required,
         ];
 

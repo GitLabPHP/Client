@@ -19,10 +19,12 @@ class IssueLinkTest extends TestCase
     {
         $issue = $this->getMockBuilder(Issue::class)
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMock()
+        ;
         $client = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMock()
+        ;
 
         $issueLink = new IssueLink($issue, 1, $client);
 
@@ -38,10 +40,12 @@ class IssueLinkTest extends TestCase
     {
         $client = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMock()
+        ;
         $project = $this->getMockBuilder(Project::class)
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMock()
+        ;
 
         $issueLink = IssueLink::fromArray($client, $project, ['issue_link_id' => 1, 'iid' => 10]);
 

@@ -53,7 +53,7 @@ class Repositories extends AbstractApi
     {
         return $this->post($this->getProjectPath($project_id, 'repository/branches'), [
             'branch' => $branch,
-            'ref'    => $ref,
+            'ref' => $ref,
         ]);
     }
 
@@ -79,7 +79,7 @@ class Repositories extends AbstractApi
     public function protectBranch($project_id, $branch, $devPush = false, $devMerge = false)
     {
         return $this->put($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch).'/protect'), [
-            'developers_can_push'  => $devPush,
+            'developers_can_push' => $devPush,
             'developers_can_merge' => $devMerge,
         ]);
     }
@@ -120,8 +120,8 @@ class Repositories extends AbstractApi
     {
         return $this->post($this->getProjectPath($project_id, 'repository/tags'), [
             'tag_name' => $name,
-            'ref'      => $ref,
-            'message'  => $message,
+            'ref' => $ref,
+            'message' => $message,
         ]);
     }
 
@@ -135,8 +135,8 @@ class Repositories extends AbstractApi
     public function createRelease($project_id, $tag_name, $description)
     {
         return $this->post($this->getProjectPath($project_id, 'repository/tags/'.$this->encodePath($tag_name).'/release'), [
-            'id'          => $project_id,
-            'tag_name'    => $tag_name,
+            'id' => $project_id,
+            'tag_name' => $tag_name,
             'description' => $description,
         ]);
     }
@@ -151,8 +151,8 @@ class Repositories extends AbstractApi
     public function updateRelease($project_id, $tag_name, $description)
     {
         return $this->put($this->getProjectPath($project_id, 'repository/tags/'.$this->encodePath($tag_name).'/release'), [
-            'id'          => $project_id,
-            'tag_name'    => $tag_name,
+            'id' => $project_id,
+            'tag_name' => $tag_name,
             'description' => $description,
         ]);
     }
@@ -191,10 +191,12 @@ class Repositories extends AbstractApi
         $resolver->setDefined('ref_name');
         $resolver->setDefined('since')
             ->setAllowedTypes('since', \DateTimeInterface::class)
-            ->setNormalizer('since', $datetimeNormalizer);
+            ->setNormalizer('since', $datetimeNormalizer)
+        ;
         $resolver->setDefined('until')
             ->setAllowedTypes('until', \DateTimeInterface::class)
-            ->setNormalizer('until', $datetimeNormalizer);
+            ->setNormalizer('until', $datetimeNormalizer)
+        ;
         $resolver->setDefined('all');
         $resolver->setDefined('with_stats');
 
@@ -253,9 +255,11 @@ class Repositories extends AbstractApi
     {
         $resolver = new OptionsResolver();
         $resolver->setDefined('branch')
-            ->setRequired('branch');
+            ->setRequired('branch')
+        ;
         $resolver->setDefined('commit_message')
-            ->setRequired('commit_message');
+            ->setRequired('commit_message')
+        ;
         $resolver->setDefined('start_branch');
         $resolver->setDefined('actions')
             ->setRequired('actions')
@@ -267,18 +271,22 @@ class Repositories extends AbstractApi
                 $actionsOptionsResolver = new OptionsResolver();
                 $actionsOptionsResolver->setDefined('action')
                     ->setRequired('action')
-                    ->setAllowedValues('action', ['create', 'delete', 'move', 'update']);
+                    ->setAllowedValues('action', ['create', 'delete', 'move', 'update'])
+                ;
                 $actionsOptionsResolver->setDefined('file_path')
-                    ->setRequired('file_path');
+                    ->setRequired('file_path')
+                ;
                 $actionsOptionsResolver->setDefined('previous_path');
                 $actionsOptionsResolver->setDefined('content');
                 $actionsOptionsResolver->setDefined('encoding')
-                    ->setAllowedValues('encoding', ['text', 'base64']);
+                    ->setAllowedValues('encoding', ['text', 'base64'])
+                ;
 
                 return array_map(function ($action) use ($actionsOptionsResolver) {
                     return $actionsOptionsResolver->resolve($action);
                 }, $actions);
-            });
+            })
+        ;
         $resolver->setDefined('author_email');
         $resolver->setDefined('author_name');
 

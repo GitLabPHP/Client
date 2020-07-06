@@ -44,37 +44,49 @@ class Projects extends AbstractApi
         };
         $resolver->setDefined('archived')
             ->setAllowedTypes('archived', 'bool')
-            ->setNormalizer('archived', $booleanNormalizer);
+            ->setNormalizer('archived', $booleanNormalizer)
+        ;
         $resolver->setDefined('visibility')
-            ->setAllowedValues('visibility', ['public', 'internal', 'private']);
+            ->setAllowedValues('visibility', ['public', 'internal', 'private'])
+        ;
         $resolver->setDefined('order_by')
-            ->setAllowedValues('order_by', ['id', 'name', 'path', 'created_at', 'updated_at', 'last_activity_at']);
+            ->setAllowedValues('order_by', ['id', 'name', 'path', 'created_at', 'updated_at', 'last_activity_at'])
+        ;
         $resolver->setDefined('sort')
-            ->setAllowedValues('sort', ['asc', 'desc']);
+            ->setAllowedValues('sort', ['asc', 'desc'])
+        ;
         $resolver->setDefined('search');
         $resolver->setDefined('simple')
             ->setAllowedTypes('simple', 'bool')
-            ->setNormalizer('simple', $booleanNormalizer);
+            ->setNormalizer('simple', $booleanNormalizer)
+        ;
         $resolver->setDefined('owned')
             ->setAllowedTypes('owned', 'bool')
-            ->setNormalizer('owned', $booleanNormalizer);
+            ->setNormalizer('owned', $booleanNormalizer)
+        ;
         $resolver->setDefined('membership')
             ->setAllowedTypes('membership', 'bool')
-            ->setNormalizer('membership', $booleanNormalizer);
+            ->setNormalizer('membership', $booleanNormalizer)
+        ;
         $resolver->setDefined('starred')
             ->setAllowedTypes('starred', 'bool')
-            ->setNormalizer('starred', $booleanNormalizer);
+            ->setNormalizer('starred', $booleanNormalizer)
+        ;
         $resolver->setDefined('statistics')
             ->setAllowedTypes('statistics', 'bool')
-            ->setNormalizer('statistics', $booleanNormalizer);
+            ->setNormalizer('statistics', $booleanNormalizer)
+        ;
         $resolver->setDefined('with_issues_enabled')
             ->setAllowedTypes('with_issues_enabled', 'bool')
-            ->setNormalizer('with_issues_enabled', $booleanNormalizer);
+            ->setNormalizer('with_issues_enabled', $booleanNormalizer)
+        ;
         $resolver->setDefined('with_merge_requests_enabled')
             ->setAllowedTypes('with_merge_requests_enabled', 'bool')
-            ->setNormalizer('with_merge_requests_enabled', $booleanNormalizer);
+            ->setNormalizer('with_merge_requests_enabled', $booleanNormalizer)
+        ;
         $resolver->setDefined('min_access_level')
-            ->setAllowedValues('min_access_level', [null, 10, 20, 30, 40, 50]);
+            ->setAllowedValues('min_access_level', [null, 10, 20, 30, 40, 50])
+        ;
 
         return $this->get('projects', $resolver->resolve($parameters));
     }
@@ -97,10 +109,12 @@ class Projects extends AbstractApi
         };
         $resolver->setDefined('statistics')
             ->setAllowedTypes('statistics', 'bool')
-            ->setNormalizer('statistics', $booleanNormalizer);
+            ->setNormalizer('statistics', $booleanNormalizer)
+        ;
         $resolver->setDefined('with_custom_attributes')
             ->setAllowedTypes('with_custom_attributes', 'bool')
-            ->setNormalizer('with_custom_attributes', $booleanNormalizer);
+            ->setNormalizer('with_custom_attributes', $booleanNormalizer)
+        ;
 
         return $this->get('projects/'.$this->encodePath($project_id), $resolver->resolve($parameters));
     }
@@ -235,26 +249,33 @@ class Projects extends AbstractApi
         };
 
         $resolver->setDefined('scope')
-            ->setAllowedValues('scope', ['running', 'pending', 'finished', 'branches', 'tags']);
+            ->setAllowedValues('scope', ['running', 'pending', 'finished', 'branches', 'tags'])
+        ;
         $resolver->setDefined('status')
-            ->setAllowedValues('status', ['running', 'pending', 'success', 'failed', 'canceled', 'skipped']);
+            ->setAllowedValues('status', ['running', 'pending', 'success', 'failed', 'canceled', 'skipped'])
+        ;
         $resolver->setDefined('ref');
         $resolver->setDefined('sha');
         $resolver->setDefined('yaml_errors')
             ->setAllowedTypes('yaml_errors', 'bool')
-            ->setNormalizer('yaml_errors', $booleanNormalizer);
+            ->setNormalizer('yaml_errors', $booleanNormalizer)
+        ;
         $resolver->setDefined('name');
         $resolver->setDefined('username');
         $resolver->setDefined('updated_after')
                  ->setAllowedTypes('updated_after', \DateTimeInterface::class)
-                 ->setNormalizer('updated_after', $datetimeNormalizer);
+                 ->setNormalizer('updated_after', $datetimeNormalizer)
+        ;
         $resolver->setDefined('updated_before')
                  ->setAllowedTypes('updated_before', \DateTimeInterface::class)
-                 ->setNormalizer('updated_before', $datetimeNormalizer);
+                 ->setNormalizer('updated_before', $datetimeNormalizer)
+        ;
         $resolver->setDefined('order_by')
-            ->setAllowedValues('order_by', ['id', 'status', 'ref', 'user_id']);
+            ->setAllowedValues('order_by', ['id', 'status', 'ref', 'user_id'])
+        ;
         $resolver->setDefined('sort')
-            ->setAllowedValues('sort', ['asc', 'desc']);
+            ->setAllowedValues('sort', ['asc', 'desc'])
+        ;
 
         return $this->get($this->getProjectPath($project_id, 'pipelines'), $resolver->resolve($parameters));
     }
@@ -367,7 +388,8 @@ class Projects extends AbstractApi
         $resolver = $this->createOptionsResolver();
 
         $resolver->setDefined('query')
-            ->setAllowedTypes('query', 'string');
+            ->setAllowedTypes('query', 'string')
+        ;
 
         return $this->get($this->getProjectPath($project_id, 'members'), $resolver->resolve($parameters));
     }
@@ -393,7 +415,7 @@ class Projects extends AbstractApi
     public function addMember($project_id, $user_id, $access_level)
     {
         return $this->post($this->getProjectPath($project_id, 'members'), [
-            'user_id'      => $user_id,
+            'user_id' => $user_id,
             'access_level' => $access_level,
         ]);
     }
@@ -576,8 +598,8 @@ class Projects extends AbstractApi
     public function addDeployKey($project_id, $title, $key, $canPush = false)
     {
         return $this->post($this->getProjectPath($project_id, 'deploy_keys'), [
-            'title'    => $title,
-            'key'      => $key,
+            'title' => $title,
+            'key' => $key,
             'can_push' => $canPush,
         ]);
     }
@@ -625,17 +647,21 @@ class Projects extends AbstractApi
         };
 
         $resolver->setDefined('action')
-            ->setAllowedValues('action', ['created', 'updated', 'closed', 'reopened', 'pushed', 'commented', 'merged', 'joined', 'left', 'destroyed', 'expired']);
+            ->setAllowedValues('action', ['created', 'updated', 'closed', 'reopened', 'pushed', 'commented', 'merged', 'joined', 'left', 'destroyed', 'expired'])
+        ;
         $resolver->setDefined('target_type')
-            ->setAllowedValues('target_type', ['issue', 'milestone', 'merge_request', 'note', 'project', 'snippet', 'user']);
+            ->setAllowedValues('target_type', ['issue', 'milestone', 'merge_request', 'note', 'project', 'snippet', 'user'])
+        ;
         $resolver->setDefined('before')
             ->setAllowedTypes('before', \DateTimeInterface::class)
             ->setNormalizer('before', $datetimeNormalizer);
         $resolver->setDefined('after')
             ->setAllowedTypes('after', \DateTimeInterface::class)
-            ->setNormalizer('after', $datetimeNormalizer);
+            ->setNormalizer('after', $datetimeNormalizer)
+        ;
         $resolver->setDefined('sort')
-            ->setAllowedValues('sort', ['asc', 'desc']);
+            ->setAllowedValues('sort', ['asc', 'desc'])
+        ;
 
         return $this->get($this->getProjectPath($project_id, 'events'), $resolver->resolve($parameters));
     }
@@ -814,7 +840,7 @@ class Projects extends AbstractApi
     public function addVariable($project_id, $key, $value, $protected = null, $environment_scope = null)
     {
         $payload = [
-            'key'   => $key,
+            'key' => $key,
             'value' => $value,
         ];
 
@@ -924,7 +950,8 @@ class Projects extends AbstractApi
 
         $resolver->setDefined('expires_at')
             ->setAllowedTypes('expires_at', \DateTimeInterface::class)
-            ->setNormalizer('expires_at', $datetimeNormalizer);
+            ->setNormalizer('expires_at', $datetimeNormalizer)
+        ;
 
         return $this->post($this->getProjectPath($project_id, 'share'), $resolver->resolve($parameters));
     }

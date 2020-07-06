@@ -25,7 +25,8 @@ class JobsTest extends TestCase
             ->with('projects/1/jobs', [
                 'scope' => ['pending'],
             ])
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->all(1, ['scope' => Jobs::SCOPE_PENDING]));
     }
@@ -46,7 +47,8 @@ class JobsTest extends TestCase
             ->with('projects/1/pipelines/2/jobs', [
                 'scope' => ['pending', 'running'],
             ])
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->pipelineJobs(1, 2, ['scope' => [Jobs::SCOPE_PENDING, Jobs::SCOPE_RUNNING]]));
     }
@@ -62,7 +64,8 @@ class JobsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/jobs/3')
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->show(1, 3));
     }
@@ -78,7 +81,8 @@ class JobsTest extends TestCase
         $api->expects($this->once())
             ->method('getAsResponse')
             ->with('projects/1/jobs/3/artifacts')
-            ->will($this->returnValue($returnedStream));
+            ->will($this->returnValue($returnedStream))
+        ;
 
         $this->assertEquals('foobar', $api->artifacts(1, 3)->getContents());
     }
@@ -96,7 +100,8 @@ class JobsTest extends TestCase
             ->with('projects/1/jobs/artifacts/master/download', [
                 'job' => 'job_name',
             ])
-            ->will($this->returnValue($returnedStream));
+            ->will($this->returnValue($returnedStream))
+        ;
 
         $this->assertEquals('foobar', $api->artifactsByRefName(1, 'master', 'job_name')->getContents());
     }
@@ -113,7 +118,8 @@ class JobsTest extends TestCase
             ->with('projects/1/jobs/artifacts/master/raw/artifact_path', [
                 'job' => 'job_name',
             ])
-            ->will($this->returnValue($returnedStream));
+            ->will($this->returnValue($returnedStream))
+        ;
         $this->assertEquals('foobar', $api->artifactByRefName(1, 'master', 'job_name', 'artifact_path')->getContents());
     }
 
@@ -128,7 +134,8 @@ class JobsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/jobs/3/trace')
-            ->will($this->returnValue($expectedString));
+            ->will($this->returnValue($expectedString))
+        ;
 
         $this->assertEquals($expectedString, $api->trace(1, 3));
     }
@@ -144,7 +151,8 @@ class JobsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/jobs/3/cancel')
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->cancel(1, 3));
     }
@@ -160,7 +168,8 @@ class JobsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/jobs/3/retry')
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->retry(1, 3));
     }
@@ -176,7 +185,8 @@ class JobsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/jobs/3/erase')
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->erase(1, 3));
     }
@@ -192,7 +202,8 @@ class JobsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/jobs/3/artifacts/keep')
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->keepArtifacts(1, 3));
     }
@@ -208,7 +219,8 @@ class JobsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/jobs/3/play')
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->play(1, 3));
     }

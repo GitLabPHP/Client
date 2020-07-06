@@ -42,7 +42,8 @@ class IssueTest extends TestCase
         $project = new Project();
         $client = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMock()
+        ;
 
         $sUT = new Issue($project, 10, $client);
 
@@ -56,7 +57,8 @@ class IssueTest extends TestCase
         $project = new Project();
         $client = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMock()
+        ;
 
         $sUT = Issue::fromArray($client, $project, ['iid' => 10]);
 
@@ -79,7 +81,7 @@ class IssueTest extends TestCase
     public function testIsClosed()
     {
         $opened_data = [
-            'iid'   => 1,
+            'iid' => 1,
             'state' => 'opened',
         ];
         $opened_issue = $this->getIssueMock($opened_data);
@@ -87,7 +89,7 @@ class IssueTest extends TestCase
         $this->assertFalse($opened_issue->isClosed());
 
         $closed_data = [
-            'iid'   => 1,
+            'iid' => 1,
             'state' => 'closed',
         ];
         $closed_issue = $this->getIssueMock($closed_data);
@@ -98,7 +100,7 @@ class IssueTest extends TestCase
     public function testHasLabel()
     {
         $data = [
-            'iid'    => 1,
+            'iid' => 1,
             'labels' => ['foo', 'bar'],
         ];
         $issue = $this->getIssueMock($data);
@@ -140,13 +142,16 @@ class IssueTest extends TestCase
     {
         $issueLinks = $this->getMockBuilder(IssueLinks::class)
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMock()
+        ;
         $projects = $this->getMockBuilder(Projects::class)
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMock()
+        ;
         $client = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMock()
+        ;
 
         $client->method('issueLinks')->willReturn($issueLinks);
         $client->method('projects')->willReturn($projects);
@@ -157,11 +162,13 @@ class IssueTest extends TestCase
             ->willReturn([
                 ['issue_link_id' => 100, 'iid' => 10, 'project_id' => 1],
                 ['issue_link_id' => 200, 'iid' => 20, 'project_id' => 2],
-            ]);
+            ])
+        ;
         $projects->expects($this->exactly(2))
             ->method('show')
             ->withConsecutive([1], [2])
-            ->will($this->onConsecutiveCalls(['id' => 1], ['id' => 2]));
+            ->will($this->onConsecutiveCalls(['id' => 1], ['id' => 2]))
+        ;
 
         $issue = new Issue(new Project(1, $client), 10, $client);
         $issueLinks = $issue->links();
@@ -191,10 +198,12 @@ class IssueTest extends TestCase
     {
         $issueLinks = $this->getMockBuilder(IssueLinks::class)
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMock()
+        ;
         $client = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMock()
+        ;
 
         $client->method('issueLinks')->willReturn($issueLinks);
 
@@ -204,7 +213,8 @@ class IssueTest extends TestCase
             ->willReturn([
                 'source_issue' => ['iid' => 10, 'project_id' => 1],
                 'target_issue' => ['iid' => 20, 'project_id' => 2],
-            ]);
+            ])
+        ;
 
         $issue = new Issue(new Project(1, $client), 10, $client);
         $issueLinks = $issue->addLink(new Issue(new Project(2, $client), 20, $client));
@@ -230,13 +240,16 @@ class IssueTest extends TestCase
     {
         $issueLinks = $this->getMockBuilder(IssueLinks::class)
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMock()
+        ;
         $projects = $this->getMockBuilder(Projects::class)
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMock()
+        ;
         $client = $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMock()
+        ;
 
         $client->method('issueLinks')->willReturn($issueLinks);
         $client->method('projects')->willReturn($projects);
@@ -247,11 +260,13 @@ class IssueTest extends TestCase
             ->willReturn([
                 'source_issue' => ['iid' => 10, 'project_id' => 1],
                 'target_issue' => ['iid' => 20, 'project_id' => 2],
-            ]);
+            ])
+        ;
         $projects->expects($this->once())
             ->method('show')
             ->with(2)
-            ->willReturn(['id' => 2]);
+            ->willReturn(['id' => 2])
+        ;
 
         $issue = new Issue(new Project(1, $client), 10, $client);
         $issueLinks = $issue->removeLink(100);

@@ -66,9 +66,9 @@ TEXT;
 
         $pagination = [
             'first' => 'https://example.gitlab.com',
-            'next'  => 'https://example.gitlab.com',
-            'prev'  => 'https://example.gitlab.com',
-            'last'  => 'https://example.gitlab.com',
+            'next' => 'https://example.gitlab.com',
+            'prev' => 'https://example.gitlab.com',
+            'last' => 'https://example.gitlab.com',
         ];
 
         // response mock

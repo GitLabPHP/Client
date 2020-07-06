@@ -20,7 +20,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('issues', [])
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->all());
     }
@@ -39,7 +40,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('groups/1/issues', [])
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->group(1));
     }
@@ -58,7 +60,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('groups/1/issues', ['page' => 2, 'per_page' => 5])
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->group(1, ['page' => 2, 'per_page' => 5]));
     }
@@ -77,7 +80,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('groups/1/issues', ['order_by' => 'created_at', 'sort' => 'desc', 'labels' => 'foo,bar', 'state' => 'opened'])
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->group(1, ['order_by' => 'created_at', 'sort' => 'desc', 'labels' => 'foo,bar', 'state' => 'opened']));
     }
@@ -96,7 +100,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/issues', ['page' => 2, 'per_page' => 5])
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->all(1, ['page' => 2, 'per_page' => 5]));
     }
@@ -115,7 +120,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/issues', ['order_by' => 'created_at', 'sort' => 'desc', 'labels' => 'foo,bar', 'state' => 'opened'])
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->all(1, ['order_by' => 'created_at', 'sort' => 'desc', 'labels' => 'foo,bar', 'state' => 'opened']));
     }
@@ -131,7 +137,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/issues/2')
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->show(1, 2));
     }
@@ -147,7 +154,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/issues', ['title' => 'A new issue', 'labels' => 'foo,bar'])
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->create(1, ['title' => 'A new issue', 'labels' => 'foo,bar']));
     }
@@ -163,7 +171,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/issues/2', ['title' => 'A renamed issue', 'labels' => 'foo'])
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->update(1, 2, ['title' => 'A renamed issue', 'labels' => 'foo']));
     }
@@ -179,7 +188,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/issues/2/move', ['to_project_id' => 3])
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->move(1, 2, 3));
     }
@@ -198,7 +208,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/issues/2/notes')
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->showNotes(1, 2));
     }
@@ -214,7 +225,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/issues/2/notes/3')
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->showNote(1, 2, 3));
     }
@@ -230,7 +242,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/issues/2/notes', ['body' => 'A new note'])
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->addNote(1, 2, 'A new note'));
     }
@@ -246,7 +259,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/issues/2/notes/3', ['body' => 'An edited comment'])
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->updateNote(1, 2, 3, 'An edited comment'));
     }
@@ -262,7 +276,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/issues/2/notes/3')
-            ->will($this->returnValue($expectedBool));
+            ->will($this->returnValue($expectedBool))
+        ;
 
         $this->assertEquals($expectedBool, $api->removeNote(1, 2, 3));
     }
@@ -281,7 +296,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/issues/2/discussions')
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->showDiscussions(1, 2));
     }
@@ -297,7 +313,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/issues/2/discussions/abc')
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->showDiscussion(1, 2, 'abc'));
     }
@@ -313,7 +330,8 @@ class IssuesTest extends TestCase
         $api->expects($this->exactly(2))
             ->method('post')
             ->with('projects/1/issues/2/discussions', ['body' => 'A new discussion'])
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->addDiscussion(1, 2, ['body' => 'A new discussion']));
         $this->assertEquals($expectedArray, $api->addDiscussion(1, 2, 'A new discussion'));
@@ -330,7 +348,8 @@ class IssuesTest extends TestCase
         $api->expects($this->exactly(2))
             ->method('post')
             ->with('projects/1/issues/2/discussions/abc/notes', ['body' => 'A new discussion note'])
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->addDiscussionNote(1, 2, 'abc', ['body' => 'A new discussion note']));
         $this->assertEquals($expectedArray, $api->addDiscussionNote(1, 2, 'abc', 'A new discussion note'));
@@ -347,7 +366,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/issues/2/discussions/abc/notes/3', ['body' => 'An edited discussion note'])
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->updateDiscussionNote(1, 2, 'abc', 3, 'An edited discussion note'));
     }
@@ -363,7 +383,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/issues/2/discussions/abc/notes/3')
-            ->will($this->returnValue($expectedBool));
+            ->will($this->returnValue($expectedBool))
+        ;
 
         $this->assertEquals($expectedBool, $api->removeDiscussionNote(1, 2, 'abc', 3));
     }
@@ -379,7 +400,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/issues/2/time_estimate', ['duration' => '4h'])
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->setTimeEstimate(1, 2, '4h'));
     }
@@ -395,7 +417,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/issues/2/reset_time_estimate')
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->resetTimeEstimate(1, 2));
     }
@@ -411,7 +434,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/issues/2/add_spent_time', ['duration' => '4h'])
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->addSpentTime(1, 2, '4h'));
     }
@@ -427,7 +451,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/issues/2/reset_spent_time')
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->resetSpentTime(1, 2));
     }
@@ -443,7 +468,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/issues/2/time_stats')
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->getTimeStats(1, 2));
     }
@@ -462,7 +488,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/issues/2/award_emoji')
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->awardEmoji(1, 2));
     }
@@ -478,7 +505,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/issues/2/award_emoji/3')
-            ->will($this->returnValue($expectedBool));
+            ->will($this->returnValue($expectedBool))
+        ;
 
         $this->assertEquals(true, $api->removeAwardEmoji(1, 2, 3));
     }
@@ -497,7 +525,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/issues/2/closed_by')
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->closedByMergeRequests(1, 2));
     }
@@ -516,7 +545,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/issues', ['assignee_id' => 1])
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->all(1, ['assignee_id' => 1]));
     }
@@ -528,20 +558,20 @@ class IssuesTest extends TestCase
     {
         $expectedArray = [
             [
-                'id'         => 1,
-                'name'       => 'John Doe1',
-                'username'   => 'user1',
-                'state'      => 'active',
+                'id' => 1,
+                'name' => 'John Doe1',
+                'username' => 'user1',
+                'state' => 'active',
                 'avatar_url' => 'http://www.gravatar.com/avatar/c922747a93b40d1ea88262bf1aebee62?s=80&d=identicon',
-                'web_url'    => 'http://localhost/user1',
+                'web_url' => 'http://localhost/user1',
             ],
             [
-                'id'         => 5,
-                'name'       => 'John Doe5',
-                'username'   => 'user5',
-                'state'      => 'active',
+                'id' => 5,
+                'name' => 'John Doe5',
+                'username' => 'user5',
+                'state' => 'active',
                 'avatar_url' => 'http://www.gravatar.com/avatar/4aea8cf834ed91844a2da4ff7ae6b491?s=80&d=identicon',
-                'web_url'    => 'http://localhost/user5',
+                'web_url' => 'http://localhost/user5',
             ],
         ];
 
@@ -549,7 +579,8 @@ class IssuesTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/issues/2/participants')
-            ->will($this->returnValue($expectedArray));
+            ->will($this->returnValue($expectedArray))
+        ;
 
         $this->assertEquals($expectedArray, $api->showParticipants(1, 2));
     }

@@ -205,7 +205,8 @@ class Jobs extends AbstractApi
             })
             ->setNormalizer('scope', function (OptionsResolver $resolver, $value) {
                 return (array) $value;
-            });
+            })
+        ;
 
         return $resolver;
     }

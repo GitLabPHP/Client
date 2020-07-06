@@ -55,13 +55,13 @@ class Groups extends AbstractApi
     public function create($name, $path, $description = null, $visibility = 'private', $lfs_enabled = null, $request_access_enabled = null, $parent_id = null, $shared_runners_minutes_limit = null)
     {
         $params = [
-            'name'                         => $name,
-            'path'                         => $path,
-            'description'                  => $description,
-            'visibility'                   => $visibility,
-            'lfs_enabled'                  => $lfs_enabled,
-            'request_access_enabled'       => $request_access_enabled,
-            'parent_id'                    => $parent_id,
+            'name' => $name,
+            'path' => $path,
+            'description' => $description,
+            'visibility' => $visibility,
+            'lfs_enabled' => $lfs_enabled,
+            'request_access_enabled' => $request_access_enabled,
+            'parent_id' => $parent_id,
             'shared_runners_minutes_limit' => $shared_runners_minutes_limit,
         ];
 
@@ -143,7 +143,7 @@ class Groups extends AbstractApi
     public function addMember($group_id, $user_id, $access_level)
     {
         return $this->post('groups/'.$this->encodePath($group_id).'/members', [
-            'user_id'      => $user_id,
+            'user_id' => $user_id,
             'access_level' => $access_level,
         ]);
     }
@@ -204,38 +204,50 @@ class Groups extends AbstractApi
 
         $resolver->setDefined('archived')
             ->setAllowedTypes('archived', 'bool')
-            ->setNormalizer('archived', $booleanNormalizer);
+            ->setNormalizer('archived', $booleanNormalizer)
+        ;
         $resolver->setDefined('visibility')
-            ->setAllowedValues('visibility', ['public', 'internal', 'private']);
+            ->setAllowedValues('visibility', ['public', 'internal', 'private'])
+        ;
         $resolver->setDefined('order_by')
-            ->setAllowedValues('order_by', ['id', 'name', 'path', 'created_at', 'updated_at', 'last_activity_at']);
+            ->setAllowedValues('order_by', ['id', 'name', 'path', 'created_at', 'updated_at', 'last_activity_at'])
+        ;
         $resolver->setDefined('sort')
-            ->setAllowedValues('sort', ['asc', 'desc']);
+            ->setAllowedValues('sort', ['asc', 'desc'])
+        ;
         $resolver->setDefined('search');
         $resolver->setDefined('simple')
             ->setAllowedTypes('simple', 'bool')
-            ->setNormalizer('simple', $booleanNormalizer);
+            ->setNormalizer('simple', $booleanNormalizer)
+        ;
         $resolver->setDefined('owned')
             ->setAllowedTypes('owned', 'bool')
-            ->setNormalizer('owned', $booleanNormalizer);
+            ->setNormalizer('owned', $booleanNormalizer)
+        ;
         $resolver->setDefined('starred')
             ->setAllowedTypes('starred', 'bool')
-            ->setNormalizer('starred', $booleanNormalizer);
+            ->setNormalizer('starred', $booleanNormalizer)
+        ;
         $resolver->setDefined('with_issues_enabled')
             ->setAllowedTypes('with_issues_enabled', 'bool')
-            ->setNormalizer('with_issues_enabled', $booleanNormalizer);
+            ->setNormalizer('with_issues_enabled', $booleanNormalizer)
+        ;
         $resolver->setDefined('with_merge_requests_enabled')
             ->setAllowedTypes('with_merge_requests_enabled', 'bool')
-            ->setNormalizer('with_merge_requests_enabled', $booleanNormalizer);
+            ->setNormalizer('with_merge_requests_enabled', $booleanNormalizer)
+        ;
         $resolver->setDefined('with_shared')
             ->setAllowedTypes('with_shared', 'bool')
-            ->setNormalizer('with_shared', $booleanNormalizer);
+            ->setNormalizer('with_shared', $booleanNormalizer)
+        ;
         $resolver->setDefined('include_subgroups')
             ->setAllowedTypes('include_subgroups', 'bool')
-            ->setNormalizer('include_subgroups', $booleanNormalizer);
+            ->setNormalizer('include_subgroups', $booleanNormalizer)
+        ;
         $resolver->setDefined('with_custom_attributes')
             ->setAllowedTypes('with_custom_attributes', 'bool')
-            ->setNormalizer('with_custom_attributes', $booleanNormalizer);
+            ->setNormalizer('with_custom_attributes', $booleanNormalizer)
+        ;
 
         return $this->get('groups/'.$this->encodePath($id).'/projects', $resolver->resolve($parameters));
     }
@@ -345,7 +357,7 @@ class Groups extends AbstractApi
     public function addVariable($group_id, $key, $value, $protected = null)
     {
         $payload = [
-            'key'   => $key,
+            'key' => $key,
             'value' => $value,
         ];
 
@@ -402,21 +414,27 @@ class Groups extends AbstractApi
             ->setAllowedTypes('skip_groups', 'array')
             ->setAllowedValues('skip_groups', function (array $value) {
                 return count($value) == count(array_filter($value, 'is_int'));
-            });
+            })
+        ;
         $resolver->setDefined('all_available')
             ->setAllowedTypes('all_available', 'bool')
-            ->setNormalizer('all_available', $booleanNormalizer);
+            ->setNormalizer('all_available', $booleanNormalizer)
+        ;
         $resolver->setDefined('search');
         $resolver->setDefined('order_by')
-            ->setAllowedValues('order_by', ['name', 'path']);
+            ->setAllowedValues('order_by', ['name', 'path'])
+        ;
         $resolver->setDefined('sort')
-            ->setAllowedValues('sort', ['asc', 'desc']);
+            ->setAllowedValues('sort', ['asc', 'desc'])
+        ;
         $resolver->setDefined('statistics')
             ->setAllowedTypes('statistics', 'bool')
-            ->setNormalizer('statistics', $booleanNormalizer);
+            ->setNormalizer('statistics', $booleanNormalizer)
+        ;
         $resolver->setDefined('owned')
             ->setAllowedTypes('owned', 'bool')
-            ->setNormalizer('owned', $booleanNormalizer);
+            ->setNormalizer('owned', $booleanNormalizer)
+        ;
 
         return $resolver;
     }

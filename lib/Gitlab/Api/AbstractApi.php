@@ -230,12 +230,14 @@ abstract class AbstractApi implements ApiInterface
             ->setAllowedTypes('page', 'int')
             ->setAllowedValues('page', function ($value) {
                 return $value > 0;
-            });
+            })
+        ;
         $resolver->setDefined('per_page')
             ->setAllowedTypes('per_page', 'int')
             ->setAllowedValues('per_page', function ($value) {
                 return $value > 0 && $value <= 100;
-            });
+            })
+        ;
 
         return $resolver;
     }
@@ -292,9 +294,9 @@ abstract class AbstractApi implements ApiInterface
      * @param string $filename File to open
      * @param string $mode     Mode used to open the file
      *
-     * @throws RuntimeException if the file cannot be opened
-     *
      * @return resource
+     *
+     * @throws RuntimeException if the file cannot be opened
      *
      * @see https://github.com/guzzle/psr7/blob/1.6.1/src/functions.php#L287-L320
      */

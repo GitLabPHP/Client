@@ -668,9 +668,9 @@ class Project extends AbstractModel
         $author_name = null
     ) {
         $parameters = [
-            'file_path'      => $file_path,
-            'branch'         => $branch_name,
-            'content'        => $content,
+            'file_path' => $file_path,
+            'branch' => $branch_name,
+            'content' => $content,
             'commit_message' => $commit_message,
         ];
 
@@ -706,9 +706,9 @@ class Project extends AbstractModel
         $author_name = null
     ) {
         $parameters = [
-            'file_path'      => $file_path,
-            'branch'         => $branch_name,
-            'content'        => $content,
+            'file_path' => $file_path,
+            'branch' => $branch_name,
+            'content' => $content,
             'commit_message' => $commit_message,
         ];
 
@@ -737,8 +737,8 @@ class Project extends AbstractModel
     public function deleteFile($file_path, $branch_name, $commit_message, $author_email = null, $author_name = null)
     {
         $parameters = [
-            'file_path'      => $file_path,
-            'branch'         => $branch_name,
+            'file_path' => $file_path,
+            'branch' => $branch_name,
             'commit_message' => $commit_message,
         ];
 
@@ -1218,7 +1218,7 @@ class Project extends AbstractModel
     public function addLabel($name, $color)
     {
         $data = $this->client->projects()->addLabel($this->id, [
-            'name'  => $name,
+            'name' => $name,
             'color' => $color,
         ]);
 
