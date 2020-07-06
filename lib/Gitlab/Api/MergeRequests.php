@@ -24,16 +24,14 @@ class MergeRequests extends AbstractApi
      *     @var string             $state          return all merge requests or just those that are opened, closed, or
      *                                             merged
      *     @var string             $scope          Return merge requests for the given scope: created-by-me,
-     *                                             assigned-to-me or all. Defaults to created-by-me.
-     *     @var string             $order_by       Return requests ordered by created_at or updated_at fields. Default
-     *                                             is created_at.
-     *     @var string             $sort           Return requests sorted in asc or desc order. Default is desc.
+     *                                             assigned-to-me or all (default is created-by-me)
+     *     @var string             $order_by       return requests ordered by created_at or updated_at fields (default is created_at)
+     *     @var string             $sort           return requests sorted in asc or desc order (default is desc)
      *     @var string             $milestone      return merge requests for a specific milestone
-     *     @var string             $view           if simple, returns the iid, URL, title, description, and basic state
-     *                                             of merge request
+     *     @var string             $view           if simple, returns the iid, URL, title, description, and basic state of merge request
      *     @var string             $labels         return merge requests matching a comma separated list of labels
      *     @var \DateTimeInterface $created_after  return merge requests created after the given time (inclusive)
-     *     @var \DateTimeInterface $created_before Return merge requests created before the given time (inclusive).
+     *     @var \DateTimeInterface $created_before return merge requests created before the given time (inclusive)
      * }
      *
      * @throws UndefinedOptionsException if an option name is undefined

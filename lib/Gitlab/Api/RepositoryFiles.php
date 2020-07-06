@@ -41,7 +41,7 @@ class RepositoryFiles extends AbstractApi
      *     @var string $file_path      Url encoded full path to new file. Ex. lib%2Fclass%2Erb.
      *     @var string $branch         name of the branch
      *     @var string $start_branch   name of the branch to start the new commit from
-     *     @var string $encoding       Change encoding to 'base64'. Default is text.
+     *     @var string $encoding       change encoding to 'base64' (default is text)
      *     @var string $author_email   specify the commit author's email address
      *     @var string $author_name    specify the commit author's name
      *     @var string $content        file content
@@ -76,12 +76,12 @@ class RepositoryFiles extends AbstractApi
      *     @var string $file_path      Url encoded full path to new file. Ex. lib%2Fclass%2Erb.
      *     @var string $branch         name of the branch
      *     @var string $start_branch   name of the branch to start the new commit from
-     *     @var string $encoding       Change encoding to 'base64'. Default is text.
+     *     @var string $encoding       change encoding to 'base64' (default is text)
      *     @var string $author_email   specify the commit author's email address
      *     @var string $author_name    specify the commit author's name
      *     @var string $content        file content
      *     @var string $commit_message commit message
-     *     @var string $last_commit_id Last known file commit id.
+     *     @var string $last_commit_id last known file commit id
      * }
      *
      * @return mixed
