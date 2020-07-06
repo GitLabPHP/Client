@@ -7,8 +7,6 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @final
- *
  * @property-read int $id
  * @property-read int $iid
  * @property-read Group $group
@@ -21,7 +19,7 @@ use Gitlab\Client;
  * @property-read string $due_date
  * @property-read string $start_date
  */
-class GroupMilestone extends AbstractModel
+final class GroupMilestone extends AbstractModel
 {
     /**
      * @var string[]

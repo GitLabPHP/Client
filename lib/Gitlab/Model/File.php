@@ -7,13 +7,11 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @final
- *
  * @property-read string $file_path
  * @property-read string $branch_name
  * @property-read Project $project
  */
-class File extends AbstractModel
+final class File extends AbstractModel
 {
     /**
      * @var string[]

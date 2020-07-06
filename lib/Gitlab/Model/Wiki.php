@@ -7,15 +7,13 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @final
- *
  * @property-read string $slug
  * @property-read string $title
  * @property-read string $format
  * @property-read string $content
  * @property-read Project $project
  */
-class Wiki extends AbstractModel
+final class Wiki extends AbstractModel
 {
     /**
      * @var string[]

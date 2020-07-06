@@ -7,8 +7,6 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @final
- *
  * @property-read Commit|null $commit
  * @property-read int $id
  * @property-read string $coverage
@@ -25,7 +23,7 @@ use Gitlab\Client;
  * @property-read string|bool $tag
  * @property-read User|null $user
  */
-class Job extends AbstractModel
+final class Job extends AbstractModel
 {
     /**
      * @var string[]

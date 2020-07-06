@@ -7,8 +7,6 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @final
- *
  * @property-read int $id
  * @property-read int $iid
  * @property-read int|string $project_id
@@ -22,7 +20,7 @@ use Gitlab\Client;
  * @property-read string $created_at
  * @property-read Project $project
  */
-class Milestone extends AbstractModel
+final class Milestone extends AbstractModel
 {
     /**
      * @var string[]

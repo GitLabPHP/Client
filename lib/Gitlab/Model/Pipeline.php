@@ -7,8 +7,6 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @final
- *
  * @property-read int $id
  * @property-read string $ref
  * @property-read string $sha
@@ -24,7 +22,7 @@ use Gitlab\Client;
  * @property-read string $web_url
  * @property-read User|null $user
  */
-class Pipeline extends AbstractModel
+final class Pipeline extends AbstractModel
 {
     /**
      * @var string[]

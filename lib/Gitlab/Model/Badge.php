@@ -7,8 +7,6 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @final
- *
  * @property-read int    $id
  * @property-read string $link_url
  * @property-read string $image_url
@@ -16,7 +14,7 @@ use Gitlab\Client;
  * @property-read string $rendered_image_url
  * @property-read string $kind
  */
-class Badge extends AbstractModel
+final class Badge extends AbstractModel
 {
     /**
      * @var string[]

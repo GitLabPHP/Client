@@ -7,8 +7,6 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @final
- *
  * @property-read string $old_path
  * @property-read string $new_path
  * @property-read string $a_mode
@@ -19,7 +17,7 @@ use Gitlab\Client;
  * @property-read bool $deleted_file
  * @property-read Project $project
  */
-class Diff extends AbstractModel
+final class Diff extends AbstractModel
 {
     /**
      * @var string[]

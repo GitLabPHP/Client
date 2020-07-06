@@ -8,8 +8,6 @@ use Gitlab\Api\MergeRequests;
 use Gitlab\Client;
 
 /**
- * @final
- *
  * @property-read int $id
  * @property-read int $iid
  * @property-read string $target_branch
@@ -31,7 +29,7 @@ use Gitlab\Client;
  * @property-read Milestone|null $milestone
  * @property-read File[]|null $files
  */
-class MergeRequest extends AbstractModel implements Notable, Stateful
+final class MergeRequest extends AbstractModel implements Notable, Stateful
 {
     /**
      * @var string[]

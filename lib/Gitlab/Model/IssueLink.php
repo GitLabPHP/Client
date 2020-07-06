@@ -7,12 +7,10 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @final
- *
  * @property-read int $issue_link_id
  * @property-read Issue $issue
  */
-class IssueLink extends AbstractModel
+final class IssueLink extends AbstractModel
 {
     /**
      * @var string[]

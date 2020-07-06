@@ -7,8 +7,6 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @final
- *
  * @property-read bool $compare_timeout
  * @property-read bool $compare_same_ref
  * @property-read Commit|null $commit
@@ -16,7 +14,7 @@ use Gitlab\Client;
  * @property-read Diff[]|null $diffs
  * @property-read Project $project
  */
-class Comparison extends AbstractModel
+final class Comparison extends AbstractModel
 {
     /**
      * @var string[]

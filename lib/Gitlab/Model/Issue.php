@@ -8,8 +8,6 @@ use Gitlab\Api\Issues;
 use Gitlab\Client;
 
 /**
- * @final
- *
  * @property-read int $id
  * @property-read int $iid
  * @property-read int|string $project_id,
@@ -25,7 +23,7 @@ use Gitlab\Client;
  * @property-read Milestone $milestone
  * @property-read Project $project
  */
-class Issue extends AbstractModel implements Notable, Stateful
+final class Issue extends AbstractModel implements Notable, Stateful
 {
     /**
      * @var string[]

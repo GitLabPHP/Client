@@ -7,8 +7,6 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @final
- *
  * @property-read int $id
  * @property-read User|null $author
  * @property-read string $body
@@ -19,7 +17,7 @@ use Gitlab\Client;
  * @property-read string $attachment
  * @property-read bool $system
  */
-class Note extends AbstractModel
+final class Note extends AbstractModel
 {
     /**
      * @var string[]

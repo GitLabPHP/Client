@@ -7,8 +7,6 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @final
- *
  * @property-read int $id
  * @property-read string $email
  * @property-read string $password
@@ -35,7 +33,7 @@ use Gitlab\Client;
  * @property-read string $current_sign_in_at
  * @property-read bool $two_factor_enabled
  */
-class User extends AbstractModel
+final class User extends AbstractModel
 {
     /**
      * @var string[]

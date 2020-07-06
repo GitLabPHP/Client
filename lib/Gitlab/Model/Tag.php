@@ -7,8 +7,6 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @final
- *
  * @property-read string $name
  * @property-read string $message
  * @property-read Commit|null $commit
@@ -16,7 +14,7 @@ use Gitlab\Client;
  * @property-read Project $project
  * @property-read bool $protected
  */
-class Tag extends AbstractModel
+final class Tag extends AbstractModel
 {
     /**
      * @var string[]

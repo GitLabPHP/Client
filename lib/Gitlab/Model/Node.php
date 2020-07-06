@@ -7,8 +7,6 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @final
- *
  * @property-read string $name
  * @property-read string $type
  * @property-read string $mode
@@ -16,7 +14,7 @@ use Gitlab\Client;
  * @property-read string $path
  * @property-read Project $project
  */
-class Node extends AbstractModel
+final class Node extends AbstractModel
 {
     /**
      * @var string[]

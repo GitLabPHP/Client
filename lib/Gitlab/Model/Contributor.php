@@ -7,8 +7,6 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @final
- *
  * @property-read string $name
  * @property-read string $email
  * @property-read int $commits
@@ -16,7 +14,7 @@ use Gitlab\Client;
  * @property-read int $deletions
  * @property-read Project $project
  */
-class Contributor extends AbstractModel
+final class Contributor extends AbstractModel
 {
     /**
      * @var string[]

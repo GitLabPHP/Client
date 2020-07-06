@@ -7,12 +7,10 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @final
- *
  * @property-read string $tag_name
  * @property-read string $description
  */
-class Release extends AbstractModel
+final class Release extends AbstractModel
 {
     /**
      * @var string[]

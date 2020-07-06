@@ -8,14 +8,12 @@ use Gitlab\Api\Projects;
 use Gitlab\Client;
 
 /**
- * @final
- *
  * @property-read string $name
  * @property-read bool $protected
  * @property-read Commit|null $commit
  * @property-read Project $project
  */
-class Branch extends AbstractModel
+final class Branch extends AbstractModel
 {
     /**
      * @var string[]

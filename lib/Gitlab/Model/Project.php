@@ -9,8 +9,6 @@ use Gitlab\Api\Repositories;
 use Gitlab\Client;
 
 /**
- * @final
- *
  * @property-read int|string $id
  * @property-read string $description
  * @property-read string $default_branch
@@ -52,7 +50,7 @@ use Gitlab\Client;
  * @property-read string $merge_method
  * @property-read bool $approvals_before_merge
  */
-class Project extends AbstractModel
+final class Project extends AbstractModel
 {
     /**
      * @var string[]
