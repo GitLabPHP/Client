@@ -39,7 +39,7 @@ class GitlabExceptionThrower implements Plugin
             $status = $response->getStatusCode();
 
             if ($status >= 400 && $status < 600) {
-                self::handleError($status, self::getMessage($response) ?: $response->getReasonPhrase());
+                self::handleError($status, ResponseMediator::getErrorMessage($response) ?: $response->getReasonPhrase());
             }
 
             return $response;
@@ -68,77 +68,5 @@ class GitlabExceptionThrower implements Plugin
         }
 
         throw new RuntimeException($message, $status);
-    }
-
-    /**
-     * Get the error message from the response if present.
-     *
-     * @param \Psr\Http\Message\ResponseInterface $response
-     *
-     * @return string|null
-     */
-    private static function getMessage(ResponseInterface $response)
-    {
-        $content = ResponseMediator::getContent($response);
-
-        if (!is_array($content)) {
-            return null;
-        }
-
-        if (isset($content['message'])) {
-            $message = $content['message'];
-
-            if (is_string($message)) {
-                return $message;
-            }
-
-            if (is_array($message)) {
-                return self::parseMessage($content['message']);
-            }
-        }
-
-        if (isset($content['error_description'])) {
-            $error = $content['error_description'];
-
-            if (is_string($error)) {
-                return $error;
-            }
-        }
-
-        if (isset($content['error'])) {
-            $error = $content['error'];
-
-            if (is_string($error)) {
-                return $error;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * @param array $message
-     *
-     * @return string
-     */
-    private static function parseMessage(array $message)
-    {
-        $format = '"%s" %s';
-        $errors = [];
-
-        foreach ($message as $field => $messages) {
-            if (is_array($messages)) {
-                $messages = array_unique($messages);
-                foreach ($messages as $error) {
-                    $errors[] = sprintf($format, $field, $error);
-                }
-            } elseif (is_int($field)) {
-                $errors[] = $messages;
-            } else {
-                $errors[] = sprintf($format, $field, $messages);
-            }
-        }
-
-        return implode(', ', $errors);
     }
 }
