@@ -2,6 +2,8 @@
 
 namespace Gitlab\Api;
 
+use Symfony\Component\OptionsResolver\Options;
+
 class Issues extends AbstractApi
 {
     const STATE_OPENED = 'opened';
@@ -14,6 +16,7 @@ class Issues extends AbstractApi
      *
      *     @var string $state     return all issues or just those that are opened or closed
      *     @var string $labels    Comma-separated list of label names, issues must have all labels to be returned.
+     *     @var bool $with_labels_details  If true, response will return more details for each label.
      *                            No+Label lists all issues with no labels.
      *     @var string $milestone the milestone title
      *     @var string scope      Return issues for the given scope: created-by-me, assigned-to-me or all. Defaults to created-by-me
@@ -484,12 +487,19 @@ class Issues extends AbstractApi
     protected function createOptionsResolver()
     {
         $resolver = parent::createOptionsResolver();
+        $booleanNormalizer = function (Options $resolver, $value) {
+            return $value ? 'true' : 'false';
+        };
 
         $resolver->setDefined('state')
             ->setAllowedValues('state', [self::STATE_OPENED, self::STATE_CLOSED])
         ;
         $resolver->setDefined('labels');
         $resolver->setDefined('milestone');
+        $resolver->setDefined('with_labels_details')
+            ->setAllowedTypes('with_labels_details', 'bool')
+            ->setNormalizer('with_labels_details', $booleanNormalizer)
+        ;
         $resolver->setDefined('iids')
             ->setAllowedTypes('iids', 'array')
             ->setAllowedValues('iids', function (array $value) {
