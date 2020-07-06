@@ -42,7 +42,7 @@ class ResponseMediator
     {
         $header = self::getHeader($response, 'Link');
 
-        if ($header === null) {
+        if (null === $header) {
             return [];
         }
 
@@ -87,7 +87,7 @@ class ResponseMediator
      */
     public static function getErrorMessage(ResponseInterface $response)
     {
-        $content = ResponseMediator::getContent($response);
+        $content = self::getContent($response);
 
         if (!is_array($content)) {
             return null;
