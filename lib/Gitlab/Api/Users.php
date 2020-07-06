@@ -213,9 +213,13 @@ class Users extends AbstractApi
      * @param string $password
      *
      * @return mixed
+     *
+     * @deprecated since version 9.18 and will be removed in 10.0.
      */
     public function session($emailOrUsername, $password)
     {
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0.', __METHOD__), E_USER_DEPRECATED);
+
         return $this->post('session', [
             'login' => $emailOrUsername,
             'email' => $emailOrUsername,
@@ -228,9 +232,13 @@ class Users extends AbstractApi
      * @param string $password
      *
      * @return mixed
+     *
+     * @deprecated since version 9.18 and will be removed in 10.0.
      */
     public function login($email, $password)
     {
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0.', __METHOD__), E_USER_DEPRECATED);
+
         return $this->session($email, $password);
     }
 
