@@ -36,20 +36,21 @@ final class ResponseMediator
      *
      * @param ResponseInterface $response
      *
-     * @return array|null
+     * @return array<string,string>
      */
     public static function getPagination(ResponseInterface $response)
     {
-        if (!$response->hasHeader('Link')) {
-            return null;
+        $header = self::getHeader($response, 'Link');
+
+        if (null === $header) {
+            return [];
         }
 
-        /** @var string */
-        $header = self::getHeader($response, 'Link');
         $pagination = [];
         foreach (explode(',', $header) as $link) {
             preg_match('/<(.*)>; rel="(.*)"/i', trim($link, ','), $match);
 
+            /** @var string[] $match */
             if (3 === count($match)) {
                 $pagination[$match[2]] = $match[1];
             }
@@ -68,8 +69,84 @@ final class ResponseMediator
      */
     private static function getHeader(ResponseInterface $response, $name)
     {
+        if (!$response->hasHeader('Link')) {
+            return null;
+        }
+
         $headers = $response->getHeader($name);
 
         return array_shift($headers);
+    }
+
+    /**
+     * Get the error message from the response if present.
+     *
+     * @param \Psr\Http\Message\ResponseInterface $response
+     *
+     * @return string|null
+     */
+    public static function getErrorMessage(ResponseInterface $response)
+    {
+        $content = self::getContent($response);
+
+        if (!is_array($content)) {
+            return null;
+        }
+
+        if (isset($content['message'])) {
+            $message = $content['message'];
+
+            if (is_string($message)) {
+                return $message;
+            }
+
+            if (is_array($message)) {
+                return self::getMessageAsString($content['message']);
+            }
+        }
+
+        if (isset($content['error_description'])) {
+            $error = $content['error_description'];
+
+            if (is_string($error)) {
+                return $error;
+            }
+        }
+
+        if (isset($content['error'])) {
+            $error = $content['error'];
+
+            if (is_string($error)) {
+                return $error;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param array $message
+     *
+     * @return string
+     */
+    private static function getMessageAsString(array $message)
+    {
+        $format = '"%s" %s';
+        $errors = [];
+
+        foreach ($message as $field => $messages) {
+            if (is_array($messages)) {
+                $messages = array_unique($messages);
+                foreach ($messages as $error) {
+                    $errors[] = sprintf($format, $field, $error);
+                }
+            } elseif (is_int($field)) {
+                $errors[] = $messages;
+            } else {
+                $errors[] = sprintf($format, $field, $messages);
+            }
+        }
+
+        return implode(', ', $errors);
     }
 }

@@ -35,13 +35,6 @@ final class Builder
     private $httpClient;
 
     /**
-     * A HTTP client with all our plugins.
-     *
-     * @var HttpMethodsClientInterface
-     */
-    private $pluginClient;
-
-    /**
      * The HTTP request factory.
      *
      * @var RequestFactoryInterface
@@ -54,13 +47,6 @@ final class Builder
      * @var StreamFactoryInterface
      */
     private $streamFactory;
-
-    /**
-     * True if we should create a new Plugin client at next request.
-     *
-     * @var bool
-     */
-    private $httpClientModified = true;
 
     /**
      * The currently registered plugins.
@@ -77,6 +63,13 @@ final class Builder
      * @var CachePlugin|null
      */
     private $cachePlugin;
+
+    /**
+     * A HTTP client with all our plugins.
+     *
+     * @var HttpMethodsClientInterface|null
+     */
+    private $pluginClient;
 
     /**
      * Create a new http client builder instance.
@@ -102,9 +95,7 @@ final class Builder
      */
     public function getHttpClient()
     {
-        if ($this->httpClientModified) {
-            $this->httpClientModified = false;
-
+        if (null === $this->pluginClient) {
             $plugins = $this->plugins;
             if (null !== $this->cachePlugin) {
                 $plugins[] = $this->cachePlugin;
@@ -129,7 +120,7 @@ final class Builder
     public function addPlugin(Plugin $plugin)
     {
         $this->plugins[] = $plugin;
-        $this->httpClientModified = true;
+        $this->pluginClient = null;
     }
 
     /**
@@ -144,7 +135,7 @@ final class Builder
         foreach ($this->plugins as $idx => $plugin) {
             if ($plugin instanceof $fqcn) {
                 unset($this->plugins[$idx]);
-                $this->httpClientModified = true;
+                $this->pluginClient = null;
             }
         }
     }
@@ -164,7 +155,7 @@ final class Builder
         }
 
         $this->cachePlugin = CachePlugin::clientCache($cachePool, $this->streamFactory, $config);
-        $this->httpClientModified = true;
+        $this->pluginClient = null;
     }
 
     /**
@@ -175,6 +166,6 @@ final class Builder
     public function removeCache()
     {
         $this->cachePlugin = null;
-        $this->httpClientModified = true;
+        $this->pluginClient = null;
     }
 }

@@ -340,7 +340,7 @@ final class Project extends AbstractModel
      * @param int   $hook_id
      * @param array $params
      *
-     * @return mixed
+     * @return ProjectHook
      */
     public function updateHook($hook_id, array $params)
     {

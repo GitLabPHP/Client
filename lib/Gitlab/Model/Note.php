@@ -39,7 +39,7 @@ final class Note extends AbstractModel
      * @param Notable $type
      * @param array   $data
      *
-     * @return mixed
+     * @return Note
      */
     public static function fromArray(Client $client, Notable $type, array $data)
     {
