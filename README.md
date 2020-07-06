@@ -121,12 +121,18 @@ $builder->addPlugin($plugin);
 
 $client = new Gitlab\Client($builder);
 ```
+
 One can read more about HTTPlug plugins [here](https://docs.php-http.org/en/latest/plugins/introduction.html#how-it-works). Take a look around ([API methods](https://github.com/GitLabPHP/Client/tree/9.18/lib/Gitlab/Api), [models](https://github.com/GitLabPHP/Client/tree/9.18/lib/Gitlab/Model)) and please feel free to report any bugs, noting our [code of conduct](.github/CODE_OF_CONDUCT.md).
 
 Contributing
 ------------
 
 Not all endpoints of the API are implemented yet. We will gladly review and accept pull requests, in accordance with our [contribution guidelines](.github/CONTRIBUTING.md)!
+
+```bash
+$ make install
+$ make test
+```
 
 Security
 --------
