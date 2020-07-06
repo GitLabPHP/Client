@@ -12,8 +12,6 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * Prefix requests path with /api/v4/ if required.
  *
- * @final
- *
  * @author Fabien Bourigault <bourigaultfabien@gmail.com>
  *
  * @internal

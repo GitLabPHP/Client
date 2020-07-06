@@ -17,8 +17,6 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * A plugin to remember the last response.
  *
- * @final
- *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  * @author Fabien Bourigault <bourigaultfabien@gmail.com>
  *
