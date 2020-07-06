@@ -491,24 +491,6 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldAttemptLogin()
-    {
-        $expectedArray = ['id' => 1, 'name' => 'Matt'];
-
-        $api = $this->getApiMock();
-        $api->expects($this->exactly(2))
-            ->method('post')
-            ->with('session', ['login' => 'matt', 'password' => 'password', 'email' => 'matt'])
-            ->will($this->returnValue($expectedArray))
-        ;
-
-        $this->assertEquals($expectedArray, $api->session('matt', 'password'));
-        $this->assertEquals($expectedArray, $api->login('matt', 'password'));
-    }
-
-    /**
-     * @test
-     */
     public function shouldGetUserEmails()
     {
         $expectedArray = [
