@@ -81,7 +81,7 @@ final class ResponseMediator
     /**
      * Get the error message from the response if present.
      *
-     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param ResponseInterface $response
      *
      * @return string|null
      */
