@@ -1,0 +1,8 @@
+{
+    "require": {
+        "phpunit/phpunit": "^7.5.15"
+    },
+    "config": {
+        "preferred-install": "dist"
+    }
+}

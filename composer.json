@@ -40,13 +40,10 @@
         "symfony/options-resolver": "^3.4 || ^4.0 || ^5.0"
     },
     "require-dev": {
+        "bamarni/composer-bin-plugin": "^1.4.1",
         "guzzlehttp/psr7": "^1.5.2",
         "php-http/guzzle6-adapter": "^2.0.1",
-        "http-interop/http-factory-guzzle": "^1.0",
-        "phpstan/phpstan": "^0.12.32",
-        "phpstan/extension-installer": "^1.0.4",
-        "phpstan/phpstan-deprecation-rules": "^0.12.4",
-        "phpunit/phpunit": "^7.5.15"
+        "http-interop/http-factory-guzzle": "^1.0"
     },
     "autoload": {
         "psr-4": { "Gitlab\\": "lib/Gitlab/" }
