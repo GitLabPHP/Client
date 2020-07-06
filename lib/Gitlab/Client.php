@@ -109,7 +109,7 @@ class Client
         $builder->addPlugin(new GitlabExceptionThrower());
         $builder->addPlugin(new HistoryPlugin($this->responseHistory));
         $builder->addPlugin(new HeaderDefaultsPlugin([
-            'User-Agent' => 'php-gitlab-api (http://github.com/m4tthumphrey/php-gitlab-api)',
+            'User-Agent' => 'php-gitlab-api (https://github.com/GitLabPHP/Client)',
         ]));
         $builder->addPlugin(new RedirectPlugin());
         $builder->addPlugin(new ApiVersion());

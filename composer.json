@@ -39,10 +39,10 @@
         "symfony/options-resolver": "^2.6 || ^3.0 || ^4.0 || ^5.0"
     },
     "require-dev": {
+        "bamarni/composer-bin-plugin": "^1.4.1",
         "guzzlehttp/psr7": "^1.2",
         "php-http/guzzle6-adapter": "^1.0 || ^2.0",
-        "php-http/mock-client": "^1.2",
-        "phpunit/phpunit": "^5.7.27 || ^7.5.15"
+        "php-http/mock-client": "^1.2"
     },
     "autoload": {
         "psr-4": { "Gitlab\\": "lib/Gitlab/" }
