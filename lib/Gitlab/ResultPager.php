@@ -3,6 +3,7 @@
 namespace Gitlab;
 
 use Gitlab\Api\ApiInterface;
+use Gitlab\Exception\RuntimeException;
 use Gitlab\HttpClient\Message\ResponseMediator;
 
 /**
@@ -26,7 +27,7 @@ class ResultPager implements ResultPagerInterface
     /**
      * The pagination result from the API.
      *
-     * @var array|null
+     * @var array<string,string>
      */
     protected $pagination;
 
@@ -40,6 +41,7 @@ class ResultPager implements ResultPagerInterface
     public function __construct(Client $client)
     {
         $this->client = $client;
+        $this->pagination = [];
     }
 
     /**
@@ -56,6 +58,10 @@ class ResultPager implements ResultPagerInterface
     public function fetch(ApiInterface $api, $method, array $parameters = [])
     {
         $result = $api->$method(...array_values($parameters));
+
+        if (!is_array($result)) {
+            throw new RuntimeException('Pagination of endpoints that produce blobs is not supported.');
+        }
 
         $this->postFetch();
 
@@ -162,7 +168,7 @@ class ResultPager implements ResultPagerInterface
         $response = $this->client->getLastResponse();
 
         if (null === $response) {
-            $this->pagination = null;
+            $this->pagination = [];
         } else {
             $this->pagination = ResponseMediator::getPagination($response);
         }
@@ -187,7 +193,7 @@ class ResultPager implements ResultPagerInterface
      *
      * @throws \Http\Client\Exception
      *
-     * @return array<string,mixed>
+     * @return array
      */
     protected function get($key)
     {
@@ -199,9 +205,14 @@ class ResultPager implements ResultPagerInterface
 
         $result = $this->client->getHttpClient()->get($pagination);
 
+        $content = ResponseMediator::getContent($result);
+
+        if (!is_array($content)) {
+            throw new RuntimeException('Pagination of endpoints that produce blobs is not supported.');
+        }
+
         $this->postFetch();
 
-        /** @var array<string,mixed> */
-        return ResponseMediator::getContent($result);
+        return $content;
     }
 }
