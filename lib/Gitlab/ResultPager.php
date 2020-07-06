@@ -23,14 +23,14 @@ class ResultPager implements ResultPagerInterface
      *
      * @var \Gitlab\Client client
      */
-    protected $client;
+    private $client;
 
     /**
      * The pagination result from the API.
      *
      * @var array|null
      */
-    protected $pagination;
+    private $pagination;
 
     /**
      * Create a new result pager instance.
@@ -158,7 +158,7 @@ class ResultPager implements ResultPagerInterface
      *
      * @return void
      */
-    protected function postFetch()
+    private function postFetch()
     {
         $response = $this->client->getLastResponse();
 
@@ -172,25 +172,11 @@ class ResultPager implements ResultPagerInterface
     /**
      * @param string $key
      *
-     * @return bool
-     *
-     * @deprecated since version 9.18 and will be removed in 10.0. Use the hasNext() or hasPrevious() methods instead.
-     */
-    protected function has(string $key)
-    {
-        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the hasNext() or hasPrevious() methods instead.', __METHOD__), E_USER_DEPRECATED);
-
-        return isset($this->pagination[$key]);
-    }
-
-    /**
-     * @param string $key
-     *
      * @throws \Http\Client\Exception
      *
      * @return array<string,mixed>
      */
-    protected function get(string $key)
+    private function get(string $key)
     {
         $pagination = isset($this->pagination[$key]) ? $this->pagination[$key] : null;
 
