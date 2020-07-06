@@ -23,19 +23,19 @@ This version supports [PHP](https://php.net) 5.6-7.4. To get started, simply req
 
 ### PHP 5.6+:
 
-```bash
+```
 $ composer require m4tthumphrey/php-gitlab-api:^9.18 php-http/guzzle6-adapter:^2.0.1
 ```
 
 ### Laravel 5.5+:
 
-```bash
+```
 $ composer require graham-campbell/gitlab:^2.7 php-http/guzzle6-adapter:^2.0.1
 ```
 
 ### Symfony 3+:
 
-```bash
+```
 $ composer require zeichen32/gitlabapibundle:^2.6 php-http/guzzle6-adapter:^2.0.1
 ```
 
@@ -129,7 +129,7 @@ Contributing
 
 Not all endpoints of the API are implemented yet. We will gladly review and accept pull requests, in accordance with our [contribution guidelines](.github/CONTRIBUTING.md)!
 
-```bash
+```
 $ make install
 $ make test
 ```
