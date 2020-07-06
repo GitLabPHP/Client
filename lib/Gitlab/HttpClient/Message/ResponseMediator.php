@@ -36,20 +36,21 @@ class ResponseMediator
      *
      * @param ResponseInterface $response
      *
-     * @return array|null
+     * @return array<string,string>
      */
     public static function getPagination(ResponseInterface $response)
     {
-        if (!$response->hasHeader('Link')) {
-            return null;
+        $header = self::getHeader($response, 'Link');
+
+        if ($header === null) {
+            return [];
         }
 
-        /** @var string */
-        $header = self::getHeader($response, 'Link');
         $pagination = [];
         foreach (explode(',', $header) as $link) {
             preg_match('/<(.*)>; rel="(.*)"/i', trim($link, ','), $match);
 
+            /** @var string[] $match */
             if (3 === count($match)) {
                 $pagination[$match[2]] = $match[1];
             }
