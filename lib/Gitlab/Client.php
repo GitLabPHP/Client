@@ -139,7 +139,7 @@ class Client
     /**
      * Create a Gitlab\Client using an HTTP client.
      *
-     * @param HttpClient $httpClient
+     * @param HttpClent $httpClient
      *
      * @return Client
      */
