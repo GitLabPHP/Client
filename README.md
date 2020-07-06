@@ -141,6 +141,11 @@ Contributing
 
 Not all endpoints of the API are implemented yet. We will gladly review and accept pull requests, in accordance with our [contribution guidelines](.github/CONTRIBUTING.md)!
 
+```bash
+$ make install
+$ make test
+```
+
 Security
 --------
 
