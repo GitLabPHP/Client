@@ -14,24 +14,28 @@ use Gitlab\Api\ApiInterface;
 interface ResultPagerInterface
 {
     /**
-     * Fetch a single result (page) from an api call.
+     * Fetch a single result from an api call.
      *
-     * @param ApiInterface $api        the Api instance
-     * @param string       $method     the method name to call on the Api instance
-     * @param array        $parameters the method parameters in an array
+     * @param ApiInterface $api
+     * @param string       $method
+     * @param array        $parameters
      *
-     * @return array returns the result of the Api::$method() call
+     * @throws \Http\Client\Exception
+     *
+     * @return array
      */
     public function fetch(ApiInterface $api, $method, array $parameters = []);
 
     /**
-     * Fetch all results (pages) from an api call.
+     * Fetch all results from an api call.
      *
-     * @param ApiInterface $api        the Api instance
-     * @param string       $method     the method name to call on the Api instance
-     * @param array        $parameters the method parameters in an array
+     * @param ApiInterface $api
+     * @param string       $method
+     * @param array        $parameters
      *
-     * @return array returns a merge of the results of the Api::$method() call
+     * @throws \Http\Client\Exception
+     *
+     * @return array
      */
     public function fetchAll(ApiInterface $api, $method, array $parameters = []);
 
@@ -43,6 +47,15 @@ interface ResultPagerInterface
     public function hasNext();
 
     /**
+     * Fetch the next page.
+     *
+     * @throws \Http\Client\Exception
+     *
+     * @return array
+     */
+    public function fetchNext();
+
+    /**
      * Check to determine the availability of a previous page.
      *
      * @return bool
@@ -50,14 +63,9 @@ interface ResultPagerInterface
     public function hasPrevious();
 
     /**
-     * Fetch the next page.
-     *
-     * @return array
-     */
-    public function fetchNext();
-
-    /**
      * Fetch the previous page.
+     *
+     * @throws \Http\Client\Exception
      *
      * @return array
      */
@@ -66,12 +74,16 @@ interface ResultPagerInterface
     /**
      * Fetch the first page.
      *
+     * @throws \Http\Client\Exception
+     *
      * @return array
      */
     public function fetchFirst();
 
     /**
      * Fetch the last page.
+     *
+     * @throws \Http\Client\Exception
      *
      * @return array
      */

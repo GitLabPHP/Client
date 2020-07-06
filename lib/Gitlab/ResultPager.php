@@ -24,6 +24,13 @@ class ResultPager implements ResultPagerInterface
     protected $client;
 
     /**
+     * The pagination result from the API.
+     *
+     * @var array|null
+     */
+    protected $pagination;
+
+    /**
      * Create a new result pager instance.
      *
      * @param \Gitlab\Client $client
@@ -36,19 +43,39 @@ class ResultPager implements ResultPagerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Fetch a single result from an api call.
+     *
+     * @param ApiInterface $api
+     * @param string       $method
+     * @param array        $parameters
+     *
+     * @throws \Http\Client\Exception
+     *
+     * @return array
      */
     public function fetch(ApiInterface $api, $method, array $parameters = [])
     {
-        return call_user_func_array([$api, $method], $parameters);
+        $result = $api->$method(...array_values($parameters));
+        $this->postFetch();
+
+        return $result;
     }
 
     /**
-     * {@inheritdoc}
+     * Fetch all results from an api call.
+     *
+     * @param ApiInterface $api
+     * @param string       $method
+     * @param array        $parameters
+     *
+     * @throws \Http\Client\Exception
+     *
+     * @return array
      */
     public function fetchAll(ApiInterface $api, $method, array $parameters = [])
     {
-        $result = call_user_func_array([$api, $method], $parameters);
+        $result = $this->fetch($api, $method, $parameters);
+
         while ($this->hasNext()) {
             $result = array_merge($result, $this->fetchNext());
         }
@@ -57,15 +84,21 @@ class ResultPager implements ResultPagerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Check to determine the availability of a next page.
+     *
+     * @return bool
      */
     public function hasNext()
     {
-        return $this->has('next');
+        return isset($this->pagination['next']);
     }
 
     /**
-     * {@inheritdoc}
+     * Fetch the next page.
+     *
+     * @throws \Http\Client\Exception
+     *
+     * @return array
      */
     public function fetchNext()
     {
@@ -73,15 +106,21 @@ class ResultPager implements ResultPagerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Check to determine the availability of a previous page.
+     *
+     * @return bool
      */
     public function hasPrevious()
     {
-        return $this->has('prev');
+        return isset($this->pagination['prev']);
     }
 
     /**
-     * {@inheritdoc}
+     * Fetch the previous page.
+     *
+     * @throws \Http\Client\Exception
+     *
+     * @return array
      */
     public function fetchPrevious()
     {
@@ -89,7 +128,11 @@ class ResultPager implements ResultPagerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Fetch the first page.
+     *
+     * @throws \Http\Client\Exception
+     *
+     * @return array
      */
     public function fetchFirst()
     {
@@ -97,7 +140,11 @@ class ResultPager implements ResultPagerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Fetch the last page.
+     *
+     * @throws \Http\Client\Exception
+     *
+     * @return array
      */
     public function fetchLast()
     {
@@ -105,39 +152,55 @@ class ResultPager implements ResultPagerInterface
     }
 
     /**
-     * @param string $key
+     * Refresh the pagination property.
      *
-     * @return bool
+     * @return void
      */
-    protected function has($key)
+    protected function postFetch()
     {
-        $lastResponse = $this->client->getLastResponse();
-        if (null == $lastResponse) {
-            return false;
-        }
+        $response = $this->client->getLastResponse();
 
-        $pagination = ResponseMediator::getPagination($lastResponse);
-        if (null == $pagination) {
-            return false;
+        if ($response === null) {
+            $this->pagination = null;
+        } else {
+            $this->pagination = ResponseMediator::getPagination($response);
         }
-
-        return isset($pagination[$key]);
     }
 
     /**
      * @param string $key
      *
+     * @return bool
+     *
+     * @deprecated since version 9.18 and will be removed in 10.0. Use the hasNext() or hasPrevious() methods instead.
+     */
+    protected function has($key)
+    {
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the hasNext() or hasPrevious() methods instead.', __METHOD__), E_USER_DEPRECATED);
+
+        return isset($this->pagination[$key]);
+    }
+
+    /**
+     * @param string $key
+     *
+     * @throws \Http\Client\Exception
+     *
      * @return array<string,mixed>
      */
     protected function get($key)
     {
-        if (!$this->has($key)) {
+        $pagination = isset($this->pagination[$key]) ? $this->pagination[$key] : null;
+
+        if ($pagination === null) {
             return [];
         }
 
-        $pagination = ResponseMediator::getPagination($this->client->getLastResponse());
+        $result = $this->client->getHttpClient()->get($pagination);
+
+        $this->postFetch();
 
         /** @var array<string,mixed> */
-        return ResponseMediator::getContent($this->client->getHttpClient()->get($pagination[$key]));
+        return ResponseMediator::getContent($result);
     }
 }
