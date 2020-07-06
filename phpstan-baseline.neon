@@ -1,0 +1,17 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Parameter \\#1 \\$function of function call_user_func_array expects callable\\(\\)\\: mixed, array\\(Gitlab\\\\Api\\\\ApiInterface, string\\) given\\.$#"
+			count: 2
+			path: lib/Gitlab/ResultPager.php
+
+		-
+			message: "#^Parameter \\#1 \\$response of static method Gitlab\\\\HttpClient\\\\Message\\\\ResponseMediator\\:\\:getPagination\\(\\) expects Psr\\\\Http\\\\Message\\\\ResponseInterface, Psr\\\\Http\\\\Message\\\\ResponseInterface\\|null given\\.$#"
+			count: 1
+			path: lib/Gitlab/ResultPager.php
+
+		-
+			message: "#^Offset string does not exist on array\\|null\\.$#"
+			count: 1
+			path: lib/Gitlab/ResultPager.php
+

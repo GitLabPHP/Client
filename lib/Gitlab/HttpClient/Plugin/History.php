@@ -16,7 +16,7 @@ class History implements Journal
     use HistoryTrait;
 
     /**
-     * @var ResponseInterface
+     * @var ResponseInterface|null
      */
     private $lastResponse;
 
@@ -29,7 +29,12 @@ class History implements Journal
     }
 
     /**
-     * {@inheritdoc}
+     * Record a successful call.
+     *
+     * @param RequestInterface  $request
+     * @param ResponseInterface $response
+     *
+     * @return void
      */
     public function addSuccess(RequestInterface $request, ResponseInterface $response)
     {

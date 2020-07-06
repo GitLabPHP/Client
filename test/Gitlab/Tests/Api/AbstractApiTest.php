@@ -1,9 +1,11 @@
-<?php namespace Gitlab\Tests\Api;
+<?php
+
+namespace Gitlab\Tests\Api;
 
 use Gitlab\Client;
 use Http\Client\HttpClient;
-use ReflectionClass;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 
 class AbstractApiTest extends TestCase
 {
@@ -15,8 +17,8 @@ class AbstractApiTest extends TestCase
         $parameters = [
             'array_param' => [
                 'value1',
-                'value2'
-            ]
+                'value2',
+            ],
         ];
         $expectedBody = 'array_param[]=value1&array_param[]=value2';
 
@@ -27,17 +29,17 @@ class AbstractApiTest extends TestCase
         $stream = $method->invokeArgs(
             $abstractApiMock,
             [
-                $parameters
+                $parameters,
             ]
         );
 
-        $this->assertEquals($expectedBody, urldecode((string)$stream));
+        $this->assertEquals($expectedBody, urldecode((string) $stream));
     }
 
     protected function getAbstractApiMock(array $methods = [])
     {
         $httpClient = $this->getMockBuilder(HttpClient::class)
-            ->setMethods(array('sendRequest'))
+            ->setMethods(['sendRequest'])
             ->getMock()
         ;
         $httpClient
@@ -49,7 +51,7 @@ class AbstractApiTest extends TestCase
         $abstractApiMock = $this->getMockBuilder('Gitlab\Api\AbstractApi')
             ->setConstructorArgs([
                 $client,
-                null
+                null,
             ])
             ->setMethods($methods)
             ->getMockForAbstractClass()

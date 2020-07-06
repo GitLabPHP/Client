@@ -24,7 +24,7 @@ class ProjectTest extends TestCase
             'readme_url' => 'http://example.com/diaspora/diaspora-client/blob/master/README.md',
             'tag_list' => [
                 'example',
-                'disapora client'
+                'disapora client',
             ],
             'owner' => [
                 'id' => 3,
@@ -112,10 +112,14 @@ class ProjectTest extends TestCase
         $this->assertSame($data['runners_token'], $project->runners_token);
         $this->assertSame($data['public_jobs'], $project->public_jobs);
         $this->assertCount(0, $project->shared_with_groups);
-        $this->assertSame($data['only_allow_merge_if_pipeline_succeeds'],
-            $project->only_allow_merge_if_pipeline_succeeds);
-        $this->assertSame($data['only_allow_merge_if_all_discussions_are_resolved'],
-            $project->only_allow_merge_if_all_discussions_are_resolved);
+        $this->assertSame(
+            $data['only_allow_merge_if_pipeline_succeeds'],
+            $project->only_allow_merge_if_pipeline_succeeds
+        );
+        $this->assertSame(
+            $data['only_allow_merge_if_all_discussions_are_resolved'],
+            $project->only_allow_merge_if_all_discussions_are_resolved
+        );
         $this->assertSame($data['request_access_enabled'], $project->request_access_enabled);
         $this->assertSame($data['merge_method'], $project->merge_method);
         $this->assertSame($data['approvals_before_merge'], $project->approvals_before_merge);
@@ -133,9 +137,9 @@ class ProjectTest extends TestCase
                     'group_id' => 4,
                     'group_name' => 'Twitter',
                     'group_full_path' => 'twitter',
-                    'group_access_level' => 30
-                ]
-            ]
+                    'group_access_level' => 30,
+                ],
+            ],
         ]);
 
         $project = Project::fromArray($client, $data);
@@ -155,16 +159,15 @@ class ProjectTest extends TestCase
                     'group_id' => 4,
                     'group_name' => 'Twitter',
                     'group_full_path' => 'twitter',
-                    'group_access_level' => 30
+                    'group_access_level' => 30,
                 ],
                 [
                     'group_id' => 3,
                     'group_name' => 'Gitlab Org',
                     'group_full_path' => 'gitlab-org',
-                    'group_access_level' => 10
-                ]
-
-            ]
+                    'group_access_level' => 10,
+                ],
+            ],
         ]);
 
         $project = Project::fromArray($client, $data);

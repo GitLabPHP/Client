@@ -5,8 +5,6 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * Class Wiki
- *
  * @property-read string $slug
  * @property-read string $title
  * @property-read string $format
@@ -16,20 +14,21 @@ use Gitlab\Client;
 class Wiki extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
-    protected static $properties = array(
-        "project",
-        "slug",
-        "title",
-        "format",
-        "content",
-    );
+    protected static $properties = [
+        'project',
+        'slug',
+        'title',
+        'format',
+        'content',
+    ];
 
     /**
      * @param Client  $client
      * @param Project $project
      * @param array   $data
+     *
      * @return Wiki
      */
     public static function fromArray(Client $client, Project $project, array $data)
@@ -40,9 +39,11 @@ class Wiki extends AbstractModel
     }
 
     /**
-     * @param Project $project
-     * @param string $slug
-     * @param Client  $client
+     * @param Project     $project
+     * @param string|null $slug
+     * @param Client|null $client
+     *
+     * @return void
      */
     public function __construct(Project $project, $slug = null, Client $client = null)
     {
@@ -63,6 +64,7 @@ class Wiki extends AbstractModel
 
     /**
      * @param array $params
+     *
      * @return Wiki
      */
     public function update(array $params)

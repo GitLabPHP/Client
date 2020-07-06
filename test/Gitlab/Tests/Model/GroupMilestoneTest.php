@@ -46,7 +46,7 @@ class GroupMilestoneTest extends TestCase
             'created_at' => '2019-04-30T23:59:59.000Z',
             'updated_at' => '2019-04-30T23:59:59.000Z',
             'due_date' => '2019-05-10',
-            'start_date' => '2019-05-03'
+            'start_date' => '2019-05-03',
         ];
 
         $groupMilestone = GroupMilestone::fromArray($client, $group, $data);

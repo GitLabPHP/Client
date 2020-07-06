@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Tests\Api;
+<?php
+
+namespace Gitlab\Tests\Api;
 
 class TagsTest extends TestCase
 {
@@ -7,10 +9,10 @@ class TagsTest extends TestCase
      */
     public function shouldGetAllTags()
     {
-        $expectedArray = array(
-            array('name' => 'v1.0.0'),
-            array('name' => 'v1.1.0'),
-        );
+        $expectedArray = [
+            ['name' => 'v1.0.0'],
+            ['name' => 'v1.1.0'],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -25,9 +27,9 @@ class TagsTest extends TestCase
      */
     public function shouldShowTag()
     {
-        $expectedArray = array(
-            array('name' => 'v1.0.0'),
-        );
+        $expectedArray = [
+            ['name' => 'v1.0.0'],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -42,15 +44,15 @@ class TagsTest extends TestCase
      */
     public function shouldCreateTag()
     {
-        $expectedArray = array(
-            array('name' => 'v1.1.0'),
-        );
+        $expectedArray = [
+            ['name' => 'v1.1.0'],
+        ];
 
-        $params = array(
-            'id'       => 1,
+        $params = [
+            'id' => 1,
             'tag_name' => 'v1.1.0',
-            'ref'      => 'ref/heads/master'
-        );
+            'ref' => 'ref/heads/master',
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -66,9 +68,9 @@ class TagsTest extends TestCase
      */
     public function shouldRemoveTag()
     {
-        $expectedArray = array(
-            array('name' => 'v1.1.0'),
-        );
+        $expectedArray = [
+            ['name' => 'v1.1.0'],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -81,20 +83,21 @@ class TagsTest extends TestCase
     /**
      * @test
      * @dataProvider releaseDataProvider
+     *
      * @param string $releaseName
      * @param string $description
-     * @param array $expectedResult
+     * @param array  $expectedResult
      */
     public function shouldCreateRelease($releaseName, $description, $expectedResult)
     {
-        $params = array(
+        $params = [
             'description' => $description,
-        );
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/repository/tags/' . str_replace(['/', '.'], ['%2F', '%2E'], $releaseName) . '/release', $params)
+            ->with('projects/1/repository/tags/'.str_replace(['/', '.'], ['%2F', '%2E'], $releaseName).'/release', $params)
             ->will($this->returnValue($expectedResult));
 
         $this->assertEquals($expectedResult, $api->createRelease(1, $releaseName, $params));
@@ -103,20 +106,21 @@ class TagsTest extends TestCase
     /**
      * @test
      * @dataProvider releaseDataProvider
+     *
      * @param string $releaseName
      * @param string $description
-     * @param array $expectedResult
+     * @param array  $expectedResult
      */
     public function shouldUpdateRelease($releaseName, $description, $expectedResult)
     {
-        $params = array(
+        $params = [
             'description' => $description,
-        );
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/repository/tags/' . str_replace(['/', '.'], ['%2F', '%2E'], $releaseName) . '/release', $params)
+            ->with('projects/1/repository/tags/'.str_replace(['/', '.'], ['%2F', '%2E'], $releaseName).'/release', $params)
             ->will($this->returnValue($expectedResult));
 
         $this->assertEquals($expectedResult, $api->updateRelease(1, $releaseName, $params));
@@ -124,24 +128,24 @@ class TagsTest extends TestCase
 
     public function releaseDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'tagName' => 'v1.1.0',
                 'description' => 'Amazing release. Wow',
-                'expectedResult' => array(
+                'expectedResult' => [
                     'tag_name' => '1.0.0',
                     'description' => 'Amazing release. Wow',
-                ),
-            ),
-            array(
+                ],
+            ],
+            [
                 'tagName' => 'version/1.1.0',
                 'description' => 'Amazing release. Wow',
-                'expectedResult' => array(
+                'expectedResult' => [
                     'tag_name' => 'version/1.1.0',
                     'description' => 'Amazing release. Wow',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     protected function getApiClass()

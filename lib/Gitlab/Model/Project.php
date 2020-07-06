@@ -1,13 +1,13 @@
-<?php namespace Gitlab\Model;
+<?php
+
+namespace Gitlab\Model;
 
 use Gitlab\Api\Projects;
 use Gitlab\Api\Repositories;
 use Gitlab\Client;
 
 /**
- * Class Project
- *
- * @property-read int $id
+ * @property-read int|string $id
  * @property-read string $description
  * @property-read string $default_branch
  * @property-read string $visibility
@@ -16,7 +16,7 @@ use Gitlab\Client;
  * @property-read string $web_url
  * @property-read string $readme_url
  * @property-read string[] $tag_list
- * @property-read User $owner
+ * @property-read User|null $owner
  * @property-read string $name
  * @property-read string $name_with_namespace
  * @property-read string $path
@@ -32,7 +32,7 @@ use Gitlab\Client;
  * @property-read string $created_at
  * @property-read string $last_activity_at
  * @property-read int $creator_id
- * @property-read ProjectNamespace $namespace
+ * @property-read ProjectNamespace|null $namespace
  * @property-read string $import_status
  * @property-read bool $archived
  * @property-read string $avatar_url
@@ -41,7 +41,7 @@ use Gitlab\Client;
  * @property-read int $star_count
  * @property-read string $runners_token
  * @property-read bool $public_jobs
- * @property-read Group[] $shared_with_groups
+ * @property-read Group[]|null $shared_with_groups
  * @property-read bool $only_allow_merge_if_pipeline_succeeds
  * @property-read bool $only_allow_merge_if_all_discussions_are_resolved
  * @property-read bool $request_access_enabled
@@ -51,9 +51,9 @@ use Gitlab\Client;
 class Project extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
-    protected static $properties = array(
+    protected static $properties = [
         'id',
         'description',
         'default_branch',
@@ -94,11 +94,12 @@ class Project extends AbstractModel
         'request_access_enabled',
         'merge_method',
         'approvals_before_merge',
-    );
+    ];
 
     /**
      * @param Client $client
-     * @param array $data
+     * @param array  $data
+     *
      * @return Project
      */
     public static function fromArray(Client $client, array $data)
@@ -132,10 +133,11 @@ class Project extends AbstractModel
     /**
      * @param Client $client
      * @param string $name
-     * @param array $params
+     * @param array  $params
+     *
      * @return Project
      */
-    public static function create(Client $client, $name, array $params = array())
+    public static function create(Client $client, $name, array $params = [])
     {
         $data = $client->projects()->create($name, $params);
 
@@ -143,13 +145,14 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int $user_id
+     * @param int    $user_id
      * @param Client $client
      * @param string $name
-     * @param array $params
+     * @param array  $params
+     *
      * @return Project
      */
-    public static function createForUser($user_id, Client $client, $name, array $params = array())
+    public static function createForUser($user_id, Client $client, $name, array $params = [])
     {
         $data = $client->projects()->createForUser($user_id, $name, $params);
 
@@ -157,8 +160,10 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int $id
-     * @param Client $client
+     * @param int|string|null $id
+     * @param Client|null     $client
+     *
+     * @return void
      */
     public function __construct($id = null, Client $client = null)
     {
@@ -178,6 +183,7 @@ class Project extends AbstractModel
 
     /**
      * @param array $params
+     *
      * @return Project
      */
     public function update(array $params)
@@ -218,38 +224,15 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param integer|null $user_id
-     * @param bool $all
-     * @return array|User
-     */
-    public function allMembers($user_id = null, $all = false)
-    {
-        if ($all) {
-            $data = (new \Gitlab\ResultPager($this->client))->fetchAll($this->client->projects(), "allMembers", [$this->id, $user_id]);
-        } else {
-            $data = $this->client->projects()->allMembers($this->id, $user_id);
-        }
-
-        if ($user_id != null) {
-            return User::fromArray($this->getClient(), $data);
-        } else {
-            $members = array();
-            foreach ($data as $member) {
-                $members[] = User::fromArray($this->getClient(), $member);
-            }
-            return $members;
-        }
-    }
-
-    /**
-     * @param string $username_query
+     * @param string|null $username_query
+     *
      * @return User[]
      */
     public function members($username_query = null)
     {
-        $data = $this->client->projects()->members($this->id, $username_query);
+        $data = $this->client->projects()->members($this->id, ['query' => $username_query]);
 
-        $members = array();
+        $members = [];
         foreach ($data as $member) {
             $members[] = User::fromArray($this->getClient(), $member);
         }
@@ -259,6 +242,7 @@ class Project extends AbstractModel
 
     /**
      * @param int $user_id
+     *
      * @return User
      */
     public function member($user_id)
@@ -271,6 +255,7 @@ class Project extends AbstractModel
     /**
      * @param int $user_id
      * @param int $access_level
+     *
      * @return User
      */
     public function addMember($user_id, $access_level)
@@ -283,6 +268,7 @@ class Project extends AbstractModel
     /**
      * @param int $user_id
      * @param int $access_level
+     *
      * @return User
      */
     public function saveMember($user_id, $access_level)
@@ -294,6 +280,7 @@ class Project extends AbstractModel
 
     /**
      * @param int $user_id
+     *
      * @return bool
      */
     public function removeMember($user_id)
@@ -307,14 +294,14 @@ class Project extends AbstractModel
      * @param array $parameters
      *
      * @return ProjectHook[]
-     * @see Projects::hooks() for available parameters.
      *
+     * @see Projects::hooks() for available parameters.
      */
     public function hooks(array $parameters = [])
     {
         $data = $this->client->projects()->hooks($this->id, $parameters);
 
-        $hooks = array();
+        $hooks = [];
         foreach ($data as $hook) {
             $hooks[] = ProjectHook::fromArray($this->getClient(), $this, $hook);
         }
@@ -324,6 +311,7 @@ class Project extends AbstractModel
 
     /**
      * @param int $id
+     *
      * @return ProjectHook
      */
     public function hook($id)
@@ -335,10 +323,11 @@ class Project extends AbstractModel
 
     /**
      * @param string $url
-     * @param array $events
+     * @param array  $events
+     *
      * @return ProjectHook
      */
-    public function addHook($url, array $events = array())
+    public function addHook($url, array $events = [])
     {
         $data = $this->client->projects()->addHook($this->id, $url, $events);
 
@@ -346,8 +335,9 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int $hook_id
+     * @param int   $hook_id
      * @param array $params
+     *
      * @return mixed
      */
     public function updateHook($hook_id, array $params)
@@ -359,6 +349,7 @@ class Project extends AbstractModel
 
     /**
      * @param int $hook_id
+     *
      * @return bool
      */
     public function removeHook($hook_id)
@@ -375,7 +366,7 @@ class Project extends AbstractModel
     {
         $data = $this->client->projects()->deployKeys($this->id);
 
-        $keys = array();
+        $keys = [];
         foreach ($data as $key) {
             $keys[] = Key::fromArray($this->getClient(), $key);
         }
@@ -385,6 +376,7 @@ class Project extends AbstractModel
 
     /**
      * @param int $key_id
+     *
      * @return Key
      */
     public function deployKey($key_id)
@@ -397,7 +389,8 @@ class Project extends AbstractModel
     /**
      * @param string $title
      * @param string $key
-     * @param bool $canPush
+     * @param bool   $canPush
+     *
      * @return Key
      */
     public function addDeployKey($title, $key, $canPush = false)
@@ -408,7 +401,8 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $key_id
+     * @param int $key_id
+     *
      * @return bool
      */
     public function deleteDeployKey($key_id)
@@ -419,7 +413,8 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $key_id
+     * @param int $key_id
+     *
      * @return bool
      */
     public function enableDeployKey($key_id)
@@ -432,6 +427,7 @@ class Project extends AbstractModel
     /**
      * @param string $name
      * @param string $ref
+     *
      * @return Branch
      */
     public function createBranch($name, $ref)
@@ -443,6 +439,7 @@ class Project extends AbstractModel
 
     /**
      * @param string $name
+     *
      * @return bool
      */
     public function deleteBranch($name)
@@ -459,7 +456,7 @@ class Project extends AbstractModel
     {
         $data = $this->client->repositories()->branches($this->id);
 
-        $branches = array();
+        $branches = [];
         foreach ($data as $branch) {
             $branches[] = Branch::fromArray($this->getClient(), $this, $branch);
         }
@@ -469,6 +466,7 @@ class Project extends AbstractModel
 
     /**
      * @param string $branch_name
+     *
      * @return Branch
      */
     public function branch($branch_name)
@@ -481,8 +479,9 @@ class Project extends AbstractModel
 
     /**
      * @param string $branch_name
-     * @param bool $devPush
-     * @param bool $devMerge
+     * @param bool   $devPush
+     * @param bool   $devMerge
+     *
      * @return Branch
      */
     public function protectBranch($branch_name, $devPush = false, $devMerge = false)
@@ -495,6 +494,7 @@ class Project extends AbstractModel
 
     /**
      * @param string $branch_name
+     *
      * @return Branch
      */
     public function unprotectBranch($branch_name)
@@ -512,7 +512,7 @@ class Project extends AbstractModel
     {
         $data = $this->client->repositories()->tags($this->id);
 
-        $tags = array();
+        $tags = [];
         foreach ($data as $tag) {
             $tags[] = Tag::fromArray($this->getClient(), $this, $tag);
         }
@@ -524,14 +524,14 @@ class Project extends AbstractModel
      * @param array $parameters
      *
      * @return Commit[]
-     * @see Repositories::commits() for available parameters.
      *
+     * @see Repositories::commits() for available parameters.
      */
     public function commits(array $parameters = [])
     {
         $data = $this->client->repositories()->commits($this->id, $parameters);
 
-        $commits = array();
+        $commits = [];
         foreach ($data as $commit) {
             $commits[] = Commit::fromArray($this->getClient(), $this, $commit);
         }
@@ -541,6 +541,7 @@ class Project extends AbstractModel
 
     /**
      * @param string $sha
+     *
      * @return Commit
      */
     public function commit($sha)
@@ -552,17 +553,17 @@ class Project extends AbstractModel
 
     /**
      * @param string $ref
-     * @param array $parameters
+     * @param array  $parameters
      *
-     * @return Commit[]
+     * @return CommitNote[]
+     *
      * @see Repositories::commitComments() for available parameters.
-     *
      */
     public function commitComments($ref, array $parameters = [])
     {
         $data = $this->client->repositories()->commitComments($this->id, $ref, $parameters);
 
-        $comments = array();
+        $comments = [];
         foreach ($data as $comment) {
             $comments[] = CommitNote::fromArray($this->getClient(), $comment);
         }
@@ -573,10 +574,11 @@ class Project extends AbstractModel
     /**
      * @param string $ref
      * @param string $note
-     * @param array $params
+     * @param array  $params
+     *
      * @return CommitNote
      */
-    public function createCommitComment($ref, $note, array $params = array())
+    public function createCommitComment($ref, $note, array $params = [])
     {
         $data = $this->client->repositories()->createCommitComment($this->id, $ref, $note, $params);
 
@@ -585,6 +587,7 @@ class Project extends AbstractModel
 
     /**
      * @param string $sha
+     *
      * @return string
      */
     public function diff($sha)
@@ -595,6 +598,7 @@ class Project extends AbstractModel
     /**
      * @param string $from
      * @param string $to
+     *
      * @return Comparison
      */
     public function compare($from, $to)
@@ -606,13 +610,14 @@ class Project extends AbstractModel
 
     /**
      * @param array $params
+     *
      * @return Node[]
      */
-    public function tree(array $params = array())
+    public function tree(array $params = [])
     {
         $data = $this->client->repositories()->tree($this->id, $params);
 
-        $tree = array();
+        $tree = [];
         foreach ($data as $node) {
             $tree[] = Node::fromArray($this->getClient(), $this, $node);
         }
@@ -623,31 +628,48 @@ class Project extends AbstractModel
     /**
      * @param string $sha
      * @param string $filepath
+     *
      * @return string
+     *
+     * @deprecated deprecated since version 9.18 and will be removed in 10.0. Use the getRawFile() method instead.
      */
     public function blob($sha, $filepath)
     {
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the getRawFile() method instead.', __METHOD__), E_USER_DEPRECATED);
+
         return $this->client->repositories()->blob($this->id, $sha, $filepath);
     }
 
     /**
-     * @param $sha
-     * @param $filepath
+     * @param string $sha
+     * @param string $filepath
+     *
+     * @return string
+     */
+    public function getRawFile($sha, $filepath)
+    {
+        return $this->client->repositoryFiles()->getRawFile($this->id, $sha, $filepath);
+    }
+
+    /**
+     * @param string $sha
+     * @param string $filepath
      *
      * @return array
      */
     public function getFile($sha, $filepath)
     {
-        return $this->client->repositories()->getFile($this->id, $filepath, $sha);
+        return $this->client->repositoryFiles()->getFile($this->id, $filepath, $sha);
     }
 
     /**
-     * @param string $file_path
-     * @param string $content
-     * @param string $branch_name
-     * @param string $commit_message
-     * @param string $author_email
-     * @param string $author_name
+     * @param string      $file_path
+     * @param string      $content
+     * @param string      $branch_name
+     * @param string      $commit_message
+     * @param string|null $author_email
+     * @param string|null $author_name
+     *
      * @return File
      */
     public function createFile(
@@ -665,11 +687,11 @@ class Project extends AbstractModel
             'commit_message' => $commit_message,
         ];
 
-        if ($author_email !== null) {
+        if (null !== $author_email) {
             $parameters['author_email'] = $author_email;
         }
 
-        if ($author_name !== null) {
+        if (null !== $author_name) {
             $parameters['author_name'] = $author_name;
         }
 
@@ -679,12 +701,13 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $file_path
-     * @param string $content
-     * @param string $branch_name
-     * @param string $commit_message
-     * @param string $author_email
-     * @param string $author_name
+     * @param string      $file_path
+     * @param string      $content
+     * @param string      $branch_name
+     * @param string      $commit_message
+     * @param string|null $author_email
+     * @param string|null $author_name
+     *
      * @return File
      */
     public function updateFile(
@@ -702,11 +725,11 @@ class Project extends AbstractModel
             'commit_message' => $commit_message,
         ];
 
-        if ($author_email !== null) {
+        if (null !== $author_email) {
             $parameters['author_email'] = $author_email;
         }
 
-        if ($author_name !== null) {
+        if (null !== $author_name) {
             $parameters['author_name'] = $author_name;
         }
 
@@ -716,11 +739,12 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $file_path
-     * @param string $branch_name
-     * @param string $commit_message
-     * @param string $author_email
-     * @param string $author_name
+     * @param string      $file_path
+     * @param string      $branch_name
+     * @param string      $commit_message
+     * @param string|null $author_email
+     * @param string|null $author_name
+     *
      * @return bool
      */
     public function deleteFile($file_path, $branch_name, $commit_message, $author_email = null, $author_name = null)
@@ -731,11 +755,11 @@ class Project extends AbstractModel
             'commit_message' => $commit_message,
         ];
 
-        if ($author_email !== null) {
+        if (null !== $author_email) {
             $parameters['author_email'] = $author_email;
         }
 
-        if ($author_name !== null) {
+        if (null !== $author_name) {
             $parameters['author_name'] = $author_name;
         }
 
@@ -748,14 +772,14 @@ class Project extends AbstractModel
      * @param array $parameters
      *
      * @return Event[]
-     * @see Projects::events() for available parameters.
      *
+     * @see Projects::events() for available parameters.
      */
     public function events(array $parameters = [])
     {
         $data = $this->client->projects()->events($this->id, $parameters);
 
-        $events = array();
+        $events = [];
         foreach ($data as $event) {
             $events[] = Event::fromArray($this->getClient(), $this, $event);
         }
@@ -767,14 +791,14 @@ class Project extends AbstractModel
      * @param array $parameters
      *
      * @return MergeRequest[]
-     * @see MergeRequests::all() for available parameters.
      *
+     * @see MergeRequests::all() for available parameters.
      */
     public function mergeRequests(array $parameters = [])
     {
         $data = $this->client->mergeRequests()->all($this->id, $parameters);
 
-        $mrs = array();
+        $mrs = [];
         foreach ($data as $mr) {
             $mrs[] = MergeRequest::fromArray($this->getClient(), $this, $mr);
         }
@@ -784,6 +808,7 @@ class Project extends AbstractModel
 
     /**
      * @param int $id
+     *
      * @return MergeRequest
      */
     public function mergeRequest($id)
@@ -794,24 +819,33 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $source
-     * @param string $target
-     * @param string $title
-     * @param int $assignee
-     * @param string $description
+     * @param string      $source
+     * @param string      $target
+     * @param string      $title
+     * @param int|null    $assignee
+     * @param string|null $description
+     *
      * @return MergeRequest
      */
     public function createMergeRequest($source, $target, $title, $assignee = null, $description = null)
     {
-        $data = $this->client->mergeRequests()->create($this->id, $source, $target, $title, $assignee, $this->id,
-            $description);
+        $data = $this->client->mergeRequests()->create(
+            $this->id,
+            $source,
+            $target,
+            $title,
+            $assignee,
+            $this->id,
+            $description
+        );
 
         return MergeRequest::fromArray($this->getClient(), $this, $data);
     }
 
     /**
-     * @param int $id
+     * @param int   $id
      * @param array $params
+     *
      * @return MergeRequest
      */
     public function updateMergeRequest($id, array $params)
@@ -823,6 +857,7 @@ class Project extends AbstractModel
 
     /**
      * @param int $id
+     *
      * @return MergeRequest
      */
     public function closeMergeRequest($id)
@@ -834,6 +869,7 @@ class Project extends AbstractModel
 
     /**
      * @param int $id
+     *
      * @return MergeRequest
      */
     public function openMergeRequest($id)
@@ -845,6 +881,7 @@ class Project extends AbstractModel
 
     /**
      * @param int $id
+     *
      * @return MergeRequest
      */
     public function mergeMergeRequest($id)
@@ -858,14 +895,14 @@ class Project extends AbstractModel
      * @param array $parameters
      *
      * @return Issue[]
-     * @see Issues::all() for available parameters.
      *
+     * @see Issues::all() for available parameters.
      */
     public function issues(array $parameters = [])
     {
         $data = $this->client->issues()->all($this->id, $parameters);
 
-        $issues = array();
+        $issues = [];
         foreach ($data as $issue) {
             $issues[] = Issue::fromArray($this->getClient(), $this, $issue);
         }
@@ -875,10 +912,11 @@ class Project extends AbstractModel
 
     /**
      * @param string $title
-     * @param array $params
+     * @param array  $params
+     *
      * @return Issue
      */
-    public function createIssue($title, array $params = array())
+    public function createIssue($title, array $params = [])
     {
         $params['title'] = $title;
         $data = $this->client->issues()->create($this->id, $params);
@@ -888,6 +926,7 @@ class Project extends AbstractModel
 
     /**
      * @param int $iid
+     *
      * @return Issue
      */
     public function issue($iid)
@@ -898,8 +937,9 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int $iid
+     * @param int   $iid
      * @param array $params
+     *
      * @return Issue
      */
     public function updateIssue($iid, array $params)
@@ -910,8 +950,9 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int $iid
-     * @param string $comment
+     * @param int         $iid
+     * @param string|null $comment
+     *
      * @return Issue
      */
     public function closeIssue($iid, $comment = null)
@@ -923,6 +964,7 @@ class Project extends AbstractModel
 
     /**
      * @param int $iid
+     *
      * @return Issue
      */
     public function openIssue($iid)
@@ -936,14 +978,14 @@ class Project extends AbstractModel
      * @param array $parameters
      *
      * @return Milestone[]
-     * @see Milestones::all() for available parameters.
      *
+     * @see Milestones::all() for available parameters.
      */
     public function milestones(array $parameters = [])
     {
         $data = $this->client->milestones()->all($this->id, $parameters);
 
-        $milestones = array();
+        $milestones = [];
         foreach ($data as $milestone) {
             $milestones[] = Milestone::fromArray($this->getClient(), $this, $milestone);
         }
@@ -953,10 +995,11 @@ class Project extends AbstractModel
 
     /**
      * @param string $title
-     * @param array $params
+     * @param array  $params
+     *
      * @return Milestone
      */
-    public function createMilestone($title, array $params = array())
+    public function createMilestone($title, array $params = [])
     {
         $params['title'] = $title;
         $data = $this->client->milestones()->create($this->id, $params);
@@ -966,6 +1009,7 @@ class Project extends AbstractModel
 
     /**
      * @param int $id
+     *
      * @return Milestone
      */
     public function milestone($id)
@@ -976,8 +1020,9 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int $id
+     * @param int   $id
      * @param array $params
+     *
      * @return Milestone
      */
     public function updateMilestone($id, array $params)
@@ -989,6 +1034,7 @@ class Project extends AbstractModel
 
     /**
      * @param int $id
+     *
      * @return Issue[]
      */
     public function milestoneIssues($id)
@@ -1005,7 +1051,7 @@ class Project extends AbstractModel
     {
         $data = $this->client->snippets()->all($this->id);
 
-        $snippets = array();
+        $snippets = [];
         foreach ($data as $snippet) {
             $snippets[] = Snippet::fromArray($this->getClient(), $this, $snippet);
         }
@@ -1018,6 +1064,7 @@ class Project extends AbstractModel
      * @param string $filename
      * @param string $code
      * @param string $visibility
+     *
      * @return Snippet
      */
     public function createSnippet($title, $filename, $code, $visibility)
@@ -1029,6 +1076,7 @@ class Project extends AbstractModel
 
     /**
      * @param int $id
+     *
      * @return Snippet
      */
     public function snippet($id)
@@ -1040,6 +1088,7 @@ class Project extends AbstractModel
 
     /**
      * @param int $id
+     *
      * @return string
      */
     public function snippetContent($id)
@@ -1050,8 +1099,9 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int $id
+     * @param int   $id
      * @param array $params
+     *
      * @return Snippet
      */
     public function updateSnippet($id, array $params)
@@ -1063,6 +1113,7 @@ class Project extends AbstractModel
 
     /**
      * @param int $id
+     *
      * @return bool
      */
     public function removeSnippet($id)
@@ -1074,6 +1125,7 @@ class Project extends AbstractModel
 
     /**
      * @param int $group_id
+     *
      * @return Group
      */
     public function transfer($group_id)
@@ -1085,17 +1137,19 @@ class Project extends AbstractModel
 
     /**
      * @param int $id
+     *
      * @return Project
      */
     public function forkTo($id)
     {
         $data = $this->client->projects()->createForkRelation($id, $this->id);
 
-        return Project::fromArray($this->getClient(), $data);
+        return self::fromArray($this->getClient(), $data);
     }
 
     /**
      * @param int $id
+     *
      * @return Project
      */
     public function forkFrom($id)
@@ -1105,13 +1159,14 @@ class Project extends AbstractModel
 
     /**
      * @param int $id
+     *
      * @return Project
      */
     public function createForkRelation($id)
     {
         $data = $this->client->projects()->createForkRelation($this->id, $id);
 
-        return Project::fromArray($this->getClient(), $data);
+        return self::fromArray($this->getClient(), $data);
     }
 
     /**
@@ -1126,10 +1181,11 @@ class Project extends AbstractModel
 
     /**
      * @param string $service_name
-     * @param array $params
+     * @param array  $params
+     *
      * @return bool
      */
-    public function setService($service_name, array $params = array())
+    public function setService($service_name, array $params = [])
     {
         $this->client->projects()->setService($this->id, $service_name, $params);
 
@@ -1138,6 +1194,7 @@ class Project extends AbstractModel
 
     /**
      * @param string $service_name
+     *
      * @return bool
      */
     public function removeService($service_name)
@@ -1154,7 +1211,7 @@ class Project extends AbstractModel
     {
         $data = $this->client->projects()->labels($this->id);
 
-        $labels = array();
+        $labels = [];
         foreach ($data as $label) {
             $labels[] = Label::fromArray($this->getClient(), $this, $label);
         }
@@ -1165,21 +1222,23 @@ class Project extends AbstractModel
     /**
      * @param string $name
      * @param string $color
+     *
      * @return Label
      */
     public function addLabel($name, $color)
     {
-        $data = $this->client->projects()->addLabel($this->id, array(
+        $data = $this->client->projects()->addLabel($this->id, [
             'name' => $name,
-            'color' => $color
-        ));
+            'color' => $color,
+        ]);
 
         return Label::fromArray($this->getClient(), $this, $data);
     }
 
     /**
      * @param string $name
-     * @param array $params
+     * @param array  $params
+     *
      * @return Label
      */
     public function updateLabel($name, array $params)
@@ -1197,6 +1256,7 @@ class Project extends AbstractModel
 
     /**
      * @param string $name
+     *
      * @return bool
      */
     public function removeLabel($name)
@@ -1213,7 +1273,7 @@ class Project extends AbstractModel
     {
         $data = $this->client->repositories()->contributors($this->id);
 
-        $contributors = array();
+        $contributors = [];
         foreach ($data as $contributor) {
             $contributors[] = Contributor::fromArray($this->getClient(), $this, $contributor);
         }
@@ -1222,14 +1282,81 @@ class Project extends AbstractModel
     }
 
     /**
+     * @return Trigger[]
+     */
+    public function triggers()
+    {
+        $data = $this->client->projects()->triggers($this->id);
+
+        $triggers = [];
+        foreach ($data as $triggerData) {
+            $triggers[] = Trigger::fromArray($this->client, $this, $triggerData);
+        }
+
+        return $triggers;
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return Trigger
+     */
+    public function trigger($id)
+    {
+        $trigger = new Trigger($this, $id, $this->client);
+
+        return $trigger->show();
+    }
+
+    /**
+     * @param string $description
+     *
+     * @return Trigger
+     */
+    public function createTrigger($description)
+    {
+        $data = $this->client->projects()->createTrigger($this->id, $description);
+
+        return Trigger::fromArray($this->client, $this, $data);
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return Pipeline
+     */
+    public function pipeline($id)
+    {
+        $pipeline = new Pipeline($this, $id, $this->client);
+
+        return $pipeline->show();
+    }
+
+    /**
+     * @return Pipeline[]
+     */
+    public function pipelines()
+    {
+        $data = $this->client->projects()->pipelines($this->id);
+
+        $pipelines = [];
+        foreach ($data as $pipelineData) {
+            $pipelines[] = Pipeline::fromArray($this->client, $this, $pipelineData);
+        }
+
+        return $pipelines;
+    }
+
+    /**
      * @param array $scopes
+     *
      * @return Job[]
      */
     public function jobs(array $scopes = [])
     {
         $data = $this->client->jobs()->all($this->id, $scopes);
 
-        $jobs = array();
+        $jobs = [];
         foreach ($data as $job) {
             $jobs[] = Job::fromArray($this->getClient(), $this, $job);
         }
@@ -1238,15 +1365,16 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int $pipeline_id
+     * @param int   $pipeline_id
      * @param array $scopes
+     *
      * @return Job[]
      */
     public function pipelineJobs($pipeline_id, array $scopes = [])
     {
         $data = $this->client->jobs()->pipelineJobs($this->id, $pipeline_id, $scopes);
 
-        $jobs = array();
+        $jobs = [];
         foreach ($data as $job) {
             $jobs[] = Job::fromArray($this->getClient(), $this, $job);
         }
@@ -1256,6 +1384,7 @@ class Project extends AbstractModel
 
     /**
      * @param int $job_id
+     *
      * @return Job
      */
     public function job($job_id)
@@ -1272,7 +1401,7 @@ class Project extends AbstractModel
     {
         $data = $this->client->projects()->badges($this->id);
 
-        $badges = array();
+        $badges = [];
         foreach ($data as $badge) {
             $badges[] = Badge::fromArray($this->getClient(), $this, $badge);
         }
@@ -1281,8 +1410,8 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $link_url
-     * @param string $color
+     * @param array $params
+     *
      * @return Badge
      */
     public function addBadge(array $params)
@@ -1293,8 +1422,9 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $name
+     * @param int   $badge_id
      * @param array $params
+     *
      * @return Badge
      */
     public function updateBadge($badge_id, array $params)
@@ -1307,7 +1437,8 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string $name
+     * @param int $badge_id
+     *
      * @return bool
      */
     public function removeBadge($badge_id)
@@ -1319,11 +1450,13 @@ class Project extends AbstractModel
 
     /**
      * @param array $params
+     *
      * @return Branch
      */
     public function addProtectedBranch(array $params = [])
     {
         $data = $this->client->projects()->addProtectedBranch($this->id, $params);
+
         return Branch::fromArray($this->getClient(), $this, $data);
     }
 }

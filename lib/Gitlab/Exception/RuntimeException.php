@@ -1,9 +1,9 @@
-<?php namespace Gitlab\Exception;
+<?php
+
+namespace Gitlab\Exception;
 
 /**
- * RuntimeException
- *
- * @author Joseph Bielawski <stloyd@gmail.com>
+ * @author Graham Campbell <graham@alt-three.com>
  */
 class RuntimeException extends \RuntimeException implements ExceptionInterface
 {

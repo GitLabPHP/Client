@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Tests\Api;
+<?php
+
+namespace Gitlab\Tests\Api;
 
 class SnippetsTest extends TestCase
 {
@@ -7,10 +9,10 @@ class SnippetsTest extends TestCase
      */
     public function shouldGetAllSnippets()
     {
-        $expectedArray = array(
-            array('id' => 1, 'title' => 'A snippet'),
-            array('id' => 2, 'title' => 'Another snippet'),
-        );
+        $expectedArray = [
+            ['id' => 1, 'title' => 'A snippet'],
+            ['id' => 2, 'title' => 'Another snippet'],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -27,7 +29,7 @@ class SnippetsTest extends TestCase
      */
     public function shouldShowSnippet()
     {
-        $expectedArray = array('id' => 2, 'title' => 'Another snippet');
+        $expectedArray = ['id' => 2, 'title' => 'Another snippet'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -44,12 +46,12 @@ class SnippetsTest extends TestCase
      */
     public function shouldCreateSnippet()
     {
-        $expectedArray = array('id' => 3, 'title' => 'A new snippet');
+        $expectedArray = ['id' => 3, 'title' => 'A new snippet'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/snippets', array('title' => 'A new snippet', 'code' => 'A file', 'file_name' => 'file.txt', 'visibility' => 'public'))
+            ->with('projects/1/snippets', ['title' => 'A new snippet', 'code' => 'A file', 'file_name' => 'file.txt', 'visibility' => 'public'])
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -61,16 +63,16 @@ class SnippetsTest extends TestCase
      */
     public function shouldUpdateSnippet()
     {
-        $expectedArray = array('id' => 3, 'title' => 'Updated snippet');
+        $expectedArray = ['id' => 3, 'title' => 'Updated snippet'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/snippets/3', array('title' => 'Updated snippet', 'code' => 'New content', 'file_name' => 'new_file.txt'))
+            ->with('projects/1/snippets/3', ['title' => 'Updated snippet', 'code' => 'New content', 'file_name' => 'new_file.txt'])
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->update(1, 3, array('file_name' => 'new_file.txt', 'code' => 'New content', 'title' => 'Updated snippet')));
+        $this->assertEquals($expectedArray, $api->update(1, 3, ['file_name' => 'new_file.txt', 'code' => 'New content', 'title' => 'Updated snippet']));
     }
 
     /**
@@ -110,12 +112,100 @@ class SnippetsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetSnippetAwardEmoji()
+    public function shouldGetNotes()
     {
-        $expectedArray = array(
-            array('id' => 1, 'name' => 'sparkles'),
-            array('id' => 2, 'name' => 'heart_eyes'),
-        );
+        $expectedArray = [
+            ['id' => 1, 'body' => 'A note'],
+            ['id' => 2, 'body' => 'Another note'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/snippets/2/notes')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->showNotes(1, 2));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetNote()
+    {
+        $expectedArray = ['id' => 3, 'body' => 'A new note'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/snippets/2/notes/3')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->showNote(1, 2, 3));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreateNote()
+    {
+        $expectedArray = ['id' => 3, 'body' => 'A new note'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/snippets/2/notes', ['body' => 'A new note'])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->addNote(1, 2, 'A new note'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUpdateNote()
+    {
+        $expectedArray = ['id' => 3, 'body' => 'An edited comment'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/snippets/2/notes/3', ['body' => 'An edited comment'])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->updateNote(1, 2, 3, 'An edited comment'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRemoveNote()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/snippets/2/notes/3')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->removeNote(1, 2, 3));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldIssueSnippetAwardEmoji()
+    {
+        $expectedArray = [
+            ['id' => 1, 'name' => 'sparkles'],
+            ['id' => 2, 'name' => 'heart_eyes'],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -125,6 +215,23 @@ class SnippetsTest extends TestCase
         ;
 
         $this->assertEquals($expectedArray, $api->awardEmoji(1, 2));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRevokeSnippetAwardEmoji()
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/snippets/2/award_emoji/3')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals(true, $api->removeAwardEmoji(1, 2, 3));
     }
 
     protected function getApiClass()

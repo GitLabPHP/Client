@@ -1,12 +1,14 @@
-<?php namespace Gitlab\Api;
+<?php
+
+namespace Gitlab\Api;
 
 class ProjectNamespaces extends AbstractApi
 {
     /**
-     * @param array $parameters (
+     * @param array $parameters {
      *
      *     @var string $search Returns a list of namespaces the user is authorized to see based on the search criteria.
-     * )
+     * }
      *
      * @return mixed
      */
@@ -19,7 +21,8 @@ class ProjectNamespaces extends AbstractApi
     }
 
     /**
-     * @param integer|string $namespace_id
+     * @param int|string $namespace_id
+     *
      * @return mixed
      */
     public function show($namespace_id)

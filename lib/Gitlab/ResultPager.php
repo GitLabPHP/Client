@@ -1,28 +1,32 @@
-<?php namespace Gitlab;
+<?php
+
+namespace Gitlab;
 
 use Gitlab\Api\ApiInterface;
 use Gitlab\HttpClient\Message\ResponseMediator;
 
 /**
- * Pager class for supporting pagination in Gitlab classes
+ * This is the result pager class.
+ *
+ * @author Ramon de la Fuente <ramon@future500.nl>
+ * @author Mitchel Verschoof <mitchel@future500.nl>
+ * @author Graham Campbell <graham@alt-three.com>
  */
 class ResultPager implements ResultPagerInterface
 {
     /**
+     * The client to use for pagination.
+     *
      * @var \Gitlab\Client client
      */
     protected $client;
 
     /**
-     * The Gitlab client to use for pagination. This must be the same
-     * instance that you got the Api instance from, i.e.:
-     *
-     * $client = new \Gitlab\Client();
-     * $api = $client->api('someApi');
-     * $pager = new \Gitlab\ResultPager($client);
+     * Create a new result pager instance.
      *
      * @param \Gitlab\Client $client
      *
+     * @return void
      */
     public function __construct(Client $client)
     {
@@ -32,17 +36,17 @@ class ResultPager implements ResultPagerInterface
     /**
      * {@inheritdoc}
      */
-    public function fetch(ApiInterface $api, $method, array $parameters = array())
+    public function fetch(ApiInterface $api, $method, array $parameters = [])
     {
-        return call_user_func_array(array($api, $method), $parameters);
+        return call_user_func_array([$api, $method], $parameters);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function fetchAll(ApiInterface $api, $method, array $parameters = array())
+    public function fetchAll(ApiInterface $api, $method, array $parameters = [])
     {
-        $result = call_user_func_array(array($api, $method), $parameters);
+        $result = call_user_func_array([$api, $method], $parameters);
         while ($this->hasNext()) {
             $result = array_merge($result, $this->fetchNext());
         }
@@ -99,17 +103,19 @@ class ResultPager implements ResultPagerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $key
+     *
+     * @return bool
      */
     protected function has($key)
     {
-        $lastResponse = $this->client->getResponseHistory()->getLastResponse();
-        if ($lastResponse == null) {
+        $lastResponse = $this->client->getLastResponse();
+        if (null == $lastResponse) {
             return false;
         }
 
         $pagination = ResponseMediator::getPagination($lastResponse);
-        if ($pagination == null) {
+        if (null == $pagination) {
             return false;
         }
 
@@ -117,7 +123,9 @@ class ResultPager implements ResultPagerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $key
+     *
+     * @return array<string,mixed>
      */
     protected function get($key)
     {
@@ -125,8 +133,9 @@ class ResultPager implements ResultPagerInterface
             return [];
         }
 
-        $pagination = ResponseMediator::getPagination($this->client->getResponseHistory()->getLastResponse());
+        $pagination = ResponseMediator::getPagination($this->client->getLastResponse());
 
+        /** @var array<string,mixed> */
         return ResponseMediator::getContent($this->client->getHttpClient()->get($pagination[$key]));
     }
 }

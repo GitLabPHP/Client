@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Tests\Api;
+<?php
+
+namespace Gitlab\Tests\Api;
 
 class GroupsMilestonesTest extends TestCase
 {
@@ -7,10 +9,10 @@ class GroupsMilestonesTest extends TestCase
      */
     public function shouldGetAllMilestones()
     {
-        $expectedArray = array(
-            array('id' => 1, 'title' => 'A milestone'),
-            array('id' => 2, 'title' => 'Another milestone'),
-        );
+        $expectedArray = [
+            ['id' => 1, 'title' => 'A milestone'],
+            ['id' => 2, 'title' => 'Another milestone'],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -27,7 +29,7 @@ class GroupsMilestonesTest extends TestCase
      */
     public function shouldShowMilestone()
     {
-        $expectedArray = array('id' => 1, 'name' => 'A milestone');
+        $expectedArray = ['id' => 1, 'name' => 'A milestone'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -44,16 +46,16 @@ class GroupsMilestonesTest extends TestCase
      */
     public function shouldCreateMilestone()
     {
-        $expectedArray = array('id' => 3, 'title' => 'A new milestone');
+        $expectedArray = ['id' => 3, 'title' => 'A new milestone'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('groups/1/milestones', array('description' => 'Some text', 'title' => 'A new milestone'))
+            ->with('groups/1/milestones', ['description' => 'Some text', 'title' => 'A new milestone'])
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->create(1, array('description' => 'Some text', 'title' => 'A new milestone')));
+        $this->assertEquals($expectedArray, $api->create(1, ['description' => 'Some text', 'title' => 'A new milestone']));
     }
 
     /**
@@ -61,16 +63,16 @@ class GroupsMilestonesTest extends TestCase
      */
     public function shouldUpdateMilestone()
     {
-        $expectedArray = array('id' => 3, 'title' => 'Updated milestone');
+        $expectedArray = ['id' => 3, 'title' => 'Updated milestone'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('groups/1/milestones/3', array('title' => 'Updated milestone', 'due_date' => '2015-04-01', 'state_event' => 'close'))
+            ->with('groups/1/milestones/3', ['title' => 'Updated milestone', 'due_date' => '2015-04-01', 'state_event' => 'close'])
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->update(1, 3, array('title' => 'Updated milestone', 'due_date' => '2015-04-01', 'state_event' => 'close')));
+        $this->assertEquals($expectedArray, $api->update(1, 3, ['title' => 'Updated milestone', 'due_date' => '2015-04-01', 'state_event' => 'close']));
     }
 
     /**
@@ -95,10 +97,10 @@ class GroupsMilestonesTest extends TestCase
      */
     public function shouldGetMilestonesIssues()
     {
-        $expectedArray = array(
-            array('id' => 1, 'title' => 'An issue'),
-            array('id' => 2, 'title' => 'Another issue'),
-        );
+        $expectedArray = [
+            ['id' => 1, 'title' => 'An issue'],
+            ['id' => 2, 'title' => 'Another issue'],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -115,10 +117,10 @@ class GroupsMilestonesTest extends TestCase
      */
     public function shouldGetMilestonesMergeRequests()
     {
-        $expectedArray = array(
-            array('id' => 1, 'title' => 'A merge request'),
-            array('id' => 2, 'title' => 'Another merge request'),
-        );
+        $expectedArray = [
+            ['id' => 1, 'title' => 'A merge request'],
+            ['id' => 2, 'title' => 'Another merge request'],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())

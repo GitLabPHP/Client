@@ -1,9 +1,11 @@
-<?php namespace Gitlab\Api;
+<?php
+
+namespace Gitlab\Api;
 
 use Gitlab\Client;
+use Gitlab\Exception\RuntimeException;
 use Gitlab\HttpClient\Message\QueryStringBuilder;
 use Gitlab\HttpClient\Message\ResponseMediator;
-use Gitlab\Tests\HttpClient\Message\QueryStringBuilderTest;
 use Http\Discovery\StreamFactoryDiscovery;
 use Http\Message\MultipartStream\MultipartStreamBuilder;
 use Http\Message\StreamFactory;
@@ -12,7 +14,7 @@ use Psr\Http\Message\StreamInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Abstract class for Api classes
+ * Abstract class for Api classes.
  *
  * @author Joseph Bielawski <stloyd@gmail.com>
  * @author Matt Humphrey <matt@m4tt.co>
@@ -21,20 +23,24 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 abstract class AbstractApi implements ApiInterface
 {
     /**
-     * The client
+     * The client instance.
      *
      * @var Client
      */
     protected $client;
 
     /**
+     * The HTTP stream factory.
+     *
      * @var StreamFactory
      */
     private $streamFactory;
 
     /**
-     * @param Client $client
+     * @param Client             $client
      * @param StreamFactory|null $streamFactory
+     *
+     * @return void
      */
     public function __construct(Client $client, StreamFactory $streamFactory = null)
     {
@@ -44,7 +50,6 @@ abstract class AbstractApi implements ApiInterface
 
     /**
      * @return $this
-     * @codeCoverageIgnore
      */
     public function configure()
     {
@@ -54,12 +59,13 @@ abstract class AbstractApi implements ApiInterface
     /**
      * Performs a GET query and returns the response as a PSR-7 response object.
      *
-     * @param string $path
-     * @param array $parameters
-     * @param array $requestHeaders
+     * @param string               $path
+     * @param array<string,mixed>  $parameters
+     * @param array<string,string> $requestHeaders
+     *
      * @return ResponseInterface
      */
-    protected function getAsResponse($path, array $parameters = array(), $requestHeaders = array())
+    protected function getAsResponse($path, array $parameters = [], array $requestHeaders = [])
     {
         $path = $this->preparePath($path, $parameters);
 
@@ -67,32 +73,34 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param string $path
-     * @param array $parameters
-     * @param array $requestHeaders
+     * @param string               $path
+     * @param array<string,mixed>  $parameters
+     * @param array<string,string> $requestHeaders
+     *
      * @return mixed
      */
-    protected function get($path, array $parameters = array(), $requestHeaders = array())
+    protected function get($path, array $parameters = [], array $requestHeaders = [])
     {
         return ResponseMediator::getContent($this->getAsResponse($path, $parameters, $requestHeaders));
     }
 
     /**
-     * @param string $path
-     * @param array $parameters
-     * @param array $requestHeaders
-     * @param array $files
+     * @param string               $path
+     * @param array<string,mixed>  $parameters
+     * @param array<string,string> $requestHeaders
+     * @param array<string,string> $files
+     *
      * @return mixed
      */
-    protected function post($path, array $parameters = array(), $requestHeaders = array(), array $files = array())
+    protected function post($path, array $parameters = [], array $requestHeaders = [], array $files = [])
     {
         $path = $this->preparePath($path);
 
         $body = null;
-        if (empty($files) && !empty($parameters)) {
+        if (0 === count($files) && 0 < count($parameters)) {
             $body = $this->prepareBody($parameters);
             $requestHeaders['Content-Type'] = 'application/x-www-form-urlencoded';
-        } elseif (!empty($files)) {
+        } elseif (0 < count($files)) {
             $builder = new MultipartStreamBuilder($this->streamFactory);
 
             foreach ($parameters as $name => $value) {
@@ -100,7 +108,7 @@ abstract class AbstractApi implements ApiInterface
             }
 
             foreach ($files as $name => $file) {
-                $builder->addResource($name, fopen($file, 'r'), [
+                $builder->addResource($name, self::tryFopen($file, 'r'), [
                     'headers' => [
                         'Content-Type' => $this->guessContentType($file),
                     ],
@@ -118,20 +126,22 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param string $path
-     * @param array $parameters
-     * @param array $requestHeaders
+     * @param string               $path
+     * @param array<string,mixed>  $parameters
+     * @param array<string,string> $requestHeaders
+     * @param array<string,string> $files
+     *
      * @return mixed
      */
-    protected function put($path, array $parameters = array(), $requestHeaders = array(), array $files = array())
+    protected function put($path, array $parameters = [], array $requestHeaders = [], array $files = [])
     {
         $path = $this->preparePath($path);
 
         $body = null;
-        if (empty($files) && !empty($parameters)) {
+        if (0 === count($files) && 0 < count($parameters)) {
             $body = $this->prepareBody($parameters);
             $requestHeaders['Content-Type'] = 'application/x-www-form-urlencoded';
-        } elseif (!empty($files)) {
+        } elseif (0 < count($files)) {
             $builder = new MultipartStreamBuilder($this->streamFactory);
 
             foreach ($parameters as $name => $value) {
@@ -139,7 +149,7 @@ abstract class AbstractApi implements ApiInterface
             }
 
             foreach ($files as $name => $file) {
-                $builder->addResource($name, fopen($file, 'r'), [
+                $builder->addResource($name, self::tryFopen($file, 'r'), [
                     'headers' => [
                         'Content-Type' => $this->guessContentType($file),
                     ],
@@ -157,12 +167,13 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param string $path
-     * @param array $parameters
-     * @param array $requestHeaders
+     * @param string               $path
+     * @param array<string,mixed>  $parameters
+     * @param array<string,string> $requestHeaders
+     *
      * @return mixed
      */
-    protected function delete($path, array $parameters = array(), $requestHeaders = array())
+    protected function delete($path, array $parameters = [], array $requestHeaders = [])
     {
         $path = $this->preparePath($path, $parameters);
 
@@ -172,8 +183,9 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param int $id
-     * @param string $path
+     * @param int|string $id
+     * @param string     $path
+     *
      * @return string
      */
     protected function getProjectPath($id, $path)
@@ -182,8 +194,9 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param int $id
+     * @param int    $id
      * @param string $path
+     *
      * @return string
      */
     protected function getGroupPath($id, $path)
@@ -192,12 +205,13 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param string $path
+     * @param int|string $path
+     *
      * @return string
      */
     protected function encodePath($path)
     {
-        $path = rawurlencode($path);
+        $path = rawurlencode((string) $path);
 
         return str_replace('.', '%2E', $path);
     }
@@ -228,6 +242,7 @@ abstract class AbstractApi implements ApiInterface
 
     /**
      * @param array $parameters
+     *
      * @return StreamInterface
      */
     private function prepareBody(array $parameters = [])
@@ -238,6 +253,12 @@ abstract class AbstractApi implements ApiInterface
         return $stream;
     }
 
+    /**
+     * @param string $path
+     * @param array  $parameters
+     *
+     * @return string
+     */
     private function preparePath($path, array $parameters = [])
     {
         if (count($parameters) > 0) {
@@ -248,7 +269,7 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param $file
+     * @param string $file
      *
      * @return string
      */
@@ -259,6 +280,44 @@ abstract class AbstractApi implements ApiInterface
         }
         $finfo = new \finfo(FILEINFO_MIME_TYPE);
 
-        return $finfo->file($file);
+        return $finfo->file($file) ?: 'application/octet-stream';
+    }
+
+    /**
+     * Safely opens a PHP stream resource using a filename.
+     *
+     * When fopen fails, PHP normally raises a warning. This function adds an
+     * error handler that checks for errors and throws an exception instead.
+     *
+     * @param string $filename File to open
+     * @param string $mode     Mode used to open the file
+     *
+     * @return resource
+     *
+     * @throws RuntimeException if the file cannot be opened
+     *
+     * @see https://github.com/guzzle/psr7/blob/1.6.1/src/functions.php#L287-L320
+     */
+    private static function tryFopen($filename, $mode)
+    {
+        $ex = null;
+        set_error_handler(function () use ($filename, $mode, &$ex) {
+            $ex = new RuntimeException(sprintf(
+                'Unable to open %s using mode %s: %s',
+                $filename,
+                $mode,
+                func_get_args()[1]
+            ));
+        });
+
+        $handle = fopen($filename, $mode);
+        restore_error_handler();
+
+        if (null !== $ex) {
+            throw $ex;
+        }
+
+        /** @var resource */
+        return $handle;
     }
 }

@@ -1,10 +1,10 @@
-<?php namespace Gitlab\Model;
+<?php
+
+namespace Gitlab\Model;
 
 use Gitlab\Client;
 
 /**
- * Class Label
- *
  * @property-read int $id
  * @property-read string $name
  * @property-read string $color
@@ -12,18 +12,19 @@ use Gitlab\Client;
 class Label extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
-    protected static $properties = array(
+    protected static $properties = [
         'id',
         'name',
-        'color'
-    );
+        'color',
+    ];
 
     /**
-     * @param Client $client
+     * @param Client  $client
      * @param Project $project
-     * @param array  $data
+     * @param array   $data
+     *
      * @return Label
      */
     public static function fromArray(Client $client, Project $project, array $data)
@@ -34,8 +35,10 @@ class Label extends AbstractModel
     }
 
     /**
-     * @param Project $project
-     * @param Client $client
+     * @param Project     $project
+     * @param Client|null $client
+     *
+     * @return void
      */
     public function __construct(Project $project, Client $client = null)
     {

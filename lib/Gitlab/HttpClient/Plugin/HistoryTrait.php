@@ -10,6 +10,14 @@ use Psr\Http\Message\RequestInterface;
 if (interface_exists(HttpMethodsClientInterface::class)) {
     trait HistoryTrait
     {
+        /**
+         * Record a failed call.
+         *
+         * @param RequestInterface         $request
+         * @param ClientExceptionInterface $exception
+         *
+         * @return void
+         */
         public function addFailure(RequestInterface $request, ClientExceptionInterface $exception)
         {
         }
@@ -17,6 +25,14 @@ if (interface_exists(HttpMethodsClientInterface::class)) {
 } else {
     trait HistoryTrait
     {
+        /**
+         * Record a failed call.
+         *
+         * @param RequestInterface $request
+         * @param Exception        $exception
+         *
+         * @return void
+         */
         public function addFailure(RequestInterface $request, Exception $exception)
         {
         }

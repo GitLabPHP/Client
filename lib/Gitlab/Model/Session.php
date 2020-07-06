@@ -1,34 +1,37 @@
-<?php namespace Gitlab\Model;
+<?php
+
+namespace Gitlab\Model;
 
 use Gitlab\Client;
 
 /**
- * Class Session
- *
  * @property-read int $id
  * @property-read string $email
  * @property-read string $name
  * @property-read string $private_token
  * @property-read string $created_at
  * @property-read bool $blocked
+ *
+ * @deprecated since version 9.18 and will be removed in 10.0.
  */
 class Session extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
-    protected static $properties = array(
+    protected static $properties = [
         'id',
         'email',
         'name',
         'private_token',
         'created_at',
-        'blocked'
-    );
+        'blocked',
+    ];
 
     /**
      * @param Client $client
      * @param array  $data
+     *
      * @return Session
      */
     public static function fromArray(Client $client, array $data)
@@ -39,10 +42,14 @@ class Session extends AbstractModel
     }
 
     /**
-     * @param Client $client
+     * @param Client|null $client
+     *
+     * @return void
      */
     public function __construct(Client $client = null)
     {
+        @trigger_error(sprintf('The %s class is deprecated since version 9.18 and will be removed in 10.0.', self::class), E_USER_DEPRECATED);
+
         $this->setClient($client);
     }
 
@@ -59,6 +66,7 @@ class Session extends AbstractModel
     /**
      * @param string $email
      * @param string $password
+     *
      * @return Session
      */
     public function login($email, $password)

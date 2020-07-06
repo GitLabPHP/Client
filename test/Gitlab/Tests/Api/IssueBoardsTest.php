@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Tests\Api;
+<?php
+
+namespace Gitlab\Tests\Api;
 
 class IssueBoardsTest extends TestCase
 {
@@ -7,15 +9,15 @@ class IssueBoardsTest extends TestCase
      */
     public function shouldGetAllBoards()
     {
-        $expectedArray = array(
-            array('id' => 1, 'title' => 'A board'),
-            array('id' => 2, 'title' => 'Another board'),
-        );
+        $expectedArray = [
+            ['id' => 1, 'title' => 'A board'],
+            ['id' => 2, 'title' => 'Another board'],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('boards', array())
+            ->with('boards', [])
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -27,7 +29,7 @@ class IssueBoardsTest extends TestCase
      */
     public function shouldShowIssueBoard()
     {
-        $expectedArray = array('id' => 2, 'name' => 'Another issue board');
+        $expectedArray = ['id' => 2, 'name' => 'Another issue board'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -38,22 +40,22 @@ class IssueBoardsTest extends TestCase
 
         $this->assertEquals($expectedArray, $api->show(1, 2));
     }
-    
+
     /**
      * @test
      */
     public function shouldCreateIssueBoard()
     {
-        $expectedArray = array('id' => 3, 'name' => 'A new issue board');
+        $expectedArray = ['id' => 3, 'name' => 'A new issue board'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/boards', array('name' => 'A new issue board'))
+            ->with('projects/1/boards', ['name' => 'A new issue board'])
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->create(1, array('name' => 'A new issue board')));
+        $this->assertEquals($expectedArray, $api->create(1, ['name' => 'A new issue board']));
     }
 
     /**
@@ -61,16 +63,16 @@ class IssueBoardsTest extends TestCase
      */
     public function shouldUpdateIssueBoard()
     {
-        $expectedArray = array('id' => 2, 'name' => 'A renamed issue board');
+        $expectedArray = ['id' => 2, 'name' => 'A renamed issue board'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/boards/2', array('name' => 'A renamed issue board', 'labels' => 'foo'))
+            ->with('projects/1/boards/2', ['name' => 'A renamed issue board', 'labels' => 'foo'])
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->update(1, 2, array('name' => 'A renamed issue board', 'labels' => 'foo')));
+        $this->assertEquals($expectedArray, $api->update(1, 2, ['name' => 'A renamed issue board', 'labels' => 'foo']));
     }
 
     /**
@@ -95,25 +97,25 @@ class IssueBoardsTest extends TestCase
      */
     public function shouldGetAllLists()
     {
-        $expectedArray = array(
-            array(
+        $expectedArray = [
+            [
                 'id' => 1,
-                'label' => array(
+                'label' => [
                     'name' => 'First label',
                     'color' => '#F0AD4E',
-                    'description' => null
-                ),
-                'position' => 1
-            ), array(
+                    'description' => null,
+                ],
+                'position' => 1,
+            ], [
                 'id' => 2,
-                'label' => array(
+                'label' => [
                     'name' => 'Second label',
                     'color' => '#F0AD4E',
-                    'description' => null
-                ),
-                'position' => 2
-            )
-        );
+                    'description' => null,
+                ],
+                'position' => 2,
+            ],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -121,7 +123,7 @@ class IssueBoardsTest extends TestCase
             ->with('projects/1/boards/2/lists')
             ->will($this->returnValue($expectedArray))
         ;
-    
+
         $this->assertEquals($expectedArray, $api->allLists(1, 2));
     }
 
@@ -130,25 +132,25 @@ class IssueBoardsTest extends TestCase
      */
     public function shouldGetList()
     {
-        $expectedArray = array(
-            array(
+        $expectedArray = [
+            [
                 'id' => 3,
-                'label' => array(
+                'label' => [
                     'name' => 'Some label',
                     'color' => '#F0AD4E',
-                    'description' => null
-                ),
-                'position' => 3
-            )
-        );
-    
+                    'description' => null,
+                ],
+                'position' => 3,
+            ],
+        ];
+
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/boards/2/lists/3')
             ->will($this->returnValue($expectedArray))
         ;
-    
+
         $this->assertEquals($expectedArray, $api->showList(1, 2, 3));
     }
 
@@ -157,22 +159,22 @@ class IssueBoardsTest extends TestCase
      */
     public function shouldCreateList()
     {
-        $expectedArray = array(
-            array(
+        $expectedArray = [
+            [
                 'id' => 3,
-                'label' => array(
+                'label' => [
                     'name' => 'Some label',
                     'color' => '#F0AD4E',
-                    'description' => null
-                ),
-                'position' => 3
-            )
-        );
-    
+                    'description' => null,
+                ],
+                'position' => 3,
+            ],
+        ];
+
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/boards/2/lists', array('label_id' => 4))
+            ->with('projects/1/boards/2/lists', ['label_id' => 4])
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -184,25 +186,25 @@ class IssueBoardsTest extends TestCase
      */
     public function shouldUpdateList()
     {
-        $expectedArray = array(
-            array(
+        $expectedArray = [
+            [
                 'id' => 3,
-                'label' => array(
+                'label' => [
                     'name' => 'Some label',
                     'color' => '#F0AD4E',
-                    'description' => null
-                ),
-                'position' => 1
-            )
-        );
-    
+                    'description' => null,
+                ],
+                'position' => 1,
+            ],
+        ];
+
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/5/boards/2/lists/3', array('position' => 1))
+            ->with('projects/5/boards/2/lists/3', ['position' => 1])
             ->will($this->returnValue($expectedArray))
         ;
-    
+
         $this->assertEquals($expectedArray, $api->updateList(5, 2, 3, 1));
     }
 
@@ -212,14 +214,14 @@ class IssueBoardsTest extends TestCase
     public function shouldDeleteList()
     {
         $expectedBool = true;
-    
+
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/boards/2/lists/3')
             ->will($this->returnValue($expectedBool))
         ;
-    
+
         $this->assertEquals($expectedBool, $api->deleteList(1, 2, 3));
     }
 

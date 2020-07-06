@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Tests\Api;
+<?php
+
+namespace Gitlab\Tests\Api;
 
 class VersionTest extends TestCase
 {
@@ -7,10 +9,10 @@ class VersionTest extends TestCase
      */
     public function shouldShowVersion()
     {
-        $expectedArray = array(
-            "version" => "8.13.0-pre",
-            "revision" => "4e963fe",
-        );
+        $expectedArray = [
+            'version' => '8.13.0-pre',
+            'revision' => '4e963fe',
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -19,6 +21,7 @@ class VersionTest extends TestCase
             ->will($this->returnValue($expectedArray));
         $this->assertEquals($expectedArray, $api->show());
     }
+
     protected function getApiClass()
     {
         return 'Gitlab\Api\Version';
