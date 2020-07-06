@@ -1,4 +1,4 @@
-name: Static analysis
+name: Static Analysis
 
 on:
   push:
@@ -6,7 +6,6 @@ on:
 
 jobs:
   phpstan:
-
     name: PHPStan
     runs-on: ubuntu-latest
 

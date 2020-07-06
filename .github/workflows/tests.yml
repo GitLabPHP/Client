@@ -6,12 +6,12 @@ on:
 
 jobs:
   tests:
+    name: PHP ${{ matrix.php }}
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
         php: ['5.6', '7.0', '7.1', '7.2', '7.3', '7.4']
-
-    name: PHP ${{ matrix.php }}
 
     steps:
       - name: Checkout Code
@@ -29,7 +29,7 @@ jobs:
         run: composer update --prefer-dist --no-interaction --no-progress
 
       - name: Install PHPUnit
-        run: composer bin phpunit update --no-interaction --no-progress --ignore-platform-reqs
+        run: composer bin phpunit update --no-interaction --no-progress
 
       - name: Execute PHPUnit
         run: vendor/bin/phpunit --verbose --coverage-text
