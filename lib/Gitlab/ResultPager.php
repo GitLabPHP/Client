@@ -160,7 +160,7 @@ class ResultPager implements ResultPagerInterface
     {
         $response = $this->client->getLastResponse();
 
-        if ($response === null) {
+        if (null === $response) {
             $this->pagination = null;
         } else {
             $this->pagination = ResponseMediator::getPagination($response);
@@ -192,7 +192,7 @@ class ResultPager implements ResultPagerInterface
     {
         $pagination = isset($this->pagination[$key]) ? $this->pagination[$key] : null;
 
-        if ($pagination === null) {
+        if (null === $pagination) {
             return [];
         }
 
