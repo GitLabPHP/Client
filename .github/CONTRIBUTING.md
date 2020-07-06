@@ -15,16 +15,16 @@ We accept contributions via pull requests on Github. Please review these guideli
 
 ## Running Tests
 
-First, install the dependencies using [Composer](https://getcomposer.org/):
+First, install the dependencies:
 
 ```bash
-$ composer install
+$ make install
 ```
 
-Then run [PHPUnit](https://phpunit.de/):
+Then run the test suite and static analyzer:
 
 ```bash
-$ vendor/bin/phpunit
+$ make test
 ```
 
 * The tests will be automatically run by [GitHub Actions](https://github.com/features/actions) against pull requests.
