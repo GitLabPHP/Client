@@ -4,7 +4,7 @@ PHP GitLab API
 We present a PHP client for [GitLab](https://gitlab.com/)'s [API v4](https://gitlab.com/gitlab-org/gitlab/-/tree/master/doc/api).
 
 [![Build Status](
-https://img.shields.io/github/workflow/status/GitLabPHP/Client/tests?style=flat-square)](https://github.com/GitLabPHP/Client/actions?query=workflow%3ATests)
+https://img.shields.io/github/workflow/status/GitLabPHP/Client/Tests?style=flat-square)](https://github.com/GitLabPHP/Client/actions?query=workflow%3ATests)
 [![StyleCI](https://github.styleci.io/repos/6816335/shield?branch=10.0)](https://github.styleci.io/repos/6816335?branch=10.0)
 [![Latest Stable Version](https://poser.pugx.org/m4tthumphrey/php-gitlab-api/version?format=flat-square)](https://packagist.org/packages/m4tthumphrey/php-gitlab-api)
 [![Total Downloads](https://poser.pugx.org/m4tthumphrey/php-gitlab-api/downloads?format=flat-square)](https://packagist.org/packages/m4tthumphrey/php-gitlab-api)
