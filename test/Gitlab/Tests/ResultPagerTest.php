@@ -57,10 +57,6 @@ class ResultPagerTest extends TestCase
             ->method('getLastResponse')
             ->will($this->onConsecutiveCalls(
                 $response1,
-                $response1,
-                $response1,
-                $response2,
-                $response2,
                 $response2,
                 $response3
             ))
