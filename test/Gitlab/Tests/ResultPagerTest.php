@@ -60,9 +60,6 @@ class ResultPagerTest extends TestCase
                 $response1,
                 $response1,
                 $response2,
-                $response2,
-                $response2,
-                $response3
             ))
         ;
 
