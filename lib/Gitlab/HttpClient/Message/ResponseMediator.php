@@ -6,6 +6,8 @@ use Psr\Http\Message\ResponseInterface;
 
 /**
  * Utilities to parse response headers and content.
+ *
+ * @final
  */
 class ResponseMediator
 {
