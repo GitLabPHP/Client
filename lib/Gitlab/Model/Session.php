@@ -13,6 +13,8 @@ use Gitlab\Client;
  * @property-read string $private_token
  * @property-read string $created_at
  * @property-read bool $blocked
+ *
+ * @deprecated since version 9.18 and will be removed in 10.0.
  */
 class Session extends AbstractModel
 {
@@ -48,6 +50,8 @@ class Session extends AbstractModel
      */
     public function __construct(Client $client = null)
     {
+        @trigger_error(sprintf('The %s class is deprecated since version 9.18 and will be removed in 10.0.', self::class), E_USER_DEPRECATED);
+
         $this->setClient($client);
     }
 
