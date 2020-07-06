@@ -7,7 +7,7 @@ on:
 jobs:
   tests:
     name: PHP ${{ matrix.php }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     strategy:
       matrix:
@@ -25,6 +25,9 @@ jobs:
           tools: composer:v2
           coverage: none
 
+      - name: Setup Problem Matchers
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
       - name: Install Dependencies
         run: composer update --prefer-dist --no-interaction --no-progress
 
@@ -32,4 +35,4 @@ jobs:
         run: composer bin phpunit update --no-interaction --no-progress
 
       - name: Execute PHPUnit
-        run: vendor/bin/phpunit --verbose --coverage-text
+        run: vendor/bin/phpunit --verbose
