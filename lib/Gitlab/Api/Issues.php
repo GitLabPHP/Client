@@ -15,7 +15,7 @@ class Issues extends AbstractApi
      * @param array           $parameters {
      *
      *     @var string $state     return all issues or just those that are opened or closed
-     *     @var string $labels    Comma-separated list of label names, issues must have all labels to be returned.
+     *     @var string $labels    comma-separated list of label names, issues must have all labels to be returned
      *     @var bool $with_labels_details  If true, response will return more details for each label.
      *                            No+Label lists all issues with no labels.
      *     @var string $milestone the milestone title
