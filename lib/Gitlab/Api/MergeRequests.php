@@ -137,9 +137,9 @@ class MergeRequests extends AbstractApi
      * @param string              $title
      * @param array<string,mixed> $parameters {
      *
-     *     @var int        $assignee_id the assignee id
+     *     @var int        $assignee_id       the assignee id
      *     @var int|string $target_project_id the target project id
-     *     @var string     $description the description
+     *     @var string     $description       the description
      * }
      *
      * @return mixed

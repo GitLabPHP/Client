@@ -7,6 +7,8 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
+ * @final
+ *
  * @property-read string $note
  * @property-read string $path
  * @property-read string $line

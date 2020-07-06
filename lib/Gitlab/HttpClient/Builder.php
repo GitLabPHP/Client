@@ -22,6 +22,8 @@ use Psr\Http\Message\StreamFactoryInterface;
  *
  * This will allow you to fluently add and remove plugins.
  *
+ * @final
+ *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  * @author Graham Campbell <graham@alt-three.com>
  */

@@ -9,6 +9,8 @@ use Gitlab\Api\Repositories;
 use Gitlab\Client;
 
 /**
+ * @final
+ *
  * @property-read int|string $id
  * @property-read string $description
  * @property-read string $default_branch

@@ -7,6 +7,8 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
+ * @final
+ *
  * @property-read bool $compare_timeout
  * @property-read bool $compare_same_ref
  * @property-read Commit|null $commit

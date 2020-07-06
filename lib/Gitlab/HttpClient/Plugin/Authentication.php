@@ -13,6 +13,8 @@ use Psr\Http\Message\RequestInterface;
 /**
  * Add authentication to the request.
  *
+ * @final
+ *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  * @author Fabien Bourigault <bourigaultfabien@gmail.com>
  *

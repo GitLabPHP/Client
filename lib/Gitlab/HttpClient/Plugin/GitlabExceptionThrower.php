@@ -17,6 +17,8 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * A plugin to remember the last response.
  *
+ * @final
+ *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  * @author Fabien Bourigault <bourigaultfabien@gmail.com>
  *
@@ -39,7 +41,7 @@ final class GitlabExceptionThrower implements Plugin
             $status = $response->getStatusCode();
 
             if ($status >= 400 && $status < 600) {
-                self::handleError($status, ResponseMediator::getContent($response));
+                self::handleError($status, self::getMessage($response) ?: $response->getReasonPhrase());
             }
 
             return $response;
@@ -49,35 +51,18 @@ final class GitlabExceptionThrower implements Plugin
     /**
      * Handle an error response.
      *
-     * @param int          $status
-     * @param array|string $content
+     * @param int    $status
+     * @param string $message
      *
      * @throws ErrorException
      * @throws RuntimeException
      *
      * @return void
      */
-    private static function handleError(int $status, $content)
+    private static function handleError(int $status, string $message)
     {
-        if (is_array($content) && isset($content['message'])) {
-            if (400 === $status || 422 === $status) {
-                $message = self::parseMessage($content['message']);
-
-                throw new ValidationFailedException($message, $status);
-            }
-        }
-
-        /** @var array<string,mixed> $content */
-        $message = null;
-        if (isset($content['error'])) {
-            $message = $content['error'];
-            if (is_array($content['error'])) {
-                $message = implode("\n", $content['error']);
-            }
-        } elseif (isset($content['message'])) {
-            $message = self::parseMessage($content['message']);
-        } else {
-            $message = $content;
+        if (400 === $status || 422 === $status) {
+            throw new ValidationFailedException($message, $status);
         }
 
         if (429 === $status) {
@@ -88,34 +73,74 @@ final class GitlabExceptionThrower implements Plugin
     }
 
     /**
-     * @param mixed $message
+     * Get the error message from the response if present.
+     *
+     * @param \Psr\Http\Message\ResponseInterface $response
+     *
+     * @return string|null
+     */
+    private static function getMessage(ResponseInterface $response)
+    {
+        $content = ResponseMediator::getContent($response);
+
+        if (!is_array($content)) {
+            return null;
+        }
+
+        if (isset($content['message'])) {
+            $message = $content['message'];
+
+            if (is_string($message)) {
+                return $message;
+            }
+
+            if (is_array($message)) {
+                return self::parseMessage($content['message']);
+            }
+        }
+
+        if (isset($content['error_description'])) {
+            $error = $content['error_description'];
+
+            if (is_string($error)) {
+                return $error;
+            }
+        }
+
+        if (isset($content['error'])) {
+            $error = $content['error'];
+
+            if (is_string($error)) {
+                return $error;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @param array $message
      *
      * @return string
      */
-    private static function parseMessage($message)
+    private static function parseMessage(array $message)
     {
-        $string = $message;
+        $format = '"%s" %s';
+        $errors = [];
 
-        if (is_array($message)) {
-            $format = '"%s" %s';
-            $errors = [];
-
-            foreach ($message as $field => $messages) {
-                if (is_array($messages)) {
-                    $messages = array_unique($messages);
-                    foreach ($messages as $error) {
-                        $errors[] = sprintf($format, $field, $error);
-                    }
-                } elseif (is_int($field)) {
-                    $errors[] = $messages;
-                } else {
-                    $errors[] = sprintf($format, $field, $messages);
+        foreach ($message as $field => $messages) {
+            if (is_array($messages)) {
+                $messages = array_unique($messages);
+                foreach ($messages as $error) {
+                    $errors[] = sprintf($format, $field, $error);
                 }
+            } elseif (is_int($field)) {
+                $errors[] = $messages;
+            } else {
+                $errors[] = sprintf($format, $field, $messages);
             }
-
-            $string = implode(', ', $errors);
         }
 
-        return $string;
+        return implode(', ', $errors);
     }
 }
