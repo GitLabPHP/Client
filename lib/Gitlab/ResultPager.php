@@ -56,6 +56,7 @@ class ResultPager implements ResultPagerInterface
     public function fetch(ApiInterface $api, $method, array $parameters = [])
     {
         $result = $api->$method(...array_values($parameters));
+
         $this->postFetch();
 
         return $result;
