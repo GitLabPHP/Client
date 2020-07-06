@@ -10,13 +10,11 @@ use Gitlab\HttpClient\Message\ResponseMediator;
 /**
  * This is the result pager class.
  *
- * @final
- *
  * @author Ramon de la Fuente <ramon@future500.nl>
  * @author Mitchel Verschoof <mitchel@future500.nl>
  * @author Graham Campbell <graham@alt-three.com>
  */
-class ResultPager implements ResultPagerInterface
+final class ResultPager implements ResultPagerInterface
 {
     /**
      * The client to use for pagination.
