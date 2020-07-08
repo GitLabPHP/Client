@@ -55,26 +55,32 @@ $ composer require zeichen32/gitlabapibundle:^5.0 symfony/http-client:^4.4 nyhol
 $ composer require zeichen32/gitlabapibundle:^5.0 symfony/http-client:^5.0 nyholm/psr7:^1.3
 ```
 
-We are decoupled from any HTTP messaging client with help by [HTTPlug](http://httplug.io). You can visit [HTTPlug for library users](https://docs.php-http.org/en/latest/httplug/users.html) to get more information about installing HTTPlug related packages. [graham-campbell/gitlab](https://github.com/GrahamCampbell/Laravel-GitLab) is by [Graham Campbell](https://github.com/GrahamCampbell) and [zeichen32/gitlabapibundle](https://github.com/Zeichen32/GitLabApiBundle) is by [Jens Averkamp](https://github.com/Zeichen32).
+We are decoupled from any HTTP messaging client by using [PSR-7](https://www.php-fig.org/psr/psr-7/) and [HTTPlug](https://httplug.io/). You can visit [HTTPlug for library users](https://docs.php-http.org/en/latest/httplug/users.html) to get more information about installing HTTPlug related packages. [graham-campbell/gitlab](https://github.com/GrahamCampbell/Laravel-GitLab) is by [Graham Campbell](https://github.com/GrahamCampbell) and [zeichen32/gitlabapibundle](https://github.com/Zeichen32/GitLabApiBundle) is by [Jens Averkamp](https://github.com/Zeichen32).
 
 ## General API Usage
 
 ```php
 // Token authentication
-$client = Gitlab\Client::create('http://git.yourdomain.com')
-    ->authenticate('your_gitlab_token_here', Gitlab\Client::AUTH_HTTP_TOKEN)
-;
+$client = new Gitlab\Client();
+$client->authenticate('your_http_token', Gitlab\Client::AUTH_HTTP_TOKEN);
 
 // OAuth2 authentication
-$client = Gitlab\Client::create('http://gitlab.yourdomain.com')
-    ->authenticate('your_gitlab_token_here', Gitlab\Client::AUTH_OAUTH_TOKEN)
-;
+$client = new Gitlab\Client();
+$client->authenticate('your_oauth_token', Gitlab\Client::AUTH_OAUTH_TOKEN);
 
+// An example API call
 $project = $client->projects()->create('My Project', [
     'description' => 'This is a project',
     'issues_enabled' => false,
 ]);
+```
 
+## Self-Hosted GitLab
+
+```php
+$client = new Gitlab\Client();
+$client->setUrl('https://git.yourdomain.com');
+$client->authenticate('your_http_token', Gitlab\Client::AUTH_HTTP_TOKEN);
 ```
 
 ## Example with Pager
@@ -82,10 +88,6 @@ $project = $client->projects()->create('My Project', [
 to fetch all your closed issue with pagination ( on the gitlab api )
 
 ```php
-$client = Gitlab\Client::create('http://git.yourdomain.com')
-    ->authenticate('your_gitlab_token_here', Gitlab\Client::AUTH_HTTP_TOKEN)
-;
-
 $pager = new Gitlab\ResultPager($client);
 $issues = $pager->fetchAll($client->issues(), 'all', [null, ['state' => 'closed']]);
 
@@ -96,17 +98,13 @@ $issues = $pager->fetchAll($client->issues(), 'all', [null, ['state' => 'closed'
 You can also use the library in an object oriented manner:
 
 ```php
-$client = Gitlab\Client::create('http://git.yourdomain.com')
-    ->authenticate('your_gitlab_token_here', Gitlab\Client::AUTH_HTTP_TOKEN)
-;
-
 // Creating a new project
 $project = Gitlab\Model\Project::create($client, 'My Project', [
     'description' => 'This is my project',
     'issues_enabled' => false,
 ]);
 
-$project->addHook('http://mydomain.com/hook/push/1');
+$project->addHook('https://mydomain.com/hook/push/1');
 
 // Creating a new issue
 $project = new Gitlab\Model\Project(1, $client);
