@@ -25,7 +25,7 @@ use Psr\Http\Message\StreamFactoryInterface;
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  * @author Graham Campbell <graham@alt-three.com>
  */
-final class Builder
+class Builder
 {
     /**
      * The object that sends HTTP messages.

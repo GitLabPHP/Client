@@ -6,27 +6,24 @@
     "authors": [
         {
             "name": "Fabien Bourigault",
-            "email": "bourigaultfabien@gmail.com",
-            "homepage": "https://github.com/fbourigault"
+            "email": "bourigaultfabien@gmail.com"
         },
         {
             "name": "Graham Campbell",
-            "email": "graham@alt-three.com",
-            "homepage": "https://gjcampbell.co.uk"
+            "email": "graham@alt-three.com"
         },
         {
             "name": "Matt Humphrey",
-            "email": "matth@windsor-telecom.co.uk",
-            "homepage": "http://m4tt.io"
+            "email": "matth@windsor-telecom.co.uk"
         },
         {
             "name": "Miguel Piedrafita",
-            "email": "github@miguelpiedrafita.com",
-            "homepage": "https://miguelpiedrafita.com"
+            "email": "github@miguelpiedrafita.com"
         }
     ],
     "require": {
         "php": "^7.1",
+        "ext-json": "*",
         "ext-xml": "*",
         "php-http/cache-plugin": "^1.7",
         "php-http/client-common": "^2.2",
@@ -46,10 +43,14 @@
         "http-interop/http-factory-guzzle": "^1.0"
     },
     "autoload": {
-        "psr-4": { "Gitlab\\": "lib/Gitlab/" }
+        "psr-4": {
+            "Gitlab\\": "lib/Gitlab/"
+        }
     },
     "autoload-dev": {
-        "psr-4": { "Gitlab\\Tests\\": "test/Gitlab/Tests/" }
+        "psr-4": {
+            "Gitlab\\Tests\\": "test/Gitlab/Tests/"
+        }
     },
     "config": {
         "preferred-install": "dist"
