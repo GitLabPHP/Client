@@ -7,9 +7,9 @@ We present a modern [GitLab API v4](https://docs.gitlab.com/ce/api/) client for 
 <p align="center">
 <a href="https://github.com/GitLabPHP/Client/actions?query=workflow%3ATests"><img src="https://img.shields.io/github/workflow/status/GitLabPHP/Client/Tests?label=Tests&style=flat-square" alt="Build Status"></img></a>
 <a href="https://github.styleci.io/repos/6816335"><img src="https://github.styleci.io/repos/6816335/shield" alt="StyleCI Status"></img></a>
-<a href="https://github.com/GitLabPHP/Client/releases"><img src="https://img.shields.io/github/release/GitLabPHP/Client?style=flat-square" alt="Latest Version"></img></a>
-<a href="https://packagist.org/packages/knplabs/github-api"><img src="https://img.shields.io/packagist/dt/knplabs/github-api?style=flat-square" alt="Packagist Downloads"></img></a>
 <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square" alt="Software License"></img></a>
+<a href="https://packagist.org/packages/knplabs/github-api"><img src="https://img.shields.io/packagist/dt/knplabs/github-api?style=flat-square" alt="Packagist Downloads"></img></a>
+<a href="https://github.com/GitLabPHP/Client/releases"><img src="https://img.shields.io/github/release/GitLabPHP/Client?style=flat-square" alt="Latest Version"></img></a>
 </p>
 
 This is strongly based on [php-github-api](https://github.com/KnpLabs/php-github-api) by [KnpLabs](https://github.com/KnpLabs). With this in mind, we now have **very similar** clients for:
@@ -18,7 +18,7 @@ This is strongly based on [php-github-api](https://github.com/KnpLabs/php-github
 * [GitHub](https://github.com/) - [knplabs/github-api](https://packagist.org/packages/knplabs/github-api) by [KnpLabs](https://github.com/KnpLabs/php-github-api).
 * [GitLab](https://gitlab.com/) - [m4tthumphrey/php-gitlab-api](https://packagist.org/packages/m4tthumphrey/php-gitlab-api) which is this package!
 
-Feel free to check out the [change log](CHANGELOG.md), [releases](https://github.com/GitLabPHP/Client/releases), [security policy](https://github.com/GitLabPHP/Client/security/policy), [license](LICENSE), [code of conduct](.github/CODE_OF_CONDUCT.md), and [contribution guidelines](.github/CONTRIBUTING.md).
+Check out the [change log](CHANGELOG.md), [releases](https://github.com/GitLabPHP/Client/releases), [security policy](https://github.com/GitLabPHP/Client/security/policy), [license](LICENSE), [code of conduct](.github/CODE_OF_CONDUCT.md), and [contribution guidelines](.github/CONTRIBUTING.md).
 
 
 ## Installation
@@ -127,7 +127,7 @@ One can read more about HTTPlug plugins [here](https://docs.php-http.org/en/late
 
 ## Contributing
 
-Not all endpoints of the API are implemented yet. We will gladly review and accept pull requests, in accordance with our [contribution guidelines](.github/CONTRIBUTING.md)!
+We will gladly receive issue reports and review and accept pull requests, in accordance with our [code of conduct](.github/CODE_OF_CONDUCT.md) and [contribution guidelines](.github/CONTRIBUTING.md)!
 
 ```
 $ make install
