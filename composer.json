@@ -6,19 +6,19 @@
     "authors": [
         {
             "name": "Fabien Bourigault",
-            "email": "bourigaultfabien@gmail.com",
+            "email": "bourigaultfabien@gmail.com"
         },
         {
             "name": "Graham Campbell",
-            "email": "graham@alt-three.com",
+            "email": "graham@alt-three.com"
         },
         {
             "name": "Matt Humphrey",
-            "email": "matth@windsor-telecom.co.uk",
+            "email": "matth@windsor-telecom.co.uk"
         },
         {
             "name": "Miguel Piedrafita",
-            "email": "github@miguelpiedrafita.com",
+            "email": "github@miguelpiedrafita.com"
         }
     ],
     "require": {
