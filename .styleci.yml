@@ -6,6 +6,9 @@ enabled:
   - array_indentation
   - compact_nullable_typehint
   - const_visibility_required
+  - no_alternative_syntax
+  - no_blank_lines_between_traits
+  - no_unreachable_default_argument_value
   - short_array_syntax
 
 disabled:
