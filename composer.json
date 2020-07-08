@@ -23,6 +23,7 @@
     ],
     "require": {
         "php": "^5.6 || ^7.0",
+        "ext-json": "*",
         "ext-xml": "*",
         "php-http/cache-plugin": "^1.4",
         "php-http/client-common": "^1.6 || ^2.0",
