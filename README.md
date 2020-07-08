@@ -28,13 +28,13 @@ This version supports [PHP](https://php.net) 5.6-7.4. To get started, simply req
 ### PHP 5.6+:
 
 ```
-$ composer require m4tthumphrey/php-gitlab-api:^9.18 php-http/guzzle6-adapter:^2.0.1
+$ composer require m4tthumphrey/php-gitlab-api:^9.19 php-http/guzzle6-adapter:^2.0.1
 ```
 
 ### Laravel 5.5+:
 
 ```
-$ composer require graham-campbell/gitlab:^2.7 php-http/guzzle6-adapter:^2.0.1
+$ composer require graham-campbell/gitlab:^2.8 php-http/guzzle6-adapter:^2.0.1
 ```
 
 ### Symfony 3+:
@@ -120,7 +120,7 @@ $builder->addPlugin($plugin);
 $client = new Gitlab\Client($builder);
 ```
 
-One can read more about HTTPlug plugins [here](https://docs.php-http.org/en/latest/plugins/introduction.html#how-it-works). Take a look around ([API methods](https://github.com/GitLabPHP/Client/tree/9.18/lib/Gitlab/Api), [models](https://github.com/GitLabPHP/Client/tree/9.18/lib/Gitlab/Model)) and please feel free to report any bugs, noting our [code of conduct](.github/CODE_OF_CONDUCT.md).
+One can read more about HTTPlug plugins [here](https://docs.php-http.org/en/latest/plugins/introduction.html#how-it-works). Take a look around ([API methods](https://github.com/GitLabPHP/Client/tree/9.19/lib/Gitlab/Api), [models](https://github.com/GitLabPHP/Client/tree/9.19/lib/Gitlab/Model)) and please feel free to report any bugs, noting our [code of conduct](.github/CODE_OF_CONDUCT.md).
 
 
 ## Contributing
