@@ -12,5 +12,6 @@
 /phpunit.xml.dist export-ignore
 /psalm-baseline.xml export-ignore
 /psalm.xml export-ignore
+/CHANGELOG.md export-ignore
 /README.md export-ignore
 /UPGRADE.md export-ignore
