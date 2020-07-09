@@ -40,6 +40,20 @@ class Client
     public const AUTH_OAUTH_TOKEN = 'oauth_token';
 
     /**
+     * The default base URL.
+     *
+     * @var string
+     */
+    private const BASE_URL = 'https://gitlab.com';
+
+    /**
+     * The default user agent header.
+     *
+     * @var string
+     */
+    private const USER_AGENT = 'gitlab-php-api-client/10.0';
+
+    /**
      * The HTTP client builder.
      *
      * @var Builder
@@ -68,12 +82,12 @@ class Client
         $builder->addPlugin(new GitlabExceptionThrower());
         $builder->addPlugin(new HistoryPlugin($this->responseHistory));
         $builder->addPlugin(new HeaderDefaultsPlugin([
-            'User-Agent' => 'php-gitlab-api (https://github.com/GitLabPHP/Client)',
+            'User-Agent' => self::USER_AGENT,
         ]));
         $builder->addPlugin(new RedirectPlugin());
         $builder->addPlugin(new ApiVersion());
 
-        $this->setUrl('https://gitlab.com');
+        $this->setUrl(self::BASE_URL);
     }
 
     /**
