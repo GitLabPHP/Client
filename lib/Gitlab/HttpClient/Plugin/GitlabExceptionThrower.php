@@ -39,7 +39,9 @@ class GitlabExceptionThrower implements Plugin
             $status = $response->getStatusCode();
 
             if ($status >= 400 && $status < 600) {
-                self::handleError($status, ResponseMediator::getErrorMessage($response) ?: $response->getReasonPhrase());
+                $message = ResponseMediator::getErrorMessage($response);
+
+                throw self::createException($status, $message === null ? $response->getReasonPhrase() : $message);
             }
 
             return $response;
@@ -47,26 +49,23 @@ class GitlabExceptionThrower implements Plugin
     }
 
     /**
-     * Handle an error response.
+     * Create an exception from a status code and error message.
      *
      * @param int    $status
      * @param string $message
      *
-     * @throws ErrorException
-     * @throws RuntimeException
-     *
-     * @return void
+     * @return ErrorException|RuntimeException
      */
-    private static function handleError($status, $message)
+    private static function createException($status, $message)
     {
         if (400 === $status || 422 === $status) {
-            throw new ValidationFailedException($message, $status);
+            return new ValidationFailedException($message, $status);
         }
 
         if (429 === $status) {
-            throw new ApiLimitExceededException($message, $status);
+            return new ApiLimitExceededException($message, $status);
         }
 
-        throw new RuntimeException($message, $status);
+        return new RuntimeException($message, $status);
     }
 }

@@ -6,3 +6,6 @@ parameters:
     checkMissingIterableValueType: false
     paths:
         - lib
+    ignoreErrors:
+        - "#Anonymous function should have native return typehint#"
+        - '#Only booleans are allowed in an if condition#'
