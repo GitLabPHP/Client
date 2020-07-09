@@ -41,7 +41,7 @@ class GitlabExceptionThrower implements Plugin
             if ($status >= 400 && $status < 600) {
                 $message = ResponseMediator::getErrorMessage($response);
 
-                throw self::createException($status, $message === null ? $response->getReasonPhrase() : $message);
+                throw self::createException($status, null === $message ? $response->getReasonPhrase() : $message);
             }
 
             return $response;
