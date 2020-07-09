@@ -1,7 +1,10 @@
 <?php
 
-namespace Gitlab\HttpClient\Message;
+namespace Gitlab\HttpClient\Util;
 
+/**
+ * @internal
+ */
 final class QueryStringBuilder
 {
     /**

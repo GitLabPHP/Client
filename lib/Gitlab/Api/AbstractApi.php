@@ -4,8 +4,8 @@ namespace Gitlab\Api;
 
 use Gitlab\Client;
 use Gitlab\Exception\RuntimeException;
-use Gitlab\HttpClient\Message\QueryStringBuilder;
 use Gitlab\HttpClient\Message\ResponseMediator;
+use Gitlab\HttpClient\Util\QueryStringBuilder;
 use Http\Discovery\StreamFactoryDiscovery;
 use Http\Message\MultipartStream\MultipartStreamBuilder;
 use Http\Message\StreamFactory;
