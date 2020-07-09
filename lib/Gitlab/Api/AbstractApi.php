@@ -6,8 +6,8 @@ namespace Gitlab\Api;
 
 use Gitlab\Client;
 use Gitlab\Exception\RuntimeException;
-use Gitlab\HttpClient\Message\QueryStringBuilder;
 use Gitlab\HttpClient\Message\ResponseMediator;
+use Gitlab\HttpClient\Util\QueryStringBuilder;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Http\Message\MultipartStream\MultipartStreamBuilder;
 use Psr\Http\Message\ResponseInterface;
