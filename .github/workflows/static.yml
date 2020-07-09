@@ -54,14 +54,3 @@ jobs:
 
       - name: Execute Psalm
         run: vendor/bin/psalm --no-progress --output-format=github
-
-  bccheck:
-    name: BC Check
-    runs-on: ubuntu-20.04
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Execute BC Check
-        uses: docker://nyholm/roave-bc-check-ga
