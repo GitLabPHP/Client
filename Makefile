@@ -23,4 +23,4 @@ psalm-show-info:
 test: phpunit phpstan-analyze psalm-analyze
 
 clean:
-	@rm -rf composer.lock vendor vendor-bin/*/composer.lock vendor-bin/*/vendor
+	@rm -rf .phpunit.result.cache composer.lock vendor vendor-bin/*/composer.lock vendor-bin/*/vendor
