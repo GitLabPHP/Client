@@ -12,7 +12,14 @@ use Psr\Http\Message\ResponseInterface;
 final class ResponseMediator
 {
     /**
-     * Return the response body as a string or json array if content type is application/json.
+     * The JSON content type identifier.
+     *
+     * @var string
+     */
+    const JSON_CONTENT_TYPE = 'application/json';
+
+    /**
+     * Return the response body as a string or JSON array if content type is JSON.
      *
      * @param ResponseInterface $response
      *
@@ -21,7 +28,7 @@ final class ResponseMediator
     public static function getContent(ResponseInterface $response)
     {
         $body = $response->getBody()->__toString();
-        if (0 === strpos($response->getHeaderLine('Content-Type'), 'application/json')) {
+        if (0 === strpos($response->getHeaderLine('Content-Type'), self::JSON_CONTENT_TYPE)) {
             $content = json_decode($body, true);
             if (JSON_ERROR_NONE === json_last_error()) {
                 return $content;
