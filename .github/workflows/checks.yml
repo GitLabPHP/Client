@@ -1,0 +1,16 @@
+name: Checks
+
+on:
+  push:
+  pull_request:
+
+  roave-bc-check:
+    name: Roave BC Check
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Roave BC Check
+        uses: docker://nyholm/roave-bc-check-ga
