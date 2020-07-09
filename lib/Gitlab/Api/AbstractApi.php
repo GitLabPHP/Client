@@ -45,7 +45,7 @@ abstract class AbstractApi implements ApiInterface
     public function __construct(Client $client, StreamFactory $streamFactory = null)
     {
         $this->client = $client;
-        $this->streamFactory = $streamFactory ?: StreamFactoryDiscovery::find();
+        $this->streamFactory = null === $streamFactory ? StreamFactoryDiscovery::find() : $streamFactory;
     }
 
     /**
@@ -282,9 +282,11 @@ abstract class AbstractApi implements ApiInterface
         if (!class_exists(\finfo::class, false)) {
             return 'application/octet-stream';
         }
-        $finfo = new \finfo(FILEINFO_MIME_TYPE);
 
-        return $finfo->file($file) ?: 'application/octet-stream';
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
+        $type = $finfo->file($file);
+
+        return false !== $type ? $type : 'application/octet-stream';
     }
 
     /**

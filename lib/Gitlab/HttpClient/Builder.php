@@ -83,9 +83,9 @@ class Builder
         RequestFactory $requestFactory = null,
         StreamFactory $streamFactory = null
     ) {
-        $this->httpClient = $httpClient ?: HttpClientDiscovery::find();
-        $this->requestFactory = $requestFactory ?: MessageFactoryDiscovery::find();
-        $this->streamFactory = $streamFactory ?: StreamFactoryDiscovery::find();
+        $this->httpClient = null === $httpClient ? HttpClientDiscovery::find() : $httpClient;
+        $this->requestFactory = null === $requestFactory ? MessageFactoryDiscovery::find() : $requestFactory;
+        $this->streamFactory = null === $streamFactory ? StreamFactoryDiscovery::find() : $streamFactory;
     }
 
     /**

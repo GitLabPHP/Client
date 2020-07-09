@@ -103,7 +103,7 @@ class Client
      */
     public function __construct(Builder $httpClientBuilder = null)
     {
-        $this->httpClientBuilder = $builder = $httpClientBuilder ?: new Builder();
+        $this->httpClientBuilder = $builder = null === $httpClientBuilder ? new Builder() : $httpClientBuilder;
         $this->responseHistory = new History();
 
         $builder->addPlugin(new GitlabExceptionThrower());
