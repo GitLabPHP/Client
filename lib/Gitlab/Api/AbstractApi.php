@@ -272,9 +272,11 @@ abstract class AbstractApi implements ApiInterface
         if (!class_exists(\finfo::class, false)) {
             return 'application/octet-stream';
         }
-        $finfo = new \finfo(FILEINFO_MIME_TYPE);
 
-        return $finfo->file($file) ?: 'application/octet-stream';
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
+        $type = $finfo->file($file);
+
+        return false !== $type ? $type : 'application/octet-stream';
     }
 
     /**

@@ -1,3 +1,37 @@
 parameters:
 	ignoreErrors:
+		-
+			message: "#^Return type \\(Gitlab\\\\Model\\\\Issue\\) of method Gitlab\\\\Model\\\\Issue\\:\\:close\\(\\) should be covariant with return type \\(static\\(Gitlab\\\\Model\\\\Stateful\\)\\) of method Gitlab\\\\Model\\\\Stateful\\:\\:close\\(\\)$#"
+			count: 1
+			path: lib/Gitlab/Model/Issue.php
+
+		-
+			message: "#^Return type \\(Gitlab\\\\Model\\\\Issue\\) of method Gitlab\\\\Model\\\\Issue\\:\\:open\\(\\) should be covariant with return type \\(static\\(Gitlab\\\\Model\\\\Stateful\\)\\) of method Gitlab\\\\Model\\\\Stateful\\:\\:open\\(\\)$#"
+			count: 1
+			path: lib/Gitlab/Model/Issue.php
+
+		-
+			message: "#^Return type \\(Gitlab\\\\Model\\\\Issue\\) of method Gitlab\\\\Model\\\\Issue\\:\\:reopen\\(\\) should be covariant with return type \\(static\\(Gitlab\\\\Model\\\\Stateful\\)\\) of method Gitlab\\\\Model\\\\Stateful\\:\\:reopen\\(\\)$#"
+			count: 1
+			path: lib/Gitlab/Model/Issue.php
+
+		-
+			message: "#^Return type \\(Gitlab\\\\Model\\\\MergeRequest\\) of method Gitlab\\\\Model\\\\MergeRequest\\:\\:close\\(\\) should be covariant with return type \\(static\\(Gitlab\\\\Model\\\\Stateful\\)\\) of method Gitlab\\\\Model\\\\Stateful\\:\\:close\\(\\)$#"
+			count: 1
+			path: lib/Gitlab/Model/MergeRequest.php
+
+		-
+			message: "#^Return type \\(Gitlab\\\\Model\\\\MergeRequest\\) of method Gitlab\\\\Model\\\\MergeRequest\\:\\:reopen\\(\\) should be covariant with return type \\(static\\(Gitlab\\\\Model\\\\Stateful\\)\\) of method Gitlab\\\\Model\\\\Stateful\\:\\:reopen\\(\\)$#"
+			count: 1
+			path: lib/Gitlab/Model/MergeRequest.php
+
+		-
+			message: "#^Return type \\(Gitlab\\\\Model\\\\MergeRequest\\) of method Gitlab\\\\Model\\\\MergeRequest\\:\\:open\\(\\) should be covariant with return type \\(static\\(Gitlab\\\\Model\\\\Stateful\\)\\) of method Gitlab\\\\Model\\\\Stateful\\:\\:open\\(\\)$#"
+			count: 1
+			path: lib/Gitlab/Model/MergeRequest.php
+
+		-
+			message: "#^Variable method call on Gitlab\\\\Api\\\\ApiInterface\\.$#"
+			count: 1
+			path: lib/Gitlab/ResultPager.php
 
