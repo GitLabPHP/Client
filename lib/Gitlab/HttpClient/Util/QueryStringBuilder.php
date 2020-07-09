@@ -8,8 +8,10 @@ namespace Gitlab\HttpClient\Util;
 final class QueryStringBuilder
 {
     /**
-     * Encode a query as a query string according to RFC 3986. Indexed arrays are encoded using
-     * empty squared brackets ([]) unlike http_build_query.
+     * Encode a query as a query string according to RFC 3986.
+     *
+     * Indexed arrays are encoded using empty squared brackets ([]) unlike
+     * `http_build_query`.
      *
      * @param mixed $query
      *
@@ -43,23 +45,23 @@ final class QueryStringBuilder
             return self::rawurlencode($prefix).'='.self::rawurlencode($query);
         }
 
-        $isIndexedArray = self::isIndexedArray($query);
+        $isList = self::isList($query);
 
-        return implode('&', array_map(function ($value, $key) use ($prefix, $isIndexedArray) {
-            $prefix = $isIndexedArray ? $prefix.'[]' : $prefix.'['.$key.']';
+        return implode('&', array_map(function ($value, $key) use ($prefix, $isList) {
+            $prefix = $isList ? $prefix.'[]' : $prefix.'['.$key.']';
 
             return self::encode($value, $prefix);
         }, $query, array_keys($query)));
     }
 
     /**
-     * Tell if the given array is an indexed one (i.e. contains only sequential integer keys starting from 0).
+     * Tell if the given array is a list.
      *
      * @param array $query
      *
      * @return bool
      */
-    public static function isIndexedArray(array $query)
+    private static function isList(array $query)
     {
         if (0 === count($query) || !isset($query[0])) {
             return false;
