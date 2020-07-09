@@ -8,6 +8,9 @@ use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\RequestInterface;
 
 if (interface_exists(HttpMethodsClientInterface::class)) {
+    /**
+     * @internal
+     */
     trait HistoryTrait
     {
         /**
@@ -23,6 +26,9 @@ if (interface_exists(HttpMethodsClientInterface::class)) {
         }
     }
 } else {
+    /**
+     * @internal
+     */
     trait HistoryTrait
     {
         /**
