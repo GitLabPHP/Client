@@ -9,6 +9,8 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * A plugin to remember the last response.
  *
+ * @internal
+ *
  * @final
  *
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>

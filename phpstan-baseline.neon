@@ -65,3 +65,18 @@ parameters:
 			count: 1
 			path: lib/Gitlab/ResultPager.php
 
+		-
+			message: "#^Method Gitlab\\\\ResultPager\\:\\:postFetch\\(\\) is protected, but since the containing class is final, it can be private\\.$#"
+			count: 1
+			path: lib/Gitlab/ResultPager.php
+
+		-
+			message: "#^Method Gitlab\\\\ResultPager\\:\\:has\\(\\) is protected, but since the containing class is final, it can be private\\.$#"
+			count: 1
+			path: lib/Gitlab/ResultPager.php
+
+		-
+			message: "#^Method Gitlab\\\\ResultPager\\:\\:get\\(\\) is protected, but since the containing class is final, it can be private\\.$#"
+			count: 1
+			path: lib/Gitlab/ResultPager.php
+

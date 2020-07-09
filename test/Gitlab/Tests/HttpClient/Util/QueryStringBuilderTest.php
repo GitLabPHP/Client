@@ -1,8 +1,8 @@
 <?php
 
-namespace Gitlab\Tests\HttpClient\Message;
+namespace Gitlab\Tests\HttpClient\Util;
 
-use Gitlab\HttpClient\Message\QueryStringBuilder;
+use Gitlab\HttpClient\Util\QueryStringBuilder;
 use PHPUnit\Framework\TestCase;
 
 class QueryStringBuilderTest extends TestCase
