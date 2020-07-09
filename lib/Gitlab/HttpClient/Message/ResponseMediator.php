@@ -16,7 +16,7 @@ final class ResponseMediator
      *
      * @var string
      */
-    const JSON_CONTENT_TYPE = 'application/json';
+    public const JSON_CONTENT_TYPE = 'application/json';
 
     /**
      * Return the response body as a string or JSON array if content type is JSON.
