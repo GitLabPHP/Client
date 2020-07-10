@@ -537,7 +537,7 @@ class Projects extends AbstractApi
      */
     public function getRepositoryCommitDiscussions($project_id, $commit_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/commits/' . $this->encodePath($commit_id)) . '/discussions');
+        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($commit_id)).'/discussions');
     }
 
     /**
