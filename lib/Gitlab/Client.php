@@ -14,8 +14,8 @@ use Http\Client\Common\Plugin\AddHostPlugin;
 use Http\Client\Common\Plugin\HeaderDefaultsPlugin;
 use Http\Client\Common\Plugin\HistoryPlugin;
 use Http\Client\Common\Plugin\RedirectPlugin;
+use Http\Message\StreamFactory;
 use Http\Client\HttpClient;
-use Http\Discovery\UriFactoryDiscovery;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -483,8 +483,10 @@ class Client
      */
     public function setUrl($url)
     {
+        $uri = $this->getHttpClientBuilder()->getUriFactory()->createUri($url);
+
         $this->getHttpClientBuilder()->removePlugin(AddHostPlugin::class);
-        $this->getHttpClientBuilder()->addPlugin(new AddHostPlugin(UriFactoryDiscovery::find()->createUri($url)));
+        $this->getHttpClientBuilder()->addPlugin(new AddHostPlugin($uri));
 
         return $this;
     }
@@ -533,6 +535,16 @@ class Client
     public function getHttpClient()
     {
         return $this->getHttpClientBuilder()->getHttpClient();
+    }
+
+    /**
+     * Get the stream factory.
+     *
+     * @return StreamFactory
+     */
+    public function getStreamFactory()
+    {
+        return $this->getHttpClientBuilder()->getStreamFactory();
     }
 
     /**

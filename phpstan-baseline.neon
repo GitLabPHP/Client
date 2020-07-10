@@ -1,18 +1,8 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Call to method find\\(\\) of deprecated class Http\\\\Discovery\\\\StreamFactoryDiscovery\\:\nThis will be removed in 2\\.0\\. Consider using Psr17FactoryDiscovery\\.$#"
-			count: 1
-			path: lib/Gitlab/Api/AbstractApi.php
-
-		-
 			message: "#^Fetching deprecated class constant AUTH_URL_TOKEN of class Gitlab\\\\Client\\:\nsince version 9\\.18 and will be removed in 10\\.0\\.$#"
 			count: 2
-			path: lib/Gitlab/Client.php
-
-		-
-			message: "#^Call to method find\\(\\) of deprecated class Http\\\\Discovery\\\\UriFactoryDiscovery\\:\nThis will be removed in 2\\.0\\. Consider using Psr17FactoryDiscovery\\.$#"
-			count: 1
 			path: lib/Gitlab/Client.php
 
 		-
@@ -22,6 +12,11 @@ parameters:
 
 		-
 			message: "#^Call to method find\\(\\) of deprecated class Http\\\\Discovery\\\\StreamFactoryDiscovery\\:\nThis will be removed in 2\\.0\\. Consider using Psr17FactoryDiscovery\\.$#"
+			count: 1
+			path: lib/Gitlab/HttpClient/Builder.php
+
+		-
+			message: "#^Call to method find\\(\\) of deprecated class Http\\\\Discovery\\\\UriFactoryDiscovery\\:\nThis will be removed in 2\\.0\\. Consider using Psr17FactoryDiscovery\\.$#"
 			count: 1
 			path: lib/Gitlab/HttpClient/Builder.php
 

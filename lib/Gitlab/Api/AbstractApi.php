@@ -6,7 +6,6 @@ use Gitlab\Client;
 use Gitlab\Exception\RuntimeException;
 use Gitlab\HttpClient\Message\ResponseMediator;
 use Gitlab\HttpClient\Util\QueryStringBuilder;
-use Http\Discovery\StreamFactoryDiscovery;
 use Http\Message\MultipartStream\MultipartStreamBuilder;
 use Http\Message\StreamFactory;
 use Psr\Http\Message\ResponseInterface;
@@ -38,14 +37,20 @@ abstract class AbstractApi implements ApiInterface
 
     /**
      * @param Client             $client
-     * @param StreamFactory|null $streamFactory
+     * @param StreamFactory|null $streamFactory @deprecated since version 9.18 and will be removed in 10.0.
      *
      * @return void
      */
     public function __construct(Client $client, StreamFactory $streamFactory = null)
     {
         $this->client = $client;
-        $this->streamFactory = null === $streamFactory ? StreamFactoryDiscovery::find() : $streamFactory;
+
+        if (null === $streamFactory) {
+            $this->streamFactory = $client->getStreamFactory();
+        } else {
+            @trigger_error(sprintf('The %s() method\'s $streamFactory parameter is deprecated since version 9.18 and will be removed in 10.0.', __METHOD__), E_USER_DEPRECATED);
+            $this->streamFactory = $streamFactory;
+        }
     }
 
     /**
