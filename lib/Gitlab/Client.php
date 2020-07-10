@@ -14,8 +14,8 @@ use Http\Client\Common\Plugin\AddHostPlugin;
 use Http\Client\Common\Plugin\HeaderDefaultsPlugin;
 use Http\Client\Common\Plugin\HistoryPlugin;
 use Http\Client\Common\Plugin\RedirectPlugin;
-use Http\Message\StreamFactory;
 use Http\Client\HttpClient;
+use Http\Message\StreamFactory;
 use Psr\Http\Message\ResponseInterface;
 
 /**
