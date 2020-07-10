@@ -281,7 +281,7 @@ class RepositoriesTest extends TestCase
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->commits(1, ['page' => 2, 'per_page' => 25, 'ref_name' => 'master', 'all' => 'true', 'with_stats' => 'true', 'path' => 'file_path/file_name']));
+        $this->assertEquals($expectedArray, $api->commits(1, ['page' => 2, 'per_page' => 25, 'ref_name' => 'master', 'all' => true, 'with_stats' => true, 'path' => 'file_path/file_name']));
     }
 
     /**
