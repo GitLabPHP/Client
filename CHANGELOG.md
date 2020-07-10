@@ -7,7 +7,20 @@ CHANGE LOG
 * Deprecated all APIs that are deprecated or removed as of GitLab 13.1
 * Deprecated old authentication methods and deprecated not specifying an authentication mode
 * Deprecated dynamic property access on the client, `Client::api()`, `Client::create()`, and `Client::getResponseHistory()`
-* Soft marked various classes as final
+* Deprecated passing a stream factory to the Api classes: get it from the client instance instead
+* Soft marked various classes as final and/or internal
+* Added support for HTTP caching
+* Implement removing award emojis
+* Implemented notes APIs
+* Extended pipeline APIs
+* Extended MR approvals APIs
+* Add subscribe/unsubscribe methods to issue API
+* Add scope and allow all projects to MR API
+* Add method to access project discussions
+* Update parameters for repository/commits APIs
+* Added delete merged branches API function
+* Allow to search and find issues by "assignee_id"
+* Updated Issues to support updated_after
 
 
 ## 9.17.1 (17/02/2020)
