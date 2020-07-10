@@ -13,7 +13,6 @@ use Http\Client\Common\Plugin\AddHostPlugin;
 use Http\Client\Common\Plugin\HeaderDefaultsPlugin;
 use Http\Client\Common\Plugin\HistoryPlugin;
 use Http\Client\Common\Plugin\RedirectPlugin;
-use Http\Discovery\Psr17FactoryDiscovery;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
@@ -327,8 +326,10 @@ class Client
      */
     public function setUrl(string $url)
     {
+        $uri = $this->getHttpClientBuilder()->getUriFactory()->createUri($url);
+
         $this->getHttpClientBuilder()->removePlugin(AddHostPlugin::class);
-        $this->getHttpClientBuilder()->addPlugin(new AddHostPlugin(Psr17FactoryDiscovery::findUrlFactory()->createUri($url)));
+        $this->getHttpClientBuilder()->addPlugin(new AddHostPlugin($uri));
 
         return $this;
     }

@@ -16,6 +16,7 @@ use Psr\Cache\CacheItemPoolInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Http\Message\UriFactoryInterface;
 
 /**
  * The HTTP client builder class.
@@ -49,6 +50,13 @@ class Builder
     private $streamFactory;
 
     /**
+     * The URI factory.
+     *
+     * @var UriFactoryInterface
+     */
+    private $uriFactory;
+
+    /**
      * The currently registered plugins.
      *
      * @var Plugin[]
@@ -77,17 +85,20 @@ class Builder
      * @param ClientInterface|null         $httpClient
      * @param RequestFactoryInterface|null $requestFactory
      * @param StreamFactoryInterface|null  $streamFactory
+     * @param UriFactoryInterface|null     $uriFactory
      *
      * @return void
      */
     public function __construct(
         ClientInterface $httpClient = null,
         RequestFactoryInterface $requestFactory = null,
-        StreamFactoryInterface $streamFactory = null
+        StreamFactoryInterface $streamFactory = null,
+        UriFactoryInterface $uriFactory = null
     ) {
         $this->httpClient = $httpClient ?? Psr18ClientDiscovery::find();
         $this->requestFactory = $requestFactory ?? Psr17FactoryDiscovery::findRequestFactory();
         $this->streamFactory = $streamFactory ?? Psr17FactoryDiscovery::findStreamFactory();
+        $this->uriFactory = $uriFactory ?? Psr17FactoryDiscovery::findUrlFactory();
     }
 
     /**
@@ -111,11 +122,33 @@ class Builder
     }
 
     /**
+     * Get the request factory.
+     *
+     * @return RequestFactoryInterface
+     */
+    public function getRequestFactory()
+    {
+        return $this->requestFactory;
+    }
+
+    /**
+     * Get the stream factory.
+     *
      * @return StreamFactoryInterface
      */
     public function getStreamFactory()
     {
         return $this->streamFactory;
+    }
+
+    /**
+     * Get the URI factory.
+     *
+     * @return UriFactoryInterface
+     */
+    public function getUriFactory()
+    {
+        return $this->uriFactory;
     }
 
     /**
