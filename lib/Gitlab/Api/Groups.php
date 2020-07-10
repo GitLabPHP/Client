@@ -101,21 +101,21 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param int   $id
+     * @param int   $group_id
      * @param array $parameters
      *
      * @return mixed
      */
-    public function allMembers($id, array $parameters = [])
+    public function allMembers($group_id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
         $resolver->setDefined('query');
 
-        return $this->get('groups/'.$this->encodePath($id).'/members/all', $resolver->resolve($parameters));
+        return $this->get('groups/'.$this->encodePath($group_id).'/members/all', $resolver->resolve($parameters));
     }
 
     /**
-     * @param int   $id
+     * @param int   $group_id
      * @param array $parameters {
      *
      *     @var string $query A query string to search for members.
@@ -123,12 +123,23 @@ class Groups extends AbstractApi
      *
      * @return mixed
      */
-    public function members($id, array $parameters = [])
+    public function members($group_id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
         $resolver->setDefined('query');
 
-        return $this->get('groups/'.$this->encodePath($id).'/members', $resolver->resolve($parameters));
+        return $this->get('groups/'.$this->encodePath($group_id).'/members', $resolver->resolve($parameters));
+    }
+
+    /**
+     * @param int $group_id
+     * @param int $user_id
+     *
+     * @return mixed
+     */
+    public function member($group_id, $user_id)
+    {
+        return $this->get('groups/'.$this->encodePath($group_id).'/members/'.$this->encodePath($user_id));
     }
 
     /**
