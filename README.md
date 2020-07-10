@@ -132,7 +132,7 @@ $builder->addPlugin($plugin);
 $client = new Gitlab\Client($builder);
 ```
 
-One can read more about HTTPlug plugins [here](https://docs.php-http.org/en/latest/plugins/introduction.html#how-it-works). Take a look around ([API methods](https://github.com/GitLabPHP/Client/tree/10.0/lib/Gitlab/Api), [models](https://github.com/GitLabPHP/Client/tree/10.0/lib/Gitlab/Model)) and please feel free to report any bugs, noting our [code of conduct](.github/CODE_OF_CONDUCT.md).
+One can read more about HTTPlug plugins [here](https://docs.php-http.org/en/latest/plugins/introduction.html#how-it-works). Take a look around ([API methods](https://github.com/GitLabPHP/Client/tree/10.0/src/Api), [models](https://github.com/GitLabPHP/Client/tree/10.0/src/Model)) and please feel free to report any bugs, noting our [code of conduct](.github/CODE_OF_CONDUCT.md).
 
 
 ## Contributing

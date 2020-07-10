@@ -16,7 +16,7 @@ parameters:
     level: max
     checkMissingIterableValueType: false
     paths:
-        - lib
+        - src
     ignoreErrors:
         - "#Anonymous function should have native return typehint#"
         - '#Only booleans are allowed in an if condition#'

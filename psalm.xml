@@ -8,6 +8,6 @@
     errorBaseline="psalm-baseline.xml"
 >
     <projectFiles>
-        <directory name="lib" />
+        <directory name="src" />
     </projectFiles>
 </psalm>

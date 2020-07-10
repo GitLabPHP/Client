@@ -44,12 +44,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Gitlab\\": "lib/Gitlab/"
+            "Gitlab\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Gitlab\\Tests\\": "test/Gitlab/Tests/"
+            "Gitlab\\Tests\\": "tests/"
         }
     },
     "config": {
