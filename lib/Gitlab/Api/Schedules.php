@@ -25,7 +25,7 @@ class Schedules extends AbstractApi
      */
     public function show($project_id, $schedule_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'pipeline_schedules/'.$this->encodePath($schedule_id)));
+        return $this->get($this->getProjectPath($project_id, 'pipeline_schedules/'.self::encodePath($schedule_id)));
     }
 
     /**
@@ -47,7 +47,7 @@ class Schedules extends AbstractApi
      */
     public function update($project_id, $schedule_id, array $params)
     {
-        return $this->put($this->getProjectPath($project_id, 'pipeline_schedules/'.$this->encodePath($schedule_id)), $params);
+        return $this->put($this->getProjectPath($project_id, 'pipeline_schedules/'.self::encodePath($schedule_id)), $params);
     }
 
     /**
@@ -58,6 +58,6 @@ class Schedules extends AbstractApi
      */
     public function remove($project_id, $schedule_id)
     {
-        return $this->delete($this->getProjectPath($project_id, 'pipeline_schedules/'.$this->encodePath($schedule_id)));
+        return $this->delete($this->getProjectPath($project_id, 'pipeline_schedules/'.self::encodePath($schedule_id)));
     }
 }

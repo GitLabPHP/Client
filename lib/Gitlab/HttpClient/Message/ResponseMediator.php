@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Gitlab\HttpClient\Message;
 
+use Gitlab\Exception\RuntimeException;
+use Gitlab\HttpClient\Util\JsonArray;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -19,6 +21,20 @@ final class ResponseMediator
     public const JSON_CONTENT_TYPE = 'application/json';
 
     /**
+     * The octet stream content type identifier.
+     *
+     * @var string
+     */
+    public const STREAM_CONTENT_TYPE = 'application/octet-stream';
+
+    /**
+     * The multipart form data content type identifier.
+     *
+     * @var string
+     */
+    public const MULTIPART_CONTENT_TYPE = 'multipart/form-data';
+
+    /**
      * Return the response body as a string or JSON array if content type is JSON.
      *
      * @param ResponseInterface $response
@@ -27,12 +43,10 @@ final class ResponseMediator
      */
     public static function getContent(ResponseInterface $response)
     {
-        $body = $response->getBody()->__toString();
+        $body = (string) $response->getBody();
+
         if (0 === strpos($response->getHeaderLine('Content-Type'), self::JSON_CONTENT_TYPE)) {
-            $content = json_decode($body, true);
-            if (JSON_ERROR_NONE === json_last_error()) {
-                return $content;
-            }
+            return JsonArray::decode($body);
         }
 
         return $body;
@@ -94,7 +108,11 @@ final class ResponseMediator
      */
     public static function getErrorMessage(ResponseInterface $response)
     {
-        $content = self::getContent($response);
+        try {
+            $content = self::getContent($response);
+        } catch (RuntimeException $e) {
+            return null;
+        }
 
         if (!is_array($content)) {
             return null;

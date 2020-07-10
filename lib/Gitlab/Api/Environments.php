@@ -66,7 +66,7 @@ class Environments extends AbstractApi
      */
     public function stop($project_id, $environment_id)
     {
-        return $this->post($this->getProjectPath($project_id, 'environments/'.$this->encodePath($environment_id).'/stop'));
+        return $this->post($this->getProjectPath($project_id, 'environments/'.self::encodePath($environment_id).'/stop'));
     }
 
     /**
@@ -77,6 +77,6 @@ class Environments extends AbstractApi
      */
     public function show($project_id, $environment_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'environments/'.$this->encodePath($environment_id)));
+        return $this->get($this->getProjectPath($project_id, 'environments/'.self::encodePath($environment_id)));
     }
 }

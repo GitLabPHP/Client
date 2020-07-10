@@ -29,6 +29,6 @@ class ProjectNamespaces extends AbstractApi
      */
     public function show($namespace_id)
     {
-        return $this->get('namespaces/'.$this->encodePath($namespace_id));
+        return $this->get('namespaces/'.self::encodePath($namespace_id));
     }
 }

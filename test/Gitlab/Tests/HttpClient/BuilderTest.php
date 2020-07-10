@@ -58,4 +58,9 @@ class BuilderTest extends TestCase
     {
         $this->assertInstanceOf(HttpMethodsClientInterface::class, $this->subject->getHttpClient());
     }
+
+    public function testStreamFactoryShouldBeAStreamFactory()
+    {
+        $this->assertInstanceOf(StreamFactoryInterface::class, $this->subject->getStreamFactory());
+    }
 }

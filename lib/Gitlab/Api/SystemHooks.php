@@ -33,7 +33,7 @@ class SystemHooks extends AbstractApi
      */
     public function test($id)
     {
-        return $this->get('hooks/'.$this->encodePath($id));
+        return $this->get('hooks/'.self::encodePath($id));
     }
 
     /**
@@ -43,6 +43,6 @@ class SystemHooks extends AbstractApi
      */
     public function remove($id)
     {
-        return $this->delete('hooks/'.$this->encodePath($id));
+        return $this->delete('hooks/'.self::encodePath($id));
     }
 }

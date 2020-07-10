@@ -29,7 +29,7 @@ class GroupsBoards extends AbstractApi
      */
     public function show($group_id, $board_id)
     {
-        return $this->get($this->getGroupPath($group_id, 'boards/'.$this->encodePath($board_id)));
+        return $this->get($this->getGroupPath($group_id, 'boards/'.self::encodePath($board_id)));
     }
 
     /**
@@ -52,7 +52,7 @@ class GroupsBoards extends AbstractApi
      */
     public function update($group_id, $board_id, array $params)
     {
-        return $this->put($this->getGroupPath($group_id, 'boards/'.$this->encodePath($board_id)), $params);
+        return $this->put($this->getGroupPath($group_id, 'boards/'.self::encodePath($board_id)), $params);
     }
 
     /**
@@ -63,7 +63,7 @@ class GroupsBoards extends AbstractApi
      */
     public function remove($group_id, $board_id)
     {
-        return $this->delete($this->getGroupPath($group_id, 'boards/'.$this->encodePath($board_id)));
+        return $this->delete($this->getGroupPath($group_id, 'boards/'.self::encodePath($board_id)));
     }
 
     /**
@@ -74,7 +74,7 @@ class GroupsBoards extends AbstractApi
      */
     public function allLists($group_id, $board_id)
     {
-        return $this->get($this->getGroupPath($group_id, 'boards/'.$this->encodePath($board_id).'/lists'));
+        return $this->get($this->getGroupPath($group_id, 'boards/'.self::encodePath($board_id).'/lists'));
     }
 
     /**
@@ -86,7 +86,7 @@ class GroupsBoards extends AbstractApi
      */
     public function showList($group_id, $board_id, $list_id)
     {
-        return $this->get($this->getGroupPath($group_id, 'boards/'.$this->encodePath($board_id).'/lists/'.$this->encodePath($list_id)));
+        return $this->get($this->getGroupPath($group_id, 'boards/'.self::encodePath($board_id).'/lists/'.self::encodePath($list_id)));
     }
 
     /**
@@ -102,7 +102,7 @@ class GroupsBoards extends AbstractApi
             'label_id' => $label_id,
         ];
 
-        return $this->post($this->getGroupPath($group_id, 'boards/'.$this->encodePath($board_id).'/lists'), $params);
+        return $this->post($this->getGroupPath($group_id, 'boards/'.self::encodePath($board_id).'/lists'), $params);
     }
 
     /**
@@ -119,7 +119,7 @@ class GroupsBoards extends AbstractApi
             'position' => $position,
         ];
 
-        return $this->put($this->getGroupPath($group_id, 'boards/'.$this->encodePath($board_id).'/lists/'.$this->encodePath($list_id)), $params);
+        return $this->put($this->getGroupPath($group_id, 'boards/'.self::encodePath($board_id).'/lists/'.self::encodePath($list_id)), $params);
     }
 
     /**
@@ -131,6 +131,6 @@ class GroupsBoards extends AbstractApi
      */
     public function deleteList($group_id, $board_id, $list_id)
     {
-        return $this->delete($this->getGroupPath($group_id, 'boards/'.$this->encodePath($board_id).'/lists/'.$this->encodePath($list_id)));
+        return $this->delete($this->getGroupPath($group_id, 'boards/'.self::encodePath($board_id).'/lists/'.self::encodePath($list_id)));
     }
 }

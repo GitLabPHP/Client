@@ -111,6 +111,14 @@ class Builder
     }
 
     /**
+     * @return StreamFactoryInterface
+     */
+    public function getStreamFactory()
+    {
+        return $this->streamFactory;
+    }
+
+    /**
      * Add a new plugin to the end of the plugin chain.
      *
      * @param Plugin $plugin

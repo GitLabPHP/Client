@@ -37,7 +37,7 @@ class Groups extends AbstractApi
      */
     public function show($id)
     {
-        return $this->get('groups/'.$this->encodePath($id));
+        return $this->get('groups/'.self::encodePath($id));
     }
 
     /**
@@ -78,7 +78,7 @@ class Groups extends AbstractApi
      */
     public function update($id, array $params)
     {
-        return $this->put('groups/'.$this->encodePath($id), $params);
+        return $this->put('groups/'.self::encodePath($id), $params);
     }
 
     /**
@@ -88,7 +88,7 @@ class Groups extends AbstractApi
      */
     public function remove($group_id)
     {
-        return $this->delete('groups/'.$this->encodePath($group_id));
+        return $this->delete('groups/'.self::encodePath($group_id));
     }
 
     /**
@@ -99,7 +99,7 @@ class Groups extends AbstractApi
      */
     public function transfer($group_id, $project_id)
     {
-        return $this->post('groups/'.$this->encodePath($group_id).'/projects/'.$this->encodePath($project_id));
+        return $this->post('groups/'.self::encodePath($group_id).'/projects/'.self::encodePath($project_id));
     }
 
     /**
@@ -113,7 +113,7 @@ class Groups extends AbstractApi
         $resolver = $this->createOptionsResolver();
         $resolver->setDefined('query');
 
-        return $this->get('groups/'.$this->encodePath($id).'/members/all', $resolver->resolve($parameters));
+        return $this->get('groups/'.self::encodePath($id).'/members/all', $resolver->resolve($parameters));
     }
 
     /**
@@ -130,7 +130,7 @@ class Groups extends AbstractApi
         $resolver = $this->createOptionsResolver();
         $resolver->setDefined('query');
 
-        return $this->get('groups/'.$this->encodePath($id).'/members', $resolver->resolve($parameters));
+        return $this->get('groups/'.self::encodePath($id).'/members', $resolver->resolve($parameters));
     }
 
     /**
@@ -142,7 +142,7 @@ class Groups extends AbstractApi
      */
     public function addMember($group_id, $user_id, $access_level)
     {
-        return $this->post('groups/'.$this->encodePath($group_id).'/members', [
+        return $this->post('groups/'.self::encodePath($group_id).'/members', [
             'user_id' => $user_id,
             'access_level' => $access_level,
         ]);
@@ -157,7 +157,7 @@ class Groups extends AbstractApi
      */
     public function saveMember($group_id, $user_id, $access_level)
     {
-        return $this->put('groups/'.$this->encodePath($group_id).'/members/'.$this->encodePath($user_id), [
+        return $this->put('groups/'.self::encodePath($group_id).'/members/'.self::encodePath($user_id), [
             'access_level' => $access_level,
         ]);
     }
@@ -170,7 +170,7 @@ class Groups extends AbstractApi
      */
     public function removeMember($group_id, $user_id)
     {
-        return $this->delete('groups/'.$this->encodePath($group_id).'/members/'.$this->encodePath($user_id));
+        return $this->delete('groups/'.self::encodePath($group_id).'/members/'.self::encodePath($user_id));
     }
 
     /**
@@ -249,7 +249,7 @@ class Groups extends AbstractApi
             ->setNormalizer('with_custom_attributes', $booleanNormalizer)
         ;
 
-        return $this->get('groups/'.$this->encodePath($id).'/projects', $resolver->resolve($parameters));
+        return $this->get('groups/'.self::encodePath($id).'/projects', $resolver->resolve($parameters));
     }
 
     /**
@@ -271,7 +271,7 @@ class Groups extends AbstractApi
     {
         $resolver = $this->getGroupSearchResolver();
 
-        return $this->get('groups/'.$this->encodePath($group_id).'/subgroups', $resolver->resolve($parameters));
+        return $this->get('groups/'.self::encodePath($group_id).'/subgroups', $resolver->resolve($parameters));
     }
 
     /**
@@ -284,7 +284,7 @@ class Groups extends AbstractApi
     {
         $resolver = $this->createOptionsResolver();
 
-        return $this->get('groups/'.$this->encodePath($group_id).'/labels', $resolver->resolve($parameters));
+        return $this->get('groups/'.self::encodePath($group_id).'/labels', $resolver->resolve($parameters));
     }
 
     /**
@@ -295,7 +295,7 @@ class Groups extends AbstractApi
      */
     public function addLabel($group_id, array $params)
     {
-        return $this->post('groups/'.$this->encodePath($group_id).'/labels', $params);
+        return $this->post('groups/'.self::encodePath($group_id).'/labels', $params);
     }
 
     /**
@@ -306,7 +306,7 @@ class Groups extends AbstractApi
      */
     public function updateLabel($group_id, array $params)
     {
-        return $this->put('groups/'.$this->encodePath($group_id).'/labels', $params);
+        return $this->put('groups/'.self::encodePath($group_id).'/labels', $params);
     }
 
     /**
@@ -317,7 +317,7 @@ class Groups extends AbstractApi
      */
     public function removeLabel($group_id, $name)
     {
-        return $this->delete('groups/'.$this->encodePath($group_id).'/labels', [
+        return $this->delete('groups/'.self::encodePath($group_id).'/labels', [
             'name' => $name,
         ]);
     }
@@ -343,7 +343,7 @@ class Groups extends AbstractApi
      */
     public function variable($group_id, $key)
     {
-        return $this->get($this->getGroupPath($group_id, 'variables/'.$this->encodePath($key)));
+        return $this->get($this->getGroupPath($group_id, 'variables/'.self::encodePath($key)));
     }
 
     /**
@@ -386,7 +386,7 @@ class Groups extends AbstractApi
             $payload['protected'] = $protected;
         }
 
-        return $this->put($this->getGroupPath($group_id, 'variables/'.$this->encodePath($key)), $payload);
+        return $this->put($this->getGroupPath($group_id, 'variables/'.self::encodePath($key)), $payload);
     }
 
     /**
@@ -397,7 +397,7 @@ class Groups extends AbstractApi
      */
     public function removeVariable($group_id, $key)
     {
-        return $this->delete($this->getGroupPath($group_id, 'variables/'.$this->encodePath($key)));
+        return $this->delete($this->getGroupPath($group_id, 'variables/'.self::encodePath($key)));
     }
 
     /**

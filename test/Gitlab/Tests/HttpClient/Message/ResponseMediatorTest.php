@@ -5,29 +5,27 @@ declare(strict_types=1);
 namespace Gitlab\Tests\HttpClient\Message;
 
 use Gitlab\HttpClient\Message\ResponseMediator;
+use Gitlab\Exception\RuntimeException;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
+ * @author Graham Campbell <graham@alt-three.com>
  */
 class ResponseMediatorTest extends TestCase
 {
     public function testGetContent()
     {
-        $body = ['foo' => 'bar'];
         $response = new Response(
             200,
             ['Content-Type' => 'application/json'],
-            \GuzzleHttp\Psr7\stream_for(json_encode($body))
+            \GuzzleHttp\Psr7\stream_for('{"foo": "bar"}')
         );
 
-        $this->assertSame($body, ResponseMediator::getContent($response));
+        $this->assertSame(['foo' => 'bar'], ResponseMediator::getContent($response));
     }
 
-    /**
-     * If content-type is not json we should get the raw body.
-     */
     public function testGetContentNotJson()
     {
         $body = 'foobar';
@@ -40,9 +38,6 @@ class ResponseMediatorTest extends TestCase
         $this->assertSame($body, ResponseMediator::getContent($response));
     }
 
-    /**
-     * Make sure we return the body if we have invalid json.
-     */
     public function testGetContentInvalidJson()
     {
         $body = 'foobar';
@@ -52,7 +47,22 @@ class ResponseMediatorTest extends TestCase
             \GuzzleHttp\Psr7\stream_for($body)
         );
 
-        $this->assertSame($body, ResponseMediator::getContent($response));
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('json_decode error: Syntax error');
+
+        ResponseMediator::getContent($response);
+    }
+
+    public function testGetErrrorMessageInvalidJson()
+    {
+        $body = 'foobar';
+        $response = new Response(
+            200,
+            ['Content-Type' => 'application/json'],
+            \GuzzleHttp\Psr7\stream_for($body)
+        );
+
+        $this->assertNull(ResponseMediator::getErrorMessage($response));
     }
 
     public function testGetPagination()

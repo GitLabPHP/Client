@@ -65,7 +65,7 @@ class Users extends AbstractApi
      */
     public function show($id)
     {
-        return $this->get('users/'.$this->encodePath($id));
+        return $this->get('users/'.self::encodePath($id));
     }
 
     /**
@@ -142,7 +142,7 @@ class Users extends AbstractApi
             ->setAllowedValues('min_access_level', [null, 10, 20, 30, 40, 50])
         ;
 
-        return $this->get('users/'.$this->encodePath($id).'/projects', $resolver->resolve($parameters));
+        return $this->get('users/'.self::encodePath($id).'/projects', $resolver->resolve($parameters));
     }
 
     /**
@@ -177,7 +177,7 @@ class Users extends AbstractApi
      */
     public function update($id, array $params, array $files = [])
     {
-        return $this->put('users/'.$this->encodePath($id), $params, [], $files);
+        return $this->put('users/'.self::encodePath($id), $params, [], $files);
     }
 
     /**
@@ -187,7 +187,7 @@ class Users extends AbstractApi
      */
     public function remove($id)
     {
-        return $this->delete('users/'.$this->encodePath($id));
+        return $this->delete('users/'.self::encodePath($id));
     }
 
     /**
@@ -197,7 +197,7 @@ class Users extends AbstractApi
      */
     public function block($id)
     {
-        return $this->post('users/'.$this->encodePath($id).'/block');
+        return $this->post('users/'.self::encodePath($id).'/block');
     }
 
     /**
@@ -207,7 +207,7 @@ class Users extends AbstractApi
      */
     public function unblock($id)
     {
-        return $this->post('users/'.$this->encodePath($id).'/unblock');
+        return $this->post('users/'.self::encodePath($id).'/unblock');
     }
 
     /**
@@ -233,7 +233,7 @@ class Users extends AbstractApi
      */
     public function key($id)
     {
-        return $this->get('user/keys/'.$this->encodePath($id));
+        return $this->get('user/keys/'.self::encodePath($id));
     }
 
     /**
@@ -257,7 +257,7 @@ class Users extends AbstractApi
      */
     public function removeKey($id)
     {
-        return $this->delete('user/keys/'.$this->encodePath($id));
+        return $this->delete('user/keys/'.self::encodePath($id));
     }
 
     /**
@@ -267,7 +267,7 @@ class Users extends AbstractApi
      */
     public function userKeys($user_id)
     {
-        return $this->get('users/'.$this->encodePath($user_id).'/keys');
+        return $this->get('users/'.self::encodePath($user_id).'/keys');
     }
 
     /**
@@ -278,7 +278,7 @@ class Users extends AbstractApi
      */
     public function userKey($user_id, $key_id)
     {
-        return $this->get('users/'.$this->encodePath($user_id).'/keys/'.$this->encodePath($key_id));
+        return $this->get('users/'.self::encodePath($user_id).'/keys/'.self::encodePath($key_id));
     }
 
     /**
@@ -290,7 +290,7 @@ class Users extends AbstractApi
      */
     public function createKeyForUser($user_id, $title, $key)
     {
-        return $this->post('users/'.$this->encodePath($user_id).'/keys', [
+        return $this->post('users/'.self::encodePath($user_id).'/keys', [
             'title' => $title,
             'key' => $key,
         ]);
@@ -304,7 +304,7 @@ class Users extends AbstractApi
      */
     public function removeUserKey($user_id, $key_id)
     {
-        return $this->delete('users/'.$this->encodePath($user_id).'/keys/'.$this->encodePath($key_id));
+        return $this->delete('users/'.self::encodePath($user_id).'/keys/'.self::encodePath($key_id));
     }
 
     /**
@@ -322,7 +322,7 @@ class Users extends AbstractApi
      */
     public function email($id)
     {
-        return $this->get('user/emails/'.$this->encodePath($id));
+        return $this->get('user/emails/'.self::encodePath($id));
     }
 
     /**
@@ -332,7 +332,7 @@ class Users extends AbstractApi
      */
     public function userEmails($user_id)
     {
-        return $this->get('users/'.$this->encodePath($user_id).'/emails');
+        return $this->get('users/'.self::encodePath($user_id).'/emails');
     }
 
     /**
@@ -344,7 +344,7 @@ class Users extends AbstractApi
      */
     public function createEmailForUser($user_id, $email, $skip_confirmation = false)
     {
-        return $this->post('users/'.$this->encodePath($user_id).'/emails', [
+        return $this->post('users/'.self::encodePath($user_id).'/emails', [
             'email' => $email,
             'skip_confirmation' => $skip_confirmation,
         ]);
@@ -358,7 +358,7 @@ class Users extends AbstractApi
      */
     public function removeUserEmail($user_id, $email_id)
     {
-        return $this->delete('users/'.$this->encodePath($user_id).'/emails/'.$this->encodePath($email_id));
+        return $this->delete('users/'.self::encodePath($user_id).'/emails/'.self::encodePath($email_id));
     }
 
     /**
@@ -375,7 +375,7 @@ class Users extends AbstractApi
             ->setAllowedValues('state', ['all', 'active', 'inactive'])
         ;
 
-        return $this->get('users/'.$this->encodePath($user_id).'/impersonation_tokens', $resolver->resolve($params));
+        return $this->get('users/'.self::encodePath($user_id).'/impersonation_tokens', $resolver->resolve($params));
     }
 
     /**
@@ -386,7 +386,7 @@ class Users extends AbstractApi
      */
     public function userImpersonationToken($user_id, $impersonation_token_id)
     {
-        return $this->get('users/'.$this->encodePath($user_id).'/impersonation_tokens/'.$this->encodePath($impersonation_token_id));
+        return $this->get('users/'.self::encodePath($user_id).'/impersonation_tokens/'.self::encodePath($impersonation_token_id));
     }
 
     /**
@@ -399,7 +399,7 @@ class Users extends AbstractApi
      */
     public function createImpersonationToken($user_id, $name, array $scopes, $expires_at = null)
     {
-        return $this->post('users/'.$this->encodePath($user_id).'/impersonation_tokens', [
+        return $this->post('users/'.self::encodePath($user_id).'/impersonation_tokens', [
             'name' => $name,
             'scopes' => $scopes,
             'expires_at' => $expires_at,
@@ -414,6 +414,6 @@ class Users extends AbstractApi
      */
     public function removeImpersonationToken($user_id, $impersonation_token_id)
     {
-        return $this->delete('users/'.$this->encodePath($user_id).'/impersonation_tokens/'.$this->encodePath($impersonation_token_id));
+        return $this->delete('users/'.self::encodePath($user_id).'/impersonation_tokens/'.self::encodePath($impersonation_token_id));
     }
 }

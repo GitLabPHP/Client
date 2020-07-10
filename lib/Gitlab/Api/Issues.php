@@ -58,7 +58,7 @@ class Issues extends AbstractApi
      */
     public function show($project_id, $issue_iid)
     {
-        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid)));
+        return $this->get($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid)));
     }
 
     /**
@@ -81,7 +81,7 @@ class Issues extends AbstractApi
      */
     public function update($project_id, $issue_iid, array $params)
     {
-        return $this->put($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid)), $params);
+        return $this->put($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid)), $params);
     }
 
     /**
@@ -93,7 +93,7 @@ class Issues extends AbstractApi
      */
     public function move($project_id, $issue_iid, $to_project_id)
     {
-        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid)).'/move', [
+        return $this->post($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid)).'/move', [
             'to_project_id' => $to_project_id,
         ]);
     }
@@ -106,7 +106,7 @@ class Issues extends AbstractApi
      */
     public function remove($project_id, $issue_iid)
     {
-        return $this->delete($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid)));
+        return $this->delete($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid)));
     }
 
     /**
@@ -117,7 +117,7 @@ class Issues extends AbstractApi
      */
     public function showNotes($project_id, $issue_iid)
     {
-        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/notes'));
+        return $this->get($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/notes'));
     }
 
     /**
@@ -129,7 +129,7 @@ class Issues extends AbstractApi
      */
     public function showNote($project_id, $issue_iid, $note_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/notes/'.$this->encodePath($note_id)));
+        return $this->get($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/notes/'.self::encodePath($note_id)));
     }
 
     /**
@@ -141,7 +141,7 @@ class Issues extends AbstractApi
      */
     public function addNote($project_id, $issue_iid, $body)
     {
-        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/notes'), [
+        return $this->post($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/notes'), [
             'body' => $body,
         ]);
     }
@@ -156,7 +156,7 @@ class Issues extends AbstractApi
      */
     public function updateNote($project_id, $issue_iid, $note_id, $body)
     {
-        return $this->put($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/notes/'.$this->encodePath($note_id)), [
+        return $this->put($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/notes/'.self::encodePath($note_id)), [
             'body' => $body,
         ]);
     }
@@ -170,7 +170,7 @@ class Issues extends AbstractApi
      */
     public function removeNote($project_id, $issue_iid, $note_id)
     {
-        return $this->delete($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/notes/'.$this->encodePath($note_id)));
+        return $this->delete($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/notes/'.self::encodePath($note_id)));
     }
 
     /**
@@ -181,7 +181,7 @@ class Issues extends AbstractApi
      */
     public function showDiscussions($project_id, $issue_iid)
     {
-        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid)).'/discussions');
+        return $this->get($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid)).'/discussions');
     }
 
     /**
@@ -193,7 +193,7 @@ class Issues extends AbstractApi
      */
     public function showDiscussion($project_id, $issue_iid, $discussion_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid)).'/discussions/'.$this->encodePath($discussion_id));
+        return $this->get($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid)).'/discussions/'.self::encodePath($discussion_id));
     }
 
     /**
@@ -212,7 +212,7 @@ class Issues extends AbstractApi
             $params = ['body' => $body];
         }
 
-        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/discussions'), $params);
+        return $this->post($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/discussions'), $params);
     }
 
     /**
@@ -232,7 +232,7 @@ class Issues extends AbstractApi
             $params = ['body' => $body];
         }
 
-        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/discussions/'.$this->encodePath($discussion_id).'/notes'), $params);
+        return $this->post($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/discussions/'.self::encodePath($discussion_id).'/notes'), $params);
     }
 
     /**
@@ -246,7 +246,7 @@ class Issues extends AbstractApi
      */
     public function updateDiscussionNote($project_id, $issue_iid, $discussion_id, $note_id, $body)
     {
-        return $this->put($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/discussions/'.$this->encodePath($discussion_id).'/notes/'.$this->encodePath($note_id)), [
+        return $this->put($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/discussions/'.self::encodePath($discussion_id).'/notes/'.self::encodePath($note_id)), [
             'body' => $body,
         ]);
     }
@@ -261,7 +261,7 @@ class Issues extends AbstractApi
      */
     public function removeDiscussionNote($project_id, $issue_iid, $discussion_id, $note_id)
     {
-        return $this->delete($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/discussions/'.$this->encodePath($discussion_id).'/notes/'.$this->encodePath($note_id)));
+        return $this->delete($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/discussions/'.self::encodePath($discussion_id).'/notes/'.self::encodePath($note_id)));
     }
 
     /**
@@ -273,7 +273,7 @@ class Issues extends AbstractApi
      */
     public function setTimeEstimate($project_id, $issue_iid, $duration)
     {
-        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/time_estimate'), ['duration' => $duration]);
+        return $this->post($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/time_estimate'), ['duration' => $duration]);
     }
 
     /**
@@ -284,7 +284,7 @@ class Issues extends AbstractApi
      */
     public function resetTimeEstimate($project_id, $issue_iid)
     {
-        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/reset_time_estimate'));
+        return $this->post($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/reset_time_estimate'));
     }
 
     /**
@@ -296,7 +296,7 @@ class Issues extends AbstractApi
      */
     public function addSpentTime($project_id, $issue_iid, $duration)
     {
-        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/add_spent_time'), ['duration' => $duration]);
+        return $this->post($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/add_spent_time'), ['duration' => $duration]);
     }
 
     /**
@@ -307,7 +307,7 @@ class Issues extends AbstractApi
      */
     public function resetSpentTime($project_id, $issue_iid)
     {
-        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/reset_spent_time'));
+        return $this->post($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/reset_spent_time'));
     }
 
     /**
@@ -318,7 +318,7 @@ class Issues extends AbstractApi
      */
     public function getTimeStats($project_id, $issue_iid)
     {
-        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/time_stats'));
+        return $this->get($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/time_stats'));
     }
 
     /**
@@ -334,7 +334,7 @@ class Issues extends AbstractApi
      */
     public function subscribe($project_id, $issue_iid)
     {
-        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/subscribe'));
+        return $this->post($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/subscribe'));
     }
 
     /**
@@ -350,7 +350,7 @@ class Issues extends AbstractApi
      */
     public function unsubscribe($project_id, $issue_iid)
     {
-        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/unsubscribe'));
+        return $this->post($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/unsubscribe'));
     }
 
     /**
@@ -361,7 +361,7 @@ class Issues extends AbstractApi
      */
     public function awardEmoji($project_id, $issue_iid)
     {
-        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/award_emoji'));
+        return $this->get($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/award_emoji'));
     }
 
     /**
@@ -373,7 +373,7 @@ class Issues extends AbstractApi
      */
     public function removeAwardEmoji($project_id, $issue_iid, $award_id)
     {
-        return $this->delete($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/award_emoji/'.$this->encodePath($award_id)));
+        return $this->delete($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/award_emoji/'.self::encodePath($award_id)));
     }
 
     /**
@@ -384,7 +384,7 @@ class Issues extends AbstractApi
      */
     public function closedByMergeRequests($project_id, $issue_iid)
     {
-        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid)).'/closed_by');
+        return $this->get($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid)).'/closed_by');
     }
 
     /**
@@ -395,7 +395,7 @@ class Issues extends AbstractApi
      */
     public function showParticipants($project_id, $issue_iid)
     {
-        return $this->get($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid)).'/participants');
+        return $this->get($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid)).'/participants');
     }
 
     /**

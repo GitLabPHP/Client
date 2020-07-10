@@ -17,7 +17,7 @@ class RepositoryFiles extends AbstractApi
      */
     public function getFile($project_id, $file_path, $ref)
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/files/'.$this->encodePath($file_path)), [
+        return $this->get($this->getProjectPath($project_id, 'repository/files/'.self::encodePath($file_path)), [
             'ref' => $ref,
         ]);
     }
@@ -31,7 +31,7 @@ class RepositoryFiles extends AbstractApi
      */
     public function getRawFile($project_id, $file_path, $ref)
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/files/'.$this->encodePath($file_path).'/raw'), [
+        return $this->get($this->getProjectPath($project_id, 'repository/files/'.self::encodePath($file_path).'/raw'), [
             'ref' => $ref,
         ]);
     }
@@ -68,7 +68,7 @@ class RepositoryFiles extends AbstractApi
 
         $resolved = $resolver->resolve($parameters);
 
-        return $this->post($this->getProjectPath($project_id, 'repository/files/'.$this->encodePath($resolved['file_path'])), $resolved);
+        return $this->post($this->getProjectPath($project_id, 'repository/files/'.self::encodePath($resolved['file_path'])), $resolved);
     }
 
     /**
@@ -105,7 +105,7 @@ class RepositoryFiles extends AbstractApi
 
         $resolved = $resolver->resolve($parameters);
 
-        return $this->put($this->getProjectPath($project_id, 'repository/files/'.$this->encodePath($resolved['file_path'])), $resolved);
+        return $this->put($this->getProjectPath($project_id, 'repository/files/'.self::encodePath($resolved['file_path'])), $resolved);
     }
 
     /**
@@ -134,6 +134,6 @@ class RepositoryFiles extends AbstractApi
 
         $resolved = $resolver->resolve($parameters);
 
-        return $this->delete($this->getProjectPath($project_id, 'repository/files/'.$this->encodePath($resolved['file_path'])), $resolved);
+        return $this->delete($this->getProjectPath($project_id, 'repository/files/'.self::encodePath($resolved['file_path'])), $resolved);
     }
 }

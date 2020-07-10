@@ -116,7 +116,7 @@ class Projects extends AbstractApi
             ->setNormalizer('with_custom_attributes', $booleanNormalizer)
         ;
 
-        return $this->get('projects/'.$this->encodePath($project_id), $resolver->resolve($parameters));
+        return $this->get('projects/'.self::encodePath($project_id), $resolver->resolve($parameters));
     }
 
     /**
@@ -143,7 +143,7 @@ class Projects extends AbstractApi
     {
         $parameters['name'] = $name;
 
-        return $this->post('projects/user/'.$this->encodePath($user_id), $parameters);
+        return $this->post('projects/user/'.self::encodePath($user_id), $parameters);
     }
 
     /**
@@ -154,7 +154,7 @@ class Projects extends AbstractApi
      */
     public function update($project_id, array $parameters)
     {
-        return $this->put('projects/'.$this->encodePath($project_id), $parameters);
+        return $this->put('projects/'.self::encodePath($project_id), $parameters);
     }
 
     /**
@@ -164,7 +164,7 @@ class Projects extends AbstractApi
      */
     public function remove($project_id)
     {
-        return $this->delete('projects/'.$this->encodePath($project_id));
+        return $this->delete('projects/'.self::encodePath($project_id));
     }
 
     /**
@@ -174,7 +174,7 @@ class Projects extends AbstractApi
      */
     public function archive($project_id)
     {
-        return $this->post('projects/'.$this->encodePath($project_id).'/archive');
+        return $this->post('projects/'.self::encodePath($project_id).'/archive');
     }
 
     /**
@@ -184,7 +184,7 @@ class Projects extends AbstractApi
      */
     public function unarchive($project_id)
     {
-        return $this->post('projects/'.$this->encodePath($project_id).'/unarchive');
+        return $this->post('projects/'.self::encodePath($project_id).'/unarchive');
     }
 
     /**
@@ -194,7 +194,7 @@ class Projects extends AbstractApi
      */
     public function triggers($project_id)
     {
-        return $this->get('projects/'.$this->encodePath($project_id).'/triggers');
+        return $this->get('projects/'.self::encodePath($project_id).'/triggers');
     }
 
     /**
@@ -205,7 +205,7 @@ class Projects extends AbstractApi
      */
     public function trigger($project_id, $trigger_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'triggers/'.$this->encodePath($trigger_id)));
+        return $this->get($this->getProjectPath($project_id, 'triggers/'.self::encodePath($trigger_id)));
     }
 
     /**
@@ -288,7 +288,7 @@ class Projects extends AbstractApi
      */
     public function pipeline($project_id, $pipeline_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'pipelines/'.$this->encodePath($pipeline_id)));
+        return $this->get($this->getProjectPath($project_id, 'pipelines/'.self::encodePath($pipeline_id)));
     }
 
     /**
@@ -299,7 +299,7 @@ class Projects extends AbstractApi
      */
     public function pipelineVariables($project_id, $pipeline_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'pipelines/'.$this->encodePath($pipeline_id).'/variables'));
+        return $this->get($this->getProjectPath($project_id, 'pipelines/'.self::encodePath($pipeline_id).'/variables'));
     }
 
     /**
@@ -335,7 +335,7 @@ class Projects extends AbstractApi
      */
     public function retryPipeline($project_id, $pipeline_id)
     {
-        return $this->post($this->getProjectPath($project_id, 'pipelines/'.$this->encodePath($pipeline_id)).'/retry');
+        return $this->post($this->getProjectPath($project_id, 'pipelines/'.self::encodePath($pipeline_id)).'/retry');
     }
 
     /**
@@ -346,7 +346,7 @@ class Projects extends AbstractApi
      */
     public function cancelPipeline($project_id, $pipeline_id)
     {
-        return $this->post($this->getProjectPath($project_id, 'pipelines/'.$this->encodePath($pipeline_id)).'/cancel');
+        return $this->post($this->getProjectPath($project_id, 'pipelines/'.self::encodePath($pipeline_id)).'/cancel');
     }
 
     /**
@@ -357,7 +357,7 @@ class Projects extends AbstractApi
      */
     public function deletePipeline($project_id, $pipeline_id)
     {
-        return $this->delete($this->getProjectPath($project_id, 'pipelines/'.$this->encodePath($pipeline_id)));
+        return $this->delete($this->getProjectPath($project_id, 'pipelines/'.self::encodePath($pipeline_id)));
     }
 
     /**
@@ -371,7 +371,7 @@ class Projects extends AbstractApi
         $resolver = $this->createOptionsResolver();
         $resolver->setDefined('query');
 
-        return $this->get('projects/'.$this->encodePath($project_id).'/members/all', $resolver->resolve($parameters));
+        return $this->get('projects/'.self::encodePath($project_id).'/members/all', $resolver->resolve($parameters));
     }
 
     /**
@@ -402,7 +402,7 @@ class Projects extends AbstractApi
      */
     public function member($project_id, $user_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'members/'.$this->encodePath($user_id)));
+        return $this->get($this->getProjectPath($project_id, 'members/'.self::encodePath($user_id)));
     }
 
     /**
@@ -429,7 +429,7 @@ class Projects extends AbstractApi
      */
     public function saveMember($project_id, $user_id, $access_level)
     {
-        return $this->put($this->getProjectPath($project_id, 'members/'.$this->encodePath($user_id)), [
+        return $this->put($this->getProjectPath($project_id, 'members/'.self::encodePath($user_id)), [
             'access_level' => $access_level,
         ]);
     }
@@ -442,7 +442,7 @@ class Projects extends AbstractApi
      */
     public function removeMember($project_id, $user_id)
     {
-        return $this->delete($this->getProjectPath($project_id, 'members/'.$this->encodePath($user_id)));
+        return $this->delete($this->getProjectPath($project_id, 'members/'.self::encodePath($user_id)));
     }
 
     /**
@@ -466,7 +466,7 @@ class Projects extends AbstractApi
      */
     public function hook($project_id, $hook_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'hooks/'.$this->encodePath($hook_id)));
+        return $this->get($this->getProjectPath($project_id, 'hooks/'.self::encodePath($hook_id)));
     }
 
     /**
@@ -541,7 +541,7 @@ class Projects extends AbstractApi
      */
     public function updateHook($project_id, $hook_id, array $parameters)
     {
-        return $this->put($this->getProjectPath($project_id, 'hooks/'.$this->encodePath($hook_id)), $parameters);
+        return $this->put($this->getProjectPath($project_id, 'hooks/'.self::encodePath($hook_id)), $parameters);
     }
 
     /**
@@ -552,7 +552,7 @@ class Projects extends AbstractApi
      */
     public function removeHook($project_id, $hook_id)
     {
-        return $this->delete($this->getProjectPath($project_id, 'hooks/'.$this->encodePath($hook_id)));
+        return $this->delete($this->getProjectPath($project_id, 'hooks/'.self::encodePath($hook_id)));
     }
 
     /**
@@ -584,7 +584,7 @@ class Projects extends AbstractApi
      */
     public function deployKey($project_id, $key_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'deploy_keys/'.$this->encodePath($key_id)));
+        return $this->get($this->getProjectPath($project_id, 'deploy_keys/'.self::encodePath($key_id)));
     }
 
     /**
@@ -612,7 +612,7 @@ class Projects extends AbstractApi
      */
     public function deleteDeployKey($project_id, $key_id)
     {
-        return $this->delete($this->getProjectPath($project_id, 'deploy_keys/'.$this->encodePath($key_id)));
+        return $this->delete($this->getProjectPath($project_id, 'deploy_keys/'.self::encodePath($key_id)));
     }
 
     /**
@@ -623,7 +623,7 @@ class Projects extends AbstractApi
      */
     public function enableDeployKey($project_id, $key_id)
     {
-        return $this->post($this->getProjectPath($project_id, 'deploy_keys/'.$this->encodePath($key_id).'/enable'));
+        return $this->post($this->getProjectPath($project_id, 'deploy_keys/'.self::encodePath($key_id).'/enable'));
     }
 
     /**
@@ -768,7 +768,7 @@ class Projects extends AbstractApi
      */
     public function createForkRelation($project_id, $forked_project_id)
     {
-        return $this->post($this->getProjectPath($project_id, 'fork/'.$this->encodePath($forked_project_id)));
+        return $this->post($this->getProjectPath($project_id, 'fork/'.self::encodePath($forked_project_id)));
     }
 
     /**
@@ -790,7 +790,7 @@ class Projects extends AbstractApi
      */
     public function setService($project_id, $service_name, array $parameters = [])
     {
-        return $this->put($this->getProjectPath($project_id, 'services/'.$this->encodePath($service_name)), $parameters);
+        return $this->put($this->getProjectPath($project_id, 'services/'.self::encodePath($service_name)), $parameters);
     }
 
     /**
@@ -801,7 +801,7 @@ class Projects extends AbstractApi
      */
     public function removeService($project_id, $service_name)
     {
-        return $this->delete($this->getProjectPath($project_id, 'services/'.$this->encodePath($service_name)));
+        return $this->delete($this->getProjectPath($project_id, 'services/'.self::encodePath($service_name)));
     }
 
     /**
@@ -825,7 +825,7 @@ class Projects extends AbstractApi
      */
     public function variable($project_id, $key)
     {
-        return $this->get($this->getProjectPath($project_id, 'variables/'.$this->encodePath($key)));
+        return $this->get($this->getProjectPath($project_id, 'variables/'.self::encodePath($key)));
     }
 
     /**
@@ -878,7 +878,7 @@ class Projects extends AbstractApi
             $payload['environment_scope'] = $environment_scope;
         }
 
-        return $this->put($this->getProjectPath($project_id, 'variables/'.$this->encodePath($key)), $payload);
+        return $this->put($this->getProjectPath($project_id, 'variables/'.self::encodePath($key)), $payload);
     }
 
     /**
@@ -889,7 +889,7 @@ class Projects extends AbstractApi
      */
     public function removeVariable($project_id, $key)
     {
-        return $this->delete($this->getProjectPath($project_id, 'variables/'.$this->encodePath($key)));
+        return $this->delete($this->getProjectPath($project_id, 'variables/'.self::encodePath($key)));
     }
 
     /**
@@ -924,7 +924,7 @@ class Projects extends AbstractApi
      */
     public function deployment($project_id, $deployment_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'deployments/'.$this->encodePath($deployment_id)));
+        return $this->get($this->getProjectPath($project_id, 'deployments/'.self::encodePath($deployment_id)));
     }
 
     /**
@@ -985,7 +985,7 @@ class Projects extends AbstractApi
      */
     public function badge($project_id, $badge_id)
     {
-        return $this->get($this->getProjectPath($project_id, 'badges/'.$this->encodePath($badge_id)));
+        return $this->get($this->getProjectPath($project_id, 'badges/'.self::encodePath($badge_id)));
     }
 
     /**
@@ -1007,7 +1007,7 @@ class Projects extends AbstractApi
      */
     public function removeBadge($project_id, $badge_id)
     {
-        return $this->delete($this->getProjectPath($project_id, 'badges/'.$this->encodePath($badge_id)));
+        return $this->delete($this->getProjectPath($project_id, 'badges/'.self::encodePath($badge_id)));
     }
 
     /**
@@ -1019,7 +1019,7 @@ class Projects extends AbstractApi
      */
     public function updateBadge($project_id, $badge_id, array $parameters = [])
     {
-        return $this->put($this->getProjectPath($project_id, 'badges/'.$this->encodePath($badge_id)), $parameters);
+        return $this->put($this->getProjectPath($project_id, 'badges/'.self::encodePath($badge_id)), $parameters);
     }
 
     /**
@@ -1040,7 +1040,7 @@ class Projects extends AbstractApi
      */
     public function approvalsConfiguration($project_id)
     {
-        return $this->get('projects/'.$this->encodePath($project_id).'/approvals');
+        return $this->get('projects/'.self::encodePath($project_id).'/approvals');
     }
 
     /**
@@ -1050,7 +1050,7 @@ class Projects extends AbstractApi
      */
     public function approvalsRules($project_id)
     {
-        return $this->get('projects/'.$this->encodePath($project_id).'/approval_rules');
+        return $this->get('projects/'.self::encodePath($project_id).'/approval_rules');
     }
 
     /**

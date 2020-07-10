@@ -39,7 +39,7 @@ class Repositories extends AbstractApi
      */
     public function branch($project_id, $branch)
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch)));
+        return $this->get($this->getProjectPath($project_id, 'repository/branches/'.self::encodePath($branch)));
     }
 
     /**
@@ -65,7 +65,7 @@ class Repositories extends AbstractApi
      */
     public function deleteBranch($project_id, $branch)
     {
-        return $this->delete($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch)));
+        return $this->delete($this->getProjectPath($project_id, 'repository/branches/'.self::encodePath($branch)));
     }
 
     /**
@@ -78,7 +78,7 @@ class Repositories extends AbstractApi
      */
     public function protectBranch($project_id, $branch, $devPush = false, $devMerge = false)
     {
-        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch).'/protect'), [
+        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.self::encodePath($branch).'/protect'), [
             'developers_can_push' => $devPush,
             'developers_can_merge' => $devMerge,
         ]);
@@ -92,7 +92,7 @@ class Repositories extends AbstractApi
      */
     public function unprotectBranch($project_id, $branch)
     {
-        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.$this->encodePath($branch).'/unprotect'));
+        return $this->put($this->getProjectPath($project_id, 'repository/branches/'.self::encodePath($branch).'/unprotect'));
     }
 
     /**
@@ -134,7 +134,7 @@ class Repositories extends AbstractApi
      */
     public function createRelease($project_id, $tag_name, $description)
     {
-        return $this->post($this->getProjectPath($project_id, 'repository/tags/'.$this->encodePath($tag_name).'/release'), [
+        return $this->post($this->getProjectPath($project_id, 'repository/tags/'.self::encodePath($tag_name).'/release'), [
             'id' => $project_id,
             'tag_name' => $tag_name,
             'description' => $description,
@@ -150,7 +150,7 @@ class Repositories extends AbstractApi
      */
     public function updateRelease($project_id, $tag_name, $description)
     {
-        return $this->put($this->getProjectPath($project_id, 'repository/tags/'.$this->encodePath($tag_name).'/release'), [
+        return $this->put($this->getProjectPath($project_id, 'repository/tags/'.self::encodePath($tag_name).'/release'), [
             'id' => $project_id,
             'tag_name' => $tag_name,
             'description' => $description,
@@ -211,7 +211,7 @@ class Repositories extends AbstractApi
      */
     public function commit($project_id, $sha)
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha)));
+        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.self::encodePath($sha)));
     }
 
     /**
@@ -226,7 +226,7 @@ class Repositories extends AbstractApi
         $resolver = $this->createOptionsResolver();
 
         return $this->get(
-            $this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/refs'),
+            $this->getProjectPath($project_id, 'repository/commits/'.self::encodePath($sha).'/refs'),
             $resolver->resolve($parameters)
         );
     }
@@ -305,7 +305,7 @@ class Repositories extends AbstractApi
         $resolver = $this->createOptionsResolver();
 
         return $this->get(
-            $this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/comments'),
+            $this->getProjectPath($project_id, 'repository/commits/'.self::encodePath($sha).'/comments'),
             $resolver->resolve($parameters)
         );
     }
@@ -322,7 +322,7 @@ class Repositories extends AbstractApi
     {
         $params['note'] = $note;
 
-        return $this->post($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/comments'), $params);
+        return $this->post($this->getProjectPath($project_id, 'repository/commits/'.self::encodePath($sha).'/comments'), $params);
     }
 
     /**
@@ -334,7 +334,7 @@ class Repositories extends AbstractApi
      */
     public function getCommitBuildStatus($project_id, $sha, array $params = [])
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/statuses'), $params);
+        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.self::encodePath($sha).'/statuses'), $params);
     }
 
     /**
@@ -349,7 +349,7 @@ class Repositories extends AbstractApi
     {
         $params['state'] = $state;
 
-        return $this->post($this->getProjectPath($project_id, 'statuses/'.$this->encodePath($sha)), $params);
+        return $this->post($this->getProjectPath($project_id, 'statuses/'.self::encodePath($sha)), $params);
     }
 
     /**
@@ -364,7 +364,7 @@ class Repositories extends AbstractApi
     {
         return $this->get($this->getProjectPath(
             $project_id,
-            'repository/compare?from='.$this->encodePath($fromShaOrMaster).'&to='.$this->encodePath($toShaOrMaster).'&straight='.$this->encodePath($straight ? 'true' : 'false')
+            'repository/compare?from='.self::encodePath($fromShaOrMaster).'&to='.self::encodePath($toShaOrMaster).'&straight='.self::encodePath($straight ? 'true' : 'false')
         ));
     }
 
@@ -376,7 +376,7 @@ class Repositories extends AbstractApi
      */
     public function diff($project_id, $sha)
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.$this->encodePath($sha).'/diff'));
+        return $this->get($this->getProjectPath($project_id, 'repository/commits/'.self::encodePath($sha).'/diff'));
     }
 
     /**

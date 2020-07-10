@@ -7,8 +7,9 @@ namespace Gitlab\Api;
 use Gitlab\Client;
 use Gitlab\Exception\RuntimeException;
 use Gitlab\HttpClient\Message\ResponseMediator;
+use Gitlab\HttpClient\Util\JsonArray;
 use Gitlab\HttpClient\Util\QueryStringBuilder;
-use Http\Discovery\Psr17FactoryDiscovery;
+use Http\Client\Common\HttpMethodsClientInterface;
 use Http\Message\MultipartStream\MultipartStreamBuilder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
@@ -16,8 +17,6 @@ use Psr\Http\Message\StreamInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Abstract class for Api classes.
- *
  * @author Joseph Bielawski <stloyd@gmail.com>
  * @author Matt Humphrey <matt@m4tt.co>
  * @author Radu Topala <radu.topala@trisoft.ro>
@@ -25,11 +24,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 abstract class AbstractApi implements ApiInterface
 {
     /**
-     * The client instance.
+     * The URI prefix.
      *
-     * @var Client
+     * @var string
      */
-    protected $client;
+    private const URI_PREFIX = '/api/v4/';
+
+    /**
+     * The HTTP methods client.
+     *
+     * @var HttpMethodsClientInterface
+     */
+    private $httpClient;
 
     /**
      * The HTTP stream factory.
@@ -39,175 +45,152 @@ abstract class AbstractApi implements ApiInterface
     private $streamFactory;
 
     /**
-     * @param Client                      $client
-     * @param StreamFactoryInterface|null $streamFactory
+     * @param Client $client
      *
      * @return void
      */
-    public function __construct(Client $client, StreamFactoryInterface $streamFactory = null)
+    public function __construct(Client $client)
     {
-        $this->client = $client;
-        $this->streamFactory = $streamFactory ?? Psr17FactoryDiscovery::findStreamFactory();
+        $this->httpClient = $client->getHttpClient();
+        $this->streamFactory = $client->getStreamFactory();
     }
 
     /**
-     * Performs a GET query and returns the response as a PSR-7 response object.
+     * Send a GET request with query params and return the raw response.
      *
-     * @param string               $path
-     * @param array<string,mixed>  $parameters
-     * @param array<string,string> $requestHeaders
+     * @param string               $uri
+     * @param array                $params
+     * @param array<string,string> $headers
      *
-     * @return ResponseInterface
+     * @throws \Http\Client\Exception
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    protected function getAsResponse($path, array $parameters = [], array $requestHeaders = [])
+    protected function getAsResponse($uri, array $params = [], array $headers = [])
     {
-        $path = $this->preparePath($path, $parameters);
-
-        return $this->client->getHttpClient()->get($path, $requestHeaders);
+        return $this->httpClient->get(self::prepareUri($uri, $params), $headers);
     }
 
     /**
-     * @param string               $path
-     * @param array<string,mixed>  $parameters
-     * @param array<string,string> $requestHeaders
+     * @param string               $uri
+     * @param array<string,mixed>  $params
+     * @param array<string,string> $headers
      *
      * @return mixed
      */
-    protected function get($path, array $parameters = [], array $requestHeaders = [])
+    protected function get($uri, array $params = [], array $headers = [])
     {
-        return ResponseMediator::getContent($this->getAsResponse($path, $parameters, $requestHeaders));
+        $response = $this->getAsResponse($uri, $params, $headers);
+
+        return ResponseMediator::getContent($response);
     }
 
     /**
-     * @param string               $path
-     * @param array<string,mixed>  $parameters
-     * @param array<string,string> $requestHeaders
+     * @param string               $uri
+     * @param array<string,mixed>  $params
+     * @param array<string,string> $headers
      * @param array<string,string> $files
      *
      * @return mixed
      */
-    protected function post($path, array $parameters = [], array $requestHeaders = [], array $files = [])
+    protected function post($uri, array $params = [], array $headers = [], array $files = [])
     {
-        $path = $this->preparePath($path);
+        if (0 < count($files)) {
+            $builder = $this->createMultipartStreamBuilder($params, $files);
+            $body = self::prepareMultipartBody($builder);
+            $headers = self::addMultipartContentType($headers, $builder);
+        } else {
+            $body = self::prepareJsonBody($params);
 
-        $body = null;
-        if (0 === count($files) && 0 < count($parameters)) {
-            $body = $this->prepareBody($parameters);
-            $requestHeaders['Content-Type'] = 'application/x-www-form-urlencoded';
-        } elseif (0 < count($files)) {
-            $builder = new MultipartStreamBuilder($this->streamFactory);
-
-            foreach ($parameters as $name => $value) {
-                $builder->addResource($name, $value);
+            if (null !== $body) {
+                $headers = self::addJsonContentType($headers);
             }
-
-            foreach ($files as $name => $file) {
-                $builder->addResource($name, self::tryFopen($file, 'r'), [
-                    'headers' => [
-                        'Content-Type' => $this->guessContentType($file),
-                    ],
-                    'filename' => basename($file),
-                ]);
-            }
-
-            $body = $builder->build();
-            $requestHeaders['Content-Type'] = 'multipart/form-data; boundary='.$builder->getBoundary();
         }
 
-        $response = $this->client->getHttpClient()->post($path, $requestHeaders, $body);
+        $response = $this->httpClient->post(self::prepareUri($uri), $headers, $body);
 
         return ResponseMediator::getContent($response);
     }
 
     /**
-     * @param string               $path
-     * @param array<string,mixed>  $parameters
-     * @param array<string,string> $requestHeaders
+     * @param string               $uri
+     * @param array<string,mixed>  $params
+     * @param array<string,string> $headers
      * @param array<string,string> $files
      *
      * @return mixed
      */
-    protected function put($path, array $parameters = [], array $requestHeaders = [], array $files = [])
+    protected function put($uri, array $params = [], array $headers = [], array $files = [])
     {
-        $path = $this->preparePath($path);
+        if (0 < count($files)) {
+            $builder = $this->createMultipartStreamBuilder($params, $files);
+            $body = self::prepareMultipartBody($builder);
+            $headers = self::addMultipartContentType($headers, $builder);
+        } else {
+            $body = self::prepareJsonBody($params);
 
-        $body = null;
-        if (0 === count($files) && 0 < count($parameters)) {
-            $body = $this->prepareBody($parameters);
-            $requestHeaders['Content-Type'] = 'application/x-www-form-urlencoded';
-        } elseif (0 < count($files)) {
-            $builder = new MultipartStreamBuilder($this->streamFactory);
-
-            foreach ($parameters as $name => $value) {
-                $builder->addResource($name, $value);
+            if (null !== $body) {
+                $headers = self::addJsonContentType($headers);
             }
-
-            foreach ($files as $name => $file) {
-                $builder->addResource($name, self::tryFopen($file, 'r'), [
-                    'headers' => [
-                        'Content-Type' => $this->guessContentType($file),
-                    ],
-                    'filename' => basename($file),
-                ]);
-            }
-
-            $body = $builder->build();
-            $requestHeaders['Content-Type'] = 'multipart/form-data; boundary='.$builder->getBoundary();
         }
 
-        $response = $this->client->getHttpClient()->put($path, $requestHeaders, $body);
+        $response = $this->httpClient->put(self::prepareUri($uri), $headers, $body ?? '');
 
         return ResponseMediator::getContent($response);
     }
 
     /**
-     * @param string               $path
-     * @param array<string,mixed>  $parameters
-     * @param array<string,string> $requestHeaders
+     * @param string               $uri
+     * @param array<string,mixed>  $params
+     * @param array<string,string> $headers
      *
      * @return mixed
      */
-    protected function delete($path, array $parameters = [], array $requestHeaders = [])
+    protected function delete($uri, array $params = [], array $headers = [])
     {
-        $path = $this->preparePath($path, $parameters);
+        $body = self::prepareJsonBody($params);
 
-        $response = $this->client->getHttpClient()->delete($path, $requestHeaders);
+        if (null !== $body) {
+            $headers = self::addJsonContentType($headers);
+        }
+
+        $response = $this->httpClient->delete(self::prepareUri($uri), $headers, $body ?? '');
 
         return ResponseMediator::getContent($response);
+    }
+
+    /**
+     * @param int|string $uri
+     *
+     * @return string
+     */
+    protected static function encodePath($uri)
+    {
+        $uri = rawurlencode((string) $uri);
+
+        return str_replace('.', '%2E', $uri);
     }
 
     /**
      * @param int|string $id
-     * @param string     $path
+     * @param string     $uri
      *
      * @return string
      */
-    protected function getProjectPath($id, $path)
+    protected function getProjectPath($id, $uri)
     {
-        return 'projects/'.$this->encodePath($id).'/'.$path;
+        return 'projects/'.self::encodePath($id).'/'.$uri;
     }
 
     /**
      * @param int    $id
-     * @param string $path
+     * @param string $uri
      *
      * @return string
      */
-    protected function getGroupPath($id, $path)
+    protected function getGroupPath($id, $uri)
     {
-        return 'groups/'.$this->encodePath($id).'/'.$path;
-    }
-
-    /**
-     * @param int|string $path
-     *
-     * @return string
-     */
-    protected function encodePath($path)
-    {
-        $path = rawurlencode((string) $path);
-
-        return str_replace('.', '%2E', $path);
+        return 'groups/'.self::encodePath($id).'/'.$uri;
     }
 
     /**
@@ -235,48 +218,103 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param array $parameters
+     * Prepare the request URI.
+     *
+     * @param string $uri
+     * @param array  $query
+     *
+     * @return string
+     */
+    private static function prepareUri(string $uri, array $query = [])
+    {
+        return sprintf('%s%s%s', self::URI_PREFIX, $uri, QueryStringBuilder::build($query));
+    }
+
+    /**
+     * Prepare the request URI.
+     *
+     * @param array<string,mixed>  $params
+     * @param array<string,string> $files
+     *
+     * @return MultipartStreamBuilder
+     */
+    private function createMultipartStreamBuilder(array $params = [], array $files = [])
+    {
+        $builder = new MultipartStreamBuilder($this->streamFactory);
+
+        foreach ($params as $name => $value) {
+            $builder->addResource($name, $value);
+        }
+
+        foreach ($files as $name => $file) {
+            $builder->addResource($name, self::tryFopen($file, 'r'), [
+                'headers' => [
+                    'Content-Type' => self::guessFileContentType($file),
+                ],
+                'filename' => basename($file),
+            ]);
+        }
+
+        return $builder;
+    }
+
+    /**
+     * Prepare the request multipart body.
+     *
+     * @param MultipartStreamBuilder $builder
      *
      * @return StreamInterface
      */
-    private function prepareBody(array $parameters = [])
+    private static function prepareMultipartBody(MultipartStreamBuilder $builder)
     {
-        $raw = QueryStringBuilder::build($parameters);
-        $stream = $this->streamFactory->createStream($raw);
-
-        return $stream;
+        return $builder->build();
     }
 
     /**
-     * @param string $path
-     * @param array  $parameters
+     * Add the multipart content type to the headers if one is not already present.
      *
-     * @return string
+     * @param array<string,string>   $headers
+     * @param MultipartStreamBuilder $builder
+     *
+     * @return array<string,string>
      */
-    private function preparePath($path, array $parameters = [])
+    private static function addMultipartContentType(array $headers, MultipartStreamBuilder $builder)
     {
-        if (count($parameters) > 0) {
-            $path .= '?'.QueryStringBuilder::build($parameters);
-        }
+        $contentType = sprintf('%s; boundary=%s', ResponseMediator::MULTIPART_CONTENT_TYPE, $builder->getBoundary());
 
-        return $path;
+        return array_merge(['Content-Type' => $contentType], $headers);
     }
 
     /**
-     * @param string $file
+     * Prepare the request JSON body.
      *
-     * @return string
+     * @param array<string,mixed>  $params
+     *
+     * @return string|null
      */
-    private function guessContentType($file)
+    private static function prepareJsonBody(array $params)
     {
-        if (!class_exists(\finfo::class, false)) {
-            return 'application/octet-stream';
+        $params = array_filter($params, function ($value): bool {
+            return null !== $value;
+        });
+
+        if (0 === count($params)) {
+            return null;
         }
 
-        $finfo = new \finfo(FILEINFO_MIME_TYPE);
-        $type = $finfo->file($file);
+        return JsonArray::encode($params);
+    }
 
-        return false !== $type ? $type : 'application/octet-stream';
+    /**
+     * Add the JSON content type to the headers if one is not already present.
+     *
+     * @param array<string,string> $headers
+     *
+     * @return array<string,string>
+     */
+    private static function addJsonContentType(array $headers)
+    {
+        return array_merge(['Content-Type' => ResponseMediator::JSON_CONTENT_TYPE], $headers);
     }
 
     /**
@@ -315,5 +353,24 @@ abstract class AbstractApi implements ApiInterface
 
         /** @var resource */
         return $handle;
+    }
+
+    /**
+     * Guess the content type of the file if possible.
+     *
+     * @param string $file
+     *
+     * @return string
+     */
+    private static function guessFileContentType(string $file)
+    {
+        if (!class_exists(\finfo::class, false)) {
+            return ResponseMediator::STREAM_CONTENT_TYPE;
+        }
+
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
+        $type = $finfo->file($file);
+
+        return false !== $type ? $type : ResponseMediator::STREAM_CONTENT_TYPE;
     }
 }

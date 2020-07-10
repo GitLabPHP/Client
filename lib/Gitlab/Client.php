@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Gitlab;
 
 use Gitlab\HttpClient\Builder;
-use Gitlab\HttpClient\Plugin\ApiVersion;
 use Gitlab\HttpClient\Plugin\Authentication;
 use Gitlab\HttpClient\Plugin\GitlabExceptionThrower;
 use Gitlab\HttpClient\Plugin\History;
@@ -17,6 +16,7 @@ use Http\Client\Common\Plugin\RedirectPlugin;
 use Http\Discovery\Psr17FactoryDiscovery;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 
 /**
  * Simple API wrapper for Gitlab.
@@ -85,7 +85,6 @@ class Client
             'User-Agent' => self::USER_AGENT,
         ]));
         $builder->addPlugin(new RedirectPlugin());
-        $builder->addPlugin(new ApiVersion());
 
         $this->setUrl(self::BASE_URL);
     }
@@ -352,6 +351,16 @@ class Client
     public function getHttpClient()
     {
         return $this->getHttpClientBuilder()->getHttpClient();
+    }
+
+    /**
+     * Get the stream factory.
+     *
+     * @return StreamFactoryInterface
+     */
+    public function getStreamFactory()
+    {
+        return $this->getHttpClientBuilder()->getStreamFactory();
     }
 
     /**
