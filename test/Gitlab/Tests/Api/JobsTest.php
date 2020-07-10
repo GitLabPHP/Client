@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Tests\Api;
+<?php
+
+namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\Jobs;
 use GuzzleHttp\Psr7\Response;
@@ -10,17 +12,17 @@ class JobsTest extends TestCase
      */
     public function shouldGetAllJobs()
     {
-        $expectedArray = array(
-            array('id' => 1, 'name' => 'A job'),
-            array('id' => 2, 'name' => 'Another job'),
-        );
+        $expectedArray = [
+            ['id' => 1, 'name' => 'A job'],
+            ['id' => 2, 'name' => 'Another job'],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/jobs', array(
-                'scope' => ['pending']
-            ))
+            ->with('projects/1/jobs', [
+                'scope' => ['pending'],
+            ])
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -32,17 +34,17 @@ class JobsTest extends TestCase
      */
     public function shouldGetPipelineJobs()
     {
-        $expectedArray = array(
-            array('id' => 1, 'name' => 'A job'),
-            array('id' => 2, 'name' => 'Another job'),
-        );
+        $expectedArray = [
+            ['id' => 1, 'name' => 'A job'],
+            ['id' => 2, 'name' => 'Another job'],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/pipelines/2/jobs', array(
-                'scope' => ['pending', 'running']
-            ))
+            ->with('projects/1/pipelines/2/jobs', [
+                'scope' => ['pending', 'running'],
+            ])
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -54,7 +56,7 @@ class JobsTest extends TestCase
      */
     public function shouldGetJob()
     {
-        $expectedArray = array('id' => 3, 'name' => 'A job');
+        $expectedArray = ['id' => 3, 'name' => 'A job'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -93,15 +95,15 @@ class JobsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('getAsResponse')
-            ->with('projects/1/jobs/artifacts/master/download', array(
-                'job' => 'job_name'
-            ))
+            ->with('projects/1/jobs/artifacts/master/download', [
+                'job' => 'job_name',
+            ])
             ->will($this->returnValue($returnedStream))
         ;
 
         $this->assertEquals('foobar', $api->artifactsByRefName(1, 'master', 'job_name')->getContents());
     }
-    
+
     /**
      * @test
      */
@@ -111,9 +113,9 @@ class JobsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('getAsResponse')
-            ->with('projects/1/jobs/artifacts/master/raw/artifact_path', array(
-                'job' => 'job_name'
-            ))
+            ->with('projects/1/jobs/artifacts/master/raw/artifact_path', [
+                'job' => 'job_name',
+            ])
             ->will($this->returnValue($returnedStream))
         ;
         $this->assertEquals('foobar', $api->artifactByRefName(1, 'master', 'job_name', 'artifact_path')->getContents());
@@ -124,7 +126,7 @@ class JobsTest extends TestCase
      */
     public function shouldGetTrace()
     {
-        $expectedString = "some trace";
+        $expectedString = 'some trace';
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -141,7 +143,7 @@ class JobsTest extends TestCase
      */
     public function shouldCancel()
     {
-        $expectedArray = array('id' => 3, 'name' => 'A job');
+        $expectedArray = ['id' => 3, 'name' => 'A job'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -158,7 +160,7 @@ class JobsTest extends TestCase
      */
     public function shouldRetry()
     {
-        $expectedArray = array('id' => 3, 'name' => 'A job');
+        $expectedArray = ['id' => 3, 'name' => 'A job'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -175,7 +177,7 @@ class JobsTest extends TestCase
      */
     public function shouldErase()
     {
-        $expectedArray = array('id' => 3, 'name' => 'A job');
+        $expectedArray = ['id' => 3, 'name' => 'A job'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -192,7 +194,7 @@ class JobsTest extends TestCase
      */
     public function shouldKeepArtifacts()
     {
-        $expectedArray = array('id' => 3, 'name' => 'A job');
+        $expectedArray = ['id' => 3, 'name' => 'A job'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -209,7 +211,7 @@ class JobsTest extends TestCase
      */
     public function shouldPlay()
     {
-        $expectedArray = array('id' => 3, 'name' => 'A job');
+        $expectedArray = ['id' => 3, 'name' => 'A job'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())

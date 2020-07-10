@@ -1,49 +1,99 @@
-<?php namespace Gitlab\Model;
+<?php
+
+namespace Gitlab\Model;
 
 use Gitlab\Client;
 
 /**
- * Class Commit
+ * @final
  *
  * @property-read int $id
  * @property-read string $ref
  * @property-read string $sha
  * @property-read string $status
+ * @property-read Project $project
+ * @property-read array|null $variables
+ * @property-read string $created_at
+ * @property-read string $updated_at
+ * @property-read string $started_at
+ * @property-read string $finished_at
+ * @property-read string $committed_at
+ * @property-read int $duration
+ * @property-read string $web_url
+ * @property-read User|null $user
  */
 class Pipeline extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
-    protected static $properties = array(
+    protected static $properties = [
         'id',
         'ref',
         'sha',
-        'status'
-    );
+        'status',
+        'project',
+        'variables',
+        'created_at',
+        'updated_at',
+        'started_at',
+        'finished_at',
+        'committed_at',
+        'duration',
+        'web_url',
+        'user',
+    ];
 
     /**
      * @param Client  $client
      * @param Project $project
      * @param array   $data
+     *
      * @return Pipeline
      */
     public static function fromArray(Client $client, Project $project, array $data)
     {
         $pipeline = new static($project, $data['id'], $client);
 
+        if (isset($data['variables'])) {
+            $valueMap = [];
+            foreach ($data['variables'] as $variableData) {
+                $valueMap[$variableData['key']] = $variableData['value'];
+            }
+            $data['variables'] = $valueMap;
+        }
+
+        if (isset($data['user'])) {
+            $data['user'] = User::fromArray($client, $data['user']);
+        }
+
         return $pipeline->hydrate($data);
     }
 
     /**
-     * @param Project $project
-     * @param int $id
-     * @param Client  $client
+     * @param Project     $project
+     * @param int|null    $id
+     * @param Client|null $client
+     *
+     * @return void
      */
     public function __construct(Project $project, $id = null, Client $client = null)
     {
         $this->setClient($client);
         $this->setData('project', $project);
         $this->setData('id', $id);
+    }
+
+    /**
+     * @return Pipeline
+     */
+    public function show()
+    {
+        $projectsApi = $this->client->projects();
+
+        $data = $projectsApi->pipeline($this->project->id, $this->id);
+        $data['variables'] = $projectsApi->pipelineVariables($this->project->id, $this->id);
+
+        return static::fromArray($this->client, $this->project, $data);
     }
 }

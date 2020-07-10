@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Tests\Api;
+<?php
+
+namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\IssuesStatistics;
 
@@ -9,7 +11,7 @@ class IssuesStatisticsTest extends TestCase
      */
     public function shouldGetAll()
     {
-        $expectedArray = array();
+        $expectedArray = [];
 
         $now = new \DateTime();
 
@@ -30,7 +32,7 @@ class IssuesStatisticsTest extends TestCase
                 'created_before' => $now->format('c'),
                 'updated_after' => $now->format('c'),
                 'updated_before' => $now->format('c'),
-                'confidential' => 'false'
+                'confidential' => 'false',
             ])
             ->will($this->returnValue($expectedArray));
 
@@ -48,7 +50,7 @@ class IssuesStatisticsTest extends TestCase
             'created_before' => $now,
             'updated_after' => $now,
             'updated_before' => $now,
-            'confidential' => false
+            'confidential' => false,
         ]));
     }
 
@@ -57,7 +59,7 @@ class IssuesStatisticsTest extends TestCase
      */
     public function shouldGetProject()
     {
-        $expectedArray = array();
+        $expectedArray = [];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -73,7 +75,7 @@ class IssuesStatisticsTest extends TestCase
      */
     public function shouldGetGroup()
     {
-        $expectedArray = array();
+        $expectedArray = [];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -83,7 +85,6 @@ class IssuesStatisticsTest extends TestCase
 
         $this->assertEquals($expectedArray, $api->group(1, []));
     }
-
 
     protected function getApiClass()
     {

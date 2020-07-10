@@ -1,25 +1,47 @@
-<?php namespace Gitlab\Api;
+<?php
+
+namespace Gitlab\Api;
 
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class IssuesStatistics extends AbstractApi
 {
+    /**
+     * @param array $parameters
+     *
+     * @return mixed
+     */
     public function all($parameters)
     {
         return $this->get('issues_statistics', $this->createOptionsResolver()->resolve($parameters));
     }
 
+    /**
+     * @param int|string $project_id
+     * @param array      $parameters
+     *
+     * @return mixed
+     */
     public function project($project_id, $parameters)
     {
         return $this->get($this->getProjectPath($project_id, 'issues_statistics'), $this->createOptionsResolver()->resolve($parameters));
     }
 
+    /**
+     * @param int   $group_id
+     * @param array $parameters
+     *
+     * @return mixed
+     */
     public function group($group_id, $parameters)
     {
         return $this->get($this->getGroupPath($group_id, 'issues_statistics'), $this->createOptionsResolver()->resolve($parameters));
     }
 
+    /**
+     * @return OptionsResolver
+     */
     protected function createOptionsResolver()
     {
         $resolver = new OptionsResolver();

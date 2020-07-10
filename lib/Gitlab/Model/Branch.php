@@ -1,32 +1,35 @@
-<?php namespace Gitlab\Model;
+<?php
+
+namespace Gitlab\Model;
 
 use Gitlab\Api\Projects;
 use Gitlab\Client;
 
 /**
- * Class Branch
+ * @final
  *
  * @property-read string $name
  * @property-read bool $protected
- * @property-read Commit $commit
+ * @property-read Commit|null $commit
  * @property-read Project $project
  */
 class Branch extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
-    protected static $properties = array(
+    protected static $properties = [
         'name',
         'commit',
         'project',
-        'protected'
-    );
+        'protected',
+    ];
 
     /**
      * @param Client  $client
      * @param Project $project
      * @param array   $data
+     *
      * @return Branch
      */
     public static function fromArray(Client $client, Project $project, array $data)
@@ -41,9 +44,11 @@ class Branch extends AbstractModel
     }
 
     /**
-     * @param Project $project
-     * @param string $name
-     * @param Client $client
+     * @param Project     $project
+     * @param string|null $name
+     * @param Client|null $client
+     *
+     * @return void
      */
     public function __construct(Project $project, $name = null, Client $client = null)
     {
@@ -65,6 +70,7 @@ class Branch extends AbstractModel
     /**
      * @param bool $devPush
      * @param bool $devMerge
+     *
      * @return Branch
      */
     public function protect($devPush = false, $devMerge = false)
@@ -107,39 +113,102 @@ class Branch extends AbstractModel
     }
 
     /**
-     * @param string $file_path
-     * @param string $content
-     * @param string $commit_message
+     * @param string      $file_path
+     * @param string      $content
+     * @param string      $commit_message
+     * @param string|null $author_email
+     * @param string|null $author_name
+     *
      * @return File
      */
-    public function createFile($file_path, $content, $commit_message)
-    {
-        $data = $this->client->repositories()->createFile($this->project->id, $file_path, $content, $this->name, $commit_message);
+    public function createFile(
+        $file_path,
+        $content,
+        $commit_message,
+        $author_email = null,
+        $author_name = null
+    ) {
+        $parameters = [
+            'file_path' => $file_path,
+            'branch' => $this->name,
+            'content' => $content,
+            'commit_message' => $commit_message,
+        ];
+
+        if (null !== $author_email) {
+            $parameters['author_email'] = $author_email;
+        }
+
+        if (null !== $author_name) {
+            $parameters['author_name'] = $author_name;
+        }
+
+        $data = $this->client->repositoryFiles()->createFile($this->project->id, $parameters);
 
         return File::fromArray($this->getClient(), $this->project, $data);
     }
 
     /**
-     * @param string $file_path
-     * @param string $content
-     * @param string $commit_message
+     * @param string      $file_path
+     * @param string      $content
+     * @param string      $commit_message
+     * @param string|null $author_email
+     * @param string|null $author_name
+     *
      * @return File
      */
-    public function updateFile($file_path, $content, $commit_message)
-    {
-        $data = $this->client->repositories()->updateFile($this->project->id, $file_path, $content, $this->name, $commit_message);
+    public function updateFile(
+        $file_path,
+        $content,
+        $commit_message,
+        $author_email = null,
+        $author_name = null
+    ) {
+        $parameters = [
+            'file_path' => $file_path,
+            'branch' => $this->name,
+            'content' => $content,
+            'commit_message' => $commit_message,
+        ];
+
+        if (null !== $author_email) {
+            $parameters['author_email'] = $author_email;
+        }
+
+        if (null !== $author_name) {
+            $parameters['author_name'] = $author_name;
+        }
+
+        $data = $this->client->repositoryFiles()->updateFile($this->project->id, $parameters);
 
         return File::fromArray($this->getClient(), $this->project, $data);
     }
 
     /**
-     * @param string $file_path
-     * @param string $commit_message
+     * @param string      $file_path
+     * @param string      $commit_message
+     * @param string|null $author_email
+     * @param string|null $author_name
+     *
      * @return bool
      */
-    public function deleteFile($file_path, $commit_message)
+    public function deleteFile($file_path, $commit_message, $author_email = null, $author_name = null)
     {
-        $this->client->repositories()->deleteFile($this->project->id, $file_path, $this->name, $commit_message);
+        $parameters = [
+            'file_path' => $file_path,
+            'branch' => $this->name,
+            'commit_message' => $commit_message,
+        ];
+
+        if (null !== $author_email) {
+            $parameters['author_email'] = $author_email;
+        }
+
+        if (null !== $author_name) {
+            $parameters['author_name'] = $author_name;
+        }
+
+        $this->client->repositoryFiles()->deleteFile($this->project->id, $parameters);
 
         return true;
     }

@@ -1,0 +1,21 @@
+includes:
+    - phpstan-baseline.neon
+    - vendor-bin/phpstan/vendor/phpstan/phpstan-deprecation-rules/rules.neon
+    - vendor-bin/phpstan/vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor-bin/phpstan/vendor/thecodingmachine/phpstan-strict-rules/phpstan-strict-rules.neon
+
+rules:
+    - Ergebnis\PHPStan\Rules\Closures\NoNullableReturnTypeDeclarationRule
+    - Ergebnis\PHPStan\Rules\Expressions\NoCompactRule
+    - Ergebnis\PHPStan\Rules\Expressions\NoEmptyRule
+    - Ergebnis\PHPStan\Rules\Expressions\NoEvalRule
+    - Ergebnis\PHPStan\Rules\Methods\PrivateInFinalClassRule
+
+parameters:
+    level: max
+    checkMissingIterableValueType: false
+    paths:
+        - lib
+    ignoreErrors:
+        - "#Anonymous function should have native return typehint#"
+        - '#Only booleans are allowed in an if condition#'

@@ -5,8 +5,9 @@ namespace Gitlab\Api;
 class Schedules extends AbstractApi
 {
     /**
-     * @param int $project_id
-     * @param array $params
+     * @param int|string $project_id
+     * @param array      $params
+     *
      * @return mixed
      */
     public function create($project_id, array $params)
@@ -15,8 +16,9 @@ class Schedules extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $schedule_id
+     * @param int|string $project_id
+     * @param int        $schedule_id
+     *
      * @return mixed
      */
     public function show($project_id, $schedule_id)
@@ -25,7 +27,8 @@ class Schedules extends AbstractApi
     }
 
     /**
-     * @param int $project_id
+     * @param int|string $project_id
+     *
      * @return mixed
      */
     public function showAll($project_id)
@@ -34,9 +37,10 @@ class Schedules extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $schedule_id
-     * @param array $params
+     * @param int|string $project_id
+     * @param int        $schedule_id
+     * @param array      $params
+     *
      * @return mixed
      */
     public function update($project_id, $schedule_id, array $params)
@@ -45,8 +49,9 @@ class Schedules extends AbstractApi
     }
 
     /**
-     * @param int $project_id
-     * @param int $schedule_id
+     * @param int|string $project_id
+     * @param int        $schedule_id
+     *
      * @return mixed
      */
     public function remove($project_id, $schedule_id)

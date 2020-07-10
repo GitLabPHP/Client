@@ -2,11 +2,11 @@
 
 namespace Gitlab\Tests\Model;
 
+use Gitlab\Api\Groups;
 use Gitlab\Client;
 use Gitlab\Model\Group;
 use Gitlab\Model\Project;
 use PHPUnit\Framework\TestCase;
-use Gitlab\Api\Groups;
 
 class GroupTest extends TestCase
 {
@@ -64,15 +64,15 @@ class GroupTest extends TestCase
 
     public function testProjects()
     {
-        $group_data  = [
+        $group_data = [
             'id' => 1,
             'name' => 'Grouped',
             'path' => '',
-            'description' => 'Amazing group. Wow'
+            'description' => 'Amazing group. Wow',
         ];
         $project_data = [
             'id' => 1,
-            'name' => 'A Project'
+            'name' => 'A Project',
         ];
 
         //Mock API methods

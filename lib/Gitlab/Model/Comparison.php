@@ -1,35 +1,38 @@
-<?php namespace Gitlab\Model;
+<?php
+
+namespace Gitlab\Model;
 
 use Gitlab\Client;
 
 /**
- * Class Comparison
+ * @final
  *
  * @property-read bool $compare_timeout
  * @property-read bool $compare_same_ref
- * @property-read Commit $commit
- * @property-read Commit[] $commits
- * @property-read Diff[] $diffs
+ * @property-read Commit|null $commit
+ * @property-read Commit[]|null $commits
+ * @property-read Diff[]|null $diffs
  * @property-read Project $project
  */
 class Comparison extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
-    protected static $properties = array(
+    protected static $properties = [
         'commit',
         'commits',
         'diffs',
         'compare_timeout',
         'compare_same_ref',
-        'project'
-    );
+        'project',
+    ];
 
     /**
-     * @param Client $client
+     * @param Client  $client
      * @param Project $project
-     * @param array $data
+     * @param array   $data
+     *
      * @return Comparison
      */
     public static function fromArray(Client $client, Project $project, array $data)
@@ -41,7 +44,7 @@ class Comparison extends AbstractModel
         }
 
         if (isset($data['commits'])) {
-            $commits = array();
+            $commits = [];
             foreach ($data['commits'] as $commit) {
                 $commits[] = Commit::fromArray($client, $project, $commit);
             }
@@ -50,7 +53,7 @@ class Comparison extends AbstractModel
         }
 
         if (isset($data['diffs'])) {
-            $diffs = array();
+            $diffs = [];
             foreach ($data['diffs'] as $diff) {
                 $diffs[] = Diff::fromArray($client, $project, $diff);
             }
@@ -62,8 +65,10 @@ class Comparison extends AbstractModel
     }
 
     /**
-     * @param Project $project
-     * @param Client $client
+     * @param Project     $project
+     * @param Client|null $client
+     *
+     * @return void
      */
     public function __construct(Project $project, Client $client = null)
     {

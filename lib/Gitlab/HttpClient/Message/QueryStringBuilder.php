@@ -2,6 +2,11 @@
 
 namespace Gitlab\HttpClient\Message;
 
+use Gitlab\HttpClient\Util\QueryStringBuilder as UtilQueryStringBuilder;
+
+/**
+ * @deprecated since 9.18 and will be removed in 10.0.
+ */
 final class QueryStringBuilder
 {
     /**
@@ -11,39 +16,14 @@ final class QueryStringBuilder
      * @param mixed $query
      *
      * @return string
+     *
+     * @deprecated since 9.18 and will be removed in 10.0.
      */
     public static function build($query)
     {
-        if (!is_array($query)) {
-            return static::rawurlencode($query);
-        }
-        $query = array_filter($query, function ($value) {
-            return (null !== $value);
-        });
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0.', __METHOD__), E_USER_DEPRECATED);
 
-        return implode('&', array_map(function ($value, $key) {
-            return static::encode($value, $key);
-        }, $query, array_keys($query)));
-    }
-
-    /**
-     * Encode a value
-     * @param mixed $query
-     * @param string $prefix
-     *
-     * @return string
-     */
-    private static function encode($query, $prefix)
-    {
-        if (!is_array($query)) {
-            return static::rawurlencode($prefix).'='.static::rawurlencode($query);
-        }
-
-        $isIndexedArray = static::isIndexedArray($query);
-        return implode('&', array_map(function ($value, $key) use ($prefix, $isIndexedArray) {
-            $prefix = $isIndexedArray ? $prefix.'[]' : $prefix.'['.$key.']';
-            return static::encode($value, $prefix);
-        }, $query, array_keys($query)));
+        return UtilQueryStringBuilder::build($query);
     }
 
     /**
@@ -52,29 +32,17 @@ final class QueryStringBuilder
      * @param array $query
      *
      * @return bool
+     *
+     * @deprecated since 9.18 and will be removed in 10.0.
      */
     public static function isIndexedArray(array $query)
     {
-        if (empty($query) || !isset($query[0])) {
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0.', __METHOD__), E_USER_DEPRECATED);
+
+        if (0 === count($query) || !isset($query[0])) {
             return false;
         }
 
         return array_keys($query) === range(0, count($query) - 1);
-    }
-
-    /**
-     * Encode a value like rawurlencode, but return "0" when false is given.
-     *
-     * @param mixed $value
-     *
-     * @return string
-     */
-    private static function rawurlencode($value)
-    {
-        if ($value === false) {
-            return '0';
-        }
-
-        return rawurlencode($value);
     }
 }

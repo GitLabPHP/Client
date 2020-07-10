@@ -1,0 +1,77 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Fetching deprecated class constant AUTH_URL_TOKEN of class Gitlab\\\\Client\\:\nsince version 9\\.18 and will be removed in 10\\.0\\.$#"
+			count: 2
+			path: lib/Gitlab/Client.php
+
+		-
+			message: "#^Call to method find\\(\\) of deprecated class Http\\\\Discovery\\\\MessageFactoryDiscovery\\:\nThis will be removed in 2\\.0\\. Consider using Psr17FactoryDiscovery\\.$#"
+			count: 1
+			path: lib/Gitlab/HttpClient/Builder.php
+
+		-
+			message: "#^Call to method find\\(\\) of deprecated class Http\\\\Discovery\\\\StreamFactoryDiscovery\\:\nThis will be removed in 2\\.0\\. Consider using Psr17FactoryDiscovery\\.$#"
+			count: 1
+			path: lib/Gitlab/HttpClient/Builder.php
+
+		-
+			message: "#^Call to method find\\(\\) of deprecated class Http\\\\Discovery\\\\UriFactoryDiscovery\\:\nThis will be removed in 2\\.0\\. Consider using Psr17FactoryDiscovery\\.$#"
+			count: 1
+			path: lib/Gitlab/HttpClient/Builder.php
+
+		-
+			message: "#^Fetching deprecated class constant AUTH_URL_TOKEN of class Gitlab\\\\Client\\:\nsince version 9\\.18 and will be removed in 10\\.0\\.$#"
+			count: 1
+			path: lib/Gitlab/HttpClient/Plugin/Authentication.php
+
+		-
+			message: "#^Return type \\(Gitlab\\\\Model\\\\Issue\\) of method Gitlab\\\\Model\\\\Issue\\:\\:close\\(\\) should be covariant with return type \\(static\\(Gitlab\\\\Model\\\\Stateful\\)\\) of method Gitlab\\\\Model\\\\Stateful\\:\\:close\\(\\)$#"
+			count: 2
+			path: lib/Gitlab/Model/Issue.php
+
+		-
+			message: "#^Return type \\(Gitlab\\\\Model\\\\Issue\\) of method Gitlab\\\\Model\\\\Issue\\:\\:open\\(\\) should be covariant with return type \\(static\\(Gitlab\\\\Model\\\\Stateful\\)\\) of method Gitlab\\\\Model\\\\Stateful\\:\\:open\\(\\)$#"
+			count: 2
+			path: lib/Gitlab/Model/Issue.php
+
+		-
+			message: "#^Return type \\(Gitlab\\\\Model\\\\Issue\\) of method Gitlab\\\\Model\\\\Issue\\:\\:reopen\\(\\) should be covariant with return type \\(static\\(Gitlab\\\\Model\\\\Stateful\\)\\) of method Gitlab\\\\Model\\\\Stateful\\:\\:reopen\\(\\)$#"
+			count: 2
+			path: lib/Gitlab/Model/Issue.php
+
+		-
+			message: "#^Return type \\(Gitlab\\\\Model\\\\MergeRequest\\) of method Gitlab\\\\Model\\\\MergeRequest\\:\\:close\\(\\) should be covariant with return type \\(static\\(Gitlab\\\\Model\\\\Stateful\\)\\) of method Gitlab\\\\Model\\\\Stateful\\:\\:close\\(\\)$#"
+			count: 2
+			path: lib/Gitlab/Model/MergeRequest.php
+
+		-
+			message: "#^Return type \\(Gitlab\\\\Model\\\\MergeRequest\\) of method Gitlab\\\\Model\\\\MergeRequest\\:\\:reopen\\(\\) should be covariant with return type \\(static\\(Gitlab\\\\Model\\\\Stateful\\)\\) of method Gitlab\\\\Model\\\\Stateful\\:\\:reopen\\(\\)$#"
+			count: 2
+			path: lib/Gitlab/Model/MergeRequest.php
+
+		-
+			message: "#^Return type \\(Gitlab\\\\Model\\\\MergeRequest\\) of method Gitlab\\\\Model\\\\MergeRequest\\:\\:open\\(\\) should be covariant with return type \\(static\\(Gitlab\\\\Model\\\\Stateful\\)\\) of method Gitlab\\\\Model\\\\Stateful\\:\\:open\\(\\)$#"
+			count: 2
+			path: lib/Gitlab/Model/MergeRequest.php
+
+		-
+			message: "#^Variable method call on Gitlab\\\\Api\\\\ApiInterface\\.$#"
+			count: 1
+			path: lib/Gitlab/ResultPager.php
+
+		-
+			message: "#^Method Gitlab\\\\ResultPager\\:\\:postFetch\\(\\) is protected, but since the containing class is final, it can be private\\.$#"
+			count: 1
+			path: lib/Gitlab/ResultPager.php
+
+		-
+			message: "#^Method Gitlab\\\\ResultPager\\:\\:has\\(\\) is protected, but since the containing class is final, it can be private\\.$#"
+			count: 1
+			path: lib/Gitlab/ResultPager.php
+
+		-
+			message: "#^Method Gitlab\\\\ResultPager\\:\\:get\\(\\) is protected, but since the containing class is final, it can be private\\.$#"
+			count: 1
+			path: lib/Gitlab/ResultPager.php
+

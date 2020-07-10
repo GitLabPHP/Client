@@ -1,6 +1,6 @@
-<?php namespace Gitlab\Tests\Api;
+<?php
 
-use Gitlab\Api\AbstractApi;
+namespace Gitlab\Tests\Api;
 
 class GroupsTest extends TestCase
 {
@@ -9,15 +9,15 @@ class GroupsTest extends TestCase
      */
     public function shouldGetAllGroups()
     {
-        $expectedArray = array(
-            array('id' => 1, 'name' => 'A group'),
-            array('id' => 2, 'name' => 'Another group'),
-        );
+        $expectedArray = [
+            ['id' => 1, 'name' => 'A group'],
+            ['id' => 2, 'name' => 'Another group'],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('groups', array('page' => 1, 'per_page' => 10))
+            ->with('groups', ['page' => 1, 'per_page' => 10])
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -29,10 +29,10 @@ class GroupsTest extends TestCase
      */
     public function shouldGetAllGroupsWithBooleanParam()
     {
-        $expectedArray = array(
-            array('id' => 1, 'name' => 'A group'),
-            array('id' => 2, 'name' => 'Another group'),
-        );
+        $expectedArray = [
+            ['id' => 1, 'name' => 'A group'],
+            ['id' => 2, 'name' => 'Another group'],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -49,10 +49,10 @@ class GroupsTest extends TestCase
      */
     public function shouldGetAllGroupProjectsWithBooleanParam()
     {
-        $expectedArray = array(
-            array('id' => 1, 'name' => 'A group'),
-            array('id' => 2, 'name' => 'Another group'),
-        );
+        $expectedArray = [
+            ['id' => 1, 'name' => 'A group'],
+            ['id' => 2, 'name' => 'Another group'],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -69,15 +69,15 @@ class GroupsTest extends TestCase
      */
     public function shouldNotNeedPaginationWhenGettingGroups()
     {
-        $expectedArray = array(
-            array('id' => 1, 'name' => 'A group'),
-            array('id' => 2, 'name' => 'Another group'),
-        );
+        $expectedArray = [
+            ['id' => 1, 'name' => 'A group'],
+            ['id' => 2, 'name' => 'Another group'],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('groups', array())
+            ->with('groups', [])
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -89,7 +89,7 @@ class GroupsTest extends TestCase
      */
     public function shouldShowGroup()
     {
-        $expectedArray = array('id' => 1, 'name' => 'A group');
+        $expectedArray = ['id' => 1, 'name' => 'A group'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -106,12 +106,12 @@ class GroupsTest extends TestCase
      */
     public function shouldCreateGroup()
     {
-        $expectedArray = array('id' => 1, 'name' => 'A new group');
+        $expectedArray = ['id' => 1, 'name' => 'A new group'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('groups', array('name' => 'A new group', 'path' => 'a-new-group', 'visibility' => 'private'))
+            ->with('groups', ['name' => 'A new group', 'path' => 'a-new-group', 'visibility' => 'private'])
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -123,12 +123,12 @@ class GroupsTest extends TestCase
      */
     public function shouldCreateGroupWithDescriptionAndVisibility()
     {
-        $expectedArray = array('id' => 1, 'name' => 'A new group', 'visibility_level' => 2);
+        $expectedArray = ['id' => 1, 'name' => 'A new group', 'visibility_level' => 2];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('groups', array('name' => 'A new group', 'path' => 'a-new-group', 'description' => 'Description', 'visibility' => 'public'))
+            ->with('groups', ['name' => 'A new group', 'path' => 'a-new-group', 'description' => 'Description', 'visibility' => 'public'])
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -140,12 +140,12 @@ class GroupsTest extends TestCase
      */
     public function shouldCreateGroupWithDescriptionVisibilityAndParentId()
     {
-        $expectedArray = array('id' => 1, 'name' => 'A new group', 'visibility_level' => 2, 'parent_id' => 666);
+        $expectedArray = ['id' => 1, 'name' => 'A new group', 'visibility_level' => 2, 'parent_id' => 666];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('groups', array('name' => 'A new group', 'path' => 'a-new-group', 'description' => 'Description', 'visibility' => 'public', 'parent_id' => 666))
+            ->with('groups', ['name' => 'A new group', 'path' => 'a-new-group', 'description' => 'Description', 'visibility' => 'public', 'parent_id' => 666])
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -157,16 +157,16 @@ class GroupsTest extends TestCase
      */
     public function shouldUpdateGroup()
     {
-        $expectedArray = array('id' => 3, 'name' => 'Group name', 'path' => 'group-path');
+        $expectedArray = ['id' => 3, 'name' => 'Group name', 'path' => 'group-path'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('groups/3', array('name' => 'Group name', 'path' => 'group-path'))
+            ->with('groups/3', ['name' => 'Group name', 'path' => 'group-path'])
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->update(3, array('name' => 'Group name', 'path' => 'group-path')));
+        $this->assertEquals($expectedArray, $api->update(3, ['name' => 'Group name', 'path' => 'group-path']));
     }
 
     /**
@@ -191,15 +191,15 @@ class GroupsTest extends TestCase
      */
     public function shouldGetAllMembers()
     {
-        $expectedArray = array(
-            array('id' => 1, 'name' => 'Matt'),
-            array('id' => 2, 'name' => 'Bob')
-        );
+        $expectedArray = [
+            ['id' => 1, 'name' => 'Matt'],
+            ['id' => 2, 'name' => 'Bob'],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('groups/1/members/all/')
+            ->with('groups/1/members/all')
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -209,28 +209,12 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllMembersUserID()
-    {
-        $expectedArray = array('id' => 2, 'name' => 'Bob');
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('get')
-            ->with('groups/1/members/all/2')
-            ->will($this->returnValue($expectedArray));
-
-        $this->assertEquals($expectedArray, $api->allMembers(1, 2));
-    }
-
-    /**
-     * @test
-     */
     public function shouldGetMembers()
     {
-        $expectedArray = array(
-            array('id' => 1, 'name' => 'Matt'),
-            array('id' => 2, 'name' => 'Bob')
-        );
+        $expectedArray = [
+            ['id' => 1, 'name' => 'Matt'],
+            ['id' => 2, 'name' => 'Bob'],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -247,12 +231,12 @@ class GroupsTest extends TestCase
      */
     public function shouldAddMember()
     {
-        $expectedArray = array('id' => 1, 'name' => 'Matt');
+        $expectedArray = ['id' => 1, 'name' => 'Matt'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('groups/1/members', array('user_id' => 2, 'access_level' => 3))
+            ->with('groups/1/members', ['user_id' => 2, 'access_level' => 3])
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -264,12 +248,12 @@ class GroupsTest extends TestCase
      */
     public function shouldSaveMember()
     {
-        $expectedArray = array('id' => 1, 'name' => 'Matt');
+        $expectedArray = ['id' => 1, 'name' => 'Matt'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('groups/1/members/2', array('access_level' => 4))
+            ->with('groups/1/members/2', ['access_level' => 4])
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -315,15 +299,15 @@ class GroupsTest extends TestCase
      */
     public function shouldGetAllSubgroups()
     {
-        $expectedArray = array(
-            array('id' => 101, 'name' => 'A subgroup'),
-            array('id' => 1-2, 'name' => 'Another subggroup'),
-        );
+        $expectedArray = [
+            ['id' => 101, 'name' => 'A subgroup'],
+            ['id' => 1 - 2, 'name' => 'Another subggroup'],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('groups/1/subgroups', array('page' => 1, 'per_page' => 10))
+            ->with('groups/1/subgroups', ['page' => 1, 'per_page' => 10])
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -335,10 +319,10 @@ class GroupsTest extends TestCase
      */
     public function shouldGetLabels()
     {
-        $expectedArray = array(
-            array('id' => 987, 'name' => 'bug', 'color' => '#000000'),
-            array('id' => 123, 'name' => 'feature', 'color' => '#ff0000')
-        );
+        $expectedArray = [
+            ['id' => 987, 'name' => 'bug', 'color' => '#000000'],
+            ['id' => 123, 'name' => 'feature', 'color' => '#ff0000'],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -355,16 +339,16 @@ class GroupsTest extends TestCase
      */
     public function shouldAddLabel()
     {
-        $expectedArray = array('name' => 'bug', 'color' => '#000000');
+        $expectedArray = ['name' => 'bug', 'color' => '#000000'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('groups/1/labels', array('name' => 'wont-fix', 'color' => '#ffffff'))
+            ->with('groups/1/labels', ['name' => 'wont-fix', 'color' => '#ffffff'])
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->addLabel(1, array('name' => 'wont-fix', 'color' => '#ffffff')));
+        $this->assertEquals($expectedArray, $api->addLabel(1, ['name' => 'wont-fix', 'color' => '#ffffff']));
     }
 
     /**
@@ -372,16 +356,16 @@ class GroupsTest extends TestCase
      */
     public function shouldUpdateLabel()
     {
-        $expectedArray = array('name' => 'bug', 'color' => '#00ffff');
+        $expectedArray = ['name' => 'bug', 'color' => '#00ffff'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('groups/1/labels', array('name' => 'bug', 'new_name' => 'big-bug', 'color' => '#00ffff'))
+            ->with('groups/1/labels', ['name' => 'bug', 'new_name' => 'big-bug', 'color' => '#00ffff'])
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->updateLabel(1, array('name' => 'bug', 'new_name' => 'big-bug', 'color' => '#00ffff')));
+        $this->assertEquals($expectedArray, $api->updateLabel(1, ['name' => 'bug', 'new_name' => 'big-bug', 'color' => '#00ffff']));
     }
 
     /**
@@ -394,7 +378,7 @@ class GroupsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('delete')
-            ->with('groups/1/labels', array('name' => 'bug'))
+            ->with('groups/1/labels', ['name' => 'bug'])
             ->will($this->returnValue($expectedBool))
         ;
 
@@ -403,10 +387,10 @@ class GroupsTest extends TestCase
 
     public function shouldGetVariables()
     {
-        $expectedArray = array(
-            array('key' => 'ftp_username', 'value' => 'ftp'),
-            array('key' => 'ftp_password', 'value' => 'somepassword')
-        );
+        $expectedArray = [
+            ['key' => 'ftp_username', 'value' => 'ftp'],
+            ['key' => 'ftp_password', 'value' => 'somepassword'],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -423,7 +407,7 @@ class GroupsTest extends TestCase
      */
     public function shouldGetVariable()
     {
-        $expectedArray = array('key' => 'ftp_username', 'value' => 'ftp');
+        $expectedArray = ['key' => 'ftp_username', 'value' => 'ftp'];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -437,13 +421,13 @@ class GroupsTest extends TestCase
 
     public function shouldAddVariable()
     {
-        $expectedKey   = 'ftp_port';
+        $expectedKey = 'ftp_port';
         $expectedValue = '21';
 
-        $expectedArray = array(
-            'key'   => $expectedKey,
+        $expectedArray = [
+            'key' => $expectedKey,
             'value' => $expectedValue,
-        );
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -460,11 +444,11 @@ class GroupsTest extends TestCase
      */
     public function shouldAddVariableWithProtected()
     {
-        $expectedArray = array(
-            'key'   => 'DEPLOY_SERVER',
+        $expectedArray = [
+            'key' => 'DEPLOY_SERVER',
             'value' => 'stage.example.com',
             'protected' => true,
-        );
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -481,18 +465,18 @@ class GroupsTest extends TestCase
      */
     public function shouldUpdateVariable()
     {
-        $expectedKey   = 'ftp_port';
+        $expectedKey = 'ftp_port';
         $expectedValue = '22';
 
-        $expectedArray = array(
-            'key'   => 'ftp_port',
+        $expectedArray = [
+            'key' => 'ftp_port',
             'value' => '22',
-        );
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('groups/1/variables/'.$expectedKey, array('value' => $expectedValue))
+            ->with('groups/1/variables/'.$expectedKey, ['value' => $expectedValue])
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -504,16 +488,16 @@ class GroupsTest extends TestCase
      */
     public function shouldUpdateVariableWithProtected()
     {
-        $expectedArray = array(
-            'key'   => 'DEPLOY_SERVER',
+        $expectedArray = [
+            'key' => 'DEPLOY_SERVER',
             'value' => 'stage.example.com',
             'protected' => true,
-        );
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('groups/1/variables/DEPLOY_SERVER', array('value' => 'stage.example.com', 'protected' => true))
+            ->with('groups/1/variables/DEPLOY_SERVER', ['value' => 'stage.example.com', 'protected' => true])
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -547,10 +531,10 @@ class GroupsTest extends TestCase
      */
     public function shouldGetAllGroupProjectsWithIssuesEnabled()
     {
-        $expectedArray = array(
-            array('id' => 1, 'name' => 'A group', 'issues_enabled' => true),
-            array('id' => 2, 'name' => 'Another group', 'issues_enabled' => true),
-        );
+        $expectedArray = [
+            ['id' => 1, 'name' => 'A group', 'issues_enabled' => true],
+            ['id' => 2, 'name' => 'Another group', 'issues_enabled' => true],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -567,10 +551,10 @@ class GroupsTest extends TestCase
      */
     public function shouldGetAllGroupProjectsWithMergeRequestsEnabled()
     {
-        $expectedArray = array(
-            array('id' => 1, 'name' => 'A group', 'merge_requests_enabled' => true),
-            array('id' => 2, 'name' => 'Another group', 'merge_requests_enabled' => true),
-        );
+        $expectedArray = [
+            ['id' => 1, 'name' => 'A group', 'merge_requests_enabled' => true],
+            ['id' => 2, 'name' => 'Another group', 'merge_requests_enabled' => true],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -587,10 +571,10 @@ class GroupsTest extends TestCase
      */
     public function shouldGetAllGroupProjectsSharedToGroup()
     {
-        $expectedArray = array(
-            array('id' => 1, 'name' => 'A project', 'shared_with_groups' => [1]),
-            array('id' => 2, 'name' => 'Another project', 'shared_with_groups' => [1]),
-        );
+        $expectedArray = [
+            ['id' => 1, 'name' => 'A project', 'shared_with_groups' => [1]],
+            ['id' => 2, 'name' => 'Another project', 'shared_with_groups' => [1]],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -607,10 +591,10 @@ class GroupsTest extends TestCase
      */
     public function shouldGetAllGroupProjectsIncludingSubsgroups()
     {
-        $expectedArray = array(
-            array('id' => 1, 'name' => 'A project'),
-            array('id' => 2, 'name' => 'Another project', 'shared_with_groups' => [1]),
-        );
+        $expectedArray = [
+            ['id' => 1, 'name' => 'A project'],
+            ['id' => 2, 'name' => 'Another project', 'shared_with_groups' => [1]],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -627,10 +611,10 @@ class GroupsTest extends TestCase
      */
     public function shouldGetAllGroupProjectsIncludingCustomAttributes()
     {
-        $expectedArray = array(
-            array('id' => 1, 'name' => 'A project', 'custom_Attr' => true),
-            array('id' => 2, 'name' => 'Another project', 'custom_Attr' => true),
-        );
+        $expectedArray = [
+            ['id' => 1, 'name' => 'A project', 'custom_Attr' => true],
+            ['id' => 2, 'name' => 'Another project', 'custom_Attr' => true],
+        ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())

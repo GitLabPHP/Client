@@ -1,37 +1,40 @@
-<?php namespace Gitlab\Model;
+<?php
 
+namespace Gitlab\Model;
+
+use Gitlab\Api\MergeRequests;
 use Gitlab\Client;
 
 /**
- * Class MergeRequest
+ * @final
  *
  * @property-read int $id
  * @property-read int $iid
  * @property-read string $target_branch
  * @property-read string $source_branch
- * @property-read int $project_id
+ * @property-read int|string $project_id
  * @property-read string $title
  * @property-read string $description
  * @property-read bool $closed
  * @property-read bool $merged
  * @property-read string $state
- * @property-read int $source_project_id
- * @property-read int $target_project_id
+ * @property-read int|string $source_project_id
+ * @property-read int|string $target_project_id
  * @property-read int $upvotes
  * @property-read int $downvotes
  * @property-read array $labels
- * @property-read User $author
- * @property-read User $assignee
+ * @property-read User|null $author
+ * @property-read User|null $assignee
  * @property-read Project $project
- * @property-read Milestone $milestone
- * @property-read File[] $files
+ * @property-read Milestone|null $milestone
+ * @property-read File[]|null $files
  */
-class MergeRequest extends AbstractModel implements Noteable
+class MergeRequest extends AbstractModel implements Noteable, Notable
 {
     /**
-     * @var array
+     * @var string[]
      */
-    protected static $properties = array(
+    protected static $properties = [
         'id',
         'iid',
         'target_branch',
@@ -51,13 +54,14 @@ class MergeRequest extends AbstractModel implements Noteable
         'downvotes',
         'labels',
         'milestone',
-        'files'
-    );
+        'files',
+    ];
 
     /**
      * @param Client  $client
      * @param Project $project
      * @param array   $data
+     *
      * @return MergeRequest
      */
     public static function fromArray(Client $client, Project $project, array $data)
@@ -77,7 +81,7 @@ class MergeRequest extends AbstractModel implements Noteable
         }
 
         if (isset($data['files'])) {
-            $files = array();
+            $files = [];
             foreach ($data['files'] as $file) {
                 $files[] = File::fromArray($client, $project, $file);
             }
@@ -89,9 +93,11 @@ class MergeRequest extends AbstractModel implements Noteable
     }
 
     /**
-     * @param Project $project
-     * @param int $iid
-     * @param Client $client
+     * @param Project     $project
+     * @param int|null    $iid
+     * @param Client|null $client
+     *
+     * @return void
      */
     public function __construct(Project $project, $iid = null, Client $client = null)
     {
@@ -112,6 +118,7 @@ class MergeRequest extends AbstractModel implements Noteable
 
     /**
      * @param array $params
+     *
      * @return MergeRequest
      */
     public function update(array $params)
@@ -122,18 +129,19 @@ class MergeRequest extends AbstractModel implements Noteable
     }
 
     /**
-     * @param string $comment
+     * @param string|null $note
+     *
      * @return MergeRequest
      */
-    public function close($comment = null)
+    public function close($note = null)
     {
-        if ($comment) {
-            $this->addComment($comment);
+        if (null !== $note) {
+            $this->addNote($note);
         }
 
-        return $this->update(array(
-            'state_event' => 'close'
-        ));
+        return $this->update([
+            'state_event' => 'close',
+        ]);
     }
 
     /**
@@ -141,9 +149,9 @@ class MergeRequest extends AbstractModel implements Noteable
      */
     public function reopen()
     {
-        return $this->update(array(
-            'state_event' => 'reopen'
-        ));
+        return $this->update([
+            'state_event' => 'reopen',
+        ]);
     }
 
     /**
@@ -155,14 +163,15 @@ class MergeRequest extends AbstractModel implements Noteable
     }
 
     /**
-     * @param string $message
+     * @param string|null $message
+     *
      * @return MergeRequest
      */
     public function merge($message = null)
     {
-        $data = $this->client->mergeRequests()->merge($this->project->id, $this->iid, array(
-            'merge_commit_message' => $message
-        ));
+        $data = $this->client->mergeRequests()->merge($this->project->id, $this->iid, [
+            'merge_commit_message' => $message,
+        ]);
 
         return static::fromArray($this->getClient(), $this->project, $data);
     }
@@ -172,17 +181,39 @@ class MergeRequest extends AbstractModel implements Noteable
      */
     public function merged()
     {
-        return $this->update(array(
-            'state_event' => 'merge'
-        ));
+        return $this->update([
+            'state_event' => 'merge',
+        ]);
     }
 
     /**
-     * @param string $comment
+     * @param string $body
+     *
      * @return Note
      */
-    public function addComment($comment)
+    public function addNote($body)
     {
+        $data = $this->client->mergeRequests()->addNote($this->project->id, $this->iid, $body);
+
+        return Note::fromArray($this->getClient(), $this, $data);
+    }
+
+    /**
+     * @param string      $comment
+     * @param string|null $created_at
+     *
+     * @return Note
+     *
+     * @deprecated since version 9.18 and will be removed in 10.0. Use the addNote() method instead.
+     */
+    public function addComment($comment, $created_at = null)
+    {
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the addNote() method instead.', __METHOD__), E_USER_DEPRECATED);
+
+        if (null === $created_at) {
+            return $this->addNote($comment);
+        }
+
         $data = $this->client->mergeRequests()->addComment($this->project->id, $this->iid, $comment);
 
         return Note::fromArray($this->getClient(), $this, $data);
@@ -190,11 +221,15 @@ class MergeRequest extends AbstractModel implements Noteable
 
     /**
      * @return Note[]
+     *
+     * @deprecated since version 9.18 and will be removed in 10.0. Use the result pager with the conventional API methods.
      */
     public function showComments()
     {
-        $notes = array();
-        $data = $this->client->mergeRequests()->showComments($this->project->id, $this->iid);
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the result pager with the conventional API methods.', __METHOD__), E_USER_DEPRECATED);
+
+        $notes = [];
+        $data = $this->client->mergeRequests()->showNotes($this->project->id, $this->iid);
 
         foreach ($data as $note) {
             $notes[] = Note::fromArray($this->getClient(), $this, $note);
@@ -208,11 +243,7 @@ class MergeRequest extends AbstractModel implements Noteable
      */
     public function isClosed()
     {
-        if (in_array($this->state, array('closed', 'merged'))) {
-            return true;
-        }
-
-        return false;
+        return MergeRequests::STATE_CLOSED === $this->state || MergeRequests::STATE_MERGED === $this->state;
     }
 
     /**

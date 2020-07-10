@@ -1,27 +1,29 @@
-<?php namespace Gitlab\Model;
+<?php
+
+namespace Gitlab\Model;
 
 use Gitlab\Client;
 
 /**
- * Class Release
+ * @final
  *
  * @property-read string $tag_name
  * @property-read string $description
- * @property-read Commit $commit
  */
 class Release extends AbstractModel
 {
     /**
-     * @var array
+     * @var string[]
      */
-    protected static $properties = array(
+    protected static $properties = [
         'tag_name',
-        'description'
-    );
+        'description',
+    ];
 
     /**
-     * @param Client  $client
-     * @param array   $data
+     * @param Client $client
+     * @param array  $data
+     *
      * @return Release
      */
     public static function fromArray(Client $client, array $data)
@@ -32,9 +34,9 @@ class Release extends AbstractModel
     }
 
     /**
-     * @param Project $project
-     * @param int $id
-     * @param Client  $client
+     * @param Client|null $client
+     *
+     * @return void
      */
     public function __construct(Client $client = null)
     {

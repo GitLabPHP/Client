@@ -1,13 +1,16 @@
-<?php namespace Gitlab\Model;
+<?php
 
+namespace Gitlab\Model;
+
+use Gitlab\Api\Issues;
 use Gitlab\Client;
 
 /**
- * Class Issue
+ * @final
  *
  * @property-read int $id
  * @property-read int $iid
- * @property-read int $project_id,
+ * @property-read int|string $project_id,
  * @property-read string $title
  * @property-read string $description
  * @property-read array $labels
@@ -15,17 +18,17 @@ use Gitlab\Client;
  * @property-read string $updated_at
  * @property-read string $created_at
  * @property-read string $state
- * @property-read User $assignee
- * @property-read User $author
+ * @property-read User|null $assignee
+ * @property-read User|null $author
  * @property-read Milestone $milestone
  * @property-read Project $project
  */
-class Issue extends AbstractModel implements Noteable
+class Issue extends AbstractModel implements Noteable, Notable
 {
     /**
-     * @var array
+     * @var string[]
      */
-    protected static $properties = array(
+    protected static $properties = [
         'id',
         'iid',
         'project_id',
@@ -39,13 +42,14 @@ class Issue extends AbstractModel implements Noteable
         'updated_at',
         'created_at',
         'project',
-        'state'
-    );
+        'state',
+    ];
 
     /**
      * @param Client  $client
      * @param Project $project
      * @param array   $data
+     *
      * @return Issue
      */
     public static function fromArray(Client $client, Project $project, array $data)
@@ -64,9 +68,11 @@ class Issue extends AbstractModel implements Noteable
     }
 
     /**
-     * @param Project $project
-     * @param int $iid
-     * @param Client $client
+     * @param Project     $project
+     * @param int|null    $iid
+     * @param Client|null $client
+     *
+     * @return void
      */
     public function __construct(Project $project, $iid = null, Client $client = null)
     {
@@ -87,6 +93,7 @@ class Issue extends AbstractModel implements Noteable
 
     /**
      * @param array $params
+     *
      * @return Issue
      */
     public function update(array $params)
@@ -98,6 +105,7 @@ class Issue extends AbstractModel implements Noteable
 
     /**
      * @param Project $toProject
+     *
      * @return Issue
      */
     public function move(Project $toProject)
@@ -108,18 +116,19 @@ class Issue extends AbstractModel implements Noteable
     }
 
     /**
-     * @param string $comment
+     * @param string|null $note
+     *
      * @return Issue
      */
-    public function close($comment = null)
+    public function close($note = null)
     {
-        if ($comment) {
-            $this->addComment($comment);
+        if (null !== $note) {
+            $this->addNote($note);
         }
 
-        return $this->update(array(
-            'state_event' => 'close'
-        ));
+        return $this->update([
+            'state_event' => 'close',
+        ]);
     }
 
     /**
@@ -127,9 +136,9 @@ class Issue extends AbstractModel implements Noteable
      */
     public function open()
     {
-        return $this->update(array(
-            'state_event' => 'reopen'
-        ));
+        return $this->update([
+            'state_event' => 'reopen',
+        ]);
     }
 
     /**
@@ -141,25 +150,52 @@ class Issue extends AbstractModel implements Noteable
     }
 
     /**
-     * @param string $comment
+     * @param string $body
+     *
      * @return Note
      */
-    public function addComment($comment)
+    public function addNote($body)
     {
-        $data = $this->client->issues()->addComment($this->project->id, $this->iid, array(
-            'body' => $comment
-        ));
+        $data = $this->client->issues()->addNote($this->project->id, $this->iid, $body);
+
+        return Note::fromArray($this->getClient(), $this, $data);
+    }
+
+    /**
+     * @param string      $comment
+     * @param string|null $created_at
+     *
+     * @return Note
+     *
+     * @deprecated since version 9.18 and will be removed in 10.0. Use the addNote() method instead.
+     */
+    public function addComment($comment, $created_at = null)
+    {
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the addNote() method instead.', __METHOD__), E_USER_DEPRECATED);
+
+        if (null === $created_at) {
+            return $this->addNote($comment);
+        }
+
+        $data = $this->client->issues()->addComment($this->project->id, $this->iid, [
+            'body' => $comment,
+            'created_at' => $created_at,
+        ]);
 
         return Note::fromArray($this->getClient(), $this, $data);
     }
 
     /**
      * @return Note[]
+     *
+     * @deprecated since version 9.18 and will be removed in 10.0. Use the result pager with the conventional API methods.
      */
     public function showComments()
     {
-        $notes = array();
-        $data = $this->client->issues()->showComments($this->project->id, $this->iid);
+        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the result pager with the conventional API methods.', __METHOD__), E_USER_DEPRECATED);
+
+        $notes = [];
+        $data = $this->client->issues()->showNotes($this->project->id, $this->iid);
 
         foreach ($data as $note) {
             $notes[] = Note::fromArray($this->getClient(), $this, $note);
@@ -173,16 +209,17 @@ class Issue extends AbstractModel implements Noteable
      */
     public function isClosed()
     {
-        return $this->state === 'closed';
+        return Issues::STATE_CLOSED === $this->state;
     }
 
     /**
      * @param string $label
+     *
      * @return bool
      */
     public function hasLabel($label)
     {
-        return in_array($label, $this->labels);
+        return in_array($label, $this->labels, true);
     }
 
     /**
@@ -192,7 +229,7 @@ class Issue extends AbstractModel implements Noteable
     {
         $data = $this->client->issueLinks()->all($this->project->id, $this->iid);
         if (!is_array($data)) {
-            return array();
+            return [];
         }
 
         $projects = $this->client->projects();
@@ -208,13 +245,14 @@ class Issue extends AbstractModel implements Noteable
 
     /**
      * @param Issue $target
+     *
      * @return Issue[]
      */
-    public function addLink(Issue $target)
+    public function addLink(self $target)
     {
         $data = $this->client->issueLinks()->create($this->project->id, $this->iid, $target->project->id, $target->iid);
         if (!is_array($data)) {
-            return array();
+            return [];
         }
 
         return [
@@ -225,6 +263,7 @@ class Issue extends AbstractModel implements Noteable
 
     /**
      * @param int $issue_link_id
+     *
      * @return Issue[]
      */
     public function removeLink($issue_link_id)
@@ -232,7 +271,7 @@ class Issue extends AbstractModel implements Noteable
         // The two related issues have the same link ID.
         $data = $this->client->issueLinks()->remove($this->project->id, $this->iid, $issue_link_id);
         if (!is_array($data)) {
-            return array();
+            return [];
         }
 
         $targetProject = Project::fromArray(

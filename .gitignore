@@ -1,4 +1,5 @@
-vendor/
+.phpunit.result.cache
 composer.lock
-
-.idea
+phpstan.neon
+phpunit.xml
+vendor

@@ -1,4 +1,6 @@
-<?php namespace Gitlab\Tests\Api;
+<?php
+
+namespace Gitlab\Tests\Api;
 
 class DeployKeysTest extends TestCase
 {
@@ -12,7 +14,7 @@ class DeployKeysTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('deploy_keys', array('page' => 2, 'per_page' => 5))
+            ->with('deploy_keys', ['page' => 2, 'per_page' => 5])
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -21,20 +23,20 @@ class DeployKeysTest extends TestCase
 
     protected function getMultipleDeployKeysData()
     {
-        return array(
-            array(
+        return [
+            [
                 'id' => 1,
                 'title' => 'Public key',
                 'key' => 'ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAiPWx6WM4lhHNedGfBpPJNPpZ7yKu+dnn1SJejgt4596k6YjzGGphH2TUxwKzxcKDKKezwkpfnxPkSMkuEspGRt/aZZ9wa++Oi7Qkr8prgHc4soW6NUlfDzpvZK2H5E7eQaSeP3SAwGmQKUFHCddNaP0L+hM7zhFNzjFvpaMgJw0=',
-                'created_at' => '2013-10-02T10:12:29Z'
-            ),
-            array(
+                'created_at' => '2013-10-02T10:12:29Z',
+            ],
+            [
                 'id' => 3,
                 'title' => 'Another Public key',
                 'key' => 'ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIEAiPWx6WM4lhHNedGfBpPJNPpZ7yKu+dnn1SJejgt4596k6YjzGGphH2TUxwKzxcKDKKezwkpfnxPkSMkuEspGRt/aZZ9wa++Oi7Qkr8prgHc4soW6NUlfDzpvZK2H5E7eQaSeP3SAwGmQKUFHCddNaP0L+hM7zhFNzjFvpaMgJw0=',
-                'created_at' => '2013-10-02T11:12:29Z'
-            )
-        );
+                'created_at' => '2013-10-02T11:12:29Z',
+            ],
+        ];
     }
 
     protected function getApiClass()

@@ -7,44 +7,46 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class RepositoryFiles extends AbstractApi
 {
     /**
-     * @param int $project_id
-     * @param string $file_path
-     * @param string $ref
+     * @param int|string $project_id
+     * @param string     $file_path
+     * @param string     $ref
+     *
      * @return mixed
      */
     public function getFile($project_id, $file_path, $ref)
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/files/'.$this->encodePath($file_path)), array(
-            'ref' => $ref
-        ));
+        return $this->get($this->getProjectPath($project_id, 'repository/files/'.$this->encodePath($file_path)), [
+            'ref' => $ref,
+        ]);
     }
 
     /**
-     * @param int $project_id
-     * @param string $file_path
-     * @param string $ref
+     * @param int|string $project_id
+     * @param string     $file_path
+     * @param string     $ref
+     *
      * @return mixed
      */
     public function getRawFile($project_id, $file_path, $ref)
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/files/'.$this->encodePath($file_path).'/raw'), array(
+        return $this->get($this->getProjectPath($project_id, 'repository/files/'.$this->encodePath($file_path).'/raw'), [
             'ref' => $ref,
-        ));
+        ]);
     }
 
     /**
-     * @param int   $project_id
-     * @param array $parameters (
+     * @param int|string $project_id
+     * @param array      $parameters {
      *
      *     @var string $file_path      Url encoded full path to new file. Ex. lib%2Fclass%2Erb.
-     *     @var string $branch         Name of the branch.
-     *     @var string $start_branch   Name of the branch to start the new commit from.
-     *     @var string $encoding       Change encoding to 'base64'. Default is text.
-     *     @var string $author_email   Specify the commit author's email address.
-     *     @var string $author_name    Specify the commit author's name.
-     *     @var string $content        File content.
+     *     @var string $branch         name of the branch
+     *     @var string $start_branch   name of the branch to start the new commit from
+     *     @var string $encoding       change encoding to 'base64' (default is text)
+     *     @var string $author_email   specify the commit author's email address
+     *     @var string $author_name    specify the commit author's name
+     *     @var string $content        file content
      *     @var string $commit_message Commit message.
-     * )
+     * }
      *
      * @return mixed
      */
@@ -68,19 +70,19 @@ class RepositoryFiles extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
-     * @param array $parameters (
+     * @param int|string $project_id
+     * @param array      $parameters {
      *
      *     @var string $file_path      Url encoded full path to new file. Ex. lib%2Fclass%2Erb.
-     *     @var string $branch         Name of the branch.
-     *     @var string $start_branch   Name of the branch to start the new commit from.
-     *     @var string $encoding       Change encoding to 'base64'. Default is text.
-     *     @var string $author_email   Specify the commit author's email address.
-     *     @var string $author_name    Specify the commit author's name.
-     *     @var string $content        File content.
-     *     @var string $commit_message Commit message.
-     *     @var string $last_commit_id Last known file commit id.
-     * )
+     *     @var string $branch         name of the branch
+     *     @var string $start_branch   name of the branch to start the new commit from
+     *     @var string $encoding       change encoding to 'base64' (default is text)
+     *     @var string $author_email   specify the commit author's email address
+     *     @var string $author_name    specify the commit author's name
+     *     @var string $content        file content
+     *     @var string $commit_message commit message
+     *     @var string $last_commit_id last known file commit id
+     * }
      *
      * @return mixed
      */
@@ -105,16 +107,16 @@ class RepositoryFiles extends AbstractApi
     }
 
     /**
-     * @param int   $project_id
-     * @param array $parameters (
+     * @param int|string $project_id
+     * @param array      $parameters {
      *
      *     @var string $file_path      Url encoded full path to new file. Ex. lib%2Fclass%2Erb.
-     *     @var string $branch         Name of the branch.
-     *     @var string $start_branch   Name of the branch to start the new commit from.
-     *     @var string $author_email   Specify the commit author's email address.
-     *     @var string $author_name    Specify the commit author's name.
+     *     @var string $branch         name of the branch
+     *     @var string $start_branch   name of the branch to start the new commit from
+     *     @var string $author_email   specify the commit author's email address
+     *     @var string $author_name    specify the commit author's name
      *     @var string $commit_message Commit message.
-     * )
+     * }
      *
      * @return mixed
      */

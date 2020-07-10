@@ -1,115 +1,143 @@
-A PHP wrapper to be used with [Gitlab's API](https://github.com/gitlabhq/gitlabhq/tree/master/doc/api).
-==============
+# GitLab PHP API Client
 
-[![Build Status](https://travis-ci.org/m4tthumphrey/php-gitlab-api.svg?branch=master)](https://travis-ci.org/m4tthumphrey/php-gitlab-api)
-[![StyleCI](https://styleci.io/repos/6816335/shield?branch=master)](https://styleci.io/repos/6816335)
-[![Total Downloads](https://poser.pugx.org/m4tthumphrey/php-gitlab-api/downloads?format=flat-square)](https://packagist.org/packages/m4tthumphrey/php-gitlab-api)
-[![Latest Stable Version](https://poser.pugx.org/m4tthumphrey/php-gitlab-api/version?format=flat-square)](https://packagist.org/packages/m4tthumphrey/php-gitlab-api)
-[![Latest Unstable Version](https://poser.pugx.org/m4tthumphrey/php-gitlab-api/v/unstable?format=flat-square)](//packagist.org/packages/m4tthumphrey/php-gitlab-api)
+We present a modern [GitLab API v4](https://docs.gitlab.com/ce/api/) client for PHP.
 
-Based on [php-github-api](https://github.com/m4tthumphrey/php-github-api) and code from [KnpLabs](https://github.com/KnpLabs/php-github-api).
+![Banner](https://user-images.githubusercontent.com/2829600/86969006-fc2e3b00-c164-11ea-80b7-8750160a65c4.png)
 
-Installation
-------------
+<p align="center">
+<a href="https://github.com/GitLabPHP/Client/actions?query=workflow%3ATests"><img src="https://img.shields.io/github/workflow/status/GitLabPHP/Client/Tests?label=Tests&style=flat-square" alt="Build Status"></img></a>
+<a href="https://github.styleci.io/repos/6816335"><img src="https://github.styleci.io/repos/6816335/shield" alt="StyleCI Status"></img></a>
+<a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square" alt="Software License"></img></a>
+<a href="https://packagist.org/packages/m4tthumphrey/php-gitlab-api"><img src="https://img.shields.io/packagist/dt/m4tthumphrey/php-gitlab-api?style=flat-square" alt="Packagist Downloads"></img></a>
+<a href="https://github.com/GitLabPHP/Client/releases"><img src="https://img.shields.io/github/release/GitLabPHP/Client?style=flat-square" alt="Latest Version"></img></a>
+</p>
 
-Via [composer](https://getcomposer.org)
+This is strongly based on [php-github-api](https://github.com/KnpLabs/php-github-api) by [KnpLabs](https://github.com/KnpLabs). With this in mind, we now have **very similar** clients for:
 
-```bash
-composer require m4tthumphrey/php-gitlab-api php-http/guzzle6-adapter:^1.0
+* [Bitbucket](https://bitbucket.org/) - [bitbucket/client](https://packagist.org/packages/bitbucket/client) by [Graham Campbell](https://github.com/GrahamCampbell).
+* [GitHub](https://github.com/) - [knplabs/github-api](https://packagist.org/packages/knplabs/github-api) by [KnpLabs](https://github.com/KnpLabs/php-github-api).
+* [GitLab](https://gitlab.com/) - [m4tthumphrey/php-gitlab-api](https://packagist.org/packages/m4tthumphrey/php-gitlab-api) which is this package!
+
+Check out the [change log](CHANGELOG.md), [releases](https://github.com/GitLabPHP/Client/releases), [security policy](https://github.com/GitLabPHP/Client/security/policy), [license](LICENSE), [code of conduct](.github/CODE_OF_CONDUCT.md), and [contribution guidelines](.github/CONTRIBUTING.md).
+
+
+## Installation
+
+This version supports [PHP](https://php.net) 5.6-7.4. To get started, simply require the project using [Composer](https://getcomposer.org). You will also need to install any package that "provides" [`php-http/client-implementation`](https://packagist.org/providers/php-http/client-implementation).
+
+### PHP 5.6+:
+
+```
+$ composer require m4tthumphrey/php-gitlab-api:^9.18 php-http/guzzle6-adapter:^2.0.1
 ```
 
-Why `php-http/guzzle6-adapter`? We are decoupled from any HTTP messaging client with help by [HTTPlug](http://httplug.io).
+### Laravel 5.5+:
 
-You can visit [HTTPlug for library users](http://docs.php-http.org/en/latest/httplug/users.html) to get more information about installing HTTPlug related packages.
+```
+$ composer require graham-campbell/gitlab:^2.7 php-http/guzzle6-adapter:^2.0.1
+```
 
-Versioning
-----------
+### Symfony 3+:
 
-Depending on your Gitlab server version, you must choose the right version of this library.
-Please refer to the following table to pick the right one.
+```
+$ composer require zeichen32/gitlabapibundle:^2.6 php-http/guzzle6-adapter:^2.0.1
+```
 
-|Version|Gitlab API Version|Gitlab Version|
-|-------|------------------|--------------|
-|9.x    | V4               | >= 9.0       |
-|8.x    | V3               | < 9.5        |
+We are decoupled from any HTTP messaging client by using [PSR-7](https://www.php-fig.org/psr/psr-7/) and [HTTPlug](https://httplug.io/). You can visit [HTTPlug for library users](https://docs.php-http.org/en/latest/httplug/users.html) to get more information about installing HTTPlug related packages. The framework integration [graham-campbell/gitlab](https://github.com/GrahamCampbell/Laravel-GitLab) is by [Graham Campbell](https://github.com/GrahamCampbell) and [zeichen32/gitlabapibundle](https://github.com/Zeichen32/GitLabApiBundle) is by [Jens Averkamp](https://github.com/Zeichen32).
 
-General API Usage
------------------
+## General API Usage
 
 ```php
-$client = \Gitlab\Client::create('http://git.yourdomain.com')
-    ->authenticate('your_gitlab_token_here', \Gitlab\Client::AUTH_URL_TOKEN)
-;
+// Token authentication
+$client = new Gitlab\Client();
+$client->authenticate('your_http_token', Gitlab\Client::AUTH_HTTP_TOKEN);
 
-// or for OAuth2 (see https://github.com/m4tthumphrey/php-gitlab-api/blob/master/lib/Gitlab/HttpClient/Plugin/Authentication.php#L47)
-$client = \Gitlab\Client::create('http://gitlab.yourdomain.com')
-    ->authenticate('your_gitlab_token_here', \Gitlab\Client::AUTH_OAUTH_TOKEN)
-;
+// OAuth2 authentication
+$client = new Gitlab\Client();
+$client->authenticate('your_oauth_token', Gitlab\Client::AUTH_OAUTH_TOKEN);
 
-$project = $client->api('projects')->create('My Project', array(
-  'description' => 'This is a project',
-  'issues_enabled' => false
-));
-
+// An example API call
+$project = $client->projects()->create('My Project', [
+    'description' => 'This is a project',
+    'issues_enabled' => false,
+]);
 ```
 
-Example with Pager
-------------------
+## Self-Hosted GitLab
+
+```php
+$client = new Gitlab\Client();
+$client->setUrl('https://git.yourdomain.com');
+$client->authenticate('your_http_token', Gitlab\Client::AUTH_HTTP_TOKEN);
+```
+
+## Example with Pager
 
 to fetch all your closed issue with pagination ( on the gitlab api )
 
 ```php
-$client = \Gitlab\Client::create('http://git.yourdomain.com')
-    ->authenticate('your_gitlab_token_here', \Gitlab\Client::AUTH_URL_TOKEN)
-;
-$pager = new \Gitlab\ResultPager($client);
-$issues = $pager->fetchAll($client->api('issues'),'all',[null, ['state' => 'closed']]);
+$pager = new Gitlab\ResultPager($client);
+$issues = $pager->fetchAll($client->issues(), 'all', [null, ['state' => 'closed']]);
 
 ```
 
-
-
-Model Usage
------------
+## Model Usage
 
 You can also use the library in an object oriented manner:
 
 ```php
-$client = \Gitlab\Client::create('http://git.yourdomain.com')
-    ->authenticate('your_gitlab_token_here', \Gitlab\Client::AUTH_URL_TOKEN)
-;
+// Creating a new project
+$project = Gitlab\Model\Project::create($client, 'My Project', [
+    'description' => 'This is my project',
+    'issues_enabled' => false,
+]);
 
-# Creating a new project
-$project = \Gitlab\Model\Project::create($client, 'My Project', array(
-  'description' => 'This is my project',
-  'issues_enabled' => false
-));
+$project->addHook('https://mydomain.com/hook/push/1');
 
-$project->addHook('http://mydomain.com/hook/push/1');
+// Creating a new issue
+$project = new Gitlab\Model\Project(1, $client);
+$issue = $project->createIssue('This does not work.', [
+    'description' => 'This doesn\'t work properly. Please fix.',
+    'assignee_id' => 2,
+]);
 
-# Creating a new issue
-$project = new \Gitlab\Model\Project(1, $client);
-$issue = $project->createIssue('This does not work.', array(
-  'description' => 'This doesn\'t work properly. Please fix.',
-  'assignee_id' => 2
-));
-
-# Closing that issue
+// Closing that issue
 $issue->close();
 ```
 
-You get the idea! Take a look around ([API methods](https://github.com/m4tthumphrey/php-gitlab-api/tree/master/lib/Gitlab/Api),
-[models](https://github.com/m4tthumphrey/php-gitlab-api/tree/master/lib/Gitlab/Model)) and please feel free to report any bugs.
+## HTTP Client Builder
 
-Framework Integrations
-----------------------
-- **Symfony** - https://github.com/Zeichen32/GitLabApiBundle
-- **Laravel** - https://github.com/GrahamCampbell/Laravel-GitLab
+By providing a `Gitlab\HttpClient\Builder` to the `Gitlab\Client` constructor, you can customize the HTTP client. For example, to customize the user agent:
 
-If you have integrated GitLab into a popular PHP framework, let us know!
+```php
+$plugin = new Http\Client\Common\Plugin\HeaderSetPlugin([
+    'User-Agent' => 'Foobar',
+]);
 
-Contributing
-------------
+$builder = new Gitlab\HttpClient\Builder();
+$builder->addPlugin($plugin);
 
-There are many parts of Gitlab that I have not added to this as it was originally created for personal use, hence the
-lack of tests. Feel free to fork and add new functionality and tests, I'll gladly accept decent pull requests.
+$client = new Gitlab\Client($builder);
+```
+
+One can read more about HTTPlug plugins [here](https://docs.php-http.org/en/latest/plugins/introduction.html#how-it-works). Take a look around ([API methods](https://github.com/GitLabPHP/Client/tree/9.18/lib/Gitlab/Api), [models](https://github.com/GitLabPHP/Client/tree/9.18/lib/Gitlab/Model)) and please feel free to report any bugs, noting our [code of conduct](.github/CODE_OF_CONDUCT.md).
+
+
+## Contributing
+
+We will gladly receive issue reports and review and accept pull requests, in accordance with our [code of conduct](.github/CODE_OF_CONDUCT.md) and [contribution guidelines](.github/CONTRIBUTING.md)!
+
+```
+$ make install
+$ make test
+```
+
+
+## Security
+
+If you discover a security vulnerability within this package, please send an email to Graham Campbell at graham@alt-three.com or Miguel Piedrafita at github@miguelpiedrafita.com. All security vulnerabilities will be promptly addressed. You may view our full security policy [here](https://github.com/GitLabPHP/Client/security/policy).
+
+
+## License
+
+GitLab PHP API Client is licensed under [The MIT License (MIT)](LICENSE).
