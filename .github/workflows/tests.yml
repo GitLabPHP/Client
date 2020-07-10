@@ -29,10 +29,16 @@ jobs:
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
       - name: Install Dependencies
-        run: composer update --prefer-dist --no-interaction --no-progress
+        uses: nick-invision/retry@v1
+        timeout_minutes: 5
+        max_attempts: 5
+        command: composer update --prefer-dist --no-interaction --no-progress
 
       - name: Install PHPUnit
-        run: composer bin phpunit update --no-interaction --no-progress
+        uses: nick-invision/retry@v1
+        timeout_minutes: 5
+        max_attempts: 5
+        command: composer bin phpunit update --no-interaction --no-progress
 
       - name: Execute PHPUnit
         run: vendor/bin/phpunit
