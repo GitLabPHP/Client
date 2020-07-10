@@ -170,6 +170,8 @@ class Repositories extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/ee/api/commits.html#list-repository-commits
+     *
      * @param int|string $project_id
      * @param array      $parameters {
      *
@@ -186,6 +188,9 @@ class Repositories extends AbstractApi
         $datetimeNormalizer = function (Options $options, \DateTimeInterface $value) {
             return $value->format('c');
         };
+        $booleanNormalizer = function (Options $resolver, $value) {
+            return $value ? 'true' : 'false';
+        };
 
         $resolver->setDefined('path');
         $resolver->setDefined('ref_name');
@@ -197,8 +202,21 @@ class Repositories extends AbstractApi
             ->setAllowedTypes('until', \DateTimeInterface::class)
             ->setNormalizer('until', $datetimeNormalizer)
         ;
-        $resolver->setDefined('all');
-        $resolver->setDefined('with_stats');
+        $resolver->setDefined('all')
+            ->setAllowedTypes('all', 'bool')
+            ->setNormalizer('all', $booleanNormalizer)
+        ;
+        $resolver->setDefined('with_stats')
+            ->setAllowedTypes('with_stats', 'bool')
+            ->setNormalizer('with_stats', $booleanNormalizer)
+        ;
+        $resolver->setDefined('first_parent')
+            ->setAllowedTypes('first_parent', 'bool')
+            ->setNormalizer('first_parent', $booleanNormalizer)
+        ;
+        $resolver->setDefined('order')
+            ->setAllowedTypes('order', ['default', 'topo'])
+        ;
 
         return $this->get($this->getProjectPath($project_id, 'repository/commits'), $resolver->resolve($parameters));
     }

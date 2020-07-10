@@ -534,6 +534,26 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetIssueRelatedMergeRequests()
+    {
+        $expectedArray = [
+            ['id' => 1, 'iid' => '1111', 'title' => 'Just saving the world'],
+            ['id' => 2, 'iid' => '1112', 'title' => 'Adding new feature to get merge requests that close an issue'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/issues/2/related_merge_requests')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->relatedMergeRequests(1, 2));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetProjectIssuesByAssignee()
     {
         $expectedArray = [
