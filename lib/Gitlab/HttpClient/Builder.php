@@ -11,8 +11,10 @@ use Http\Client\HttpClient;
 use Http\Discovery\HttpClientDiscovery;
 use Http\Discovery\MessageFactoryDiscovery;
 use Http\Discovery\StreamFactoryDiscovery;
+use Http\Discovery\UriFactoryDiscovery;
 use Http\Message\RequestFactory;
 use Http\Message\StreamFactory;
+use Http\Message\UriFactory;
 use Psr\Cache\CacheItemPoolInterface;
 
 /**
@@ -47,6 +49,13 @@ class Builder
     private $streamFactory;
 
     /**
+     * The URI factory.
+     *
+     * @var UriFactory
+     */
+    private $uriFactory;
+
+    /**
      * The currently registered plugins.
      *
      * @var Plugin[]
@@ -75,17 +84,20 @@ class Builder
      * @param HttpClient|null     $httpClient
      * @param RequestFactory|null $requestFactory
      * @param StreamFactory|null  $streamFactory
+     * @param UriFactory|null     $uriFactory
      *
      * @return void
      */
     public function __construct(
         HttpClient $httpClient = null,
         RequestFactory $requestFactory = null,
-        StreamFactory $streamFactory = null
+        StreamFactory $streamFactory = null,
+        UriFactory $uriFactory = null
     ) {
         $this->httpClient = null === $httpClient ? HttpClientDiscovery::find() : $httpClient;
         $this->requestFactory = null === $requestFactory ? MessageFactoryDiscovery::find() : $requestFactory;
         $this->streamFactory = null === $streamFactory ? StreamFactoryDiscovery::find() : $streamFactory;
+        $this->uriFactory = null === $uriFactory ? UriFactoryDiscovery::find() : $uriFactory;
     }
 
     /**
@@ -106,6 +118,36 @@ class Builder
         }
 
         return $this->pluginClient;
+    }
+
+    /**
+     * Get the request factory.
+     *
+     * @return RequestFactory
+     */
+    public function getRequestFactory()
+    {
+        return $this->requestFactory;
+    }
+
+    /**
+     * Get the stream factory.
+     *
+     * @return StreamFactory
+     */
+    public function getStreamFactory()
+    {
+        return $this->streamFactory;
+    }
+
+    /**
+     * Get the URI factory.
+     *
+     * @return UriFactory
+     */
+    public function getUriFactory()
+    {
+        return $this->uriFactory;
     }
 
     /**
