@@ -522,6 +522,25 @@ class Projects extends AbstractApi
     }
 
     /**
+     * Gets a list of all discussion items for a single commit.
+     *
+     * Example:
+     * - https://gitlab.com/gitlab-org/gitlab/-/commit/695c29abcf7dc2eabde8d59869abcea0923ce8fa#note_334686748
+     * - https://gitlab.com/api/v4/projects/gitlab-org%2Fgitlab/repository/commits/695c29abcf7dc2eabde8d59869abcea0923ce8fa/discussions
+     *
+     * @see https://docs.gitlab.com/ee/api/discussions.html#list-project-commit-discussion-items
+     *
+     * @param int|string $project_id
+     * @param string     $commit_id
+     *
+     * @return mixed
+     */
+    public function getRepositoryCommitDiscussions($project_id, $commit_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'repository/commits/' . $this->encodePath($commit_id)) . '/discussions');
+    }
+
+    /**
      * @param int|string $project_id
      * @param string     $url
      * @param array      $parameters
