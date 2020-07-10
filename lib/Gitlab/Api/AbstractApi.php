@@ -11,7 +11,6 @@ use Gitlab\HttpClient\Util\JsonArray;
 use Gitlab\HttpClient\Util\QueryStringBuilder;
 use Http\Client\Common\HttpMethodsClientInterface;
 use Http\Message\MultipartStream\MultipartStreamBuilder;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\StreamInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -288,7 +287,7 @@ abstract class AbstractApi implements ApiInterface
     /**
      * Prepare the request JSON body.
      *
-     * @param array<string,mixed>  $params
+     * @param array<string,mixed> $params
      *
      * @return string|null
      */

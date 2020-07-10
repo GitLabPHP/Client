@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Gitlab\Tests\HttpClient\Message;
 
-use Gitlab\HttpClient\Message\ResponseMediator;
 use Gitlab\Exception\RuntimeException;
+use Gitlab\HttpClient\Message\ResponseMediator;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
