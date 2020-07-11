@@ -226,13 +226,13 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string|null $username_query
+     * @param string|null $query
      *
      * @return User[]
      */
-    public function members($username_query = null)
+    public function members($query = null)
     {
-        $data = $this->client->projects()->members($this->id, ['query' => $username_query]);
+        $data = $this->client->projects()->members($this->id, $query === null ? [] : ['query' => $query]);
 
         $members = [];
         foreach ($data as $member) {
@@ -821,25 +821,43 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param string      $source
-     * @param string      $target
-     * @param string      $title
-     * @param int|null    $assignee
-     * @param string|null $description
+     * @param string         $source
+     * @param string         $target
+     * @param string         $title
+     * @param int|array|null $parameters
+     * @param string|null    $description @deprecated since version 9.18 and will be removed in 10.0. Use $parameters['description'] instead.
      *
      * @return MergeRequest
      */
-    public function createMergeRequest($source, $target, $title, $assignee = null, $description = null)
+    public function createMergeRequest($source, $target, $title, $parameters = null, $description = null)
     {
-        $data = $this->client->mergeRequests()->create(
-            $this->id,
-            $source,
-            $target,
-            $title,
-            $assignee,
-            $this->id,
-            $description
-        );
+        if (is_array($parameters)) {
+            $parameters['target_project_id'] = $this->id;
+
+            $data = $this->client->mergeRequests()->create(
+                $this->id,
+                $source,
+                $target,
+                $title,
+                $parameters
+            );
+        } else {
+            if (null !== $parameters) {
+                @trigger_error(sprintf('Passing the assignee to the %s() method\'s $parameters parameter is deprecated since version 9.18 and will be banned in 10.0. Use $parameters[\'assignee_id\'] instead.', __METHOD__), E_USER_DEPRECATED);
+            }
+
+            if (null !== $description) {
+                @trigger_error(sprintf('The %s() method\'s $description parameter is deprecated since version 9.18 and will be removed in 10.0. Use $parameters[\'description\'] instead.', __METHOD__), E_USER_DEPRECATED);
+            }
+
+            $data = $this->client->mergeRequests()->create(
+                $this->id,
+                $source,
+                $target,
+                $title,
+                ['target_project_id' => $this->id, 'assignee_id' => $parameters, 'description' => $description]
+            );
+        }
 
         return MergeRequest::fromArray($this->getClient(), $this, $data);
     }
