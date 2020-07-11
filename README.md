@@ -44,7 +44,7 @@ $ composer require graham-campbell/gitlab:^2.8 php-http/guzzle6-adapter:^2.0.1
 #### Laravel 6+:
 
 ```
-$ composer require graham-campbell/gitlab:^3.2 php-http/guzzle6-adapter:^2.0.1
+$ composer require graham-campbell/gitlab:^3.3 php-http/guzzle6-adapter:^2.0.1
 ```
 
 #### Symfony 2.6+:
