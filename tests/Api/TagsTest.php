@@ -36,7 +36,7 @@ class TagsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/repository/tags/v1%2E0%2E0')
+            ->with('projects/1/repository/tags/v1.0.0')
             ->will($this->returnValue($expectedArray));
         $this->assertEquals($expectedArray, $api->show(1, 'v1.0.0'));
     }
@@ -77,7 +77,7 @@ class TagsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('delete')
-            ->with('projects/1/repository/tags/v1%2E1%2E0')
+            ->with('projects/1/repository/tags/v1.1.0')
             ->will($this->returnValue($expectedArray));
         $this->assertEquals($expectedArray, $api->remove(1, 'v1.1.0'));
     }
@@ -99,7 +99,7 @@ class TagsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/repository/tags/'.str_replace(['/', '.'], ['%2F', '%2E'], $releaseName).'/release', $params)
+            ->with('projects/1/repository/tags/'.str_replace(['/', '.'], ['%2F', '.'], $releaseName).'/release', $params)
             ->will($this->returnValue($expectedResult));
 
         $this->assertEquals($expectedResult, $api->createRelease(1, $releaseName, $params));
@@ -122,7 +122,7 @@ class TagsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/repository/tags/'.str_replace(['/', '.'], ['%2F', '%2E'], $releaseName).'/release', $params)
+            ->with('projects/1/repository/tags/'.str_replace(['/', '.'], ['%2F', '.'], $releaseName).'/release', $params)
             ->will($this->returnValue($expectedResult));
 
         $this->assertEquals($expectedResult, $api->updateRelease(1, $releaseName, $params));

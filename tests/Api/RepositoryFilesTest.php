@@ -18,7 +18,7 @@ class RepositoryFilesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt/raw', ['ref' => 'abcd1234'])
+            ->with('projects/1/repository/files/dir%2Ffile1.txt/raw', ['ref' => 'abcd1234'])
             ->will($this->returnValue($expectedString))
         ;
 
@@ -35,7 +35,7 @@ class RepositoryFilesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt', ['ref' => 'abcd1234'])
+            ->with('projects/1/repository/files/dir%2Ffile1.txt', ['ref' => 'abcd1234'])
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -52,7 +52,7 @@ class RepositoryFilesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt', [
+            ->with('projects/1/repository/files/dir%2Ffile1.txt', [
                 'file_path' => 'dir/file1.txt',
                 'branch' => 'master',
                 'content' => 'some contents',
@@ -79,7 +79,7 @@ class RepositoryFilesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt', [
+            ->with('projects/1/repository/files/dir%2Ffile1.txt', [
                 'file_path' => 'dir/file1.txt',
                 'branch' => 'master',
                 'encoding' => 'text',
@@ -108,7 +108,7 @@ class RepositoryFilesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt', [
+            ->with('projects/1/repository/files/dir%2Ffile1.txt', [
                 'file_path' => 'dir/file1.txt',
                 'branch' => 'master',
                 'content' => 'some contents',
@@ -139,7 +139,7 @@ class RepositoryFilesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt', [
+            ->with('projects/1/repository/files/dir%2Ffile1.txt', [
                 'file_path' => 'dir/file1.txt',
                 'branch' => 'master',
                 'content' => 'some new contents',
@@ -166,7 +166,7 @@ class RepositoryFilesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt', [
+            ->with('projects/1/repository/files/dir%2Ffile1.txt', [
                 'file_path' => 'dir/file1.txt',
                 'branch' => 'master',
                 'encoding' => 'base64',
@@ -195,7 +195,7 @@ class RepositoryFilesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt', [
+            ->with('projects/1/repository/files/dir%2Ffile1.txt', [
                 'file_path' => 'dir/file1.txt',
                 'branch' => 'master',
                 'content' => 'some new contents',
@@ -226,7 +226,7 @@ class RepositoryFilesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('delete')
-            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt', [
+            ->with('projects/1/repository/files/dir%2Ffile1.txt', [
                 'file_path' => 'dir/file1.txt',
                 'branch' => 'master',
                 'commit_message' => 'Deleted file',
@@ -251,7 +251,7 @@ class RepositoryFilesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('delete')
-            ->with('projects/1/repository/files/dir%2Ffile1%2Etxt', [
+            ->with('projects/1/repository/files/dir%2Ffile1.txt', [
                 'file_path' => 'dir/file1.txt',
                 'branch' => 'master',
                 'commit_message' => 'Deleted file',
