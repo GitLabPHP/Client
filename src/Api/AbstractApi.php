@@ -224,6 +224,10 @@ abstract class AbstractApi implements ApiInterface
      */
     private static function prepareUri(string $uri, array $query = [])
     {
+        $query = array_filter($query, function ($value): bool {
+            return null !== $value;
+        });
+
         return sprintf('%s%s%s', self::URI_PREFIX, $uri, QueryStringBuilder::build($query));
     }
 
