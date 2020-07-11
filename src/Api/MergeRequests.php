@@ -161,19 +161,19 @@ class MergeRequests extends AbstractApi
     /**
      * @param int|string $project_id
      * @param int        $mr_iid
-     * @param array      $params
+     * @param array      $parameters
      *
      * @return mixed
      */
-    public function update($project_id, $mr_iid, array $params)
+    public function update($project_id, $mr_iid, array $parameters)
     {
-        return $this->put($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid)), $params);
+        return $this->put($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid)), $parameters);
     }
 
     /**
-     * @param int|string        $project_id
-     * @param int               $mr_iid
-     * @param array             $parameters
+     * @param int|string $project_id
+     * @param int        $mr_iid
+     * @param array      $parameters
      *
      * @return mixed
      */
