@@ -45,9 +45,6 @@ class QueryStringBuilderTest extends TestCase
                 'source_branch' => 'test_source',
                 'target_branch' => 'test_master',
                 'title' => 'test',
-                'assignee_id' => null,
-                'target_project_id' => null,
-                'description' => null,
             ],
             'source_branch=test_source&target_branch=test_master&title=test',
         ];

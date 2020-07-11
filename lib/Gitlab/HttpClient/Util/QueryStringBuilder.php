@@ -22,9 +22,6 @@ final class QueryStringBuilder
         if (!is_array($query)) {
             return self::rawurlencode($query);
         }
-        $query = array_filter($query, function ($value) {
-            return null !== $value;
-        });
 
         return implode('&', array_map(function ($value, $key) {
             return self::encode($value, $key);

@@ -256,10 +256,13 @@ abstract class AbstractApi implements ApiInterface
      */
     private function prepareBody(array $parameters = [])
     {
-        $raw = QueryStringBuilder::build($parameters);
-        $stream = $this->streamFactory->createStream($raw);
+        $parameters = array_filter($parameters, function ($value) {
+            return null !== $value;
+        });
 
-        return $stream;
+        $raw = QueryStringBuilder::build($parameters);
+
+        return $this->streamFactory->createStream($raw);
     }
 
     /**
@@ -270,6 +273,10 @@ abstract class AbstractApi implements ApiInterface
      */
     private function preparePath($path, array $parameters = [])
     {
+        $parameters = array_filter($parameters, function ($value) {
+            return null !== $value;
+        });
+
         if (count($parameters) > 0) {
             $path .= '?'.QueryStringBuilder::build($parameters);
         }

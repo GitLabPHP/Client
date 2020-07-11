@@ -23,6 +23,12 @@ final class QueryStringBuilder
     {
         @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0.', __METHOD__), E_USER_DEPRECATED);
 
+        if (is_array($query)) {
+            $query = array_filter($query, function ($value) {
+                return null !== $value;
+            });
+        }
+
         return UtilQueryStringBuilder::build($query);
     }
 
