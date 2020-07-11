@@ -129,26 +129,28 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int|string          $project_id
-     * @param string              $source
-     * @param string              $target
-     * @param string              $title
-     * @param int                 $assignee          @deprecated since version 9.18 and will be removed in 10.0. Use $parameters['assignee_id'] instead.
-     * @param int|string          $target_project_id @deprecated since version 9.18 and will be removed in 10.0. Use $parameters['target_project_id'] instead.
-     * @param string              $description       @deprecated since version 9.18 and will be removed in 10.0. Use $parameters['description'] instead
-     * @param array<string,mixed> $parameters        {
-     *
-     *     @var int        $assignee_id the assignee id
-     *     @var int|string $target_project_id the target project id
-     *     @var string     $description the description
-     * }
+     * @param int|string               $project_id
+     * @param string                   $source
+     * @param string                   $target
+     * @param string                   $title
+     * @param int|array<string,mixed>  $parameters
+     * @param int|string               $target_project_id @deprecated since version 9.18 and will be removed in 10.0. Use $parameters['target_project_id'] instead.
+     * @param string                   $description       @deprecated since version 9.18 and will be removed in 10.0. Use $parameters['description'] instead
+     * @param array<string,mixed>|null $legacyParams      @deprecated since version 9.18 and will be removed in 10.0. Use $parameters instead
      *
      * @return mixed
      */
-    public function create($project_id, $source, $target, $title, $assignee = null, $target_project_id = null, $description = null, array $parameters = [])
+    public function create($project_id, $source, $target, $title, $parameters = null, $target_project_id = null, $description = null, array $legacyParams = null)
     {
-        if (null !== $assignee) {
-            @trigger_error(sprintf('The %s() method\'s $assignee parameter is deprecated since version 9.18 and will be removed in 10.0. Use $parameters[\'assignee_id\'] instead.', __METHOD__), E_USER_DEPRECATED);
+        if (is_array($parameters)) {
+            return $this->post(
+                $this->getProjectPath($project_id, 'merge_requests'),
+                $parameters
+            );
+        }
+
+        if (null !== $parameters) {
+            @trigger_error(sprintf('Passing the assignee to the %s() method\'s $parameters parameter is deprecated since version 9.18 and will be banned in 10.0. Use $parameters[\'assignee_id\'] instead.', __METHOD__), E_USER_DEPRECATED);
         }
 
         if (null !== $target_project_id) {
@@ -159,18 +161,22 @@ class MergeRequests extends AbstractApi
             @trigger_error(sprintf('The %s() method\'s $description parameter is deprecated since version 9.18 and will be removed in 10.0. Use $parameters[\'description\'] instead.', __METHOD__), E_USER_DEPRECATED);
         }
 
+        if (null !== $legacyParams) {
+            @trigger_error(sprintf('The %s() method\'s $legacyParams parameter is deprecated since version 9.18 and will be removed in 10.0. Use $parameters instead.', __METHOD__), E_USER_DEPRECATED);
+        }
+
         $baseParams = [
             'source_branch' => $source,
             'target_branch' => $target,
             'title' => $title,
-            'assignee_id' => $assignee,
+            'assignee_id' => $parameters,
             'description' => $description,
             'target_project_id' => $target_project_id,
         ];
 
         return $this->post(
             $this->getProjectPath($project_id, 'merge_requests'),
-            array_merge($baseParams, $parameters)
+            array_merge($baseParams, null === $legacyParams ? [] : $legacyParams)
         );
     }
 
@@ -196,6 +202,7 @@ class MergeRequests extends AbstractApi
     public function merge($project_id, $mr_iid, $message = null)
     {
         if (is_array($message)) {
+            @trigger_error(sprintf('Passing an array to the $message parameter of %s() is deprecated since 9.18 and will be banned in 10.0.', __METHOD__), E_USER_DEPRECATED);
             $params = $message;
         } else {
             $params = ['merge_commit_message' => $message];
@@ -372,6 +379,7 @@ class MergeRequests extends AbstractApi
     {
         // backwards compatibility
         if (is_array($body)) {
+            @trigger_error(sprintf('Passing an array to the $message parameter of %s() is deprecated since 9.18 and will be banned in 10.0.', __METHOD__), E_USER_DEPRECATED);
             $params = $body;
         } else {
             $params = ['body' => $body];

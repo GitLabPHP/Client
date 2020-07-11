@@ -289,6 +289,7 @@ class Issues extends AbstractApi
     {
         // backwards compatibility
         if (is_array($body)) {
+            @trigger_error(sprintf('Passing an array to the $body parameter of %s() is deprecated since 9.18 and will be banned in 10.0.', __METHOD__), E_USER_DEPRECATED);
             $params = $body;
         } else {
             $params = ['body' => $body];
@@ -309,6 +310,7 @@ class Issues extends AbstractApi
     {
         // backwards compatibility
         if (is_array($body)) {
+            @trigger_error(sprintf('Passing an array to the $body parameter of %s() is deprecated since 9.18 and will be banned in 10.0.', __METHOD__), E_USER_DEPRECATED);
             $params = $body;
         } else {
             $params = ['body' => $body];
