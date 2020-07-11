@@ -33,7 +33,7 @@ This version supports [PHP](https://php.net) 5.6-7.4. To get started, simply req
 $ composer require m4tthumphrey/php-gitlab-api:^9.18 php-http/guzzle6-adapter:^2.0.1
 ```
 
-### Framwork Integrations
+### Framework Integrations
 
 #### Laravel 5.5+:
 
