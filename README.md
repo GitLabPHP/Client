@@ -33,7 +33,7 @@ This version supports [PHP](https://php.net) 5.6-7.4. To get started, simply req
 $ composer require m4tthumphrey/php-gitlab-api:^9.18 php-http/guzzle6-adapter:^2.0.1
 ```
 
-### Framework Integrations
+### Framework Integration
 
 #### Laravel 5.5+:
 
@@ -79,7 +79,7 @@ $project = $client->projects()->create('My Project', [
 ]);
 ```
 
-## Self-Hosted GitLab
+### Self-Hosted GitLab
 
 ```php
 $client = new Gitlab\Client();
@@ -87,7 +87,7 @@ $client->setUrl('https://git.yourdomain.com');
 $client->authenticate('your_http_token', Gitlab\Client::AUTH_HTTP_TOKEN);
 ```
 
-## Example with Pager
+### Example with Pager
 
 to fetch all your closed issue with pagination ( on the gitlab api )
 
@@ -97,7 +97,7 @@ $issues = $pager->fetchAll($client->issues(), 'all', [null, ['state' => 'closed'
 
 ```
 
-## Model Usage
+### Model Usage
 
 You can also use the library in an object oriented manner:
 
@@ -121,7 +121,7 @@ $issue = $project->createIssue('This does not work.', [
 $issue->close();
 ```
 
-## HTTP Client Builder
+### HTTP Client Builder
 
 By providing a `Gitlab\HttpClient\Builder` to the `Gitlab\Client` constructor, you can customize the HTTP client. For example, to customize the user agent:
 
