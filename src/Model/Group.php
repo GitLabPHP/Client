@@ -124,11 +124,13 @@ final class Group extends AbstractModel
     }
 
     /**
+     * @param string|null $query
+     *
      * @return User[]
      */
-    public function members()
+    public function members($query = null)
     {
-        $data = $this->client->groups()->members($this->id);
+        $data = $this->client->groups()->members($this->id, null === $query ? [] : ['query' => $query]);
 
         $members = [];
         foreach ($data as $member) {

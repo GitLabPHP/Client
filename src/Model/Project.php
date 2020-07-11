@@ -226,13 +226,13 @@ final class Project extends AbstractModel
     }
 
     /**
-     * @param string|null $username_query
+     * @param string|null $query
      *
      * @return User[]
      */
-    public function members($username_query = null)
+    public function members($query = null)
     {
-        $data = $this->client->projects()->members($this->id, ['query' => $username_query]);
+        $data = $this->client->projects()->members($this->id, null === $query ? [] : ['query' => $query]);
 
         $members = [];
         foreach ($data as $member) {

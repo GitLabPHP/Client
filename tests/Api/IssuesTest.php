@@ -327,13 +327,12 @@ class IssuesTest extends TestCase
         $expectedArray = ['id' => 'abc', 'body' => 'A new discussion'];
 
         $api = $this->getApiMock();
-        $api->expects($this->exactly(2))
+        $api->expects($this->once())
             ->method('post')
             ->with('projects/1/issues/2/discussions', ['body' => 'A new discussion'])
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->addDiscussion(1, 2, ['body' => 'A new discussion']));
         $this->assertEquals($expectedArray, $api->addDiscussion(1, 2, 'A new discussion'));
     }
 
@@ -345,13 +344,12 @@ class IssuesTest extends TestCase
         $expectedArray = ['id' => 3, 'body' => 'A new discussion note'];
 
         $api = $this->getApiMock();
-        $api->expects($this->exactly(2))
+        $api->expects($this->once())
             ->method('post')
             ->with('projects/1/issues/2/discussions/abc/notes', ['body' => 'A new discussion note'])
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->addDiscussionNote(1, 2, 'abc', ['body' => 'A new discussion note']));
         $this->assertEquals($expectedArray, $api->addDiscussionNote(1, 2, 'abc', 'A new discussion note'));
     }
 

@@ -173,19 +173,13 @@ class MergeRequests extends AbstractApi
     /**
      * @param int|string        $project_id
      * @param int               $mr_iid
-     * @param string|array|null $message
+     * @param array             $parameters
      *
      * @return mixed
      */
-    public function merge($project_id, $mr_iid, $message = null)
+    public function merge($project_id, $mr_iid, array $parameters = [])
     {
-        if (is_array($message)) {
-            $params = $message;
-        } else {
-            $params = ['merge_commit_message' => $message];
-        }
-
-        return $this->put($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/merge'), $params);
+        return $this->put($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/merge'), $parameters);
     }
 
     /**
@@ -303,23 +297,16 @@ class MergeRequests extends AbstractApi
     }
 
     /**
-     * @param int|string   $project_id
-     * @param int          $mr_iid
-     * @param string       $discussion_id
-     * @param string|array $body
+     * @param int|string $project_id
+     * @param int        $mr_iid
+     * @param string     $discussion_id
+     * @param string     $body
      *
      * @return mixed
      */
     public function addDiscussionNote($project_id, $mr_iid, $discussion_id, $body)
     {
-        // backwards compatibility
-        if (is_array($body)) {
-            $params = $body;
-        } else {
-            $params = ['body' => $body];
-        }
-
-        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/discussions/'.self::encodePath($discussion_id).'/notes'), $params);
+        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/discussions/'.self::encodePath($discussion_id).'/notes'), ['body' => $body]);
     }
 
     /**
