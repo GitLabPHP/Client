@@ -183,29 +183,29 @@ class MergeRequests extends AbstractApi
     /**
      * @param int|string $project_id
      * @param int        $mr_iid
-     * @param array      $params
+     * @param array      $parameters
      *
      * @return mixed
      */
-    public function update($project_id, $mr_iid, array $params)
+    public function update($project_id, $mr_iid, array $parameters)
     {
-        return $this->put($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid)), $params);
+        return $this->put($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid)), $parameters);
     }
 
     /**
      * @param int|string        $project_id
      * @param int               $mr_iid
-     * @param string|array|null $message
+     * @param string|array|null $parameters
      *
      * @return mixed
      */
-    public function merge($project_id, $mr_iid, $message = null)
+    public function merge($project_id, $mr_iid, $parameters = null)
     {
-        if (is_array($message)) {
-            @trigger_error(sprintf('Passing an array to the $message parameter of %s() is deprecated since 9.18 and will be banned in 10.0.', __METHOD__), E_USER_DEPRECATED);
-            $params = $message;
+        if (is_array($parameters)) {
+            $params = $parameters;
         } else {
-            $params = ['merge_commit_message' => $message];
+            @trigger_error(sprintf('Passing a string to the $parameters parameter of %s() is deprecated since 9.18 and will be banned in 10.0.', __METHOD__), E_USER_DEPRECATED);
+            $params = ['merge_commit_message' => $parameters];
         }
 
         return $this->put($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/merge'), $params);
