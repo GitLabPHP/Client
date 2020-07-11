@@ -130,7 +130,7 @@ class Group extends AbstractModel
      */
     public function members($query = null)
     {
-        $data = $this->client->groups()->members($this->id, $query === null ? [] : ['query' => $query]);
+        $data = $this->client->groups()->members($this->id, null === $query ? [] : ['query' => $query]);
 
         $members = [];
         foreach ($data as $member) {

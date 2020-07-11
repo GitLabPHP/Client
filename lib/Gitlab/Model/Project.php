@@ -232,7 +232,7 @@ class Project extends AbstractModel
      */
     public function members($query = null)
     {
-        $data = $this->client->projects()->members($this->id, $query === null ? [] : ['query' => $query]);
+        $data = $this->client->projects()->members($this->id, null === $query ? [] : ['query' => $query]);
 
         $members = [];
         foreach ($data as $member) {

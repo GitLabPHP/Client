@@ -134,9 +134,9 @@ class MergeRequests extends AbstractApi
      * @param string                   $target
      * @param string                   $title
      * @param int|array<string,mixed>  $parameters
-     * @param int|string               $target_project_id  @deprecated since version 9.18 and will be removed in 10.0. Use $parameters['target_project_id'] instead.
-     * @param string                   $description        @deprecated since version 9.18 and will be removed in 10.0. Use $parameters['description'] instead
-     * @param array<string,mixed>|null $legacyParams       @deprecated since version 9.18 and will be removed in 10.0. Use $parameters instead
+     * @param int|string               $target_project_id @deprecated since version 9.18 and will be removed in 10.0. Use $parameters['target_project_id'] instead.
+     * @param string                   $description       @deprecated since version 9.18 and will be removed in 10.0. Use $parameters['description'] instead
+     * @param array<string,mixed>|null $legacyParams      @deprecated since version 9.18 and will be removed in 10.0. Use $parameters instead
      *
      * @return mixed
      */
@@ -176,7 +176,7 @@ class MergeRequests extends AbstractApi
 
         return $this->post(
             $this->getProjectPath($project_id, 'merge_requests'),
-            array_merge($baseParams, $legacyParams === null ? [] : $legacyParams)
+            array_merge($baseParams, null === $legacyParams ? [] : $legacyParams)
         );
     }
 
