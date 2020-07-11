@@ -2,7 +2,7 @@ CHANGE LOG
 ==========
 
 
-## 9.18.0 (Upcoming)
+## 9.18.0 (11/07/2020)
 
 * Deprecated all APIs that are deprecated or removed as of GitLab 13.1
 * Deprecated old authentication methods and deprecated not specifying an authentication mode
