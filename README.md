@@ -25,31 +25,35 @@ Check out the [change log](CHANGELOG.md), [releases](https://github.com/GitLabPH
 
 This version supports [PHP](https://php.net) 7.1-7.4. To get started, simply require the project using [Composer](https://getcomposer.org). You will also need to install packages that "provide" [`psr/http-client-implementation`](https://packagist.org/providers/psr/http-client-implementation) and [`psr/http-factory-implementation`](https://packagist.org/providers/psr/http-factory-implementation).
 
-### PHP 7.1+:
+### Standard Installation
+
+#### PHP 7.1+:
 
 ```
 $ composer require m4tthumphrey/php-gitlab-api:^10.0 php-http/guzzle6-adapter:^2.0.1 http-interop/http-factory-guzzle:^1.0
 ```
 
-### PHP 7.2+:
+#### PHP 7.2+:
 
 ```
 $ composer require m4tthumphrey/php-gitlab-api:^10.0 guzzlehttp/guzzle:^7.0.1 http-interop/http-factory-guzzle:^1.0
 ```
 
-### Laravel 6+:
+### Framework Integration
+
+#### Laravel 6+:
 
 ```
 $ composer require graham-campbell/gitlab:^4.0 guzzlehttp/guzzle:^7.0.1 http-interop/http-factory-guzzle:^1.0
 ```
 
-### Symfony 4:
+#### Symfony 4:
 
 ```
 $ composer require zeichen32/gitlabapibundle:^5.0 symfony/http-client:^4.4 nyholm/psr7:^1.3
 ```
 
-### Symfony 5:
+#### Symfony 5:
 
 ```
 $ composer require zeichen32/gitlabapibundle:^5.0 symfony/http-client:^5.0 nyholm/psr7:^1.3
@@ -75,7 +79,7 @@ $project = $client->projects()->create('My Project', [
 ]);
 ```
 
-## Self-Hosted GitLab
+### Self-Hosted GitLab
 
 ```php
 $client = new Gitlab\Client();
@@ -83,17 +87,14 @@ $client->setUrl('https://git.yourdomain.com');
 $client->authenticate('your_http_token', Gitlab\Client::AUTH_HTTP_TOKEN);
 ```
 
-## Example with Pager
-
-to fetch all your closed issue with pagination ( on the gitlab api )
+### Example with Pager
 
 ```php
 $pager = new Gitlab\ResultPager($client);
 $issues = $pager->fetchAll($client->issues(), 'all', [null, ['state' => 'closed']]);
-
 ```
 
-## Model Usage
+### Model Usage
 
 You can also use the library in an object oriented manner:
 
@@ -117,7 +118,7 @@ $issue = $project->createIssue('This does not work.', [
 $issue->close();
 ```
 
-## HTTP Client Builder
+### HTTP Client Builder
 
 By providing a `Gitlab\HttpClient\Builder` to the `Gitlab\Client` constructor, you can customize the HTTP client. For example, to customize the user agent:
 
