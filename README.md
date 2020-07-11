@@ -92,7 +92,6 @@ $client->authenticate('your_http_token', Gitlab\Client::AUTH_HTTP_TOKEN);
 ```php
 $pager = new Gitlab\ResultPager($client);
 $issues = $pager->fetchAll($client->issues(), 'all', [null, ['state' => 'closed']]);
-
 ```
 
 ### Model Usage
