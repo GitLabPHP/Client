@@ -89,8 +89,6 @@ $client->authenticate('your_http_token', Gitlab\Client::AUTH_HTTP_TOKEN);
 
 ### Example with Pager
 
-to fetch all your closed issue with pagination ( on the gitlab api )
-
 ```php
 $pager = new Gitlab\ResultPager($client);
 $issues = $pager->fetchAll($client->issues(), 'all', [null, ['state' => 'closed']]);
