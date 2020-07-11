@@ -25,22 +25,38 @@ Check out the [change log](CHANGELOG.md), [releases](https://github.com/GitLabPH
 
 This version supports [PHP](https://php.net) 5.6-7.4. To get started, simply require the project using [Composer](https://getcomposer.org). You will also need to install any package that "provides" [`php-http/client-implementation`](https://packagist.org/providers/php-http/client-implementation).
 
-### PHP 5.6+:
+### Standard Installation
+
+#### PHP 5.6+:
 
 ```
 $ composer require m4tthumphrey/php-gitlab-api:^9.18 php-http/guzzle6-adapter:^2.0.1
 ```
 
-### Laravel 5.5+:
+### Framwork Integrations
+
+#### Laravel 5.5+:
 
 ```
 $ composer require graham-campbell/gitlab:^2.7 php-http/guzzle6-adapter:^2.0.1
 ```
 
-### Symfony 3+:
+#### Laravel 6+:
 
 ```
-$ composer require zeichen32/gitlabapibundle:^2.6 php-http/guzzle6-adapter:^2.0.1
+$ composer require graham-campbell/gitlab:^3.2 php-http/guzzle6-adapter:^2.0.1
+```
+
+#### Symfony 2.6+:
+
+```
+$ composer require zeichen32/gitlabapibundle:^3.1 php-http/guzzle6-adapter:^2.0.1
+```
+
+#### Symfony 5+:
+
+```
+$ composer require zeichen32/gitlabapibundle:^4.0 php-http/guzzle6-adapter:^2.0.1
 ```
 
 We are decoupled from any HTTP messaging client by using [PSR-7](https://www.php-fig.org/psr/psr-7/) and [HTTPlug](https://httplug.io/). You can visit [HTTPlug for library users](https://docs.php-http.org/en/latest/httplug/users.html) to get more information about installing HTTPlug related packages. The framework integration [graham-campbell/gitlab](https://github.com/GrahamCampbell/Laravel-GitLab) is by [Graham Campbell](https://github.com/GrahamCampbell) and [zeichen32/gitlabapibundle](https://github.com/Zeichen32/GitLabApiBundle) is by [Jens Averkamp](https://github.com/Zeichen32).
