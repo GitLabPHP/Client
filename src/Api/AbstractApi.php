@@ -165,9 +165,7 @@ abstract class AbstractApi implements ApiInterface
      */
     protected static function encodePath($uri)
     {
-        $uri = rawurlencode((string) $uri);
-
-        return str_replace('.', '%2E', $uri);
+        return rawurlencode((string) $uri);
     }
 
     /**

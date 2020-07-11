@@ -2,6 +2,14 @@ CHANGE LOG
 ==========
 
 
+## 10.0.0 (Upcoming)
+
+* Encode URIs according to RFC 3986
+* Send request bodies as JSON to GitLab
+* Removed all deprecated functionality
+* Switched to PSR-17 and PSR-18
+
+
 ## 9.18.0 (Upcoming)
 
 * Deprecated all APIs that are deprecated or removed as of GitLab 13.1
