@@ -42,6 +42,19 @@ interface ResultPagerInterface
     public function fetchAll(ApiInterface $api, string $method, array $parameters = []);
 
     /**
+     * Lazily fetch all results from an api call.
+     *
+     * @param ApiInterface $api
+     * @param string       $method
+     * @param array        $parameters
+     *
+     * @throws \Http\Client\Exception
+     *
+     * @return \Generator
+     */
+    public function fetchAllLazy(ApiInterface $api, string $method, array $parameters = []);
+
+    /**
      * Check to determine the availability of a next page.
      *
      * @return bool

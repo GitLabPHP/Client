@@ -107,7 +107,7 @@ class Client
      */
     public function deployKeys()
     {
-        return new Api\DeployKeys($this);
+        return new Api\DeployKeys($this, null);
     }
 
     /**
@@ -115,7 +115,7 @@ class Client
      */
     public function deployments()
     {
-        return new Api\Deployments($this);
+        return new Api\Deployments($this, null);
     }
 
     /**
@@ -123,7 +123,7 @@ class Client
      */
     public function environments()
     {
-        return new Api\Environments($this);
+        return new Api\Environments($this, null);
     }
 
     /**
@@ -131,7 +131,7 @@ class Client
      */
     public function groups()
     {
-        return new Api\Groups($this);
+        return new Api\Groups($this, null);
     }
 
     /**
@@ -139,7 +139,7 @@ class Client
      */
     public function groupsBoards()
     {
-        return new Api\GroupsBoards($this);
+        return new Api\GroupsBoards($this, null);
     }
 
     /**
@@ -147,7 +147,7 @@ class Client
      */
     public function groupsMilestones()
     {
-        return new Api\GroupsMilestones($this);
+        return new Api\GroupsMilestones($this, null);
     }
 
     /**
@@ -155,7 +155,7 @@ class Client
      */
     public function issueBoards()
     {
-        return new Api\IssueBoards($this);
+        return new Api\IssueBoards($this, null);
     }
 
     /**
@@ -163,7 +163,7 @@ class Client
      */
     public function issueLinks()
     {
-        return new Api\IssueLinks($this);
+        return new Api\IssueLinks($this, null);
     }
 
     /**
@@ -171,7 +171,7 @@ class Client
      */
     public function issues()
     {
-        return new Api\Issues($this);
+        return new Api\Issues($this, null);
     }
 
     /**
@@ -179,7 +179,7 @@ class Client
      */
     public function issuesStatistics()
     {
-        return new Api\IssuesStatistics($this);
+        return new Api\IssuesStatistics($this, null);
     }
 
     /**
@@ -187,7 +187,7 @@ class Client
      */
     public function jobs()
     {
-        return new Api\Jobs($this);
+        return new Api\Jobs($this, null);
     }
 
     /**
@@ -195,7 +195,7 @@ class Client
      */
     public function keys()
     {
-        return new Api\Keys($this);
+        return new Api\Keys($this, null);
     }
 
     /**
@@ -203,7 +203,7 @@ class Client
      */
     public function mergeRequests()
     {
-        return new Api\MergeRequests($this);
+        return new Api\MergeRequests($this, null);
     }
 
     /**
@@ -211,7 +211,7 @@ class Client
      */
     public function milestones()
     {
-        return new Api\Milestones($this);
+        return new Api\Milestones($this, null);
     }
 
     /**
@@ -219,7 +219,7 @@ class Client
      */
     public function namespaces()
     {
-        return new Api\ProjectNamespaces($this);
+        return new Api\ProjectNamespaces($this, null);
     }
 
     /**
@@ -227,7 +227,7 @@ class Client
      */
     public function projects()
     {
-        return new Api\Projects($this);
+        return new Api\Projects($this, null);
     }
 
     /**
@@ -235,7 +235,7 @@ class Client
      */
     public function repositories()
     {
-        return new Api\Repositories($this);
+        return new Api\Repositories($this, null);
     }
 
     /**
@@ -243,7 +243,7 @@ class Client
      */
     public function repositoryFiles()
     {
-        return new Api\RepositoryFiles($this);
+        return new Api\RepositoryFiles($this, null);
     }
 
     /**
@@ -251,7 +251,7 @@ class Client
      */
     public function schedules()
     {
-        return new Api\Schedules($this);
+        return new Api\Schedules($this, null);
     }
 
     /**
@@ -259,7 +259,7 @@ class Client
      */
     public function snippets()
     {
-        return new Api\Snippets($this);
+        return new Api\Snippets($this, null);
     }
 
     /**
@@ -267,7 +267,7 @@ class Client
      */
     public function systemHooks()
     {
-        return new Api\SystemHooks($this);
+        return new Api\SystemHooks($this, null);
     }
 
     /**
@@ -275,7 +275,7 @@ class Client
      */
     public function users()
     {
-        return new Api\Users($this);
+        return new Api\Users($this, null);
     }
 
     /**
@@ -283,7 +283,7 @@ class Client
      */
     public function tags()
     {
-        return new Api\Tags($this);
+        return new Api\Tags($this, null);
     }
 
     /**
@@ -291,7 +291,7 @@ class Client
      */
     public function version()
     {
-        return new Api\Version($this);
+        return new Api\Version($this, null);
     }
 
     /**
@@ -299,7 +299,7 @@ class Client
      */
     public function wiki()
     {
-        return new Api\Wiki($this);
+        return new Api\Wiki($this, null);
     }
 
     /**

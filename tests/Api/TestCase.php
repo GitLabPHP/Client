@@ -33,7 +33,7 @@ abstract class TestCase extends BaseTestCase
 
         return $this->getMockBuilder($this->getApiClass())
             ->setMethods(array_merge(['getAsResponse', 'get', 'post', 'postRaw', 'patch', 'delete', 'put', 'head'], $methods))
-            ->setConstructorArgs([$client])
+            ->setConstructorArgs([$client, null])
             ->getMock();
     }
 }
