@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Gitlab;
 
 use Gitlab\Api\ApiInterface;
-use Gitlab\Client;
 use Gitlab\Exception\RuntimeException;
 use Gitlab\HttpClient\Message\ResponseMediator;
 use ValueError;

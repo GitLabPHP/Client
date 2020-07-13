@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Gitlab\Api;
 
-use Gitlab\Client;
-
 interface ApiInterface
 {
     /**
