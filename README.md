@@ -94,30 +94,6 @@ $pager = new Gitlab\ResultPager($client);
 $issues = $pager->fetchAll($client->issues(), 'all', [null, ['state' => 'closed']]);
 ```
 
-### Model Usage
-
-You can also use the library in an object oriented manner:
-
-```php
-// Creating a new project
-$project = Gitlab\Model\Project::create($client, 'My Project', [
-    'description' => 'This is my project',
-    'issues_enabled' => false,
-]);
-
-$project->addHook('https://mydomain.com/hook/push/1');
-
-// Creating a new issue
-$project = new Gitlab\Model\Project(1, $client);
-$issue = $project->createIssue('This does not work.', [
-    'description' => 'This doesn\'t work properly. Please fix.',
-    'assignee_id' => 2,
-]);
-
-// Closing that issue
-$issue->close();
-```
-
 ### HTTP Client Builder
 
 By providing a `Gitlab\HttpClient\Builder` to the `Gitlab\Client` constructor, you can customize the HTTP client. For example, to customize the user agent:
@@ -133,7 +109,7 @@ $builder->addPlugin($plugin);
 $client = new Gitlab\Client($builder);
 ```
 
-One can read more about HTTPlug plugins [here](https://docs.php-http.org/en/latest/plugins/introduction.html#how-it-works). Take a look around ([API methods](https://github.com/GitLabPHP/Client/tree/10.0/src/Api), [models](https://github.com/GitLabPHP/Client/tree/10.0/src/Model)) and please feel free to report any bugs, noting our [code of conduct](.github/CODE_OF_CONDUCT.md).
+One can read more about HTTPlug plugins [here](https://docs.php-http.org/en/latest/plugins/introduction.html#how-it-works). Take a look around the [API methods](https://github.com/GitLabPHP/Client/tree/10.0/src/Api), and please feel free to report any bugs, noting our [code of conduct](.github/CODE_OF_CONDUCT.md).
 
 
 ## Contributing
