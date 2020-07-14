@@ -76,10 +76,6 @@ class ResponseMediator
      */
     private static function getHeader(ResponseInterface $response, $name)
     {
-        if (!$response->hasHeader('Link')) {
-            return null;
-        }
-
         $headers = $response->getHeader($name);
 
         return array_shift($headers);
