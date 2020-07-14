@@ -88,7 +88,7 @@ final class ResponseMediator
      *
      * @return string|null
      */
-    private static function getHeader(ResponseInterface $response, $name)
+    private static function getHeader(ResponseInterface $response, string $name)
     {
         if (!$response->hasHeader('Link')) {
             return null;
