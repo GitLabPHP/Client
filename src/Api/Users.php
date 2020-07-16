@@ -416,4 +416,44 @@ class Users extends AbstractApi
     {
         return $this->delete('users/'.self::encodePath($user_id).'/impersonation_tokens/'.self::encodePath($impersonation_token_id));
     }
+
+    /**
+     * @param int   $user_id
+     * @param array $parameters {
+     *
+     *     @var string             $action      include only events of a particular action type
+     *     @var string             $target_type include only events of a particular target type
+     *     @var \DateTimeInterface $before      include only events created before a particular date
+     *     @var \DateTimeInterface $after       include only events created after a particular date
+     *     @var string             $sort        Sort events in asc or desc order by created_at (default is desc)
+     * }
+     *
+     * @return mixed
+     */
+    public function events($user_id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value) {
+            return $value->format('Y-m-d');
+        };
+
+        $resolver->setDefined('action')
+            ->setAllowedValues('action', ['created', 'updated', 'closed', 'reopened', 'pushed', 'commented', 'merged', 'joined', 'left', 'destroyed', 'expired'])
+        ;
+        $resolver->setDefined('target_type')
+            ->setAllowedValues('target_type', ['issue', 'milestone', 'merge_request', 'note', 'project', 'snippet', 'user'])
+        ;
+        $resolver->setDefined('before')
+            ->setAllowedTypes('before', \DateTimeInterface::class)
+            ->setNormalizer('before', $datetimeNormalizer);
+        $resolver->setDefined('after')
+            ->setAllowedTypes('after', \DateTimeInterface::class)
+            ->setNormalizer('after', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('sort')
+            ->setAllowedValues('sort', ['asc', 'desc'])
+        ;
+
+        return $this->get('users/'.$this->encodePath($user_id).'/events', $resolver->resolve($parameters));
+    }
 }

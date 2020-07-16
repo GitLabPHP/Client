@@ -2,13 +2,18 @@ CHANGE LOG
 ==========
 
 
-## 10.0.0 (Upcoming)
+## 10.0.0 (UPCOMING)
 
 * Removed all deprecated functionality
 * Switched to PSR-17 and PSR-18
 * Encode URIs according to RFC 3986
 * Send request bodies as JSON to GitLab
 * Redesigned pagination
+
+
+## 9.19.0 (UPCOMING)
+
+* Added user events API
 
 
 ## 9.18.0 (11/07/2020)
