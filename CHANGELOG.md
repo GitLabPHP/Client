@@ -2,6 +2,11 @@ CHANGE LOG
 ==========
 
 
+## 9.19.0 (UPCOMING)
+
+* Added user events API
+
+
 ## 9.18.0 (11/07/2020)
 
 * Deprecated all APIs that are deprecated or removed as of GitLab 13.1
