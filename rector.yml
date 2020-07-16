@@ -1,0 +1,27 @@
+parameters:
+    autoload_paths:
+        - 'vendor/autoload.php'
+        - 'vendor-bin/phpunit/vendor/autoload.php'
+    auto_import_names: true
+    import_short_classes: false
+    import_doc_blocks: false
+    php_version_features: '5.6'
+    paths:
+        - 'lib'
+        - 'test'
+    sets:
+        - 'code-quality'
+        - 'dead-code'
+        - 'php52'
+        - 'php53'
+        - 'php54'
+        - 'php55'
+        - 'php56'
+        - 'phpunit40'
+        - 'phpunit50'
+
+services:
+    Rector\SOLID\Rector\Foreach_\ChangeNestedForeachIfsToEarlyContinueRector: ~
+    Rector\SOLID\Rector\If_\ChangeIfElseValueAssignToEarlyReturnRector: ~
+    Rector\SOLID\Rector\If_\ChangeNestedIfsToEarlyReturnRector: ~
+    Rector\SOLID\Rector\If_\RemoveAlwaysElseRector: ~
