@@ -757,8 +757,8 @@ class UsersTest extends TestCase
         $before = new \DateTime('2018-01-31 00:00:00');
 
         $expectedWithArray = [
-        'after' => $after->format('Y-m-d'),
-        'before' => $before->format('Y-m-d'),
+            'after' => $after->format('Y-m-d'),
+            'before' => $before->format('Y-m-d'),
         ];
 
         $api = $this->getApiMock();
