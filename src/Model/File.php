@@ -43,7 +43,7 @@ final class File extends AbstractModel
      *
      * @return void
      */
-    public function __construct(Project $project, $file_path = null, Client $client = null)
+    public function __construct(Project $project, ?string $file_path = null, Client $client = null)
     {
         $this->setClient($client);
         $this->setData('project', $project);

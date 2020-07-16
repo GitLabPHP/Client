@@ -50,7 +50,7 @@ final class Branch extends AbstractModel
      *
      * @return void
      */
-    public function __construct(Project $project, $name = null, Client $client = null)
+    public function __construct(Project $project, ?string $name = null, Client $client = null)
     {
         $this->setClient($client);
         $this->setData('project', $project);
@@ -73,7 +73,7 @@ final class Branch extends AbstractModel
      *
      * @return Branch
      */
-    public function protect($devPush = false, $devMerge = false)
+    public function protect(bool $devPush = false, bool $devMerge = false)
     {
         $data = $this->client->repositories()->protectBranch($this->project->id, $this->name, $devPush, $devMerge);
 
@@ -122,11 +122,11 @@ final class Branch extends AbstractModel
      * @return File
      */
     public function createFile(
-        $file_path,
-        $content,
-        $commit_message,
-        $author_email = null,
-        $author_name = null
+        string $file_path,
+        string $content,
+        string $commit_message,
+        ?string $author_email = null,
+        ?string $author_name = null
     ) {
         $parameters = [
             'file_path' => $file_path,
@@ -158,11 +158,11 @@ final class Branch extends AbstractModel
      * @return File
      */
     public function updateFile(
-        $file_path,
-        $content,
-        $commit_message,
-        $author_email = null,
-        $author_name = null
+        string $file_path,
+        string $content,
+        string $commit_message,
+        ?string $author_email = null,
+        ?string $author_name = null
     ) {
         $parameters = [
             'file_path' => $file_path,
@@ -192,7 +192,7 @@ final class Branch extends AbstractModel
      *
      * @return bool
      */
-    public function deleteFile($file_path, $commit_message, $author_email = null, $author_name = null)
+    public function deleteFile(string $file_path, string $commit_message, ?string $author_email = null, ?string $author_name = null)
     {
         $parameters = [
             'file_path' => $file_path,

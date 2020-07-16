@@ -11,5 +11,5 @@ interface Notable
      *
      * @return Note
      */
-    public function addNote($body);
+    public function addNote(string $body);
 }

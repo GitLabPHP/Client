@@ -44,7 +44,7 @@ class Milestones extends AbstractApi
      *
      * @return mixed
      */
-    public function show($project_id, $milestone_id)
+    public function show($project_id, int $milestone_id)
     {
         return $this->get($this->getProjectPath($project_id, 'milestones/'.self::encodePath($milestone_id)));
     }
@@ -67,7 +67,7 @@ class Milestones extends AbstractApi
      *
      * @return mixed
      */
-    public function update($project_id, $milestone_id, array $params)
+    public function update($project_id, int $milestone_id, array $params)
     {
         return $this->put($this->getProjectPath($project_id, 'milestones/'.self::encodePath($milestone_id)), $params);
     }
@@ -78,7 +78,7 @@ class Milestones extends AbstractApi
      *
      * @return mixed
      */
-    public function remove($project_id, $milestone_id)
+    public function remove($project_id, int $milestone_id)
     {
         return $this->delete($this->getProjectPath($project_id, 'milestones/'.self::encodePath($milestone_id)));
     }
@@ -89,7 +89,7 @@ class Milestones extends AbstractApi
      *
      * @return mixed
      */
-    public function issues($project_id, $milestone_id)
+    public function issues($project_id, int $milestone_id)
     {
         return $this->get($this->getProjectPath($project_id, 'milestones/'.self::encodePath($milestone_id).'/issues'));
     }

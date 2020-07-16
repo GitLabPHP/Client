@@ -25,7 +25,7 @@ class Deployments extends AbstractApi
      *
      * @return mixed
      */
-    public function show($project_id, $deployment_id)
+    public function show($project_id, string $deployment_id)
     {
         return $this->get($this->getProjectPath($project_id, 'deployments/'.$deployment_id));
     }

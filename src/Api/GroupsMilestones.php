@@ -21,7 +21,7 @@ class GroupsMilestones extends AbstractApi
      *
      * @return mixed
      */
-    public function all($group_id, array $parameters = [])
+    public function all(int $group_id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
         $resolver->setDefined('iids')
@@ -44,7 +44,7 @@ class GroupsMilestones extends AbstractApi
      *
      * @return mixed
      */
-    public function show($group_id, $milestone_id)
+    public function show(int $group_id, int $milestone_id)
     {
         return $this->get($this->getGroupPath($group_id, 'milestones/'.self::encodePath($milestone_id)));
     }
@@ -55,7 +55,7 @@ class GroupsMilestones extends AbstractApi
      *
      * @return mixed
      */
-    public function create($group_id, array $params)
+    public function create(int $group_id, array $params)
     {
         return $this->post($this->getGroupPath($group_id, 'milestones'), $params);
     }
@@ -67,7 +67,7 @@ class GroupsMilestones extends AbstractApi
      *
      * @return mixed
      */
-    public function update($group_id, $milestone_id, array $params)
+    public function update(int $group_id, int $milestone_id, array $params)
     {
         return $this->put($this->getGroupPath($group_id, 'milestones/'.self::encodePath($milestone_id)), $params);
     }
@@ -78,7 +78,7 @@ class GroupsMilestones extends AbstractApi
      *
      * @return mixed
      */
-    public function remove($group_id, $milestone_id)
+    public function remove(int $group_id, int $milestone_id)
     {
         return $this->delete($this->getGroupPath($group_id, 'milestones/'.self::encodePath($milestone_id)));
     }
@@ -89,7 +89,7 @@ class GroupsMilestones extends AbstractApi
      *
      * @return mixed
      */
-    public function issues($group_id, $milestone_id)
+    public function issues(int $group_id, int $milestone_id)
     {
         return $this->get($this->getGroupPath($group_id, 'milestones/'.self::encodePath($milestone_id).'/issues'));
     }
@@ -100,7 +100,7 @@ class GroupsMilestones extends AbstractApi
      *
      * @return mixed
      */
-    public function mergeRequests($group_id, $milestone_id)
+    public function mergeRequests(int $group_id, int $milestone_id)
     {
         return $this->get($this->getGroupPath($group_id, 'milestones/'.self::encodePath($milestone_id).'/merge_requests'));
     }

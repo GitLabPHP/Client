@@ -99,7 +99,7 @@ final class MergeRequest extends AbstractModel implements Notable, Stateful
      *
      * @return void
      */
-    public function __construct(Project $project, $iid = null, Client $client = null)
+    public function __construct(Project $project, ?int $iid = null, Client $client = null)
     {
         $this->setClient($client);
         $this->setData('project', $project);
@@ -133,7 +133,7 @@ final class MergeRequest extends AbstractModel implements Notable, Stateful
      *
      * @return MergeRequest
      */
-    public function close($note = null)
+    public function close(?string $note = null)
     {
         if (null !== $note) {
             $this->addNote($note);
@@ -167,7 +167,7 @@ final class MergeRequest extends AbstractModel implements Notable, Stateful
      *
      * @return MergeRequest
      */
-    public function merge($message = null)
+    public function merge(?string $message = null)
     {
         $data = $this->client->mergeRequests()->merge($this->project->id, $this->iid, [
             'merge_commit_message' => $message,
@@ -191,7 +191,7 @@ final class MergeRequest extends AbstractModel implements Notable, Stateful
      *
      * @return Note
      */
-    public function addNote($body)
+    public function addNote(string $body)
     {
         $data = $this->client->mergeRequests()->addNote($this->project->id, $this->iid, $body);
 

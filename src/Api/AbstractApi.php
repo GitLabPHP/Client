@@ -93,7 +93,7 @@ abstract class AbstractApi implements ApiInterface
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    protected function getAsResponse($uri, array $params = [], array $headers = [])
+    protected function getAsResponse(string $uri, array $params = [], array $headers = [])
     {
         if (null !== $this->perPage && !isset($params['per_page'])) {
             $params['per_page'] = $this->perPage;
@@ -109,7 +109,7 @@ abstract class AbstractApi implements ApiInterface
      *
      * @return mixed
      */
-    protected function get($uri, array $params = [], array $headers = [])
+    protected function get(string $uri, array $params = [], array $headers = [])
     {
         $response = $this->getAsResponse($uri, $params, $headers);
 
@@ -124,7 +124,7 @@ abstract class AbstractApi implements ApiInterface
      *
      * @return mixed
      */
-    protected function post($uri, array $params = [], array $headers = [], array $files = [])
+    protected function post(string $uri, array $params = [], array $headers = [], array $files = [])
     {
         if (0 < \count($files)) {
             $builder = $this->createMultipartStreamBuilder($params, $files);
@@ -151,7 +151,7 @@ abstract class AbstractApi implements ApiInterface
      *
      * @return mixed
      */
-    protected function put($uri, array $params = [], array $headers = [], array $files = [])
+    protected function put(string $uri, array $params = [], array $headers = [], array $files = [])
     {
         if (0 < \count($files)) {
             $builder = $this->createMultipartStreamBuilder($params, $files);
@@ -177,7 +177,7 @@ abstract class AbstractApi implements ApiInterface
      *
      * @return mixed
      */
-    protected function delete($uri, array $params = [], array $headers = [])
+    protected function delete(string $uri, array $params = [], array $headers = [])
     {
         $body = self::prepareJsonBody($params);
 
@@ -206,7 +206,7 @@ abstract class AbstractApi implements ApiInterface
      *
      * @return string
      */
-    protected function getProjectPath($id, $uri)
+    protected function getProjectPath($id, string $uri)
     {
         return 'projects/'.self::encodePath($id).'/'.$uri;
     }
@@ -217,7 +217,7 @@ abstract class AbstractApi implements ApiInterface
      *
      * @return string
      */
-    protected function getGroupPath($id, $uri)
+    protected function getGroupPath(int $id, string $uri)
     {
         return 'groups/'.self::encodePath($id).'/'.$uri;
     }
@@ -365,7 +365,7 @@ abstract class AbstractApi implements ApiInterface
      *
      * @see https://github.com/guzzle/psr7/blob/1.6.1/src/functions.php#L287-L320
      */
-    private static function tryFopen($filename, $mode)
+    private static function tryFopen(string $filename, string $mode)
     {
         $ex = null;
         \set_error_handler(function () use ($filename, $mode, &$ex) {

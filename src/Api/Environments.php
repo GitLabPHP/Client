@@ -53,7 +53,7 @@ class Environments extends AbstractApi
      *
      * @return mixed
      */
-    public function remove($project_id, $environment_id)
+    public function remove($project_id, string $environment_id)
     {
         return $this->delete($this->getProjectPath($project_id, 'environments/'.$environment_id));
     }
@@ -64,7 +64,7 @@ class Environments extends AbstractApi
      *
      * @return mixed
      */
-    public function stop($project_id, $environment_id)
+    public function stop($project_id, string $environment_id)
     {
         return $this->post($this->getProjectPath($project_id, 'environments/'.self::encodePath($environment_id).'/stop'));
     }
@@ -75,7 +75,7 @@ class Environments extends AbstractApi
      *
      * @return mixed
      */
-    public function show($project_id, $environment_id)
+    public function show($project_id, string $environment_id)
     {
         return $this->get($this->getProjectPath($project_id, 'environments/'.self::encodePath($environment_id)));
     }

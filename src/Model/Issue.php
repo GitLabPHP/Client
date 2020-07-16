@@ -74,7 +74,7 @@ final class Issue extends AbstractModel implements Notable, Stateful
      *
      * @return void
      */
-    public function __construct(Project $project, $iid = null, Client $client = null)
+    public function __construct(Project $project, ?int $iid = null, Client $client = null)
     {
         $this->setClient($client);
         $this->setData('project', $project);
@@ -120,7 +120,7 @@ final class Issue extends AbstractModel implements Notable, Stateful
      *
      * @return Issue
      */
-    public function close($note = null)
+    public function close(?string $note = null)
     {
         if (null !== $note) {
             $this->addNote($note);
@@ -154,7 +154,7 @@ final class Issue extends AbstractModel implements Notable, Stateful
      *
      * @return Note
      */
-    public function addNote($body)
+    public function addNote(string $body)
     {
         $data = $this->client->issues()->addNote($this->project->id, $this->iid, $body);
 
@@ -174,7 +174,7 @@ final class Issue extends AbstractModel implements Notable, Stateful
      *
      * @return bool
      */
-    public function hasLabel($label)
+    public function hasLabel(string $label)
     {
         return \in_array($label, $this->labels, true);
     }
@@ -223,7 +223,7 @@ final class Issue extends AbstractModel implements Notable, Stateful
      *
      * @return Issue[]
      */
-    public function removeLink($issue_link_id)
+    public function removeLink(int $issue_link_id)
     {
         // The two related issues have the same link ID.
         $data = $this->client->issueLinks()->remove($this->project->id, $this->iid, $issue_link_id);

@@ -19,7 +19,7 @@ class SystemHooks extends AbstractApi
      *
      * @return mixed
      */
-    public function create($url)
+    public function create(string $url)
     {
         return $this->post('hooks', [
             'url' => $url,
@@ -31,7 +31,7 @@ class SystemHooks extends AbstractApi
      *
      * @return mixed
      */
-    public function test($id)
+    public function test(int $id)
     {
         return $this->get('hooks/'.self::encodePath($id));
     }
@@ -41,7 +41,7 @@ class SystemHooks extends AbstractApi
      *
      * @return mixed
      */
-    public function remove($id)
+    public function remove(int $id)
     {
         return $this->delete('hooks/'.self::encodePath($id));
     }

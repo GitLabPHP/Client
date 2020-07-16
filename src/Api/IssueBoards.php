@@ -27,7 +27,7 @@ class IssueBoards extends AbstractApi
      *
      * @return mixed
      */
-    public function show($project_id, $board_id)
+    public function show($project_id, int $board_id)
     {
         return $this->get($this->getProjectPath($project_id, 'boards/'.self::encodePath($board_id)));
     }
@@ -50,7 +50,7 @@ class IssueBoards extends AbstractApi
      *
      * @return mixed
      */
-    public function update($project_id, $board_id, array $params)
+    public function update($project_id, int $board_id, array $params)
     {
         return $this->put($this->getProjectPath($project_id, 'boards/'.self::encodePath($board_id)), $params);
     }
@@ -61,7 +61,7 @@ class IssueBoards extends AbstractApi
      *
      * @return mixed
      */
-    public function remove($project_id, $board_id)
+    public function remove($project_id, int $board_id)
     {
         return $this->delete($this->getProjectPath($project_id, 'boards/'.self::encodePath($board_id)));
     }
@@ -72,7 +72,7 @@ class IssueBoards extends AbstractApi
      *
      * @return mixed
      */
-    public function allLists($project_id, $board_id)
+    public function allLists($project_id, int $board_id)
     {
         return $this->get($this->getProjectPath($project_id, 'boards/'.self::encodePath($board_id).'/lists'));
     }
@@ -84,7 +84,7 @@ class IssueBoards extends AbstractApi
      *
      * @return mixed
      */
-    public function showList($project_id, $board_id, $list_id)
+    public function showList($project_id, int $board_id, int $list_id)
     {
         return $this->get($this->getProjectPath($project_id, 'boards/'.self::encodePath($board_id).'/lists/'.self::encodePath($list_id)));
     }
@@ -96,7 +96,7 @@ class IssueBoards extends AbstractApi
      *
      * @return mixed
      */
-    public function createList($project_id, $board_id, $label_id)
+    public function createList($project_id, int $board_id, int $label_id)
     {
         $params = [
             'label_id' => $label_id,
@@ -113,7 +113,7 @@ class IssueBoards extends AbstractApi
      *
      * @return mixed
      */
-    public function updateList($project_id, $board_id, $list_id, $position)
+    public function updateList($project_id, int $board_id, int $list_id, int $position)
     {
         $params = [
             'position' => $position,
@@ -129,7 +129,7 @@ class IssueBoards extends AbstractApi
      *
      * @return mixed
      */
-    public function deleteList($project_id, $board_id, $list_id)
+    public function deleteList($project_id, int $board_id, int $list_id)
     {
         return $this->delete($this->getProjectPath($project_id, 'boards/'.self::encodePath($board_id).'/lists/'.self::encodePath($list_id)));
     }

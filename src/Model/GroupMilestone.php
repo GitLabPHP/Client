@@ -61,7 +61,7 @@ final class GroupMilestone extends AbstractModel
      *
      * @return void
      */
-    public function __construct(Group $group, $id, Client $client = null)
+    public function __construct(Group $group, int $id, Client $client = null)
     {
         $this->setClient($client);
         $this->setData('id', $id);

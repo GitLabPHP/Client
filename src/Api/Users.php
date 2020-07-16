@@ -63,7 +63,7 @@ class Users extends AbstractApi
      *
      * @return mixed
      */
-    public function show($id)
+    public function show(int $id)
     {
         return $this->get('users/'.self::encodePath($id));
     }
@@ -90,7 +90,7 @@ class Users extends AbstractApi
      *
      * @return mixed
      */
-    public function usersProjects($id, array $parameters = [])
+    public function usersProjects(int $id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
         $booleanNormalizer = function (Options $resolver, $value) {
@@ -160,7 +160,7 @@ class Users extends AbstractApi
      *
      * @return mixed
      */
-    public function create($email, $password, array $params = [])
+    public function create(string $email, string $password, array $params = [])
     {
         $params['email'] = $email;
         $params['password'] = $password;
@@ -175,7 +175,7 @@ class Users extends AbstractApi
      *
      * @return mixed
      */
-    public function update($id, array $params, array $files = [])
+    public function update(int $id, array $params, array $files = [])
     {
         return $this->put('users/'.self::encodePath($id), $params, [], $files);
     }
@@ -185,7 +185,7 @@ class Users extends AbstractApi
      *
      * @return mixed
      */
-    public function remove($id)
+    public function remove(int $id)
     {
         return $this->delete('users/'.self::encodePath($id));
     }
@@ -195,7 +195,7 @@ class Users extends AbstractApi
      *
      * @return mixed
      */
-    public function block($id)
+    public function block(int $id)
     {
         return $this->post('users/'.self::encodePath($id).'/block');
     }
@@ -205,7 +205,7 @@ class Users extends AbstractApi
      *
      * @return mixed
      */
-    public function unblock($id)
+    public function unblock(int $id)
     {
         return $this->post('users/'.self::encodePath($id).'/unblock');
     }
@@ -231,7 +231,7 @@ class Users extends AbstractApi
      *
      * @return mixed
      */
-    public function key($id)
+    public function key(int $id)
     {
         return $this->get('user/keys/'.self::encodePath($id));
     }
@@ -242,7 +242,7 @@ class Users extends AbstractApi
      *
      * @return mixed
      */
-    public function createKey($title, $key)
+    public function createKey(string $title, string $key)
     {
         return $this->post('user/keys', [
             'title' => $title,
@@ -255,7 +255,7 @@ class Users extends AbstractApi
      *
      * @return mixed
      */
-    public function removeKey($id)
+    public function removeKey(int $id)
     {
         return $this->delete('user/keys/'.self::encodePath($id));
     }
@@ -265,7 +265,7 @@ class Users extends AbstractApi
      *
      * @return mixed
      */
-    public function userKeys($user_id)
+    public function userKeys(int $user_id)
     {
         return $this->get('users/'.self::encodePath($user_id).'/keys');
     }
@@ -276,7 +276,7 @@ class Users extends AbstractApi
      *
      * @return mixed
      */
-    public function userKey($user_id, $key_id)
+    public function userKey(int $user_id, int $key_id)
     {
         return $this->get('users/'.self::encodePath($user_id).'/keys/'.self::encodePath($key_id));
     }
@@ -288,7 +288,7 @@ class Users extends AbstractApi
      *
      * @return mixed
      */
-    public function createKeyForUser($user_id, $title, $key)
+    public function createKeyForUser(int $user_id, string $title, string $key)
     {
         return $this->post('users/'.self::encodePath($user_id).'/keys', [
             'title' => $title,
@@ -302,7 +302,7 @@ class Users extends AbstractApi
      *
      * @return mixed
      */
-    public function removeUserKey($user_id, $key_id)
+    public function removeUserKey(int $user_id, int $key_id)
     {
         return $this->delete('users/'.self::encodePath($user_id).'/keys/'.self::encodePath($key_id));
     }
@@ -320,7 +320,7 @@ class Users extends AbstractApi
      *
      * @return mixed
      */
-    public function email($id)
+    public function email(int $id)
     {
         return $this->get('user/emails/'.self::encodePath($id));
     }
@@ -330,7 +330,7 @@ class Users extends AbstractApi
      *
      * @return mixed
      */
-    public function userEmails($user_id)
+    public function userEmails(int $user_id)
     {
         return $this->get('users/'.self::encodePath($user_id).'/emails');
     }
@@ -342,7 +342,7 @@ class Users extends AbstractApi
      *
      * @return mixed
      */
-    public function createEmailForUser($user_id, $email, $skip_confirmation = false)
+    public function createEmailForUser(int $user_id, string $email, bool $skip_confirmation = false)
     {
         return $this->post('users/'.self::encodePath($user_id).'/emails', [
             'email' => $email,
@@ -356,7 +356,7 @@ class Users extends AbstractApi
      *
      * @return mixed
      */
-    public function removeUserEmail($user_id, $email_id)
+    public function removeUserEmail(int $user_id, int $email_id)
     {
         return $this->delete('users/'.self::encodePath($user_id).'/emails/'.self::encodePath($email_id));
     }
@@ -367,7 +367,7 @@ class Users extends AbstractApi
      *
      * @return mixed
      */
-    public function userImpersonationTokens($user_id, array $params = [])
+    public function userImpersonationTokens(int $user_id, array $params = [])
     {
         $resolver = $this->createOptionsResolver();
 
@@ -384,7 +384,7 @@ class Users extends AbstractApi
      *
      * @return mixed
      */
-    public function userImpersonationToken($user_id, $impersonation_token_id)
+    public function userImpersonationToken(int $user_id, int $impersonation_token_id)
     {
         return $this->get('users/'.self::encodePath($user_id).'/impersonation_tokens/'.self::encodePath($impersonation_token_id));
     }
@@ -397,7 +397,7 @@ class Users extends AbstractApi
      *
      * @return mixed
      */
-    public function createImpersonationToken($user_id, $name, array $scopes, $expires_at = null)
+    public function createImpersonationToken(int $user_id, string $name, array $scopes, ?string $expires_at = null)
     {
         return $this->post('users/'.self::encodePath($user_id).'/impersonation_tokens', [
             'name' => $name,
@@ -412,7 +412,7 @@ class Users extends AbstractApi
      *
      * @return mixed
      */
-    public function removeImpersonationToken($user_id, $impersonation_token_id)
+    public function removeImpersonationToken(int $user_id, int $impersonation_token_id)
     {
         return $this->delete('users/'.self::encodePath($user_id).'/impersonation_tokens/'.self::encodePath($impersonation_token_id));
     }
@@ -430,7 +430,7 @@ class Users extends AbstractApi
      *
      * @return mixed
      */
-    public function events($user_id, array $parameters = [])
+    public function events(int $user_id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
         $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value) {

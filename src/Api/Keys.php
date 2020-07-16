@@ -11,7 +11,7 @@ class Keys extends AbstractApi
      *
      * @return mixed
      */
-    public function show($id)
+    public function show(int $id)
     {
         return $this->get('keys/'.self::encodePath($id));
     }

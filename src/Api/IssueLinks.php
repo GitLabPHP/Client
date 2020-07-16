@@ -12,7 +12,7 @@ class IssueLinks extends AbstractApi
      *
      * @return mixed
      */
-    public function all($project_id, $issue_iid)
+    public function all($project_id, int $issue_iid)
     {
         return $this->get($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid)).'/links');
     }
@@ -40,7 +40,7 @@ class IssueLinks extends AbstractApi
      *
      * @return mixed
      */
-    public function remove($project_id, $issue_iid, $issue_link_id)
+    public function remove($project_id, int $issue_iid, int $issue_link_id)
     {
         return $this->delete($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid)).'/links/'.self::encodePath($issue_link_id));
     }

@@ -82,7 +82,7 @@ final class Group extends AbstractModel
      *
      * @return Group
      */
-    public static function create(Client $client, $name, $path)
+    public static function create(Client $client, string $name, string $path)
     {
         $data = $client->groups()->create($name, $path);
 
@@ -95,7 +95,7 @@ final class Group extends AbstractModel
      *
      * @return void
      */
-    public function __construct($id, Client $client = null)
+    public function __construct(int $id, Client $client = null)
     {
         $this->setClient($client);
         $this->setData('id', $id);
@@ -128,7 +128,7 @@ final class Group extends AbstractModel
      *
      * @return User[]
      */
-    public function members($query = null)
+    public function members(?string $query = null)
     {
         $data = $this->client->groups()->members($this->id, null === $query ? [] : ['query' => $query]);
 
@@ -146,7 +146,7 @@ final class Group extends AbstractModel
      *
      * @return User
      */
-    public function addMember($user_id, $access_level)
+    public function addMember(int $user_id, int $access_level)
     {
         $data = $this->client->groups()->addMember($this->id, $user_id, $access_level);
 
@@ -158,7 +158,7 @@ final class Group extends AbstractModel
      *
      * @return bool
      */
-    public function removeMember($user_id)
+    public function removeMember(int $user_id)
     {
         $this->client->groups()->removeMember($this->id, $user_id);
 

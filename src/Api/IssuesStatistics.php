@@ -14,7 +14,7 @@ class IssuesStatistics extends AbstractApi
      *
      * @return mixed
      */
-    public function all($parameters)
+    public function all(array $parameters)
     {
         return $this->get('issues_statistics', $this->createOptionsResolver()->resolve($parameters));
     }
@@ -25,7 +25,7 @@ class IssuesStatistics extends AbstractApi
      *
      * @return mixed
      */
-    public function project($project_id, $parameters)
+    public function project($project_id, array $parameters)
     {
         return $this->get($this->getProjectPath($project_id, 'issues_statistics'), $this->createOptionsResolver()->resolve($parameters));
     }
@@ -36,7 +36,7 @@ class IssuesStatistics extends AbstractApi
      *
      * @return mixed
      */
-    public function group($group_id, $parameters)
+    public function group(int $group_id, array $parameters)
     {
         return $this->get($this->getGroupPath($group_id, 'issues_statistics'), $this->createOptionsResolver()->resolve($parameters));
     }

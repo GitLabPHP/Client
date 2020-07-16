@@ -42,7 +42,7 @@ final class IssueLink extends AbstractModel
      *
      * @return void
      */
-    public function __construct(Issue $issue, $issue_link_id = null, Client $client = null)
+    public function __construct(Issue $issue, ?int $issue_link_id = null, Client $client = null)
     {
         $this->setClient($client);
         $this->setData('issue', $issue);

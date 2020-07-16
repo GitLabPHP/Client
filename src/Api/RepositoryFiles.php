@@ -15,7 +15,7 @@ class RepositoryFiles extends AbstractApi
      *
      * @return mixed
      */
-    public function getFile($project_id, $file_path, $ref)
+    public function getFile($project_id, string $file_path, string $ref)
     {
         return $this->get($this->getProjectPath($project_id, 'repository/files/'.self::encodePath($file_path)), [
             'ref' => $ref,
@@ -29,7 +29,7 @@ class RepositoryFiles extends AbstractApi
      *
      * @return mixed
      */
-    public function getRawFile($project_id, $file_path, $ref)
+    public function getRawFile($project_id, string $file_path, string $ref)
     {
         return $this->get($this->getProjectPath($project_id, 'repository/files/'.self::encodePath($file_path).'/raw'), [
             'ref' => $ref,

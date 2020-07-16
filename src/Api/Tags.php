@@ -22,7 +22,7 @@ class Tags extends AbstractApi
      *
      * @return mixed
      */
-    public function show($project_id, $tag_name)
+    public function show($project_id, string $tag_name)
     {
         return $this->get($this->getProjectPath($project_id, 'repository/tags/'.self::encodePath($tag_name)));
     }
@@ -44,7 +44,7 @@ class Tags extends AbstractApi
      *
      * @return mixed
      */
-    public function remove($project_id, $tag_name)
+    public function remove($project_id, string $tag_name)
     {
         return $this->delete($this->getProjectPath($project_id, 'repository/tags/'.self::encodePath($tag_name)));
     }
@@ -56,7 +56,7 @@ class Tags extends AbstractApi
      *
      * @return mixed
      */
-    public function createRelease($project_id, $tag_name, array $params = [])
+    public function createRelease($project_id, string $tag_name, array $params = [])
     {
         return $this->post($this->getProjectPath($project_id, 'repository/tags/'.self::encodePath($tag_name).'/release'), $params);
     }
@@ -68,7 +68,7 @@ class Tags extends AbstractApi
      *
      * @return mixed
      */
-    public function updateRelease($project_id, $tag_name, array $params = [])
+    public function updateRelease($project_id, string $tag_name, array $params = [])
     {
         return $this->put($this->getProjectPath($project_id, 'repository/tags/'.self::encodePath($tag_name).'/release'), $params);
     }

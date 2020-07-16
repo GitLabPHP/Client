@@ -41,7 +41,7 @@ final class Hook extends AbstractModel
      *
      * @return Hook
      */
-    public static function create(Client $client, $url)
+    public static function create(Client $client, string $url)
     {
         $data = $client->systemHooks()->create($url);
 
@@ -54,7 +54,7 @@ final class Hook extends AbstractModel
      *
      * @return void
      */
-    public function __construct($id, Client $client = null)
+    public function __construct(int $id, Client $client = null)
     {
         $this->setClient($client);
         $this->setData('id', $id);

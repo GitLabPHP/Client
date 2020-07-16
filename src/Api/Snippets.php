@@ -22,7 +22,7 @@ class Snippets extends AbstractApi
      *
      * @return mixed
      */
-    public function show($project_id, $snippet_id)
+    public function show($project_id, int $snippet_id)
     {
         return $this->get($this->getProjectPath($project_id, 'snippets/'.self::encodePath($snippet_id)));
     }
@@ -36,7 +36,7 @@ class Snippets extends AbstractApi
      *
      * @return mixed
      */
-    public function create($project_id, $title, $filename, $code, $visibility)
+    public function create($project_id, string $title, string $filename, string $code, string $visibility)
     {
         return $this->post($this->getProjectPath($project_id, 'snippets'), [
             'title' => $title,
@@ -53,7 +53,7 @@ class Snippets extends AbstractApi
      *
      * @return mixed
      */
-    public function update($project_id, $snippet_id, array $params)
+    public function update($project_id, int $snippet_id, array $params)
     {
         return $this->put($this->getProjectPath($project_id, 'snippets/'.self::encodePath($snippet_id)), $params);
     }
@@ -64,7 +64,7 @@ class Snippets extends AbstractApi
      *
      * @return string
      */
-    public function content($project_id, $snippet_id)
+    public function content($project_id, int $snippet_id)
     {
         return $this->get($this->getProjectPath($project_id, 'snippets/'.self::encodePath($snippet_id).'/raw'));
     }
@@ -75,7 +75,7 @@ class Snippets extends AbstractApi
      *
      * @return mixed
      */
-    public function remove($project_id, $snippet_id)
+    public function remove($project_id, int $snippet_id)
     {
         return $this->delete($this->getProjectPath($project_id, 'snippets/'.self::encodePath($snippet_id)));
     }
@@ -86,7 +86,7 @@ class Snippets extends AbstractApi
      *
      * @return mixed
      */
-    public function showNotes($project_id, $snippet_id)
+    public function showNotes($project_id, int $snippet_id)
     {
         return $this->get($this->getProjectPath($project_id, 'snippets/'.self::encodePath($snippet_id).'/notes'));
     }
@@ -98,7 +98,7 @@ class Snippets extends AbstractApi
      *
      * @return mixed
      */
-    public function showNote($project_id, $snippet_id, $note_id)
+    public function showNote($project_id, int $snippet_id, int $note_id)
     {
         return $this->get($this->getProjectPath($project_id, 'snippets/'.self::encodePath($snippet_id).'/notes/'.self::encodePath($note_id)));
     }
@@ -110,7 +110,7 @@ class Snippets extends AbstractApi
      *
      * @return mixed
      */
-    public function addNote($project_id, $snippet_id, $body)
+    public function addNote($project_id, int $snippet_id, string $body)
     {
         return $this->post($this->getProjectPath($project_id, 'snippets/'.self::encodePath($snippet_id).'/notes'), [
             'body' => $body,
@@ -125,7 +125,7 @@ class Snippets extends AbstractApi
      *
      * @return mixed
      */
-    public function updateNote($project_id, $snippet_id, $note_id, $body)
+    public function updateNote($project_id, int $snippet_id, int $note_id, string $body)
     {
         return $this->put($this->getProjectPath($project_id, 'snippets/'.self::encodePath($snippet_id).'/notes/'.self::encodePath($note_id)), [
             'body' => $body,
@@ -139,7 +139,7 @@ class Snippets extends AbstractApi
      *
      * @return mixed
      */
-    public function removeNote($project_id, $snippet_id, $note_id)
+    public function removeNote($project_id, int $snippet_id, int $note_id)
     {
         return $this->delete($this->getProjectPath($project_id, 'snippets/'.self::encodePath($snippet_id).'/notes/'.self::encodePath($note_id)));
     }
@@ -150,7 +150,7 @@ class Snippets extends AbstractApi
      *
      * @return mixed
      */
-    public function awardEmoji($project_id, $snippet_id)
+    public function awardEmoji($project_id, int $snippet_id)
     {
         return $this->get($this->getProjectPath($project_id, 'snippets/'.self::encodePath($snippet_id).'/award_emoji'));
     }
@@ -162,7 +162,7 @@ class Snippets extends AbstractApi
      *
      * @return mixed
      */
-    public function removeAwardEmoji($project_id, $snippet_id, $award_id)
+    public function removeAwardEmoji($project_id, int $snippet_id, int $award_id)
     {
         return $this->delete($this->getProjectPath($project_id, 'snippets/'.self::encodePath($snippet_id).'/award_emoji/'.self::encodePath($award_id)));
     }
