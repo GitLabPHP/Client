@@ -11,14 +11,9 @@ parameters:
         - 'test'
     sets:
         - 'code-quality'
-        - 'dead-code'
         - 'php52'
         - 'php53'
         - 'php54'
-        - 'php55'
-        - 'php56'
-        - 'phpunit40'
-        - 'phpunit50'
 
 services:
     Rector\SOLID\Rector\Foreach_\ChangeNestedForeachIfsToEarlyContinueRector: ~
