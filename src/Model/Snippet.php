@@ -55,7 +55,7 @@ final class Snippet extends AbstractModel implements Notable
      *
      * @return void
      */
-    public function __construct(Project $project, $id = null, Client $client = null)
+    public function __construct(Project $project, int $id = null, Client $client = null)
     {
         $this->setClient($client);
         $this->setData('project', $project);
@@ -107,7 +107,7 @@ final class Snippet extends AbstractModel implements Notable
      *
      * @return Note
      */
-    public function addNote($body)
+    public function addNote(string $body)
     {
         $data = $this->client->snippets()->addNote($this->project->id, $this->id, $body);
 

@@ -89,7 +89,7 @@ final class User extends AbstractModel
      *
      * @return User
      */
-    public static function create(Client $client, $email, $password, array $params = [])
+    public static function create(Client $client, string $email, string $password, array $params = [])
     {
         $data = $client->users()->create($email, $password, $params);
 
@@ -102,7 +102,7 @@ final class User extends AbstractModel
      *
      * @return void
      */
-    public function __construct($id = null, Client $client = null)
+    public function __construct(?int $id = null, Client $client = null)
     {
         $this->setClient($client);
         $this->setData('id', $id);
@@ -181,7 +181,7 @@ final class User extends AbstractModel
      *
      * @return Key
      */
-    public function createKey($title, $key)
+    public function createKey(string $title, string $key)
     {
         $data = $this->client->users()->createKey($title, $key);
 
@@ -195,7 +195,7 @@ final class User extends AbstractModel
      *
      * @return Key
      */
-    public function createKeyForUser($user_id, $title, $key)
+    public function createKeyForUser(int $user_id, string $title, string $key)
     {
         $data = $this->client->users()->createKeyForUser($user_id, $title, $key);
 
@@ -207,7 +207,7 @@ final class User extends AbstractModel
      *
      * @return bool
      */
-    public function removeKey($id)
+    public function removeKey(int $id)
     {
         $this->client->users()->removeKey($id);
 
@@ -220,7 +220,7 @@ final class User extends AbstractModel
      *
      * @return User
      */
-    public function addToGroup($group_id, $access_level)
+    public function addToGroup(int $group_id, int $access_level)
     {
         $group = new Group($group_id, $this->getClient());
 
@@ -232,7 +232,7 @@ final class User extends AbstractModel
      *
      * @return bool
      */
-    public function removeFromGroup($group_id)
+    public function removeFromGroup(int $group_id)
     {
         $group = new Group($group_id, $this->getClient());
 

@@ -47,7 +47,7 @@ final class Wiki extends AbstractModel
      *
      * @return void
      */
-    public function __construct(Project $project, $slug = null, Client $client = null)
+    public function __construct(Project $project, ?string $slug = null, Client $client = null)
     {
         $this->setClient($client);
         $this->setData('project', $project);

@@ -52,7 +52,7 @@ final class ProjectNamespace extends AbstractModel
      *
      * @return void
      */
-    public function __construct($id = null, Client $client = null)
+    public function __construct(int $id = null, Client $client = null)
     {
         $this->setClient($client);
         $this->setData('id', $id);

@@ -59,7 +59,7 @@ final class ProjectHook extends AbstractModel
      *
      * @return void
      */
-    public function __construct(Project $project, $id, Client $client = null)
+    public function __construct(Project $project, int $id, Client $client = null)
     {
         $this->setClient($client);
         $this->setData('project', $project);

@@ -57,7 +57,7 @@ final class Tag extends AbstractModel
      *
      * @return void
      */
-    public function __construct(Project $project, $name = null, Client $client = null)
+    public function __construct(Project $project, ?string $name = null, Client $client = null)
     {
         $this->setClient($client);
         $this->setData('project', $project);

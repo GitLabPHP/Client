@@ -11,7 +11,7 @@ interface Stateful
      *
      * @return static
      */
-    public function close($note = null);
+    public function close(?string $note = null);
 
     /**
      * @return static

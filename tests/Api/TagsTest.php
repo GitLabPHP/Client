@@ -92,7 +92,7 @@ class TagsTest extends TestCase
      * @param string $description
      * @param array  $expectedResult
      */
-    public function shouldCreateRelease($releaseName, $description, $expectedResult)
+    public function shouldCreateRelease(string $releaseName, string $description, array $expectedResult)
     {
         $params = [
             'description' => $description,
@@ -115,7 +115,7 @@ class TagsTest extends TestCase
      * @param string $description
      * @param array  $expectedResult
      */
-    public function shouldUpdateRelease($releaseName, $description, $expectedResult)
+    public function shouldUpdateRelease(string $releaseName, string $description, array $expectedResult)
     {
         $params = [
             'description' => $description,

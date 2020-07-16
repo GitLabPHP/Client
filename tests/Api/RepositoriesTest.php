@@ -358,7 +358,7 @@ class RepositoriesTest extends TestCase
      * @param string $type
      * @param array  $expectedArray
      */
-    public function shouldGetCommitRefsWithParams($type, array $expectedArray)
+    public function shouldGetCommitRefsWithParams(string $type, array $expectedArray)
     {
         $api = $this->getApiMock();
         $api->expects($this->once())
