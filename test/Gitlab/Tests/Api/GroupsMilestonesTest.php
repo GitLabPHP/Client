@@ -3,6 +3,7 @@
 namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\GroupsMilestones;
+
 class GroupsMilestonesTest extends TestCase
 {
     /**

@@ -3,6 +3,7 @@
 namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\Wiki;
+
 class WikiTest extends TestCase
 {
     /**

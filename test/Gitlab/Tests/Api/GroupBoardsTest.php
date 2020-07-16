@@ -3,6 +3,7 @@
 namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\GroupsBoards;
+
 class GroupBoardsTest extends TestCase
 {
     /**

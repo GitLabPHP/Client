@@ -3,6 +3,7 @@
 namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\DeployKeys;
+
 class DeployKeysTest extends TestCase
 {
     /**

@@ -3,6 +3,7 @@
 namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\Groups;
+
 class GroupsTest extends TestCase
 {
     /**

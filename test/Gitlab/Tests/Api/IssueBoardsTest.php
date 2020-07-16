@@ -3,6 +3,7 @@
 namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\IssueBoards;
+
 class IssueBoardsTest extends TestCase
 {
     /**
