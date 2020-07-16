@@ -2,6 +2,7 @@
 
 namespace Gitlab;
 
+use Gitlab\Api\AbstractApi;
 use Gitlab\Api\DeployKeys;
 use Gitlab\Api\Deployments;
 use Gitlab\Api\Environments;
@@ -23,11 +24,10 @@ use Gitlab\Api\RepositoryFiles;
 use Gitlab\Api\Schedules;
 use Gitlab\Api\Snippets;
 use Gitlab\Api\SystemHooks;
-use Gitlab\Api\Users;
 use Gitlab\Api\Tags;
+use Gitlab\Api\Users;
 use Gitlab\Api\Version;
 use Gitlab\Api\Wiki;
-use Gitlab\Api\AbstractApi;
 use Gitlab\Exception\InvalidArgumentException;
 use Gitlab\HttpClient\Builder;
 use Gitlab\HttpClient\Plugin\ApiVersion;

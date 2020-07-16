@@ -2,13 +2,13 @@
 
 namespace Gitlab\HttpClient\Plugin;
 
-use Http\Client\Common\Plugin\VersionBridgePlugin;
 use Gitlab\Exception\ApiLimitExceededException;
 use Gitlab\Exception\ErrorException;
 use Gitlab\Exception\RuntimeException;
 use Gitlab\Exception\ValidationFailedException;
 use Gitlab\HttpClient\Message\ResponseMediator;
 use Http\Client\Common\Plugin;
+use Http\Client\Common\Plugin\VersionBridgePlugin;
 use Http\Promise\Promise;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;

@@ -2,9 +2,9 @@
 
 namespace Gitlab\Tests\HttpClient\Message;
 
-use function GuzzleHttp\Psr7\stream_for;
 use Gitlab\HttpClient\Message\ResponseMediator;
 use GuzzleHttp\Psr7\Response;
+use function GuzzleHttp\Psr7\stream_for;
 use PHPUnit\Framework\TestCase;
 
 /**
