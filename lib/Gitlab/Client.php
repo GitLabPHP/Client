@@ -176,7 +176,7 @@ class Client
     }
 
     /**
-     * @return Api\DeployKeys
+     * @return DeployKeys
      */
     public function deployKeys()
     {
@@ -184,7 +184,7 @@ class Client
     }
 
     /**
-     * @return Api\Deployments
+     * @return Deployments
      */
     public function deployments()
     {
@@ -192,7 +192,7 @@ class Client
     }
 
     /**
-     * @return Api\Environments
+     * @return Environments
      */
     public function environments()
     {
@@ -200,7 +200,7 @@ class Client
     }
 
     /**
-     * @return Api\Groups
+     * @return Groups
      */
     public function groups()
     {
@@ -208,7 +208,7 @@ class Client
     }
 
     /**
-     * @return Api\GroupsBoards
+     * @return GroupsBoards
      */
     public function groupsBoards()
     {
@@ -216,7 +216,7 @@ class Client
     }
 
     /**
-     * @return Api\GroupsMilestones
+     * @return GroupsMilestones
      */
     public function groupsMilestones()
     {
@@ -224,7 +224,7 @@ class Client
     }
 
     /**
-     * @return Api\IssueBoards
+     * @return IssueBoards
      */
     public function issueBoards()
     {
@@ -232,7 +232,7 @@ class Client
     }
 
     /**
-     * @return Api\IssueLinks
+     * @return IssueLinks
      */
     public function issueLinks()
     {
@@ -240,7 +240,7 @@ class Client
     }
 
     /**
-     * @return Api\Issues
+     * @return Issues
      */
     public function issues()
     {
@@ -248,7 +248,7 @@ class Client
     }
 
     /**
-     * @return Api\IssuesStatistics
+     * @return IssuesStatistics
      */
     public function issuesStatistics()
     {
@@ -256,7 +256,7 @@ class Client
     }
 
     /**
-     * @return Api\Jobs
+     * @return Jobs
      */
     public function jobs()
     {
@@ -264,7 +264,7 @@ class Client
     }
 
     /**
-     * @return Api\Keys
+     * @return Keys
      */
     public function keys()
     {
@@ -272,7 +272,7 @@ class Client
     }
 
     /**
-     * @return Api\MergeRequests
+     * @return MergeRequests
      */
     public function mergeRequests()
     {
@@ -280,7 +280,7 @@ class Client
     }
 
     /**
-     * @return Api\Milestones
+     * @return Milestones
      */
     public function milestones()
     {
@@ -288,7 +288,7 @@ class Client
     }
 
     /**
-     * @return Api\ProjectNamespaces
+     * @return ProjectNamespaces
      */
     public function namespaces()
     {
@@ -296,7 +296,7 @@ class Client
     }
 
     /**
-     * @return Api\Projects
+     * @return Projects
      */
     public function projects()
     {
@@ -304,7 +304,7 @@ class Client
     }
 
     /**
-     * @return Api\Repositories
+     * @return Repositories
      */
     public function repositories()
     {
@@ -312,7 +312,7 @@ class Client
     }
 
     /**
-     * @return Api\RepositoryFiles
+     * @return RepositoryFiles
      */
     public function repositoryFiles()
     {
@@ -320,7 +320,7 @@ class Client
     }
 
     /**
-     * @return Api\Schedules
+     * @return Schedules
      */
     public function schedules()
     {
@@ -328,7 +328,7 @@ class Client
     }
 
     /**
-     * @return Api\Snippets
+     * @return Snippets
      */
     public function snippets()
     {
@@ -336,7 +336,7 @@ class Client
     }
 
     /**
-     * @return Api\SystemHooks
+     * @return SystemHooks
      */
     public function systemHooks()
     {
@@ -344,7 +344,7 @@ class Client
     }
 
     /**
-     * @return Api\Users
+     * @return Users
      */
     public function users()
     {
@@ -352,7 +352,7 @@ class Client
     }
 
     /**
-     * @return Api\Tags
+     * @return Tags
      */
     public function tags()
     {
@@ -360,7 +360,7 @@ class Client
     }
 
     /**
-     * @return Api\Version
+     * @return Version
      */
     public function version()
     {
@@ -368,7 +368,7 @@ class Client
     }
 
     /**
-     * @return Api\Wiki
+     * @return Wiki
      */
     public function wiki()
     {
