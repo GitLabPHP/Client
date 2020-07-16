@@ -486,5 +486,6 @@ class Users extends AbstractApi
             ->setAllowedValues('sort', ['asc', 'desc'])
         ;
 
-        return $this->get('users/'.$this->encodePath($user_id).'/events', $resolver->resolve($parameters));    }
+        return $this->get('users/'.$this->encodePath($user_id).'/events', $resolver->resolve($parameters));
+    }
 }
