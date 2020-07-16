@@ -450,8 +450,8 @@ class Users extends AbstractApi
     }
 
     /**
-     * @param int $user_id
-     * @param array      $parameters {
+     * @param int   $user_id
+     * @param array $parameters {
      *
      *     @var string             $action      include only events of a particular action type
      *     @var string             $target_type include only events of a particular target type
