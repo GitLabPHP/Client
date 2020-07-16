@@ -723,4 +723,72 @@ class UsersTest extends TestCase
     {
         return 'Gitlab\Api\Users';
     }
+
+    /**
+     * @test
+     */
+    public function shouldGetEvents()
+    {
+        $expectedArray = [
+            ['id' => 1, 'title' => 'An event'],
+            ['id' => 2, 'title' => 'Another event'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users/1/events', [])
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->events(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetEventsWithDateTimeParams()
+    {
+        $expectedArray = [
+            ['id' => 1, 'title' => 'An event'],
+            ['id' => 2, 'title' => 'Another event'],
+        ];
+
+        $after = new \DateTime('2018-01-01 00:00:00');
+        $before = new \DateTime('2018-01-31 00:00:00');
+
+        $expectedWithArray = [
+            'after' => $after->format('Y-m-d'),
+            'before' => $before->format('Y-m-d'),
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users/1/events', $expectedWithArray)
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->events(1, ['after' => $after, 'before' => $before]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetEventsWithPagination()
+    {
+        $expectedArray = [
+            ['id' => 1, 'title' => 'An event'],
+            ['id' => 2, 'title' => 'Another event'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users/1/events', [
+                'page' => 2,
+                'per_page' => 15,
+            ])
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->events(1, ['page' => 2, 'per_page' => 15]));
+    }
 }
