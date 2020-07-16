@@ -344,19 +344,19 @@ class Client
     }
 
     /**
-     * @return Users
-     */
-    public function users()
-    {
-        return new Users($this);
-    }
-
-    /**
      * @return Tags
      */
     public function tags()
     {
         return new Tags($this);
+    }
+
+    /**
+     * @return Users
+     */
+    public function users()
+    {
+        return new Users($this);
     }
 
     /**
