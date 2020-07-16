@@ -19,10 +19,7 @@ class ReleaseTest extends TestCase
         ];
 
         $project = new Project();
-        $client = $this->getMockBuilder(Client::class)
-            ->disableOriginalConstructor()
-            ->getMock()
-        ;
+        $client = $this->createMock(Client::class);
 
         $release = Release::fromArray($client, $params);
 

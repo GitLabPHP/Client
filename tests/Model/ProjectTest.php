@@ -68,9 +68,7 @@ class ProjectTest extends TestCase
 
     public function testFromArray()
     {
-        $client = $this->getMockBuilder(Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $client = $this->createMock(Client::class);
 
         $data = $this->defaultArray();
 
@@ -127,9 +125,7 @@ class ProjectTest extends TestCase
 
     public function testCreateProjectWhenSharedWithGroup()
     {
-        $client = $this->getMockBuilder(Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $client = $this->createMock(Client::class);
 
         $data = $this->defaultArray([
             'shared_with_groups' => [
@@ -149,9 +145,7 @@ class ProjectTest extends TestCase
 
     public function testCreateProjectCanSharedWithMultipleGroups()
     {
-        $client = $this->getMockBuilder(Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $client = $this->createMock(Client::class);
 
         $data = $this->defaultArray([
             'shared_with_groups' => [

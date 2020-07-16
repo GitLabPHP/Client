@@ -23,10 +23,7 @@ class LabelTest extends TestCase
     public function testCorrectConstruct()
     {
         $project = new Project();
-        $client = $this->getMockBuilder(Client::class)
-            ->disableOriginalConstructor()
-            ->getMock()
-        ;
+        $client = $this->createMock(Client::class);
 
         $sUT = new Label($project, $client);
 
@@ -36,10 +33,7 @@ class LabelTest extends TestCase
     public function testFromArray()
     {
         $project = new Project();
-        $client = $this->getMockBuilder(Client::class)
-            ->disableOriginalConstructor()
-            ->getMock()
-        ;
+        $client = $this->createMock(Client::class);
 
         $sUT = Label::fromArray($client, $project, ['color' => '#FF0000', 'name' => 'Testing', 'id' => 123]);
 

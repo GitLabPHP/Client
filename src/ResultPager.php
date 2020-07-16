@@ -220,7 +220,7 @@ final class ResultPager implements ResultPagerInterface
      */
     private function get(string $key)
     {
-        $pagination = isset($this->pagination[$key]) ? $this->pagination[$key] : null;
+        $pagination = $this->pagination[$key] ?? null;
 
         if (null === $pagination) {
             return [];

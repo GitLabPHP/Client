@@ -14,9 +14,7 @@ class GroupTest extends TestCase
 {
     public function testFromArray()
     {
-        $client = $this->getMockBuilder(Client::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $client = $this->createMock(Client::class);
 
         $data = [
             'id' => 1,
@@ -78,14 +76,8 @@ class GroupTest extends TestCase
         ];
 
         //Mock API methods
-        $client = $this->getMockBuilder(Client::class)
-            ->disableOriginalConstructor()
-            ->getMock()
-        ;
-        $groups = $this->getMockBuilder(Groups::class)
-            ->disableOriginalConstructor()
-            ->getMock()
-        ;
+        $client = $this->createMock(Client::class);
+        $groups = $this->createMock(Groups::class);
         $client->method('groups')->willReturn($groups);
         $groups->method('projects')->willReturn([$project_data]);
 

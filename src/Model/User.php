@@ -74,7 +74,7 @@ final class User extends AbstractModel
      */
     public static function fromArray(Client $client, array $data)
     {
-        $id = isset($data['id']) ? $data['id'] : 0;
+        $id = $data['id'] ?? 0;
 
         $user = new self($id, $client);
 
