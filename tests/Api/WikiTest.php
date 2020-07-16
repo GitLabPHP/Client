@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Gitlab\Tests\Api;
 
+use Gitlab\Api\Wiki;
+
 class WikiTest extends TestCase
 {
     /**
@@ -120,6 +122,6 @@ class WikiTest extends TestCase
 
     protected function getApiClass()
     {
-        return 'Gitlab\Api\Wiki';
+        return Wiki::class;
     }
 }

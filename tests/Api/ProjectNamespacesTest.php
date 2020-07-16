@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Gitlab\Tests\Api;
 
+use Gitlab\Api\ProjectNamespaces;
+
 class ProjectNamespacesTest extends TestCase
 {
     /**
@@ -45,6 +47,6 @@ class ProjectNamespacesTest extends TestCase
 
     protected function getApiClass()
     {
-        return 'Gitlab\Api\ProjectNamespaces';
+        return ProjectNamespaces::class;
     }
 }

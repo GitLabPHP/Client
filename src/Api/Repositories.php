@@ -283,7 +283,7 @@ class Repositories extends AbstractApi
             ->setRequired('actions')
             ->setAllowedTypes('actions', 'array')
             ->setAllowedValues('actions', function (array $actions) {
-                return 0 < count($actions);
+                return 0 < \count($actions);
             })
             ->setNormalizer('actions', function (Options $resolver, array $actions) {
                 $actionsOptionsResolver = new OptionsResolver();
@@ -300,7 +300,7 @@ class Repositories extends AbstractApi
                     ->setAllowedValues('encoding', ['text', 'base64'])
                 ;
 
-                return array_map(function ($action) use ($actionsOptionsResolver) {
+                return \array_map(function ($action) use ($actionsOptionsResolver) {
                     return $actionsOptionsResolver->resolve($action);
                 }, $actions);
             })

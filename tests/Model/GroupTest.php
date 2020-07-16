@@ -92,7 +92,7 @@ class GroupTest extends TestCase
         //Create model objects
         $group = Group::fromArray($client, $group_data);
         $projects = $group->projects();
-        $this->assertSame(1, count($projects));
+        $this->assertSame(1, \count($projects));
 
         $project = $projects[0];
         $this->assertInstanceOf(Project::class, $project);

@@ -113,7 +113,7 @@ final class Project extends AbstractModel
             $data['owner'] = User::fromArray($client, $data['owner']);
         }
 
-        if (isset($data['namespace']) && is_array($data['namespace'])) {
+        if (isset($data['namespace']) && \is_array($data['namespace'])) {
             $data['namespace'] = ProjectNamespace::fromArray($client, $data['namespace']);
         }
 
@@ -121,7 +121,7 @@ final class Project extends AbstractModel
             $groups = [];
             foreach ($data['shared_with_groups'] as $group) {
                 foreach ($group as $keys => $value) {
-                    $group[str_replace('group_', '', $keys)] = $value;
+                    $group[\str_replace('group_', '', $keys)] = $value;
                     unset($group[$keys]);
                 }
                 $groups[] = Group::fromArray($client, $group);

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Gitlab\Tests\Api;
 
+use Gitlab\Api\Groups;
+
 class GroupsTest extends TestCase
 {
     /**
@@ -525,7 +527,7 @@ class GroupsTest extends TestCase
 
     protected function getApiClass()
     {
-        return 'Gitlab\Api\Groups';
+        return Groups::class;
     }
 
     /**

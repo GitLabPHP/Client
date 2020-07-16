@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Gitlab\Tests\Api;
 
+use Gitlab\Api\Users;
+
 class UsersTest extends TestCase
 {
     /**
@@ -705,7 +707,7 @@ class UsersTest extends TestCase
 
     protected function getApiClass()
     {
-        return 'Gitlab\Api\Users';
+        return Users::class;
     }
 
     /**

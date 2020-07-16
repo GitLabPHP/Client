@@ -50,7 +50,7 @@ class MergeRequests extends AbstractApi
         $resolver->setDefined('iids')
             ->setAllowedTypes('iids', 'array')
             ->setAllowedValues('iids', function (array $value) {
-                return count($value) == count(array_filter($value, 'is_int'));
+                return \count($value) === \count(\array_filter($value, 'is_int'));
             })
         ;
         $resolver->setDefined('state')
@@ -154,7 +154,7 @@ class MergeRequests extends AbstractApi
 
         return $this->post(
             $this->getProjectPath($project_id, 'merge_requests'),
-            array_merge($baseParams, $parameters)
+            \array_merge($baseParams, $parameters)
         );
     }
 
@@ -481,7 +481,7 @@ class MergeRequests extends AbstractApi
 
         return $this->post(
             $this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/approval_rules'),
-            array_merge($baseParam, $parameters)
+            \array_merge($baseParam, $parameters)
         );
     }
 
@@ -504,7 +504,7 @@ class MergeRequests extends AbstractApi
 
         return $this->put(
             $this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/approval_rules/'.self::encodePath($approval_rule_id)),
-            array_merge($baseParam, $parameters)
+            \array_merge($baseParam, $parameters)
         );
     }
 

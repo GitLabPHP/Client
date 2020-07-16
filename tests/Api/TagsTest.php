@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Gitlab\Tests\Api;
 
+use Gitlab\Api\Tags;
+
 class TagsTest extends TestCase
 {
     /**
@@ -99,7 +101,7 @@ class TagsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/repository/tags/'.str_replace(['/', '.'], ['%2F', '.'], $releaseName).'/release', $params)
+            ->with('projects/1/repository/tags/'.\str_replace('/', '%2F', $releaseName).'/release', $params)
             ->will($this->returnValue($expectedResult));
 
         $this->assertEquals($expectedResult, $api->createRelease(1, $releaseName, $params));
@@ -122,7 +124,7 @@ class TagsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/repository/tags/'.str_replace(['/', '.'], ['%2F', '.'], $releaseName).'/release', $params)
+            ->with('projects/1/repository/tags/'.\str_replace('/', '%2F', $releaseName).'/release', $params)
             ->will($this->returnValue($expectedResult));
 
         $this->assertEquals($expectedResult, $api->updateRelease(1, $releaseName, $params));
@@ -152,6 +154,6 @@ class TagsTest extends TestCase
 
     protected function getApiClass()
     {
-        return 'Gitlab\Api\Tags';
+        return Tags::class;
     }
 }

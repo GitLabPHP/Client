@@ -7,6 +7,7 @@ namespace Gitlab\Tests\HttpClient\Message;
 use Gitlab\Exception\RuntimeException;
 use Gitlab\HttpClient\Message\ResponseMediator;
 use GuzzleHttp\Psr7\Response;
+use function GuzzleHttp\Psr7\stream_for;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,7 +21,7 @@ class ResponseMediatorTest extends TestCase
         $response = new Response(
             200,
             ['Content-Type' => 'application/json'],
-            \GuzzleHttp\Psr7\stream_for('{"foo": "bar"}')
+            stream_for('{"foo": "bar"}')
         );
 
         $this->assertSame(['foo' => 'bar'], ResponseMediator::getContent($response));
@@ -28,23 +29,21 @@ class ResponseMediatorTest extends TestCase
 
     public function testGetContentNotJson()
     {
-        $body = 'foobar';
         $response = new Response(
             200,
             [],
-            \GuzzleHttp\Psr7\stream_for($body)
+            stream_for('foobar')
         );
 
-        $this->assertSame($body, ResponseMediator::getContent($response));
+        $this->assertSame('foobar', ResponseMediator::getContent($response));
     }
 
     public function testGetContentInvalidJson()
     {
-        $body = 'foobar';
         $response = new Response(
             200,
             ['Content-Type' => 'application/json'],
-            \GuzzleHttp\Psr7\stream_for($body)
+            stream_for('foobar')
         );
 
         $this->expectException(RuntimeException::class);
@@ -55,11 +54,10 @@ class ResponseMediatorTest extends TestCase
 
     public function testGetErrrorMessageInvalidJson()
     {
-        $body = 'foobar';
         $response = new Response(
             200,
             ['Content-Type' => 'application/json'],
-            \GuzzleHttp\Psr7\stream_for($body)
+            stream_for('foobar')
         );
 
         $this->assertNull(ResponseMediator::getErrorMessage($response));

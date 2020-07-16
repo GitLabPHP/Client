@@ -105,7 +105,7 @@ class Projects extends AbstractApi
     {
         $resolver = $this->createOptionsResolver();
         $booleanNormalizer = function (Options $resolver, $value) {
-            return $value ? true : false;
+            return (bool) $value;
         };
         $resolver->setDefined('statistics')
             ->setAllowedTypes('statistics', 'bool')
@@ -542,7 +542,7 @@ class Projects extends AbstractApi
      */
     public function addHook($project_id, $url, array $parameters = [])
     {
-        if (0 === count($parameters)) {
+        if (0 === \count($parameters)) {
             $parameters = ['push_events' => true];
         }
 

@@ -176,7 +176,7 @@ final class Issue extends AbstractModel implements Notable, Stateful
      */
     public function hasLabel($label)
     {
-        return in_array($label, $this->labels, true);
+        return \in_array($label, $this->labels, true);
     }
 
     /**
@@ -185,13 +185,13 @@ final class Issue extends AbstractModel implements Notable, Stateful
     public function links()
     {
         $data = $this->client->issueLinks()->all($this->project->id, $this->iid);
-        if (!is_array($data)) {
+        if (!\is_array($data)) {
             return [];
         }
 
         $projects = $this->client->projects();
 
-        return array_map(function ($data) use ($projects) {
+        return \array_map(function ($data) use ($projects) {
             return IssueLink::fromArray(
                 $this->client,
                 Project::fromArray($this->client, $projects->show($data['project_id'])),
@@ -208,7 +208,7 @@ final class Issue extends AbstractModel implements Notable, Stateful
     public function addLink(self $target)
     {
         $data = $this->client->issueLinks()->create($this->project->id, $this->iid, $target->project->id, $target->iid);
-        if (!is_array($data)) {
+        if (!\is_array($data)) {
             return [];
         }
 
@@ -227,7 +227,7 @@ final class Issue extends AbstractModel implements Notable, Stateful
     {
         // The two related issues have the same link ID.
         $data = $this->client->issueLinks()->remove($this->project->id, $this->iid, $issue_link_id);
-        if (!is_array($data)) {
+        if (!\is_array($data)) {
             return [];
         }
 

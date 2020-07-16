@@ -57,7 +57,7 @@ final class ResultPager implements ResultPagerInterface
     public function __construct(Client $client, int $perPage = null)
     {
         if (null !== $perPage && ($perPage < 1 || $perPage > 100)) {
-            throw new ValueError(sprintf('%s::__construct(): Argument #2 ($perPage) must be between 1 and 100, or null', self::class));
+            throw new ValueError(\sprintf('%s::__construct(): Argument #2 ($perPage) must be between 1 and 100, or null', self::class));
         }
 
         $this->client = $client;
@@ -80,7 +80,7 @@ final class ResultPager implements ResultPagerInterface
     {
         $result = $api->perPage($this->perPage)->$method(...$parameters);
 
-        if (!is_array($result)) {
+        if (!\is_array($result)) {
             throw new RuntimeException('Pagination of this endpoint is not supported.');
         }
 
@@ -102,7 +102,7 @@ final class ResultPager implements ResultPagerInterface
      */
     public function fetchAll(ApiInterface $api, string $method, array $parameters = [])
     {
-        return iterator_to_array($this->fetchAllLazy($api, $method, $parameters));
+        return \iterator_to_array($this->fetchAllLazy($api, $method, $parameters));
     }
 
     /**
@@ -208,11 +208,7 @@ final class ResultPager implements ResultPagerInterface
     {
         $response = $this->client->getLastResponse();
 
-        if (null === $response) {
-            $this->pagination = [];
-        } else {
-            $this->pagination = ResponseMediator::getPagination($response);
-        }
+        $this->pagination = null === $response ? [] : ResponseMediator::getPagination($response);
     }
 
     /**
@@ -234,7 +230,7 @@ final class ResultPager implements ResultPagerInterface
 
         $content = ResponseMediator::getContent($result);
 
-        if (!is_array($content)) {
+        if (!\is_array($content)) {
             throw new RuntimeException('Pagination of this endpoint is not supported.');
         }
 

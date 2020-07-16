@@ -61,7 +61,7 @@ final class Note extends AbstractModel
     public function __construct(Notable $type, Client $client = null)
     {
         $this->setClient($client);
-        $this->setData('parent_type', get_class($type));
+        $this->setData('parent_type', \get_class($type));
         $this->setData('parent', $type);
     }
 }

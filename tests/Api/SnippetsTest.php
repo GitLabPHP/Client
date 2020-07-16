@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Gitlab\Tests\Api;
 
+use Gitlab\Api\Snippets;
+
 class SnippetsTest extends TestCase
 {
     /**
@@ -238,6 +240,6 @@ class SnippetsTest extends TestCase
 
     protected function getApiClass()
     {
-        return 'Gitlab\Api\Snippets';
+        return Snippets::class;
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Gitlab\Tests\Api;
 
+use Gitlab\Api\Schedules;
+
 class ScheduleTest extends TestCase
 {
     /**
@@ -125,6 +127,6 @@ class ScheduleTest extends TestCase
 
     protected function getApiClass()
     {
-        return 'Gitlab\Api\Schedules';
+        return Schedules::class;
     }
 }

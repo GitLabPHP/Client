@@ -26,11 +26,11 @@ final class JsonArray
         $data = \json_decode($json, true);
 
         if (\JSON_ERROR_NONE !== \json_last_error()) {
-            throw new RuntimeException(sprintf('json_decode error: %s', \json_last_error_msg()));
+            throw new RuntimeException(\sprintf('json_decode error: %s', \json_last_error_msg()));
         }
 
         if (null === $data || !\is_array($data)) {
-            throw new RuntimeException(sprintf('json_decode error: Expected JSON of type array, %s given.', \get_debug_type($data)));
+            throw new RuntimeException(\sprintf('json_decode error: Expected JSON of type array, %s given.', \get_debug_type($data)));
         }
 
         return $data;
@@ -50,7 +50,7 @@ final class JsonArray
         $json = \json_encode($value);
 
         if (\JSON_ERROR_NONE !== \json_last_error()) {
-            throw new RuntimeException(sprintf('json_encode error: %s', \json_last_error_msg()));
+            throw new RuntimeException(\sprintf('json_encode error: %s', \json_last_error_msg()));
         }
 
         /** @var string */

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Gitlab\Tests\Api;
 
+use Gitlab\Api\Keys;
+
 class KeysTest extends TestCase
 {
     /**
@@ -23,6 +25,6 @@ class KeysTest extends TestCase
 
     protected function getApiClass()
     {
-        return 'Gitlab\Api\Keys';
+        return Keys::class;
     }
 }

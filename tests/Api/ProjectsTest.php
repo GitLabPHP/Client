@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Gitlab\Tests\Api;
 
+use Gitlab\Api\Projects;
+
 class ProjectsTest extends TestCase
 {
     /**
@@ -1998,6 +2000,6 @@ class ProjectsTest extends TestCase
 
     protected function getApiClass()
     {
-        return 'Gitlab\Api\Projects';
+        return Projects::class;
     }
 }

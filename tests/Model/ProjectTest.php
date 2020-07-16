@@ -15,7 +15,7 @@ class ProjectTest extends TestCase
 {
     public function defaultArray(array $overrides = [])
     {
-        $defaults = array_merge([
+        return \array_merge([
             'id' => 4,
             'description' => null,
             'default_branch' => 'master',
@@ -64,8 +64,6 @@ class ProjectTest extends TestCase
             'merge_method' => 'merge',
             'approvals_before_merge' => 0,
         ], $overrides);
-
-        return $defaults;
     }
 
     public function testFromArray()

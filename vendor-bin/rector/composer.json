@@ -1,0 +1,8 @@
+{
+    "require": {
+        "rector/rector": "~0.7.48"
+    },
+    "config": {
+        "preferred-install": "dist"
+    }
+}

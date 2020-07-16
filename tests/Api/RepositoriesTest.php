@@ -628,6 +628,6 @@ class RepositoriesTest extends TestCase
 
     protected function getApiClass()
     {
-        return 'Gitlab\Api\Repositories';
+        return Repositories::class;
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Gitlab\Tests\Api;
 
+use Gitlab\Api\MergeRequests;
+
 class MergeRequestsTest extends TestCase
 {
     /**
@@ -833,7 +835,7 @@ class MergeRequestsTest extends TestCase
 
     protected function getApiClass()
     {
-        return 'Gitlab\Api\MergeRequests';
+        return MergeRequests::class;
     }
 
     /**

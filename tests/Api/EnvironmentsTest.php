@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Gitlab\Tests\Api;
 
+use Gitlab\Api\Environments;
+
 class EnvironmentsTest extends TestCase
 {
     /**
@@ -192,6 +194,6 @@ See merge request !1',
 
     protected function getApiClass()
     {
-        return 'Gitlab\Api\Environments';
+        return Environments::class;
     }
 }
