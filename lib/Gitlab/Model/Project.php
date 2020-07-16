@@ -113,7 +113,7 @@ class Project extends AbstractModel
             $data['owner'] = User::fromArray($client, $data['owner']);
         }
 
-        if (isset($data['namespace']) && is_array($data['namespace'])) {
+        if (isset($data['namespace']) && \is_array($data['namespace'])) {
             $data['namespace'] = ProjectNamespace::fromArray($client, $data['namespace']);
         }
 
@@ -121,7 +121,7 @@ class Project extends AbstractModel
             $groups = [];
             foreach ($data['shared_with_groups'] as $group) {
                 foreach ($group as $keys => $value) {
-                    $group[str_replace('group_', '', $keys)] = $value;
+                    $group[\str_replace('group_', '', $keys)] = $value;
                     unset($group[$keys]);
                 }
                 $groups[] = Group::fromArray($client, $group);
@@ -637,7 +637,7 @@ class Project extends AbstractModel
      */
     public function blob($sha, $filepath)
     {
-        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the getRawFile() method instead.', __METHOD__), E_USER_DEPRECATED);
+        @\trigger_error(\sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the getRawFile() method instead.', __METHOD__), E_USER_DEPRECATED);
 
         return $this->client->repositories()->blob($this->id, $sha, $filepath);
     }
@@ -831,7 +831,7 @@ class Project extends AbstractModel
      */
     public function createMergeRequest($source, $target, $title, $parameters = null, $description = null)
     {
-        if (is_array($parameters)) {
+        if (\is_array($parameters)) {
             $parameters['target_project_id'] = $this->id;
 
             $data = $this->client->mergeRequests()->create(
@@ -843,11 +843,11 @@ class Project extends AbstractModel
             );
         } else {
             if (null !== $parameters) {
-                @trigger_error(sprintf('Passing the assignee to the %s() method\'s $parameters parameter is deprecated since version 9.18 and will be banned in 10.0. Use $parameters[\'assignee_id\'] instead.', __METHOD__), E_USER_DEPRECATED);
+                @\trigger_error(\sprintf('Passing the assignee to the %s() method\'s $parameters parameter is deprecated since version 9.18 and will be banned in 10.0. Use $parameters[\'assignee_id\'] instead.', __METHOD__), E_USER_DEPRECATED);
             }
 
             if (null !== $description) {
-                @trigger_error(sprintf('The %s() method\'s $description parameter is deprecated since version 9.18 and will be removed in 10.0. Use $parameters[\'description\'] instead.', __METHOD__), E_USER_DEPRECATED);
+                @\trigger_error(\sprintf('The %s() method\'s $description parameter is deprecated since version 9.18 and will be removed in 10.0. Use $parameters[\'description\'] instead.', __METHOD__), E_USER_DEPRECATED);
             }
 
             $data = $this->client->mergeRequests()->create(

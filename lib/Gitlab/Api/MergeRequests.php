@@ -48,7 +48,7 @@ class MergeRequests extends AbstractApi
         $resolver->setDefined('iids')
             ->setAllowedTypes('iids', 'array')
             ->setAllowedValues('iids', function (array $value) {
-                return count($value) === count(array_filter($value, 'is_int'));
+                return \count($value) === \count(\array_filter($value, 'is_int'));
             })
         ;
         $resolver->setDefined('state')
@@ -142,7 +142,7 @@ class MergeRequests extends AbstractApi
      */
     public function create($project_id, $source, $target, $title, $parameters = null, $target_project_id = null, $description = null, array $legacyParams = null)
     {
-        if (is_array($parameters)) {
+        if (\is_array($parameters)) {
             return $this->post(
                 $this->getProjectPath($project_id, 'merge_requests'),
                 $parameters
@@ -150,19 +150,19 @@ class MergeRequests extends AbstractApi
         }
 
         if (null !== $parameters) {
-            @trigger_error(sprintf('Passing the assignee to the %s() method\'s $parameters parameter is deprecated since version 9.18 and will be banned in 10.0. Use $parameters[\'assignee_id\'] instead.', __METHOD__), E_USER_DEPRECATED);
+            @\trigger_error(\sprintf('Passing the assignee to the %s() method\'s $parameters parameter is deprecated since version 9.18 and will be banned in 10.0. Use $parameters[\'assignee_id\'] instead.', __METHOD__), E_USER_DEPRECATED);
         }
 
         if (null !== $target_project_id) {
-            @trigger_error(sprintf('The %s() method\'s $target_project_id parameter is deprecated since version 9.18 and will be removed in 10.0. Use $parameters[\'target_project_id\'] instead.', __METHOD__), E_USER_DEPRECATED);
+            @\trigger_error(\sprintf('The %s() method\'s $target_project_id parameter is deprecated since version 9.18 and will be removed in 10.0. Use $parameters[\'target_project_id\'] instead.', __METHOD__), E_USER_DEPRECATED);
         }
 
         if (null !== $description) {
-            @trigger_error(sprintf('The %s() method\'s $description parameter is deprecated since version 9.18 and will be removed in 10.0. Use $parameters[\'description\'] instead.', __METHOD__), E_USER_DEPRECATED);
+            @\trigger_error(\sprintf('The %s() method\'s $description parameter is deprecated since version 9.18 and will be removed in 10.0. Use $parameters[\'description\'] instead.', __METHOD__), E_USER_DEPRECATED);
         }
 
         if (null !== $legacyParams) {
-            @trigger_error(sprintf('The %s() method\'s $legacyParams parameter is deprecated since version 9.18 and will be removed in 10.0. Use $parameters instead.', __METHOD__), E_USER_DEPRECATED);
+            @\trigger_error(\sprintf('The %s() method\'s $legacyParams parameter is deprecated since version 9.18 and will be removed in 10.0. Use $parameters instead.', __METHOD__), E_USER_DEPRECATED);
         }
 
         $baseParams = [
@@ -176,7 +176,7 @@ class MergeRequests extends AbstractApi
 
         return $this->post(
             $this->getProjectPath($project_id, 'merge_requests'),
-            array_merge($baseParams, null === $legacyParams ? [] : $legacyParams)
+            \array_merge($baseParams, null === $legacyParams ? [] : $legacyParams)
         );
     }
 
@@ -201,10 +201,10 @@ class MergeRequests extends AbstractApi
      */
     public function merge($project_id, $mr_iid, $parameters = null)
     {
-        if (is_array($parameters)) {
+        if (\is_array($parameters)) {
             $params = $parameters;
         } else {
-            @trigger_error(sprintf('Passing a string to the $parameters parameter of %s() is deprecated since 9.18 and will be banned in 10.0.', __METHOD__), E_USER_DEPRECATED);
+            @\trigger_error(\sprintf('Passing a string to the $parameters parameter of %s() is deprecated since 9.18 and will be banned in 10.0.', __METHOD__), E_USER_DEPRECATED);
             $params = ['merge_commit_message' => $parameters];
         }
 
@@ -245,7 +245,7 @@ class MergeRequests extends AbstractApi
     public function addNote($project_id, $mr_iid, $body, $created_at = null)
     {
         if (null !== $created_at) {
-            @trigger_error(sprintf('The %s() method\'s $created_at parameter is deprecated since version 9.18 and will be removed in 10.0. There is no replacement as this parameter was removed by GitLab.', __METHOD__), E_USER_DEPRECATED);
+            @\trigger_error(\sprintf('The %s() method\'s $created_at parameter is deprecated since version 9.18 and will be removed in 10.0. There is no replacement as this parameter was removed by GitLab.', __METHOD__), E_USER_DEPRECATED);
 
             return $this->post($this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/notes'), [
                 'body' => $body,
@@ -295,7 +295,7 @@ class MergeRequests extends AbstractApi
      */
     public function showComments($project_id, $mr_iid)
     {
-        @trigger_error(sprintf('The %s() method is deprecated since version 9.1 and will be removed in 10.0. Use the showNotes() method instead.', __METHOD__), E_USER_DEPRECATED);
+        @\trigger_error(\sprintf('The %s() method is deprecated since version 9.1 and will be removed in 10.0. Use the showNotes() method instead.', __METHOD__), E_USER_DEPRECATED);
 
         return $this->showNotes($project_id, $mr_iid);
     }
@@ -312,7 +312,7 @@ class MergeRequests extends AbstractApi
      */
     public function addComment($project_id, $mr_iid, $note, $created_at = null)
     {
-        @trigger_error(sprintf('The %s() method is deprecated since version 9.1 and will be removed in 10.0. Use the addNote() method instead.', __METHOD__), E_USER_DEPRECATED);
+        @\trigger_error(\sprintf('The %s() method is deprecated since version 9.1 and will be removed in 10.0. Use the addNote() method instead.', __METHOD__), E_USER_DEPRECATED);
 
         return $this->addNote($project_id, $mr_iid, $note, $created_at);
     }
@@ -378,8 +378,8 @@ class MergeRequests extends AbstractApi
     public function addDiscussionNote($project_id, $mr_iid, $discussion_id, $body)
     {
         // backwards compatibility
-        if (is_array($body)) {
-            @trigger_error(sprintf('Passing an array to the $message parameter of %s() is deprecated since 9.18 and will be banned in 10.0.', __METHOD__), E_USER_DEPRECATED);
+        if (\is_array($body)) {
+            @\trigger_error(\sprintf('Passing an array to the $message parameter of %s() is deprecated since 9.18 and will be banned in 10.0.', __METHOD__), E_USER_DEPRECATED);
             $params = $body;
         } else {
             $params = ['body' => $body];
@@ -560,7 +560,7 @@ class MergeRequests extends AbstractApi
 
         return $this->post(
             $this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/approval_rules'),
-            array_merge($baseParam, $parameters)
+            \array_merge($baseParam, $parameters)
         );
     }
 
@@ -583,7 +583,7 @@ class MergeRequests extends AbstractApi
 
         return $this->put(
             $this->getProjectPath($project_id, 'merge_requests/'.$this->encodePath($mr_iid).'/approval_rules/'.$this->encodePath($approval_rule_id)),
-            array_merge($baseParam, $parameters)
+            \array_merge($baseParam, $parameters)
         );
     }
 

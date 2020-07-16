@@ -24,7 +24,7 @@ class AbstractApiTest extends TestCase
         $expectedBody = 'array_param[]=value1&array_param[]=value2';
 
         $abstractApiMock = $this->getAbstractApiMock();
-        $reflection = new ReflectionClass(get_class($abstractApiMock));
+        $reflection = new ReflectionClass(\get_class($abstractApiMock));
         $method = $reflection->getMethod('prepareBody');
         $method->setAccessible(true);
         $stream = $method->invokeArgs(
@@ -34,7 +34,7 @@ class AbstractApiTest extends TestCase
             ]
         );
 
-        $this->assertEquals($expectedBody, urldecode((string) $stream));
+        $this->assertEquals($expectedBody, \urldecode((string) $stream));
     }
 
     protected function getAbstractApiMock(array $methods = [])

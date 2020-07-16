@@ -19,13 +19,13 @@ final class QueryStringBuilder
      */
     public static function build($query)
     {
-        if (!is_array($query)) {
+        if (!\is_array($query)) {
             return self::rawurlencode($query);
         }
 
-        return implode('&', array_map(function ($value, $key) {
+        return \implode('&', \array_map(function ($value, $key) {
             return self::encode($value, $key);
-        }, $query, array_keys($query)));
+        }, $query, \array_keys($query)));
     }
 
     /**
@@ -38,17 +38,17 @@ final class QueryStringBuilder
      */
     private static function encode($query, $prefix)
     {
-        if (!is_array($query)) {
+        if (!\is_array($query)) {
             return self::rawurlencode($prefix).'='.self::rawurlencode($query);
         }
 
         $isList = self::isList($query);
 
-        return implode('&', array_map(function ($value, $key) use ($prefix, $isList) {
+        return \implode('&', \array_map(function ($value, $key) use ($prefix, $isList) {
             $prefix = $isList ? $prefix.'[]' : $prefix.'['.$key.']';
 
             return self::encode($value, $prefix);
-        }, $query, array_keys($query)));
+        }, $query, \array_keys($query)));
     }
 
     /**
@@ -60,11 +60,11 @@ final class QueryStringBuilder
      */
     private static function isList(array $query)
     {
-        if (0 === count($query) || !isset($query[0])) {
+        if (0 === \count($query) || !isset($query[0])) {
             return false;
         }
 
-        return array_keys($query) === range(0, count($query) - 1);
+        return \array_keys($query) === \range(0, \count($query) - 1);
     }
 
     /**
@@ -80,6 +80,6 @@ final class QueryStringBuilder
             return '0';
         }
 
-        return rawurlencode((string) $value);
+        return \rawurlencode((string) $value);
     }
 }

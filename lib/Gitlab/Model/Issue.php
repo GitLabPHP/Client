@@ -171,7 +171,7 @@ class Issue extends AbstractModel implements Noteable, Notable
      */
     public function addComment($comment, $created_at = null)
     {
-        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the addNote() method instead.', __METHOD__), E_USER_DEPRECATED);
+        @\trigger_error(\sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the addNote() method instead.', __METHOD__), E_USER_DEPRECATED);
 
         if (null === $created_at) {
             return $this->addNote($comment);
@@ -192,7 +192,7 @@ class Issue extends AbstractModel implements Noteable, Notable
      */
     public function showComments()
     {
-        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the result pager with the conventional API methods.', __METHOD__), E_USER_DEPRECATED);
+        @\trigger_error(\sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the result pager with the conventional API methods.', __METHOD__), E_USER_DEPRECATED);
 
         $notes = [];
         $data = $this->client->issues()->showNotes($this->project->id, $this->iid);
@@ -219,7 +219,7 @@ class Issue extends AbstractModel implements Noteable, Notable
      */
     public function hasLabel($label)
     {
-        return in_array($label, $this->labels, true);
+        return \in_array($label, $this->labels, true);
     }
 
     /**
@@ -228,13 +228,13 @@ class Issue extends AbstractModel implements Noteable, Notable
     public function links()
     {
         $data = $this->client->issueLinks()->all($this->project->id, $this->iid);
-        if (!is_array($data)) {
+        if (!\is_array($data)) {
             return [];
         }
 
         $projects = $this->client->projects();
 
-        return array_map(function ($data) use ($projects) {
+        return \array_map(function ($data) use ($projects) {
             return IssueLink::fromArray(
                 $this->client,
                 Project::fromArray($this->client, $projects->show($data['project_id'])),
@@ -251,7 +251,7 @@ class Issue extends AbstractModel implements Noteable, Notable
     public function addLink(self $target)
     {
         $data = $this->client->issueLinks()->create($this->project->id, $this->iid, $target->project->id, $target->iid);
-        if (!is_array($data)) {
+        if (!\is_array($data)) {
             return [];
         }
 
@@ -270,7 +270,7 @@ class Issue extends AbstractModel implements Noteable, Notable
     {
         // The two related issues have the same link ID.
         $data = $this->client->issueLinks()->remove($this->project->id, $this->iid, $issue_link_id);
-        if (!is_array($data)) {
+        if (!\is_array($data)) {
             return [];
         }
 

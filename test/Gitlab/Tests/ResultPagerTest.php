@@ -62,7 +62,7 @@ class ResultPagerTest extends TestCase
             ))
         ;
 
-        if (interface_exists(HttpMethodsClientInterface::class)) {
+        if (\interface_exists(HttpMethodsClientInterface::class)) {
             $httpClient = $this->createMock(HttpMethodsClientInterface::class);
         } else {
             $httpClient = $this->getMockBuilder(HttpMethodsClient::class)

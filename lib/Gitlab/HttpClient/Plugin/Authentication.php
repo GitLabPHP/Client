@@ -84,7 +84,7 @@ class Authentication implements Plugin
                 }
 
                 $query .= '' === $query ? '' : '&';
-                $query .= utf8_encode(http_build_query($parameters, '', '&'));
+                $query .= \utf8_encode(\http_build_query($parameters, '', '&'));
 
                 $uri = $uri->withQuery($query);
                 $request = $request->withUri($uri);

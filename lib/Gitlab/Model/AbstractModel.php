@@ -57,7 +57,7 @@ abstract class AbstractModel
      */
     public function api($name)
     {
-        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the direct methods instead.', __METHOD__), E_USER_DEPRECATED);
+        @\trigger_error(\sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the direct methods instead.', __METHOD__), E_USER_DEPRECATED);
 
         return $this->getClient()->api($name);
     }
@@ -84,7 +84,7 @@ abstract class AbstractModel
      */
     protected function setData($field, $value)
     {
-        if (in_array($field, static::$properties, true)) {
+        if (\in_array($field, static::$properties, true)) {
             $this->data[$field] = $value;
         }
 
@@ -121,8 +121,8 @@ abstract class AbstractModel
      */
     public function __get($property)
     {
-        if (!in_array($property, static::$properties, true)) {
-            throw new RuntimeException(sprintf('Property "%s" does not exist for %s object', $property, get_called_class()));
+        if (!\in_array($property, static::$properties, true)) {
+            throw new RuntimeException(\sprintf('Property "%s" does not exist for %s object', $property, \get_called_class()));
         }
 
         if (isset($this->data[$property])) {

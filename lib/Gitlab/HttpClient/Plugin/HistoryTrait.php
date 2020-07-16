@@ -7,7 +7,7 @@ use Http\Client\Exception;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Message\RequestInterface;
 
-if (interface_exists(HttpMethodsClientInterface::class)) {
+if (\interface_exists(HttpMethodsClientInterface::class)) {
     /**
      * @internal
      */

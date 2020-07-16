@@ -181,7 +181,7 @@ class Issues extends AbstractApi
      */
     public function showComments($project_id, $issue_iid)
     {
-        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the showNotes() method instead.', __METHOD__), E_USER_DEPRECATED);
+        @\trigger_error(\sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the showNotes() method instead.', __METHOD__), E_USER_DEPRECATED);
 
         return $this->showNotes($project_id, $issue_iid);
     }
@@ -197,7 +197,7 @@ class Issues extends AbstractApi
      */
     public function showComment($project_id, $issue_iid, $note_id)
     {
-        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the showNote() method instead.', __METHOD__), E_USER_DEPRECATED);
+        @\trigger_error(\sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the showNote() method instead.', __METHOD__), E_USER_DEPRECATED);
 
         return $this->showNote($project_id, $issue_iid, $note_id);
     }
@@ -213,9 +213,9 @@ class Issues extends AbstractApi
      */
     public function addComment($project_id, $issue_iid, $body)
     {
-        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the addNote() method instead.', __METHOD__), E_USER_DEPRECATED);
+        @\trigger_error(\sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the addNote() method instead.', __METHOD__), E_USER_DEPRECATED);
 
-        if (is_array($body)) {
+        if (\is_array($body)) {
             return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/notes'), $body);
         }
 
@@ -234,7 +234,7 @@ class Issues extends AbstractApi
      */
     public function updateComment($project_id, $issue_iid, $note_id, $body)
     {
-        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the updateNote() method instead.', __METHOD__), E_USER_DEPRECATED);
+        @\trigger_error(\sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the updateNote() method instead.', __METHOD__), E_USER_DEPRECATED);
 
         return $this->updateNote($project_id, $issue_iid, $note_id, $body);
     }
@@ -250,7 +250,7 @@ class Issues extends AbstractApi
      */
     public function removeComment($project_id, $issue_iid, $note_id)
     {
-        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the removeNote() method instead.', __METHOD__), E_USER_DEPRECATED);
+        @\trigger_error(\sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the removeNote() method instead.', __METHOD__), E_USER_DEPRECATED);
 
         return $this->removeNote($project_id, $issue_iid, $note_id);
     }
@@ -288,8 +288,8 @@ class Issues extends AbstractApi
     public function addDiscussion($project_id, $issue_iid, $body)
     {
         // backwards compatibility
-        if (is_array($body)) {
-            @trigger_error(sprintf('Passing an array to the $body parameter of %s() is deprecated since 9.18 and will be banned in 10.0.', __METHOD__), E_USER_DEPRECATED);
+        if (\is_array($body)) {
+            @\trigger_error(\sprintf('Passing an array to the $body parameter of %s() is deprecated since 9.18 and will be banned in 10.0.', __METHOD__), E_USER_DEPRECATED);
             $params = $body;
         } else {
             $params = ['body' => $body];
@@ -309,8 +309,8 @@ class Issues extends AbstractApi
     public function addDiscussionNote($project_id, $issue_iid, $discussion_id, $body)
     {
         // backwards compatibility
-        if (is_array($body)) {
-            @trigger_error(sprintf('Passing an array to the $body parameter of %s() is deprecated since 9.18 and will be banned in 10.0.', __METHOD__), E_USER_DEPRECATED);
+        if (\is_array($body)) {
+            @\trigger_error(\sprintf('Passing an array to the $body parameter of %s() is deprecated since 9.18 and will be banned in 10.0.', __METHOD__), E_USER_DEPRECATED);
             $params = $body;
         } else {
             $params = ['body' => $body];
@@ -515,7 +515,7 @@ class Issues extends AbstractApi
         $resolver->setDefined('iids')
             ->setAllowedTypes('iids', 'array')
             ->setAllowedValues('iids', function (array $value) {
-                return count($value) === count(array_filter($value, 'is_int'));
+                return \count($value) === \count(\array_filter($value, 'is_int'));
             })
         ;
         $resolver->setDefined('scope')

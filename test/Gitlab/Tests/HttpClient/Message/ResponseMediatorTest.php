@@ -18,7 +18,7 @@ class ResponseMediatorTest extends TestCase
         $response = new Response(
             200,
             ['Content-Type' => 'application/json'],
-            stream_for(json_encode($body))
+            stream_for(\json_encode($body))
         );
 
         $this->assertSame($body, ResponseMediator::getContent($response));

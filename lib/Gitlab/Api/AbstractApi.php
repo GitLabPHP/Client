@@ -48,7 +48,7 @@ abstract class AbstractApi implements ApiInterface
         if (null === $streamFactory) {
             $this->streamFactory = $client->getStreamFactory();
         } else {
-            @trigger_error(sprintf('The %s() method\'s $streamFactory parameter is deprecated since version 9.18 and will be removed in 10.0.', __METHOD__), E_USER_DEPRECATED);
+            @\trigger_error(\sprintf('The %s() method\'s $streamFactory parameter is deprecated since version 9.18 and will be removed in 10.0.', __METHOD__), E_USER_DEPRECATED);
             $this->streamFactory = $streamFactory;
         }
     }
@@ -60,7 +60,7 @@ abstract class AbstractApi implements ApiInterface
      */
     public function configure()
     {
-        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0.', __METHOD__), E_USER_DEPRECATED);
+        @\trigger_error(\sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0.', __METHOD__), E_USER_DEPRECATED);
 
         return $this;
     }
@@ -106,10 +106,10 @@ abstract class AbstractApi implements ApiInterface
         $path = $this->preparePath($path);
 
         $body = null;
-        if (0 === count($files) && 0 < count($parameters)) {
+        if (0 === \count($files) && 0 < \count($parameters)) {
             $body = $this->prepareBody($parameters);
             $requestHeaders['Content-Type'] = 'application/x-www-form-urlencoded';
-        } elseif (0 < count($files)) {
+        } elseif (0 < \count($files)) {
             $builder = new MultipartStreamBuilder($this->streamFactory);
 
             foreach ($parameters as $name => $value) {
@@ -121,7 +121,7 @@ abstract class AbstractApi implements ApiInterface
                     'headers' => [
                         'Content-Type' => $this->guessContentType($file),
                     ],
-                    'filename' => basename($file),
+                    'filename' => \basename($file),
                 ]);
             }
 
@@ -147,10 +147,10 @@ abstract class AbstractApi implements ApiInterface
         $path = $this->preparePath($path);
 
         $body = null;
-        if (0 === count($files) && 0 < count($parameters)) {
+        if (0 === \count($files) && 0 < \count($parameters)) {
             $body = $this->prepareBody($parameters);
             $requestHeaders['Content-Type'] = 'application/x-www-form-urlencoded';
-        } elseif (0 < count($files)) {
+        } elseif (0 < \count($files)) {
             $builder = new MultipartStreamBuilder($this->streamFactory);
 
             foreach ($parameters as $name => $value) {
@@ -162,7 +162,7 @@ abstract class AbstractApi implements ApiInterface
                     'headers' => [
                         'Content-Type' => $this->guessContentType($file),
                     ],
-                    'filename' => basename($file),
+                    'filename' => \basename($file),
                 ]);
             }
 
@@ -220,9 +220,9 @@ abstract class AbstractApi implements ApiInterface
      */
     protected function encodePath($path)
     {
-        $path = rawurlencode((string) $path);
+        $path = \rawurlencode((string) $path);
 
-        return str_replace('.', '%2E', $path);
+        return \str_replace('.', '%2E', $path);
     }
 
     /**
@@ -256,7 +256,7 @@ abstract class AbstractApi implements ApiInterface
      */
     private function prepareBody(array $parameters = [])
     {
-        $parameters = array_filter($parameters, function ($value) {
+        $parameters = \array_filter($parameters, function ($value) {
             return null !== $value;
         });
 
@@ -273,11 +273,11 @@ abstract class AbstractApi implements ApiInterface
      */
     private function preparePath($path, array $parameters = [])
     {
-        $parameters = array_filter($parameters, function ($value) {
+        $parameters = \array_filter($parameters, function ($value) {
             return null !== $value;
         });
 
-        if (count($parameters) > 0) {
+        if (\count($parameters) > 0) {
             $path .= '?'.QueryStringBuilder::build($parameters);
         }
 
@@ -291,7 +291,7 @@ abstract class AbstractApi implements ApiInterface
      */
     private function guessContentType($file)
     {
-        if (!class_exists(\finfo::class, false)) {
+        if (!\class_exists(\finfo::class, false)) {
             return 'application/octet-stream';
         }
 
@@ -319,17 +319,17 @@ abstract class AbstractApi implements ApiInterface
     private static function tryFopen($filename, $mode)
     {
         $ex = null;
-        set_error_handler(function () use ($filename, $mode, &$ex) {
-            $ex = new RuntimeException(sprintf(
+        \set_error_handler(function () use ($filename, $mode, &$ex) {
+            $ex = new RuntimeException(\sprintf(
                 'Unable to open %s using mode %s: %s',
                 $filename,
                 $mode,
-                func_get_args()[1]
+                \func_get_args()[1]
             ));
         });
 
-        $handle = fopen($filename, $mode);
-        restore_error_handler();
+        $handle = \fopen($filename, $mode);
+        \restore_error_handler();
 
         if (null !== $ex) {
             throw $ex;

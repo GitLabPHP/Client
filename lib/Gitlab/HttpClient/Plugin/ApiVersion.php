@@ -39,7 +39,7 @@ class ApiVersion implements Plugin
     {
         $uri = $request->getUri();
 
-        if ('/api/v4/' !== substr($uri->getPath(), 0, 8) && !$this->redirected) {
+        if ('/api/v4/' !== \substr($uri->getPath(), 0, 8) && !$this->redirected) {
             $request = $request->withUri($uri->withPath('/api/v4/'.$uri->getPath()));
         }
 

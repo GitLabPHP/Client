@@ -57,9 +57,9 @@ class ResultPager implements ResultPagerInterface
      */
     public function fetch(ApiInterface $api, $method, array $parameters = [])
     {
-        $result = $api->$method(...array_values($parameters));
+        $result = $api->$method(...\array_values($parameters));
 
-        if (!is_array($result)) {
+        if (!\is_array($result)) {
             throw new RuntimeException('Pagination of endpoints that produce blobs is not supported.');
         }
 
@@ -84,7 +84,7 @@ class ResultPager implements ResultPagerInterface
         $result = $this->fetch($api, $method, $parameters);
 
         while ($this->hasNext()) {
-            $result = array_merge($result, $this->fetchNext());
+            $result = \array_merge($result, $this->fetchNext());
         }
 
         return $result;
@@ -179,7 +179,7 @@ class ResultPager implements ResultPagerInterface
      */
     protected function has($key)
     {
-        @trigger_error(sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the hasNext() or hasPrevious() methods instead.', __METHOD__), E_USER_DEPRECATED);
+        @\trigger_error(\sprintf('The %s() method is deprecated since version 9.18 and will be removed in 10.0. Use the hasNext() or hasPrevious() methods instead.', __METHOD__), E_USER_DEPRECATED);
 
         return isset($this->pagination[$key]);
     }
@@ -203,7 +203,7 @@ class ResultPager implements ResultPagerInterface
 
         $content = ResponseMediator::getContent($result);
 
-        if (!is_array($content)) {
+        if (!\is_array($content)) {
             throw new RuntimeException('Pagination of endpoints that produce blobs is not supported.');
         }
 
