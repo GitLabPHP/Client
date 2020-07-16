@@ -422,7 +422,7 @@ class Groups extends AbstractApi
         $resolver->setDefined('skip_groups')
             ->setAllowedTypes('skip_groups', 'array')
             ->setAllowedValues('skip_groups', function (array $value) {
-                return count($value) == count(array_filter($value, 'is_int'));
+                return count($value) === count(array_filter($value, 'is_int'));
             })
         ;
         $resolver->setDefined('all_available')

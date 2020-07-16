@@ -91,9 +91,7 @@ class QueryStringBuilderTest extends TestCase
             //&nested[a][][b]=c&nested[a][][d]=e
             //&nested[a][][f][g]=h&nested[a][][f][i]=j
             //&nested[a][][f][k][]=87&nested[a][][f][k][]=89
-            'search=a%20project'.
-            '&owned=true'.
-            '&iids%5B%5D=88&iids%5B%5D=86'.
+            'search=a%20project&owned=true&iids%5B%5D=88&iids%5B%5D=86'.
             '&assoc%5Ba%5D=b&assoc%5Bc%5D%5Bd%5D=e&assoc%5Bc%5D%5Bf%5D=g'.
             '&nested%5Ba%5D%5B%5D%5Bb%5D=c&nested%5Ba%5D%5B%5D%5Bd%5D=e'.
             '&nested%5Ba%5D%5B%5D%5Bf%5D%5Bg%5D=h&nested%5Ba%5D%5B%5D%5Bf%5D%5Bi%5D=j'.

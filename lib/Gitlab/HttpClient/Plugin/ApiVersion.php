@@ -2,6 +2,7 @@
 
 namespace Gitlab\HttpClient\Plugin;
 
+use Http\Client\Common\Plugin\VersionBridgePlugin;
 use Http\Client\Common\Plugin;
 use Http\Promise\Promise;
 use Psr\Http\Message\RequestInterface;
@@ -18,7 +19,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 class ApiVersion implements Plugin
 {
-    use Plugin\VersionBridgePlugin;
+    use VersionBridgePlugin;
 
     /**
      * @var bool

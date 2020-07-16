@@ -2,6 +2,7 @@
 
 namespace Gitlab\HttpClient\Plugin;
 
+use Http\Client\Common\Plugin\VersionBridgePlugin;
 use Gitlab\Client;
 use Http\Client\Common\Plugin;
 use Http\Promise\Promise;
@@ -19,7 +20,7 @@ use Psr\Http\Message\RequestInterface;
  */
 class Authentication implements Plugin
 {
-    use Plugin\VersionBridgePlugin;
+    use VersionBridgePlugin;
 
     /**
      * @var string

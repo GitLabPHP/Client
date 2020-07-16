@@ -2,6 +2,7 @@
 
 namespace Gitlab\HttpClient\Plugin;
 
+use Http\Client\Common\Plugin\VersionBridgePlugin;
 use Gitlab\Exception\ApiLimitExceededException;
 use Gitlab\Exception\ErrorException;
 use Gitlab\Exception\RuntimeException;
@@ -24,7 +25,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 class GitlabExceptionThrower implements Plugin
 {
-    use Plugin\VersionBridgePlugin;
+    use VersionBridgePlugin;
 
     /**
      * Handle the request and return the response coming from the next callable.

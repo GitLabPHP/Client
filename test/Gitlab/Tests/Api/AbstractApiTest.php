@@ -48,15 +48,12 @@ class AbstractApiTest extends TestCase
         ;
         $client = Client::createWithHttpClient($httpClient);
 
-        $abstractApiMock = $this->getMockBuilder('Gitlab\Api\AbstractApi')
+        return $this->getMockBuilder('Gitlab\Api\AbstractApi')
             ->setConstructorArgs([
                 $client,
                 null,
             ])
             ->setMethods($methods)
-            ->getMockForAbstractClass()
-        ;
-
-        return $abstractApiMock;
+            ->getMockForAbstractClass();
     }
 }

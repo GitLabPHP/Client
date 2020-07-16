@@ -25,7 +25,7 @@ class GroupsMilestones extends AbstractApi
         $resolver->setDefined('iids')
             ->setAllowedTypes('iids', 'array')
             ->setAllowedValues('iids', function (array $value) {
-                return count($value) == count(array_filter($value, 'is_int'));
+                return count($value) === count(array_filter($value, 'is_int'));
             })
         ;
         $resolver->setDefined('state')

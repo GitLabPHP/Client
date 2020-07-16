@@ -2,6 +2,31 @@
 
 namespace Gitlab;
 
+use Gitlab\Api\DeployKeys;
+use Gitlab\Api\Deployments;
+use Gitlab\Api\Environments;
+use Gitlab\Api\Groups;
+use Gitlab\Api\GroupsBoards;
+use Gitlab\Api\GroupsMilestones;
+use Gitlab\Api\IssueBoards;
+use Gitlab\Api\IssueLinks;
+use Gitlab\Api\Issues;
+use Gitlab\Api\IssuesStatistics;
+use Gitlab\Api\Jobs;
+use Gitlab\Api\Keys;
+use Gitlab\Api\MergeRequests;
+use Gitlab\Api\Milestones;
+use Gitlab\Api\ProjectNamespaces;
+use Gitlab\Api\Projects;
+use Gitlab\Api\Repositories;
+use Gitlab\Api\RepositoryFiles;
+use Gitlab\Api\Schedules;
+use Gitlab\Api\Snippets;
+use Gitlab\Api\SystemHooks;
+use Gitlab\Api\Users;
+use Gitlab\Api\Tags;
+use Gitlab\Api\Version;
+use Gitlab\Api\Wiki;
 use Gitlab\Api\AbstractApi;
 use Gitlab\Exception\InvalidArgumentException;
 use Gitlab\HttpClient\Builder;
@@ -155,7 +180,7 @@ class Client
      */
     public function deployKeys()
     {
-        return new Api\DeployKeys($this);
+        return new DeployKeys($this);
     }
 
     /**
@@ -163,7 +188,7 @@ class Client
      */
     public function deployments()
     {
-        return new Api\Deployments($this);
+        return new Deployments($this);
     }
 
     /**
@@ -171,7 +196,7 @@ class Client
      */
     public function environments()
     {
-        return new Api\Environments($this);
+        return new Environments($this);
     }
 
     /**
@@ -179,7 +204,7 @@ class Client
      */
     public function groups()
     {
-        return new Api\Groups($this);
+        return new Groups($this);
     }
 
     /**
@@ -187,7 +212,7 @@ class Client
      */
     public function groupsBoards()
     {
-        return new Api\GroupsBoards($this);
+        return new GroupsBoards($this);
     }
 
     /**
@@ -195,7 +220,7 @@ class Client
      */
     public function groupsMilestones()
     {
-        return new Api\GroupsMilestones($this);
+        return new GroupsMilestones($this);
     }
 
     /**
@@ -203,7 +228,7 @@ class Client
      */
     public function issueBoards()
     {
-        return new Api\IssueBoards($this);
+        return new IssueBoards($this);
     }
 
     /**
@@ -211,7 +236,7 @@ class Client
      */
     public function issueLinks()
     {
-        return new Api\IssueLinks($this);
+        return new IssueLinks($this);
     }
 
     /**
@@ -219,7 +244,7 @@ class Client
      */
     public function issues()
     {
-        return new Api\Issues($this);
+        return new Issues($this);
     }
 
     /**
@@ -227,7 +252,7 @@ class Client
      */
     public function issuesStatistics()
     {
-        return new Api\IssuesStatistics($this);
+        return new IssuesStatistics($this);
     }
 
     /**
@@ -235,7 +260,7 @@ class Client
      */
     public function jobs()
     {
-        return new Api\Jobs($this);
+        return new Jobs($this);
     }
 
     /**
@@ -243,7 +268,7 @@ class Client
      */
     public function keys()
     {
-        return new Api\Keys($this);
+        return new Keys($this);
     }
 
     /**
@@ -251,7 +276,7 @@ class Client
      */
     public function mergeRequests()
     {
-        return new Api\MergeRequests($this);
+        return new MergeRequests($this);
     }
 
     /**
@@ -259,7 +284,7 @@ class Client
      */
     public function milestones()
     {
-        return new Api\Milestones($this);
+        return new Milestones($this);
     }
 
     /**
@@ -267,7 +292,7 @@ class Client
      */
     public function namespaces()
     {
-        return new Api\ProjectNamespaces($this);
+        return new ProjectNamespaces($this);
     }
 
     /**
@@ -275,7 +300,7 @@ class Client
      */
     public function projects()
     {
-        return new Api\Projects($this);
+        return new Projects($this);
     }
 
     /**
@@ -283,7 +308,7 @@ class Client
      */
     public function repositories()
     {
-        return new Api\Repositories($this);
+        return new Repositories($this);
     }
 
     /**
@@ -291,7 +316,7 @@ class Client
      */
     public function repositoryFiles()
     {
-        return new Api\RepositoryFiles($this);
+        return new RepositoryFiles($this);
     }
 
     /**
@@ -299,7 +324,7 @@ class Client
      */
     public function schedules()
     {
-        return new Api\Schedules($this);
+        return new Schedules($this);
     }
 
     /**
@@ -307,7 +332,7 @@ class Client
      */
     public function snippets()
     {
-        return new Api\Snippets($this);
+        return new Snippets($this);
     }
 
     /**
@@ -315,7 +340,7 @@ class Client
      */
     public function systemHooks()
     {
-        return new Api\SystemHooks($this);
+        return new SystemHooks($this);
     }
 
     /**
@@ -323,7 +348,7 @@ class Client
      */
     public function users()
     {
-        return new Api\Users($this);
+        return new Users($this);
     }
 
     /**
@@ -331,7 +356,7 @@ class Client
      */
     public function tags()
     {
-        return new Api\Tags($this);
+        return new Tags($this);
     }
 
     /**
@@ -339,7 +364,7 @@ class Client
      */
     public function version()
     {
-        return new Api\Version($this);
+        return new Version($this);
     }
 
     /**
@@ -347,7 +372,7 @@ class Client
      */
     public function wiki()
     {
-        return new Api\Wiki($this);
+        return new Wiki($this);
     }
 
     /**

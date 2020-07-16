@@ -2,6 +2,7 @@
 
 namespace Gitlab\Tests\HttpClient\Message;
 
+use function GuzzleHttp\Psr7\stream_for;
 use Gitlab\HttpClient\Message\ResponseMediator;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
@@ -17,7 +18,7 @@ class ResponseMediatorTest extends TestCase
         $response = new Response(
             200,
             ['Content-Type' => 'application/json'],
-            \GuzzleHttp\Psr7\stream_for(json_encode($body))
+            stream_for(json_encode($body))
         );
 
         $this->assertSame($body, ResponseMediator::getContent($response));
@@ -32,7 +33,7 @@ class ResponseMediatorTest extends TestCase
         $response = new Response(
             200,
             [],
-            \GuzzleHttp\Psr7\stream_for($body)
+            stream_for($body)
         );
 
         $this->assertSame($body, ResponseMediator::getContent($response));
@@ -47,7 +48,7 @@ class ResponseMediatorTest extends TestCase
         $response = new Response(
             200,
             ['Content-Type' => 'application/json'],
-            \GuzzleHttp\Psr7\stream_for($body)
+            stream_for($body)
         );
 
         $this->assertSame($body, ResponseMediator::getContent($response));
