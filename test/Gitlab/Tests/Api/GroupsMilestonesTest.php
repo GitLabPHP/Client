@@ -2,6 +2,7 @@
 
 namespace Gitlab\Tests\Api;
 
+use Gitlab\Api\GroupsMilestones;
 class GroupsMilestonesTest extends TestCase
 {
     /**
@@ -134,6 +135,6 @@ class GroupsMilestonesTest extends TestCase
 
     protected function getApiClass()
     {
-        return 'Gitlab\Api\GroupsMilestones';
+        return GroupsMilestones::class;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Gitlab\Tests\Api;
 
+use Gitlab\Api\DeployKeys;
 class DeployKeysTest extends TestCase
 {
     /**
@@ -41,6 +42,6 @@ class DeployKeysTest extends TestCase
 
     protected function getApiClass()
     {
-        return 'Gitlab\Api\DeployKeys';
+        return DeployKeys::class;
     }
 }

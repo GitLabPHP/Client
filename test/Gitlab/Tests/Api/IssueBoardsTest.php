@@ -2,6 +2,7 @@
 
 namespace Gitlab\Tests\Api;
 
+use Gitlab\Api\IssueBoards;
 class IssueBoardsTest extends TestCase
 {
     /**
@@ -227,6 +228,6 @@ class IssueBoardsTest extends TestCase
 
     protected function getApiClass()
     {
-        return 'Gitlab\Api\IssueBoards';
+        return IssueBoards::class;
     }
 }

@@ -225,6 +225,6 @@ class JobsTest extends TestCase
 
     protected function getApiClass()
     {
-        return 'Gitlab\Api\Jobs';
+        return Jobs::class;
     }
 }

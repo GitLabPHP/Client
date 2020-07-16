@@ -2,6 +2,7 @@
 
 namespace Gitlab\Tests\Api;
 
+use Gitlab\Api\Deployments;
 class DeploymentsTest extends TestCase
 {
     /**
@@ -230,6 +231,6 @@ See merge request !2',
 
     protected function getApiClass()
     {
-        return 'Gitlab\Api\Deployments';
+        return Deployments::class;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Gitlab\Tests\Api;
 
+use Gitlab\Api\SystemHooks;
 class SystemHooksTest extends TestCase
 {
     /**
@@ -77,6 +78,6 @@ class SystemHooksTest extends TestCase
 
     protected function getApiClass()
     {
-        return 'Gitlab\Api\SystemHooks';
+        return SystemHooks::class;
     }
 }

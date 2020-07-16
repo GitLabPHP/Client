@@ -2,6 +2,7 @@
 
 namespace Gitlab\Tests\Api;
 
+use Gitlab\Api\AbstractApi;
 use Gitlab\Client;
 use Http\Client\HttpClient;
 use PHPUnit\Framework\TestCase;
@@ -48,7 +49,7 @@ class AbstractApiTest extends TestCase
         ;
         $client = Client::createWithHttpClient($httpClient);
 
-        return $this->getMockBuilder('Gitlab\Api\AbstractApi')
+        return $this->getMockBuilder(AbstractApi::class)
             ->setConstructorArgs([
                 $client,
                 null,

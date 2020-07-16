@@ -14,6 +14,8 @@ parameters:
         - 'php52'
         - 'php53'
         - 'php54'
+        - 'php55'
+        - 'php56'
 
 services:
     Rector\SOLID\Rector\Foreach_\ChangeNestedForeachIfsToEarlyContinueRector: ~

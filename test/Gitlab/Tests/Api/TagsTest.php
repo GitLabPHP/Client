@@ -2,6 +2,7 @@
 
 namespace Gitlab\Tests\Api;
 
+use Gitlab\Api\Tags;
 class TagsTest extends TestCase
 {
     /**
@@ -150,6 +151,6 @@ class TagsTest extends TestCase
 
     protected function getApiClass()
     {
-        return 'Gitlab\Api\Tags';
+        return Tags::class;
     }
 }

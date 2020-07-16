@@ -2,6 +2,7 @@
 
 namespace Gitlab\Tests\Api;
 
+use Gitlab\Api\Version;
 class VersionTest extends TestCase
 {
     /**
@@ -24,6 +25,6 @@ class VersionTest extends TestCase
 
     protected function getApiClass()
     {
-        return 'Gitlab\Api\Version';
+        return Version::class;
     }
 }
