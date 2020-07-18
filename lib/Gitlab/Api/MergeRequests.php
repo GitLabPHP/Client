@@ -546,7 +546,7 @@ class MergeRequests extends AbstractApi
      * @param int|string          $project_id
      * @param int                 $mr_iid
      * @param string              $name
-     * @param bool                $approvals_required
+     * @param int                 $approvals_required
      * @param array<string,mixed> $parameters
      *
      * @return mixed
@@ -569,7 +569,7 @@ class MergeRequests extends AbstractApi
      * @param int                 $mr_iid
      * @param int                 $approval_rule_id
      * @param string              $name
-     * @param bool                $approvals_required
+     * @param int                 $approvals_required
      * @param array<string,mixed> $parameters
      *
      * @return mixed

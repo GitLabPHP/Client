@@ -47,7 +47,7 @@ class Environments extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param string     $environment_id
+     * @param int        $environment_id
      *
      * @return mixed
      */
@@ -58,7 +58,7 @@ class Environments extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param string     $environment_id
+     * @param int        $environment_id
      *
      * @return mixed
      */
@@ -69,7 +69,7 @@ class Environments extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param string     $environment_id
+     * @param int        $environment_id
      *
      * @return mixed
      */
