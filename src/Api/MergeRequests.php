@@ -467,12 +467,12 @@ class MergeRequests extends AbstractApi
      * @param int|string          $project_id
      * @param int                 $mr_iid
      * @param string              $name
-     * @param bool                $approvals_required
+     * @param int                 $approvals_required
      * @param array<string,mixed> $parameters
      *
      * @return mixed
      */
-    public function createLevelRule($project_id, int $mr_iid, string $name, bool $approvals_required, array $parameters = [])
+    public function createLevelRule($project_id, int $mr_iid, string $name, int $approvals_required, array $parameters = [])
     {
         $baseParam = [
             'name' => $name,
@@ -490,12 +490,12 @@ class MergeRequests extends AbstractApi
      * @param int                 $mr_iid
      * @param int                 $approval_rule_id
      * @param string              $name
-     * @param bool                $approvals_required
+     * @param int                 $approvals_required
      * @param array<string,mixed> $parameters
      *
      * @return mixed
      */
-    public function updateLevelRule($project_id, int $mr_iid, int $approval_rule_id, string $name, bool $approvals_required, array $parameters = [])
+    public function updateLevelRule($project_id, int $mr_iid, int $approval_rule_id, string $name, int $approvals_required, array $parameters = [])
     {
         $baseParam = [
             'name' => $name,
