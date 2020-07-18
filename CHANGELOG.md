@@ -9,6 +9,8 @@ CHANGE LOG
 * Encode URIs according to RFC 3986
 * Send request bodies as JSON to GitLab
 * Redesigned pagination
+* Added array types where missing
+* Added scalar param types
 
 
 ## 9.19.0 (UPCOMING)
