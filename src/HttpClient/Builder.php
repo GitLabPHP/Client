@@ -114,7 +114,8 @@ class Builder
 
             $this->pluginClient = new HttpMethodsClient(
                 (new PluginClientFactory())->createClient($this->httpClient, $plugins),
-                $this->requestFactory
+                $this->requestFactory,
+                $this->streamFactory
             );
         }
 
