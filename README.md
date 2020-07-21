@@ -53,7 +53,7 @@ $ composer require graham-campbell/gitlab:^3.2 php-http/guzzle6-adapter:^2.0.1
 $ composer require zeichen32/gitlabapibundle:^3.1 php-http/guzzle6-adapter:^2.0.1
 ```
 
-#### Symfony 5+:
+#### Symfony 3.4+:
 
 ```
 $ composer require zeichen32/gitlabapibundle:^4.0 php-http/guzzle6-adapter:^2.0.1
