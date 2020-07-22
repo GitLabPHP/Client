@@ -2,7 +2,7 @@ CHANGE LOG
 ==========
 
 
-## 10.0.0-RC1 (UPCOMING)
+## 10.0.0-RC1 (22/07/2020)
 
 * Removed all deprecated functionality
 * Switched to PSR-17 and PSR-18
