@@ -8,12 +8,24 @@ use Symfony\Component\OptionsResolver\Options;
 
 class MergeRequests extends AbstractApi
 {
+    /**
+     * @var string
+     */
     const STATE_ALL = 'all';
 
+    /**
+     * @var string
+     */
     const STATE_MERGED = 'merged';
 
+    /**
+     * @var string
+     */
     const STATE_OPENED = 'opened';
 
+    /**
+     * @var string
+     */
     const STATE_CLOSED = 'closed';
 
     /**

@@ -6,8 +6,14 @@ use Symfony\Component\OptionsResolver\Options;
 
 class Issues extends AbstractApi
 {
+    /**
+     * @var string
+     */
     const STATE_OPENED = 'opened';
 
+    /**
+     * @var string
+     */
     const STATE_CLOSED = 'closed';
 
     /**

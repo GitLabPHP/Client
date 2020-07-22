@@ -7,8 +7,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Repositories extends AbstractApi
 {
+    /**
+     * @var string
+     */
     const TYPE_BRANCH = 'branch';
 
+    /**
+     * @var string
+     */
     const TYPE_TAG = 'tag';
 
     /**
