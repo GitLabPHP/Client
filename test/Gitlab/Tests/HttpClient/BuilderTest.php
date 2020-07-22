@@ -20,7 +20,7 @@ class BuilderTest extends TestCase
      */
     private $subject;
 
-    public function setUp()
+    protected function setUp()
     {
         $this->subject = new Builder(
             $this->getMockBuilder(HttpClient::class)->getMock(),
