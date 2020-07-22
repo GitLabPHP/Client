@@ -100,5 +100,3 @@ services:
     Rector\SOLID\Rector\If_\ChangeIfElseValueAssignToEarlyReturnRector: ~
     Rector\SOLID\Rector\If_\ChangeNestedIfsToEarlyReturnRector: ~
     Rector\SOLID\Rector\If_\RemoveAlwaysElseRector: ~
-    Rector\SOLID\Rector\Property\ChangeReadOnlyPropertyWithDefaultValueToConstantRector: ~
-    Rector\TypeDeclaration\Rector\FunctionLike\ParamTypeDeclarationRector: ~
