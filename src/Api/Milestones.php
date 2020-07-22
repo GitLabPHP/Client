@@ -6,8 +6,14 @@ namespace Gitlab\Api;
 
 class Milestones extends AbstractApi
 {
+    /**
+     * @var string
+     */
     public const STATE_ACTIVE = 'active';
 
+    /**
+     * @var string
+     */
     public const STATE_CLOSED = 'closed';
 
     /**

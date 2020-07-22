@@ -9,8 +9,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Repositories extends AbstractApi
 {
+    /**
+     * @var string
+     */
     public const TYPE_BRANCH = 'branch';
 
+    /**
+     * @var string
+     */
     public const TYPE_TAG = 'tag';
 
     /**

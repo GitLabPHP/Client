@@ -2,7 +2,7 @@ CHANGE LOG
 ==========
 
 
-## 10.0.0 (UPCOMING)
+## 10.0.0-RC1 (UPCOMING)
 
 * Removed all deprecated functionality
 * Switched to PSR-17 and PSR-18
@@ -11,15 +11,12 @@ CHANGE LOG
 * Redesigned pagination
 * Added array types where missing
 * Added scalar param types
-
-
-## 9.19.0 (UPCOMING)
-
 * Added user events API
 
 
-## 9.18.1 (UPCOMING)
+## 9.18.1 (22/07/2020)
 
+* Fixed error in getHeader function
 * Fixed incorrect param type doc
 
 

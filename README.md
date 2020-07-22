@@ -55,6 +55,7 @@ $ composer require zeichen32/gitlabapibundle:^5.0 symfony/http-client:^4.4 nyhol
 
 #### Symfony 5:
 
+
 ```
 $ composer require zeichen32/gitlabapibundle:^5.0 symfony/http-client:^5.0 nyholm/psr7:^1.3
 ```

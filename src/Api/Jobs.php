@@ -9,20 +9,44 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Jobs extends AbstractApi
 {
+    /**
+     * @var string
+     */
     public const SCOPE_CREATED = 'created';
 
+    /**
+     * @var string
+     */
     public const SCOPE_PENDING = 'pending';
 
+    /**
+     * @var string
+     */
     public const SCOPE_RUNNING = 'running';
 
+    /**
+     * @var string
+     */
     public const SCOPE_FAILED = 'failed';
 
+    /**
+     * @var string
+     */
     public const SCOPE_SUCCESS = 'success';
 
+    /**
+     * @var string
+     */
     public const SCOPE_CANCELED = 'canceled';
 
+    /**
+     * @var string
+     */
     public const SCOPE_SKIPPED = 'skipped';
 
+    /**
+     * @var string
+     */
     public const SCOPE_MANUAL = 'manual';
 
     /**

@@ -6,8 +6,14 @@ namespace Gitlab\Api;
 
 class GroupsMilestones extends AbstractApi
 {
+    /**
+     * @var string
+     */
     public const STATE_ACTIVE = 'active';
 
+    /**
+     * @var string
+     */
     public const STATE_CLOSED = 'closed';
 
     /**
