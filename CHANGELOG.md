@@ -7,8 +7,9 @@ CHANGE LOG
 * Added user events API
 
 
-## 9.18.1 (UPCOMING)
+## 9.18.1 (22/07/2020)
 
+* Fixed error in getHeader function
 * Fixed incorrect param type doc
 
 
