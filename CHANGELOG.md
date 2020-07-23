@@ -2,6 +2,11 @@ CHANGE LOG
 ==========
 
 
+## 10.0.0-RC2 (UPCOMING)
+
+* Restored 9.x behaviour for empty JSON responses
+
+
 ## 10.0.0-RC1 (22/07/2020)
 
 * Removed all deprecated functionality

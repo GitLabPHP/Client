@@ -45,7 +45,7 @@ final class ResponseMediator
     {
         $body = (string) $response->getBody();
 
-        if (0 === \strpos($response->getHeaderLine('Content-Type'), self::JSON_CONTENT_TYPE)) {
+        if ('' !== $body && 0 === \strpos($response->getHeaderLine('Content-Type'), self::JSON_CONTENT_TYPE)) {
             return JsonArray::decode($body);
         }
 
