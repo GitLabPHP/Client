@@ -314,7 +314,7 @@ class Projects extends AbstractApi
      *
      * @return mixed
      */
-    public function createPipeline($project_id, string $commit_ref, ?array $variables = null)
+    public function createPipeline($project_id, string $commit_ref, array $variables = null)
     {
         $parameters = [
             'ref' => $commit_ref,
