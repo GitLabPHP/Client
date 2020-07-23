@@ -212,17 +212,6 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param int    $id
-     * @param string $uri
-     *
-     * @return string
-     */
-    protected function getGroupPath(int $id, string $uri)
-    {
-        return 'groups/'.self::encodePath($id).'/'.$uri;
-    }
-
-    /**
      * Create a new OptionsResolver with page and per_page options.
      *
      * @return OptionsResolver

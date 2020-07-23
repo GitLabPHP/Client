@@ -51,7 +51,7 @@ class Issues extends AbstractApi
     public function group(int $group_id, array $parameters = [])
     {
         return $this->get(
-            $this->getGroupPath($group_id, 'issues'),
+            'groups/'.self::encodePath($group_id).'/issues',
             $this->createOptionsResolver()->resolve($parameters)
         );
     }

@@ -38,7 +38,7 @@ class IssuesStatistics extends AbstractApi
      */
     public function group(int $group_id, array $parameters)
     {
-        return $this->get($this->getGroupPath($group_id, 'issues_statistics'), $this->createOptionsResolver()->resolve($parameters));
+        return $this->get('groups/'.self::encodePath($group_id).'/issues_statistics', $this->createOptionsResolver()->resolve($parameters));
     }
 
     /**

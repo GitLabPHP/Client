@@ -34,7 +34,7 @@ class IssueLinks extends AbstractApi
         $parameters['target_project_id'] = $target_project_id;
         $parameters['target_issue_iid'] = $target_issue_iid;
 
-        return $this->post($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid).'/links'), $parameters);
+        return $this->post($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/links'), $parameters);
     }
 
     /**
@@ -50,6 +50,6 @@ class IssueLinks extends AbstractApi
      */
     public function remove($project_id, int $issue_iid, $issue_link_id, array $parameters = [])
     {
-        return $this->delete($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid)).'/links/'.$this->encodePath($issue_link_id), $parameters);
+        return $this->delete($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid)).'/links/'.self::encodePath($issue_link_id), $parameters);
     }
 }

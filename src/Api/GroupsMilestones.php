@@ -41,7 +41,7 @@ class GroupsMilestones extends AbstractApi
         ;
         $resolver->setDefined('search');
 
-        return $this->get($this->getGroupPath($group_id, 'milestones'), $resolver->resolve($parameters));
+        return $this->get('groups/'.self::encodePath($group_id).'/milestones', $resolver->resolve($parameters));
     }
 
     /**
@@ -52,7 +52,7 @@ class GroupsMilestones extends AbstractApi
      */
     public function show(int $group_id, int $milestone_id)
     {
-        return $this->get($this->getGroupPath($group_id, 'milestones/'.self::encodePath($milestone_id)));
+        return $this->get('groups/'.self::encodePath($group_id).'/milestones/'.self::encodePath($milestone_id));
     }
 
     /**
@@ -63,7 +63,7 @@ class GroupsMilestones extends AbstractApi
      */
     public function create(int $group_id, array $params)
     {
-        return $this->post($this->getGroupPath($group_id, 'milestones'), $params);
+        return $this->post('groups/'.self::encodePath($group_id).'/milestones', $params);
     }
 
     /**
@@ -75,7 +75,7 @@ class GroupsMilestones extends AbstractApi
      */
     public function update(int $group_id, int $milestone_id, array $params)
     {
-        return $this->put($this->getGroupPath($group_id, 'milestones/'.self::encodePath($milestone_id)), $params);
+        return $this->put('groups/'.self::encodePath($group_id).'/milestones/'.self::encodePath($milestone_id), $params);
     }
 
     /**
@@ -86,7 +86,7 @@ class GroupsMilestones extends AbstractApi
      */
     public function remove(int $group_id, int $milestone_id)
     {
-        return $this->delete($this->getGroupPath($group_id, 'milestones/'.self::encodePath($milestone_id)));
+        return $this->delete('groups/'.self::encodePath($group_id).'/milestones/'.self::encodePath($milestone_id));
     }
 
     /**
@@ -97,7 +97,7 @@ class GroupsMilestones extends AbstractApi
      */
     public function issues(int $group_id, int $milestone_id)
     {
-        return $this->get($this->getGroupPath($group_id, 'milestones/'.self::encodePath($milestone_id).'/issues'));
+        return $this->get('groups/'.self::encodePath($group_id).'/milestones/'.self::encodePath($milestone_id).'/issues');
     }
 
     /**
@@ -108,6 +108,6 @@ class GroupsMilestones extends AbstractApi
      */
     public function mergeRequests(int $group_id, int $milestone_id)
     {
-        return $this->get($this->getGroupPath($group_id, 'milestones/'.self::encodePath($milestone_id).'/merge_requests'));
+        return $this->get('groups/'.self::encodePath($group_id).'/milestones/'.self::encodePath($milestone_id).'/merge_requests');
     }
 }

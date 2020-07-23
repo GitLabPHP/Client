@@ -343,7 +343,7 @@ class Groups extends AbstractApi
     {
         $resolver = $this->createOptionsResolver();
 
-        return $this->get($this->getGroupPath($group_id, 'variables'), $resolver->resolve($parameters));
+        return $this->get('groups/'.self::encodePath($group_id).'/variables', $resolver->resolve($parameters));
     }
 
     /**
@@ -354,7 +354,7 @@ class Groups extends AbstractApi
      */
     public function variable(int $group_id, string $key)
     {
-        return $this->get($this->getGroupPath($group_id, 'variables/'.self::encodePath($key)));
+        return $this->get('groups/'.self::encodePath($group_id).'/variables/'.self::encodePath($key));
     }
 
     /**
@@ -376,7 +376,7 @@ class Groups extends AbstractApi
             $payload['protected'] = $protected;
         }
 
-        return $this->post($this->getGroupPath($group_id, 'variables'), $payload);
+        return $this->post('groups/'.self::encodePath($group_id).'/variables', $payload);
     }
 
     /**
@@ -397,7 +397,7 @@ class Groups extends AbstractApi
             $payload['protected'] = $protected;
         }
 
-        return $this->put($this->getGroupPath($group_id, 'variables/'.self::encodePath($key)), $payload);
+        return $this->put('groups/'.self::encodePath($group_id).'/variables/'.self::encodePath($key), $payload);
     }
 
     /**
@@ -408,7 +408,7 @@ class Groups extends AbstractApi
      */
     public function removeVariable(int $group_id, string $key)
     {
-        return $this->delete($this->getGroupPath($group_id, 'variables/'.self::encodePath($key)));
+        return $this->delete('groups/'.self::encodePath($group_id).'/variables/'.self::encodePath($key));
     }
 
     /**
