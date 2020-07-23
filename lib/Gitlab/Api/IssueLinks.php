@@ -39,7 +39,7 @@ class IssueLinks extends AbstractApi
      * @param int|string $project_id
      * @param int        $issue_iid
      * @param int|string $issue_link_id
-     * @param array      $parameters        {
+     * @param array      $parameters    {
      *
      *     @var string $link_type
      * }
