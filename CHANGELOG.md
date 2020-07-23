@@ -5,6 +5,7 @@ CHANGE LOG
 ## 10.0.0-RC2 (UPCOMING)
 
 * Restored 9.x behaviour for empty JSON responses
+* Support the issue link link_type parameter
 
 
 ## 10.0.0-RC1 (22/07/2020)
@@ -17,6 +18,7 @@ CHANGE LOG
 * Added array types where missing
 * Added scalar param types
 * Added user events API
+* Support the issue link link_type parameter
 
 
 ## 9.18.1 (22/07/2020)
