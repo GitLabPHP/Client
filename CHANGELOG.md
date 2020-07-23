@@ -18,7 +18,6 @@ CHANGE LOG
 * Added array types where missing
 * Added scalar param types
 * Added user events API
-* Support the issue link link_type parameter
 
 
 ## 9.18.1 (22/07/2020)
