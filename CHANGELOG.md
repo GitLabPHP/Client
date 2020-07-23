@@ -5,6 +5,7 @@ CHANGE LOG
 ## 9.19.0 (UPCOMING)
 
 * Added user events API
+* Support the issue link link_type parameter
 
 
 ## 9.18.1 (22/07/2020)
