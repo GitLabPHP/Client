@@ -2,7 +2,7 @@ CHANGE LOG
 ==========
 
 
-## 10.0.0-RC2 (UPCOMING)
+## 10.0.0-RC2 (23/07/2020)
 
 * Restored 9.x behaviour for empty JSON responses
 * Support the issue link link_type parameter
