@@ -7,14 +7,14 @@ use Gitlab\Client;
 /**
  * @final
  *
- * @property-read int $id
- * @property-read string $name
- * @property-read string $path
- * @property-read string $kind
- * @property-read int $owner_id
- * @property-read string $created_at
- * @property-read string $updated_at
- * @property-read string $description
+ * @property int    $id
+ * @property string $name
+ * @property string $path
+ * @property string $kind
+ * @property int    $owner_id
+ * @property string $created_at
+ * @property string $updated_at
+ * @property string $description
  */
 class ProjectNamespace extends AbstractModel
 {

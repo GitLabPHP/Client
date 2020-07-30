@@ -48,37 +48,37 @@ use Psr\Http\Message\ResponseInterface;
  *
  * @author Matt Humphrey <matt@m4tt.co>
  *
- * @property-read \Gitlab\Api\DeployKeys $deploy_keys @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Deployments $deployments @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Environments $environments @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Groups $groups @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\GroupsBoards $groups_boards @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\GroupsMilestones $groups_milestones @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\IssueBoards $board @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\IssueBoards $issue_boards @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\IssueLinks $issue_links @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Issues $issues @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\IssuesStatistics $issues_statistics @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Jobs $jobs @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Keys $keys @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\MergeRequests $merge_requests @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\MergeRequests $mr @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Milestones $milestones @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Milestones $ms @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\ProjectNamespaces $namespaces @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\ProjectNamespaces $ns @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Projects $projects @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Repositories $repo @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Repositories $repositories @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\RepositoryFiles $repositoryFiles @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Schedules $schedules @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Snippets $snippets @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\SystemHooks $hooks @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\SystemHooks $system_hooks @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Users $users @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Tags $tags @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Version $version @deprecated since version 9.18 and will be removed in 10.0.
- * @property-read \Gitlab\Api\Wiki $wiki @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\DeployKeys        $deploy_keys       @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\Deployments       $deployments       @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\Environments      $environments      @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\Groups            $groups            @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\GroupsBoards      $groups_boards     @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\GroupsMilestones  $groups_milestones @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\IssueBoards       $board             @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\IssueBoards       $issue_boards      @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\IssueLinks        $issue_links       @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\Issues            $issues            @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\IssuesStatistics  $issues_statistics @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\Jobs              $jobs              @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\Keys              $keys              @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\MergeRequests     $merge_requests    @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\MergeRequests     $mr                @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\Milestones        $milestones        @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\Milestones        $ms                @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\ProjectNamespaces $namespaces        @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\ProjectNamespaces $ns                @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\Projects          $projects          @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\Repositories      $repo              @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\Repositories      $repositories      @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\RepositoryFiles   $repositoryFiles   @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\Schedules         $schedules         @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\Snippets          $snippets          @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\SystemHooks       $hooks             @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\SystemHooks       $system_hooks      @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\Users             $users             @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\Tags              $tags              @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\Version           $version           @deprecated since version 9.18 and will be removed in 10.0.
+ * @property \Gitlab\Api\Wiki              $wiki              @deprecated since version 9.18 and will be removed in 10.0.
  */
 class Client
 {

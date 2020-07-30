@@ -7,17 +7,17 @@ use Gitlab\Client;
 /**
  * @final
  *
- * @property-read int $id
- * @property-read int $iid
- * @property-read Group $group
- * @property-read int $group_id
- * @property-read string $title
- * @property-read string $description
- * @property-read string $state
- * @property-read string $created_at
- * @property-read string $updated_at
- * @property-read string $due_date
- * @property-read string $start_date
+ * @property int    $id
+ * @property int    $iid
+ * @property Group  $group
+ * @property int    $group_id
+ * @property string $title
+ * @property string $description
+ * @property string $state
+ * @property string $created_at
+ * @property string $updated_at
+ * @property string $due_date
+ * @property string $start_date
  */
 class GroupMilestone extends AbstractModel
 {

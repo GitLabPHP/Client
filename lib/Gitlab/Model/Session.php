@@ -7,12 +7,12 @@ use Gitlab\Client;
 /**
  * @final
  *
- * @property-read int $id
- * @property-read string $email
- * @property-read string $name
- * @property-read string $private_token
- * @property-read string $created_at
- * @property-read bool $blocked
+ * @property int    $id
+ * @property string $email
+ * @property string $name
+ * @property string $private_token
+ * @property string $created_at
+ * @property bool   $blocked
  *
  * @deprecated since version 9.18 and will be removed in 10.0.
  */

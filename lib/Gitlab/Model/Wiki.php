@@ -7,11 +7,11 @@ use Gitlab\Client;
 /**
  * @final
  *
- * @property-read string $slug
- * @property-read string $title
- * @property-read string $format
- * @property-read string $content
- * @property-read Project $project
+ * @property string  $slug
+ * @property string  $title
+ * @property string  $format
+ * @property string  $content
+ * @property Project $project
  */
 class Wiki extends AbstractModel
 {

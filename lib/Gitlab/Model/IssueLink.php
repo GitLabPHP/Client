@@ -7,8 +7,8 @@ use Gitlab\Client;
 /**
  * @final
  *
- * @property-read int $issue_link_id
- * @property-read Issue $issue
+ * @property int   $issue_link_id
+ * @property Issue $issue
  */
 class IssueLink extends AbstractModel
 {

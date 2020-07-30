@@ -7,12 +7,12 @@ use Gitlab\Client;
 /**
  * @final
  *
- * @property-read string $name
- * @property-read string $email
- * @property-read int $commits
- * @property-read int $additions
- * @property-read int $deletions
- * @property-read Project $project
+ * @property string  $name
+ * @property string  $email
+ * @property int     $commits
+ * @property int     $additions
+ * @property int     $deletions
+ * @property Project $project
  */
 class Contributor extends AbstractModel
 {
