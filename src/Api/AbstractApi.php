@@ -348,9 +348,9 @@ abstract class AbstractApi implements ApiInterface
      * @param string $filename File to open
      * @param string $mode     Mode used to open the file
      *
-     * @return resource
-     *
      * @throws RuntimeException if the file cannot be opened
+     *
+     * @return resource
      *
      * @see https://github.com/guzzle/psr7/blob/1.6.1/src/functions.php#L287-L320
      */

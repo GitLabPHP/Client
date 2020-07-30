@@ -7,14 +7,14 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @property-read int $id
- * @property-read string $description
- * @property-read string $created_at
- * @property-read string $last_used
- * @property-read string $token
- * @property-read string $updated_at
- * @property-read User|null $owner
- * @property-read Project $project
+ * @property int       $id
+ * @property string    $description
+ * @property string    $created_at
+ * @property string    $last_used
+ * @property string    $token
+ * @property string    $updated_at
+ * @property User|null $owner
+ * @property Project   $project
  */
 final class Trigger extends AbstractModel
 {

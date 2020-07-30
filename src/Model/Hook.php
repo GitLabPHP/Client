@@ -7,9 +7,9 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @property-read int $id
- * @property-read string $url
- * @property-read string $created_at
+ * @property int    $id
+ * @property string $url
+ * @property string $created_at
  */
 final class Hook extends AbstractModel
 {

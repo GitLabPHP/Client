@@ -7,13 +7,13 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @property-read int $id
- * @property-read string $title
- * @property-read string $file_name
- * @property-read string $updated_at
- * @property-read string $created_at
- * @property-read Project $project
- * @property-read User|null $author
+ * @property int       $id
+ * @property string    $title
+ * @property string    $file_name
+ * @property string    $updated_at
+ * @property string    $created_at
+ * @property Project   $project
+ * @property User|null $author
  */
 final class Snippet extends AbstractModel implements Notable
 {

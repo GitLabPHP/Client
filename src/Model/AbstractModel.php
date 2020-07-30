@@ -87,9 +87,9 @@ abstract class AbstractModel
      * @param string $property
      * @param mixed  $value
      *
-     * @return void
-     *
      * @throws RuntimeException
+     *
+     * @return void
      */
     public function __set(string $property, $value)
     {
@@ -99,9 +99,9 @@ abstract class AbstractModel
     /**
      * @param string $property
      *
-     * @return mixed
-     *
      * @throws RuntimeException
+     *
+     * @return mixed
      */
     public function __get(string $property)
     {
