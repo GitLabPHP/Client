@@ -4,14 +4,10 @@ enabled:
   - align_phpdoc
   - alpha_ordered_imports
   - array_indentation
-  - compact_nullable_typehint
   - const_visibility_required
-  - no_alternative_syntax
-  - no_blank_lines_between_traits
-  - no_unreachable_default_argument_value
-  - short_array_syntax
+  - phpdoc_order
 
 disabled:
-  - phpdoc_no_empty_return
+  - no_superfluous_phpdoc_tags_symfony
   - phpdoc_to_comment
   - phpdoc_var_without_name
