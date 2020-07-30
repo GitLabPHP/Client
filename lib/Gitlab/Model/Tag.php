@@ -7,12 +7,12 @@ use Gitlab\Client;
 /**
  * @final
  *
- * @property-read string $name
- * @property-read string $message
- * @property-read Commit|null $commit
- * @property-read Release|null $release
- * @property-read Project $project
- * @property-read bool $protected
+ * @property string       $name
+ * @property string       $message
+ * @property Commit|null  $commit
+ * @property Release|null $release
+ * @property Project      $project
+ * @property bool         $protected
  */
 class Tag extends AbstractModel
 {

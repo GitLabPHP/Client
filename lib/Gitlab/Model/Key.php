@@ -7,10 +7,10 @@ use Gitlab\Client;
 /**
  * @final
  *
- * @property-read int $id
- * @property-read string $title
- * @property-read string $key
- * @property-read string $created_at
+ * @property int    $id
+ * @property string $title
+ * @property string $key
+ * @property string $created_at
  */
 class Key extends AbstractModel
 {

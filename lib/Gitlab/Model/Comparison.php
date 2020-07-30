@@ -7,12 +7,12 @@ use Gitlab\Client;
 /**
  * @final
  *
- * @property-read bool $compare_timeout
- * @property-read bool $compare_same_ref
- * @property-read Commit|null $commit
- * @property-read Commit[]|null $commits
- * @property-read Diff[]|null $diffs
- * @property-read Project $project
+ * @property bool          $compare_timeout
+ * @property bool          $compare_same_ref
+ * @property Commit|null   $commit
+ * @property Commit[]|null $commits
+ * @property Diff[]|null   $diffs
+ * @property Project       $project
  */
 class Comparison extends AbstractModel
 {

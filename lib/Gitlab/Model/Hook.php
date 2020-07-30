@@ -7,9 +7,9 @@ use Gitlab\Client;
 /**
  * @final
  *
- * @property-read int $id
- * @property-read string $url
- * @property-read string $created_at
+ * @property int    $id
+ * @property string $url
+ * @property string $created_at
  */
 class Hook extends AbstractModel
 {

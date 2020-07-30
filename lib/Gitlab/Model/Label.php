@@ -7,9 +7,9 @@ use Gitlab\Client;
 /**
  * @final
  *
- * @property-read int $id
- * @property-read string $name
- * @property-read string $color
+ * @property int    $id
+ * @property string $name
+ * @property string $color
  */
 class Label extends AbstractModel
 {

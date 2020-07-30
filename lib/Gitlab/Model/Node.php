@@ -7,12 +7,12 @@ use Gitlab\Client;
 /**
  * @final
  *
- * @property-read string $name
- * @property-read string $type
- * @property-read string $mode
- * @property-read int $id
- * @property-read string $path
- * @property-read Project $project
+ * @property string  $name
+ * @property string  $type
+ * @property string  $mode
+ * @property int     $id
+ * @property string  $path
+ * @property Project $project
  */
 class Node extends AbstractModel
 {
