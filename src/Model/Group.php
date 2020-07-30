@@ -7,21 +7,21 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @property-read int $id
- * @property-read string $name
- * @property-read string $path
- * @property-read string $description
- * @property-read string $visibility
- * @property-read bool $lfs_enabled
- * @property-read string $avatar_url
- * @property-read string $web_url
- * @property-read bool $request_access_enabled
- * @property-read string $full_name
- * @property-read string $full_path
- * @property-read int|string $file_template_project_id
- * @property-read int|null $parent_id
- * @property-read Project[]|null $projects
- * @property-read Project[]|null $shared_projects
+ * @property int            $id
+ * @property string         $name
+ * @property string         $path
+ * @property string         $description
+ * @property string         $visibility
+ * @property bool           $lfs_enabled
+ * @property string         $avatar_url
+ * @property string         $web_url
+ * @property bool           $request_access_enabled
+ * @property string         $full_name
+ * @property string         $full_path
+ * @property int|string     $file_template_project_id
+ * @property int|null       $parent_id
+ * @property Project[]|null $projects
+ * @property Project[]|null $shared_projects
  */
 final class Group extends AbstractModel
 {

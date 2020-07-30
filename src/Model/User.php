@@ -7,31 +7,31 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @property-read int $id
- * @property-read string $email
- * @property-read string $password
- * @property-read string $username
- * @property-read string $name
- * @property-read string $bio
- * @property-read string $skype
- * @property-read string $linkedin
- * @property-read string $twitter
- * @property-read bool $dark_scheme
- * @property-read int $theme_id
- * @property-read int $color_scheme_id
- * @property-read bool $blocked
- * @property-read int|null $project_limit
- * @property-read int $access_level
- * @property-read string $created_at
- * @property-read string $extern_uid
- * @property-read string $provider
- * @property-read string $state
- * @property-read bool $is_admin
- * @property-read bool $can_create_group
- * @property-read bool $can_create_project
- * @property-read string $avatar_url
- * @property-read string $current_sign_in_at
- * @property-read bool $two_factor_enabled
+ * @property int      $id
+ * @property string   $email
+ * @property string   $password
+ * @property string   $username
+ * @property string   $name
+ * @property string   $bio
+ * @property string   $skype
+ * @property string   $linkedin
+ * @property string   $twitter
+ * @property bool     $dark_scheme
+ * @property int      $theme_id
+ * @property int      $color_scheme_id
+ * @property bool     $blocked
+ * @property int|null $project_limit
+ * @property int      $access_level
+ * @property string   $created_at
+ * @property string   $extern_uid
+ * @property string   $provider
+ * @property string   $state
+ * @property bool     $is_admin
+ * @property bool     $can_create_group
+ * @property bool     $can_create_project
+ * @property string   $avatar_url
+ * @property string   $current_sign_in_at
+ * @property bool     $two_factor_enabled
  */
 final class User extends AbstractModel
 {

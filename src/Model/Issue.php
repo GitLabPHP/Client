@@ -8,20 +8,20 @@ use Gitlab\Api\Issues;
 use Gitlab\Client;
 
 /**
- * @property-read int $id
- * @property-read int $iid
- * @property-read int|string $project_id,
- * @property-read string $title
- * @property-read string $description
- * @property-read array $labels
- * @property-read bool $closed
- * @property-read string $updated_at
- * @property-read string $created_at
- * @property-read string $state
- * @property-read User|null $assignee
- * @property-read User|null $author
- * @property-read Milestone $milestone
- * @property-read Project $project
+ * @property int        $id
+ * @property int        $iid
+ * @property int|string $project_id,
+ * @property string     $title
+ * @property string     $description
+ * @property array      $labels
+ * @property bool       $closed
+ * @property string     $updated_at
+ * @property string     $created_at
+ * @property string     $state
+ * @property User|null  $assignee
+ * @property User|null  $author
+ * @property Milestone  $milestone
+ * @property Project    $project
  */
 final class Issue extends AbstractModel implements Notable, Stateful
 {

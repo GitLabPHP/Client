@@ -7,11 +7,11 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @property-read string $note
- * @property-read string $path
- * @property-read string $line
- * @property-read string $line_type
- * @property-read User|null $author
+ * @property string    $note
+ * @property string    $path
+ * @property string    $line
+ * @property string    $line_type
+ * @property User|null $author
  */
 final class CommitNote extends AbstractModel
 {

@@ -8,26 +8,26 @@ use Gitlab\Api\MergeRequests;
 use Gitlab\Client;
 
 /**
- * @property-read int $id
- * @property-read int $iid
- * @property-read string $target_branch
- * @property-read string $source_branch
- * @property-read int|string $project_id
- * @property-read string $title
- * @property-read string $description
- * @property-read bool $closed
- * @property-read bool $merged
- * @property-read string $state
- * @property-read int|string $source_project_id
- * @property-read int|string $target_project_id
- * @property-read int $upvotes
- * @property-read int $downvotes
- * @property-read array $labels
- * @property-read User|null $author
- * @property-read User|null $assignee
- * @property-read Project $project
- * @property-read Milestone|null $milestone
- * @property-read File[]|null $files
+ * @property int            $id
+ * @property int            $iid
+ * @property string         $target_branch
+ * @property string         $source_branch
+ * @property int|string     $project_id
+ * @property string         $title
+ * @property string         $description
+ * @property bool           $closed
+ * @property bool           $merged
+ * @property string         $state
+ * @property int|string     $source_project_id
+ * @property int|string     $target_project_id
+ * @property int            $upvotes
+ * @property int            $downvotes
+ * @property array          $labels
+ * @property User|null      $author
+ * @property User|null      $assignee
+ * @property Project        $project
+ * @property Milestone|null $milestone
+ * @property File[]|null    $files
  */
 final class MergeRequest extends AbstractModel implements Notable, Stateful
 {

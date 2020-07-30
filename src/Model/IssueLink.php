@@ -7,8 +7,8 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @property-read int $issue_link_id
- * @property-read Issue $issue
+ * @property int   $issue_link_id
+ * @property Issue $issue
  */
 final class IssueLink extends AbstractModel
 {

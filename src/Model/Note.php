@@ -7,15 +7,15 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @property-read int $id
- * @property-read User|null $author
- * @property-read string $body
- * @property-read string $created_at
- * @property-read string $updated_at
- * @property-read string $parent_type
- * @property-read Issue|MergeRequest $parent
- * @property-read string $attachment
- * @property-read bool $system
+ * @property int                $id
+ * @property User|null          $author
+ * @property string             $body
+ * @property string             $created_at
+ * @property string             $updated_at
+ * @property string             $parent_type
+ * @property Issue|MergeRequest $parent
+ * @property string             $attachment
+ * @property bool               $system
  */
 final class Note extends AbstractModel
 {

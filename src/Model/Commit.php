@@ -7,21 +7,21 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @property-read string $id
- * @property-read string $short_id
- * @property-read string $title
- * @property-read string $message
- * @property-read string $author_name
- * @property-read string $author_email
- * @property-read string $authored_date
- * @property-read string $committed_date
- * @property-read string $created_at
- * @property-read Commit[]|null $parents
- * @property-read Node[] $tree
- * @property-read User|null $committer
- * @property-read User|null $author
- * @property-read Project $project
- * @property-read array|null $stats
+ * @property string        $id
+ * @property string        $short_id
+ * @property string        $title
+ * @property string        $message
+ * @property string        $author_name
+ * @property string        $author_email
+ * @property string        $authored_date
+ * @property string        $committed_date
+ * @property string        $created_at
+ * @property Commit[]|null $parents
+ * @property Node[]        $tree
+ * @property User|null     $committer
+ * @property User|null     $author
+ * @property Project       $project
+ * @property array|null    $stats
  */
 final class Commit extends AbstractModel
 {

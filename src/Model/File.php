@@ -7,9 +7,9 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @property-read string $file_path
- * @property-read string $branch_name
- * @property-read Project $project
+ * @property string  $file_path
+ * @property string  $branch_name
+ * @property Project $project
  */
 final class File extends AbstractModel
 {

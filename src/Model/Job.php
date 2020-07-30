@@ -7,21 +7,21 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @property-read Commit|null $commit
- * @property-read int $id
- * @property-read string $coverage
- * @property-read string $created_at
- * @property-read string $artifacts_file
- * @property-read string $finished_at
- * @property-read string $name
- * @property-read Pipeline|null $pipeline
- * @property-read string $ref
- * @property-read string $runner
- * @property-read string $stage
- * @property-read string $started_at
- * @property-read string $status
- * @property-read string|bool $tag
- * @property-read User|null $user
+ * @property Commit|null   $commit
+ * @property int           $id
+ * @property string        $coverage
+ * @property string        $created_at
+ * @property string        $artifacts_file
+ * @property string        $finished_at
+ * @property string        $name
+ * @property Pipeline|null $pipeline
+ * @property string        $ref
+ * @property string        $runner
+ * @property string        $stage
+ * @property string        $started_at
+ * @property string        $status
+ * @property string|bool   $tag
+ * @property User|null     $user
  */
 final class Job extends AbstractModel
 {

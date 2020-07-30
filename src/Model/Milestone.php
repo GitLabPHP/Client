@@ -7,18 +7,18 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @property-read int $id
- * @property-read int $iid
- * @property-read int|string $project_id
- * @property-read string $title
- * @property-read string $description
- * @property-read string $due_date
- * @property-read string $start_date
- * @property-read string $state
- * @property-read bool $closed
- * @property-read string $updated_at
- * @property-read string $created_at
- * @property-read Project $project
+ * @property int        $id
+ * @property int        $iid
+ * @property int|string $project_id
+ * @property string     $title
+ * @property string     $description
+ * @property string     $due_date
+ * @property string     $start_date
+ * @property string     $state
+ * @property bool       $closed
+ * @property string     $updated_at
+ * @property string     $created_at
+ * @property Project    $project
  */
 final class Milestone extends AbstractModel
 {

@@ -7,17 +7,17 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @property-read int $id
- * @property-read string $url
- * @property-read int|string $project_id
- * @property-read bool $push_events
- * @property-read bool $issues_events
- * @property-read bool $merge_requests_events
- * @property-read bool $job_events
- * @property-read bool $tag_push_events
- * @property-read bool $pipeline_events
- * @property-read string $created_at
- * @property-read Project $project
+ * @property int        $id
+ * @property string     $url
+ * @property int|string $project_id
+ * @property bool       $push_events
+ * @property bool       $issues_events
+ * @property bool       $merge_requests_events
+ * @property bool       $job_events
+ * @property bool       $tag_push_events
+ * @property bool       $pipeline_events
+ * @property string     $created_at
+ * @property Project    $project
  */
 final class ProjectHook extends AbstractModel
 {

@@ -7,20 +7,20 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @property-read int $id
- * @property-read string $ref
- * @property-read string $sha
- * @property-read string $status
- * @property-read Project $project
- * @property-read array|null $variables
- * @property-read string $created_at
- * @property-read string $updated_at
- * @property-read string $started_at
- * @property-read string $finished_at
- * @property-read string $committed_at
- * @property-read int $duration
- * @property-read string $web_url
- * @property-read User|null $user
+ * @property int        $id
+ * @property string     $ref
+ * @property string     $sha
+ * @property string     $status
+ * @property Project    $project
+ * @property array|null $variables
+ * @property string     $created_at
+ * @property string     $updated_at
+ * @property string     $started_at
+ * @property string     $finished_at
+ * @property string     $committed_at
+ * @property int        $duration
+ * @property string     $web_url
+ * @property User|null  $user
  */
 final class Pipeline extends AbstractModel
 {

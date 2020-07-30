@@ -7,12 +7,12 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
- * @property-read int    $id
- * @property-read string $link_url
- * @property-read string $image_url
- * @property-read string $rendered_image_url
- * @property-read string $rendered_image_url
- * @property-read string $kind
+ * @property int    $id
+ * @property string $link_url
+ * @property string $image_url
+ * @property string $rendered_image_url
+ * @property string $rendered_image_url
+ * @property string $kind
  */
 final class Badge extends AbstractModel
 {
