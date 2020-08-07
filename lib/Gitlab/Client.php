@@ -490,7 +490,7 @@ class Client
      *
      * @return $this
      */
-    public function impersonate(int $userId, callable $act)
+    public function impersonate($userId, callable $act)
     {
         $usersApi = $this->users();
 
