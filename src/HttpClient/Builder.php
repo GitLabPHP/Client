@@ -170,16 +170,20 @@ class Builder
      *
      * @param string $fqcn
      *
-     * @return void
+     * @return Plugin|null
      */
     public function removePlugin(string $fqcn)
     {
+        $plugin = null;
+
         foreach ($this->plugins as $idx => $plugin) {
             if ($plugin instanceof $fqcn) {
                 unset($this->plugins[$idx]);
                 $this->pluginClient = null;
             }
         }
+
+        return $plugin;
     }
 
     /**

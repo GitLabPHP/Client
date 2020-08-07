@@ -338,8 +338,43 @@ class Client
      */
     public function authenticate(string $token, string $authMethod, string $sudo = null)
     {
-        $this->getHttpClientBuilder()->removePlugin(Authentication::class);
-        $this->getHttpClientBuilder()->addPlugin(new Authentication($authMethod, $token, $sudo));
+        $httpClientBuilder = $this->getHttpClientBuilder();
+        $httpClientBuilder->removePlugin(Authentication::class);
+        $httpClientBuilder->addPlugin(new Authentication($authMethod, $token, $sudo));
+
+        return $this;
+    }
+
+    /**
+     * Impersonate a user and act on their behalf.
+     *
+     * - temporarily fetches an impersonation token
+     * - authenticates with it
+     * - allows the user to act within the scope of the callback
+     * - purges the token
+     *
+     * @param int      $userId Id of the user to act as
+     * @param callable $act    Will be called with $this, authenticated as the user
+     *
+     * @return $this
+     */
+    public function impersonate(int $userId, callable $act)
+    {
+        $usersApi = $this->users();
+
+        $tokenResponse = $usersApi->createImpersonationToken($userId, 'gitlab-php-client', ['api']);
+
+        $httpClientBuilder = $this->getHttpClientBuilder();
+        $previousAuthentication = $httpClientBuilder->removePlugin(Authentication::class);
+
+        try {
+            $httpClientBuilder->addPlugin(new Authentication(self::AUTH_HTTP_TOKEN, $tokenResponse['token']));
+            $act($this);
+        } finally {
+            $httpClientBuilder->removePlugin(Authentication::class);
+            $httpClientBuilder->addPlugin($previousAuthentication);
+            $usersApi->removeImpersonationToken($userId, $tokenResponse['id']);
+        }
 
         return $this;
     }
