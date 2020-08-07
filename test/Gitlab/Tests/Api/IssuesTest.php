@@ -187,7 +187,7 @@ class IssuesTest extends TestCase
             ->with('projects/1/issues/2/reorder', ['move_after_id' => 3, 'move_before_id' => 4])
             ->will($this->returnValue($expectedArray))
         ;
-        $this->assertEquals($expectedArray, $api->reorder(1, 2, 3, 4));
+        $this->assertEquals($expectedArray, $api->reorder(1, 2, ['move_after_id' => 3, 'move_before_id' => 4]));
     }
 
     /**
