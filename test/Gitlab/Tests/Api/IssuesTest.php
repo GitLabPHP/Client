@@ -180,6 +180,21 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
+    public function shouldReorderIssue()
+    {
+        $expectedArray = ['id' => 2, 'title' => 'A reordered issue'];
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/issues/2/reorder', ['move_after_id' => 3, 'move_before_id' => 4])
+            ->will($this->returnValue($expectedArray))
+        ;
+        $this->assertEquals($expectedArray, $api->reorder(1, 2, ['move_after_id' => 3, 'move_before_id' => 4]));
+    }
+
+    /**
+     * @test
+     */
     public function shouldMoveIssue()
     {
         $expectedArray = ['id' => 2, 'title' => 'A moved issue'];
