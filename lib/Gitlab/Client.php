@@ -497,6 +497,12 @@ class Client
         $tokenResponse = $usersApi->createImpersonationToken($userId, 'gitlab-php-client', ['api']);
 
         $httpClientBuilder = $this->getHttpClientBuilder();
+
+        /**
+         * Can not be null, since we were able to authenticate to get the impersonation token.
+         *
+         * @var Authentication $previousAuthentication
+         */
         $previousAuthentication = $httpClientBuilder->removePlugin(Authentication::class);
 
         try {
