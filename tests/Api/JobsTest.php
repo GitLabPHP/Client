@@ -12,7 +12,7 @@ class JobsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllJobs()
+    public function shouldGetAllJobs(): void
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'A job'],
@@ -34,7 +34,7 @@ class JobsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetPipelineJobs()
+    public function shouldGetPipelineJobs(): void
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'A job'],
@@ -56,7 +56,7 @@ class JobsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetJob()
+    public function shouldGetJob(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'A job'];
 
@@ -73,7 +73,7 @@ class JobsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetArtifacts()
+    public function shouldGetArtifacts(): void
     {
         $returnedStream = new Response(200, [], 'foobar');
 
@@ -90,7 +90,7 @@ class JobsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetArtifactsByRefName()
+    public function shouldGetArtifactsByRefName(): void
     {
         $returnedStream = new Response(200, [], 'foobar');
 
@@ -109,7 +109,7 @@ class JobsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetArtifactByRefName()
+    public function shouldGetArtifactByRefName(): void
     {
         $returnedStream = new Response(200, [], 'foobar');
         $api = $this->getApiMock();
@@ -126,7 +126,7 @@ class JobsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetTrace()
+    public function shouldGetTrace(): void
     {
         $expectedString = 'some trace';
 
@@ -143,7 +143,7 @@ class JobsTest extends TestCase
     /**
      * @test
      */
-    public function shouldCancel()
+    public function shouldCancel(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'A job'];
 
@@ -160,7 +160,7 @@ class JobsTest extends TestCase
     /**
      * @test
      */
-    public function shouldRetry()
+    public function shouldRetry(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'A job'];
 
@@ -177,7 +177,7 @@ class JobsTest extends TestCase
     /**
      * @test
      */
-    public function shouldErase()
+    public function shouldErase(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'A job'];
 
@@ -194,7 +194,7 @@ class JobsTest extends TestCase
     /**
      * @test
      */
-    public function shouldKeepArtifacts()
+    public function shouldKeepArtifacts(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'A job'];
 
@@ -211,7 +211,7 @@ class JobsTest extends TestCase
     /**
      * @test
      */
-    public function shouldPlay()
+    public function shouldPlay(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'A job'];
 

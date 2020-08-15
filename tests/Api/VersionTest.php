@@ -11,7 +11,7 @@ class VersionTest extends TestCase
     /**
      * @test
      */
-    public function shouldShowVersion()
+    public function shouldShowVersion(): void
     {
         $expectedArray = [
             'version' => '8.13.0-pre',

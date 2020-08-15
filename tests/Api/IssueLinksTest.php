@@ -19,7 +19,7 @@ class IssueLinksTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetIssueLinks()
+    public function shouldGetIssueLinks(): void
     {
         $expectedArray = [
             ['issue_link_id' => 100],
@@ -39,7 +39,7 @@ class IssueLinksTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateIssueLink()
+    public function shouldCreateIssueLink(): void
     {
         $expectedArray = [
             'source_issue' => ['iid' => 10, 'project_id' => 1],
@@ -59,7 +59,7 @@ class IssueLinksTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveIssueLink()
+    public function shouldRemoveIssueLink(): void
     {
         $expectedArray = [
             'source_issue' => ['iid' => 10, 'project_id' => 1],

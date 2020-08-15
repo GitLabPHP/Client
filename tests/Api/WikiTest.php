@@ -11,7 +11,7 @@ class WikiTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateWiki()
+    public function shouldCreateWiki(): void
     {
         $expectedArray = [
             'format' => 'markdown',
@@ -43,7 +43,7 @@ class WikiTest extends TestCase
     /**
      * @test
      */
-    public function shouldShowWiki()
+    public function shouldShowWiki(): void
     {
         $expectedArray = [
             'slug' => 'Test-Wiki',
@@ -63,7 +63,7 @@ class WikiTest extends TestCase
     /**
      * @test
      */
-    public function shouldShowAllWiki()
+    public function shouldShowAllWiki(): void
     {
         $expectedArray = [
             'slug' => 'Test-Wiki',
@@ -84,7 +84,7 @@ class WikiTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateWiki()
+    public function shouldUpdateWiki(): void
     {
         $expectedArray = [
             'slug' => 'Test-Wiki',
@@ -106,7 +106,7 @@ class WikiTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveWiki()
+    public function shouldRemoveWiki(): void
     {
         $expectedBool = true;
 

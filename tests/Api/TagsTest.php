@@ -11,7 +11,7 @@ class TagsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllTags()
+    public function shouldGetAllTags(): void
     {
         $expectedArray = [
             ['name' => 'v1.0.0'],
@@ -29,7 +29,7 @@ class TagsTest extends TestCase
     /**
      * @test
      */
-    public function shouldShowTag()
+    public function shouldShowTag(): void
     {
         $expectedArray = [
             ['name' => 'v1.0.0'],
@@ -46,7 +46,7 @@ class TagsTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateTag()
+    public function shouldCreateTag(): void
     {
         $expectedArray = [
             ['name' => 'v1.1.0'],
@@ -70,7 +70,7 @@ class TagsTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveTag()
+    public function shouldRemoveTag(): void
     {
         $expectedArray = [
             ['name' => 'v1.1.0'],
@@ -92,7 +92,7 @@ class TagsTest extends TestCase
      * @param string $description
      * @param array  $expectedResult
      */
-    public function shouldCreateRelease(string $releaseName, string $description, array $expectedResult)
+    public function shouldCreateRelease(string $releaseName, string $description, array $expectedResult): void
     {
         $params = [
             'description' => $description,
@@ -115,7 +115,7 @@ class TagsTest extends TestCase
      * @param string $description
      * @param array  $expectedResult
      */
-    public function shouldUpdateRelease(string $releaseName, string $description, array $expectedResult)
+    public function shouldUpdateRelease(string $releaseName, string $description, array $expectedResult): void
     {
         $params = [
             'description' => $description,

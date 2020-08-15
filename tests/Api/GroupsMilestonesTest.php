@@ -11,7 +11,7 @@ class GroupsMilestonesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllMilestones()
+    public function shouldGetAllMilestones(): void
     {
         $expectedArray = [
             ['id' => 1, 'title' => 'A milestone'],
@@ -31,7 +31,7 @@ class GroupsMilestonesTest extends TestCase
     /**
      * @test
      */
-    public function shouldShowMilestone()
+    public function shouldShowMilestone(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'A milestone'];
 
@@ -48,7 +48,7 @@ class GroupsMilestonesTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateMilestone()
+    public function shouldCreateMilestone(): void
     {
         $expectedArray = ['id' => 3, 'title' => 'A new milestone'];
 
@@ -65,7 +65,7 @@ class GroupsMilestonesTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateMilestone()
+    public function shouldUpdateMilestone(): void
     {
         $expectedArray = ['id' => 3, 'title' => 'Updated milestone'];
 
@@ -82,7 +82,7 @@ class GroupsMilestonesTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveMilestone()
+    public function shouldRemoveMilestone(): void
     {
         $expectedBool = true;
 
@@ -99,7 +99,7 @@ class GroupsMilestonesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetMilestonesIssues()
+    public function shouldGetMilestonesIssues(): void
     {
         $expectedArray = [
             ['id' => 1, 'title' => 'An issue'],
@@ -119,7 +119,7 @@ class GroupsMilestonesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetMilestonesMergeRequests()
+    public function shouldGetMilestonesMergeRequests(): void
     {
         $expectedArray = [
             ['id' => 1, 'title' => 'A merge request'],

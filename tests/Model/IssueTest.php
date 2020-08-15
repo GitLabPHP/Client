@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 
 class IssueTest extends TestCase
 {
-    public function testCorrectConstructWithoutIidAndClient()
+    public function testCorrectConstructWithoutIidAndClient(): void
     {
         $project = new Project();
 
@@ -26,7 +26,7 @@ class IssueTest extends TestCase
         $this->assertSame(null, $sUT->getClient());
     }
 
-    public function testCorrectConstructWithoutClient()
+    public function testCorrectConstructWithoutClient(): void
     {
         $project = new Project();
 
@@ -37,7 +37,7 @@ class IssueTest extends TestCase
         $this->assertSame(null, $sUT->getClient());
     }
 
-    public function testCorrectConstruct()
+    public function testCorrectConstruct(): void
     {
         $project = new Project();
         $client = $this->createMock(Client::class);
@@ -49,7 +49,7 @@ class IssueTest extends TestCase
         $this->assertSame($client, $sUT->getClient());
     }
 
-    public function testFromArray()
+    public function testFromArray(): void
     {
         $project = new Project();
         $client = $this->createMock(Client::class);
@@ -70,7 +70,7 @@ class IssueTest extends TestCase
         return Issue::fromArray($client, $project, $data);
     }
 
-    public function testIsClosed()
+    public function testIsClosed(): void
     {
         $opened_data = [
             'iid' => 1,
@@ -89,7 +89,7 @@ class IssueTest extends TestCase
         $this->assertTrue($closed_issue->isClosed());
     }
 
-    public function testHasLabel()
+    public function testHasLabel(): void
     {
         $data = [
             'iid' => 1,
@@ -102,7 +102,7 @@ class IssueTest extends TestCase
         $this->assertFalse($issue->hasLabel(''));
     }
 
-    public function testMove()
+    public function testMove(): void
     {
         $project = new Project(1);
         $toProject = new Project(2);
@@ -126,7 +126,7 @@ class IssueTest extends TestCase
     /**
      * @test
      */
-    public function testLinks()
+    public function testLinks(): void
     {
         $issueLinks = $this->createMock(IssueLinks::class);
         $projects = $this->createMock(Projects::class);
@@ -173,7 +173,7 @@ class IssueTest extends TestCase
     /**
      * @test
      */
-    public function testAddLink()
+    public function testAddLink(): void
     {
         $issueLinks = $this->createMock(IssueLinks::class);
         $client = $this->createMock(Client::class);
@@ -209,7 +209,7 @@ class IssueTest extends TestCase
     /**
      * @test
      */
-    public function testRemoveLink()
+    public function testRemoveLink(): void
     {
         $issueLinks = $this->createMock(IssueLinks::class);
         $projects = $this->createMock(Projects::class);

@@ -11,7 +11,7 @@ class SnippetsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllSnippets()
+    public function shouldGetAllSnippets(): void
     {
         $expectedArray = [
             ['id' => 1, 'title' => 'A snippet'],
@@ -31,7 +31,7 @@ class SnippetsTest extends TestCase
     /**
      * @test
      */
-    public function shouldShowSnippet()
+    public function shouldShowSnippet(): void
     {
         $expectedArray = ['id' => 2, 'title' => 'Another snippet'];
 
@@ -48,7 +48,7 @@ class SnippetsTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateSnippet()
+    public function shouldCreateSnippet(): void
     {
         $expectedArray = ['id' => 3, 'title' => 'A new snippet'];
 
@@ -65,7 +65,7 @@ class SnippetsTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateSnippet()
+    public function shouldUpdateSnippet(): void
     {
         $expectedArray = ['id' => 3, 'title' => 'Updated snippet'];
 
@@ -82,7 +82,7 @@ class SnippetsTest extends TestCase
     /**
      * @test
      */
-    public function shouldShowContent()
+    public function shouldShowContent(): void
     {
         $expectedString = 'New content';
 
@@ -99,7 +99,7 @@ class SnippetsTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveSnippet()
+    public function shouldRemoveSnippet(): void
     {
         $expectedBool = true;
 
@@ -116,7 +116,7 @@ class SnippetsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetNotes()
+    public function shouldGetNotes(): void
     {
         $expectedArray = [
             ['id' => 1, 'body' => 'A note'],
@@ -136,7 +136,7 @@ class SnippetsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetNote()
+    public function shouldGetNote(): void
     {
         $expectedArray = ['id' => 3, 'body' => 'A new note'];
 
@@ -153,7 +153,7 @@ class SnippetsTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateNote()
+    public function shouldCreateNote(): void
     {
         $expectedArray = ['id' => 3, 'body' => 'A new note'];
 
@@ -170,7 +170,7 @@ class SnippetsTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateNote()
+    public function shouldUpdateNote(): void
     {
         $expectedArray = ['id' => 3, 'body' => 'An edited comment'];
 
@@ -187,7 +187,7 @@ class SnippetsTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveNote()
+    public function shouldRemoveNote(): void
     {
         $expectedBool = true;
 
@@ -204,7 +204,7 @@ class SnippetsTest extends TestCase
     /**
      * @test
      */
-    public function shouldIssueSnippetAwardEmoji()
+    public function shouldIssueSnippetAwardEmoji(): void
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'sparkles'],
@@ -224,7 +224,7 @@ class SnippetsTest extends TestCase
     /**
      * @test
      */
-    public function shouldRevokeSnippetAwardEmoji()
+    public function shouldRevokeSnippetAwardEmoji(): void
     {
         $expectedBool = true;
 
