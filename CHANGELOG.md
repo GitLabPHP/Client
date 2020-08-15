@@ -2,7 +2,7 @@ CHANGE LOG
 ==========
 
 
-## 10.0.0 (UPCOMING)
+## 10.0.0 (15/08/2020)
 
 * Added void return types to void methods
 
