@@ -12,13 +12,13 @@ phpstan-baseline:
 	@docker run -it -w /data -v ${PWD}:/data:delegated --entrypoint vendor/bin/phpstan --rm registry.gitlab.com/grahamcampbell/php:7.4-cli analyze --generate-baseline
 
 psalm-analyze:
-	@docker run -it -w /data -v ${PWD}:/data:delegated --entrypoint vendor/bin/psalm --rm registry.gitlab.com/grahamcampbell/php:7.4-cli
+	@docker run -it -w /data -v ${PWD}:/data:delegated --entrypoint vendor/bin/psalm.phar --rm registry.gitlab.com/grahamcampbell/php:7.4-cli
 
 psalm-baseline:
-	@docker run -it -w /data -v ${PWD}:/data:delegated --entrypoint vendor/bin/psalm --rm registry.gitlab.com/grahamcampbell/php:7.4-cli --set-baseline=psalm-baseline.xml
+	@docker run -it -w /data -v ${PWD}:/data:delegated --entrypoint vendor/bin/psalm.phar --rm registry.gitlab.com/grahamcampbell/php:7.4-cli --set-baseline=psalm-baseline.xml
 
 psalm-show-info:
-	@docker run -it -w /data -v ${PWD}:/data:delegated --entrypoint vendor/bin/psalm --rm registry.gitlab.com/grahamcampbell/php:7.4-cli --show-info=true
+	@docker run -it -w /data -v ${PWD}:/data:delegated --entrypoint vendor/bin/psalm.phar --rm registry.gitlab.com/grahamcampbell/php:7.4-cli --show-info=true
 
 rector-dry-run:
 	@docker run -it -w /data -v ${PWD}:/data:delegated --entrypoint vendor/bin/rector --rm registry.gitlab.com/grahamcampbell/php:7.4-cli process --dry-run

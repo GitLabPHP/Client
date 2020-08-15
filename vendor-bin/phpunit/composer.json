@@ -1,6 +1,6 @@
 {
     "require": {
-        "phpunit/phpunit": "^7.5.15|^8.5|^9.0"
+        "phpunit/phpunit": "^7.5.20 || ^8.5.8 || ^9.3.7"
     },
     "config": {
         "preferred-install": "dist"
