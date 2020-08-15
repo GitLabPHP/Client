@@ -1,6 +1,11 @@
 parameters:
 	ignoreErrors:
 		-
+			message: "#^Parameter \\#1 \\$error_handler of function set_error_handler expects \\(callable\\(int, string, string, int, array\\)\\: bool\\)\\|null, Closure\\(\\)\\: void given\\.$#"
+			count: 1
+			path: src/Api/AbstractApi.php
+
+		-
 			message: "#^Return type \\(Gitlab\\\\Model\\\\Issue\\) of method Gitlab\\\\Model\\\\Issue\\:\\:close\\(\\) should be covariant with return type \\(static\\(Gitlab\\\\Model\\\\Stateful\\)\\) of method Gitlab\\\\Model\\\\Stateful\\:\\:close\\(\\)$#"
 			count: 1
 			path: src/Model/Issue.php
