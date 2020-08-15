@@ -2,7 +2,7 @@ CHANGE LOG
 ==========
 
 
-## 9.19.0 (UPCOMING)
+## 9.19.0 (15/08/2020)
 
 * Added user events API
 * Support the issue link link_type parameter
