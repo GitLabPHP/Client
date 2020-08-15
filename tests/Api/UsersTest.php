@@ -11,7 +11,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllUsers()
+    public function shouldGetAllUsers(): void
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'Matt'],
@@ -31,7 +31,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetActiveUsers()
+    public function shouldGetActiveUsers(): void
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'Matt'],
@@ -51,7 +51,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetUsersWithDateTimeParams()
+    public function shouldGetUsersWithDateTimeParams(): void
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'Matt'],
@@ -82,7 +82,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldShowUser()
+    public function shouldShowUser(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'Matt'];
 
@@ -119,7 +119,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldShowUsersProjects()
+    public function shouldShowUsersProjects(): void
     {
         $expectedArray = $this->getUsersProjectsData();
 
@@ -131,7 +131,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldShowUsersProjectsWithLimit()
+    public function shouldShowUsersProjectsWithLimit(): void
     {
         $expectedArray = [$this->getUsersProjectsData()[0]];
 
@@ -143,7 +143,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllUsersProjectsSortedByName()
+    public function shouldGetAllUsersProjectsSortedByName(): void
     {
         $expectedArray = $this->getUsersProjectsData();
 
@@ -162,7 +162,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetNotArchivedUsersProjects()
+    public function shouldGetNotArchivedUsersProjects(): void
     {
         $expectedArray = $this->getUsersProjectsData();
 
@@ -174,7 +174,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetOwnedUsersProjects()
+    public function shouldGetOwnedUsersProjects(): void
     {
         $expectedArray = $this->getUsersProjectsData();
 
@@ -198,7 +198,7 @@ class UsersTest extends TestCase
      * @test
      * @dataProvider possibleAccessLevels
      */
-    public function shouldGetProjectsWithMinimumAccessLevel($level)
+    public function shouldGetProjectsWithMinimumAccessLevel($level): void
     {
         $expectedArray = $this->getUsersProjectsData();
 
@@ -210,7 +210,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldSearchUsersProjects()
+    public function shouldSearchUsersProjects(): void
     {
         $expectedArray = $this->getUsersProjectsData();
 
@@ -221,7 +221,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateUser()
+    public function shouldCreateUser(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'Billy'];
 
@@ -238,7 +238,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateUserWithAdditionalInfo()
+    public function shouldCreateUserWithAdditionalInfo(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'Billy'];
 
@@ -255,7 +255,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateUser()
+    public function shouldUpdateUser(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'Billy Bob'];
 
@@ -283,7 +283,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveUser()
+    public function shouldRemoveUser(): void
     {
         $expectedBool = true;
 
@@ -300,7 +300,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldBlockUser()
+    public function shouldBlockUser(): void
     {
         $expectedBool = true;
 
@@ -317,7 +317,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldUnblockUser()
+    public function shouldUnblockUser(): void
     {
         $expectedBool = true;
 
@@ -334,7 +334,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldShowCurrentUser()
+    public function shouldShowCurrentUser(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'Matt'];
 
@@ -351,7 +351,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetCurrentUserKeys()
+    public function shouldGetCurrentUserKeys(): void
     {
         $expectedArray = [
             ['id' => 1, 'title' => 'A key'],
@@ -371,7 +371,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetCurrentUserKey()
+    public function shouldGetCurrentUserKey(): void
     {
         $expectedArray = ['id' => 1, 'title' => 'A key'];
 
@@ -388,7 +388,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateKeyForCurrentUser()
+    public function shouldCreateKeyForCurrentUser(): void
     {
         $expectedArray = ['id' => 3, 'title' => 'A new key'];
 
@@ -405,7 +405,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldDeleteKeyForCurrentUser()
+    public function shouldDeleteKeyForCurrentUser(): void
     {
         $expectedBool = true;
 
@@ -422,7 +422,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetUserKeys()
+    public function shouldGetUserKeys(): void
     {
         $expectedArray = [
             ['id' => 1, 'title' => 'A key'],
@@ -442,7 +442,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetUserKey()
+    public function shouldGetUserKey(): void
     {
         $expectedArray = ['id' => 2, 'title' => 'Another key'];
 
@@ -459,7 +459,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateKeyForUser()
+    public function shouldCreateKeyForUser(): void
     {
         $expectedArray = ['id' => 3, 'title' => 'A new key'];
 
@@ -476,7 +476,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldDeleteKeyForUser()
+    public function shouldDeleteKeyForUser(): void
     {
         $expectedBool = true;
 
@@ -493,7 +493,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetUserEmails()
+    public function shouldGetUserEmails(): void
     {
         $expectedArray = [
             ['id' => 1, 'email' => 'foo@bar.baz'],
@@ -512,7 +512,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetSpecificUserEmail()
+    public function shouldGetSpecificUserEmail(): void
     {
         $expectedArray = ['id' => 1, 'email' => 'foo@bar.baz'];
 
@@ -528,7 +528,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetEmailsForUser()
+    public function shouldGetEmailsForUser(): void
     {
         $expectedArray = [
             ['id' => 1, 'email' => 'foo@bar.baz'],
@@ -548,7 +548,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateEmailForUser()
+    public function shouldCreateEmailForUser(): void
     {
         $expectedArray = ['id' => 3, 'email' => 'foo@bar.example'];
 
@@ -565,7 +565,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateConfirmedEmailForUser()
+    public function shouldCreateConfirmedEmailForUser(): void
     {
         $expectedArray = ['id' => 4, 'email' => 'foo@baz.example'];
 
@@ -582,7 +582,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldDeleteEmailForUser()
+    public function shouldDeleteEmailForUser(): void
     {
         $expectedBool = true;
 
@@ -599,7 +599,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetCurrentUserImpersonationTokens()
+    public function shouldGetCurrentUserImpersonationTokens(): void
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'A Name', 'revoked' => false],
@@ -619,7 +619,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetUserImpersonationToken()
+    public function shouldGetUserImpersonationToken(): void
     {
         $expectedArray = ['id' => 2, 'name' => 'name'];
 
@@ -636,7 +636,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateImpersonationTokenForUser()
+    public function shouldCreateImpersonationTokenForUser(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'name'];
 
@@ -653,7 +653,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldDeleteImpersonationTokenForUser()
+    public function shouldDeleteImpersonationTokenForUser(): void
     {
         $expectedBool = true;
 
@@ -670,7 +670,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetCurrentUserActiveImpersonationTokens()
+    public function shouldGetCurrentUserActiveImpersonationTokens(): void
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'A Name', 'revoked' => true],
@@ -689,7 +689,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetCurrentUserInactiveImpersonationTokens()
+    public function shouldGetCurrentUserInactiveImpersonationTokens(): void
     {
         $expectedArray = [
             ['id' => 2, 'name' => 'A Name', 'revoked' => false],
@@ -713,7 +713,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetEvents()
+    public function shouldGetEvents(): void
     {
         $expectedArray = [
             ['id' => 1, 'title' => 'An event'],
@@ -732,7 +732,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetEventsWithDateTimeParams()
+    public function shouldGetEventsWithDateTimeParams(): void
     {
         $expectedArray = [
             ['id' => 1, 'title' => 'An event'],
@@ -759,7 +759,7 @@ class UsersTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetEventsWithPagination()
+    public function shouldGetEventsWithPagination(): void
     {
         $expectedArray = [
             ['id' => 1, 'title' => 'An event'],

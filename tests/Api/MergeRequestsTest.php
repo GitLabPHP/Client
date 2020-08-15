@@ -11,7 +11,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAll()
+    public function shouldGetAll(): void
     {
         $expectedArray = $this->getMultipleMergeRequestsData();
 
@@ -28,7 +28,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllWithNoProject()
+    public function shouldGetAllWithNoProject(): void
     {
         $expectedArray = $this->getMultipleMergeRequestsData();
 
@@ -45,7 +45,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllWithParams()
+    public function shouldGetAllWithParams(): void
     {
         $expectedArray = $this->getMultipleMergeRequestsData();
 
@@ -88,7 +88,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllWithDateTimeParams()
+    public function shouldGetAllWithDateTimeParams(): void
     {
         $expectedArray = $this->getMultipleMergeRequestsData();
 
@@ -116,7 +116,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldShowMergeRequest()
+    public function shouldShowMergeRequest(): void
     {
         $expectedArray = ['id' => 2, 'name' => 'A merge request'];
 
@@ -133,7 +133,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldShowMergeRequestWithOptionalParameters()
+    public function shouldShowMergeRequestWithOptionalParameters(): void
     {
         $expectedArray = [
             'id' => 2,
@@ -158,7 +158,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateMergeRequestWithoutOptionalParams()
+    public function shouldCreateMergeRequestWithoutOptionalParams(): void
     {
         $expectedArray = ['id' => 3, 'title' => 'Merge Request'];
 
@@ -179,7 +179,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateMergeRequestWithOptionalParams()
+    public function shouldCreateMergeRequestWithOptionalParams(): void
     {
         $expectedArray = ['id' => 3, 'title' => 'Merge Request'];
 
@@ -213,7 +213,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateMergeRequest()
+    public function shouldUpdateMergeRequest(): void
     {
         $expectedArray = ['id' => 2, 'title' => 'Updated title'];
 
@@ -234,7 +234,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldMergeMergeRequest()
+    public function shouldMergeMergeRequest(): void
     {
         $expectedArray = ['id' => 2, 'title' => 'Updated title'];
 
@@ -251,7 +251,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetNotes()
+    public function shouldGetNotes(): void
     {
         $expectedArray = [
             ['id' => 1, 'body' => 'A note'],
@@ -271,7 +271,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetNote()
+    public function shouldGetNote(): void
     {
         $expectedArray = ['id' => 3, 'body' => 'A new note'];
 
@@ -288,7 +288,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateNote()
+    public function shouldCreateNote(): void
     {
         $expectedArray = ['id' => 3, 'body' => 'A new note'];
 
@@ -305,7 +305,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateNote()
+    public function shouldUpdateNote(): void
     {
         $expectedArray = ['id' => 3, 'body' => 'An edited comment'];
 
@@ -322,7 +322,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveNote()
+    public function shouldRemoveNote(): void
     {
         $expectedBool = true;
 
@@ -339,7 +339,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetMergeRequestChanges()
+    public function shouldGetMergeRequestChanges(): void
     {
         $expectedArray = ['id' => 1, 'title' => 'A merge request'];
 
@@ -356,7 +356,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetMergeRequestDiscussions()
+    public function shouldGetMergeRequestDiscussions(): void
     {
         $expectedArray = [
             ['id' => 'abc', 'body' => 'A discussion'],
@@ -376,7 +376,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetMergeRequestDiscussion()
+    public function shouldGetMergeRequestDiscussion(): void
     {
         $expectedArray = ['id' => 'abc', 'body' => 'A discussion'];
 
@@ -393,7 +393,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateDiscussion()
+    public function shouldCreateDiscussion(): void
     {
         $expectedArray = ['id' => 'abc', 'body' => 'A new discussion'];
 
@@ -410,7 +410,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldResolveDiscussion()
+    public function shouldResolveDiscussion(): void
     {
         $expectedArray = ['id' => 'abc', 'resolved' => true];
 
@@ -427,7 +427,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldUnresolveDiscussion()
+    public function shouldUnresolveDiscussion(): void
     {
         $expectedArray = ['id' => 'abc', 'resolved' => false];
 
@@ -444,7 +444,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateDiscussionNote()
+    public function shouldCreateDiscussionNote(): void
     {
         $expectedArray = ['id' => 3, 'body' => 'A new discussion note'];
 
@@ -461,7 +461,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateDiscussionNote()
+    public function shouldUpdateDiscussionNote(): void
     {
         $expectedArray = ['id' => 3, 'body' => 'An edited discussion note'];
 
@@ -478,7 +478,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveDiscussionNote()
+    public function shouldRemoveDiscussionNote(): void
     {
         $expectedBool = true;
 
@@ -495,7 +495,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetIssuesClosedByMergeRequest()
+    public function shouldGetIssuesClosedByMergeRequest(): void
     {
         $expectedArray = ['id' => 1, 'title' => 'A merge request'];
 
@@ -512,7 +512,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetMergeRequestByIid()
+    public function shouldGetMergeRequestByIid(): void
     {
         $expectedArray = ['id' => 1, 'title' => 'A merge request'];
 
@@ -529,7 +529,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldApproveMergeRequest()
+    public function shouldApproveMergeRequest(): void
     {
         $expectedArray = ['id' => 1, 'title' => 'Approvals API'];
 
@@ -546,7 +546,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldUnApproveMergeRequest()
+    public function shouldUnApproveMergeRequest(): void
     {
         $expectedArray = ['id' => 1, 'title' => 'Approvals API'];
 
@@ -563,7 +563,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetMergeRequestApprovals()
+    public function shouldGetMergeRequestApprovals(): void
     {
         $expectedArray = ['id' => 1, 'title' => 'Approvals API'];
 
@@ -580,7 +580,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldIssueMergeRequestAwardEmoji()
+    public function shouldIssueMergeRequestAwardEmoji(): void
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'sparkles'],
@@ -600,7 +600,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldRevokeMergeRequestAwardEmoji()
+    public function shouldRevokeMergeRequestAwardEmoji(): void
     {
         $expectedBool = true;
 
@@ -617,7 +617,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shoudGetApprovalState()
+    public function shoudGetApprovalState(): void
     {
         $expectedArray = [
             'approval_rules_overwritten' => 1,
@@ -636,7 +636,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shoudGetLevelRules()
+    public function shoudGetLevelRules(): void
     {
         $expectedArray = [
             [
@@ -666,7 +666,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shoudCreateLevelRuleWithoutOptionalParameters()
+    public function shoudCreateLevelRuleWithoutOptionalParameters(): void
     {
         $expectedArray = [
             'id' => 20892835,
@@ -700,7 +700,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shoudCreateLevelRuleWithOptionalParameters()
+    public function shoudCreateLevelRuleWithOptionalParameters(): void
     {
         $expectedArray = [
             'id' => 20892835,
@@ -739,7 +739,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shoudUpdateLevelRuleWithoutOptionalParameters()
+    public function shoudUpdateLevelRuleWithoutOptionalParameters(): void
     {
         $expectedArray = [
             'id' => 20892835,
@@ -773,7 +773,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shoudUpdateLevelRuleWithOptionalParameters()
+    public function shoudUpdateLevelRuleWithOptionalParameters(): void
     {
         $expectedArray = [
             'id' => 20892835,
@@ -812,7 +812,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shoudDeleteLevelRule()
+    public function shoudDeleteLevelRule(): void
     {
         $expectedValue = true;
 
@@ -841,7 +841,7 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
-    public function shouldRebaseMergeRequest()
+    public function shouldRebaseMergeRequest(): void
     {
         $expectedArray = ['rebase_in_progress' => true];
 

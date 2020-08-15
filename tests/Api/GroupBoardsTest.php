@@ -11,7 +11,7 @@ class GroupBoardsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllBoards()
+    public function shouldGetAllBoards(): void
     {
         $expectedArray = [
             ['id' => 1, 'title' => 'A board'],
@@ -31,7 +31,7 @@ class GroupBoardsTest extends TestCase
     /**
      * @test
      */
-    public function shouldShowIssueBoard()
+    public function shouldShowIssueBoard(): void
     {
         $expectedArray = ['id' => 2, 'name' => 'Another issue board'];
 
@@ -48,7 +48,7 @@ class GroupBoardsTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateIssueBoard()
+    public function shouldCreateIssueBoard(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'A new issue board'];
 
@@ -65,7 +65,7 @@ class GroupBoardsTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateIssueBoard()
+    public function shouldUpdateIssueBoard(): void
     {
         $expectedArray = ['id' => 2, 'name' => 'A renamed issue board'];
 
@@ -82,7 +82,7 @@ class GroupBoardsTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveIssueBoard()
+    public function shouldRemoveIssueBoard(): void
     {
         $expectedBool = true;
 
@@ -99,7 +99,7 @@ class GroupBoardsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllLists()
+    public function shouldGetAllLists(): void
     {
         $expectedArray = [
             [
@@ -134,7 +134,7 @@ class GroupBoardsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetList()
+    public function shouldGetList(): void
     {
         $expectedArray = [
             [
@@ -161,7 +161,7 @@ class GroupBoardsTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateList()
+    public function shouldCreateList(): void
     {
         $expectedArray = [
             [
@@ -188,7 +188,7 @@ class GroupBoardsTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateList()
+    public function shouldUpdateList(): void
     {
         $expectedArray = [
             [
@@ -215,7 +215,7 @@ class GroupBoardsTest extends TestCase
     /**
      * @test
      */
-    public function shouldDeleteList()
+    public function shouldDeleteList(): void
     {
         $expectedBool = true;
 

@@ -11,7 +11,7 @@ class ScheduleTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateSchedule()
+    public function shouldCreateSchedule(): void
     {
         $expectedArray = [
             'id' => 13,
@@ -60,7 +60,7 @@ class ScheduleTest extends TestCase
     /**
      * @test
      */
-    public function shouldShowSchedule()
+    public function shouldShowSchedule(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'A schedule'];
 
@@ -77,7 +77,7 @@ class ScheduleTest extends TestCase
     /**
      * @test
      */
-    public function shouldShowAllSchedule()
+    public function shouldShowAllSchedule(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'A schedule'];
 
@@ -94,7 +94,7 @@ class ScheduleTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateSchedule()
+    public function shouldUpdateSchedule(): void
     {
         $expectedArray = ['id' => 3, 'title' => 'Updated schedule'];
 
@@ -111,7 +111,7 @@ class ScheduleTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveSchedule()
+    public function shouldRemoveSchedule(): void
     {
         $expectedBool = true;
 

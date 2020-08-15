@@ -22,6 +22,6 @@ final class QueryStringBuilder
             return '';
         }
 
-        return \sprintf('?%s', \http_build_query($query, '', '&', PHP_QUERY_RFC3986));
+        return sprintf('?%s', http_build_query($query, '', '&', PHP_QUERY_RFC3986));
     }
 }

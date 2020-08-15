@@ -11,7 +11,7 @@ class RepositoryFilesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetBlob()
+    public function shouldGetBlob(): void
     {
         $expectedString = 'something in a file';
 
@@ -28,7 +28,7 @@ class RepositoryFilesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetFile()
+    public function shouldGetFile(): void
     {
         $expectedArray = ['file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt'];
 
@@ -45,7 +45,7 @@ class RepositoryFilesTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateFile()
+    public function shouldCreateFile(): void
     {
         $expectedArray = ['file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt'];
 
@@ -72,7 +72,7 @@ class RepositoryFilesTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateFileWithEncoding()
+    public function shouldCreateFileWithEncoding(): void
     {
         $expectedArray = ['file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt'];
 
@@ -101,7 +101,7 @@ class RepositoryFilesTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateFileWithAuthor()
+    public function shouldCreateFileWithAuthor(): void
     {
         $expectedArray = ['file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt'];
 
@@ -132,7 +132,7 @@ class RepositoryFilesTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateFile()
+    public function shouldUpdateFile(): void
     {
         $expectedArray = ['file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt'];
 
@@ -159,7 +159,7 @@ class RepositoryFilesTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateFileWithEncoding()
+    public function shouldUpdateFileWithEncoding(): void
     {
         $expectedArray = ['file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt'];
 
@@ -188,7 +188,7 @@ class RepositoryFilesTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateFileWithAuthor()
+    public function shouldUpdateFileWithAuthor(): void
     {
         $expectedArray = ['file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt'];
 
@@ -219,7 +219,7 @@ class RepositoryFilesTest extends TestCase
     /**
      * @test
      */
-    public function shouldDeleteFile()
+    public function shouldDeleteFile(): void
     {
         $expectedArray = ['file_name' => 'app/project.rb', 'branch' => 'master'];
 
@@ -244,7 +244,7 @@ class RepositoryFilesTest extends TestCase
     /**
      * @test
      */
-    public function shouldDeleteFileWithAuthor()
+    public function shouldDeleteFileWithAuthor(): void
     {
         $expectedArray = ['file_name' => 'app/project.rb', 'branch' => 'master'];
 

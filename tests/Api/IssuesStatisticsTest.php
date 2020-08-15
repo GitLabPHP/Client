@@ -11,7 +11,7 @@ class IssuesStatisticsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAll()
+    public function shouldGetAll(): void
     {
         $expectedArray = [];
 
@@ -59,7 +59,7 @@ class IssuesStatisticsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetProject()
+    public function shouldGetProject(): void
     {
         $expectedArray = [];
 
@@ -75,7 +75,7 @@ class IssuesStatisticsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetGroup()
+    public function shouldGetGroup(): void
     {
         $expectedArray = [];
 

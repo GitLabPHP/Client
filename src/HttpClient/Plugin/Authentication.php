@@ -76,11 +76,11 @@ final class Authentication implements Plugin
 
                 break;
             case Client::AUTH_OAUTH_TOKEN:
-                $headers['Authorization'] = \sprintf('Bearer %s', $token);
+                $headers['Authorization'] = sprintf('Bearer %s', $token);
 
                 break;
             default:
-                throw new RuntimeException(\sprintf('Authentication method "%s" not implemented.', $method));
+                throw new RuntimeException(sprintf('Authentication method "%s" not implemented.', $method));
         }
 
         if (null !== $sudo) {

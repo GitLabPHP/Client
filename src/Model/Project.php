@@ -121,7 +121,7 @@ final class Project extends AbstractModel
             $groups = [];
             foreach ($data['shared_with_groups'] as $group) {
                 foreach ($group as $keys => $value) {
-                    $group[\str_replace('group_', '', $keys)] = $value;
+                    $group[str_replace('group_', '', $keys)] = $value;
                     unset($group[$keys]);
                 }
                 $groups[] = Group::fromArray($client, $group);

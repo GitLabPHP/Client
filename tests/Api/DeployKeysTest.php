@@ -11,7 +11,7 @@ class DeployKeysTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllDeployKeys()
+    public function shouldGetAllDeployKeys(): void
     {
         $expectedArray = $this->getMultipleDeployKeysData();
 

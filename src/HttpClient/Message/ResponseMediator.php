@@ -45,7 +45,7 @@ final class ResponseMediator
     {
         $body = (string) $response->getBody();
 
-        if ('' !== $body && 0 === \strpos($response->getHeaderLine('Content-Type'), self::JSON_CONTENT_TYPE)) {
+        if ('' !== $body && 0 === strpos($response->getHeaderLine('Content-Type'), self::JSON_CONTENT_TYPE)) {
             return JsonArray::decode($body);
         }
 
@@ -68,8 +68,8 @@ final class ResponseMediator
         }
 
         $pagination = [];
-        foreach (\explode(',', $header) as $link) {
-            \preg_match('/<(.*)>; rel="(.*)"/i', \trim($link, ','), $match);
+        foreach (explode(',', $header) as $link) {
+            preg_match('/<(.*)>; rel="(.*)"/i', trim($link, ','), $match);
 
             /** @var string[] $match */
             if (3 === \count($match)) {
@@ -92,7 +92,7 @@ final class ResponseMediator
     {
         $headers = $response->getHeader($name);
 
-        return \array_shift($headers);
+        return array_shift($headers);
     }
 
     /**
@@ -157,17 +157,17 @@ final class ResponseMediator
 
         foreach ($message as $field => $messages) {
             if (\is_array($messages)) {
-                $messages = \array_unique($messages);
+                $messages = array_unique($messages);
                 foreach ($messages as $error) {
-                    $errors[] = \sprintf($format, $field, $error);
+                    $errors[] = sprintf($format, $field, $error);
                 }
             } elseif (\is_int($field)) {
                 $errors[] = $messages;
             } else {
-                $errors[] = \sprintf($format, $field, $messages);
+                $errors[] = sprintf($format, $field, $messages);
             }
         }
 
-        return \implode(', ', $errors);
+        return implode(', ', $errors);
     }
 }

@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class ReleaseTest extends TestCase
 {
-    public function testFromArray()
+    public function testFromArray(): void
     {
         $params = [
             'tag_name' => 'v1.0.0',

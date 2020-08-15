@@ -306,7 +306,7 @@ class Repositories extends AbstractApi
                     ->setAllowedValues('encoding', ['text', 'base64'])
                 ;
 
-                return \array_map(function ($action) use ($actionsOptionsResolver) {
+                return array_map(function ($action) use ($actionsOptionsResolver) {
                     return $actionsOptionsResolver->resolve($action);
                 }, $actions);
             })

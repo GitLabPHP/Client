@@ -32,7 +32,7 @@ abstract class TestCase extends BaseTestCase
         $client = Client::createWithHttpClient($httpClient);
 
         return $this->getMockBuilder($this->getApiClass())
-            ->setMethods(\array_merge(['getAsResponse', 'get', 'post', 'postRaw', 'patch', 'delete', 'put', 'head'], $methods))
+            ->setMethods(array_merge(['getAsResponse', 'get', 'post', 'postRaw', 'patch', 'delete', 'put', 'head'], $methods))
             ->setConstructorArgs([$client, null])
             ->getMock();
     }
