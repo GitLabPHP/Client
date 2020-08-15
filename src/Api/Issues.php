@@ -97,7 +97,7 @@ class Issues extends AbstractApi
      *
      * @return mixed
      */
-    public function reorder($project_id, $issue_iid, array $params)
+    public function reorder($project_id, int $issue_iid, array $params)
     {
         return $this->put($this->getProjectPath($project_id, 'issues/'.$this->encodePath($issue_iid)).'/reorder', $params);
     }
