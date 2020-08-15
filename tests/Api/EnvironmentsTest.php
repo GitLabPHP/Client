@@ -11,7 +11,7 @@ class EnvironmentsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllEnvironments()
+    public function shouldGetAllEnvironments(): void
     {
         $expectedArray = [
             [
@@ -37,7 +37,7 @@ class EnvironmentsTest extends TestCase
     }
 
     /** @test */
-    public function shouldFilterEnvironmentByName()
+    public function shouldFilterEnvironmentByName(): void
     {
         $expected = [
             [
@@ -58,7 +58,7 @@ class EnvironmentsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetSingleEnvironment()
+    public function shouldGetSingleEnvironment(): void
     {
         $expected = [
             'id' => 1,
@@ -137,7 +137,7 @@ See merge request !1',
     /**
      * @test
      */
-    public function shouldCreateEnvironment()
+    public function shouldCreateEnvironment(): void
     {
         $expectedArray = [
             [
@@ -165,7 +165,7 @@ See merge request !1',
     /**
      * @test
      */
-    public function shouldRemoveEnvironment()
+    public function shouldRemoveEnvironment(): void
     {
         $expectedBool = true;
 
@@ -180,7 +180,7 @@ See merge request !1',
     /**
      * @test
      */
-    public function shouldStopEnvironment()
+    public function shouldStopEnvironment(): void
     {
         $expectedBool = true;
 

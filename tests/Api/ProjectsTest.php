@@ -11,7 +11,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllProjects()
+    public function shouldGetAllProjects(): void
     {
         $expectedArray = $this->getMultipleProjectsData();
 
@@ -23,7 +23,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllProjectsSortedByName()
+    public function shouldGetAllProjectsSortedByName(): void
     {
         $expectedArray = $this->getMultipleProjectsData();
 
@@ -42,7 +42,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldNotNeedPaginationWhenGettingProjects()
+    public function shouldNotNeedPaginationWhenGettingProjects(): void
     {
         $expectedArray = $this->getMultipleProjectsData();
 
@@ -58,7 +58,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAccessibleProjects()
+    public function shouldGetAccessibleProjects(): void
     {
         $expectedArray = $this->getMultipleProjectsData();
 
@@ -70,7 +70,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetOwnedProjects()
+    public function shouldGetOwnedProjects(): void
     {
         $expectedArray = $this->getMultipleProjectsData();
 
@@ -82,7 +82,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetNotArchivedProjects()
+    public function shouldGetNotArchivedProjects(): void
     {
         $expectedArray = $this->getMultipleProjectsData();
 
@@ -95,7 +95,7 @@ class ProjectsTest extends TestCase
      * @test
      * @dataProvider possibleAccessLevels
      */
-    public function shouldGetProjectsWithMinimumAccessLevel($level)
+    public function shouldGetProjectsWithMinimumAccessLevel($level): void
     {
         $expectedArray = $this->getMultipleProjectsData();
 
@@ -107,7 +107,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldSearchProjects()
+    public function shouldSearchProjects(): void
     {
         $expectedArray = $this->getMultipleProjectsData();
 
@@ -118,7 +118,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldShowProject()
+    public function shouldShowProject(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'Project Name'];
 
@@ -134,7 +134,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldShowProjectWithStatistics()
+    public function shouldShowProjectWithStatistics(): void
     {
         $expectedArray = [
             'id' => 1,
@@ -160,7 +160,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateProject()
+    public function shouldCreateProject(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'Project Name'];
 
@@ -178,7 +178,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateProject()
+    public function shouldUpdateProject(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'Updated Name'];
 
@@ -197,7 +197,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldArchiveProject()
+    public function shouldArchiveProject(): void
     {
         $expectedArray = ['id' => 1, 'archived' => true];
 
@@ -213,7 +213,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldUnarchiveProject()
+    public function shouldUnarchiveProject(): void
     {
         $expectedArray = ['id' => 1, 'archived' => false];
 
@@ -229,7 +229,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateProjectForUser()
+    public function shouldCreateProjectForUser(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'Project Name'];
 
@@ -247,7 +247,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveProject()
+    public function shouldRemoveProject(): void
     {
         $expectedBool = true;
 
@@ -263,7 +263,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetPipelines()
+    public function shouldGetPipelines(): void
     {
         $expectedArray = [
             ['id' => 1, 'status' => 'success', 'ref' => 'new-pipeline'],
@@ -283,7 +283,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetTriggers()
+    public function shouldGetTriggers(): void
     {
         $expectedArray = [
             ['id' => 1, 'description' => 'foo', 'token' => '6d056f63e50fe6f8c5f8f4aa10edb7'],
@@ -302,7 +302,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetTrigger()
+    public function shouldGetTrigger(): void
     {
         $expectedArray = [
             'id' => 3,
@@ -324,7 +324,7 @@ class ProjectsTest extends TestCase
      *
      * @test
      */
-    public function shouldGetProjectIssues()
+    public function shouldGetProjectIssues(): void
     {
         $expectedArray = $this->getProjectIssuesExpectedArray();
 
@@ -342,7 +342,7 @@ class ProjectsTest extends TestCase
      *
      * @test
      */
-    public function shouldGetProjectUsers()
+    public function shouldGetProjectUsers(): void
     {
         $expectedArray = $this->getProjectUsersExpectedArray();
 
@@ -360,7 +360,7 @@ class ProjectsTest extends TestCase
      *
      * @test
      */
-    public function shouldGetProjectIssuesParameters()
+    public function shouldGetProjectIssuesParameters(): void
     {
         $expectedArray = $this->getProjectIssuesExpectedArray();
 
@@ -469,7 +469,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetBoards()
+    public function shouldGetBoards(): void
     {
         $expectedArray = $this->getProjectIssuesExpectedArray();
 
@@ -542,7 +542,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateTrigger()
+    public function shouldCreateTrigger(): void
     {
         $expectedArray = [
             'id' => 4,
@@ -562,7 +562,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetPipelinesWithBooleanParam()
+    public function shouldGetPipelinesWithBooleanParam(): void
     {
         $expectedArray = [
             ['id' => 1, 'status' => 'success', 'ref' => 'new-pipeline'],
@@ -582,7 +582,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetPipelineWithDateParam()
+    public function shouldGetPipelineWithDateParam(): void
     {
         $expectedArray = [
             ['id' => 1, 'status' => 'success', 'ref' => 'new-pipeline'],
@@ -613,7 +613,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetPipelinesWithSHA()
+    public function shouldGetPipelinesWithSHA(): void
     {
         $expectedArray = [
             ['id' => 1, 'status' => 'success', 'ref' => 'new-pipeline'],
@@ -633,7 +633,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetPipeline()
+    public function shouldGetPipeline(): void
     {
         $expectedArray = [
             ['id' => 1, 'status' => 'success', 'ref' => 'new-pipeline'],
@@ -653,7 +653,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetPipelineVariables()
+    public function shouldGetPipelineVariables(): void
     {
         $expectedArray = [
             ['key' => 'foo', 'value' => 'bar'],
@@ -672,7 +672,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreatePipeline()
+    public function shouldCreatePipeline(): void
     {
         $expectedArray = [
             ['id' => 4, 'status' => 'created', 'ref' => 'test-pipeline'],
@@ -690,7 +690,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreatePipelineWithVariables()
+    public function shouldCreatePipelineWithVariables(): void
     {
         $expectedArray = [
             ['id' => 4, 'status' => 'created', 'ref' => 'test-pipeline'],
@@ -719,7 +719,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldRetryPipeline()
+    public function shouldRetryPipeline(): void
     {
         $expectedArray = [
             ['id' => 5, 'status' => 'pending', 'ref' => 'test-pipeline'],
@@ -737,7 +737,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldCancelPipeline()
+    public function shouldCancelPipeline(): void
     {
         $expectedArray = [
             ['id' => 6, 'status' => 'cancelled', 'ref' => 'test-pipeline'],
@@ -755,7 +755,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldDeletePipeline()
+    public function shouldDeletePipeline(): void
     {
         $expectedBool = true;
 
@@ -771,7 +771,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllMembers()
+    public function shouldGetAllMembers(): void
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'Matt'],
@@ -790,7 +790,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetMembers()
+    public function shouldGetMembers(): void
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'Matt'],
@@ -809,7 +809,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetMembersWithQuery()
+    public function shouldGetMembersWithQuery(): void
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'Matt'],
@@ -827,7 +827,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetMembersWithNullQuery()
+    public function shouldGetMembersWithNullQuery(): void
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'Matt'],
@@ -846,7 +846,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetMembersWithPagination()
+    public function shouldGetMembersWithPagination(): void
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'Matt'],
@@ -868,7 +868,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetMember()
+    public function shouldGetMember(): void
     {
         $expectedArray = ['id' => 2, 'name' => 'Matt'];
 
@@ -884,7 +884,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldAddMember()
+    public function shouldAddMember(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'Matt'];
 
@@ -900,7 +900,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldSaveMember()
+    public function shouldSaveMember(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'Matt'];
 
@@ -916,7 +916,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveMember()
+    public function shouldRemoveMember(): void
     {
         $expectedBool = true;
 
@@ -932,7 +932,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetHooks()
+    public function shouldGetHooks(): void
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'Test hook'],
@@ -951,7 +951,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetHook()
+    public function shouldGetHook(): void
     {
         $expectedArray = ['id' => 2, 'name' => 'Another hook'];
 
@@ -967,7 +967,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldAddHook()
+    public function shouldAddHook(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'A new hook', 'url' => 'http://www.example.com'];
 
@@ -992,7 +992,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldAddHookWithOnlyUrl()
+    public function shouldAddHookWithOnlyUrl(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'A new hook', 'url' => 'http://www.example.com'];
 
@@ -1008,7 +1008,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldAddHookWithoutPushEvents()
+    public function shouldAddHookWithoutPushEvents(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'A new hook', 'url' => 'http://www.example.com'];
 
@@ -1024,7 +1024,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateHook()
+    public function shouldUpdateHook(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'A new hook', 'url' => 'http://www.example.com'];
 
@@ -1043,7 +1043,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveHook()
+    public function shouldRemoveHook(): void
     {
         $expectedBool = true;
 
@@ -1059,7 +1059,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldTransfer()
+    public function shouldTransfer(): void
     {
         $expectedArray = [
             'id' => 1,
@@ -1079,7 +1079,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetDeployKeys()
+    public function shouldGetDeployKeys(): void
     {
         $expectedArray = [
             ['id' => 1, 'title' => 'test-key'],
@@ -1098,7 +1098,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetDeployKey()
+    public function shouldGetDeployKey(): void
     {
         $expectedArray = ['id' => 2, 'title' => 'another-key'];
 
@@ -1114,7 +1114,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldAddKey()
+    public function shouldAddKey(): void
     {
         $expectedArray = ['id' => 3, 'title' => 'new-key', 'can_push' => false];
 
@@ -1130,7 +1130,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldAddKeyWithPushOption()
+    public function shouldAddKeyWithPushOption(): void
     {
         $expectedArray = ['id' => 3, 'title' => 'new-key', 'can_push' => true];
 
@@ -1146,7 +1146,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldDeleteDeployKey()
+    public function shouldDeleteDeployKey(): void
     {
         $expectedBool = true;
 
@@ -1162,7 +1162,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shoudEnableDeployKey()
+    public function shoudEnableDeployKey(): void
     {
         $expectedBool = true;
 
@@ -1178,7 +1178,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetEvents()
+    public function shouldGetEvents(): void
     {
         $expectedArray = [
             ['id' => 1, 'title' => 'An event'],
@@ -1197,7 +1197,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetEventsWithDateTimeParams()
+    public function shouldGetEventsWithDateTimeParams(): void
     {
         $expectedArray = [
             ['id' => 1, 'title' => 'An event'],
@@ -1224,7 +1224,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetEventsWithPagination()
+    public function shouldGetEventsWithPagination(): void
     {
         $expectedArray = [
             ['id' => 1, 'title' => 'An event'],
@@ -1246,7 +1246,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetLabels()
+    public function shouldGetLabels(): void
     {
         $expectedArray = [
             ['id' => 987, 'name' => 'bug', 'color' => '#000000'],
@@ -1265,7 +1265,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldAddLabel()
+    public function shouldAddLabel(): void
     {
         $expectedArray = ['name' => 'bug', 'color' => '#000000'];
 
@@ -1281,7 +1281,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateLabel()
+    public function shouldUpdateLabel(): void
     {
         $expectedArray = ['name' => 'bug', 'color' => '#00ffff'];
 
@@ -1300,7 +1300,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveLabel()
+    public function shouldRemoveLabel(): void
     {
         $expectedBool = true;
 
@@ -1316,7 +1316,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetLanguages()
+    public function shouldGetLanguages(): void
     {
         $expectedArray = ['php' => 100];
         $api = $this->getApiMock();
@@ -1330,7 +1330,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldForkWithNamespace()
+    public function shouldForkWithNamespace(): void
     {
         $expectedArray = [
             'namespace' => 'new_namespace',
@@ -1350,7 +1350,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldForkWithNamespaceAndPath()
+    public function shouldForkWithNamespaceAndPath(): void
     {
         $expectedArray = [
             'namespace' => 'new_namespace',
@@ -1372,7 +1372,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldForkWithNamespaceAndPathAndName()
+    public function shouldForkWithNamespaceAndPathAndName(): void
     {
         $expectedArray = [
             'namespace' => 'new_namespace',
@@ -1396,7 +1396,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateForkRelation()
+    public function shouldCreateForkRelation(): void
     {
         $expectedArray = ['project_id' => 1, 'forked_id' => 2];
 
@@ -1412,7 +1412,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveForkRelation()
+    public function shouldRemoveForkRelation(): void
     {
         $expectedBool = true;
 
@@ -1428,7 +1428,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetForks()
+    public function shouldGetForks(): void
     {
         $expectedArray = [
             [
@@ -1456,7 +1456,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldSetService()
+    public function shouldSetService(): void
     {
         $expectedBool = true;
 
@@ -1472,7 +1472,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveService()
+    public function shouldRemoveService(): void
     {
         $expectedBool = true;
 
@@ -1488,7 +1488,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetVariables()
+    public function shouldGetVariables(): void
     {
         $expectedArray = [
             ['key' => 'ftp_username', 'value' => 'ftp'],
@@ -1507,7 +1507,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetVariable()
+    public function shouldGetVariable(): void
     {
         $expectedArray = ['key' => 'ftp_username', 'value' => 'ftp'];
 
@@ -1523,7 +1523,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldAddVariable()
+    public function shouldAddVariable(): void
     {
         $expectedKey = 'ftp_port';
         $expectedValue = '21';
@@ -1545,7 +1545,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldAddVariableWithProtected()
+    public function shouldAddVariableWithProtected(): void
     {
         $expectedArray = [
             'key' => 'DEPLOY_SERVER',
@@ -1565,7 +1565,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldAddVariableWithEnvironment()
+    public function shouldAddVariableWithEnvironment(): void
     {
         $expectedArray = [
             'key' => 'DEPLOY_SERVER',
@@ -1588,7 +1588,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldAddVariableWithProtectionAndEnvironment()
+    public function shouldAddVariableWithProtectionAndEnvironment(): void
     {
         $expectedArray = [
             'key' => 'DEPLOY_SERVER',
@@ -1612,7 +1612,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateVariable()
+    public function shouldUpdateVariable(): void
     {
         $expectedKey = 'ftp_port';
         $expectedValue = '22';
@@ -1634,7 +1634,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateVariableWithProtected()
+    public function shouldUpdateVariableWithProtected(): void
     {
         $expectedArray = [
             'key' => 'DEPLOY_SERVER',
@@ -1654,7 +1654,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateVariableWithEnvironment()
+    public function shouldUpdateVariableWithEnvironment(): void
     {
         $expectedArray = [
             'key' => 'DEPLOY_SERVER',
@@ -1680,7 +1680,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateVariableWithProtectedAndEnvironment()
+    public function shouldUpdateVariableWithProtectedAndEnvironment(): void
     {
         $expectedArray = [
             'key' => 'DEPLOY_SERVER',
@@ -1707,7 +1707,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveVariable()
+    public function shouldRemoveVariable(): void
     {
         $expectedBool = true;
 
@@ -1734,7 +1734,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetDeployments()
+    public function shouldGetDeployments(): void
     {
         $expectedArray = [
             ['id' => 1, 'sha' => '0000001'],
@@ -1753,7 +1753,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetDeploymentsWithPagination()
+    public function shouldGetDeploymentsWithPagination(): void
     {
         $expectedArray = [
             ['id' => 1, 'sha' => '0000001'],
@@ -1816,7 +1816,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetBadges()
+    public function shouldGetBadges(): void
     {
         $expectedArray = $this->getBadgeExpectedArray();
 
@@ -1832,7 +1832,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetBadge()
+    public function shouldGetBadge(): void
     {
         $expectedBadgesArray = $this->getBadgeExpectedArray();
         $expectedArray = [
@@ -1851,7 +1851,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldAddBadge()
+    public function shouldAddBadge(): void
     {
         $link_url = 'http://example.com/ci_status.svg?project=%{project_path}&ref=%{default_branch}';
         $image_url = 'https://shields.io/my/badge';
@@ -1876,7 +1876,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateBadge()
+    public function shouldUpdateBadge(): void
     {
         $image_url = 'https://shields.io/my/new/badge';
         $expectedArray = [
@@ -1895,7 +1895,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveBadge()
+    public function shouldRemoveBadge(): void
     {
         $expectedBool = true;
 
@@ -1911,7 +1911,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldAddProtectedBranch()
+    public function shouldAddProtectedBranch(): void
     {
         $expectedArray = [
             'name' => 'master',
@@ -1935,7 +1935,7 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->addProtectedBranch(1, ['name' => 'master', 'push_access_level' => 0, 'merge_access_level' => 30]));
     }
 
-    public function shoudGetApprovalsConfiguration()
+    public function shoudGetApprovalsConfiguration(): void
     {
         $expectedArray = [
             'approvers' => [],
@@ -1957,7 +1957,7 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->approvalsConfiguration(1));
     }
 
-    public function shoudGetApprovalRules()
+    public function shoudGetApprovalRules(): void
     {
         $expectedArray = [
             [
@@ -1985,7 +1985,7 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
-    public function shouldDeleteAllMergedBranches()
+    public function shouldDeleteAllMergedBranches(): void
     {
         $expectedBool = true;
 

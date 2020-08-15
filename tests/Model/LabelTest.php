@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class LabelTest extends TestCase
 {
-    public function testCorrectConstructWithoutClient()
+    public function testCorrectConstructWithoutClient(): void
     {
         $project = new Project();
 
@@ -20,7 +20,7 @@ class LabelTest extends TestCase
         $this->assertSame(null, $sUT->getClient());
     }
 
-    public function testCorrectConstruct()
+    public function testCorrectConstruct(): void
     {
         $project = new Project();
         $client = $this->createMock(Client::class);
@@ -30,7 +30,7 @@ class LabelTest extends TestCase
         $this->assertSame($client, $sUT->getClient());
     }
 
-    public function testFromArray()
+    public function testFromArray(): void
     {
         $project = new Project();
         $client = $this->createMock(Client::class);

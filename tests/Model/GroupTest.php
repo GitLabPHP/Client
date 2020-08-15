@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 class GroupTest extends TestCase
 {
-    public function testFromArray()
+    public function testFromArray(): void
     {
         $client = $this->createMock(Client::class);
 
@@ -62,7 +62,7 @@ class GroupTest extends TestCase
         $this->assertInstanceOf(Project::class, $group->shared_projects[0]);
     }
 
-    public function testProjects()
+    public function testProjects(): void
     {
         $group_data = [
             'id' => 1,

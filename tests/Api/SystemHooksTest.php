@@ -11,7 +11,7 @@ class SystemHooksTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllHooks()
+    public function shouldGetAllHooks(): void
     {
         $expectedArray = [
             ['id' => 1, 'url' => 'http://www.example.com'],
@@ -31,7 +31,7 @@ class SystemHooksTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateHook()
+    public function shouldCreateHook(): void
     {
         $expectedArray = ['id' => 3, 'url' => 'http://www.example.net'];
 
@@ -48,7 +48,7 @@ class SystemHooksTest extends TestCase
     /**
      * @test
      */
-    public function shouldTestHook()
+    public function shouldTestHook(): void
     {
         $expectedBool = true;
 
@@ -65,7 +65,7 @@ class SystemHooksTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveHook()
+    public function shouldRemoveHook(): void
     {
         $expectedBool = true;
 

@@ -11,7 +11,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllIssues()
+    public function shouldGetAllIssues(): void
     {
         $expectedArray = [
             ['id' => 1, 'title' => 'An issue'],
@@ -31,7 +31,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllGroupIssues()
+    public function shouldGetAllGroupIssues(): void
     {
         $expectedArray = [
             ['id' => 1, 'title' => 'An issue'],
@@ -51,7 +51,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetGroupIssuesWithPagination()
+    public function shouldGetGroupIssuesWithPagination(): void
     {
         $expectedArray = [
             ['id' => 1, 'title' => 'An issue'],
@@ -71,7 +71,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetGroupIssuesWithParams()
+    public function shouldGetGroupIssuesWithParams(): void
     {
         $expectedArray = [
             ['id' => 1, 'title' => 'An issue'],
@@ -91,7 +91,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetProjectIssuesWithPagination()
+    public function shouldGetProjectIssuesWithPagination(): void
     {
         $expectedArray = [
             ['id' => 1, 'title' => 'An issue'],
@@ -111,7 +111,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetProjectIssuesWithParams()
+    public function shouldGetProjectIssuesWithParams(): void
     {
         $expectedArray = [
             ['id' => 1, 'title' => 'An issue'],
@@ -131,7 +131,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldShowIssue()
+    public function shouldShowIssue(): void
     {
         $expectedArray = ['id' => 2, 'title' => 'Another issue'];
 
@@ -148,7 +148,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateIssue()
+    public function shouldCreateIssue(): void
     {
         $expectedArray = ['id' => 3, 'title' => 'A new issue'];
 
@@ -165,7 +165,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateIssue()
+    public function shouldUpdateIssue(): void
     {
         $expectedArray = ['id' => 2, 'title' => 'A renamed issue'];
 
@@ -182,7 +182,22 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldMoveIssue()
+    public function shouldReorderIssue(): void
+    {
+        $expectedArray = ['id' => 2, 'title' => 'A reordered issue'];
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/issues/2/reorder', ['move_after_id' => 3, 'move_before_id' => 4])
+            ->will($this->returnValue($expectedArray))
+        ;
+        $this->assertEquals($expectedArray, $api->reorder(1, 2, ['move_after_id' => 3, 'move_before_id' => 4]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldMoveIssue(): void
     {
         $expectedArray = ['id' => 2, 'title' => 'A moved issue'];
 
@@ -199,7 +214,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetNotes()
+    public function shouldGetNotes(): void
     {
         $expectedArray = [
             ['id' => 1, 'body' => 'A note'],
@@ -219,7 +234,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetNote()
+    public function shouldGetNote(): void
     {
         $expectedArray = ['id' => 3, 'body' => 'A new note'];
 
@@ -236,7 +251,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateNote()
+    public function shouldCreateNote(): void
     {
         $expectedArray = ['id' => 3, 'body' => 'A new note'];
 
@@ -253,7 +268,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateNote()
+    public function shouldUpdateNote(): void
     {
         $expectedArray = ['id' => 3, 'body' => 'An edited comment'];
 
@@ -270,7 +285,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveNote()
+    public function shouldRemoveNote(): void
     {
         $expectedBool = true;
 
@@ -287,7 +302,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetIssueDiscussions()
+    public function shouldGetIssueDiscussions(): void
     {
         $expectedArray = [
             ['id' => 'abc', 'body' => 'A discussion'],
@@ -307,7 +322,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetIssueDiscussion()
+    public function shouldGetIssueDiscussion(): void
     {
         $expectedArray = ['id' => 'abc', 'body' => 'A discussion'];
 
@@ -324,7 +339,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateDiscussion()
+    public function shouldCreateDiscussion(): void
     {
         $expectedArray = ['id' => 'abc', 'body' => 'A new discussion'];
 
@@ -341,7 +356,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateDiscussionNote()
+    public function shouldCreateDiscussionNote(): void
     {
         $expectedArray = ['id' => 3, 'body' => 'A new discussion note'];
 
@@ -358,7 +373,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateDiscussionNote()
+    public function shouldUpdateDiscussionNote(): void
     {
         $expectedArray = ['id' => 3, 'body' => 'An edited discussion note'];
 
@@ -375,7 +390,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveDiscussionNote()
+    public function shouldRemoveDiscussionNote(): void
     {
         $expectedBool = true;
 
@@ -392,7 +407,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldSetTimeEstimate()
+    public function shouldSetTimeEstimate(): void
     {
         $expectedArray = ['time_estimate' => 14400, 'total_time_spent' => 0, 'human_time_estimate' => '4h', 'human_total_time_spent' => null];
 
@@ -409,7 +424,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldResetTimeEstimate()
+    public function shouldResetTimeEstimate(): void
     {
         $expectedArray = ['time_estimate' => 0, 'total_time_spent' => 0, 'human_time_estimate' => null, 'human_total_time_spent' => null];
 
@@ -426,7 +441,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldAddSpentTime()
+    public function shouldAddSpentTime(): void
     {
         $expectedArray = ['time_estimate' => 0, 'total_time_spent' => 14400, 'human_time_estimate' => null, 'human_total_time_spent' => '4h'];
 
@@ -443,7 +458,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldResetSpentTime()
+    public function shouldResetSpentTime(): void
     {
         $expectedArray = ['time_estimate' => 0, 'total_time_spent' => 0, 'human_time_estimate' => null, 'human_total_time_spent' => null];
 
@@ -460,7 +475,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetIssueTimeStats()
+    public function shouldGetIssueTimeStats(): void
     {
         $expectedArray = ['time_estimate' => 14400, 'total_time_spent' => 5400, 'human_time_estimate' => '4h', 'human_total_time_spent' => '1h 30m'];
 
@@ -477,7 +492,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldIssueAwardEmoji()
+    public function shouldIssueAwardEmoji(): void
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'sparkles'],
@@ -497,7 +512,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldRevokeAwardEmoji()
+    public function shouldRevokeAwardEmoji(): void
     {
         $expectedBool = true;
 
@@ -514,7 +529,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetIssueClosedByMergeRequests()
+    public function shouldGetIssueClosedByMergeRequests(): void
     {
         $expectedArray = [
             ['id' => 1, 'iid' => '1111', 'title' => 'Just saving the world'],
@@ -534,7 +549,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetIssueRelatedMergeRequests()
+    public function shouldGetIssueRelatedMergeRequests(): void
     {
         $expectedArray = [
             ['id' => 1, 'iid' => '1111', 'title' => 'Just saving the world'],
@@ -554,7 +569,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetProjectIssuesByAssignee()
+    public function shouldGetProjectIssuesByAssignee(): void
     {
         $expectedArray = [
             ['id' => 1, 'title' => 'An issue'],
@@ -574,7 +589,7 @@ class IssuesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetIssueParticipants()
+    public function shouldGetIssueParticipants(): void
     {
         $expectedArray = [
             [

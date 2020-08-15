@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ResponseMediatorTest extends TestCase
 {
-    public function testGetContent()
+    public function testGetContent(): void
     {
         $response = new Response(
             200,
@@ -27,7 +27,7 @@ class ResponseMediatorTest extends TestCase
         $this->assertSame(['foo' => 'bar'], ResponseMediator::getContent($response));
     }
 
-    public function testGetContentNotJson()
+    public function testGetContentNotJson(): void
     {
         $response = new Response(
             200,
@@ -38,7 +38,7 @@ class ResponseMediatorTest extends TestCase
         $this->assertSame('foobar', ResponseMediator::getContent($response));
     }
 
-    public function testGetContentInvalidJson()
+    public function testGetContentInvalidJson(): void
     {
         $response = new Response(
             200,
@@ -52,7 +52,7 @@ class ResponseMediatorTest extends TestCase
         ResponseMediator::getContent($response);
     }
 
-    public function testGetErrrorMessageInvalidJson()
+    public function testGetErrrorMessageInvalidJson(): void
     {
         $response = new Response(
             200,
@@ -63,7 +63,7 @@ class ResponseMediatorTest extends TestCase
         $this->assertNull(ResponseMediator::getErrorMessage($response));
     }
 
-    public function testGetPagination()
+    public function testGetPagination(): void
     {
         $header = <<<'TEXT'
 <https://example.gitlab.com>; rel="first",

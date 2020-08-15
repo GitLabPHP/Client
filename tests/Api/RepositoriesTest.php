@@ -11,7 +11,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetBranches()
+    public function shouldGetBranches(): void
     {
         $expectedArray = [
             ['name' => 'master'],
@@ -31,7 +31,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetBranch()
+    public function shouldGetBranch(): void
     {
         $expectedArray = ['name' => 'master'];
 
@@ -48,7 +48,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateBranch()
+    public function shouldCreateBranch(): void
     {
         $expectedArray = ['name' => 'feature'];
 
@@ -65,7 +65,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldDeleteBranch()
+    public function shouldDeleteBranch(): void
     {
         $expectedBool = true;
 
@@ -82,7 +82,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldProtectBranch()
+    public function shouldProtectBranch(): void
     {
         $expectedArray = ['name' => 'master'];
 
@@ -99,7 +99,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldProtectBranchWithPermissions()
+    public function shouldProtectBranchWithPermissions(): void
     {
         $expectedArray = ['name' => 'master'];
 
@@ -116,7 +116,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldUnprotectBranch()
+    public function shouldUnprotectBranch(): void
     {
         $expectedArray = ['name' => 'master'];
 
@@ -133,7 +133,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetTags()
+    public function shouldGetTags(): void
     {
         $expectedArray = [
             ['name' => '1.0'],
@@ -153,7 +153,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateTag()
+    public function shouldCreateTag(): void
     {
         $expectedArray = ['name' => '1.0'];
 
@@ -174,7 +174,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateRelease()
+    public function shouldCreateRelease(): void
     {
         $project_id = 1;
         $tagName = 'sometag';
@@ -199,7 +199,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateRelease()
+    public function shouldUpdateRelease(): void
     {
         $project_id = 1;
         $tagName = 'sometag';
@@ -224,7 +224,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetReleases()
+    public function shouldGetReleases(): void
     {
         $project_id = 1;
 
@@ -249,7 +249,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetCommits()
+    public function shouldGetCommits(): void
     {
         $expectedArray = [
             ['id' => 'abcd1234', 'title' => 'A commit'],
@@ -269,7 +269,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetCommitsWithParams()
+    public function shouldGetCommitsWithParams(): void
     {
         $expectedArray = [
             ['id' => 'abcd1234', 'title' => 'A commit'],
@@ -289,7 +289,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetCommitsWithTimeParams()
+    public function shouldGetCommitsWithTimeParams(): void
     {
         $expectedArray = [
             ['id' => 'abcd1234', 'title' => 'A commit'],
@@ -300,8 +300,8 @@ class RepositoriesTest extends TestCase
         $until = new \DateTime('2018-01-31 00:00:00');
 
         $expectedWithArray = [
-            'since' => $since->format(DATE_ATOM),
-            'until' => $until->format(DATE_ATOM),
+            'since' => $since->format(\DATE_ATOM),
+            'until' => $until->format(\DATE_ATOM),
         ];
 
         $api = $this->getApiMock();
@@ -317,7 +317,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetCommit()
+    public function shouldGetCommit(): void
     {
         $expectedArray = ['id' => 'abcd1234', 'title' => 'A commit'];
 
@@ -334,7 +334,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetCommitRefs()
+    public function shouldGetCommitRefs(): void
     {
         $expectedArray = [
             ['type' => 'branch', 'name' => 'master'],
@@ -358,7 +358,7 @@ class RepositoriesTest extends TestCase
      * @param string $type
      * @param array  $expectedArray
      */
-    public function shouldGetCommitRefsWithParams(string $type, array $expectedArray)
+    public function shouldGetCommitRefsWithParams(string $type, array $expectedArray): void
     {
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -387,7 +387,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateCommit()
+    public function shouldCreateCommit(): void
     {
         $expectedArray = ['title' => 'Initial commit.', 'author_name' => 'John Doe', 'author_email' => 'john@example.com'];
 
@@ -421,7 +421,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetCommitComments()
+    public function shouldGetCommitComments(): void
     {
         $expectedArray = [
             ['note' => 'A commit message'],
@@ -441,7 +441,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateCommitComment()
+    public function shouldCreateCommitComment(): void
     {
         $expectedArray = ['id' => 2, 'title' => 'A new comment'];
 
@@ -458,7 +458,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateCommitCommentWithParams()
+    public function shouldCreateCommitCommentWithParams(): void
     {
         $expectedArray = ['id' => 2, 'title' => 'A new comment'];
 
@@ -483,7 +483,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldCompareStraight()
+    public function shouldCompareStraight(): void
     {
         $expectedArray = ['commit' => 'object'];
 
@@ -500,7 +500,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldNotCompareStraight()
+    public function shouldNotCompareStraight(): void
     {
         $expectedArray = ['commit' => 'object'];
 
@@ -517,7 +517,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetDiff()
+    public function shouldGetDiff(): void
     {
         $expectedArray = [
             ['diff' => '--- ...'],
@@ -537,7 +537,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetTree()
+    public function shouldGetTree(): void
     {
         $expectedArray = [
             ['name' => 'file1.txt'],
@@ -557,7 +557,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetTreeWithParams()
+    public function shouldGetTreeWithParams(): void
     {
         $expectedArray = [
             ['name' => 'dir/file1.txt'],
@@ -577,7 +577,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetContributors()
+    public function shouldGetContributors(): void
     {
         $expectedArray = [
             ['name' => 'Matt'],
@@ -597,7 +597,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetMergeBase()
+    public function shouldGetMergeBase(): void
     {
         $expectedArray = [
             'id' => 'abcd1234abcd1234abcd1234abcd1234abcd1234',

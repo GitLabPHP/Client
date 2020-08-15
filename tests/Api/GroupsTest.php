@@ -11,7 +11,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllGroups()
+    public function shouldGetAllGroups(): void
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'A group'],
@@ -31,7 +31,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllGroupsWithBooleanParam()
+    public function shouldGetAllGroupsWithBooleanParam(): void
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'A group'],
@@ -51,7 +51,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllGroupProjectsWithBooleanParam()
+    public function shouldGetAllGroupProjectsWithBooleanParam(): void
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'A group'],
@@ -71,7 +71,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldNotNeedPaginationWhenGettingGroups()
+    public function shouldNotNeedPaginationWhenGettingGroups(): void
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'A group'],
@@ -91,7 +91,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldShowGroup()
+    public function shouldShowGroup(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'A group'];
 
@@ -108,7 +108,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateGroup()
+    public function shouldCreateGroup(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'A new group'];
 
@@ -125,7 +125,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateGroupWithDescriptionAndVisibility()
+    public function shouldCreateGroupWithDescriptionAndVisibility(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'A new group', 'visibility_level' => 2];
 
@@ -142,7 +142,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldCreateGroupWithDescriptionVisibilityAndParentId()
+    public function shouldCreateGroupWithDescriptionVisibilityAndParentId(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'A new group', 'visibility_level' => 2, 'parent_id' => 666];
 
@@ -159,7 +159,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateGroup()
+    public function shouldUpdateGroup(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'Group name', 'path' => 'group-path'];
 
@@ -176,7 +176,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldTransferProjectToGroup()
+    public function shouldTransferProjectToGroup(): void
     {
         $expectedBool = true;
 
@@ -193,7 +193,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllMembers()
+    public function shouldGetAllMembers(): void
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'Matt'],
@@ -213,7 +213,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetMembers()
+    public function shouldGetMembers(): void
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'Matt'],
@@ -233,7 +233,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldAddMember()
+    public function shouldAddMember(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'Matt'];
 
@@ -250,7 +250,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldSaveMember()
+    public function shouldSaveMember(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'Matt'];
 
@@ -267,7 +267,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveMember()
+    public function shouldRemoveMember(): void
     {
         $expectedBool = true;
 
@@ -284,7 +284,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveGroup()
+    public function shouldRemoveGroup(): void
     {
         $expectedBool = true;
 
@@ -301,7 +301,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllSubgroups()
+    public function shouldGetAllSubgroups(): void
     {
         $expectedArray = [
             ['id' => 101, 'name' => 'A subgroup'],
@@ -321,7 +321,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetLabels()
+    public function shouldGetLabels(): void
     {
         $expectedArray = [
             ['id' => 987, 'name' => 'bug', 'color' => '#000000'],
@@ -341,7 +341,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldAddLabel()
+    public function shouldAddLabel(): void
     {
         $expectedArray = ['name' => 'bug', 'color' => '#000000'];
 
@@ -358,7 +358,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateLabel()
+    public function shouldUpdateLabel(): void
     {
         $expectedArray = ['name' => 'bug', 'color' => '#00ffff'];
 
@@ -375,7 +375,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveLabel()
+    public function shouldRemoveLabel(): void
     {
         $expectedBool = true;
 
@@ -389,7 +389,7 @@ class GroupsTest extends TestCase
         $this->assertEquals($expectedBool, $api->removeLabel(1, 'bug'));
     }
 
-    public function shouldGetVariables()
+    public function shouldGetVariables(): void
     {
         $expectedArray = [
             ['key' => 'ftp_username', 'value' => 'ftp'],
@@ -409,7 +409,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetVariable()
+    public function shouldGetVariable(): void
     {
         $expectedArray = ['key' => 'ftp_username', 'value' => 'ftp'];
 
@@ -423,7 +423,7 @@ class GroupsTest extends TestCase
         $this->assertEquals($expectedArray, $api->variable(1, 'ftp_username'));
     }
 
-    public function shouldAddVariable()
+    public function shouldAddVariable(): void
     {
         $expectedKey = 'ftp_port';
         $expectedValue = '21';
@@ -446,7 +446,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldAddVariableWithProtected()
+    public function shouldAddVariableWithProtected(): void
     {
         $expectedArray = [
             'key' => 'DEPLOY_SERVER',
@@ -467,7 +467,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateVariable()
+    public function shouldUpdateVariable(): void
     {
         $expectedKey = 'ftp_port';
         $expectedValue = '22';
@@ -490,7 +490,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldUpdateVariableWithProtected()
+    public function shouldUpdateVariableWithProtected(): void
     {
         $expectedArray = [
             'key' => 'DEPLOY_SERVER',
@@ -511,7 +511,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldRemoveVariable()
+    public function shouldRemoveVariable(): void
     {
         $expectedBool = true;
 
@@ -533,7 +533,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllGroupProjectsWithIssuesEnabled()
+    public function shouldGetAllGroupProjectsWithIssuesEnabled(): void
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'A group', 'issues_enabled' => true],
@@ -553,7 +553,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllGroupProjectsWithMergeRequestsEnabled()
+    public function shouldGetAllGroupProjectsWithMergeRequestsEnabled(): void
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'A group', 'merge_requests_enabled' => true],
@@ -573,7 +573,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllGroupProjectsSharedToGroup()
+    public function shouldGetAllGroupProjectsSharedToGroup(): void
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'A project', 'shared_with_groups' => [1]],
@@ -593,7 +593,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllGroupProjectsIncludingSubsgroups()
+    public function shouldGetAllGroupProjectsIncludingSubsgroups(): void
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'A project'],
@@ -613,7 +613,7 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllGroupProjectsIncludingCustomAttributes()
+    public function shouldGetAllGroupProjectsIncludingCustomAttributes(): void
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'A project', 'custom_Attr' => true],

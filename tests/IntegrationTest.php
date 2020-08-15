@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class IntegrationTest extends TestCase
 {
-    public function testRepoContributors()
+    public function testRepoContributors(): void
     {
         $client = new Client();
 
@@ -21,7 +21,7 @@ class IntegrationTest extends TestCase
         $this->assertTrue(isset($response[2]['name']));
     }
 
-    public function testRepoNotFound()
+    public function testRepoNotFound(): void
     {
         $client = new Client();
 

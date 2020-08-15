@@ -11,7 +11,7 @@ class ProjectNamespacesTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllNamespaces()
+    public function shouldGetAllNamespaces(): void
     {
         $expectedArray = [
             ['id' => 1, 'name' => 'bespokes'],
@@ -31,7 +31,7 @@ class ProjectNamespacesTest extends TestCase
     /**
      * @test
      */
-    public function shouldShowNamespace()
+    public function shouldShowNamespace(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'internal'];
 

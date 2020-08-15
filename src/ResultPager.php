@@ -204,7 +204,7 @@ final class ResultPager implements ResultPagerInterface
      *
      * @return void
      */
-    private function postFetch()
+    private function postFetch(): void
     {
         $response = $this->client->getLastResponse();
 

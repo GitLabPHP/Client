@@ -25,7 +25,7 @@ class BuilderTest extends TestCase
     /**
      * @before
      */
-    public function initBuilder()
+    public function initBuilder(): void
     {
         $this->subject = new Builder(
             $this->createMock(ClientInterface::class),
@@ -34,7 +34,7 @@ class BuilderTest extends TestCase
         );
     }
 
-    public function testAddPluginShouldInvalidateHttpClient()
+    public function testAddPluginShouldInvalidateHttpClient(): void
     {
         $client = $this->subject->getHttpClient();
 
@@ -43,7 +43,7 @@ class BuilderTest extends TestCase
         $this->assertNotSame($client, $this->subject->getHttpClient());
     }
 
-    public function testRemovePluginShouldInvalidateHttpClient()
+    public function testRemovePluginShouldInvalidateHttpClient(): void
     {
         $this->subject->addPlugin($this->createMock(Plugin::class));
 
@@ -54,12 +54,12 @@ class BuilderTest extends TestCase
         $this->assertNotSame($client, $this->subject->getHttpClient());
     }
 
-    public function testHttpClientShouldBeAnHttpMethodsClient()
+    public function testHttpClientShouldBeAnHttpMethodsClient(): void
     {
         $this->assertInstanceOf(HttpMethodsClientInterface::class, $this->subject->getHttpClient());
     }
 
-    public function testStreamFactoryShouldBeAStreamFactory()
+    public function testStreamFactoryShouldBeAStreamFactory(): void
     {
         $this->assertInstanceOf(StreamFactoryInterface::class, $this->subject->getStreamFactory());
     }

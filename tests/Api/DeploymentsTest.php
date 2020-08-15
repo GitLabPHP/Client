@@ -11,7 +11,7 @@ class DeploymentsTest extends TestCase
     /**
      * @test
      */
-    public function shouldGetAllDeployments()
+    public function shouldGetAllDeployments(): void
     {
         $expectedArray = [
             [
@@ -155,7 +155,7 @@ See merge request !2',
     /**
      * @test
      */
-    public function shouldShowDeployment()
+    public function shouldShowDeployment(): void
     {
         $expectedArray = [
             [
