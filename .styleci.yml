@@ -1,11 +1,14 @@
 preset: symfony
 
+risky: true
+
 enabled:
   - align_phpdoc
   - alpha_ordered_imports
   - array_indentation
   - const_visibility_required
   - phpdoc_order
+  - void_return
 
 disabled:
   - no_superfluous_phpdoc_tags_symfony
