@@ -30,7 +30,7 @@ final class JsonArray
         }
 
         if (null === $data || !\is_array($data)) {
-            throw new RuntimeException(\sprintf('json_decode error: Expected JSON of type array, %s given.', get_debug_type($data)));
+            throw new RuntimeException(\sprintf('json_decode error: Expected JSON of type array, %s given.', \get_debug_type($data)));
         }
 
         return $data;
