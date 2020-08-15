@@ -8,6 +8,11 @@ CHANGE LOG
 * Support the issue link link_type parameter
 
 
+## 9.18.2 (15/08/2020)
+
+* Fixed typo in deprecation notice
+
+
 ## 9.18.1 (22/07/2020)
 
 * Fixed error in getHeader function
