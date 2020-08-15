@@ -11,7 +11,7 @@ use Gitlab\Api\Issues;
  */
 class IssueSubscribeTest extends TestCase
 {
-    public function testSubscribeIssue()
+    public function testSubscribeIssue(): void
     {
         $expectedValue = '';
         $api = $this->getApiMock();
@@ -23,7 +23,7 @@ class IssueSubscribeTest extends TestCase
         $this->assertEquals($expectedValue, $api->subscribe(1, 2));
     }
 
-    public function testUnsubscribeIssue()
+    public function testUnsubscribeIssue(): void
     {
         $expectedValue = '';
         $api = $this->getApiMock();

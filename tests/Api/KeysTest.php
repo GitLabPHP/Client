@@ -11,7 +11,7 @@ class KeysTest extends TestCase
     /**
      * @test
      */
-    public function shouldShowKey()
+    public function shouldShowKey(): void
     {
         $expectedArray = ['id' => 1, 'title' => 'A key', 'key' => 'ssh-rsa key', 'created_at' => '2016-01-01T01:00:00.000Z'];
         $api = $this->getApiMock();

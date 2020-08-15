@@ -66,7 +66,7 @@ class ProjectTest extends TestCase
         ], $overrides);
     }
 
-    public function testFromArray()
+    public function testFromArray(): void
     {
         $client = $this->createMock(Client::class);
 
@@ -123,7 +123,7 @@ class ProjectTest extends TestCase
         $this->assertSame($data['approvals_before_merge'], $project->approvals_before_merge);
     }
 
-    public function testCreateProjectWhenSharedWithGroup()
+    public function testCreateProjectWhenSharedWithGroup(): void
     {
         $client = $this->createMock(Client::class);
 
@@ -143,7 +143,7 @@ class ProjectTest extends TestCase
         $this->assertInstanceOf(Group::class, $project->shared_with_groups[0]);
     }
 
-    public function testCreateProjectCanSharedWithMultipleGroups()
+    public function testCreateProjectCanSharedWithMultipleGroups(): void
     {
         $client = $this->createMock(Client::class);
 

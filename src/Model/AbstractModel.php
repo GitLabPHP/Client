@@ -91,7 +91,7 @@ abstract class AbstractModel
      *
      * @return void
      */
-    public function __set(string $property, $value)
+    public function __set(string $property, $value): void
     {
         throw new RuntimeException('Model properties are immutable');
     }
@@ -106,7 +106,7 @@ abstract class AbstractModel
     public function __get(string $property)
     {
         if (!\in_array($property, static::$properties, true)) {
-            throw new RuntimeException(\sprintf('Property "%s" does not exist for %s object', $property, \get_called_class()));
+            throw new RuntimeException(\sprintf('Property "%s" does not exist for %s object', $property, static::class));
         }
 
         if (isset($this->data[$property])) {

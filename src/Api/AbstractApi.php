@@ -357,7 +357,7 @@ abstract class AbstractApi implements ApiInterface
     private static function tryFopen(string $filename, string $mode)
     {
         $ex = null;
-        \set_error_handler(function () use ($filename, $mode, &$ex) {
+        \set_error_handler(function () use ($filename, $mode, &$ex): void {
             $ex = new RuntimeException(\sprintf(
                 'Unable to open %s using mode %s: %s',
                 $filename,
@@ -390,7 +390,7 @@ abstract class AbstractApi implements ApiInterface
             return ResponseMediator::STREAM_CONTENT_TYPE;
         }
 
-        $finfo = new \finfo(FILEINFO_MIME_TYPE);
+        $finfo = new \finfo(\FILEINFO_MIME_TYPE);
         $type = $finfo->file($file);
 
         return false !== $type ? $type : ResponseMediator::STREAM_CONTENT_TYPE;
