@@ -300,8 +300,8 @@ class RepositoriesTest extends TestCase
         $until = new \DateTime('2018-01-31 00:00:00');
 
         $expectedWithArray = [
-            'since' => $since->format(DATE_ATOM),
-            'until' => $until->format(DATE_ATOM),
+            'since' => $since->format(\DATE_ATOM),
+            'until' => $until->format(\DATE_ATOM),
         ];
 
         $api = $this->getApiMock();

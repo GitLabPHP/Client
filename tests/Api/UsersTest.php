@@ -62,8 +62,8 @@ class UsersTest extends TestCase
         $createdBefore = new \DateTime('2018-01-31 00:00:00');
 
         $expectedWithArray = [
-            'created_after' => $createdAfter->format(DATE_ATOM),
-            'created_before' => $createdBefore->format(DATE_ATOM),
+            'created_after' => $createdAfter->format(\DATE_ATOM),
+            'created_before' => $createdBefore->format(\DATE_ATOM),
         ];
 
         $api = $this->getApiMock();

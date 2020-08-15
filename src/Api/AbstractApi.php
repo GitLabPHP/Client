@@ -53,7 +53,7 @@ abstract class AbstractApi implements ApiInterface
     public function __construct(Client $client, int $perPage = null)
     {
         if (null !== $perPage && ($perPage < 1 || $perPage > 100)) {
-            throw new ValueError(sprintf('%s::__construct(): Argument #2 ($perPage) must be between 1 and 100, or null', self::class));
+            throw new ValueError(\sprintf('%s::__construct(): Argument #2 ($perPage) must be between 1 and 100, or null', self::class));
         }
 
         $this->client = $client;
@@ -72,7 +72,7 @@ abstract class AbstractApi implements ApiInterface
     public function perPage(?int $perPage)
     {
         if (null !== $perPage && ($perPage < 1 || $perPage > 100)) {
-            throw new ValueError(sprintf('%s::perPage(): Argument #1 ($perPage) must be between 1 and 100, or null', self::class));
+            throw new ValueError(\sprintf('%s::perPage(): Argument #1 ($perPage) must be between 1 and 100, or null', self::class));
         }
 
         $copy = clone $this;
@@ -197,7 +197,7 @@ abstract class AbstractApi implements ApiInterface
      */
     protected static function encodePath($uri)
     {
-        return rawurlencode((string) $uri);
+        return \rawurlencode((string) $uri);
     }
 
     /**
@@ -245,11 +245,11 @@ abstract class AbstractApi implements ApiInterface
      */
     private static function prepareUri(string $uri, array $query = [])
     {
-        $query = array_filter($query, function ($value): bool {
+        $query = \array_filter($query, function ($value): bool {
             return null !== $value;
         });
 
-        return sprintf('%s%s%s', self::URI_PREFIX, $uri, QueryStringBuilder::build($query));
+        return \sprintf('%s%s%s', self::URI_PREFIX, $uri, QueryStringBuilder::build($query));
     }
 
     /**
@@ -273,7 +273,7 @@ abstract class AbstractApi implements ApiInterface
                 'headers' => [
                     'Content-Type' => self::guessFileContentType($file),
                 ],
-                'filename' => basename($file),
+                'filename' => \basename($file),
             ]);
         }
 
@@ -302,9 +302,9 @@ abstract class AbstractApi implements ApiInterface
      */
     private static function addMultipartContentType(array $headers, MultipartStreamBuilder $builder)
     {
-        $contentType = sprintf('%s; boundary=%s', ResponseMediator::MULTIPART_CONTENT_TYPE, $builder->getBoundary());
+        $contentType = \sprintf('%s; boundary=%s', ResponseMediator::MULTIPART_CONTENT_TYPE, $builder->getBoundary());
 
-        return array_merge(['Content-Type' => $contentType], $headers);
+        return \array_merge(['Content-Type' => $contentType], $headers);
     }
 
     /**
@@ -316,7 +316,7 @@ abstract class AbstractApi implements ApiInterface
      */
     private static function prepareJsonBody(array $params)
     {
-        $params = array_filter($params, function ($value): bool {
+        $params = \array_filter($params, function ($value): bool {
             return null !== $value;
         });
 
@@ -336,7 +336,7 @@ abstract class AbstractApi implements ApiInterface
      */
     private static function addJsonContentType(array $headers)
     {
-        return array_merge(['Content-Type' => ResponseMediator::JSON_CONTENT_TYPE], $headers);
+        return \array_merge(['Content-Type' => ResponseMediator::JSON_CONTENT_TYPE], $headers);
     }
 
     /**
@@ -357,8 +357,8 @@ abstract class AbstractApi implements ApiInterface
     private static function tryFopen(string $filename, string $mode)
     {
         $ex = null;
-        set_error_handler(function () use ($filename, $mode, &$ex): void {
-            $ex = new RuntimeException(sprintf(
+        \set_error_handler(function () use ($filename, $mode, &$ex): void {
+            $ex = new RuntimeException(\sprintf(
                 'Unable to open %s using mode %s: %s',
                 $filename,
                 $mode,
@@ -366,8 +366,8 @@ abstract class AbstractApi implements ApiInterface
             ));
         });
 
-        $handle = fopen($filename, $mode);
-        restore_error_handler();
+        $handle = \fopen($filename, $mode);
+        \restore_error_handler();
 
         if (null !== $ex) {
             throw $ex;
@@ -386,11 +386,11 @@ abstract class AbstractApi implements ApiInterface
      */
     private static function guessFileContentType(string $file)
     {
-        if (!class_exists(\finfo::class, false)) {
+        if (!\class_exists(\finfo::class, false)) {
             return ResponseMediator::STREAM_CONTENT_TYPE;
         }
 
-        $finfo = new \finfo(FILEINFO_MIME_TYPE);
+        $finfo = new \finfo(\FILEINFO_MIME_TYPE);
         $type = $finfo->file($file);
 
         return false !== $type ? $type : ResponseMediator::STREAM_CONTENT_TYPE;

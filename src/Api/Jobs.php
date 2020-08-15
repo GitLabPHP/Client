@@ -225,7 +225,7 @@ class Jobs extends AbstractApi
             ->setAllowedTypes('scope', ['string', 'array'])
             ->setAllowedValues('scope', $allowedScopeValues)
             ->addAllowedValues('scope', function ($value) use ($allowedScopeValues) {
-                return \is_array($value) && 0 === \count(array_diff($value, $allowedScopeValues));
+                return \is_array($value) && 0 === \count(\array_diff($value, $allowedScopeValues));
             })
             ->setNormalizer('scope', function (OptionsResolver $resolver, $value) {
                 return (array) $value;

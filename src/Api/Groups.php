@@ -65,7 +65,7 @@ class Groups extends AbstractApi
             'shared_runners_minutes_limit' => $shared_runners_minutes_limit,
         ];
 
-        return $this->post('groups', array_filter($params, function ($value) {
+        return $this->post('groups', \array_filter($params, function ($value) {
             return null !== $value && (!\is_string($value) || \strlen($value) > 0);
         }));
     }
@@ -424,7 +424,7 @@ class Groups extends AbstractApi
         $resolver->setDefined('skip_groups')
             ->setAllowedTypes('skip_groups', 'array')
             ->setAllowedValues('skip_groups', function (array $value) {
-                return \count($value) === \count(array_filter($value, 'is_int'));
+                return \count($value) === \count(\array_filter($value, 'is_int'));
             })
         ;
         $resolver->setDefined('all_available')

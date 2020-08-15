@@ -101,7 +101,7 @@ class TagsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/repository/tags/'.str_replace('/', '%2F', $releaseName).'/release', $params)
+            ->with('projects/1/repository/tags/'.\str_replace('/', '%2F', $releaseName).'/release', $params)
             ->will($this->returnValue($expectedResult));
 
         $this->assertEquals($expectedResult, $api->createRelease(1, $releaseName, $params));
@@ -124,7 +124,7 @@ class TagsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/repository/tags/'.str_replace('/', '%2F', $releaseName).'/release', $params)
+            ->with('projects/1/repository/tags/'.\str_replace('/', '%2F', $releaseName).'/release', $params)
             ->will($this->returnValue($expectedResult));
 
         $this->assertEquals($expectedResult, $api->updateRelease(1, $releaseName, $params));
