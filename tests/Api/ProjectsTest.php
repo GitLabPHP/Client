@@ -2004,6 +2004,41 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedBool, $api->deleteAllMergedBranches(1));
     }
 
+    /**
+     * @test
+     */
+    public function shouldGetProtectedBranches(): void
+    {
+        $expectedArray = [
+            [
+                'id' => 1,
+                'name' => 'master',
+                'push_access_levels' => [
+                    'access_level' => 0,
+                    'access_level_description' => 'No one',
+                    'user_id' => null,
+                    'group_id' => null,
+                ],
+                'merge_access_levels' => [
+                    'access_level' => 40,
+                    'access_level_description' => 'Maintainers',
+                    'user_id' => null,
+                    'group_id' => null,
+                ],
+                'unprotect_access_levels' => [],
+                'code_owner_approval_required' => false,
+            ],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/protected_branches')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->protectedBranches(1));
+    }
+
     protected function getApiClass()
     {
         return Projects::class;
