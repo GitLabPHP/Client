@@ -1047,6 +1047,17 @@ class Projects extends AbstractApi
      *
      * @return mixed
      */
+    public function protectedBranches($project_id, array $parameters = [])
+    {
+        return $this->get('projects/'.self::encodePath($project_id).'/protected_branches');
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param array      $parameters
+     *
+     * @return mixed
+     */
     public function addProtectedBranch($project_id, array $parameters = [])
     {
         return $this->post($this->getProjectPath($project_id, 'protected_branches'), $parameters);
