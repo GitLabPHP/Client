@@ -2,6 +2,11 @@ CHANGE LOG
 ==========
 
 
+## 10.1.0 (UPCOMING)
+
+* Added method to get protected branches for a project
+
+
 ## 10.0.0 (15/08/2020)
 
 * Added void return types to void methods
