@@ -1935,6 +1935,9 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->addProtectedBranch(1, ['name' => 'master', 'push_access_level' => 0, 'merge_access_level' => 30]));
     }
 
+    /**
+     * @test
+     */
     public function shoudGetApprovalsConfiguration(): void
     {
         $expectedArray = [
@@ -1957,7 +1960,10 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->approvalsConfiguration(1));
     }
 
-    public function shoudGetApprovalRules(): void
+    /**
+     * @test
+     */
+    public function shoudGetApprovalsRules(): void
     {
         $expectedArray = [
             [
@@ -1979,7 +1985,7 @@ class ProjectsTest extends TestCase
             ->with('projects/1/approval_rules')
             ->will($this->returnValue($expectedArray));
 
-        $this->assertEquals($expectedArray, $api->approvalRules(1));
+        $this->assertEquals($expectedArray, $api->approvalsRules(1));
     }
 
     /**
