@@ -1998,6 +1998,9 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedBool, $api->deleteAllMergedBranches(1));
     }
 
+    /**
+     * @test
+     */
     public function shouldGetProtectedBranches(): void
     {
         $expectedArray = [
