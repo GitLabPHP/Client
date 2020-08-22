@@ -71,6 +71,7 @@ class Schedules extends AbstractApi
     public function addVariable($project_id, int $schedule_id, array $params)
     {
         $path = 'pipeline_schedules/'.self::encodePath($schedule_id).'/variables';
+
         return $this->post($this->getProjectPath($project_id, $path), $params);
     }
 
@@ -85,6 +86,7 @@ class Schedules extends AbstractApi
     public function updateVariable($project_id, int $schedule_id, string $variable_key, array $params)
     {
         $path = 'pipeline_schedules/'.self::encodePath($schedule_id).'/variables/'.self::encodePath($variable_key);
+
         return $this->put($this->getProjectPath($project_id, $path), $params);
     }
 
@@ -98,6 +100,7 @@ class Schedules extends AbstractApi
     public function removeVariable($project_id, int $schedule_id, string $variable_key)
     {
         $path = 'pipeline_schedules/'.self::encodePath($schedule_id).'/variables/'.self::encodePath($variable_key);
+
         return $this->delete($this->getProjectPath($project_id, $path), $params);
     }
 }
