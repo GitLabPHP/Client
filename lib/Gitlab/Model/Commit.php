@@ -79,7 +79,7 @@ class Commit extends AbstractModel
 
     /**
      * @param Project     $project
-     * @param int|null    $id
+     * @param string|null $id
      * @param Client|null $client
      *
      * @return void
