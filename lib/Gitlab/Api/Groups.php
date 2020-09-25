@@ -313,11 +313,11 @@ class Groups extends AbstractApi
      *
      * @return mixed
      */
-    public function updateLabel($group_id, array $params)
+    public function updateLabel(int $group_id, int $label_id, array $params)
     {
-        return $this->put('groups/'.$this->encodePath($group_id).'/labels', $params);
+        return $this->put('groups/'.$this->encodePath($group_id).'/labels/'.$this->encodePath($label_id), $params);
     }
-
+       
     /**
      * @param int    $group_id
      * @param string $name
