@@ -315,9 +315,9 @@ class Groups extends AbstractApi
      *
      * @return mixed
      */
-    public function updateLabel(int $group_id, array $params)
+    public function updateLabel(int $group_id, int $label_id, array $params)
     {
-        return $this->put('groups/'.self::encodePath($group_id).'/labels', $params);
+        return $this->put('groups/'.self::encodePath($group_id).'/labels/'.self::encodePath($label_id), $params);
     }
 
     /**
