@@ -6,6 +6,15 @@ parameters:
 			path: src/Api/AbstractApi.php
 
 		-
+			message:
+				"""
+					#^Call to deprecated method findUrlFactory\\(\\) of class Http\\\\Discovery\\\\Psr17FactoryDiscovery\\:
+					This will be removed in 2\\.0\\. Consider using the findUrlFactory\\(\\) method\\.$#
+				"""
+			count: 1
+			path: src/HttpClient/Builder.php
+
+		-
 			message: "#^Return type \\(Gitlab\\\\Model\\\\Issue\\) of method Gitlab\\\\Model\\\\Issue\\:\\:close\\(\\) should be covariant with return type \\(static\\(Gitlab\\\\Model\\\\Stateful\\)\\) of method Gitlab\\\\Model\\\\Stateful\\:\\:close\\(\\)$#"
 			count: 1
 			path: src/Model/Issue.php

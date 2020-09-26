@@ -626,6 +626,39 @@ class RepositoriesTest extends TestCase
         $this->assertEquals($expectedArray, $api->mergeBase(1, ['efgh5678efgh5678efgh5678efgh5678efgh5678', '1234567812345678123456781234567812345678']));
     }
 
+    /**
+     * @test
+     */
+    public function shouldCherryPick(): void
+    {
+        $expectedArray = [
+            'id' => 'abcd1234abcd1234abcd1234abcd1234abcd1234',
+            'short_id' => 'abcd1234',
+            'title' => 'A commit',
+            'author_name' => 'Example User',
+            'author_email' => 'jane@example.org',
+            'authored_date' => '2018-01-01T00:00:00.000Z',
+            'created_at' => '2018-01-01T00:00:00.000Z',
+            'committer_name' => 'Jane Doe',
+            'committer_email' => 'jane@example.org',
+            'committed_date' => '2018-01-01T00:00:00.000Z',
+            'message' => 'A commit',
+            'parent_ids' => [
+                'efgh5678efgh5678efgh5678efgh5678efgh5678',
+            ],
+            'web_url' => 'https://gitlab.example.com/thedude/gitlab-foss/-/commit/abcd1234abcd1234abcd1234abcd1234abcd1234',
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/repository/commits/123456123456/cherry_pick', ['branch' => 'feature_branch'])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->cherryPick(1, '123456123456', ['branch' => 'feature_branch']));
+    }
+
     protected function getApiClass()
     {
         return Repositories::class;
