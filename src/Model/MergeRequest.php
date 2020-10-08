@@ -188,12 +188,13 @@ final class MergeRequest extends AbstractModel implements Notable, Stateful
 
     /**
      * @param string $body
+     * @param array  $params
      *
      * @return Note
      */
-    public function addNote(string $body)
+    public function addNote(string $body, array $params = [])
     {
-        $data = $this->client->mergeRequests()->addNote($this->project->id, $this->iid, $body);
+        $data = $this->client->mergeRequests()->addNote($this->project->id, $this->iid, $body, $params);
 
         return Note::fromArray($this->getClient(), $this, $data);
     }

@@ -104,12 +104,13 @@ final class Snippet extends AbstractModel implements Notable
 
     /**
      * @param string $body
+     * @param array  $params
      *
      * @return Note
      */
-    public function addNote(string $body)
+    public function addNote(string $body, array $params = [])
     {
-        $data = $this->client->snippets()->addNote($this->project->id, $this->id, $body);
+        $data = $this->client->snippets()->addNote($this->project->id, $this->id, $body, $params);
 
         return Note::fromArray($this->getClient(), $this, $data);
     }
