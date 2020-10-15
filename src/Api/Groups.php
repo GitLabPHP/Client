@@ -12,13 +12,14 @@ class Groups extends AbstractApi
     /**
      * @param array $parameters {
      *
-     *     @var int[]  $skip_groups   skip the group IDs passes
-     *     @var bool   $all_available show all the groups you have access to
-     *     @var string $search        return list of authorized groups matching the search criteria
-     *     @var string $order_by      Order groups by name or path (default is name)
-     *     @var string $sort          Order groups in asc or desc order (default is asc)
-     *     @var bool   $statistics    include group statistics (admins only)
-     *     @var bool   $owned         limit by groups owned by the current user
+     *     @var int[]  $skip_groups      skip the group IDs passes
+     *     @var bool   $all_available    show all the groups you have access to
+     *     @var string $search           return list of authorized groups matching the search criteria
+     *     @var string $order_by         Order groups by name or path (default is name)
+     *     @var string $sort             Order groups in asc or desc order (default is asc)
+     *     @var bool   $statistics       include group statistics (admins only)
+     *     @var bool   $owned            limit by groups owned by the current user
+     *     @var int    $min_access_level limit by groups in which the current user has at least this access level
      * }
      *
      * @return mixed
@@ -445,6 +446,9 @@ class Groups extends AbstractApi
         $resolver->setDefined('owned')
             ->setAllowedTypes('owned', 'bool')
             ->setNormalizer('owned', $booleanNormalizer)
+        ;
+        $resolver->setDefined('min_access_level')
+            ->setAllowedValues('min_access_level', [null, 10, 20, 30, 40, 50])
         ;
 
         return $resolver;
