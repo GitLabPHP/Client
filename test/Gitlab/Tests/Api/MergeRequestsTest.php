@@ -150,6 +150,7 @@ class MergeRequestsTest extends TestCase
         $this->assertEquals($expectedArray, $api->show(1, 2, [
             'include_diverged_commits_count' => true,
             'include_rebase_in_progress' => true,
+            'with_merge_status_recheck' => true,
         ]));
     }
 
