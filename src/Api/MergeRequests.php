@@ -112,6 +112,9 @@ class MergeRequests extends AbstractApi
         $resolver->setDefined('search');
         $resolver->setDefined('source_branch');
         $resolver->setDefined('target_branch');
+        $resolver->setDefined('with_merge_status_recheck')
+            ->setAllowedTypes('with_merge_status_recheck', 'bool')
+        ;
 
         $path = null === $project_id ? 'merge_requests' : $this->getProjectPath($project_id, 'merge_requests');
 
