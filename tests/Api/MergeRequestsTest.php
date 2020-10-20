@@ -65,6 +65,7 @@ class MergeRequestsTest extends TestCase
                 'assignee_id' => 1,
                 'source_branch' => 'develop',
                 'target_branch' => 'master',
+                'with_merge_status_recheck' => true,
             ])
             ->will($this->returnValue($expectedArray))
         ;
@@ -82,6 +83,7 @@ class MergeRequestsTest extends TestCase
             'assignee_id' => 1,
             'source_branch' => 'develop',
             'target_branch' => 'master',
+            'with_merge_status_recheck' => true,
         ]));
     }
 
@@ -145,14 +147,13 @@ class MergeRequestsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/merge_requests/2', ['include_diverged_commits_count' => true, 'include_rebase_in_progress' => true, 'with_merge_status_recheck' => true])
+            ->with('projects/1/merge_requests/2', ['include_diverged_commits_count' => true,  'include_rebase_in_progress' => true])
             ->will($this->returnValue($expectedArray))
         ;
 
         $this->assertEquals($expectedArray, $api->show(1, 2, [
             'include_diverged_commits_count' => true,
             'include_rebase_in_progress' => true,
-            'with_merge_status_recheck' => true,
         ]));
     }
 
