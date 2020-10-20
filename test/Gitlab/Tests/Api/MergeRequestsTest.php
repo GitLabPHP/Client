@@ -143,7 +143,7 @@ class MergeRequestsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/merge_requests/2', ['include_diverged_commits_count' => true,  'include_rebase_in_progress' => true])
+            ->with('projects/1/merge_requests/2', ['include_diverged_commits_count' => true, 'include_rebase_in_progress' => true, 'with_merge_status_recheck' => true])
             ->will($this->returnValue($expectedArray))
         ;
 
