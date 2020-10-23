@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="3.12.2@7c7ebd068f8acaba211d4a2c707c4ba90874fa26">
+<files psalm-version="4.0.1@b1e2e30026936ef8d5bf6a354d1c3959b6231f44">
   <file src="lib/Gitlab/HttpClient/Plugin/HistoryTrait.php">
     <UnrecognizedStatement occurrences="1"/>
+  </file>
+  <file src="vendor/php-http/client-common/src/Plugin/VersionBridgePlugin.php">
+    <InternalMethod occurrences="1">
+      <code>doHandleRequest</code>
+    </InternalMethod>
   </file>
 </files>

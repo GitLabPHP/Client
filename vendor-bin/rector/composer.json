@@ -1,14 +1,7 @@
 {
     "require": {
-        "phpstan/phpstan": "0.12.32",
-        "rector/rector": "0.7.48",
-        "symplify/auto-bind-parameter": "8.1.13",
-        "symplify/autowire-array-parameter": "8.1.13",
-        "symplify/console-color-diff": "8.1.13",
-        "symplify/package-builder": "8.1.13",
-        "symplify/parameter-name-guard": "8.1.13",
-        "symplify/set-config-resolver": "8.1.13",
-        "symplify/smart-file-system": "8.1.13"
+        "php": "^7.2.5",
+        "rector/rector-prefixed": "0.7.61"
     },
     "config": {
         "preferred-install": "dist"
