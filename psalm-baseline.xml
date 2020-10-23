@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <files psalm-version="3.13.1@afd8874a9e4562eac42a02de90e42e430c3a1db1">
   <file src="src/Api/AbstractApi.php">
     <InvalidArgument occurrences="1"/>
@@ -7,5 +8,15 @@
     <UndefinedFunction occurrences="1">
       <code>\get_debug_type($data)</code>
     </UndefinedFunction>
+=======
+<files psalm-version="4.0.1@b1e2e30026936ef8d5bf6a354d1c3959b6231f44">
+  <file src="lib/Gitlab/HttpClient/Plugin/HistoryTrait.php">
+    <UnrecognizedStatement occurrences="1"/>
+>>>>>>> 9.19
+  </file>
+  <file src="vendor/php-http/client-common/src/Plugin/VersionBridgePlugin.php">
+    <InternalMethod occurrences="1">
+      <code>doHandleRequest</code>
+    </InternalMethod>
   </file>
 </files>

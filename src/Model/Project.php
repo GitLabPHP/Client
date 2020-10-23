@@ -1114,11 +1114,11 @@ final class Project extends AbstractModel
     }
 
     /**
-     * @param int $group_id
+     * @param int|string $group_id
      *
      * @return Group
      */
-    public function transfer(int $group_id)
+    public function transfer($group_id)
     {
         $group = new Group($group_id, $this->getClient());
 
