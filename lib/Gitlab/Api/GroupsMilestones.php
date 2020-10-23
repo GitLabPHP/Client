@@ -16,7 +16,7 @@ class GroupsMilestones extends AbstractApi
 
     /**
      * @param int|string $group_id
-     * @param array $parameters {
+     * @param array      $parameters {
      *
      *     @var int[]  $iids   return only the milestones having the given iids
      *     @var string $state  return only active or closed milestones
@@ -44,7 +44,7 @@ class GroupsMilestones extends AbstractApi
 
     /**
      * @param int|string $group_id
-     * @param int $milestone_id
+     * @param int        $milestone_id
      *
      * @return mixed
      */
@@ -55,7 +55,7 @@ class GroupsMilestones extends AbstractApi
 
     /**
      * @param int|string $group_id
-     * @param array $params
+     * @param array      $params
      *
      * @return mixed
      */
@@ -66,8 +66,8 @@ class GroupsMilestones extends AbstractApi
 
     /**
      * @param int|string $group_id
-     * @param int   $milestone_id
-     * @param array $params
+     * @param int        $milestone_id
+     * @param array      $params
      *
      * @return mixed
      */
@@ -78,7 +78,7 @@ class GroupsMilestones extends AbstractApi
 
     /**
      * @param int|string $group_id
-     * @param int $milestone_id
+     * @param int        $milestone_id
      *
      * @return mixed
      */
@@ -89,7 +89,7 @@ class GroupsMilestones extends AbstractApi
 
     /**
      * @param int|string $group_id
-     * @param int $milestone_id
+     * @param int        $milestone_id
      *
      * @return mixed
      */
@@ -100,7 +100,7 @@ class GroupsMilestones extends AbstractApi
 
     /**
      * @param int|string $group_id
-     * @param int $milestone_id
+     * @param int        $milestone_id
      *
      * @return mixed
      */

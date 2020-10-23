@@ -30,7 +30,7 @@ class IssuesStatistics extends AbstractApi
 
     /**
      * @param int|string $group_id
-     * @param array $parameters
+     * @param array      $parameters
      *
      * @return mixed
      */
