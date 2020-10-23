@@ -203,8 +203,8 @@ abstract class AbstractApi implements ApiInterface
     }
 
     /**
-     * @param int    $id
-     * @param string $path
+     * @param int|string $id
+     * @param string     $path
      *
      * @return string
      */

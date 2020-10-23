@@ -29,7 +29,7 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param int $id
+     * @param int|string $id
      *
      * @return mixed
      */
@@ -69,8 +69,8 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param int   $id
-     * @param array $params
+     * @param int|string $id
+     * @param array      $params
      *
      * @return mixed
      */
@@ -80,7 +80,7 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param int $group_id
+     * @param int|string $group_id
      *
      * @return mixed
      */
@@ -90,7 +90,7 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param int        $group_id
+     * @param int|string $group_id
      * @param int|string $project_id
      *
      * @return mixed
@@ -101,8 +101,8 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param int   $group_id
-     * @param array $parameters
+     * @param int|string $group_id
+     * @param array      $parameters
      *
      * @return mixed
      */
@@ -115,8 +115,8 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param int   $group_id
-     * @param array $parameters {
+     * @param int|string $group_id
+     * @param array      $parameters {
      *
      *     @var string $query A query string to search for members.
      * }
@@ -132,8 +132,8 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param int $group_id
-     * @param int $user_id
+     * @param int|string $group_id
+     * @param int        $user_id
      *
      * @return mixed
      */
@@ -143,9 +143,9 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param int $group_id
-     * @param int $user_id
-     * @param int $access_level
+     * @param int|string $group_id
+     * @param int        $user_id
+     * @param int        $access_level
      *
      * @return mixed
      */
@@ -158,9 +158,9 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param int $group_id
-     * @param int $user_id
-     * @param int $access_level
+     * @param int|string $group_id
+     * @param int        $user_id
+     * @param int        $access_level
      *
      * @return mixed
      */
@@ -172,8 +172,8 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param int $group_id
-     * @param int $user_id
+     * @param int|string $group_id
+     * @param int        $user_id
      *
      * @return mixed
      */
@@ -183,8 +183,8 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param int   $id
-     * @param array $parameters {
+     * @param int|string $id
+     * @param array      $parameters {
      *
      *     @var bool   $archived                    limit by archived status
      *     @var string $visibility                  limit by visibility public, internal, or private
@@ -262,8 +262,8 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param int   $group_id
-     * @param array $parameters {
+     * @param int|string $group_id
+     * @param array      $parameters {
      *
      *     @var int[]  $skip_groups   skip the group IDs passes
      *     @var bool   $all_available show all the groups you have access to
@@ -284,8 +284,8 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param int   $group_id
-     * @param array $parameters
+     * @param int|string $group_id
+     * @param array      $parameters
      *
      * @return mixed
      */
@@ -297,8 +297,8 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param int   $group_id
-     * @param array $params
+     * @param int|string $group_id
+     * @param array      $params
      *
      * @return mixed
      */
@@ -308,8 +308,8 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param int   $group_id
-     * @param array $params
+     * @param int|string $group_id
+     * @param array      $params
      *
      * @return mixed
      */
@@ -319,8 +319,8 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param int    $group_id
-     * @param string $name
+     * @param int|string $group_id
+     * @param string     $name
      *
      * @return mixed
      */
@@ -332,8 +332,8 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param int   $group_id
-     * @param array $parameters
+     * @param int|string $group_id
+     * @param array      $parameters
      *
      * @return mixed
      */
@@ -345,8 +345,8 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param int    $group_id
-     * @param string $key
+     * @param int|string $group_id
+     * @param string     $key
      *
      * @return mixed
      */
@@ -356,10 +356,10 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param int       $group_id
-     * @param string    $key
-     * @param string    $value
-     * @param bool|null $protected
+     * @param int|string $group_id
+     * @param string     $key
+     * @param string     $value
+     * @param bool|null  $protected
      *
      * @return mixed
      */
@@ -378,10 +378,10 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param int       $group_id
-     * @param string    $key
-     * @param string    $value
-     * @param bool|null $protected
+     * @param int|string $group_id
+     * @param string     $key
+     * @param string     $value
+     * @param bool|null  $protected
      *
      * @return mixed
      */
@@ -399,8 +399,8 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param int    $group_id
-     * @param string $key
+     * @param int|string $group_id
+     * @param string     $key
      *
      * @return mixed
      */
