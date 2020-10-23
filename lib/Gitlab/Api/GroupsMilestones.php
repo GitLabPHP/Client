@@ -15,7 +15,7 @@ class GroupsMilestones extends AbstractApi
     const STATE_CLOSED = 'closed';
 
     /**
-     * @param int   $group_id
+     * @param int|string $group_id
      * @param array $parameters {
      *
      *     @var int[]  $iids   return only the milestones having the given iids
@@ -43,7 +43,7 @@ class GroupsMilestones extends AbstractApi
     }
 
     /**
-     * @param int $group_id
+     * @param int|string $group_id
      * @param int $milestone_id
      *
      * @return mixed
@@ -54,7 +54,7 @@ class GroupsMilestones extends AbstractApi
     }
 
     /**
-     * @param int   $group_id
+     * @param int|string $group_id
      * @param array $params
      *
      * @return mixed
@@ -65,7 +65,7 @@ class GroupsMilestones extends AbstractApi
     }
 
     /**
-     * @param int   $group_id
+     * @param int|string $group_id
      * @param int   $milestone_id
      * @param array $params
      *
@@ -77,7 +77,7 @@ class GroupsMilestones extends AbstractApi
     }
 
     /**
-     * @param int $group_id
+     * @param int|string $group_id
      * @param int $milestone_id
      *
      * @return mixed
@@ -88,7 +88,7 @@ class GroupsMilestones extends AbstractApi
     }
 
     /**
-     * @param int $group_id
+     * @param int|string $group_id
      * @param int $milestone_id
      *
      * @return mixed
@@ -99,7 +99,7 @@ class GroupsMilestones extends AbstractApi
     }
 
     /**
-     * @param int $group_id
+     * @param int|string $group_id
      * @param int $milestone_id
      *
      * @return mixed

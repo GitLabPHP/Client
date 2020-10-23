@@ -20,7 +20,7 @@ class GroupsBoards extends AbstractApi
     }
 
     /**
-     * @param int $group_id
+     * @param int|string $group_id
      * @param int $board_id
      *
      * @return mixed
@@ -31,7 +31,7 @@ class GroupsBoards extends AbstractApi
     }
 
     /**
-     * @param int   $group_id
+     * @param int|string $group_id
      * @param array $params
      *
      * @return mixed
@@ -42,7 +42,7 @@ class GroupsBoards extends AbstractApi
     }
 
     /**
-     * @param int   $group_id
+     * @param int|string $group_id
      * @param int   $board_id
      * @param array $params
      *
@@ -54,7 +54,7 @@ class GroupsBoards extends AbstractApi
     }
 
     /**
-     * @param int $group_id
+     * @param int|string $group_id
      * @param int $board_id
      *
      * @return mixed
@@ -65,7 +65,7 @@ class GroupsBoards extends AbstractApi
     }
 
     /**
-     * @param int $group_id
+     * @param int|string $group_id
      * @param int $board_id
      *
      * @return mixed
@@ -76,7 +76,7 @@ class GroupsBoards extends AbstractApi
     }
 
     /**
-     * @param int $group_id
+     * @param int|string $group_id
      * @param int $board_id
      * @param int $list_id
      *
@@ -88,7 +88,7 @@ class GroupsBoards extends AbstractApi
     }
 
     /**
-     * @param int $group_id
+     * @param int|string $group_id
      * @param int $board_id
      * @param int $label_id
      *
@@ -104,7 +104,7 @@ class GroupsBoards extends AbstractApi
     }
 
     /**
-     * @param int $group_id
+     * @param int|string $group_id
      * @param int $board_id
      * @param int $list_id
      * @param int $position
@@ -121,7 +121,7 @@ class GroupsBoards extends AbstractApi
     }
 
     /**
-     * @param int $group_id
+     * @param int|string $group_id
      * @param int $board_id
      * @param int $list_id
      *

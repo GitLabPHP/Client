@@ -984,7 +984,7 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param int        $group_id
+     * @param int|string $group_id
      *
      * @return mixed
      */

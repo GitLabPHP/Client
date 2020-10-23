@@ -41,7 +41,7 @@ class Issues extends AbstractApi
     }
 
     /**
-     * @param int   $group_id
+     * @param int|string $group_id
      * @param array $parameters
      *
      * @return mixed
