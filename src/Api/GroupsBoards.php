@@ -23,7 +23,7 @@ class GroupsBoards extends AbstractApi
 
     /**
      * @param int|string $group_id
-     * @param int $board_id
+     * @param int        $board_id
      *
      * @return mixed
      */
@@ -34,7 +34,7 @@ class GroupsBoards extends AbstractApi
 
     /**
      * @param int|string $group_id
-     * @param array $params
+     * @param array      $params
      *
      * @return mixed
      */
@@ -45,8 +45,8 @@ class GroupsBoards extends AbstractApi
 
     /**
      * @param int|string $group_id
-     * @param int   $board_id
-     * @param array $params
+     * @param int        $board_id
+     * @param array      $params
      *
      * @return mixed
      */
@@ -57,7 +57,7 @@ class GroupsBoards extends AbstractApi
 
     /**
      * @param int|string $group_id
-     * @param int $board_id
+     * @param int        $board_id
      *
      * @return mixed
      */
@@ -68,7 +68,7 @@ class GroupsBoards extends AbstractApi
 
     /**
      * @param int|string $group_id
-     * @param int $board_id
+     * @param int        $board_id
      *
      * @return mixed
      */
@@ -79,8 +79,8 @@ class GroupsBoards extends AbstractApi
 
     /**
      * @param int|string $group_id
-     * @param int $board_id
-     * @param int $list_id
+     * @param int        $board_id
+     * @param int        $list_id
      *
      * @return mixed
      */
@@ -91,8 +91,8 @@ class GroupsBoards extends AbstractApi
 
     /**
      * @param int|string $group_id
-     * @param int $board_id
-     * @param int $label_id
+     * @param int        $board_id
+     * @param int        $label_id
      *
      * @return mixed
      */
@@ -107,9 +107,9 @@ class GroupsBoards extends AbstractApi
 
     /**
      * @param int|string $group_id
-     * @param int $board_id
-     * @param int $list_id
-     * @param int $position
+     * @param int        $board_id
+     * @param int        $list_id
+     * @param int        $position
      *
      * @return mixed
      */
@@ -124,8 +124,8 @@ class GroupsBoards extends AbstractApi
 
     /**
      * @param int|string $group_id
-     * @param int $board_id
-     * @param int $list_id
+     * @param int        $board_id
+     * @param int        $list_id
      *
      * @return mixed
      */
