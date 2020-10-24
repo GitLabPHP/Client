@@ -216,7 +216,7 @@ final class User extends AbstractModel
 
     /**
      * @param int $group_id
-     * @param int        $access_level
+     * @param int $access_level
      *
      * @return User
      */
