@@ -447,6 +447,30 @@ class Repositories extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'repository/merge_base'), ['refs' => $refs]);
     }
 
+    /**
+     * @param int|string $project_id
+     * @param string     $sha
+     * @param array      $params
+     *
+     * @return mixed
+     */
+    public function cherryPick($project_id, string $sha, array $params = [])
+    {
+        $resolver = $this->createOptionsResolver();
+        $booleanNormalizer = function (Options $resolver, $value) {
+            return $value ? 'true' : 'false';
+        };
+
+        $resolver->setDefined('branch')
+            ->setRequired('branch');
+
+        $resolver->setDefined('dry_run')
+            ->setAllowedTypes('dry_run', 'bool')
+            ->setNormalizer('dry_run', $booleanNormalizer);
+
+        return $this->post($this->getProjectPath($project_id, 'repository/commits/'.self::encodePath($sha).'/cherry_pick'), $params);
+    }
+
     protected function createOptionsResolver()
     {
         $allowedTypeValues = [
