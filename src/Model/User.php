@@ -220,7 +220,7 @@ final class User extends AbstractModel
      *
      * @return User
      */
-    public function addToGroup($group_id, int $access_level)
+    public function addToGroup(int $group_id, int $access_level)
     {
         $group = new Group($group_id, $this->getClient());
 
@@ -232,7 +232,7 @@ final class User extends AbstractModel
      *
      * @return bool
      */
-    public function removeFromGroup($group_id)
+    public function removeFromGroup(int $group_id)
     {
         $group = new Group($group_id, $this->getClient());
 
