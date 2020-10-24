@@ -27,7 +27,6 @@ abstract class AbstractModel
      */
     protected $client;
 
-
     /**
      * @return void
      */

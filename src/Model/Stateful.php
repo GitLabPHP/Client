@@ -6,7 +6,6 @@ namespace Gitlab\Model;
 
 /**
  * @deprecated since version 10.1 and will be removed in 11.0.
- *
  */
 interface Stateful
 {
