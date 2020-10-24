@@ -7,6 +7,8 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
+ * @deprecated since version 10.1 and will be removed in 11.0.
+ *
  * @property int      $id
  * @property string   $email
  * @property string   $password
@@ -104,6 +106,7 @@ final class User extends AbstractModel
      */
     public function __construct(?int $id = null, Client $client = null)
     {
+        parent::__construct();
         $this->setClient($client);
         $this->setData('id', $id);
     }

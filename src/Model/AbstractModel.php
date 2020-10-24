@@ -7,6 +7,9 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 use Gitlab\Exception\RuntimeException;
 
+/**
+ * @deprecated since version 10.1 and will be removed in 11.0.
+ */
 abstract class AbstractModel
 {
     /**
@@ -23,6 +26,14 @@ abstract class AbstractModel
      * @var Client
      */
     protected $client;
+
+    /**
+     * @return void
+     */
+    public function __construct()
+    {
+        \trigger_deprecation('m4tthumphrey/php-gitlab-api', '10.1', 'Use of models is deprecated and %s will be removed in version 11.0.', static::class);
+    }
 
     /**
      * @return Client

@@ -7,6 +7,8 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
+ * @deprecated since version 10.1 and will be removed in 11.0.
+ *
  * @property string        $id
  * @property string        $short_id
  * @property string        $title
@@ -86,6 +88,7 @@ final class Commit extends AbstractModel
      */
     public function __construct(Project $project, ?string $id = null, Client $client = null)
     {
+        parent::__construct();
         $this->setClient($client);
         $this->setData('project', $project);
         $this->setData('id', $id);

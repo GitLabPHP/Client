@@ -7,6 +7,8 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
+ * @deprecated since version 10.1 and will be removed in 11.0.
+ *
  * @property int   $issue_link_id
  * @property Issue $issue
  */
@@ -44,6 +46,7 @@ final class IssueLink extends AbstractModel
      */
     public function __construct(Issue $issue, ?int $issue_link_id = null, Client $client = null)
     {
+        parent::__construct();
         $this->setClient($client);
         $this->setData('issue', $issue);
         $this->setData('issue_link_id', $issue_link_id);

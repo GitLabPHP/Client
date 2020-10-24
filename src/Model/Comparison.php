@@ -7,6 +7,8 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
+ * @deprecated since version 10.1 and will be removed in 11.0.
+ *
  * @property bool          $compare_timeout
  * @property bool          $compare_same_ref
  * @property Commit|null   $commit
@@ -72,6 +74,7 @@ final class Comparison extends AbstractModel
      */
     public function __construct(Project $project, Client $client = null)
     {
+        parent::__construct();
         $this->setClient($client);
         $this->setData('project', $project);
     }

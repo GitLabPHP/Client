@@ -7,6 +7,8 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
+ * @deprecated since version 10.1 and will be removed in 11.0.
+ *
  * @property string    $note
  * @property string    $path
  * @property string    $line
@@ -50,6 +52,7 @@ final class CommitNote extends AbstractModel
      */
     public function __construct(Client $client = null)
     {
+        parent::__construct();
         $this->setClient($client);
     }
 }

@@ -9,6 +9,8 @@ use Gitlab\Api\Repositories;
 use Gitlab\Client;
 
 /**
+ * @deprecated since version 10.1 and will be removed in 11.0.
+ *
  * @property int|string            $id
  * @property string                $description
  * @property string                $default_branch
@@ -169,6 +171,7 @@ final class Project extends AbstractModel
      */
     public function __construct($id = null, Client $client = null)
     {
+        parent::__construct();
         $this->setClient($client);
         $this->setData('id', $id);
     }
