@@ -5,6 +5,9 @@ CHANGE LOG
 ## 10.1.0 (UPCOMING)
 
 * Added method to get protected branches for a project
+* Added with_merge_status_recheck option for fetching MRs
+* Added commit cherry-pick API
+* Added support for optional Note parameters 
 
 
 ## 10.0.1 (24/10/2020)
