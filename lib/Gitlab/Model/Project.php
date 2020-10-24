@@ -1144,7 +1144,7 @@ class Project extends AbstractModel
     }
 
     /**
-     * @param int|string $group_id
+     * @param int $group_id
      *
      * @return Group
      */
