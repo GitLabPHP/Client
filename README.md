@@ -23,40 +23,26 @@ Check out the [change log](CHANGELOG.md), [releases](https://github.com/GitLabPH
 
 ## Installation
 
-This version supports [PHP](https://php.net) 7.1-7.4. To get started, simply require the project using [Composer](https://getcomposer.org). You will also need to install packages that "provide" [`psr/http-client-implementation`](https://packagist.org/providers/psr/http-client-implementation) and [`psr/http-factory-implementation`](https://packagist.org/providers/psr/http-factory-implementation).
+This version supports [PHP](https://php.net) 7.2-7.4. To get started, simply require the project using [Composer](https://getcomposer.org). You will also need to install packages that "provide" [`psr/http-client-implementation`](https://packagist.org/providers/psr/http-client-implementation) and [`psr/http-factory-implementation`](https://packagist.org/providers/psr/http-factory-implementation).
 
 ### Standard Installation
 
-#### PHP 7.1+:
-
 ```
-$ composer require m4tthumphrey/php-gitlab-api:^11.0 php-http/guzzle6-adapter:^2.0.1 http-interop/http-factory-guzzle:^1.0
-```
-
-#### PHP 7.2+:
-
-```
-$ composer require m4tthumphrey/php-gitlab-api:^11.0 guzzlehttp/guzzle:^7.0.1 http-interop/http-factory-guzzle:^1.0
+$ composer require m4tthumphrey/php-gitlab-api:^11.0 guzzlehttp/guzzle:^7.2 http-interop/http-factory-guzzle:^1.0
 ```
 
 ### Framework Integration
 
-#### Laravel 6+:
+#### Laravel:
 
 ```
-$ composer require graham-campbell/gitlab:^4.2 guzzlehttp/guzzle:^7.0.1 http-interop/http-factory-guzzle:^1.0
+$ composer require graham-campbell/gitlab:^5.0 guzzlehttp/guzzle:^7.2 http-interop/http-factory-guzzle:^1.0
 ```
 
-#### Symfony 4:
+#### Symfony:
 
 ```
-$ composer require zeichen32/gitlabapibundle:^5.0 symfony/http-client:^4.4 nyholm/psr7:^1.3
-```
-
-#### Symfony 5:
-
-```
-$ composer require zeichen32/gitlabapibundle:^5.0 symfony/http-client:^5.0 nyholm/psr7:^1.3
+$ composer require zeichen32/gitlabapibundle:^6.0 symfony/http-client:^5.2 nyholm/psr7:^1.3
 ```
 
 We are decoupled from any HTTP messaging client by using [PSR-7](https://www.php-fig.org/psr/psr-7/), [PSR-17](https://www.php-fig.org/psr/psr-17/), [PSR-18](https://www.php-fig.org/psr/psr-18/), and [HTTPlug](https://httplug.io/). You can visit [HTTPlug for library users](https://docs.php-http.org/en/latest/httplug/users.html) to get more information about installing HTTPlug related packages. The framework integration [graham-campbell/gitlab](https://github.com/GrahamCampbell/Laravel-GitLab) is by [Graham Campbell](https://github.com/GrahamCampbell) and [zeichen32/gitlabapibundle](https://github.com/Zeichen32/GitLabApiBundle) is by [Jens Averkamp](https://github.com/Zeichen32).

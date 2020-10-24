@@ -22,7 +22,7 @@
         }
     ],
     "require": {
-        "php": "^7.1",
+        "php": "^7.2.5",
         "ext-json": "*",
         "ext-xml": "*",
         "php-http/cache-plugin": "^1.7",
@@ -40,8 +40,7 @@
     },
     "require-dev": {
         "bamarni/composer-bin-plugin": "^1.4.1",
-        "guzzlehttp/psr7": "^1.5.2",
-        "php-http/guzzle6-adapter": "^2.0.1",
+        "guzzlehttp/guzzle": "^7.2",
         "http-interop/http-factory-guzzle": "^1.0"
     },
     "autoload": {

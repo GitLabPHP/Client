@@ -86,9 +86,9 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters->set('auto_import_names', true);
     $parameters->set('import_short_classes', false);
     $parameters->set('import_doc_blocks', false);
-    $parameters->set('php_version_features', '7.1');
+    $parameters->set('php_version_features', '7.2');
     $parameters->set('paths', [__DIR__.'/src', __DIR__.'/tests']);
-    $parameters->set('sets', ['php52', 'php53', 'php54', 'php55', 'php56', 'php70', 'php71', 'phpunit40', 'phpunit50', 'phpunit60', 'phpunit70', 'phpunit75']);
+    $parameters->set('sets', ['php52', 'php53', 'php54', 'php55', 'php56', 'php70', 'php71', 'php72', 'phpunit40', 'phpunit50', 'phpunit60', 'phpunit70', 'phpunit75', 'phpunit80']);
 
     $services = $containerConfigurator->services();
     $services->set(ArrayKeyExistsTernaryThenValueToCoalescingRector::class);
