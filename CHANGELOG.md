@@ -2,6 +2,12 @@ CHANGE LOG
 ==========
 
 
+## 10.0.1 (UPCOMING)
+
+* Fixed using the name of a group as an ID
+* Fixed various phpdoc issues
+
+
 ## 10.0.0 (15/08/2020)
 
 * Added void return types to void methods
