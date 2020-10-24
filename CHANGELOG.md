@@ -2,7 +2,7 @@ CHANGE LOG
 ==========
 
 
-## 10.1.0 (UPCOMING)
+## 10.1.0 (24/10/2020)
 
 * Added method to get protected branches for a project
 * Added with_merge_status_recheck option for fetching MRs
