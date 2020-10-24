@@ -41,7 +41,8 @@
         "bamarni/composer-bin-plugin": "^1.4.1",
         "guzzlehttp/psr7": "^1.5.2",
         "php-http/guzzle6-adapter": "^2.0.1",
-        "http-interop/http-factory-guzzle": "^1.0"
+        "http-interop/http-factory-guzzle": "^1.0",
+        "migrify/config-transformer": "0.3.50"
     },
     "autoload": {
         "psr-4": {
