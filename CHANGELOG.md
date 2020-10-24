@@ -5,6 +5,7 @@ CHANGE LOG
 ## 11.0.0-RC1 (UPCOMING)
 
 * Removed models API
+* Bumped min PHP to 7.2.5
 
 
 ## 10.2.0 (UPCOMING)
