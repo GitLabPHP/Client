@@ -44,7 +44,7 @@ $ composer require m4tthumphrey/php-gitlab-api:^10.2 guzzlehttp/guzzle:^7.0.1 ht
 #### Laravel 6+:
 
 ```
-$ composer require graham-campbell/gitlab:^4.0 guzzlehttp/guzzle:^7.0.1 http-interop/http-factory-guzzle:^1.0
+$ composer require graham-campbell/gitlab:^4.1 guzzlehttp/guzzle:^7.0.1 http-interop/http-factory-guzzle:^1.0
 ```
 
 #### Symfony 4:
