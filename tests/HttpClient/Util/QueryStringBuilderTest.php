@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gitlab\Tests\HttpClient\Util;
 
 use Gitlab\HttpClient\Util\QueryStringBuilder;
@@ -13,7 +15,7 @@ class QueryStringBuilderTest extends TestCase
      * @param mixed  $query
      * @param string $expected
      */
-    public function testBuild($query, string $expected)
+    public function testBuild($query, string $expected): void
     {
         $this->assertSame($expected, QueryStringBuilder::build($query));
     }
