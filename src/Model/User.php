@@ -215,7 +215,7 @@ final class User extends AbstractModel
     }
 
     /**
-     * @param int|string $group_id
+     * @param int $group_id
      * @param int        $access_level
      *
      * @return User
@@ -228,7 +228,7 @@ final class User extends AbstractModel
     }
 
     /**
-     * @param int|string $group_id
+     * @param int $group_id
      *
      * @return bool
      */
