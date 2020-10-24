@@ -2,6 +2,11 @@ CHANGE LOG
 ==========
 
 
+## 11.0.0-RC1 (UPCOMING)
+
+* Removed models API
+
+
 ## 10.2.0 (UPCOMING)
 
 
