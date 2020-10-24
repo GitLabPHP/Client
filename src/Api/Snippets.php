@@ -107,14 +107,15 @@ class Snippets extends AbstractApi
      * @param int|string $project_id
      * @param int        $snippet_id
      * @param string     $body
+     * @param array      $params
      *
      * @return mixed
      */
-    public function addNote($project_id, int $snippet_id, string $body)
+    public function addNote($project_id, int $snippet_id, string $body, array $params = [])
     {
-        return $this->post($this->getProjectPath($project_id, 'snippets/'.self::encodePath($snippet_id).'/notes'), [
-            'body' => $body,
-        ]);
+        $params['body'] = $body;
+
+        return $this->post($this->getProjectPath($project_id, 'snippets/'.self::encodePath($snippet_id).'/notes'), $params);
     }
 
     /**

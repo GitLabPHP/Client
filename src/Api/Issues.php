@@ -154,14 +154,15 @@ class Issues extends AbstractApi
      * @param int|string $project_id
      * @param int        $issue_iid
      * @param string     $body
+     * @param array      $params
      *
      * @return mixed
      */
-    public function addNote($project_id, int $issue_iid, string $body)
+    public function addNote($project_id, int $issue_iid, string $body, array $params = [])
     {
-        return $this->post($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/notes'), [
-            'body' => $body,
-        ]);
+        $params['body'] = $body;
+
+        return $this->post($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/notes'), $params);
     }
 
     /**
@@ -169,14 +170,15 @@ class Issues extends AbstractApi
      * @param int        $issue_iid
      * @param int        $note_id
      * @param string     $body
+     * @param array      $params
      *
      * @return mixed
      */
-    public function updateNote($project_id, int $issue_iid, int $note_id, string $body)
+    public function updateNote($project_id, int $issue_iid, int $note_id, string $body, array $params = [])
     {
-        return $this->put($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/notes/'.self::encodePath($note_id)), [
-            'body' => $body,
-        ]);
+        $params['body'] = $body;
+
+        return $this->put($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/notes/'.self::encodePath($note_id)), $params);
     }
 
     /**
