@@ -65,6 +65,7 @@ class MergeRequestsTest extends TestCase
                 'assignee_id' => 1,
                 'source_branch' => 'develop',
                 'target_branch' => 'master',
+                'with_merge_status_recheck' => true,
             ])
             ->will($this->returnValue($expectedArray))
         ;
@@ -82,6 +83,7 @@ class MergeRequestsTest extends TestCase
             'assignee_id' => 1,
             'source_branch' => 'develop',
             'target_branch' => 'master',
+            'with_merge_status_recheck' => true,
         ]));
     }
 
