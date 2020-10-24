@@ -7,6 +7,8 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
+ * @deprecated since version 10.1 and will be removed in 11.0.
+ *
  * @property string    $title
  * @property int       $id
  * @property string    $action_name
@@ -64,6 +66,7 @@ final class Event extends AbstractModel
      */
     public function __construct(Project $project, Client $client = null)
     {
+        parent::__construct();
         $this->setClient($client);
         $this->setData('project', $project);
     }

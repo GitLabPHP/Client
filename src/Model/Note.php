@@ -7,6 +7,8 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
+ * @deprecated since version 10.1 and will be removed in 11.0.
+ *
  * @property int                $id
  * @property User|null          $author
  * @property string             $body
@@ -60,6 +62,7 @@ final class Note extends AbstractModel
      */
     public function __construct(Notable $type, Client $client = null)
     {
+        parent::__construct();
         $this->setClient($client);
         $this->setData('parent_type', \get_class($type));
         $this->setData('parent', $type);

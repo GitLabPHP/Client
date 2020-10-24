@@ -7,6 +7,8 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
+ * @deprecated since version 10.1 and will be removed in 11.0.
+ *
  * @property int    $id
  * @property int    $iid
  * @property Group  $group
@@ -63,6 +65,7 @@ final class GroupMilestone extends AbstractModel
      */
     public function __construct(Group $group, int $id, Client $client = null)
     {
+        parent::__construct();
         $this->setClient($client);
         $this->setData('id', $id);
         $this->setData('group', $group);

@@ -7,6 +7,8 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
+ * @deprecated since version 10.1 and will be removed in 11.0.
+ *
  * @property int       $id
  * @property string    $description
  * @property string    $created_at
@@ -57,6 +59,7 @@ final class Trigger extends AbstractModel
      */
     public function __construct(Project $project, ?int $id = null, Client $client = null)
     {
+        parent::__construct();
         $this->setClient($client);
         $this->setData('project', $project);
         $this->setData('id', $id);

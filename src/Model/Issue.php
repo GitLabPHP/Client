@@ -8,6 +8,8 @@ use Gitlab\Api\Issues;
 use Gitlab\Client;
 
 /**
+ * @deprecated since version 10.1 and will be removed in 11.0.
+ *
  * @property int        $id
  * @property int        $iid
  * @property int|string $project_id,
@@ -76,6 +78,7 @@ final class Issue extends AbstractModel implements Notable, Stateful
      */
     public function __construct(Project $project, ?int $iid = null, Client $client = null)
     {
+        parent::__construct();
         $this->setClient($client);
         $this->setData('project', $project);
         $this->setData('iid', $iid);

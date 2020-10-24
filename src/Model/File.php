@@ -7,6 +7,8 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
+ * @deprecated since version 10.1 and will be removed in 11.0.
+ *
  * @property string  $file_path
  * @property string  $branch_name
  * @property Project $project
@@ -45,6 +47,7 @@ final class File extends AbstractModel
      */
     public function __construct(Project $project, ?string $file_path = null, Client $client = null)
     {
+        parent::__construct();
         $this->setClient($client);
         $this->setData('project', $project);
         $this->setData('file_path', $file_path);

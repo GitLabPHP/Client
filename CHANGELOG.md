@@ -8,6 +8,7 @@ CHANGE LOG
 * Added with_merge_status_recheck option for fetching MRs
 * Added commit cherry-pick API
 * Added support for optional Note parameters 
+* Deprecated models API
 
 
 ## 10.0.1 (24/10/2020)

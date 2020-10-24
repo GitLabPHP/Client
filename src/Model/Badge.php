@@ -7,6 +7,8 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
+ * @deprecated since version 10.1 and will be removed in 11.0.
+ *
  * @property int    $id
  * @property string $link_url
  * @property string $image_url
@@ -50,6 +52,7 @@ final class Badge extends AbstractModel
      */
     public function __construct(Project $project, Client $client = null)
     {
+        parent::__construct();
         $this->setClient($client);
         $this->setData('project', $project);
     }

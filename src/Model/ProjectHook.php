@@ -7,6 +7,8 @@ namespace Gitlab\Model;
 use Gitlab\Client;
 
 /**
+ * @deprecated since version 10.1 and will be removed in 11.0.
+ *
  * @property int        $id
  * @property string     $url
  * @property int|string $project_id
@@ -61,6 +63,7 @@ final class ProjectHook extends AbstractModel
      */
     public function __construct(Project $project, int $id, Client $client = null)
     {
+        parent::__construct();
         $this->setClient($client);
         $this->setData('project', $project);
         $this->setData('id', $id);
