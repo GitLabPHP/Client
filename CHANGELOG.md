@@ -2,6 +2,12 @@ CHANGE LOG
 ==========
 
 
+## 9.19.1 (24/10/2020)
+
+* Fixed using the name of a group as an ID
+* Fixed various phpdoc issues
+
+
 ## 9.19.0 (15/08/2020)
 
 * Added user events API
