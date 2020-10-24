@@ -79,12 +79,12 @@ final class Commit extends AbstractModel
 
     /**
      * @param Project     $project
-     * @param int|null    $id
+     * @param string|null $id
      * @param Client|null $client
      *
      * @return void
      */
-    public function __construct(Project $project, ?int $id = null, Client $client = null)
+    public function __construct(Project $project, ?string $id = null, Client $client = null)
     {
         $this->setClient($client);
         $this->setData('project', $project);

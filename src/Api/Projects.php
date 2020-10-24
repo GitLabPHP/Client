@@ -977,11 +977,11 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param int        $group_id
+     * @param int|string $group_id
      *
      * @return mixed
      */
-    public function removeShare($project_id, int $group_id)
+    public function removeShare($project_id, $group_id)
     {
         return $this->delete($this->getProjectPath($project_id, 'share/'.$group_id));
     }

@@ -1,7 +1,7 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Parameter \\#1 \\$error_handler of function set_error_handler expects \\(callable\\(int, string, string, int, array\\)\\: bool\\)\\|null, Closure\\(\\)\\: void given\\.$#"
+			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int, array\\)\\: bool\\)\\|null, Closure\\(\\)\\: void given\\.$#"
 			count: 1
 			path: src/Api/AbstractApi.php
 

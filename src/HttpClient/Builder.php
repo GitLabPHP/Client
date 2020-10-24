@@ -98,7 +98,7 @@ class Builder
         $this->httpClient = $httpClient ?? Psr18ClientDiscovery::find();
         $this->requestFactory = $requestFactory ?? Psr17FactoryDiscovery::findRequestFactory();
         $this->streamFactory = $streamFactory ?? Psr17FactoryDiscovery::findStreamFactory();
-        $this->uriFactory = $uriFactory ?? Psr17FactoryDiscovery::findUrlFactory();
+        $this->uriFactory = $uriFactory ?? Psr17FactoryDiscovery::findUriFactory();
     }
 
     /**

@@ -17,8 +17,8 @@ class GroupsMilestones extends AbstractApi
     public const STATE_CLOSED = 'closed';
 
     /**
-     * @param int   $group_id
-     * @param array $parameters {
+     * @param int|string $group_id
+     * @param array      $parameters {
      *
      *     @var int[]  $iids   return only the milestones having the given iids
      *     @var string $state  return only active or closed milestones
@@ -27,7 +27,7 @@ class GroupsMilestones extends AbstractApi
      *
      * @return mixed
      */
-    public function all(int $group_id, array $parameters = [])
+    public function all($group_id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
         $resolver->setDefined('iids')
@@ -45,68 +45,68 @@ class GroupsMilestones extends AbstractApi
     }
 
     /**
-     * @param int $group_id
-     * @param int $milestone_id
+     * @param int|string $group_id
+     * @param int        $milestone_id
      *
      * @return mixed
      */
-    public function show(int $group_id, int $milestone_id)
+    public function show($group_id, int $milestone_id)
     {
         return $this->get('groups/'.self::encodePath($group_id).'/milestones/'.self::encodePath($milestone_id));
     }
 
     /**
-     * @param int   $group_id
-     * @param array $params
+     * @param int|string $group_id
+     * @param array      $params
      *
      * @return mixed
      */
-    public function create(int $group_id, array $params)
+    public function create($group_id, array $params)
     {
         return $this->post('groups/'.self::encodePath($group_id).'/milestones', $params);
     }
 
     /**
-     * @param int   $group_id
-     * @param int   $milestone_id
-     * @param array $params
+     * @param int|string $group_id
+     * @param int        $milestone_id
+     * @param array      $params
      *
      * @return mixed
      */
-    public function update(int $group_id, int $milestone_id, array $params)
+    public function update($group_id, int $milestone_id, array $params)
     {
         return $this->put('groups/'.self::encodePath($group_id).'/milestones/'.self::encodePath($milestone_id), $params);
     }
 
     /**
-     * @param int $group_id
-     * @param int $milestone_id
+     * @param int|string $group_id
+     * @param int        $milestone_id
      *
      * @return mixed
      */
-    public function remove(int $group_id, int $milestone_id)
+    public function remove($group_id, int $milestone_id)
     {
         return $this->delete('groups/'.self::encodePath($group_id).'/milestones/'.self::encodePath($milestone_id));
     }
 
     /**
-     * @param int $group_id
-     * @param int $milestone_id
+     * @param int|string $group_id
+     * @param int        $milestone_id
      *
      * @return mixed
      */
-    public function issues(int $group_id, int $milestone_id)
+    public function issues($group_id, int $milestone_id)
     {
         return $this->get('groups/'.self::encodePath($group_id).'/milestones/'.self::encodePath($milestone_id).'/issues');
     }
 
     /**
-     * @param int $group_id
-     * @param int $milestone_id
+     * @param int|string $group_id
+     * @param int        $milestone_id
      *
      * @return mixed
      */
-    public function mergeRequests(int $group_id, int $milestone_id)
+    public function mergeRequests($group_id, int $milestone_id)
     {
         return $this->get('groups/'.self::encodePath($group_id).'/milestones/'.self::encodePath($milestone_id).'/merge_requests');
     }

@@ -43,12 +43,12 @@ class Issues extends AbstractApi
     }
 
     /**
-     * @param int   $group_id
-     * @param array $parameters
+     * @param int|string $group_id
+     * @param array      $parameters
      *
      * @return mixed
      */
-    public function group(int $group_id, array $parameters = [])
+    public function group($group_id, array $parameters = [])
     {
         return $this->get(
             'groups/'.self::encodePath($group_id).'/issues',

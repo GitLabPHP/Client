@@ -21,7 +21,7 @@ First, install the dependencies:
 $ make install
 ```
 
-Then run the test suite and static analyzer:
+Then run the test suite and static analyzers:
 
 ```bash
 $ make test
