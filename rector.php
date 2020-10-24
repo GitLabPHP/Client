@@ -82,12 +82,12 @@ use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigura
 
 return static function (ContainerConfigurator $containerConfigurator): void {
     $parameters = $containerConfigurator->parameters();
-    $parameters->set('autoload_paths', [__DIR__ . '/vendor/autoload.php', 'vendor-bin/phpunit/vendor/autoload.php']);
+    $parameters->set('autoload_paths', [__DIR__.'/vendor/autoload.php', 'vendor-bin/phpunit/vendor/autoload.php']);
     $parameters->set('auto_import_names', true);
     $parameters->set('import_short_classes', false);
     $parameters->set('import_doc_blocks', false);
     $parameters->set('php_version_features', '5.6');
-    $parameters->set('paths', [__DIR__ . '/lib', __DIR__ . '/test']);
+    $parameters->set('paths', [__DIR__.'/lib', __DIR__.'/test']);
     $parameters->set('sets', ['php52', 'php53', 'php54', 'php55', 'php56', 'phpunit40', 'phpunit50']);
 
     $services = $containerConfigurator->services();
