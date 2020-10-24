@@ -7,6 +7,13 @@ CHANGE LOG
 * Added method to get protected branches for a project
 
 
+## 10.0.1 (24/10/2020)
+
+* Fixed using the name of a group as an ID
+* Fixed various phpdoc issues
+* Reverted query builder changes
+
+
 ## 10.0.0 (15/08/2020)
 
 * Added void return types to void methods
