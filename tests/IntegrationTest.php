@@ -6,6 +6,7 @@ namespace Gitlab\Tests;
 
 use Gitlab\Client;
 use Gitlab\Exception\RuntimeException;
+use Gitlab\ResultPager;
 use PHPUnit\Framework\TestCase;
 
 class IntegrationTest extends TestCase
@@ -33,5 +34,22 @@ class IntegrationTest extends TestCase
         $client
             ->repositories()
             ->contributors(1);
+    }
+
+    public function testRepoBranches(): void
+    {
+        $client = new Client();
+
+        $pager = new ResultPager($client);
+
+        $branches = $pager->fetchAll(
+            $client->repositories(),
+            'branches',
+            [5315609]
+        );
+
+        $this->assertIsArray($branches);
+        $this->assertTrue(isset($response[0]));
+        $this->assertTrue(isset($response[0]['name']));
     }
 }
