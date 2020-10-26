@@ -5,6 +5,12 @@ CHANGE LOG
 ## 10.2.0 (UPCOMING)
 
 
+## 10.1.1 (26/10/2020)
+
+* Fixed phpdoc typo
+* Fixed broken query builder
+
+
 ## 10.1.0 (24/10/2020)
 
 * Added method to get protected branches for a project
