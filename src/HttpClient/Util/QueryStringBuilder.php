@@ -15,19 +15,15 @@ final class QueryStringBuilder
      * Indexed arrays are encoded using empty squared brackets ([]) unlike
      * `http_build_query`.
      *
-     * @param mixed $query
+     * @param array $query
      *
      * @return string
      */
-    public static function build($query)
+    public static function build(array $query)
     {
-        if (!\is_array($query)) {
-            return self::rawurlencode($query);
-        }
-
-        return \implode('&', \array_map(function ($value, $key) {
+        return \sprintf('?%s', \implode('&', \array_map(function ($value, $key) {
             return self::encode($value, $key);
-        }, $query, \array_keys($query)));
+        }, $query, \array_keys($query))));
     }
 
     /**
