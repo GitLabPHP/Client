@@ -2,7 +2,7 @@ CHANGE LOG
 ==========
 
 
-## 10.1.1 (UPCOMING)
+## 10.1.1 (26/10/2020)
 
 * Fixed phpdoc typo
 * Fixed broken query builder
