@@ -101,6 +101,6 @@ class Schedules extends AbstractApi
     {
         $path = 'pipeline_schedules/'.self::encodePath($schedule_id).'/variables/'.self::encodePath($variable_key);
 
-        return $this->delete($this->getProjectPath($project_id, $path), $params);
+        return $this->delete($this->getProjectPath($project_id, $path));
     }
 }
