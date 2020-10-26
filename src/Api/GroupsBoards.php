@@ -7,8 +7,8 @@ namespace Gitlab\Api;
 class GroupsBoards extends AbstractApi
 {
     /**
-     * @param int|null $group_id
-     * @param array    $parameters
+     * @param int|string|null $group_id
+     * @param array           $parameters
      *
      * @return mixed
      */
