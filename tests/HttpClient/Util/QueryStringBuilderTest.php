@@ -12,22 +12,16 @@ class QueryStringBuilderTest extends TestCase
     /**
      * @dataProvider queryStringProvider
      *
-     * @param mixed  $query
+     * @param array  $query
      * @param string $expected
      */
-    public function testBuild($query, string $expected): void
+    public function testBuild(array $query, string $expected): void
     {
-        $this->assertSame($expected, QueryStringBuilder::build($query));
+        $this->assertSame(\sprintf('?%s', $expected), QueryStringBuilder::build($query));
     }
 
     public function queryStringProvider()
     {
-        //Scalar value.
-        yield [
-            'a project',
-            'a%20project',
-        ];
-
         //Indexed array.
         yield [
             ['iids' => [88, 86]],
