@@ -2,6 +2,11 @@ CHANGE LOG
 ==========
 
 
+## 10.0.2 (UPCOMING)
+
+* Fixed phpdoc typo
+
+
 ## 10.0.1 (24/10/2020)
 
 * Fixed using the name of a group as an ID
