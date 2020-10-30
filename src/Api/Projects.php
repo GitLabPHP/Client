@@ -853,7 +853,7 @@ class Projects extends AbstractApi
      * @param string              $value
      * @param bool|null           $protected
      * @param string|null         $environment_scope
-     * @param array<string,mixed> $parameters {
+     * @param array<string,mixed> $parameters   {
      *
      *      @var string $variable_type  env_var (default) or file
      * }
@@ -886,7 +886,7 @@ class Projects extends AbstractApi
      * @param string              $value
      * @param bool|null           $protected
      * @param string|null         $environment_scope
-     * @param array<string,mixed> $parameters {
+     * @param array<string,mixed> $parameters   {
      *
      *      @var string $variable_type  env_var (default) or file
      *}
