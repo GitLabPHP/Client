@@ -848,15 +848,19 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int|string  $project_id
-     * @param string      $key
-     * @param string      $value
-     * @param bool|null   $protected
+     * @param int|string $project_id
+     * @param string $key
+     * @param string $value
+     * @param bool|null $protected
      * @param string|null $environment_scope
+     * @param array<string,mixed> $parameters {
+     *
+     *      @var string $variable_type  env_var (default) or file
+     * }
      *
      * @return mixed
      */
-    public function addVariable($project_id, string $key, string $value, ?bool $protected = null, ?string $environment_scope = null)
+    public function addVariable($project_id, string $key, string $value, ?bool $protected = null, ?string $environment_scope = null, array $parameters = [])
     {
         $payload = [
             'key' => $key,
@@ -871,6 +875,8 @@ class Projects extends AbstractApi
             $payload['environment_scope'] = $environment_scope;
         }
 
+        $payload = \array_merge($parameters, $payload);
+
         return $this->post($this->getProjectPath($project_id, 'variables'), $payload);
     }
 
@@ -880,10 +886,14 @@ class Projects extends AbstractApi
      * @param string      $value
      * @param bool|null   $protected
      * @param string|null $environment_scope
+     * @param array<string,mixed> $parameters {
+     *
+     *      @var string $variable_type  env_var (default) or file
+     *}
      *
      * @return mixed
      */
-    public function updateVariable($project_id, string $key, string $value, ?bool $protected = null, ?string $environment_scope = null)
+    public function updateVariable($project_id, string $key, string $value, ?bool $protected = null, ?string $environment_scope = null, array $parameters = [])
     {
         $payload = [
             'value' => $value,
@@ -896,6 +906,8 @@ class Projects extends AbstractApi
         if ($environment_scope) {
             $payload['environment_scope'] = $environment_scope;
         }
+
+        $payload = \array_merge($parameters, $payload);
 
         return $this->put($this->getProjectPath($project_id, 'variables/'.self::encodePath($key)), $payload);
     }
