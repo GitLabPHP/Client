@@ -848,11 +848,11 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int|string $project_id
-     * @param string $key
-     * @param string $value
-     * @param bool|null $protected
-     * @param string|null $environment_scope
+     * @param int|string          $project_id
+     * @param string              $key
+     * @param string              $value
+     * @param bool|null           $protected
+     * @param string|null         $environment_scope
      * @param array<string,mixed> $parameters {
      *
      *      @var string $variable_type  env_var (default) or file
@@ -881,11 +881,11 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int|string  $project_id
-     * @param string      $key
-     * @param string      $value
-     * @param bool|null   $protected
-     * @param string|null $environment_scope
+     * @param int|string          $project_id
+     * @param string              $key
+     * @param string              $value
+     * @param bool|null           $protected
+     * @param string|null         $environment_scope
      * @param array<string,mixed> $parameters {
      *
      *      @var string $variable_type  env_var (default) or file

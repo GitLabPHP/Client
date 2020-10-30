@@ -1786,7 +1786,7 @@ class ProjectsTest extends TestCase
         $expectedArray = [
             'key' => 'DEPLOY_SERVER',
             'value' => 'stage.example.com',
-            'environment_scope' => 'staging'
+            'environment_scope' => 'staging',
         ];
 
         $api = $this->getApiMock();
