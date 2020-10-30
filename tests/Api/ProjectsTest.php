@@ -1612,6 +1612,53 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldAddVariableWithEnvironmentAndVariableType(): void
+    {
+        $expectedArray = [
+            'key' => 'DEPLOY_SERVER',
+            'value' => 'stage.example.com',
+            'environment_scope' => 'staging',
+            'variable_type' => 'file',
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/variables', $expectedArray)
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals(
+            $expectedArray,
+            $api->addVariable(1, 'DEPLOY_SERVER', 'stage.example.com', null, 'staging', ['variable_type' => 'file'])
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAddVariableWithEnvironmentFromParameterList(): void
+    {
+        $expectedArray = [
+            'key' => 'DEPLOY_SERVER',
+            'value' => 'stage.example.com',
+            'environment_scope' => 'staging',
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/variables', $expectedArray)
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals(
+            $expectedArray,
+            $api->addVariable(1, 'DEPLOY_SERVER', 'stage.example.com', null, 'staging', ['environment_scope' => 'production'])
+        );
+    }
+
+    /**
+     * @test
+     */
     public function shouldUpdateVariable(): void
     {
         $expectedKey = 'ftp_port';
@@ -1701,6 +1748,59 @@ class ProjectsTest extends TestCase
         $this->assertEquals(
             $expectedArray,
             $api->updateVariable(1, 'DEPLOY_SERVER', 'stage.example.com', true, 'staging')
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUpdateVariableWithEnvironmentAndVariableType(): void
+    {
+        $expectedArray = [
+            'key' => 'DEPLOY_SERVER',
+            'value' => 'stage.example.com',
+            'environment_scope' => 'staging',
+            'variable_type' => 'file',
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with(
+                'projects/1/variables/DEPLOY_SERVER',
+                ['value' => 'stage.example.com', 'environment_scope' => 'staging', 'variable_type' => 'file']
+            )
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals(
+            $expectedArray,
+            $api->updateVariable(1, 'DEPLOY_SERVER', 'stage.example.com', null, 'staging', ['variable_type' => 'file'])
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUpdateVariableWithEnvironmentFromParameterList(): void
+    {
+        $expectedArray = [
+            'key' => 'DEPLOY_SERVER',
+            'value' => 'stage.example.com',
+            'environment_scope' => 'staging',
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with(
+                'projects/1/variables/DEPLOY_SERVER',
+                ['value' => 'stage.example.com', 'environment_scope' => 'staging']
+            )
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals(
+            $expectedArray,
+            $api->updateVariable(1, 'DEPLOY_SERVER', 'stage.example.com', null, 'staging', ['environment_scope' => 'production'])
         );
     }
 
