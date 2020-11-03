@@ -490,7 +490,7 @@ class RepositoriesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/repository/compare?from=master&to=feature&straight=true')
+            ->with('projects/1/repository/compare', ['from' => 'master', 'to' => 'feature', 'straight' => 'true'])
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -507,7 +507,7 @@ class RepositoriesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/repository/compare?from=master&to=feature&straight=false')
+            ->with('projects/1/repository/compare', ['from' => 'master', 'to' => 'feature', 'straight' => 'false'])
             ->will($this->returnValue($expectedArray))
         ;
 
