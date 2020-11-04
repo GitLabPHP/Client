@@ -115,6 +115,12 @@ class MergeRequests extends AbstractApi
         $resolver->setDefined('with_merge_status_recheck')
             ->setAllowedTypes('with_merge_status_recheck', 'bool')
         ;
+        $resolver->setDefined('approved_by_ids')
+            ->setAllowedTypes('approved_by_ids', 'array')
+            ->setAllowedValues('approved_by_ids', function (array $value) {
+                return \count($value) === \count(\array_filter($value, 'is_int'));
+            })
+        ;
 
         $path = null === $project_id ? 'merge_requests' : $this->getProjectPath($project_id, 'merge_requests');
 
