@@ -10,13 +10,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Removed models API
 * Bumped min PHP to 7.2.5
 
-[11.0.0-RC1]: https://github.com/GitLabPHP/Client/compare/10.2.0...11.0.0-RC1
+[11.0.0-RC1]: https://github.com/GitLabPHP/Client/compare/10.3.0...11.0.0-RC1
+
+## [10.3.0] - UPCOMING
+
+[10.3.0]: https://github.com/GitLabPHP/Client/compare/10.2.0...10.3.0
 
 ## [10.2.0] - UPCOMING
 
 * Added variable_type to addVariable and updateVariable
+* Added get pipeline bridget jobs method
 
-[10.2.0]: https://github.com/GitLabPHP/Client/compare/10.1.1...10.2.0
+[10.2.0]: https://github.com/GitLabPHP/Client/compare/10.1.2...10.2.0
+
+## [10.1.2] - 2020-11-09
+
+* Fixed comparing repositories
+
+[10.1.2]: https://github.com/GitLabPHP/Client/compare/10.1.1...10.1.2
 
 ## [10.1.1] - 2020-10-26
 

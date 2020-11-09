@@ -66,6 +66,7 @@ class MergeRequestsTest extends TestCase
                 'source_branch' => 'develop',
                 'target_branch' => 'master',
                 'with_merge_status_recheck' => true,
+                'approved_by_ids' => [1],
             ])
             ->will($this->returnValue($expectedArray))
         ;
@@ -84,6 +85,7 @@ class MergeRequestsTest extends TestCase
             'source_branch' => 'develop',
             'target_branch' => 'master',
             'with_merge_status_recheck' => true,
+            'approved_by_ids' => [1],
         ]));
     }
 
