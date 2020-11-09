@@ -30,13 +30,13 @@ This version supports [PHP](https://php.net) 7.1-7.4. To get started, simply req
 #### PHP 7.1+:
 
 ```
-$ composer require m4tthumphrey/php-gitlab-api:^10.2 php-http/guzzle6-adapter:^2.0.1 http-interop/http-factory-guzzle:^1.0
+$ composer require m4tthumphrey/php-gitlab-api:^10.3 php-http/guzzle6-adapter:^2.0.1 http-interop/http-factory-guzzle:^1.0
 ```
 
 #### PHP 7.2+:
 
 ```
-$ composer require m4tthumphrey/php-gitlab-api:^10.2 guzzlehttp/guzzle:^7.0.1 http-interop/http-factory-guzzle:^1.0
+$ composer require m4tthumphrey/php-gitlab-api:^10.3 guzzlehttp/guzzle:^7.0.1 http-interop/http-factory-guzzle:^1.0
 ```
 
 ### Framework Integration
@@ -44,7 +44,7 @@ $ composer require m4tthumphrey/php-gitlab-api:^10.2 guzzlehttp/guzzle:^7.0.1 ht
 #### Laravel 6+:
 
 ```
-$ composer require graham-campbell/gitlab:^4.2 guzzlehttp/guzzle:^7.0.1 http-interop/http-factory-guzzle:^1.0
+$ composer require graham-campbell/gitlab:^4.3 guzzlehttp/guzzle:^7.0.1 http-interop/http-factory-guzzle:^1.0
 ```
 
 #### Symfony 4:
@@ -109,7 +109,7 @@ $builder->addPlugin($plugin);
 $client = new Gitlab\Client($builder);
 ```
 
-One can read more about HTTPlug plugins [here](https://docs.php-http.org/en/latest/plugins/introduction.html#how-it-works). Take a look around the [API methods](https://github.com/GitLabPHP/Client/tree/10.2/src/Api), and please feel free to report any bugs, noting our [code of conduct](.github/CODE_OF_CONDUCT.md).
+One can read more about HTTPlug plugins [here](https://docs.php-http.org/en/latest/plugins/introduction.html#how-it-works). Take a look around the [API methods](https://github.com/GitLabPHP/Client/tree/10.3/src/Api), and please feel free to report any bugs, noting our [code of conduct](.github/CODE_OF_CONDUCT.md).
 
 
 ## Contributing
