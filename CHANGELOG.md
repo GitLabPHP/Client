@@ -10,7 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Added variable_type to addVariable and updateVariable
 * Added get pipeline bridget jobs method
 
-[10.2.0]: https://github.com/GitLabPHP/Client/compare/10.1.1...10.2.0
+[10.2.0]: https://github.com/GitLabPHP/Client/compare/10.1.2...10.2.0
+
+## [10.1.2] - 2020-11-09
+
+* Fixed comparing repositories
+
+[10.1.2]: https://github.com/GitLabPHP/Client/compare/10.1.1...10.1.2
 
 ## [10.1.1] - 2020-10-26
 
