@@ -56,6 +56,28 @@ class JobsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetPipelineBridges(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'name' => 'A bridge job'],
+            ['id' => 2, 'name' => 'Another bridge job'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/pipelines/2/bridges', [
+                'scope' => ['pending', 'running'],
+            ])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->pipelineBridges(1, 2, ['scope' => [Jobs::SCOPE_PENDING, Jobs::SCOPE_RUNNING]]));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetJob(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'A job'];
