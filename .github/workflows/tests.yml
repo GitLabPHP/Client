@@ -35,7 +35,7 @@ jobs:
           command: composer remove php-http/guzzle6-adapter --dev --no-update --no-interaction
         if: matrix.php >= 8
 
-      - name: Install Guzzle 7
+      - name: Require Guzzle 7
         uses: nick-invision/retry@v1
         with:
           timeout_minutes: 5
