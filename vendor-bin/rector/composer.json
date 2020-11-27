@@ -1,7 +1,7 @@
 {
     "require": {
         "php": "^7.2.5",
-        "rector/rector-prefixed": "0.8.48"
+        "rector/rector-prefixed": "0.8.52"
     },
     "config": {
         "preferred-install": "dist"
