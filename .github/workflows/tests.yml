@@ -27,13 +27,6 @@ jobs:
       - name: Setup Problem Matchers
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
 
-      - name: Install Dependencies
-        uses: nick-invision/retry@v1
-        with:
-          timeout_minutes: 5
-          max_attempts: 5
-          command: composer update --no-interaction --no-progress
-
       - name: Remove Guzzle 6
         uses: nick-invision/retry@v1
         with:
@@ -49,6 +42,13 @@ jobs:
           max_attempts: 5
           command: composer require php-http/guzzle7-adapter --dev --no-update --no-interaction
         if: matrix.php >= 8
+
+      - name: Install Dependencies
+        uses: nick-invision/retry@v1
+        with:
+          timeout_minutes: 5
+          max_attempts: 5
+          command: composer update --no-interaction --no-progress
 
       - name: Install PHPUnit
         uses: nick-invision/retry@v1
