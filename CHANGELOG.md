@@ -8,11 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [11.0.0-RC1] - UPCOMING
 
 * Removed models API
-* Bumped min PHP to 7.2.5
+* Dropped support for PHP 7.1
 
 [11.0.0-RC1]: https://github.com/GitLabPHP/Client/compare/10.3.0...11.0.0-RC1
 
-## [10.3.0] - UPCOMING
+## [10.4.0] - UPCOMING
+
+[10.4.0]: https://github.com/GitLabPHP/Client/compare/10.3.0...10.4.0
+
+## [10.3.0] - 2020-11-27
 
 * Support PHP 8.0
 
