@@ -1,7 +1,7 @@
 {
     "require": {
         "php": "^7.2.5 || ^8.0",
-        "phpstan/phpstan": "~0.12.54",
+        "phpstan/phpstan": "~0.12.57",
         "phpstan/phpstan-deprecation-rules": "~0.12.5",
         "phpstan/phpstan-strict-rules": "~0.12.5",
         "thecodingmachine/phpstan-strict-rules": "~0.12.1",
