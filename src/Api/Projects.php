@@ -711,26 +711,25 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
+     * @param int        $label_id
      * @param array      $parameters
      *
      * @return mixed
      */
-    public function updateLabel($project_id, array $parameters)
+    public function updateLabel($project_id, int $label_id, array $parameters)
     {
-        return $this->put($this->getProjectPath($project_id, 'labels'), $parameters);
+        return $this->put($this->getProjectPath($project_id, 'labels/'.self::encodePath($label_id)), $parameters);
     }
 
     /**
      * @param int|string $project_id
-     * @param string     $name
+     * @param int        $label_id
      *
      * @return mixed
      */
-    public function removeLabel($project_id, string $name)
+    public function removeLabel($project_id, int $label_id)
     {
-        return $this->delete($this->getProjectPath($project_id, 'labels'), [
-            'name' => $name,
-        ]);
+        return $this->delete($this->getProjectPath($project_id, 'labels/'.self::encodePath($label_id)));
     }
 
     /**

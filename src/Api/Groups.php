@@ -312,26 +312,25 @@ class Groups extends AbstractApi
 
     /**
      * @param int|string $group_id
+     * @param int        $label_id
      * @param array      $params
      *
      * @return mixed
      */
-    public function updateLabel($group_id, array $params)
+    public function updateLabel($group_id, int $label_id, array $params)
     {
-        return $this->put('groups/'.self::encodePath($group_id).'/labels', $params);
+        return $this->put('groups/'.self::encodePath($group_id).'/labels/'.self::encodePath($label_id), $params);
     }
 
     /**
      * @param int|string $group_id
-     * @param string     $name
+     * @param int        $label_id
      *
      * @return mixed
      */
-    public function removeLabel($group_id, string $name)
+    public function removeLabel($group_id', int $label_id)
     {
-        return $this->delete('groups/'.self::encodePath($group_id).'/labels', [
-            'name' => $name,
-        ]);
+        return $this->delete('groups/'.self::encodePath($group_id).'/labels/'.self::encodePath($label_id));
     }
 
     /**
