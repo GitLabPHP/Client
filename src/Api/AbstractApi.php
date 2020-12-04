@@ -271,7 +271,7 @@ abstract class AbstractApi implements ApiInterface
         foreach ($files as $name => $file) {
             $builder->addResource($name, self::tryFopen($file, 'r'), [
                 'headers' => [
-                    'Content-Type' => self::guessFileContentType($file),
+                    ResponseMediator::CONTENT_TYPE_HEADER => self::guessFileContentType($file),
                 ],
                 'filename' => \basename($file),
             ]);
@@ -304,7 +304,7 @@ abstract class AbstractApi implements ApiInterface
     {
         $contentType = \sprintf('%s; boundary=%s', ResponseMediator::MULTIPART_CONTENT_TYPE, $builder->getBoundary());
 
-        return \array_merge(['Content-Type' => $contentType], $headers);
+        return \array_merge([ResponseMediator::CONTENT_TYPE_HEADER => $contentType], $headers);
     }
 
     /**
@@ -336,7 +336,7 @@ abstract class AbstractApi implements ApiInterface
      */
     private static function addJsonContentType(array $headers)
     {
-        return \array_merge(['Content-Type' => ResponseMediator::JSON_CONTENT_TYPE], $headers);
+        return \array_merge([ResponseMediator::CONTENT_TYPE_HEADER => ResponseMediator::JSON_CONTENT_TYPE], $headers);
     }
 
     /**
