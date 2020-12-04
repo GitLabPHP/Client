@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Removed models API
 * Dropped support for PHP 7.1
 * Updated to latest labels API
+* Made builder class final
 
 [11.0.0-RC1]: https://github.com/GitLabPHP/Client/compare/10.4.0...11.0.0-RC1
 

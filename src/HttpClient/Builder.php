@@ -26,7 +26,7 @@ use Psr\Http\Message\UriFactoryInterface;
  * @author Tobias Nyholm <tobias.nyholm@gmail.com>
  * @author Graham Campbell <graham@alt-three.com>
  */
-class Builder
+final class Builder
 {
     /**
      * The object that sends HTTP messages.
