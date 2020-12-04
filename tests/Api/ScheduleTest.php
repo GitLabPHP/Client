@@ -125,6 +125,73 @@ class ScheduleTest extends TestCase
         $this->assertEquals($expectedBool, $api->remove(1, 2));
     }
 
+    /**
+     * @test
+     */
+    public function shouldCreateScheduleVariable(): void
+    {
+        $expectedArray = [
+            'key'           => 'FOO_BAR',
+            'variable_type' => 'env_var',
+            'value'         => 'BAZ',
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/pipeline_schedules/2/variables', $expectedArray)
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->addVariable(
+            1,
+            2,
+            $expectedArray
+        ));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldUpdateScheduleVariable(): void
+    {
+        $variabelName = 'FOO_BAR';
+        $expectedArray = [
+            'key'           => $variabelName,
+            'variable_type' => 'env_var',
+            'value'         => 'BAZ',
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/pipeline_schedules/2/variables/' . $variabelName, $expectedArray)
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->updateVariable(
+            1,
+            2,
+            $variabelName,
+            $expectedArray
+        ));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRemoveScheduleVariable(): void
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/pipeline_schedules/2/variables/FOO_BAR')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->removeVariable(1, 2, 'FOO_BAR'));
+    }
+
     protected function getApiClass()
     {
         return Schedules::class;
