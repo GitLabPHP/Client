@@ -16,6 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [10.4.0]: https://github.com/GitLabPHP/Client/compare/10.3.1...10.4.0
 
+* Add min_access_level option to group search
+
 ## [10.3.1] - 2020-12-04
 
 * Work around GitLab's API returning bad JSON for some endpoints
