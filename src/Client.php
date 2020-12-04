@@ -31,7 +31,7 @@ use Gitlab\Api\Version;
 use Gitlab\Api\Wiki;
 use Gitlab\HttpClient\Builder;
 use Gitlab\HttpClient\Plugin\Authentication;
-use Gitlab\HttpClient\Plugin\GitlabExceptionThrower;
+use Gitlab\HttpClient\Plugin\ExceptionThrower;
 use Gitlab\HttpClient\Plugin\History;
 use Http\Client\Common\HttpMethodsClientInterface;
 use Http\Client\Common\Plugin\AddHostPlugin;
@@ -103,7 +103,7 @@ class Client
         $this->httpClientBuilder = $builder = $httpClientBuilder ?? new Builder();
         $this->responseHistory = new History();
 
-        $builder->addPlugin(new GitlabExceptionThrower());
+        $builder->addPlugin(new ExceptionThrower());
         $builder->addPlugin(new HistoryPlugin($this->responseHistory));
         $builder->addPlugin(new HeaderDefaultsPlugin([
             'User-Agent' => self::USER_AGENT,

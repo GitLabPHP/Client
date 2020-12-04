@@ -22,7 +22,7 @@ use Psr\Http\Message\ResponseInterface;
  *
  * @internal
  */
-final class GitlabExceptionThrower implements Plugin
+final class ExceptionThrower implements Plugin
 {
     /**
      * Handle the request and return the response coming from the next callable.
