@@ -365,11 +365,11 @@ class GroupsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('groups/1/labels', ['name' => 'bug', 'new_name' => 'big-bug', 'color' => '#00ffff'])
+            ->with('groups/1/labels/123', ['new_name' => 'big-bug', 'color' => '#00ffff'])
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->updateLabel(1, ['name' => 'bug', 'new_name' => 'big-bug', 'color' => '#00ffff']));
+        $this->assertEquals($expectedArray, $api->updateLabel(1, 123, ['new_name' => 'big-bug', 'color' => '#00ffff']));
     }
 
     /**
@@ -382,11 +382,11 @@ class GroupsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('delete')
-            ->with('groups/1/labels', ['name' => 'bug'])
+            ->with('groups/1/labels/456', [])
             ->will($this->returnValue($expectedBool))
         ;
 
-        $this->assertEquals($expectedBool, $api->removeLabel(1, 'bug'));
+        $this->assertEquals($expectedBool, $api->removeLabel(1, 456));
     }
 
     public function shouldGetVariables(): void

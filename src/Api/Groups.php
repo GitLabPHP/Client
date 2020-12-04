@@ -328,7 +328,7 @@ class Groups extends AbstractApi
      *
      * @return mixed
      */
-    public function removeLabel($group_id', int $label_id)
+    public function removeLabel($group_id, int $label_id)
     {
         return $this->delete('groups/'.self::encodePath($group_id).'/labels/'.self::encodePath($label_id));
     }
