@@ -1,6 +1,6 @@
 install:
-	@docker run -it -w /data -v ${PWD}:/data:delegated -v ~/.composer:/root/.composer:delegated --entrypoint composer --rm registry.gitlab.com/grahamcampbell/php:7.4-base update
-	@docker run -it -w /data -v ${PWD}:/data:delegated -v ~/.composer:/root/.composer:delegated --entrypoint composer --rm registry.gitlab.com/grahamcampbell/php:7.4-base bin all update
+	@docker run -it -w /data -v ${PWD}:/data:delegated -v composer:/root/.composer:delegated --entrypoint=composer --rm registry.gitlab.com/grahamcampbell/php:7.4-base update
+	@docker run -it -w /data -v ${PWD}:/data:delegated -v composer:/root/.composer:delegated --entrypoint composer --rm registry.gitlab.com/grahamcampbell/php:7.4-base bin all update
 
 phpunit:
 	@docker run -it -w /data -v ${PWD}:/data:delegated --entrypoint vendor/bin/phpunit --rm registry.gitlab.com/grahamcampbell/php:7.4-cli
