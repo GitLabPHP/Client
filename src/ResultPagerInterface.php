@@ -14,8 +14,8 @@ declare(strict_types=1);
 
 namespace Gitlab;
 
-use Gitlab\Api\AbstractApi;
 use Generator;
+use Gitlab\Api\AbstractApi;
 
 /**
  * This is the result pager interface.
