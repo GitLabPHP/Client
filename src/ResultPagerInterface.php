@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gitlab;
 
-use Gitlab\Api\ApiInterface;
+use Gitlab\Api\AbstractApi;
 
 /**
  * This is the result pager interface.
@@ -28,41 +28,41 @@ interface ResultPagerInterface
     /**
      * Fetch a single result from an api call.
      *
-     * @param ApiInterface $api
-     * @param string       $method
-     * @param array        $parameters
+     * @param AbstractApi $api
+     * @param string      $method
+     * @param array       $parameters
      *
      * @throws \Http\Client\Exception
      *
      * @return array
      */
-    public function fetch(ApiInterface $api, string $method, array $parameters = []);
+    public function fetch(AbstractApi $api, string $method, array $parameters = []);
 
     /**
      * Fetch all results from an api call.
      *
-     * @param ApiInterface $api
-     * @param string       $method
-     * @param array        $parameters
+     * @param AbstractApi $api
+     * @param string      $method
+     * @param array       $parameters
      *
      * @throws \Http\Client\Exception
      *
      * @return array
      */
-    public function fetchAll(ApiInterface $api, string $method, array $parameters = []);
+    public function fetchAll(AbstractApi $api, string $method, array $parameters = []);
 
     /**
      * Lazily fetch all results from an api call.
      *
-     * @param ApiInterface $api
-     * @param string       $method
-     * @param array        $parameters
+     * @param AbstractApi $api
+     * @param string      $method
+     * @param array       $parameters
      *
      * @throws \Http\Client\Exception
      *
      * @return \Generator
      */
-    public function fetchAllLazy(ApiInterface $api, string $method, array $parameters = []);
+    public function fetchAllLazy(AbstractApi $api, string $method, array $parameters = []);
 
     /**
      * Check to determine the availability of a next page.

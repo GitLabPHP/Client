@@ -6,7 +6,7 @@ parameters:
 			path: src/Api/AbstractApi.php
 
 		-
-			message: "#^Variable method call on Gitlab\\\\Api\\\\ApiInterface\\.$#"
+			message: "#^Variable method call on Gitlab\\\\Api\\\\AbstractApi\\.$#"
 			count: 1
 			path: src/ResultPager.php
 
