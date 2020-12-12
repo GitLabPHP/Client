@@ -85,7 +85,7 @@ class IssuesStatistics extends AbstractApi
         $resolver->setDefined('search')
             ->setAllowedTypes('search', 'string');
 
-        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value) {
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
             return $value->format('c');
         };
 
@@ -105,7 +105,7 @@ class IssuesStatistics extends AbstractApi
             ->setAllowedTypes('updated_before', \DateTimeInterface::class)
             ->setNormalizer('updated_before', $datetimeNormalizer);
 
-        $booleanNormalizer = function (Options $resolver, $value) {
+        $booleanNormalizer = function (Options $resolver, $value): string {
             return $value ? 'true' : 'false';
         };
 

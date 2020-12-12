@@ -432,7 +432,7 @@ class Issues extends AbstractApi
     protected function createOptionsResolver(): OptionsResolver
     {
         $resolver = parent::createOptionsResolver();
-        $booleanNormalizer = function (Options $resolver, $value) {
+        $booleanNormalizer = function (Options $resolver, $value): string {
             return $value ? 'true' : 'false';
         };
 

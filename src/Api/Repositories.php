@@ -201,10 +201,10 @@ class Repositories extends AbstractApi
     public function commits($project_id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
-        $datetimeNormalizer = function (Options $options, \DateTimeInterface $value) {
+        $datetimeNormalizer = function (Options $options, \DateTimeInterface $value): string {
             return $value->format('c');
         };
-        $booleanNormalizer = function (Options $resolver, $value) {
+        $booleanNormalizer = function (Options $resolver, $value): string {
             return $value ? 'true' : 'false';
         };
 
@@ -470,7 +470,7 @@ class Repositories extends AbstractApi
     public function cherryPick($project_id, string $sha, array $params = [])
     {
         $resolver = $this->createOptionsResolver();
-        $booleanNormalizer = function (Options $resolver, $value) {
+        $booleanNormalizer = function (Options $resolver, $value): string {
             return $value ? 'true' : 'false';
         };
 

@@ -49,7 +49,7 @@ class Projects extends AbstractApi
     public function all(array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
-        $booleanNormalizer = function (Options $resolver, $value) {
+        $booleanNormalizer = function (Options $resolver, $value): string {
             return $value ? 'true' : 'false';
         };
         $resolver->setDefined('archived')
@@ -114,7 +114,7 @@ class Projects extends AbstractApi
     public function show($project_id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
-        $booleanNormalizer = function (Options $resolver, $value) {
+        $booleanNormalizer = function (Options $resolver, $value): bool {
             return (bool) $value;
         };
         $resolver->setDefined('statistics')
@@ -251,10 +251,10 @@ class Projects extends AbstractApi
     public function pipelines($project_id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
-        $booleanNormalizer = function (Options $resolver, $value) {
+        $booleanNormalizer = function (Options $resolver, $value): string {
             return $value ? 'true' : 'false';
         };
-        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value) {
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
             return $value->format('Y-m-d');
         };
 
@@ -671,7 +671,7 @@ class Projects extends AbstractApi
     public function events($project_id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
-        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value) {
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
             return $value->format('Y-m-d');
         };
 
@@ -977,7 +977,7 @@ class Projects extends AbstractApi
     {
         $resolver = $this->createOptionsResolver();
 
-        $datetimeNormalizer = function (OptionsResolver $optionsResolver, \DateTimeInterface $value) {
+        $datetimeNormalizer = function (OptionsResolver $optionsResolver, \DateTimeInterface $value): string {
             return $value->format('Y-m-d');
         };
 

@@ -220,7 +220,7 @@ class Groups extends AbstractApi
     public function projects($id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
-        $booleanNormalizer = function (Options $resolver, $value) {
+        $booleanNormalizer = function (Options $resolver, $value): string {
             return $value ? 'true' : 'false';
         };
 
@@ -427,7 +427,7 @@ class Groups extends AbstractApi
     private function getGroupSearchResolver()
     {
         $resolver = $this->createOptionsResolver();
-        $booleanNormalizer = function (Options $resolver, $value) {
+        $booleanNormalizer = function (Options $resolver, $value): string {
             return $value ? 'true' : 'false';
         };
 

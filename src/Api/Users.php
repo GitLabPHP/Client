@@ -37,7 +37,7 @@ class Users extends AbstractApi
     public function all(array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
-        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value) {
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
             return $value->format('c');
         };
 
@@ -103,7 +103,7 @@ class Users extends AbstractApi
     public function usersProjects(int $id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
-        $booleanNormalizer = function (Options $resolver, $value) {
+        $booleanNormalizer = function (Options $resolver, $value): string {
             return $value ? 'true' : 'false';
         };
         $resolver->setDefined('archived')
@@ -443,7 +443,7 @@ class Users extends AbstractApi
     public function events(int $user_id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
-        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value) {
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
             return $value->format('Y-m-d');
         };
 

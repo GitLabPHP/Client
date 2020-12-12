@@ -66,7 +66,7 @@ class MergeRequests extends AbstractApi
     public function all($project_id = null, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
-        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value) {
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
             return $value->format('c');
         };
         $resolver->setDefined('iids')
