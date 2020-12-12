@@ -76,7 +76,7 @@ final class Authentication implements Plugin
      *
      * @return array<string,string>
      */
-    private static function buildHeaders(string $method, string $token, string $sudo = null)
+    private static function buildHeaders(string $method, string $token, string $sudo = null): array
     {
         $headers = [];
 

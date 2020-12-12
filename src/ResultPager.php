@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Gitlab;
 
 use Closure;
+use Generator;
 use Gitlab\Api\AbstractApi;
 use Gitlab\Exception\RuntimeException;
 use Gitlab\HttpClient\Message\ResponseMediator;
@@ -87,7 +88,7 @@ final class ResultPager implements ResultPagerInterface
      *
      * @return array
      */
-    public function fetch(AbstractApi $api, string $method, array $parameters = [])
+    public function fetch(AbstractApi $api, string $method, array $parameters = []): array
     {
         $result = self::bindPerPage($api, $this->perPage)->$method(...$parameters);
 
@@ -111,7 +112,7 @@ final class ResultPager implements ResultPagerInterface
      *
      * @return array
      */
-    public function fetchAll(AbstractApi $api, string $method, array $parameters = [])
+    public function fetchAll(AbstractApi $api, string $method, array $parameters = []): array
     {
         return \iterator_to_array($this->fetchAllLazy($api, $method, $parameters));
     }
@@ -127,7 +128,7 @@ final class ResultPager implements ResultPagerInterface
      *
      * @return \Generator
      */
-    public function fetchAllLazy(AbstractApi $api, string $method, array $parameters = [])
+    public function fetchAllLazy(AbstractApi $api, string $method, array $parameters = []): Generator
     {
         /** @var mixed $value */
         foreach ($this->fetch($api, $method, $parameters) as $value) {
@@ -147,7 +148,7 @@ final class ResultPager implements ResultPagerInterface
      *
      * @return bool
      */
-    public function hasNext()
+    public function hasNext(): bool
     {
         return isset($this->pagination['next']);
     }
@@ -159,7 +160,7 @@ final class ResultPager implements ResultPagerInterface
      *
      * @return array
      */
-    public function fetchNext()
+    public function fetchNext(): array
     {
         return $this->get('next');
     }
@@ -169,7 +170,7 @@ final class ResultPager implements ResultPagerInterface
      *
      * @return bool
      */
-    public function hasPrevious()
+    public function hasPrevious(): bool
     {
         return isset($this->pagination['prev']);
     }
@@ -181,7 +182,7 @@ final class ResultPager implements ResultPagerInterface
      *
      * @return array
      */
-    public function fetchPrevious()
+    public function fetchPrevious(): array
     {
         return $this->get('prev');
     }
@@ -193,7 +194,7 @@ final class ResultPager implements ResultPagerInterface
      *
      * @return array
      */
-    public function fetchFirst()
+    public function fetchFirst(): array
     {
         return $this->get('first');
     }
@@ -205,7 +206,7 @@ final class ResultPager implements ResultPagerInterface
      *
      * @return array
      */
-    public function fetchLast()
+    public function fetchLast(): array
     {
         return $this->get('last');
     }
@@ -229,7 +230,7 @@ final class ResultPager implements ResultPagerInterface
      *
      * @return array
      */
-    private function get(string $key)
+    private function get(string $key): array
     {
         $pagination = $this->pagination[$key] ?? null;
 
@@ -256,7 +257,7 @@ final class ResultPager implements ResultPagerInterface
      *
      * @return \Gitlab\Api\AbstractApi
      */
-    private static function bindPerPage(AbstractApi $api, int $perPage)
+    private static function bindPerPage(AbstractApi $api, int $perPage): AbstractApi
     {
         $closure = Closure::bind(static function (AbstractApi $api) use ($perPage): AbstractApi {
             $clone = clone $api;

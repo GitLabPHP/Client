@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Updated to latest labels API
 * Made builder class final
 * Re-worked pagination
+* Client authenticate and setUrl now return void
+* Added additional return type enforcement
 
 [11.0.0-RC1]: https://github.com/GitLabPHP/Client/compare/10.4.0...11.0.0-RC1
 

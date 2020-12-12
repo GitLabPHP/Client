@@ -54,7 +54,7 @@ class IssuesStatistics extends AbstractApi
     /**
      * @return OptionsResolver
      */
-    protected function createOptionsResolver()
+    protected function createOptionsResolver(): OptionsResolver
     {
         $resolver = new OptionsResolver();
 

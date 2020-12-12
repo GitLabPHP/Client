@@ -484,7 +484,10 @@ class Repositories extends AbstractApi
         return $this->post($this->getProjectPath($project_id, 'repository/commits/'.self::encodePath($sha).'/cherry_pick'), $params);
     }
 
-    protected function createOptionsResolver()
+    /**
+     * @return OptionsResolver
+     */
+    protected function createOptionsResolver(): OptionsResolver
     {
         $allowedTypeValues = [
             self::TYPE_BRANCH,

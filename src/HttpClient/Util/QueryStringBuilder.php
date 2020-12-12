@@ -29,9 +29,9 @@ final class QueryStringBuilder
      *
      * @return string
      */
-    public static function build(array $query)
+    public static function build(array $query): string
     {
-        return \sprintf('?%s', \implode('&', \array_map(function ($value, $key) {
+        return \sprintf('?%s', \implode('&', \array_map(function ($value, $key): string {
             return self::encode($value, $key);
         }, $query, \array_keys($query))));
     }
@@ -40,11 +40,11 @@ final class QueryStringBuilder
      * Encode a value.
      *
      * @param mixed  $query
-     * @param string $prefix
+     * @param scalar $prefix
      *
      * @return string
      */
-    private static function encode($query, $prefix)
+    private static function encode($query, $prefix): string
     {
         if (!\is_array($query)) {
             return self::rawurlencode($prefix).'='.self::rawurlencode($query);
@@ -52,7 +52,7 @@ final class QueryStringBuilder
 
         $isList = self::isList($query);
 
-        return \implode('&', \array_map(function ($value, $key) use ($prefix, $isList) {
+        return \implode('&', \array_map(function ($value, $key) use ($prefix, $isList): string {
             $prefix = $isList ? $prefix.'[]' : $prefix.'['.$key.']';
 
             return self::encode($value, $prefix);
@@ -66,7 +66,7 @@ final class QueryStringBuilder
      *
      * @return bool
      */
-    private static function isList(array $query)
+    private static function isList(array $query): bool
     {
         if (0 === \count($query) || !isset($query[0])) {
             return false;
@@ -82,7 +82,7 @@ final class QueryStringBuilder
      *
      * @return string
      */
-    private static function rawurlencode($value)
+    private static function rawurlencode($value): string
     {
         if (false === $value) {
             return '0';

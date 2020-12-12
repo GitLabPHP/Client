@@ -130,7 +130,7 @@ class Client
      *
      * @return Client
      */
-    public static function createWithHttpClient(ClientInterface $httpClient)
+    public static function createWithHttpClient(ClientInterface $httpClient): Client
     {
         $builder = new Builder($httpClient);
 
@@ -140,7 +140,7 @@ class Client
     /**
      * @return DeployKeys
      */
-    public function deployKeys()
+    public function deployKeys(): DeployKeys
     {
         return new DeployKeys($this);
     }
@@ -148,7 +148,7 @@ class Client
     /**
      * @return Deployments
      */
-    public function deployments()
+    public function deployments(): Deployments
     {
         return new Deployments($this);
     }
@@ -156,7 +156,7 @@ class Client
     /**
      * @return Environments
      */
-    public function environments()
+    public function environments(): Environments
     {
         return new Environments($this);
     }
@@ -164,7 +164,7 @@ class Client
     /**
      * @return Groups
      */
-    public function groups()
+    public function groups(): Groups
     {
         return new Groups($this);
     }
@@ -172,7 +172,7 @@ class Client
     /**
      * @return GroupsBoards
      */
-    public function groupsBoards()
+    public function groupsBoards(): GroupsBoards
     {
         return new GroupsBoards($this);
     }
@@ -180,7 +180,7 @@ class Client
     /**
      * @return GroupsMilestones
      */
-    public function groupsMilestones()
+    public function groupsMilestones(): GroupsMilestones
     {
         return new GroupsMilestones($this);
     }
@@ -188,7 +188,7 @@ class Client
     /**
      * @return IssueBoards
      */
-    public function issueBoards()
+    public function issueBoards(): IssueBoards
     {
         return new IssueBoards($this);
     }
@@ -196,7 +196,7 @@ class Client
     /**
      * @return IssueLinks
      */
-    public function issueLinks()
+    public function issueLinks(): IssueLinks
     {
         return new IssueLinks($this);
     }
@@ -204,7 +204,7 @@ class Client
     /**
      * @return Issues
      */
-    public function issues()
+    public function issues(): Issues
     {
         return new Issues($this);
     }
@@ -212,7 +212,7 @@ class Client
     /**
      * @return IssuesStatistics
      */
-    public function issuesStatistics()
+    public function issuesStatistics(): IssuesStatistics
     {
         return new IssuesStatistics($this);
     }
@@ -220,7 +220,7 @@ class Client
     /**
      * @return Jobs
      */
-    public function jobs()
+    public function jobs(): Jobs
     {
         return new Jobs($this);
     }
@@ -228,7 +228,7 @@ class Client
     /**
      * @return Keys
      */
-    public function keys()
+    public function keys(): Keys
     {
         return new Keys($this);
     }
@@ -236,7 +236,7 @@ class Client
     /**
      * @return MergeRequests
      */
-    public function mergeRequests()
+    public function mergeRequests(): MergeRequests
     {
         return new MergeRequests($this);
     }
@@ -244,7 +244,7 @@ class Client
     /**
      * @return Milestones
      */
-    public function milestones()
+    public function milestones(): Milestones
     {
         return new Milestones($this);
     }
@@ -252,7 +252,7 @@ class Client
     /**
      * @return ProjectNamespaces
      */
-    public function namespaces()
+    public function namespaces(): ProjectNamespaces
     {
         return new ProjectNamespaces($this);
     }
@@ -260,7 +260,7 @@ class Client
     /**
      * @return Projects
      */
-    public function projects()
+    public function projects(): Projects
     {
         return new Projects($this);
     }
@@ -268,7 +268,7 @@ class Client
     /**
      * @return Repositories
      */
-    public function repositories()
+    public function repositories(): Repositories
     {
         return new Repositories($this);
     }
@@ -276,7 +276,7 @@ class Client
     /**
      * @return RepositoryFiles
      */
-    public function repositoryFiles()
+    public function repositoryFiles(): RepositoryFiles
     {
         return new RepositoryFiles($this);
     }
@@ -284,7 +284,7 @@ class Client
     /**
      * @return Schedules
      */
-    public function schedules()
+    public function schedules(): Schedules
     {
         return new Schedules($this);
     }
@@ -292,7 +292,7 @@ class Client
     /**
      * @return Snippets
      */
-    public function snippets()
+    public function snippets(): Snippets
     {
         return new Snippets($this);
     }
@@ -300,7 +300,7 @@ class Client
     /**
      * @return SystemHooks
      */
-    public function systemHooks()
+    public function systemHooks(): SystemHooks
     {
         return new SystemHooks($this);
     }
@@ -308,7 +308,7 @@ class Client
     /**
      * @return Tags
      */
-    public function tags()
+    public function tags(): Tags
     {
         return new Tags($this);
     }
@@ -316,7 +316,7 @@ class Client
     /**
      * @return Users
      */
-    public function users()
+    public function users(): Users
     {
         return new Users($this);
     }
@@ -324,7 +324,7 @@ class Client
     /**
      * @return Version
      */
-    public function version()
+    public function version(): Version
     {
         return new Version($this);
     }
@@ -332,7 +332,7 @@ class Client
     /**
      * @return Wiki
      */
-    public function wiki()
+    public function wiki(): Wiki
     {
         return new Wiki($this);
     }
@@ -344,29 +344,25 @@ class Client
      * @param string      $authMethod One of the AUTH_* class constants
      * @param string|null $sudo
      *
-     * @return $this
+     * @return void
      */
-    public function authenticate(string $token, string $authMethod, string $sudo = null)
+    public function authenticate(string $token, string $authMethod, string $sudo = null): void
     {
         $this->getHttpClientBuilder()->removePlugin(Authentication::class);
         $this->getHttpClientBuilder()->addPlugin(new Authentication($authMethod, $token, $sudo));
-
-        return $this;
     }
 
     /**
      * @param string $url
      *
-     * @return $this
+     * @return void
      */
-    public function setUrl(string $url)
+    public function setUrl(string $url): void
     {
         $uri = $this->getHttpClientBuilder()->getUriFactory()->createUri($url);
 
         $this->getHttpClientBuilder()->removePlugin(AddHostPlugin::class);
         $this->getHttpClientBuilder()->addPlugin(new AddHostPlugin($uri));
-
-        return $this;
     }
 
     /**
@@ -374,7 +370,7 @@ class Client
      *
      * @return ResponseInterface|null
      */
-    public function getLastResponse()
+    public function getLastResponse(): ?ResponseInterface
     {
         return $this->responseHistory->getLastResponse();
     }
@@ -384,7 +380,7 @@ class Client
      *
      * @return HttpMethodsClientInterface
      */
-    public function getHttpClient()
+    public function getHttpClient(): HttpMethodsClientInterface
     {
         return $this->getHttpClientBuilder()->getHttpClient();
     }
@@ -394,7 +390,7 @@ class Client
      *
      * @return StreamFactoryInterface
      */
-    public function getStreamFactory()
+    public function getStreamFactory(): StreamFactoryInterface
     {
         return $this->getHttpClientBuilder()->getStreamFactory();
     }
@@ -404,7 +400,7 @@ class Client
      *
      * @return Builder
      */
-    protected function getHttpClientBuilder()
+    protected function getHttpClientBuilder(): Builder
     {
         return $this->httpClientBuilder;
     }

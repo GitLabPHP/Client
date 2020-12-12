@@ -16,6 +16,7 @@ namespace Gitlab\HttpClient\Plugin;
 
 use Gitlab\Exception\ApiLimitExceededException;
 use Gitlab\Exception\ErrorException;
+use Gitlab\Exception\ExceptionInterface;
 use Gitlab\Exception\RuntimeException;
 use Gitlab\Exception\ValidationFailedException;
 use Gitlab\HttpClient\Message\ResponseMediator;
@@ -45,7 +46,7 @@ final class ExceptionThrower implements Plugin
      */
     public function handleRequest(RequestInterface $request, callable $next, callable $first): Promise
     {
-        return $next($request)->then(function (ResponseInterface $response) {
+        return $next($request)->then(function (ResponseInterface $response): ResponseInterface {
             $status = $response->getStatusCode();
 
             if ($status >= 400 && $status < 600) {
@@ -64,7 +65,7 @@ final class ExceptionThrower implements Plugin
      *
      * @return ErrorException|RuntimeException
      */
-    private static function createException(int $status, string $message)
+    private static function createException(int $status, string $message): ExceptionInterface
     {
         if (400 === $status || 422 === $status) {
             return new ValidationFailedException($message, $status);

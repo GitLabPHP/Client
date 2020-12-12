@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Gitlab\Api;
 
 use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Issues extends AbstractApi
 {
@@ -426,9 +427,9 @@ class Issues extends AbstractApi
     }
 
     /**
-     * {@inheritdoc}
+     * @return OptionsResolver
      */
-    protected function createOptionsResolver()
+    protected function createOptionsResolver(): OptionsResolver
     {
         $resolver = parent::createOptionsResolver();
         $booleanNormalizer = function (Options $resolver, $value) {

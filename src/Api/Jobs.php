@@ -236,9 +236,9 @@ class Jobs extends AbstractApi
     }
 
     /**
-     * {@inheritdoc}
+     * @return OptionsResolver
      */
-    protected function createOptionsResolver()
+    protected function createOptionsResolver(): OptionsResolver
     {
         $allowedScopeValues = [
             self::SCOPE_CANCELED,

@@ -20,6 +20,7 @@ use Gitlab\HttpClient\Message\ResponseMediator;
 use Gitlab\HttpClient\Util\JsonArray;
 use Gitlab\HttpClient\Util\QueryStringBuilder;
 use Http\Message\MultipartStream\MultipartStreamBuilder;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -74,7 +75,7 @@ abstract class AbstractApi
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    protected function getAsResponse(string $uri, array $params = [], array $headers = [])
+    protected function getAsResponse(string $uri, array $params = [], array $headers = []): ResponseInterface
     {
         if (null !== $this->perPage && !isset($params['per_page'])) {
             $params['per_page'] = $this->perPage;
@@ -176,7 +177,7 @@ abstract class AbstractApi
      *
      * @return string
      */
-    protected static function encodePath($uri)
+    protected static function encodePath($uri): string
     {
         return \rawurlencode((string) $uri);
     }
@@ -187,7 +188,7 @@ abstract class AbstractApi
      *
      * @return string
      */
-    protected function getProjectPath($id, string $uri)
+    protected function getProjectPath($id, string $uri): string
     {
         return 'projects/'.self::encodePath($id).'/'.$uri;
     }
@@ -197,18 +198,18 @@ abstract class AbstractApi
      *
      * @return OptionsResolver
      */
-    protected function createOptionsResolver()
+    protected function createOptionsResolver(): OptionsResolver
     {
         $resolver = new OptionsResolver();
         $resolver->setDefined('page')
             ->setAllowedTypes('page', 'int')
-            ->setAllowedValues('page', function ($value) {
+            ->setAllowedValues('page', function ($value): bool {
                 return $value > 0;
             })
         ;
         $resolver->setDefined('per_page')
             ->setAllowedTypes('per_page', 'int')
-            ->setAllowedValues('per_page', function ($value) {
+            ->setAllowedValues('per_page', function ($value): bool {
                 return $value > 0 && $value <= 100;
             })
         ;
@@ -224,7 +225,7 @@ abstract class AbstractApi
      *
      * @return string
      */
-    private static function prepareUri(string $uri, array $query = [])
+    private static function prepareUri(string $uri, array $query = []): string
     {
         $query = \array_filter($query, function ($value): bool {
             return null !== $value;
@@ -241,7 +242,7 @@ abstract class AbstractApi
      *
      * @return MultipartStreamBuilder
      */
-    private function createMultipartStreamBuilder(array $params = [], array $files = [])
+    private function createMultipartStreamBuilder(array $params = [], array $files = []): MultipartStreamBuilder
     {
         $builder = new MultipartStreamBuilder($this->client->getStreamFactory());
 
@@ -268,7 +269,7 @@ abstract class AbstractApi
      *
      * @return StreamInterface
      */
-    private static function prepareMultipartBody(MultipartStreamBuilder $builder)
+    private static function prepareMultipartBody(MultipartStreamBuilder $builder): StreamInterface
     {
         return $builder->build();
     }
@@ -281,7 +282,7 @@ abstract class AbstractApi
      *
      * @return array<string,string>
      */
-    private static function addMultipartContentType(array $headers, MultipartStreamBuilder $builder)
+    private static function addMultipartContentType(array $headers, MultipartStreamBuilder $builder): array
     {
         $contentType = \sprintf('%s; boundary=%s', ResponseMediator::MULTIPART_CONTENT_TYPE, $builder->getBoundary());
 
@@ -295,7 +296,7 @@ abstract class AbstractApi
      *
      * @return string|null
      */
-    private static function prepareJsonBody(array $params)
+    private static function prepareJsonBody(array $params): ?string
     {
         $params = \array_filter($params, function ($value): bool {
             return null !== $value;
@@ -315,7 +316,7 @@ abstract class AbstractApi
      *
      * @return array<string,string>
      */
-    private static function addJsonContentType(array $headers)
+    private static function addJsonContentType(array $headers): array
     {
         return \array_merge([ResponseMediator::CONTENT_TYPE_HEADER => ResponseMediator::JSON_CONTENT_TYPE], $headers);
     }
@@ -365,7 +366,7 @@ abstract class AbstractApi
      *
      * @return string
      */
-    private static function guessFileContentType(string $file)
+    private static function guessFileContentType(string $file): string
     {
         if (!\class_exists(\finfo::class, false)) {
             return ResponseMediator::STREAM_CONTENT_TYPE;

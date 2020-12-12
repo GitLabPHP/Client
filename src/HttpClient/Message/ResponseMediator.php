@@ -76,7 +76,7 @@ final class ResponseMediator
      *
      * @return array<string,string>
      */
-    public static function getPagination(ResponseInterface $response)
+    public static function getPagination(ResponseInterface $response): array
     {
         $header = self::getHeader($response, 'Link');
 
@@ -105,7 +105,7 @@ final class ResponseMediator
      *
      * @return string|null
      */
-    private static function getHeader(ResponseInterface $response, string $name)
+    private static function getHeader(ResponseInterface $response, string $name): ?string
     {
         $headers = $response->getHeader($name);
 
@@ -119,7 +119,7 @@ final class ResponseMediator
      *
      * @return string|null
      */
-    public static function getErrorMessage(ResponseInterface $response)
+    public static function getErrorMessage(ResponseInterface $response): ?string
     {
         try {
             $content = self::getContent($response);
@@ -167,7 +167,7 @@ final class ResponseMediator
      *
      * @return string
      */
-    private static function getMessageAsString(array $message)
+    private static function getMessageAsString(array $message): string
     {
         $format = '"%s" %s';
         $errors = [];
