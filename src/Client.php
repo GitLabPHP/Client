@@ -130,7 +130,7 @@ class Client
      *
      * @return Client
      */
-    public static function createWithHttpClient(ClientInterface $httpClient): Client
+    public static function createWithHttpClient(ClientInterface $httpClient): self
     {
         $builder = new Builder($httpClient);
 
