@@ -455,7 +455,7 @@ class Issues extends AbstractApi
             ->setAllowedValues('scope', ['created-by-me', 'assigned-to-me', 'all'])
         ;
         $resolver->setDefined('order_by')
-            ->setAllowedValues('order_by', ['created_at', 'updated_at'])
+            ->setAllowedValues('order_by', ['created_at', 'updated_at', 'priority', 'due_date', 'relative_position', 'label_priority', 'milestone_due', 'popularity', 'weight'])
         ;
         $resolver->setDefined('sort')
             ->setAllowedValues('sort', ['asc', 'desc'])

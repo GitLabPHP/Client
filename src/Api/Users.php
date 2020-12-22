@@ -191,13 +191,18 @@ class Users extends AbstractApi
     }
 
     /**
-     * @param int $id
+     * @param int   $id
+     * @param array $params {
+     *
+     *     @var bool   $hard_delete     If true, contributions that would usually be moved to the ghost user are
+     *                                  deleted instead, as well as groups owned solely by this user.
+     * }
      *
      * @return mixed
      */
-    public function remove(int $id)
+    public function remove(int $id, array $params = [])
     {
-        return $this->delete('users/'.self::encodePath($id));
+        return $this->delete('users/'.self::encodePath($id), $params);
     }
 
     /**
