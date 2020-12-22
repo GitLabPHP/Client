@@ -141,9 +141,9 @@ class ScheduleTest extends TestCase
     public function shouldCreateScheduleVariable(): void
     {
         $expectedArray = [
-            'key'           => 'FOO_BAR',
+            'key' => 'FOO_BAR',
             'variable_type' => 'env_var',
-            'value'         => 'BAZ',
+            'value' => 'BAZ',
         ];
 
         $api = $this->getApiMock();
@@ -166,15 +166,15 @@ class ScheduleTest extends TestCase
     {
         $variabelName = 'FOO_BAR';
         $expectedArray = [
-            'key'           => $variabelName,
+            'key' => $variabelName,
             'variable_type' => 'env_var',
-            'value'         => 'BAZ',
+            'value' => 'BAZ',
         ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/pipeline_schedules/2/variables/' . $variabelName, $expectedArray)
+            ->with('projects/1/pipeline_schedules/2/variables/'.$variabelName, $expectedArray)
             ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->updateVariable(
