@@ -85,7 +85,7 @@ class Client
      *
      * @var string
      */
-    private const USER_AGENT = 'gitlab-php-api-client/11.0';
+    private const USER_AGENT = 'gitlab-php-api-client/11.1';
 
     /**
      * The HTTP client builder.
