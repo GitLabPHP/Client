@@ -239,9 +239,9 @@ class Projects extends AbstractApi
      *
      * @return mixed
      */
-    public function triggerPipeline($projectId, string $ref, string $token, array $variables = []): array
+    public function triggerPipeline($project_id, string $ref, string $token, array $variables = [])
     {
-        return $this->post($this->getProjectPath($projectId, 'trigger/pipeline'), [
+        return $this->post($this->getProjectPath($project_id, 'trigger/pipeline'), [
             'ref' => $ref,
             'token' => $token,
             'variables' => $variables,
