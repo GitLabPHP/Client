@@ -569,9 +569,9 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->createTrigger(1, 'foobar'));
     }
 
-	/**
-	 * @test
-	 */
+    /**
+     * @test
+     */
     public function shouldTriggerPipeline(): void
     {
         $expectedArray = [
