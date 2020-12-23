@@ -233,6 +233,23 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
+     * @param string     $ref
+     * @param string     $token
+     * @param array      $variables
+     *
+     * @return mixed
+     */
+    public function triggerPipeline($projectId, string $ref, string $token, array $variables = []): array
+    {
+        return $this->post($this->getProjectPath($projectId, 'trigger/pipeline'), [
+            'ref' => $ref,
+            'token' => $token,
+            'variables' => $variables,
+        ]);
+    }
+
+    /**
+     * @param int|string $project_id
      * @param array      $parameters {
      *
      *     @var string $scope       the scope of pipelines, one of: running, pending, finished, branches, tags
