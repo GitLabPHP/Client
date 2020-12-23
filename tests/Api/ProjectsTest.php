@@ -572,6 +572,30 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldTriggerPipeline(): void
+    {
+        $expectedArray = [
+            'id' => 4,
+            'sha' => 'commit_hash',
+            'ref' => 'master',
+            'status' => 'pending',
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with(
+                'projects/1/trigger/pipeline',
+                ['ref' => 'master', 'token' => 'some_token', 'variables' => ['VAR_1' => 'value 1']]
+            )
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->triggerPipeline(1, 'master', 'some_token', ['VAR_1' => 'value 1']));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetPipelinesWithBooleanParam(): void
     {
         $expectedArray = [
