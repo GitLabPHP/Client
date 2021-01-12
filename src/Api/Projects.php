@@ -30,7 +30,7 @@ class Projects extends AbstractApi
      *                                              or last_activity_at fields (default is created_at)
      *     @var string $sort                        Return projects sorted in asc or desc order (default is desc)
      *     @var string $search                      return list of projects matching the search criteria
-     *     @var bool   $search_namespaces           Include ancestor namespaces when matching search criteria. 
+     *     @var bool   $search_namespaces           Include ancestor namespaces when matching search criteria
      *     @var bool   $simple                      return only the ID, URL, name, and path of each project
      *     @var bool   $owned                       limit by projects owned by the current user
      *     @var bool   $membership                  limit by projects that the current user is a member of
