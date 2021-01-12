@@ -132,8 +132,8 @@ class ProjectsTest extends TestCase
     {
         $expectedArray = $this->getMultipleProjectsDataWithNamespace();
 
-        $api = $this->getMultipleProjectsRequestMock('projects', $expectedArray, ['search' => 'a_project', 'search_namespaces' => true]);
-        $this->assertEquals($expectedArray, $api->all(['search' => 'a_project', 'search_namespaces' => true]));
+        $api = $this->getMultipleProjectsRequestMock('projects', $expectedArray, ['search' => 'a_project', 'search_namespaces' => 'true']);
+        $this->assertEquals($expectedArray, $api->all(['search' => 'a_project', 'search_namespaces' => 'true']));
     }
 
     /**
