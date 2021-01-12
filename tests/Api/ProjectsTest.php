@@ -125,7 +125,6 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->all(['search' => 'a project']));
     }
     
-    
     /**
      * @test
      */
