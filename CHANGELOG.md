@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Added CI schedule variables endpoints
 * Added support for triggering a pipeline
+* Add 'search_namespaces' parameter for list-all-projects
 
 [11.1.0]: https://github.com/GitLabPHP/Client/compare/11.0.0...11.1.0
 
