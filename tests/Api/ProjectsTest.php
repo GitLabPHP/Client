@@ -128,6 +128,17 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldSearchProjectsWithNamespace(): void
+    {
+        $expectedArray = $this->getMultipleProjectsDataWithNamespace();
+
+        $api = $this->getMultipleProjectsRequestMock('projects', $expectedArray, ['search' => 'a_project', 'search_namespaces' => 'true']);
+        $this->assertEquals($expectedArray, $api->all(['search' => 'a_project', 'search_namespaces' => true]));
+    }
+
+    /**
+     * @test
+     */
     public function shouldShowProject(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'Project Name'];
@@ -1911,6 +1922,14 @@ class ProjectsTest extends TestCase
         return [
             ['id' => 1, 'name' => 'A project'],
             ['id' => 2, 'name' => 'Another project'],
+        ];
+    }
+
+    protected function getMultipleProjectsDataWithNamespace()
+    {
+        return [
+            ['id' => 1, 'name' => 'A project', 'namespace' => ['id' => 4, 'name' => 'A namespace', 'path' => 'a_namespace']],
+            ['id' => 2, 'name' => 'Another project', 'namespace' => ['id' => 5, 'name' => 'Another namespace', 'path' => 'another_namespace']],
         ];
     }
 
