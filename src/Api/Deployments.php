@@ -25,6 +25,12 @@ class Deployments extends AbstractApi
     public function all($project_id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
+        $resolver->setDefined('order_by')
+            ->setAllowedTypes('sort', 'string')
+            ->setAllowedValues('sort', ['id', 'iid', 'created_at', 'updated_at', 'ref']);
+        $resolver->setDefined('sort')
+            ->setAllowedTypes('sort', 'string')
+            ->setAllowedValues('sort', ['desc', 'asc']);
 
         return $this->get($this->getProjectPath($project_id, 'deployments'), $resolver->resolve($parameters));
     }
