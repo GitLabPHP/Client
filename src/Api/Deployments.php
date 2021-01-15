@@ -26,8 +26,8 @@ class Deployments extends AbstractApi
     {
         $resolver = $this->createOptionsResolver();
         $resolver->setDefined('order_by')
-            ->setAllowedTypes('sort', 'string')
-            ->setAllowedValues('sort', ['id', 'iid', 'created_at', 'updated_at', 'ref']);
+            ->setAllowedTypes('order_by', 'string')
+            ->setAllowedValues('order_by', ['id', 'iid', 'created_at', 'updated_at', 'ref']);
         $resolver->setDefined('sort')
             ->setAllowedTypes('sort', 'string')
             ->setAllowedValues('sort', ['desc', 'asc']);
