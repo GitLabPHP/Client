@@ -25,7 +25,7 @@ class DeploymentsTest extends TestCase
     {
         $expectedArray = $this->getMultipleDeploymentsData();
 
-        $api = $this->getMultipleDeploymentsRequestMock('projects/1/deployments', $expectedArray);
+        $api = $this->getMultipleDeploymentsRequestMock('projects/1/deployments', $expectedArray, []);
 
         $this->assertEquals($expectedArray, $api->all(1));
     }
@@ -110,12 +110,7 @@ See merge request !2',
         $this->assertEquals($expectedArray, $api->show(1, 42));
     }
 
-    protected function getApiClass()
-    {
-        return Deployments::class;
-    }
-
-    private function getMultipleDeploymentsData(): array
+    private function getMultipleDeploymentsData()
     {
         return [
             [
@@ -249,7 +244,7 @@ See merge request !2',
         ];
     }
 
-    protected function getMultipleDeploymentsRequestMock($path, $expectedArray = [], $expectedParameters = [])
+    protected function getMultipleDeploymentsRequestMock(string $path, array $expectedArray, array $expectedParameters)
     {
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -277,5 +272,10 @@ See merge request !2',
             $expectedArray,
             $api->all(1, ['page' => 1, 'per_page' => 5, 'order_by' => 'created_at', 'sort' => 'asc'])
         );
+    }
+
+    protected function getApiClass()
+    {
+        return Deployments::class;
     }
 }
