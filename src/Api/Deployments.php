@@ -18,7 +18,12 @@ class Deployments extends AbstractApi
 {
     /**
      * @param int|string $project_id
-     * @param array      $parameters
+     * @param array      $parameters {
+     *
+     *     @var string $order_by                    Return deployments ordered by id, iid, created_at, updated_at,
+     *                                              or ref fields (default is id)
+     *     @var string $sort                        Return deployments sorted in asc or desc order (default is desc)
+     * }
      *
      * @return mixed
      */
