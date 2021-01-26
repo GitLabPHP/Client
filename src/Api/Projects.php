@@ -28,6 +28,7 @@ class Projects extends AbstractApi
      *     @var string $visibility                  limit by visibility public, internal, or private
      *     @var string $order_by                    Return projects ordered by id, name, path, created_at, updated_at,
      *                                              or last_activity_at fields (default is created_at)
+     *                                              repository_size, storage_size, packages_size or wiki_size fields are only allowed for admins
      *     @var string $sort                        Return projects sorted in asc or desc order (default is desc)
      *     @var string $search                      return list of projects matching the search criteria
      *     @var bool   $search_namespaces           Include ancestor namespaces when matching search criteria
@@ -60,8 +61,13 @@ class Projects extends AbstractApi
         $resolver->setDefined('visibility')
             ->setAllowedValues('visibility', ['public', 'internal', 'private'])
         ;
+        $orderBy = [
+            'id', 'name', 'path', 'created_at', 'updated_at', 'last_activity_at',
+            // sudo
+            'repository_size', 'storage_size', 'packages_size', 'wiki_size',
+        ]
         $resolver->setDefined('order_by')
-            ->setAllowedValues('order_by', ['id', 'name', 'path', 'created_at', 'updated_at', 'last_activity_at'])
+            ->setAllowedValues('order_by', $orderBy)
         ;
         $resolver->setDefined('sort')
             ->setAllowedValues('sort', ['asc', 'desc'])
