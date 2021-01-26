@@ -65,7 +65,7 @@ class Projects extends AbstractApi
             'id', 'name', 'path', 'created_at', 'updated_at', 'last_activity_at',
             // sudo
             'repository_size', 'storage_size', 'packages_size', 'wiki_size',
-        ]
+        ];
         $resolver->setDefined('order_by')
             ->setAllowedValues('order_by', $orderBy)
         ;
