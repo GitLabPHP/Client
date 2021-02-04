@@ -183,7 +183,7 @@ class Repositories extends AbstractApi
     {
         $resolver = $this->createOptionsResolver();
 
-        return $this->get($this->getProjectPath($project_id, 'releases'), $parameters);
+        return $this->get($this->getProjectPath($project_id, 'releases'), $resolver->resolve($parameters));
     }
 
     /**
