@@ -175,6 +175,7 @@ class Repositories extends AbstractApi
 
     /**
      * @param int|string $project_id
+     * @param array      $parameters
      *
      * @return mixed
      */
