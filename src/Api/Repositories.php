@@ -178,11 +178,11 @@ class Repositories extends AbstractApi
      *
      * @return mixed
      */
-    public function releases($project_id)
+    public function releases($project_id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
 
-        return $this->get($this->getProjectPath($project_id, 'releases'));
+        return $this->get($this->getProjectPath($project_id, 'releases'), $parameters);
     }
 
     /**
