@@ -54,6 +54,9 @@ class Projects extends AbstractApi
         $booleanNormalizer = function (Options $resolver, $value): string {
             return $value ? 'true' : 'false';
         };
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
+            return $value->format('c');
+        };
         $resolver->setDefined('archived')
             ->setAllowedTypes('archived', 'bool')
             ->setNormalizer('archived', $booleanNormalizer)
@@ -107,6 +110,38 @@ class Projects extends AbstractApi
         $resolver->setDefined('min_access_level')
             ->setAllowedValues('min_access_level', [null, 10, 20, 30, 40, 50])
         ;
+        $resolver->setDefined('id_after')
+            ->setAllowedTypes('id_after', 'integer')
+        ;
+        $resolver->setDefined('id_before')
+            ->setAllowedTypes('id_before', 'integer')
+        ;
+        $resolver->setDefined('last_activity_after')
+            ->setAllowedTypes('last_activity_after', \DateTimeInterface::class)
+            ->setNormalizer('last_activity_after', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('last_activity_before')
+            ->setAllowedTypes('last_activity_before', \DateTimeInterface::class)
+            ->setNormalizer('last_activity_before', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('repository_checksum_failed')
+            ->setAllowedTypes('repository_checksum_failed', 'bool')
+            ->setNormalizer('repository_checksum_failed', $booleanNormalizer)
+        ;
+        $resolver->setDefined('repository_storage');
+        $resolver->setDefined('starred')
+            ->setAllowedTypes('starred', 'bool')
+            ->setNormalizer('starred', $booleanNormalizer)
+        ;
+        $resolver->setDefined('wiki_checksum_failed')
+            ->setAllowedTypes('wiki_checksum_failed', 'bool')
+            ->setNormalizer('wiki_checksum_failed', $booleanNormalizer)
+        ;
+        $resolver->setDefined('with_custom_attributes')
+            ->setAllowedTypes('with_custom_attributes', 'bool')
+            ->setNormalizer('with_custom_attributes', $booleanNormalizer)
+        ;
+        $resolver->setDefined('with_programming_language');
 
         return $this->get('projects', $resolver->resolve($parameters));
     }
