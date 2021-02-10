@@ -129,10 +129,6 @@ class Projects extends AbstractApi
             ->setNormalizer('repository_checksum_failed', $booleanNormalizer)
         ;
         $resolver->setDefined('repository_storage');
-        $resolver->setDefined('starred')
-            ->setAllowedTypes('starred', 'bool')
-            ->setNormalizer('starred', $booleanNormalizer)
-        ;
         $resolver->setDefined('wiki_checksum_failed')
             ->setAllowedTypes('wiki_checksum_failed', 'bool')
             ->setNormalizer('wiki_checksum_failed', $booleanNormalizer)
