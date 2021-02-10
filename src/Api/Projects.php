@@ -41,6 +41,15 @@ class Projects extends AbstractApi
      *     @var bool   $with_issues_enabled         limit by enabled issues feature
      *     @var bool   $with_merge_requests_enabled limit by enabled merge requests feature
      *     @var int    $min_access_level            Limit by current user minimal access level
+     *     @var int    $id_after                    Limit by project id's greater than the specified id
+     *     @var int    $id_before                   Limit by project id's less than the specified id
+     *     @var DateTimeInterface $last_activity_after  Limit by last_activity after specified time
+     *     @var DateTimeInterface $last_activity_before Limit by last_activity before specified time
+     *     @var bool   $repository_checksum_failed  Limit by failed repository checksum calculation
+     *     @var string $repository_storage          Limit by repository storage type
+     *     @var bool   $wiki_checksum_failed        Limit by failed wiki checksum calculation
+     *     @var bool   $with_custom_attributes      Include custom attributes in response
+     *     @var string $with_programming_language   Limit by programming language
      * }
      *
      * @throws UndefinedOptionsException If an option name is undefined
