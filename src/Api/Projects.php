@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gitlab\Api;
 
-use DateTimeInterface;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 use Symfony\Component\OptionsResolver\Options;
@@ -43,8 +42,8 @@ class Projects extends AbstractApi
      *     @var int    $min_access_level            Limit by current user minimal access level
      *     @var int    $id_after                    Limit by project id's greater than the specified id
      *     @var int    $id_before                   Limit by project id's less than the specified id
-     *     @var DateTimeInterface $last_activity_after  Limit by last_activity after specified time
-     *     @var DateTimeInterface $last_activity_before Limit by last_activity before specified time
+     *     @var \DateTimeInterface $last_activity_after  Limit by last_activity after specified time
+     *     @var \DateTimeInterface $last_activity_before Limit by last_activity before specified time
      *     @var bool   $repository_checksum_failed  Limit by failed repository checksum calculation
      *     @var string $repository_storage          Limit by repository storage type
      *     @var bool   $wiki_checksum_failed        Limit by failed wiki checksum calculation
@@ -64,7 +63,7 @@ class Projects extends AbstractApi
         $booleanNormalizer = function (Options $resolver, $value): string {
             return $value ? 'true' : 'false';
         };
-        $datetimeNormalizer = function (Options $resolver, DateTimeInterface $value): string {
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
             return $value->format('c');
         };
         $resolver->setDefined('archived')
@@ -127,11 +126,11 @@ class Projects extends AbstractApi
             ->setAllowedTypes('id_before', 'integer')
         ;
         $resolver->setDefined('last_activity_after')
-            ->setAllowedTypes('last_activity_after', DateTimeInterface::class)
+            ->setAllowedTypes('last_activity_after', \DateTimeInterface::class)
             ->setNormalizer('last_activity_after', $datetimeNormalizer)
         ;
         $resolver->setDefined('last_activity_before')
-            ->setAllowedTypes('last_activity_before', DateTimeInterface::class)
+            ->setAllowedTypes('last_activity_before', \DateTimeInterface::class)
             ->setNormalizer('last_activity_before', $datetimeNormalizer)
         ;
         $resolver->setDefined('repository_checksum_failed')
