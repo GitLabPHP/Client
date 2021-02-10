@@ -127,11 +127,11 @@ class Projects extends AbstractApi
             ->setAllowedTypes('id_before', 'integer')
         ;
         $resolver->setDefined('last_activity_after')
-            ->setAllowedTypes('last_activity_after', \DateTimeInterface::class)
+            ->setAllowedTypes('last_activity_after', DateTimeInterface::class)
             ->setNormalizer('last_activity_after', $datetimeNormalizer)
         ;
         $resolver->setDefined('last_activity_before')
-            ->setAllowedTypes('last_activity_before', \DateTimeInterface::class)
+            ->setAllowedTypes('last_activity_before', DateTimeInterface::class)
             ->setNormalizer('last_activity_before', $datetimeNormalizer)
         ;
         $resolver->setDefined('repository_checksum_failed')
