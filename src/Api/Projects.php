@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Gitlab\Api;
 
+use DateTimeInterface;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 use Symfony\Component\OptionsResolver\Options;
@@ -54,7 +55,7 @@ class Projects extends AbstractApi
         $booleanNormalizer = function (Options $resolver, $value): string {
             return $value ? 'true' : 'false';
         };
-        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
+        $datetimeNormalizer = function (Options $resolver, DateTimeInterface $value): string {
             return $value->format('c');
         };
         $resolver->setDefined('archived')
