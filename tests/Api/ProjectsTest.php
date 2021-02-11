@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Gitlab\Tests\Api;
 
+use DateTime;
 use Gitlab\Api\Projects;
 
 class ProjectsTest extends TestCase
@@ -134,6 +135,118 @@ class ProjectsTest extends TestCase
 
         $api = $this->getMultipleProjectsRequestMock('projects', $expectedArray, ['search' => 'a_project', 'search_namespaces' => 'true']);
         $this->assertEquals($expectedArray, $api->all(['search' => 'a_project', 'search_namespaces' => true]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetProjectsAfterId(): void
+    {
+        $expectedArray = $this->getMultipleProjectsData();
+
+        $api = $this->getMultipleProjectsRequestMock('projects', $expectedArray, ['id_after' => 0]);
+
+        $this->assertEquals($expectedArray, $api->all(['id_after' => 0]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetProjectsWithLastActivityAfter(): void
+    {
+        $unixEpochDateTime = new DateTime('@0');
+
+        $expectedArray = $this->getMultipleProjectsData();
+
+        $api = $this->getMultipleProjectsRequestMock('projects', $expectedArray, ['last_activity_after' => $unixEpochDateTime->format('c')]);
+
+        $this->assertEquals($expectedArray, $api->all(['last_activity_after' => $unixEpochDateTime]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetProjectsWithLastActivityBefore(): void
+    {
+        $now = new DateTime();
+
+        $expectedArray = $this->getMultipleProjectsData();
+
+        $api = $this->getMultipleProjectsRequestMock('projects', $expectedArray, ['last_activity_before' => $now->format('c')]);
+
+        $this->assertEquals($expectedArray, $api->all(['last_activity_before' => $now]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetProjectsWithoutFailedRepositoryChecksum(): void
+    {
+        $expectedArray = $this->getMultipleProjectsData();
+
+        $api = $this->getMultipleProjectsRequestMock('projects', $expectedArray, ['repository_checksum_failed' => 'false']);
+
+        $this->assertEquals($expectedArray, $api->all(['repository_checksum_failed' => false]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetProjectsWithDefaultRepositoryStorage(): void
+    {
+        $expectedArray = $this->getMultipleProjectsData();
+
+        $api = $this->getMultipleProjectsRequestMock('projects', $expectedArray, ['repository_storage' => 'default']);
+
+        $this->assertEquals($expectedArray, $api->all(['repository_storage' => 'default']));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetStarredProjects(): void
+    {
+        $expectedArray = $this->getMultipleProjectsData();
+
+        $api = $this->getMultipleProjectsRequestMock('projects', $expectedArray, ['starred' => 'true']);
+
+        $this->assertEquals($expectedArray, $api->all(['starred' => true]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetProjectsWithoutFailedWikiChecksum(): void
+    {
+        $expectedArray = $this->getMultipleProjectsData();
+
+        $api = $this->getMultipleProjectsRequestMock('projects', $expectedArray, ['wiki_checksum_failed' => 'false']);
+
+        $this->assertEquals($expectedArray, $api->all(['wiki_checksum_failed' => false]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetProjectsWithCustomAttributes(): void
+    {
+        $expectedArray = $this->getMultipleProjectsData();
+
+        $api = $this->getMultipleProjectsRequestMock('projects', $expectedArray, ['with_custom_attributes' => 'true']);
+
+        $this->assertEquals($expectedArray, $api->all(['with_custom_attributes' => true]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetProjectsWithPhpProgrammingLanguage(): void
+    {
+        $expectedArray = $this->getMultipleProjectsData();
+
+        $api = $this->getMultipleProjectsRequestMock('projects', $expectedArray, ['with_programming_language' => 'php']);
+
+        $this->assertEquals($expectedArray, $api->all(['with_programming_language' => 'php']));
     }
 
     /**
