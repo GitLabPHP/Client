@@ -82,6 +82,25 @@ class Users extends AbstractApi
      * @param int   $id
      * @param array $parameters {
      *
+     *     @var string $type Filter memberships by type. Can be either Project or Namespace
+     * }
+     *
+     * @return mixed
+     */
+    public function usersMemberships(int $id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+        $resolver->setDefined('type')
+                 ->setAllowedValues('type', ['Project', 'Namespace'])
+        ;
+
+        return $this->get('users/'.self::encodePath($id).'/memberships', $resolver->resolve($parameters));
+    }
+
+    /**
+     * @param int   $id
+     * @param array $parameters {
+     *
      *     @var bool   $archived                    limit by archived status
      *     @var string $visibility                  limit by visibility public, internal, or private
      *     @var string $order_by                    Return projects ordered by id, name, path, created_at, updated_at,

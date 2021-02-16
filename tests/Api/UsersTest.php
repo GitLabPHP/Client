@@ -106,6 +106,72 @@ class UsersTest extends TestCase
         $this->assertEquals($expectedArray, $api->show(1));
     }
 
+    protected function getUsersMembershipsData()
+    {
+        return [
+            [
+                'source_id' => 1,
+                'source_name' => 'Project one',
+                'source_type' => 'Project',
+                'access_level' => '20',
+            ],
+            [
+                'source_id' => 3,
+                'source_name' => 'Group three',
+                'source_type' => 'Namespace',
+                'access_level' => '20',
+            ],
+        ];
+    }
+
+    protected function getUsersMembershipsRequestMock($path, $expectedArray = [], $expectedParameters = [])
+    {
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with($path, $expectedParameters)
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        return $api;
+    }
+
+    /**
+     * @test
+     */
+    public function shouldShowUsersMemberships(): void
+    {
+        $expectedArray = $this->getUsersMembershipsData();
+
+        $api = $this->getUsersMembershipsRequestMock('users/1/memberships', $expectedArray);
+
+        $this->assertEquals($expectedArray, $api->usersMemberships(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldShowUsersMembershipsWithTypeProject(): void
+    {
+        $expectedArray = [$this->getUsersMembershipsData()[0]];
+
+        $api = $this->getUsersMembershipsRequestMock('users/1/memberships', $expectedArray, ['type' => 'Project']);
+
+        $this->assertEquals($expectedArray, $api->usersMemberships(1, ['type' => 'Project']));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldShowUsersMembershipsWithTypeNamespace(): void
+    {
+        $expectedArray = [$this->getUsersMembershipsData()[1]];
+
+        $api = $this->getUsersMembershipsRequestMock('users/1/memberships', $expectedArray, ['type' => 'Namespace']);
+
+        $this->assertEquals($expectedArray, $api->usersMemberships(1, ['type' => 'Namespace']));
+    }
+
     protected function getUsersProjectsData()
     {
         return [
