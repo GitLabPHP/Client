@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * TBC
 
+[11.3.0]: https://github.com/GitLabPHP/Client/compare/11.2.0...11.3.0
+
 ## [11.2.0] - 2021-02-20
 
 * Added support for user memberships
