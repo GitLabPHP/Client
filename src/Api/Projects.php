@@ -297,7 +297,7 @@ class Projects extends AbstractApi
             'variables' => $variables,
         ]);
     }
-    
+
     /**
      * @param int $project_id
      * @param int $runner_id
