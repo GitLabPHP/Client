@@ -299,6 +299,29 @@ class Projects extends AbstractApi
     }
 
     /**
+     * @param int $project_id
+     * @param int $runner_id
+     * @return mixed
+     */
+    public function disableRunner(int $project_id, int $runner_id)
+    {
+        return $this->delete('projects/'.self::encodePath($project_id).'/runners/'.self::encodePath($runner_id));
+    }
+
+    /**
+     * @param int $project_id
+     * @param int $runner_id
+     * @return mixed
+     */
+    public function enableRunner(int $project_id, int $runner_id)
+    {
+        $parameters = [
+            'runner_id' => $runner_id
+        ];
+        return $this->post('projects/'.self::encodePath($project_id).'/runners', $parameters);
+    }
+
+    /**
      * @param int|string $project_id
      * @param array      $parameters {
      *
