@@ -326,7 +326,7 @@ class Repositories extends AbstractApi
 
         return $this->post($this->getProjectPath($project_id, 'repository/commits'), $resolver->resolve($parameters));
     }
-    
+
     /**
      * @param int|string $project_id
      * @param string     $branch
