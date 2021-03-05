@@ -948,6 +948,22 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetAllMember(): void
+    {
+        $expectedArray = ['id' => 2, 'name' => 'Bob'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/members/all/2')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->allMember(1, 2));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetMembers(): void
     {
         $expectedArray = [

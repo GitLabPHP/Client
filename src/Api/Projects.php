@@ -511,6 +511,17 @@ class Projects extends AbstractApi
     /**
      * @param int|string $project_id
      * @param int        $user_id
+     *
+     * @return mixed
+     */
+    public function allMember($project_id, int $user_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'members/all/'.self::encodePath($user_id)));
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param int        $user_id
      * @param int        $access_level
      *
      * @return mixed

@@ -158,6 +158,17 @@ class Groups extends AbstractApi
     /**
      * @param int|string $group_id
      * @param int        $user_id
+     *
+     * @return mixed
+     */
+    public function allMember($group_id, int $user_id)
+    {
+        return $this->get('groups/'.self::encodePath($group_id).'/members/all/'.self::encodePath($user_id));
+    }
+
+    /**
+     * @param int|string $group_id
+     * @param int        $user_id
      * @param int        $access_level
      *
      * @return mixed
