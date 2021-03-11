@@ -157,7 +157,7 @@ class RepositoriesTest extends TestCase
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->tags(1));
+        $this->assertEquals($expectedArray, $api->tags(1, ['search' => '^term']));
     }
 
     /**
