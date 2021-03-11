@@ -120,6 +120,8 @@ class Repositories extends AbstractApi
     public function tags($project_id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
+        $resolver->setDefined('search')
+            ->setAllowedTypes('search', 'string');
 
         return $this->get($this->getProjectPath($project_id, 'repository/tags'), $resolver->resolve($parameters));
     }
