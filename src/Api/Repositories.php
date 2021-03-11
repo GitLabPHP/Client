@@ -231,7 +231,7 @@ class Repositories extends AbstractApi
             ->setNormalizer('first_parent', $booleanNormalizer)
         ;
         $resolver->setDefined('order')
-            ->setAllowedTypes('order', ['default', 'topo'])
+            ->setAllowedValues('order', ['default', 'topo'])
         ;
 
         return $this->get($this->getProjectPath($project_id, 'repository/commits'), $resolver->resolve($parameters));
