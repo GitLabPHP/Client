@@ -28,7 +28,7 @@ This version supports [PHP](https://php.net) 7.2-8.0. To get started, simply req
 ### Standard Installation
 
 ```bash
-$ composer require "m4tthumphrey/php-gitlab-api:^11.3" "guzzlehttp/guzzle:^7.2" "http-interop/http-factory-guzzle:^1.0"
+$ composer require "m4tthumphrey/php-gitlab-api:^11.4" "guzzlehttp/guzzle:^7.2" "http-interop/http-factory-guzzle:^1.0"
 ```
 
 ### Framework Integration
