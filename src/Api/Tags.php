@@ -18,12 +18,26 @@ class Tags extends AbstractApi
 {
     /**
      * @param int|string $project_id
+     * @param array      $parameters {
+     *
+     *     @var string $order_by Return tags ordered by `name` or `updated` fields. Default is `updated`.
+     *     @var string $sort     Return tags sorted in asc or desc order. Default is desc.
+     *     @var string $search   Return list of tags matching the search criteria. You can use `^term` and `term$` to
+     *                           find tags that begin and end with term respectively.
+     * }
      *
      * @return mixed
      */
-    public function all($project_id)
+    public function all($project_id, array $parameters = [])
     {
-        return $this->get($this->getProjectPath($project_id, 'repository/tags'));
+        $resolver = $this->createOptionsResolver();
+        $resolver->setDefined('order_by')
+            ->setAllowedValues('order_by', ['name', 'updated']);
+        $resolver->setDefined('sort')
+            ->setAllowedValues('sort', ['asc', 'desc']);
+        $resolver->setDefined('search');
+
+        return $this->get($this->getProjectPath($project_id, 'repository/tags'), $resolver->resolve($parameters));
     }
 
     /**
