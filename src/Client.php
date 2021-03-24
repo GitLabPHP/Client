@@ -19,6 +19,7 @@ use Gitlab\Api\Deployments;
 use Gitlab\Api\Environments;
 use Gitlab\Api\Groups;
 use Gitlab\Api\GroupsBoards;
+use Gitlab\Api\GroupsEpics;
 use Gitlab\Api\GroupsMilestones;
 use Gitlab\Api\IssueBoards;
 use Gitlab\Api\IssueLinks;
@@ -175,6 +176,14 @@ class Client
     public function groupsBoards(): GroupsBoards
     {
         return new GroupsBoards($this);
+    }
+
+    /**
+     * @return GroupsEpics
+     */
+    public function groupsEpics(): GroupsEpics
+    {
+        return new GroupsEpics($this);
     }
 
     /**
