@@ -431,6 +431,23 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
+    public function shouldRevertCommit(): void
+    {
+        $expectedArray = ['title' => 'Initial commit.', 'author_name' => 'John Doe', 'author_email' => 'john@example.com'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/repository/commits/abcd1234/revert')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->revertCommit(1, 'develop', 'abcd1234'));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetCommitComments(): void
     {
         $expectedArray = [
