@@ -5,9 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [11.4.0] - UPCOMING
+## [11.4.0] - 2021-03-27
 
-* TBC
+* Added parameters to the list of project repository tags
+* Added support for the epics endpoints
+* Added support for project access tokens
+* Added support for reverting commits
 
 [11.4.0]: https://github.com/GitLabPHP/Client/compare/11.3.0...11.4.0
 
