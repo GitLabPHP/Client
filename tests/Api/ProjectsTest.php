@@ -2321,6 +2321,96 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->protectedBranches(1));
     }
 
+    /**
+     * @test
+     */
+    public function shouldGetProjectAccessTokens(): void
+    {
+        $expectedArray = [
+            [
+                'user_id' => 141,
+                'scopes' => [
+                    'api',
+                ],
+                'name' => 'token',
+                'expires_at' => '2021-01-31',
+                'id' => 42,
+                'active' => true,
+                'created_at' => '2021-01-20T22:11:48.151Z',
+                'revoked' => false,
+            ]
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/access_tokens')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->projectAccessTokens(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreateProjectAccessToken(): void
+    {
+        $expectedArray = [
+            "scopes" => [
+                'api',
+                'read_repository',
+            ],
+            'active' => true,
+            'name' => "test",
+            'revoked' => false,
+            'created_at' => '2021-01-21T19:35:37.921Z',
+            'user_id' => 166,
+            'id' => 58,
+            'expires_at' => '2021-01-31',
+            'token' => "D4y...Wzr",
+        ];
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with(
+                'projects/1/access_tokens',
+                [
+                    'name' => 'test_token',
+                    'scopes' => [
+                        'api',
+                        'read_repository',
+                    ],
+                    'expires_at' => '2021-01-31'
+                ]
+            )
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->createProjectAccessToken(1, [
+            'name' => 'test_token',
+            'scopes' => [
+                'api',
+                'read_repository'
+            ],
+            'expires_at' => new DateTime('2021-01-31'),
+        ]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldDeleteProjectAccessToken(): void
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/access_tokens/2')
+            ->will($this->returnValue($expectedBool));
+
+        $this->assertEquals($expectedBool, $api->deleteProjectAccessToken(1, 2));
+    }
+
     protected function getApiClass()
     {
         return Projects::class;
