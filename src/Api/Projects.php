@@ -1217,4 +1217,70 @@ class Projects extends AbstractApi
     {
         return $this->delete($this->getProjectPath($project_id, 'repository/merged_branches'));
     }
+
+    /**
+     * @param int|string $project_id
+     *
+     * @return mixed
+     */
+    public function projectAccessTokens($project_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'access_tokens'));
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param array      $parameters {
+     *
+     *     @var string $name                    the name of the project access token
+     *     @var array  $scopes                  the scopes, one or many of: api, read_api, read_registry, write_registry, read_repository, write_repository
+     *     @var \DateTimeInterface $expires_at  the token expires at midnight UTC on that date
+     * }
+     *
+     * @return mixed
+     */
+    public function createProjectAccessToken($project_id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
+            return $value->format('Y-m-d');
+        };
+
+        $resolver->define('name')
+            ->required()
+        ;
+
+        $resolver->define('scopes')
+            ->required()
+            ->allowedTypes('array')
+            ->allowedValues(function ($scopes) {
+                $allowed = ['api', 'read_api', 'read_registry', 'write_registry', 'read_repository', 'write_repository'];
+                foreach ($scopes as $scope) {
+                    if (!\in_array($scope, $allowed, true)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            })
+        ;
+
+        $resolver->setDefined('expires_at')
+            ->setAllowedTypes('expires_at', \DateTimeInterface::class)
+            ->setNormalizer('expires_at', $datetimeNormalizer)
+        ;
+
+        return $this->post($this->getProjectPath($project_id, 'access_tokens'), $resolver->resolve($parameters));
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param int|string $token_id
+     *
+     * @return mixed
+     */
+    public function deleteProjectAccessToken($project_id, $token_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'access_tokens/'.$token_id));
+    }
 }
