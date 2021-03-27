@@ -2338,7 +2338,7 @@ class ProjectsTest extends TestCase
                 'active' => true,
                 'created_at' => '2021-01-20T22:11:48.151Z',
                 'revoked' => false,
-            ]
+            ],
         ];
 
         $api = $this->getApiMock();
@@ -2356,18 +2356,18 @@ class ProjectsTest extends TestCase
     public function shouldCreateProjectAccessToken(): void
     {
         $expectedArray = [
-            "scopes" => [
+            'scopes' => [
                 'api',
                 'read_repository',
             ],
             'active' => true,
-            'name' => "test",
+            'name' => 'test',
             'revoked' => false,
             'created_at' => '2021-01-21T19:35:37.921Z',
             'user_id' => 166,
             'id' => 58,
             'expires_at' => '2021-01-31',
-            'token' => "D4y...Wzr",
+            'token' => 'D4y...Wzr',
         ];
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -2380,7 +2380,7 @@ class ProjectsTest extends TestCase
                         'api',
                         'read_repository',
                     ],
-                    'expires_at' => '2021-01-31'
+                    'expires_at' => '2021-01-31',
                 ]
             )
             ->will($this->returnValue($expectedArray));
@@ -2389,7 +2389,7 @@ class ProjectsTest extends TestCase
             'name' => 'test_token',
             'scopes' => [
                 'api',
-                'read_repository'
+                'read_repository',
             ],
             'expires_at' => new DateTime('2021-01-31'),
         ]));
