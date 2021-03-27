@@ -331,6 +331,20 @@ class Repositories extends AbstractApi
 
     /**
      * @param int|string $project_id
+     * @param string     $branch
+     * @param string     $sha
+     *
+     * @return mixed
+     */
+    public function revertCommit($project_id, string $branch, string $sha)
+    {
+        return $this->post($this->getProjectPath($project_id, 'repository/commits/'.self::encodePath($sha).'/revert'), [
+            'branch' => $branch,
+        ]);
+    }
+
+    /**
+     * @param int|string $project_id
      * @param string     $sha
      * @param array      $parameters
      *
