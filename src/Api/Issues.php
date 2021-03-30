@@ -207,7 +207,7 @@ class Issues extends AbstractApi
     /**
      * @param int|string $project_id
      * @param int        $issue_iid
-     * @param array $params
+     * @param array      $params
      * @return mixed
      */
     public function showDiscussions($project_id, int $issue_iid, array $params)
