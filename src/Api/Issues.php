@@ -207,12 +207,12 @@ class Issues extends AbstractApi
     /**
      * @param int|string $project_id
      * @param int        $issue_iid
-     *
+     * @param array $params
      * @return mixed
      */
-    public function showDiscussions($project_id, int $issue_iid)
+    public function showDiscussions($project_id, int $issue_iid, array $params)
     {
-        return $this->get($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid)).'/discussions');
+        return $this->get($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid)).'/discussions', $params);
     }
 
     /**
