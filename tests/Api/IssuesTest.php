@@ -326,7 +326,7 @@ class IssuesTest extends TestCase
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->showDiscussions(1, 2));
+        $this->assertEquals($expectedArray, $api->showDiscussions(1, 2, ['per_page' => 5]));
     }
 
     /**
