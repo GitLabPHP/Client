@@ -31,6 +31,9 @@ class Environments extends AbstractApi
             ->setAllowedTypes('name', 'string');
         $resolver->setDefined('search')
             ->setAllowedTypes('search', 'string');
+        $resolver->setDefined('states')
+            ->setAllowedTypes('states', 'string')
+            ->setAllowedValues('states', ['available', 'stopped']);
 
         return $this->get($this->getProjectPath($project_id, 'environments'), $resolver->resolve($parameters));
     }
