@@ -935,6 +935,79 @@ class Projects extends AbstractApi
     {
         return $this->delete($this->getProjectPath($project_id, 'services/'.self::encodePath($service_name)));
     }
+    
+    /**
+     * @param int|string $project_id
+     *
+     * @return mixed
+     */
+    public function freezePeriods($project_id)
+    {
+        $resolver = $this->createOptionsResolver();
+
+        return $this->get($this->getProjectPath($project_id, 'freeze_periods'));
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param string $key
+     *
+     * @return mixed
+     */
+    public function freezePeriod($project_id, $key)
+    {
+        return $this->get($this->getProjectPath($project_id, 'freeze_periods/'.$this->encodePath($key)));
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param $start
+     * @param $end
+     * @param $timezone
+     * @return mixed
+     */
+    public function createFreezePeriod($project_id, $start, $end, $timezone = null)
+    {
+        $payload = [
+            'id' => $project_id,
+            'freeze_start' => $start,
+            'freeze_end' => $end,
+            'cron_timezone' => $timezone
+        ];
+
+        return $this->post($this->getProjectPath($project_id, 'freeze_periods'), $payload);
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param string $key
+     * @param $start
+     * @param $end
+     * @param null $timezone
+     * @return mixed
+     */
+    public function updateFreezePeriod($project_id, $key, $start, $end, $timezone = null)
+    {
+        $payload = [
+            'id' => $project_id,
+            'freeze_start' => $start,
+            'freeze_end' => $end,
+            'cron_timezone' => $timezone
+        ];
+
+        return $this->put($this->getProjectPath($project_id, 'freeze_periods/'.$this->encodePath($key)), $payload);
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param string     $key
+     *
+     * @return mixed
+     */
+    public function removeFreezePeriod($project_id, $key)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'freeze_periods/'.$this->encodePath($key)));
+    }
 
     /**
      * @param int|string $project_id
