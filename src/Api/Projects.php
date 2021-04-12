@@ -935,7 +935,7 @@ class Projects extends AbstractApi
     {
         return $this->delete($this->getProjectPath($project_id, 'services/'.self::encodePath($service_name)));
     }
-    
+
     /**
      * @param int|string $project_id
      *
@@ -950,7 +950,7 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param string $key
+     * @param string     $key
      *
      * @return mixed
      */
@@ -964,6 +964,7 @@ class Projects extends AbstractApi
      * @param $start
      * @param $end
      * @param $timezone
+     *
      * @return mixed
      */
     public function createFreezePeriod($project_id, $start, $end, $timezone = null)
@@ -972,7 +973,7 @@ class Projects extends AbstractApi
             'id' => $project_id,
             'freeze_start' => $start,
             'freeze_end' => $end,
-            'cron_timezone' => $timezone
+            'cron_timezone' => $timezone,
         ];
 
         return $this->post($this->getProjectPath($project_id, 'freeze_periods'), $payload);
@@ -980,10 +981,11 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param string $key
+     * @param string     $key
      * @param $start
      * @param $end
      * @param null $timezone
+     *
      * @return mixed
      */
     public function updateFreezePeriod($project_id, $key, $start, $end, $timezone = null)
@@ -992,7 +994,7 @@ class Projects extends AbstractApi
             'id' => $project_id,
             'freeze_start' => $start,
             'freeze_end' => $end,
-            'cron_timezone' => $timezone
+            'cron_timezone' => $timezone,
         ];
 
         return $this->put($this->getProjectPath($project_id, 'freeze_periods/'.$this->encodePath($key)), $payload);
