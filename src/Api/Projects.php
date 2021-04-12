@@ -961,9 +961,9 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param $start
-     * @param $end
-     * @param $timezone
+     * @param string     $start
+     * @param string     $end
+     * @param string     $timezone
      *
      * @return mixed
      */
@@ -982,9 +982,9 @@ class Projects extends AbstractApi
     /**
      * @param int|string $project_id
      * @param string     $key
-     * @param $start
-     * @param $end
-     * @param null $timezone
+     * @param string     $start
+     * @param string     $end
+     * @param null       $timezone
      *
      * @return mixed
      */
