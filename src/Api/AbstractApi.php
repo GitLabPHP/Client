@@ -108,19 +108,25 @@ abstract class AbstractApi
      */
     protected function post(string $uri, array $params = [], array $headers = [], array $files = [])
     {
+        $body_params = [];
+        if (isset($params['variables'])) {
+            $body_params = $params['variables'];
+            unset($params['variables']);
+        }
+
         if (0 < \count($files)) {
-            $builder = $this->createMultipartStreamBuilder($params, $files);
+            $builder = $this->createMultipartStreamBuilder($body_params, $files);
             $body = self::prepareMultipartBody($builder);
             $headers = self::addMultipartContentType($headers, $builder);
         } else {
-            $body = self::prepareJsonBody($params);
+            $body = self::prepareJsonBody($body_params);
 
             if (null !== $body) {
                 $headers = self::addJsonContentType($headers);
             }
         }
 
-        $response = $this->client->getHttpClient()->post(self::prepareUri($uri), $headers, $body);
+        $response = $this->client->getHttpClient()->post(self::prepareUri($uri, $params), $headers, $body);
 
         return ResponseMediator::getContent($response);
     }
