@@ -956,7 +956,7 @@ class Projects extends AbstractApi
      */
     public function freezePeriod($project_id, $key)
     {
-        return $this->get($this->getProjectPath($project_id, 'freeze_periods/'.$this->encodePath($key)));
+        return $this->get($this->getProjectPath($project_id, 'freeze_periods/'.self::encodePath($key)));
     }
 
     /**
@@ -997,7 +997,7 @@ class Projects extends AbstractApi
             'cron_timezone' => $timezone,
         ];
 
-        return $this->put($this->getProjectPath($project_id, 'freeze_periods/'.$this->encodePath($key)), $payload);
+        return $this->put($this->getProjectPath($project_id, 'freeze_periods/'.self::encodePath($key)), $payload);
     }
 
     /**
@@ -1008,7 +1008,7 @@ class Projects extends AbstractApi
      */
     public function removeFreezePeriod($project_id, $key)
     {
-        return $this->delete($this->getProjectPath($project_id, 'freeze_periods/'.$this->encodePath($key)));
+        return $this->delete($this->getProjectPath($project_id, 'freeze_periods/'.self::encodePath($key)));
     }
 
     /**
