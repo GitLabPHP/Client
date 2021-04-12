@@ -207,7 +207,7 @@ class Groups extends AbstractApi
     }
 
     /**
-     * @param $group_id
+     * @param int|string $group_id
      * @param array $parameters
      *
      * @return mixed
@@ -232,7 +232,7 @@ class Groups extends AbstractApi
             ->setNormalizer('expires_at', $datetimeNormalizer)
         ;
 
-        return $this->post('groups/'.$this->encodePath($group_id).'/share', $resolver->resolve($parameters));
+        return $this->post('groups/'.self::encodePath($group_id).'/share', $resolver->resolve($parameters));
     }
 
     /**
