@@ -2273,6 +2273,69 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shoudCreateApprovalsRule(): void
+    {
+        $expectedArray = [
+            [
+                'id' => 1,
+                'name' => 'All Members',
+                'rule_type' => 'any_approver',
+            ],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/approval_rules/', ['name' => 'All Members', 'rule_type' => 'any_approver'])
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->createApprovalsRule(1, [
+            'name' => 'All Members',
+            'rule_type' => 'any_approver',
+        ]));
+    }
+
+    /**
+     * @test
+     */
+    public function shoudUpdateApprovalsRule(): void
+    {
+        $expectedArray = [
+            [
+                'name' => 'Updated Name',
+            ],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/approval_rules/1', ['name' => 'Updated Name'])
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->updateApprovalsRule(1, 1, [
+            'name' => 'Updated Name',
+        ]));
+    }
+
+    /**
+     * @test
+     */
+    public function shoudDeleteApprovalsRule(): void
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/approval_rules/1')
+            ->will($this->returnValue($expectedBool));
+
+        $this->assertEquals($expectedBool, $api->deleteApprovalsRule(1, 1));
+    }
+
+    /**
+     * @test
+     */
     public function shouldDeleteAllMergedBranches(): void
     {
         $expectedBool = true;
