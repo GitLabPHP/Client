@@ -1210,7 +1210,7 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param array $parameters
+     * @param array      $parameters
      *
      * @return mixed
      */
@@ -1221,8 +1221,8 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param int $approval_rule_id
-     * @param array $parameters
+     * @param int        $approval_rule_id
+     * @param array      $parameters
      *
      * @return mixed
      */
@@ -1233,7 +1233,7 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param int $approval_rule_id
+     * @param int        $approval_rule_id
      *
      * @return mixed
      */
