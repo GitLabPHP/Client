@@ -441,11 +441,11 @@ class Groups extends AbstractApi
      *     @var string $order_by            the field to use as order. one of created_at (default), name, version, type,
      *                                      or project_path.
      *     @var string $sort                the direction of the order, either asc (default) for ascending order
-     *                                      or desc for descending order.
+     *                                      or desc for descending order
      *     @var string $package_type        filter the returned packages by type. one of conan, maven, npm, pypi,
      *                                      composer, nuget, or golang.
-     *     @var string $package_name        filter the project packages with a fuzzy search by name.
-     *     @var bool   $include_versionless when set to true, versionless packages are included in the response.
+     *     @var string $package_name        filter the project packages with a fuzzy search by name
+     *     @var bool   $include_versionless when set to true, versionless packages are included in the response
      *     @var string $status              filter the returned packages by status. one of default (default),
      *                                      hidden, or processing.
      * }
