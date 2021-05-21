@@ -54,7 +54,7 @@ class Environments extends AbstractApi
         $resolver->setDefined('external_url')
             ->setAllowedTypes('external_url', 'string');
 
-        return $this->post($this->getProjectPath($project_id, 'environment'), $resolver->resolve($parameters));
+        return $this->post($this->getProjectPath($project_id, 'environments'), $resolver->resolve($parameters));
     }
 
     /**
