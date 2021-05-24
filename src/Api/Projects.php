@@ -1210,6 +1210,40 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
+     * @param array      $parameters
+     *
+     * @return mixed
+     */
+    public function createApprovalsRule($project_id, array $parameters = [])
+    {
+        return $this->post('projects/'.self::encodePath($project_id).'/approval_rules/', $parameters);
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param int        $approval_rule_id
+     * @param array      $parameters
+     *
+     * @return mixed
+     */
+    public function updateApprovalsRule($project_id, int $approval_rule_id, array $parameters = [])
+    {
+        return $this->put('projects/'.self::encodePath($project_id).'/approval_rules/'.self::encodePath($approval_rule_id), $parameters);
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param int        $approval_rule_id
+     *
+     * @return mixed
+     */
+    public function deleteApprovalsRule($project_id, int $approval_rule_id)
+    {
+        return $this->delete('projects/'.self::encodePath($project_id).'/approval_rules/'.self::encodePath($approval_rule_id));
+    }
+
+    /**
+     * @param int|string $project_id
      *
      * @return mixed
      */
