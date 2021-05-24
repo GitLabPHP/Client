@@ -166,7 +166,7 @@ See merge request !1',
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/environment', $params)
+            ->with('projects/1/environments', $params)
             ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->create(1, $params));
