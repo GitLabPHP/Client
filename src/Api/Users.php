@@ -244,6 +244,26 @@ class Users extends AbstractApi
         return $this->post('users/'.self::encodePath($id).'/unblock');
     }
 
+	/**
+	 * @param int $id
+	 *
+	 * @return mixed
+	 */
+	public function activate(int $id)
+	{
+		return $this->post('users/'.self::encodePath($id).'/activate');
+	}
+
+	/**
+	 * @param int $id
+	 *
+	 * @return mixed
+	 */
+	public function deactivate(int $id)
+	{
+		return $this->post('users/'.self::encodePath($id).'/deactivate');
+	}
+
     /**
      * @return mixed
      */
