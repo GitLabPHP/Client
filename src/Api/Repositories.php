@@ -410,11 +410,12 @@ class Repositories extends AbstractApi
      *
      * @return mixed
      */
-    public function compare($project_id, string $fromShaOrMaster, string $toShaOrMaster, bool $straight = false)
+    public function compare($project_id, string $fromShaOrMaster, string $toShaOrMaster, bool $straight = false, string $fromProjectId = '')
     {
         $params = [
             'from' => self::encodePath($fromShaOrMaster),
             'to' => self::encodePath($toShaOrMaster),
+            'from_project_id' => self::encodePath($fromProjectId),
             'straight' => self::encodePath($straight ? 'true' : 'false'),
         ];
 
