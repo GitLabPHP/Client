@@ -195,7 +195,7 @@ class RepositoriesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/'.$project_id.'/repository/tags/'.$tagName.'/release', [
+            ->with('projects/'.$project_id.'/releases', [
                 'id' => $project_id,
                 'tag_name' => $tagName,
                 'description' => $description,
@@ -220,7 +220,7 @@ class RepositoriesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/'.$project_id.'/repository/tags/'.$tagName.'/release', [
+            ->with('projects/'.$project_id.'/releases/'.$tagName, [
                 'id' => $project_id,
                 'tag_name' => $tagName,
                 'description' => $description,
