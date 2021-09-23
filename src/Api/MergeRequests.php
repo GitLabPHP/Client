@@ -41,6 +41,11 @@ class MergeRequests extends AbstractApi
     public const STATE_CLOSED = 'closed';
 
     /**
+     * @var string
+     */
+    public const STATE_LOCKED = 'locked';
+
+    /**
      * @param int|string|null $project_id
      * @param array           $parameters {
      *
