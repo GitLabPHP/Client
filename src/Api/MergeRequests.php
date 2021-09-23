@@ -81,7 +81,7 @@ class MergeRequests extends AbstractApi
             })
         ;
         $resolver->setDefined('state')
-            ->setAllowedValues('state', [self::STATE_ALL, self::STATE_MERGED, self::STATE_OPENED, self::STATE_CLOSED])
+            ->setAllowedValues('state', [self::STATE_ALL, self::STATE_MERGED, self::STATE_OPENED, self::STATE_CLOSED, self::STATE_LOCKED])
         ;
         $resolver->setDefined('scope')
             ->setAllowedValues('scope', ['created-by-me', 'assigned-to-me', 'all'])
