@@ -427,6 +427,29 @@ class Issues extends AbstractApi
     }
 
     /**
+     * @param int|string $project_id
+     * @param int        $issue_iid
+     *
+     * @return mixed
+     */
+    public function showResourceLabelEvents($project_id, int $issue_iid)
+    {
+        return $this->get($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid)).'/resource_label_events');
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param int        $issue_iid
+     * @param int        $resource_label_event_id
+     *
+     * @return mixed
+     */
+    public function showResourceLabelEvent($project_id, int $issue_iid, int $resource_label_event_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid)).'/resource_label_events/'.self::encodePath($resource_label_event_id));
+    }
+
+    /**
      * @return OptionsResolver
      */
     protected function createOptionsResolver(): OptionsResolver
