@@ -145,6 +145,21 @@ class Groups extends AbstractApi
     }
 
     /**
+     * @return mixed
+     */
+    public function mergeRequests($group_id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+        $resolver->setDefined('state');
+        $resolver->setDefined('milestone');
+        $resolver->setDefined('view');
+        $resolver->setDefined('search');
+        $resolver->setDefined('labels');
+
+        return $this->get('groups/'.self::encodePath($group_id).'/merge_requests', $resolver->resolve($parameters));
+    }
+
+    /**
      * @param int|string $group_id
      * @param int        $user_id
      *
