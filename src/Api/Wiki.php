@@ -17,8 +17,8 @@ namespace Gitlab\Api;
 class Wiki extends AbstractApi
 {
     /**
-     * @param int|string $project_id
-     * @param array      $params
+     * @param int|string          $project_id
+     * @param array<string,mixed> $params
      *
      * @return mixed
      */
@@ -39,19 +39,20 @@ class Wiki extends AbstractApi
     }
 
     /**
-     * @param int|string $project_id
+     * @param int|string          $project_id
+     * @param array<string,mixed> $params
      *
      * @return mixed
      */
-    public function showAll($project_id)
+    public function showAll($project_id, array $params)
     {
-        return $this->get($this->getProjectPath($project_id, 'wikis'));
+        return $this->get($this->getProjectPath($project_id, 'wikis'), $params);
     }
 
     /**
-     * @param int|string $project_id
-     * @param string     $wiki_slug
-     * @param array      $params
+     * @param int|string          $project_id
+     * @param string              $wiki_slug
+     * @param array<string,mixed> $params
      *
      * @return mixed
      */
