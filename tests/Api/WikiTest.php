@@ -81,14 +81,16 @@ class WikiTest extends TestCase
             'format' => 'markdown',
         ];
 
+        $params = ['with_content' => true];
+
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/wikis')
+            ->with('projects/1/wikis', $params)
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->showAll(1));
+        $this->assertEquals($expectedArray, $api->showAll(1, $params));
     }
 
     /**
