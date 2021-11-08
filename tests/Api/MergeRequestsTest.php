@@ -55,6 +55,23 @@ class MergeRequestsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetAllForGroup(): void
+    {
+        $expectedArray = $this->getMultipleMergeRequestsData();
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/merge_requests', [])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->all());
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetAllWithParams(): void
     {
         $expectedArray = $this->getMultipleMergeRequestsData();

@@ -432,6 +432,69 @@ class Groups extends AbstractApi
         return $this->delete('groups/'.self::encodePath($group_id).'/variables/'.self::encodePath($key));
     }
 
+    public function mergeRequests($group_id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
+            return $value->format('c');
+        };
+        $resolver->setDefined('state')
+            ->setAllowedValues('state', [self::STATE_ALL, self::STATE_MERGED, self::STATE_OPENED, self::STATE_CLOSED])
+        ;
+        $resolver->setDefined('order_by')
+            ->setAllowedValues('order_by', ['created_at', 'updated_at'])
+        ;
+        $resolver->setDefined('sort')
+            ->setAllowedValues('sort', ['asc', 'desc'])
+        ;
+        $resolver->setDefined('milestone');
+        $resolver->setDefined('view')
+            ->setAllowedValues('view', ['simple'])
+        ;
+        $resolver->setDefined('labels');
+        $resolver->setDefined('created_after')
+            ->setAllowedTypes('created_after', \DateTimeInterface::class)
+            ->setNormalizer('created_after', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('created_before')
+            ->setAllowedTypes('created_before', \DateTimeInterface::class)
+            ->setNormalizer('created_before', $datetimeNormalizer)
+        ;
+
+        $resolver->setDefined('updated_after')
+            ->setAllowedTypes('updated_after', \DateTimeInterface::class)
+            ->setNormalizer('updated_after', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('updated_before')
+            ->setAllowedTypes('updated_before', \DateTimeInterface::class)
+            ->setNormalizer('updated_before', $datetimeNormalizer)
+        ;
+
+        $resolver->setDefined('scope')
+            ->setAllowedValues('scope', ['created_by_me', 'assigned_to_me', 'all'])
+        ;
+        $resolver->setDefined('author_id')
+            ->setAllowedTypes('author_id', 'integer');
+
+        $resolver->setDefined('assignee_id')
+            ->setAllowedTypes('assignee_id', 'integer');
+
+        $resolver->setDefined('search');
+        $resolver->setDefined('source_branch');
+        $resolver->setDefined('target_branch');
+        $resolver->setDefined('with_merge_status_recheck')
+            ->setAllowedTypes('with_merge_status_recheck', 'bool')
+        ;
+        $resolver->setDefined('approved_by_ids')
+            ->setAllowedTypes('approved_by_ids', 'array')
+            ->setAllowedValues('approved_by_ids', function (array $value) {
+                return \count($value) === \count(\array_filter($value, 'is_int'));
+            })
+        ;
+
+        return $this->get('groups/'.self::encodePath($group_id).'/merge_requests', $resolver->resolve($parameters));
+    }
+
     /**
      * @return OptionsResolver
      */
