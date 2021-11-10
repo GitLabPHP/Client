@@ -2062,6 +2062,25 @@ class ProjectsTest extends TestCase
         ];
     }
 
+    /**
+     * @test
+     */
+    public function shouldGetGroups(): void
+    {
+        $expectedArray = [
+            ['id' => 2, 'web_url' => 'https://gitlab.com/groups/2', 'name' => 'Group 2'],
+            ['id' => 3, 'web_url' => 'https://gitlab.com/groups/3', 'name' => 'Group 3'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/groups')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->groups(1));
+    }
+
     public function possibleAccessLevels()
     {
         return [

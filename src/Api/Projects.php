@@ -1077,6 +1077,17 @@ class Projects extends AbstractApi
      *
      * @return mixed
      */
+    public function groups($project_id, array $parameters = [])
+    {
+        return $this->get($this->getProjectPath($project_id, 'groups'), $parameters);
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param array      $parameters
+     *
+     * @return mixed
+     */
     public function addShare($project_id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
