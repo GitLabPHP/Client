@@ -22,6 +22,7 @@ use Gitlab\Api\GroupsBoards;
 use Gitlab\Api\GroupsEpics;
 use Gitlab\Api\GroupsMilestones;
 use Gitlab\Api\IssueBoards;
+use Gitlab\Api\IssueLabelEvents;
 use Gitlab\Api\IssueLinks;
 use Gitlab\Api\Issues;
 use Gitlab\Api\IssuesStatistics;
@@ -116,9 +117,11 @@ class Client
 
         $builder->addPlugin(new ExceptionThrower());
         $builder->addPlugin(new HistoryPlugin($this->responseHistory));
-        $builder->addPlugin(new HeaderDefaultsPlugin([
-            'User-Agent' => self::USER_AGENT,
-        ]));
+        $builder->addPlugin(
+            new HeaderDefaultsPlugin([
+                'User-Agent' => self::USER_AGENT,
+            ])
+        );
         $builder->addPlugin(new RedirectPlugin());
 
         $this->setUrl(self::BASE_URL);
@@ -216,6 +219,14 @@ class Client
     public function issues(): Issues
     {
         return new Issues($this);
+    }
+
+    /**
+     * @return IssueLabelEvents
+     */
+    public function issuesLabelEvents(): IssueLabelEvents
+    {
+        return new IssueLabelEvents($this);
     }
 
     /**
