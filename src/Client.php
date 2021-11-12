@@ -34,6 +34,9 @@ use Gitlab\Api\ProjectNamespaces;
 use Gitlab\Api\Projects;
 use Gitlab\Api\Repositories;
 use Gitlab\Api\RepositoryFiles;
+use Gitlab\Api\ResourceLabelEvents;
+use Gitlab\Api\ResourceStateEvents;
+use Gitlab\Api\ResourceWeightEvents;
 use Gitlab\Api\Schedules;
 use Gitlab\Api\Snippets;
 use Gitlab\Api\SystemHooks;
@@ -222,11 +225,27 @@ class Client
     }
 
     /**
-     * @return IssueLabelEvents
+     * @return ResourceLabelEvents
      */
-    public function issuesLabelEvents(): IssueLabelEvents
+    public function resourceLableEvents(): ResourceLabelEvents
     {
-        return new IssueLabelEvents($this);
+        return new ResourceLabelEvents($this);
+    }
+
+    /**
+     * @return ResourceStateEvents
+     */
+    public function resourceStateEvents(): ResourceStateEvents
+    {
+        return new ResourceStateEvents($this);
+    }
+
+    /**
+     * @return ResourceWeightEvents
+     */
+    public function resourceWeightEvents(): ResourceWeightEvents
+    {
+        return new ResourceWeightEvents($this);
     }
 
     /**
