@@ -22,7 +22,6 @@ use Gitlab\Api\GroupsBoards;
 use Gitlab\Api\GroupsEpics;
 use Gitlab\Api\GroupsMilestones;
 use Gitlab\Api\IssueBoards;
-use Gitlab\Api\IssueLabelEvents;
 use Gitlab\Api\IssueLinks;
 use Gitlab\Api\Issues;
 use Gitlab\Api\IssuesStatistics;

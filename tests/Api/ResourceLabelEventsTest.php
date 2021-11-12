@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Gitlab\Tests\Api;
 
-
 use Gitlab\Api\ResourceLabelEvents;
 
 class ResourceLabelEventsTest extends TestCase
@@ -67,7 +66,6 @@ class ResourceLabelEventsTest extends TestCase
 
         $this->assertEquals($expectedArray, $api->all(1, 253));
     }
-
 
     /**
      * @test
