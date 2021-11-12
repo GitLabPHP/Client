@@ -47,7 +47,7 @@ class ResourceWeightEventsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('/projects/1/issues/253/resource_weight_events', [])
+            ->with('projects/1/issues/253/resource_weight_events', [])
             ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->all(1, 253));
@@ -77,7 +77,7 @@ class ResourceWeightEventsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('/projects/1/issues/253/resource_state_events/142', [])
+            ->with('projects/1/issues/253/resource_state_events/142', [])
             ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->show(1, 253, 142));

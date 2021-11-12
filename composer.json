@@ -1,5 +1,5 @@
 {
-    "name": "shellrent/php-gitlab-api",
+    "name": "m4tthumphrey/php-gitlab-api",
     "description": "GitLab API v4 client for PHP",
     "keywords": ["gitlab", "api"],
     "license": "MIT",
