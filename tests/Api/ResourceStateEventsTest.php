@@ -49,7 +49,7 @@ class ResourceStateEventsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('/projects/1/issues/11/resource_state_events', [])
+            ->with('projects/1/issues/11/resource_state_events', [])
             ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->all(1, 11));
@@ -80,7 +80,7 @@ class ResourceStateEventsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('/projects/1/issues/11/resource_state_events/142', [])
+            ->with('projects/1/issues/11/resource_state_events/142', [])
             ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->show(1, 11, 142));
