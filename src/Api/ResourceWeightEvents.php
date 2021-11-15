@@ -19,7 +19,6 @@ class ResourceWeightEvents extends AbstractApi
         return $this->get($this->getProjectPath($project_id, $path));
     }
 
-
     /**
      * @param int|string $project_id
      * @param int        $issue_iid
@@ -34,5 +33,4 @@ class ResourceWeightEvents extends AbstractApi
 
         return $this->get($this->getProjectPath($project_id, $path));
     }
-
 }
