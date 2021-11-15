@@ -130,6 +130,29 @@ class Client
     }
 
     /**
+     * @param string $url
+     *
+     * @return void
+     */
+    public function setUrl(string $url): void
+    {
+        $uri = $this->getHttpClientBuilder()->getUriFactory()->createUri($url);
+
+        $this->getHttpClientBuilder()->removePlugin(AddHostPlugin::class);
+        $this->getHttpClientBuilder()->addPlugin(new AddHostPlugin($uri));
+    }
+
+    /**
+     * Get the HTTP client builder.
+     *
+     * @return Builder
+     */
+    protected function getHttpClientBuilder(): Builder
+    {
+        return $this->httpClientBuilder;
+    }
+
+    /**
      * Create a Gitlab\Client using an HTTP client.
      *
      * @param ClientInterface $httpClient
@@ -226,7 +249,7 @@ class Client
     /**
      * @return ResourceLabelEvents
      */
-    public function resourceLableEvents(): ResourceLabelEvents
+    public function resourceLabelEvents(): ResourceLabelEvents
     {
         return new ResourceLabelEvents($this);
     }
@@ -391,19 +414,6 @@ class Client
     }
 
     /**
-     * @param string $url
-     *
-     * @return void
-     */
-    public function setUrl(string $url): void
-    {
-        $uri = $this->getHttpClientBuilder()->getUriFactory()->createUri($url);
-
-        $this->getHttpClientBuilder()->removePlugin(AddHostPlugin::class);
-        $this->getHttpClientBuilder()->addPlugin(new AddHostPlugin($uri));
-    }
-
-    /**
      * Get the last response.
      *
      * @return ResponseInterface|null
@@ -431,15 +441,5 @@ class Client
     public function getStreamFactory(): StreamFactoryInterface
     {
         return $this->getHttpClientBuilder()->getStreamFactory();
-    }
-
-    /**
-     * Get the HTTP client builder.
-     *
-     * @return Builder
-     */
-    protected function getHttpClientBuilder(): Builder
-    {
-        return $this->httpClientBuilder;
     }
 }
