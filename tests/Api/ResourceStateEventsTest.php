@@ -55,7 +55,6 @@ class ResourceStateEventsTest extends TestCase
         $this->assertEquals($expectedArray, $api->all(1, 11));
     }
 
-
     /**
      * @test
      */
@@ -93,5 +92,4 @@ class ResourceStateEventsTest extends TestCase
     {
         return ResourceStateEvents::class;
     }
-
 }

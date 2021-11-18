@@ -53,7 +53,6 @@ class ResourceWeightEventsTest extends TestCase
         $this->assertEquals($expectedArray, $api->all(1, 253));
     }
 
-
     /**
      * @test
      */
