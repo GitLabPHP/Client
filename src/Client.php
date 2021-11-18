@@ -34,7 +34,9 @@ use Gitlab\Api\ProjectNamespaces;
 use Gitlab\Api\Projects;
 use Gitlab\Api\Repositories;
 use Gitlab\Api\RepositoryFiles;
+use Gitlab\Api\ResourceIterationEvents;
 use Gitlab\Api\ResourceLabelEvents;
+use Gitlab\Api\ResourceMilestoneEvents;
 use Gitlab\Api\ResourceStateEvents;
 use Gitlab\Api\ResourceWeightEvents;
 use Gitlab\Api\Schedules;
@@ -248,11 +250,27 @@ class Client
     }
 
     /**
+     * @return ResourceIterationEvents
+     */
+    public function resourceIterationEvents(): ResourceIterationEvents
+    {
+        return new ResourceIterationEvents($this);
+    }
+
+    /**
      * @return ResourceLabelEvents
      */
     public function resourceLabelEvents(): ResourceLabelEvents
     {
         return new ResourceLabelEvents($this);
+    }
+
+    /**
+     * @return ResourceMilestoneEvents
+     */
+    public function resourceMilestoneEvents(): ResourceMilestoneEvents
+    {
+        return new ResourceMilestoneEvents($this);
     }
 
     /**
