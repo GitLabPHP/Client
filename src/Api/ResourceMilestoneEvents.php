@@ -6,8 +6,6 @@ namespace Gitlab\Api;
 
 class ResourceMilestoneEvents extends AbstractApi
 {
-
-
     /**
      * @param int|string $project_id
      * @param int        $issue_iid
@@ -20,7 +18,6 @@ class ResourceMilestoneEvents extends AbstractApi
 
         return $this->get($this->getProjectPath($project_id, $path));
     }
-
 
     /**
      * @param int|string $project_id
