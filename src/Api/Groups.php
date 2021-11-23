@@ -205,6 +205,35 @@ class Groups extends AbstractApi
     {
         return $this->delete('groups/'.self::encodePath($group_id).'/members/'.self::encodePath($user_id));
     }
+    
+    /**
+     * @param int|string $group_id
+     * @param array      $parameters
+     *
+     * @return mixed
+     */
+    public function addShare($group_id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+
+        $datetimeNormalizer = function (OptionsResolver $optionsResolver, \DateTimeInterface $value) {
+            return $value->format('Y-m-d');
+        };
+
+        $resolver->setRequired('group_id')
+            ->setAllowedTypes('group_id', 'int');
+
+        $resolver->setRequired('group_access')
+            ->setAllowedTypes('group_access', 'int')
+            ->setAllowedValues('group_access', [0, 10, 20, 30, 40, 50]);
+
+        $resolver->setDefined('expires_at')
+            ->setAllowedTypes('expires_at', \DateTimeInterface::class)
+            ->setNormalizer('expires_at', $datetimeNormalizer)
+        ;
+
+        return $this->post('groups/'.self::encodePath($group_id).'/share', $resolver->resolve($parameters));
+    }
 
     /**
      * @param int|string $id
