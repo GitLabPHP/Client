@@ -1190,6 +1190,50 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
+     * @param string     $branch_name
+     *
+     * @return mixed
+     */
+    public function removeProtectedBranch($project_id, string $branch_name)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'protected_branches/'.self::encodePath($branch_name)));
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param array      $parameters
+     *
+     * @return mixed
+     */
+    public function protectedTags($project_id, array $parameters = [])
+    {
+        return $this->get('projects/'.self::encodePath($project_id).'/protected_tags', $parameters);
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param array      $parameters
+     *
+     * @return mixed
+     */
+    public function addProtectedTag($project_id, array $parameters = [])
+    {
+        return $this->post($this->getProjectPath($project_id, 'protected_tags'), $parameters);
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param string     $tag_name
+     *
+     * @return mixed
+     */
+    public function removeProtectedTag($project_id, string $tag_name)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'protected_tags/'.self::encodePath($tag_name)));
+    }
+
+    /**
+     * @param int|string $project_id
      *
      * @return mixed
      */

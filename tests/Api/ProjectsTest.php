@@ -2220,6 +2220,62 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldRemoveProtectedBranch(): void
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/protected_branches/master')
+            ->will($this->returnValue($expectedBool));
+
+        $this->assertEquals($expectedBool, $api->removeProtectedBranch(1, 'master'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAddProtectedTag(): void
+    {
+        $expectedArray = [
+            'name' => 'release-1-0',
+            'create_access_level' => [
+                'access_level' => 40,
+                'access_level_description' => 'Maintainer',
+            ],
+        ];
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with(
+                'projects/1/protected_tags',
+                ['name' => 'release-1-0', 'create_access_level' => 40]
+            )
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->addProtectedTag(1, ['name' => 'release-1-0', 'create_access_level' => 40]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRemoveProtectedTag(): void
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/protected_tags/release-1-0')
+            ->will($this->returnValue($expectedBool));
+
+        $this->assertEquals($expectedBool, $api->removeProtectedTag(1, 'release-1-0'));
+    }
+
+    /**
+     * @test
+     */
     public function shoudGetApprovalsConfiguration(): void
     {
         $expectedArray = [
@@ -2319,6 +2375,32 @@ class ProjectsTest extends TestCase
             ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->protectedBranches(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetProtectedTags(): void
+    {
+        $expectedArray = [
+            [
+                'name' => 'release-1-0',
+                'create_access_levels' => [
+                    [
+                        'access_level' => 40,
+                        'access_level_description' => 'Maintainer',
+                    ],
+                ],
+            ],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/protected_tags')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->protectedTags(1));
     }
 
     /**
