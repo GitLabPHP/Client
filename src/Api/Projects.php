@@ -1190,6 +1190,17 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
+     * @param string     $branch
+     *
+     * @return mixed
+     */
+    public function deleteProtectedBranch($project_id, string $branch)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'protected_branches/'.self::encodePath($branch)));
+    }
+
+    /**
+     * @param int|string $project_id
      *
      * @return mixed
      */
