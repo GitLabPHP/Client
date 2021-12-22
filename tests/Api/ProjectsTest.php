@@ -2411,6 +2411,25 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedBool, $api->deleteProjectAccessToken(1, 2));
     }
 
+    /**
+     * @test
+     */
+    public function shouldUploadAvatar(): void
+    {
+        $emptyPNGContents = 'iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAACYElEQVR42u3UMQEAAAjDMFCO9GEAByQSerQrmQJeagMAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwADAAAwADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMAAzAAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwADMAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAMAAZwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAOCybrx+H1CTHLYAAAAASUVORK5CYII=';
+        $fileName = \uniqid().'.png';
+        $expectedArray = ['id' => 1, 'name' => 'Project Name', 'avatar_url' => 'https://gitlab.example.com/uploads/-/system/project/avatar/1/'.$fileName];
+        \file_put_contents($fileName, \base64_decode($emptyPNGContents));
+        $this->assertFileExists($fileName);
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/', [], [], ['avatar' => $fileName])
+            ->will($this->returnValue($expectedArray));
+        $this->assertEquals($expectedArray, $api->uploadAvatar(1, $fileName));
+        \unlink($fileName);
+    }
+
     protected function getApiClass()
     {
         return Projects::class;
