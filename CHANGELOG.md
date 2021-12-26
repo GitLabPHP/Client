@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Fixed creating environments
 * Fixed double encoding of query parameters when comparing commits
 
+[11.4.1]: https://github.com/GitLabPHP/Client/compare/11.4.0...11.4.1
+
 ## [11.4.0] - 2021-03-27
 
 * Added parameters to the list of project repository tags
