@@ -403,20 +403,25 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @param int|string $project_id
-     * @param string     $fromShaOrMaster
-     * @param string     $toShaOrMaster
-     * @param bool       $straight
+     * @param int|string  $project_id
+     * @param string      $fromShaOrMaster
+     * @param string      $toShaOrMaster
+     * @param bool        $straight
+     * @param string|null $fromProjectId
      *
      * @return mixed
      */
-    public function compare($project_id, string $fromShaOrMaster, string $toShaOrMaster, bool $straight = false)
+    public function compare($project_id, string $fromShaOrMaster, string $toShaOrMaster, bool $straight = false, string $fromProjectId = null)
     {
         $params = [
             'from' => self::encodePath($fromShaOrMaster),
             'to' => self::encodePath($toShaOrMaster),
             'straight' => self::encodePath($straight ? 'true' : 'false'),
         ];
+        
+        if (null !== $fromProjectId) {
+            $params['from_project_id'] = self::encodePath($fromProjectId);
+        }
 
         return $this->get($this->getProjectPath($project_id, 'repository/compare'), $params);
     }
