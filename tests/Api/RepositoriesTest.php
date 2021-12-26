@@ -517,7 +517,7 @@ class RepositoriesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/repository/compare', ['from' => 'master', 'to' => 'feature', 'straight' => 'true', 'from_project_id' => null])
+            ->with('projects/1/repository/compare', ['from' => 'master', 'to' => 'feature', 'straight' => 'true'])
             ->will($this->returnValue($expectedArray))
         ;
 
@@ -534,11 +534,28 @@ class RepositoriesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/repository/compare', ['from' => 'master', 'to' => 'feature', 'straight' => 'false', 'from_project_id' => null])
+            ->with('projects/1/repository/compare', ['from' => 'master', 'to' => 'feature', 'straight' => 'false'])
             ->will($this->returnValue($expectedArray))
         ;
 
         $this->assertEquals($expectedArray, $api->compare(1, 'master', 'feature'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCompareWithFromProjectId(): void
+    {
+        $expectedArray = ['commit' => 'object'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/repository/compare', ['from' => 'master', 'to' => 'feature', 'straight' => 'true', 'from_project_id' => '123])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->compare(1, 'master', 'feature', false, '123'));
     }
 
     /**
