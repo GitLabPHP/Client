@@ -173,7 +173,7 @@ class Jobs extends AbstractApi
      * @param int|string $project_id
      * @param int        $job_id
      *
-     * @return string
+     * @return mixed
      */
     public function trace($project_id, int $job_id)
     {

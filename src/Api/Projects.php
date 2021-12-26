@@ -605,7 +605,7 @@ class Projects extends AbstractApi
      * @param int|string $project_id
      * @param array      $parameters
      *
-     * @return array
+     * @return mixed
      */
     public function users($project_id, array $parameters = [])
     {
@@ -620,8 +620,7 @@ class Projects extends AbstractApi
      * @param int|string $project_id
      * @param array      $parameters
      *
-     * @return array
-     *               List of project issues
+     * @return mixed
      */
     public function issues($project_id, array $parameters = [])
     {
@@ -635,7 +634,7 @@ class Projects extends AbstractApi
      *
      * @param int|string $project_id
      *
-     * @return array
+     * @return mixed
      */
     public function boards($project_id)
     {

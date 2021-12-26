@@ -72,7 +72,7 @@ class Snippets extends AbstractApi
      * @param int|string $project_id
      * @param int        $snippet_id
      *
-     * @return string
+     * @return mixed
      */
     public function content($project_id, int $snippet_id)
     {

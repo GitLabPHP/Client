@@ -430,7 +430,7 @@ class Repositories extends AbstractApi
      * @param int|string $project_id
      * @param string     $sha
      *
-     * @return string
+     * @return mixed
      */
     public function diff($project_id, string $sha)
     {

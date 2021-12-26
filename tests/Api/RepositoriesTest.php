@@ -561,7 +561,7 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldCompareComplexBranchName(): void
+    public function shouldCompareWithFromProjectId(): void
     {
         $expectedArray = ['commit' => 'object'];
 

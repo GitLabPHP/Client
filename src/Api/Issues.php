@@ -347,7 +347,7 @@ class Issues extends AbstractApi
      * @param int|string $project_id The ID or URL-encoded path of the project owned by the authenticated user
      * @param int        $issue_iid  The internal ID of a project’s issue
      *
-     * @return array|string issue object if change is made, empty string otherwise
+     * @return mixed
      */
     public function subscribe($project_id, int $issue_iid)
     {
@@ -363,7 +363,7 @@ class Issues extends AbstractApi
      * @param int|string $project_id The ID or URL-encoded path of the project owned by the authenticated user
      * @param int        $issue_iid  The internal ID of a project’s issue
      *
-     * @return array|string issue object if change is made, empty string otherwise
+     * @return mixed
      */
     public function unsubscribe($project_id, int $issue_iid)
     {
