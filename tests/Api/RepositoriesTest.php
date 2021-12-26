@@ -6,7 +6,7 @@ declare(strict_types=1);
  * This file is part of the Gitlab API library.
  *
  * (c) Matt Humphrey <matth@windsor-telecom.co.uk>
- * (c) Graham Campbell <graham@alt-three.com>
+ * (c) Graham Campbell <hello@gjcampbell.co.uk>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -544,7 +544,24 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
-    public function shouldCompareWithFromProjectId(): void
+    public function shouldCompareComplexBranchName(): void
+    {
+        $expectedArray = ['commit' => 'object'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/repository/compare', ['from' => 'master', 'to' => 'feature/760.fake-branch', 'straight' => 'true'])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->compare(1, 'master', 'feature/760.fake-branch', true));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCompareComplexBranchName(): void
     {
         $expectedArray = ['commit' => 'object'];
 
