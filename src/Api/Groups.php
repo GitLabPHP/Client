@@ -77,7 +77,7 @@ class Groups extends AbstractApi
         ];
 
         return $this->post('groups', \array_filter($params, function ($value) {
-            return null !== $value && (!\is_string($value) || \strlen($value) > 0);
+            return null !== $value && (!\is_string($value) || '' !== $value);
         }));
     }
 
