@@ -16,7 +16,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.4
+          php-version: '8.0'
           tools: composer:2.1
           coverage: none
 
@@ -48,7 +48,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 7.4
+          php-version: '8.0'
           tools: composer:2.1
           coverage: none
 
@@ -68,42 +68,3 @@ jobs:
 
       - name: Execute Psalm
         run: vendor/bin/psalm.phar --no-progress --output-format=github
-
-  rector:
-    name: Rector
-    runs-on: ubuntu-20.04
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 7.4
-          tools: composer:2.1, cs2pr
-          coverage: none
-
-      - name: Install Dependencies
-        uses: nick-invision/retry@v1
-        with:
-          timeout_minutes: 5
-          max_attempts: 5
-          command: composer update --no-interaction --no-progress
-
-      - name: Install PHPUnit
-        uses: nick-invision/retry@v1
-        with:
-          timeout_minutes: 5
-          max_attempts: 5
-          command: composer bin phpunit update --no-interaction --no-progress
-
-      - name: Install Rector
-        uses: nick-invision/retry@v1
-        with:
-          timeout_minutes: 5
-          max_attempts: 5
-          command: composer bin rector update --no-interaction --no-progress
-
-      - name: Execute Rector
-        run: vendor/bin/rector process --dry-run --output-format=checkstyle | cs2pr

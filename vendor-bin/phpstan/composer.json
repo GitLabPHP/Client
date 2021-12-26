@@ -1,11 +1,11 @@
 {
     "require": {
-        "php": "^7.2.5 || ^8.0",
-        "phpstan/phpstan": "0.12.82",
-        "phpstan/phpstan-deprecation-rules": "0.12.6",
-        "phpstan/phpstan-strict-rules": "0.12.9",
-        "thecodingmachine/phpstan-strict-rules": "0.12.1",
-        "ergebnis/phpstan-rules": "0.15.3"
+        "php": "^8.0.2",
+        "phpstan/phpstan": "1.2.0",
+        "phpstan/phpstan-deprecation-rules": "1.0.0",
+        "phpstan/phpstan-strict-rules": "1.1.0",
+        "thecodingmachine/phpstan-strict-rules": "1.0.0",
+        "ergebnis/phpstan-rules": "1.0.0"
     },
     "config": {
         "preferred-install": "dist"

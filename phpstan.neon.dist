@@ -18,5 +18,5 @@ parameters:
     paths:
         - src
     ignoreErrors:
-        - "#Anonymous function should have native return typehint#"
         - '#Only booleans are allowed in an if condition#'
+        - '#PHPDoc tag \@var above a method has no effect.#'

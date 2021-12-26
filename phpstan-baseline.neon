@@ -6,6 +6,21 @@ parameters:
 			path: src/Api/AbstractApi.php
 
 		-
+			message: "#^Parameter \\#2 \\$resource of method Http\\\\Message\\\\MultipartStream\\\\MultipartStreamBuilder\\:\\:addResource\\(\\) expects Psr\\\\Http\\\\Message\\\\StreamInterface\\|resource\\|string, mixed given\\.$#"
+			count: 1
+			path: src/Api/AbstractApi.php
+
+		-
+			message: "#^Property Gitlab\\\\Api\\\\AbstractApi\\:\\:\\$perPage is never written, only read\\.$#"
+			count: 1
+			path: src/Api/AbstractApi.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: src/HttpClient/Util/QueryStringBuilder.php
+
+		-
 			message: "#^Variable method call on Gitlab\\\\Api\\\\AbstractApi\\.$#"
 			count: 1
 			path: src/ResultPager.php
