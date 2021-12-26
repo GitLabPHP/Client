@@ -418,7 +418,7 @@ class Repositories extends AbstractApi
             'to' => self::encodePath($toShaOrMaster),
             'straight' => self::encodePath($straight ? 'true' : 'false'),
         ];
-        
+
         if (null !== $fromProjectId) {
             $params['from_project_id'] = self::encodePath($fromProjectId);
         }
