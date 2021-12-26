@@ -555,7 +555,7 @@ class RepositoriesTest extends TestCase
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->compare(1, 'master', 'feature', false, '123'));
+        $this->assertEquals($expectedArray, $api->compare(1, 'master', 'feature', true, '123'));
     }
 
     /**
