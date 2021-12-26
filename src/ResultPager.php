@@ -6,7 +6,7 @@ declare(strict_types=1);
  * This file is part of the Gitlab API library.
  *
  * (c) Matt Humphrey <matth@windsor-telecom.co.uk>
- * (c) Graham Campbell <graham@alt-three.com>
+ * (c) Graham Campbell <hello@gjcampbell.co.uk>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -26,7 +26,7 @@ use ValueError;
  *
  * @author Ramon de la Fuente <ramon@future500.nl>
  * @author Mitchel Verschoof <mitchel@future500.nl>
- * @author Graham Campbell <graham@alt-three.com>
+ * @author Graham Campbell <hello@gjcampbell.co.uk>
  */
 final class ResultPager implements ResultPagerInterface
 {

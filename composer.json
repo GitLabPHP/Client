@@ -6,19 +6,23 @@
     "authors": [
         {
             "name": "Fabien Bourigault",
-            "email": "bourigaultfabien@gmail.com"
+            "email": "bourigaultfabien@gmail.com",
+            "homepage": "https://github.com/fbourigault"
         },
         {
             "name": "Graham Campbell",
-            "email": "graham@alt-three.com"
+            "email": "hello@gjcampbell.co.uk",
+            "homepage": "https://github.com/GrahamCampbell"
         },
         {
             "name": "Matt Humphrey",
-            "email": "matth@windsor-telecom.co.uk"
+            "email": "matth@windsor-telecom.co.uk",
+            "homepage": "https://github.com/m4tthumphrey"
         },
         {
             "name": "Miguel Piedrafita",
-            "email": "github@miguelpiedrafita.com"
+            "email": "github@miguelpiedrafita.com",
+            "homepage": "https://github.com/m1guelpf"
         }
     ],
     "require": {
