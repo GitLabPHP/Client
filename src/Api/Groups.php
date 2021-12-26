@@ -123,6 +123,12 @@ class Groups extends AbstractApi
     {
         $resolver = $this->createOptionsResolver();
         $resolver->setDefined('query');
+        $resolver->setDefined('user_ids')
+            ->setAllowedTypes('user_ids', 'array')
+            ->setAllowedValues('user_ids', function (array $value) {
+                return \count($value) === \count(\array_filter($value, 'is_int'));
+            })
+        ;
 
         return $this->get('groups/'.self::encodePath($group_id).'/members/all', $resolver->resolve($parameters));
     }
@@ -140,6 +146,12 @@ class Groups extends AbstractApi
     {
         $resolver = $this->createOptionsResolver();
         $resolver->setDefined('query');
+        $resolver->setDefined('user_ids')
+            ->setAllowedTypes('user_ids', 'array')
+            ->setAllowedValues('user_ids', function (array $value) {
+                return \count($value) === \count(\array_filter($value, 'is_int'));
+            })
+        ;
 
         return $this->get('groups/'.self::encodePath($group_id).'/members', $resolver->resolve($parameters));
     }

@@ -475,6 +475,12 @@ class Projects extends AbstractApi
     {
         $resolver = $this->createOptionsResolver();
         $resolver->setDefined('query');
+        $resolver->setDefined('user_ids')
+            ->setAllowedTypes('user_ids', 'array')
+            ->setAllowedValues('user_ids', function (array $value) {
+                return \count($value) === \count(\array_filter($value, 'is_int'));
+            })
+        ;
 
         return $this->get('projects/'.self::encodePath($project_id).'/members/all', $resolver->resolve($parameters));
     }
@@ -494,6 +500,12 @@ class Projects extends AbstractApi
 
         $resolver->setDefined('query')
             ->setAllowedTypes('query', 'string')
+        ;
+        $resolver->setDefined('user_ids')
+            ->setAllowedTypes('user_ids', 'array')
+            ->setAllowedValues('user_ids', function (array $value) {
+                return \count($value) === \count(\array_filter($value, 'is_int'));
+            })
         ;
 
         return $this->get($this->getProjectPath($project_id, 'members'), $resolver->resolve($parameters));
