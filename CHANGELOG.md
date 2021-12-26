@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Added support for removing protected branches
 * Added support for `psr/cache:^2.0`
 * Added support for `symfony/options-resolver:^6.0`
+* Added support for PHP 8.1
 
 [11.5.0]: https://github.com/GitLabPHP/Client/compare/11.4.1...11.5.0
 
