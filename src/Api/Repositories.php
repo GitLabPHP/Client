@@ -413,9 +413,9 @@ class Repositories extends AbstractApi
     public function compare($project_id, string $fromShaOrMaster, string $toShaOrMaster, bool $straight = false)
     {
         $params = [
-            'from' => self::encodePath($fromShaOrMaster),
-            'to' => self::encodePath($toShaOrMaster),
-            'straight' => self::encodePath($straight ? 'true' : 'false'),
+            'from' => $fromShaOrMaster,
+            'to' => $toShaOrMaster,
+            'straight' => $straight ? 'true' : 'false',
         ];
 
         return $this->get($this->getProjectPath($project_id, 'repository/compare'), $params);
