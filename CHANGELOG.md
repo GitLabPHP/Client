@@ -7,7 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [11.5.0] - UPCOMING
 
-[11.5.0]: https://github.com/GitLabPHP/Client/compare/11.4.0...11.5.0
+[11.5.0]: https://github.com/GitLabPHP/Client/compare/11.4.1...11.5.0
+
+## [11.4.1] - 2021-12-26
+
+* Fixed creating environments
+* Fixed double encoding of query parameters when comparing commits
+
+[11.4.1]: https://github.com/GitLabPHP/Client/compare/11.4.0...11.4.1
 
 ## [11.4.0] - 2021-03-27
 
