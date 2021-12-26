@@ -433,6 +433,58 @@ class Groups extends AbstractApi
     }
 
     /**
+     * @param int|string $group_id
+     * @param array      $parameters {
+     *
+     *     @var bool   $exclude_subgroups   if the parameter is included as true, packages from projects from subgroups
+     *                                      are not listed. default is false.
+     *     @var string $order_by            the field to use as order. one of created_at (default), name, version, type,
+     *                                      or project_path.
+     *     @var string $sort                the direction of the order, either asc (default) for ascending order
+     *                                      or desc for descending order
+     *     @var string $package_type        filter the returned packages by type. one of conan, maven, npm, pypi,
+     *                                      composer, nuget, or golang.
+     *     @var string $package_name        filter the project packages with a fuzzy search by name
+     *     @var bool   $include_versionless when set to true, versionless packages are included in the response
+     *     @var string $status              filter the returned packages by status. one of default (default),
+     *                                      hidden, or processing.
+     * }
+     *
+     * @return mixed
+     */
+    public function packages($group_id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+        $booleanNormalizer = function (Options $resolver, $value): string {
+            return $value ? 'true' : 'false';
+        };
+
+        $resolver->setDefined('exclude_subgroups')
+            ->setAllowedTypes('exclude_subgroups', 'bool')
+            ->setNormalizer('exclude_subgroups', $booleanNormalizer)
+        ;
+        $resolver->setDefined('order_by')
+            ->setAllowedValues('order_by', ['created_at', 'name', 'version', 'type'])
+        ;
+        $resolver->setDefined('sort')
+            ->setAllowedValues('sort', ['asc', 'desc'])
+        ;
+        $resolver->setDefined('package_type')
+            ->setAllowedValues('package_type', ['conan', 'maven', 'npm', 'pypi', 'composer', 'nuget', 'golang'])
+        ;
+        $resolver->setDefined('package_name');
+        $resolver->setDefined('include_versionless')
+            ->setAllowedTypes('include_versionless', 'bool')
+            ->setNormalizer('include_versionless', $booleanNormalizer)
+        ;
+        $resolver->setDefined('status')
+            ->setAllowedValues('status', ['default', 'hidden', 'processing'])
+        ;
+
+        return $this->get('groups/'.self::encodePath($group_id).'/packages', $resolver->resolve($parameters));
+    }
+
+    /**
      * @return OptionsResolver
      */
     private function getGroupSearchResolver()
