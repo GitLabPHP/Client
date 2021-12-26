@@ -544,6 +544,23 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
+    public function shouldCompareComplexBranchName(): void
+    {
+        $expectedArray = ['commit' => 'object'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/repository/compare', ['from' => 'master', 'to' => 'feature/760.fake-branch', 'straight' => 'true'])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->compare(1, 'master', 'feature/760.fake-branch', true));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetDiff(): void
     {
         $expectedArray = [
