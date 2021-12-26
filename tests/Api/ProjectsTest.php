@@ -2220,6 +2220,23 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldRemoveProtectedBranch(): void
+    {
+        $expectedBool = true;
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with(
+                'projects/1/protected_branches/test-branch'
+            )
+            ->will($this->returnValue($expectedBool));
+
+        $this->assertEquals($expectedBool, $api->deleteProtectedBranch(1, 'test-branch'));
+    }
+
+    /**
+     * @test
+     */
     public function shoudGetApprovalsConfiguration(): void
     {
         $expectedArray = [
