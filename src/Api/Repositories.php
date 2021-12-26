@@ -420,7 +420,7 @@ class Repositories extends AbstractApi
         ];
         
         if (null !== $fromProjectId) {
-            $params['from_project_id'] = self::encodePath($fromProjectId)
+            $params['from_project_id'] = self::encodePath($fromProjectId);
         }
 
         return $this->get($this->getProjectPath($project_id, 'repository/compare'), $params);
