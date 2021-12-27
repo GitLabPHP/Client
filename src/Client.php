@@ -121,7 +121,7 @@ class Client
 
         $builder->addPlugin(new ExceptionThrower());
         $builder->addPlugin(new HistoryPlugin($this->responseHistory));
-	    $builder->addPlugin(new HeaderDefaultsPlugin([
+        $builder->addPlugin(new HeaderDefaultsPlugin([
             'User-Agent' => self::USER_AGENT,
         ]));
         $builder->addPlugin(new RedirectPlugin());
@@ -405,19 +405,19 @@ class Client
         $this->getHttpClientBuilder()->removePlugin(Authentication::class);
         $this->getHttpClientBuilder()->addPlugin(new Authentication($authMethod, $token, $sudo));
     }
-	
-	/**
-	 * @param string $url
-	 *
-	 * @return void
-	 */
-	public function setUrl(string $url): void
-	{
-		$uri = $this->getHttpClientBuilder()->getUriFactory()->createUri($url);
-		
-		$this->getHttpClientBuilder()->removePlugin(AddHostPlugin::class);
-		$this->getHttpClientBuilder()->addPlugin(new AddHostPlugin($uri));
-	}
+
+    /**
+     * @param string $url
+     *
+     * @return void
+     */
+    public function setUrl(string $url): void
+    {
+        $uri = $this->getHttpClientBuilder()->getUriFactory()->createUri($url);
+
+        $this->getHttpClientBuilder()->removePlugin(AddHostPlugin::class);
+        $this->getHttpClientBuilder()->addPlugin(new AddHostPlugin($uri));
+    }
 
     /**
      * Get the last response.
@@ -438,7 +438,7 @@ class Client
     {
         return $this->getHttpClientBuilder()->getHttpClient();
     }
-    
+
     /**
      * Get the stream factory.
      *
@@ -448,7 +448,7 @@ class Client
     {
         return $this->getHttpClientBuilder()->getStreamFactory();
     }
-    
+
     /**
      * Get the HTTP client builder.
      *
