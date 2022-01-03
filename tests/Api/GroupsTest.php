@@ -61,6 +61,26 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetAllTopLevelGroupsWithoutSubgroups(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'name' => 'A group'],
+            ['id' => 2, 'name' => 'Another group'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups', ['top_level_only' => 'true'])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->all(['top_level_only' => true]));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetAllGroupProjectsWithBooleanParam(): void
     {
         $expectedArray = [

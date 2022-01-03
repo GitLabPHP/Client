@@ -30,6 +30,7 @@ class Groups extends AbstractApi
      *     @var bool   $statistics       include group statistics (admins only)
      *     @var bool   $owned            limit by groups owned by the current user
      *     @var int    $min_access_level limit by groups in which the current user has at least this access level
+     *     @var bool   $top_level_only   limit to top level groups, excluding all subgroups
      * }
      *
      * @return mixed
@@ -314,7 +315,7 @@ class Groups extends AbstractApi
      */
     public function subgroups($group_id, array $parameters = [])
     {
-        $resolver = $this->getGroupSearchResolver();
+        $resolver = $this->getSubgroupSearchResolver();
 
         return $this->get('groups/'.self::encodePath($group_id).'/subgroups', $resolver->resolve($parameters));
     }
@@ -500,6 +501,24 @@ class Groups extends AbstractApi
      * @return OptionsResolver
      */
     private function getGroupSearchResolver()
+    {
+        $resolver = $this->getSubgroupSearchResolver();
+        $booleanNormalizer = function (Options $resolver, $value): string {
+            return $value ? 'true' : 'false';
+        };
+
+        $resolver->setDefined('top_level_only')
+            ->setAllowedTypes('top_level_only', 'bool')
+            ->setNormalizer('top_level_only', $booleanNormalizer)
+        ;
+
+        return $resolver;
+    }
+
+    /**
+     * @return OptionsResolver
+     */
+    private function getSubgroupSearchResolver()
     {
         $resolver = $this->createOptionsResolver();
         $booleanNormalizer = function (Options $resolver, $value): string {
