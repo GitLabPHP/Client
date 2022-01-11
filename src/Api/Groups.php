@@ -383,9 +383,9 @@ class Groups extends AbstractApi
      * @param string     $key
      * @param string     $value
      * @param bool|null  $protected
-     * @param array<string,mixed> $parameters        {
+     * @param array      $parameters {
      *
-     *      @var string masked          true or false
+     *      @var string $masked         true or false
      *      @var string $variable_type  env_var (default) or file
      * }
      *
@@ -401,7 +401,8 @@ class Groups extends AbstractApi
         if ($protected) {
             $payload['protected'] = $protected;
         }
-        
+
+        $parameters = array_intersect_key($parameters, array_flip(['masked', 'variable_type']));
         $payload = \array_merge($parameters, $payload);
 
         return $this->post('groups/'.self::encodePath($group_id).'/variables', $payload);
