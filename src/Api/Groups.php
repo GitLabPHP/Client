@@ -197,18 +197,11 @@ class Groups extends AbstractApi
 
     /**
      * @param int|string $group_id
-     * @param int        $user_id
+     * @param array      $parameters {
      *
-     * @return mixed
-     */
-    public function removeMember($group_id, int $user_id)
-    {
-        return $this->delete('groups/'.self::encodePath($group_id).'/members/'.self::encodePath($user_id));
-    }
-    
-    /**
-     * @param int|string $group_id
-     * @param array      $parameters
+     *     @var int $group_access  The access level to grant the group.
+     *     @var string $expires_at Share expiration date in ISO 8601 format: 2016-09-26
+     * }
      *
      * @return mixed
      */
@@ -233,6 +226,17 @@ class Groups extends AbstractApi
         ;
 
         return $this->post('groups/'.self::encodePath($group_id).'/share', $resolver->resolve($parameters));
+    }
+
+    /**
+     * @param int|string $group_id
+     * @param int        $user_id
+     *
+     * @return mixed
+     */
+    public function removeMember($group_id, int $user_id)
+    {
+        return $this->delete('groups/'.self::encodePath($group_id).'/members/'.self::encodePath($user_id));
     }
 
     /**
