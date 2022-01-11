@@ -199,8 +199,8 @@ class Groups extends AbstractApi
      * @param int|string $group_id
      * @param array      $parameters {
      *
-     *     @var int $group_access  The access level to grant the group.
-     *     @var string $expires_at Share expiration date in ISO 8601 format: 2016-09-26
+     *     @var int    $group_access The access level to grant the group.
+     *     @var string $expires_at   Share expiration date in ISO 8601 format: 2016-09-26
      * }
      *
      * @return mixed
