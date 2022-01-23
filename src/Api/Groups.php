@@ -212,7 +212,7 @@ class Groups extends AbstractApi
      * @param int|string $group_id
      * @param array      $parameters {
      *
-     *     @var int    $group_access The access level to grant the group.
+     *     @var int    $group_access the access level to grant the group
      *     @var string $expires_at   Share expiration date in ISO 8601 format: 2016-09-26
      * }
      *
@@ -447,13 +447,13 @@ class Groups extends AbstractApi
         if ($protected) {
             $payload['protected'] = $protected;
         }
-        
+
         if (isset($parameters['masked'])) {
-             $payload['masked'] = $parameters['masked'];
+            $payload['masked'] = $parameters['masked'];
         }
 
         if (isset($parameters['variable_type'])) {
-             $payload['variable_type'] = $parameters['variable_type'];
+            $payload['variable_type'] = $parameters['variable_type'];
         }
 
         return $this->post('groups/'.self::encodePath($group_id).'/variables', $payload);
