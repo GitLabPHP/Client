@@ -5,9 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [11.6.0] - UPCOMING
+## [11.6.0] - 2022-01-23
 
-* TBC
+* Added support for for workspace repository permissions
+* Added support for `psr/cache:^3.0`
 
 [11.6.0]: https://github.com/GitLabPHP/Client/compare/11.5.1...11.6.0
 
