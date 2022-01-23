@@ -448,11 +448,11 @@ class Groups extends AbstractApi
             $payload['protected'] = $protected;
         }
         
-        if (isset($parameters['masked']) {
+        if (isset($parameters['masked'])) {
              $payload['masked'] = $parameters['masked'];
         }
 
-        if (isset($parameters['variable_type']) {
+        if (isset($parameters['variable_type'])) {
              $payload['variable_type'] = $parameters['variable_type'];
         }
 
