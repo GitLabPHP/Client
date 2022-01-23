@@ -396,10 +396,15 @@ class Groups extends AbstractApi
      * @param string     $key
      * @param string     $value
      * @param bool|null  $protected
+     * @param array      $parameters {
+     *
+     *      @var string $masked         true or false
+     *      @var string $variable_type  env_var (default) or file
+     * }
      *
      * @return mixed
      */
-    public function addVariable($group_id, string $key, string $value, ?bool $protected = null)
+    public function addVariable($group_id, string $key, string $value, ?bool $protected = null, array $parameters = [])
     {
         $payload = [
             'key' => $key,
@@ -408,6 +413,14 @@ class Groups extends AbstractApi
 
         if ($protected) {
             $payload['protected'] = $protected;
+        }
+        
+        if (isset($parameters['masked']) {
+             $payload['masked'] = $parameters['masked'];
+        }
+
+        if (isset($parameters['variable_type']) {
+             $payload['variable_type'] = $parameters['variable_type'];
         }
 
         return $this->post('groups/'.self::encodePath($group_id).'/variables', $payload);
