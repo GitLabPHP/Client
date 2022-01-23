@@ -1062,6 +1062,17 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
+     * @param string     $file
+     *
+     * @return mixed
+     */
+    public function uploadAvatar($project_id, string $file)
+    {
+        return $this->put($this->getProjectPath($project_id, ''), [], [], ['avatar' => $file]);
+    }
+
+    /**
+     * @param int|string $project_id
      * @param array      $parameters
      *
      * @return mixed
