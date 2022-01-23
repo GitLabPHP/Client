@@ -37,7 +37,7 @@ class Issues extends AbstractApi
      *     @var string $labels               comma-separated list of label names, issues must have all labels to be returned
      *     @var bool   $with_labels_details  if true, response will return more details for each label
      *     @var string $milestone            the milestone title
-     *     @var string scope                 return issues for the given scope: created-by-me, assigned-to-me or all (default is created-by-me)
+     *     @var string $scope                return issues for the given scope: created-by-me, assigned-to-me or all (default is created-by-me)
      *     @var int[]  $iids                 return only the issues having the given iid
      *     @var string $order_by             return requests ordered by created_at or updated_at fields (default is created_at)
      *     @var string $sort                 return requests sorted in asc or desc order (default is desc)

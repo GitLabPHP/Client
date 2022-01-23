@@ -9,7 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * TBC
 
-[11.6.0]: https://github.com/GitLabPHP/Client/compare/11.5.0...11.6.0
+[11.6.0]: https://github.com/GitLabPHP/Client/compare/11.5.1...11.6.0
+
+## [11.5.1] - 2022-01-23
+
+* Fixed release API paths
+
+[11.5.1]: https://github.com/GitLabPHP/Client/compare/11.5.0...11.5.1
 
 ## [11.5.0] - 2021-12-26
 
