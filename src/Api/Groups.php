@@ -210,6 +210,39 @@ class Groups extends AbstractApi
 
     /**
      * @param int|string $group_id
+     * @param array      $parameters {
+     *
+     *     @var int    $group_access The access level to grant the group.
+     *     @var string $expires_at   Share expiration date in ISO 8601 format: 2016-09-26
+     * }
+     *
+     * @return mixed
+     */
+    public function addShare($group_id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+
+        $datetimeNormalizer = function (OptionsResolver $optionsResolver, \DateTimeInterface $value) {
+            return $value->format('Y-m-d');
+        };
+
+        $resolver->setRequired('group_id')
+            ->setAllowedTypes('group_id', 'int');
+
+        $resolver->setRequired('group_access')
+            ->setAllowedTypes('group_access', 'int')
+            ->setAllowedValues('group_access', [0, 10, 20, 30, 40, 50]);
+
+        $resolver->setDefined('expires_at')
+            ->setAllowedTypes('expires_at', \DateTimeInterface::class)
+            ->setNormalizer('expires_at', $datetimeNormalizer)
+        ;
+
+        return $this->post('groups/'.self::encodePath($group_id).'/share', $resolver->resolve($parameters));
+    }
+
+    /**
+     * @param int|string $group_id
      * @param int        $user_id
      *
      * @return mixed
