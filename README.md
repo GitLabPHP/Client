@@ -23,12 +23,12 @@ Check out the [change log](CHANGELOG.md), [releases](https://github.com/GitLabPH
 
 ## Installation
 
-This version supports [PHP](https://php.net) 7.2-8.1. To get started, simply require the project using [Composer](https://getcomposer.org). You will also need to install packages that "provide" [`psr/http-client-implementation`](https://packagist.org/providers/psr/http-client-implementation) and [`psr/http-factory-implementation`](https://packagist.org/providers/psr/http-factory-implementation).
+This version supports [PHP](https://php.net) 7.4-8.1. To get started, simply require the project using [Composer](https://getcomposer.org). You will also need to install packages that "provide" [`psr/http-client-implementation`](https://packagist.org/providers/psr/http-client-implementation) and [`psr/http-factory-implementation`](https://packagist.org/providers/psr/http-factory-implementation).
 
 ### Standard Installation
 
 ```bash
-$ composer require "m4tthumphrey/php-gitlab-api:^11.6" "guzzlehttp/guzzle:^7.4" "http-interop/http-factory-guzzle:^1.0"
+$ composer require "m4tthumphrey/php-gitlab-api:^11.7" "guzzlehttp/guzzle:^7.4" "http-interop/http-factory-guzzle:^1.2"
 ```
 
 ### Framework Integration
@@ -36,7 +36,7 @@ $ composer require "m4tthumphrey/php-gitlab-api:^11.6" "guzzlehttp/guzzle:^7.4" 
 #### Laravel:
 
 ```bash
-$ composer require "graham-campbell/gitlab:^5.6" "guzzlehttp/guzzle:^7.4" "http-interop/http-factory-guzzle:^1.0"
+$ composer require "graham-campbell/gitlab:^6.0"
 ```
 
 #### Symfony:
