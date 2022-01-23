@@ -401,9 +401,14 @@ class Groups extends AbstractApi
         if ($protected) {
             $payload['protected'] = $protected;
         }
+        
+        if (isset($parameters['masked']) {
+             $payload['masked'] = $parameters['masked'];
+        }
 
-        $parameters = array_intersect_key($parameters, array_flip(['masked', 'variable_type']));
-        $payload = \array_merge($parameters, $payload);
+        if (isset($parameters['variable_type']) {
+             $payload['variable_type'] = $parameters['variable_type'];
+        }
 
         return $this->post('groups/'.self::encodePath($group_id).'/variables', $payload);
     }
