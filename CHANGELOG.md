@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [11.8.0] - UPCOMING
+
+* TBC
+
+[11.8.0]: https://github.com/GitLabPHP/Client/compare/11.7.0...11.8.0
+
 ## [11.7.0] - 2022-01-24
 
 * Dropped PHP 7.2 and 7.3 support
