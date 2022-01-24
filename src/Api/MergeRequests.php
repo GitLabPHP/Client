@@ -61,7 +61,7 @@ class MergeRequests extends AbstractApi
      *     @var string             $labels         return merge requests matching a comma separated list of labels
      *     @var \DateTimeInterface $created_after  return merge requests created after the given time (inclusive)
      *     @var \DateTimeInterface $created_before return merge requests created before the given time (inclusive)
-     *     @var int                $reviewer_id    returns merge requests which have the user as a reviewer with the given user id
+     *     @var int                $reviewer_id    return merge requests which have the user as a reviewer with the given user id
      *     @var bool               $wip            return only draft merge requests (true) or only non-draft merge requests (false)
      * }
      *
