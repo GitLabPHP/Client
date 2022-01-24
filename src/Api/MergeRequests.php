@@ -62,7 +62,7 @@ class MergeRequests extends AbstractApi
      *     @var \DateTimeInterface $created_after  return merge requests created after the given time (inclusive)
      *     @var \DateTimeInterface $created_before return merge requests created before the given time (inclusive)
      *     @var int                $reviewer_id    returns merge requests which have the user as a reviewer with the given user id
-     *     @var string             $wip            return only draft merge requests (yes) or only non-draft merge requests (no)
+     *     @var bool               $wip            return only draft merge requests (true) or only non-draft merge requests (false)
      * }
      *
      * @throws UndefinedOptionsException if an option name is undefined
@@ -141,7 +141,10 @@ class MergeRequests extends AbstractApi
         $resolver->setDefined('reviewer_id')
             ->setAllowedTypes('reviewer_id', 'integer');
         $resolver->setDefined('wip')
-            ->setAllowedValues('wip', ['yes', 'no']);
+            ->setAllowedTypes('wip', 'boolean')
+            ->addNormalizer('wip', static function($resolver, $wip) {
+                return $wip ? 'yes' : 'no';
+            });
 
         $path = null === $project_id ? 'merge_requests' : $this->getProjectPath($project_id, 'merge_requests');
 
