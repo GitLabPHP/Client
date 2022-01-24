@@ -142,7 +142,7 @@ class MergeRequests extends AbstractApi
             ->setAllowedTypes('reviewer_id', 'integer');
         $resolver->setDefined('wip')
             ->setAllowedTypes('wip', 'boolean')
-            ->addNormalizer('wip', static function($resolver, $wip) {
+            ->addNormalizer('wip', static function ($resolver, $wip) {
                 return $wip ? 'yes' : 'no';
             });
 
