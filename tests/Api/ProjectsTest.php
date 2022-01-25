@@ -811,6 +811,26 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetPipelineJobs(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'status' => 'success', 'stage' => 'Build'],
+            ['id' => 2, 'status' => 'failed', 'stage' => 'Build'],
+            ['id' => 3, 'status' => 'pending', 'stage' => 'Build'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/pipelines/3/jobs')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->pipeline(1, 3));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetPipelineVariables(): void
     {
         $expectedArray = [
