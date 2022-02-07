@@ -518,7 +518,7 @@ class Groups extends AbstractApi
 
     /**
      * @param int|string $group_id
-     * @param array           $parameters {
+     * @param array      $parameters {
      *
      *     @var int[]              $iids           return the request having the given iid
      *     @var string             $state          return all merge requests or just those that are opened, closed, or
@@ -533,6 +533,7 @@ class Groups extends AbstractApi
      *     @var \DateTimeInterface $created_after  return merge requests created after the given time (inclusive)
      *     @var \DateTimeInterface $created_before return merge requests created before the given time (inclusive)
      * }
+     *
      * @return mixed
      */
     public function mergeRequests($group_id, array $parameters = [])
