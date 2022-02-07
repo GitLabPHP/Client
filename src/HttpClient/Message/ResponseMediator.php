@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Gitlab\HttpClient\Message;
 
+use Gitlab\Exception\NonArrayJsonResponseException;
 use Gitlab\Exception\RuntimeException;
 use Gitlab\HttpClient\Util\JsonArray;
 use Psr\Http\Message\ResponseInterface;
@@ -62,8 +63,16 @@ final class ResponseMediator
     {
         $body = (string) $response->getBody();
 
-        if (!\in_array($body, ['', 'null', 'true', 'false'], true) && 0 === \strpos($response->getHeaderLine(self::CONTENT_TYPE_HEADER), self::JSON_CONTENT_TYPE)) {
-            return JsonArray::decode($body);
+        if ('' === $body) {
+            return $body;
+        }
+
+        if (0 === \strpos($response->getHeaderLine(self::CONTENT_TYPE_HEADER), self::JSON_CONTENT_TYPE)) {
+            try {
+                return JsonArray::decode($body);
+            } catch (NonArrayJsonResponseException $e) {
+                return $body;
+            }
         }
 
         return $body;

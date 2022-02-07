@@ -62,6 +62,20 @@ class ResponseMediatorTest extends TestCase
         ResponseMediator::getContent($response);
     }
 
+    /** @dataProvider nonArrayJsonResponsesProvider */
+    public function testGetContentNonArrayJson(string $json): void
+    {
+        $response = new Response(
+            200,
+            ['Content-Type' => 'application/json'],
+            Utils::streamFor($json)
+        );
+
+        $content = ResponseMediator::getContent($response);
+
+        $this->assertEquals($json, $content);
+    }
+
     public function testGetErrrorMessageInvalidJson(): void
     {
         $response = new Response(
@@ -94,5 +108,18 @@ TEXT;
         $result = ResponseMediator::getPagination($response);
 
         $this->assertSame($pagination, $result);
+    }
+
+    public function nonArrayJsonResponsesProvider(): array
+    {
+        return [
+            [''],
+            ['""'],
+            ['"foo"'],
+            ['null'],
+            ['true'],
+            ['false'],
+            ['202'],
+        ];
     }
 }
