@@ -41,7 +41,8 @@ class Wiki extends AbstractApi
     /**
      * @param int|string          $project_id
      * @param array<string,mixed> $params {
-     *     @var bool $with_content Include pages’ content
+     *
+     *     @var bool $with_content Include pages' content
      * }
      *
      * @return mixed
