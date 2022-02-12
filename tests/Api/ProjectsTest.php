@@ -825,7 +825,7 @@ class ProjectsTest extends TestCase
             ->with('projects/1/pipelines/3/jobs')
             ->will($this->returnValue($expectedArray));
 
-        $this->assertEquals($expectedArray, $api->pipeline(1, 3));
+        $this->assertEquals($expectedArray, $api->pipelineJobs(1, 3));
     }
 
     /**
