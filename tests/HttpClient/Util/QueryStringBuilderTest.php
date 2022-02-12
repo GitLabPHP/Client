@@ -32,21 +32,21 @@ class QueryStringBuilderTest extends TestCase
 
     public function queryStringProvider()
     {
-        //Indexed array.
-        yield [
-            ['iids' => [88, 86]],
-            //iids[]=88&iids[]=86
+        yield 'indexed array' => [
+            [
+                'iids' => [88, 86],
+            ],
             'iids%5B%5D=88&iids%5B%5D=86',
         ];
 
-        //Non indexed array with only numeric keys.
-        yield [
-            ['iids' => [0 => 88, 2 => 86]],
-            //iids[0]=88&iids[2]=86
+        yield 'non-indexed array with only numeric keys' => [
+            [
+                'iids' => [0 => 88, 2 => 86],
+            ],
             'iids%5B0%5D=88&iids%5B2%5D=86',
         ];
 
-        yield [
+        yield 'indexed array with multiple entries' => [
             [
                 'source_branch' => 'test_source',
                 'target_branch' => 'test_master',
@@ -55,14 +55,15 @@ class QueryStringBuilderTest extends TestCase
             'source_branch=test_source&target_branch=test_master&title=test',
         ];
 
-        //Boolean encoding
-        yield [
-            ['push_events' => false, 'merge_requests_events' => 1],
+        yield 'boolean encoding with multiple entries' => [
+            [
+                'push_events' => false,
+                'merge_requests_events' => 1,
+            ],
             'push_events=0&merge_requests_events=1',
         ];
 
-        //A deeply nested array.
-        yield [
+        yield 'deeply nested array' => [
             [
                 'search' => 'a project',
                 'owned' => 'true',
@@ -90,13 +91,6 @@ class QueryStringBuilderTest extends TestCase
                     ],
                 ],
             ],
-            //search=a project
-            //&owned=true
-            //&iids[]=88&iids[]=86
-            //&assoc[a]=b&assoc[c][d]=e&assoc[c][f]=g
-            //&nested[a][][b]=c&nested[a][][d]=e
-            //&nested[a][][f][g]=h&nested[a][][f][i]=j
-            //&nested[a][][f][k][]=87&nested[a][][f][k][]=89
             'search=a%20project&owned=true&iids%5B%5D=88&iids%5B%5D=86'.
             '&assoc%5Ba%5D=b&assoc%5Bc%5D%5Bd%5D=e&assoc%5Bc%5D%5Bf%5D=g'.
             '&nested%5Ba%5D%5B%5D%5Bb%5D=c&nested%5Ba%5D%5B%5D%5Bd%5D=e'.
