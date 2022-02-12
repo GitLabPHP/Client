@@ -31,7 +31,6 @@ class SystemHooks extends AbstractApi
      * @param string                    $url
      * @param array<string,string|bool> $parameters {
      *
-     *     @var string  $url                        the hook URL
      *     @var string  $token                      secret token to validate received payloads
      *     @var bool    $push_events                when true, the hook fires on push events
      *     @var bool    $tag_push_events            when true, the hook fires on new tags being pushed
@@ -44,9 +43,11 @@ class SystemHooks extends AbstractApi
      */
     public function create(string $url, array $parameters = [])
     {
+        $parameters = $this->createOptionsResolver()->resolve($parameters);
+
         $parameters['url'] = $url;
 
-        return $this->post('hooks', $this->createOptionsResolver()->resolve($parameters));
+        return $this->post('hooks', $parameters);
     }
 
     /**
