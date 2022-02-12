@@ -20,6 +20,31 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class Groups extends AbstractApi
 {
     /**
+     * @var string
+     */
+    public const STATE_ALL = 'all';
+
+    /**
+     * @var string
+     */
+    public const STATE_MERGED = 'merged';
+
+    /**
+     * @var string
+     */
+    public const STATE_OPENED = 'opened';
+
+    /**
+     * @var string
+     */
+    public const STATE_CLOSED = 'closed';
+
+    /**
+     * @var string
+     */
+    public const STATE_LOCKED = 'locked';
+
+    /**
      * @param array $parameters {
      *
      *     @var int[]  $skip_groups      skip the group IDs passes
@@ -489,6 +514,108 @@ class Groups extends AbstractApi
     public function removeVariable($group_id, string $key)
     {
         return $this->delete('groups/'.self::encodePath($group_id).'/variables/'.self::encodePath($key));
+    }
+
+    /**
+     * @param int|string $group_id
+     * @param array      $parameters {
+     *
+     *     @var int[]              $iids           return the request having the given iid
+     *     @var string             $state          return all merge requests or just those that are opened, closed, or
+     *                                             merged
+     *     @var string             $scope          Return merge requests for the given scope: created-by-me,
+     *                                             assigned-to-me or all (default is created-by-me)
+     *     @var string             $order_by       return requests ordered by created_at or updated_at fields (default is created_at)
+     *     @var string             $sort           return requests sorted in asc or desc order (default is desc)
+     *     @var string             $milestone      return merge requests for a specific milestone
+     *     @var string             $view           if simple, returns the iid, URL, title, description, and basic state of merge request
+     *     @var string             $labels         return merge requests matching a comma separated list of labels
+     *     @var \DateTimeInterface $created_after  return merge requests created after the given time (inclusive)
+     *     @var \DateTimeInterface $created_before return merge requests created before the given time (inclusive)
+     * }
+     *
+     * @return mixed
+     */
+    public function mergeRequests($group_id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
+            return $value->format('c');
+        };
+        $resolver->setDefined('state')
+            ->setAllowedValues('state', [self::STATE_ALL, self::STATE_MERGED, self::STATE_OPENED, self::STATE_CLOSED])
+        ;
+        $resolver->setDefined('order_by')
+            ->setAllowedValues('order_by', ['created_at', 'updated_at'])
+        ;
+        $resolver->setDefined('sort')
+            ->setAllowedValues('sort', ['asc', 'desc'])
+        ;
+        $resolver->setDefined('milestone');
+        $resolver->setDefined('view')
+            ->setAllowedValues('view', ['simple'])
+        ;
+        $resolver->setDefined('labels');
+        $resolver->setDefined('with_labels_details')
+            ->setAllowedTypes('with_labels_details', 'bool')
+        ;
+
+        $resolver->setDefined('created_after')
+            ->setAllowedTypes('created_after', \DateTimeInterface::class)
+            ->setNormalizer('created_after', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('created_before')
+            ->setAllowedTypes('created_before', \DateTimeInterface::class)
+            ->setNormalizer('created_before', $datetimeNormalizer)
+        ;
+
+        $resolver->setDefined('updated_after')
+            ->setAllowedTypes('updated_after', \DateTimeInterface::class)
+            ->setNormalizer('updated_after', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('updated_before')
+            ->setAllowedTypes('updated_before', \DateTimeInterface::class)
+            ->setNormalizer('updated_before', $datetimeNormalizer)
+        ;
+
+        $resolver->setDefined('scope')
+            ->setAllowedValues('scope', ['created_by_me', 'assigned_to_me', 'all'])
+        ;
+        $resolver->setDefined('author_id')
+            ->setAllowedTypes('author_id', 'integer');
+        $resolver->setDefined('author_username');
+
+        $resolver->setDefined('assignee_id')
+            ->setAllowedTypes('assignee_id', 'integer');
+
+        $resolver->setDefined('approver_ids')
+            ->setAllowedTypes('approver_ids', 'array')
+            ->setAllowedValues('approver_ids', function (array $value) {
+                return \count($value) === \count(\array_filter($value, 'is_int'));
+            })
+        ;
+        $resolver->setDefined('non_archived')
+            ->setAllowedTypes('non_archived', 'bool')
+        ;
+        $resolver->setDefined('reviewer_id')
+            ->setAllowedTypes('reviewer_id', 'integer');
+        $resolver->setDefined('reviewer_username');
+        $resolver->setDefined('my_reaction_emoji');
+
+        $resolver->setDefined('search');
+        $resolver->setDefined('source_branch');
+        $resolver->setDefined('target_branch');
+        $resolver->setDefined('with_merge_status_recheck')
+            ->setAllowedTypes('with_merge_status_recheck', 'bool')
+        ;
+        $resolver->setDefined('approved_by_ids')
+            ->setAllowedTypes('approved_by_ids', 'array')
+            ->setAllowedValues('approved_by_ids', function (array $value) {
+                return \count($value) === \count(\array_filter($value, 'is_int'));
+            })
+        ;
+
+        return $this->get('groups/'.self::encodePath($group_id).'/merge_requests', $resolver->resolve($parameters));
     }
 
     /**

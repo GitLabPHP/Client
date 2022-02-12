@@ -715,4 +715,24 @@ class GroupsTest extends TestCase
 
         $this->assertEquals($expectedArray, $api->packages(1));
     }
+
+    /**
+     * @test
+     */
+    public function shouldGetGroupMergeRequests(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'title' => 'A merge request'],
+            ['id' => 2, 'title' => 'Another merge request'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/merge_requests')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->mergeRequests(1, []));
+    }
 }
