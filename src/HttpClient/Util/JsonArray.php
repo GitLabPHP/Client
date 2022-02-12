@@ -39,7 +39,7 @@ final class JsonArray
             throw new RuntimeException(\sprintf('json_decode error: %s', \json_last_error_msg()));
         }
 
-        if (null === $data || !\is_array($data)) {
+        if (!\is_array($data)) {
             throw new RuntimeException(\sprintf('json_decode error: Expected JSON of type array, %s given.', \get_debug_type($data)));
         }
 
