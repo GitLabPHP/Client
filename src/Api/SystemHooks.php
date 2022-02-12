@@ -31,12 +31,12 @@ class SystemHooks extends AbstractApi
      * @param string                    $url
      * @param array<string,string|bool> $parameters {
      *
-     *     @var string  $url 	                    the hook URL
+     *     @var string  $url                        the hook URL
      *     @var string  $token                      secret token to validate received payloads
      *     @var bool    $push_events                when true, the hook fires on push events
      *     @var bool    $tag_push_events            when true, the hook fires on new tags being pushed
      *     @var bool    $merge_requests_events      trigger hook on merge requests events
-     *     @var bool    $repository_update_events 	trigger hook on repository update events
+     *     @var bool    $repository_update_events   trigger hook on repository update events
      *     @var bool    $enable_ssl_verification    do SSL verification when triggering the hook
      * }
      *
