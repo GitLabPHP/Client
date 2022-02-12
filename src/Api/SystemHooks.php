@@ -73,9 +73,7 @@ class SystemHooks extends AbstractApi
     protected function createOptionsResolver(): OptionsResolver
     {
         $resolver = new OptionsResolver();
-        $resolver->setDefined('url')
-                 ->setRequired('url')
-        ;
+
         $resolver->setDefined('token');
 
         $booleanNormalizer = function (Options $resolver, $value): string {
