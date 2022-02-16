@@ -17,7 +17,6 @@ namespace Gitlab\Api;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Search extends AbstractApi
 {
@@ -53,7 +52,7 @@ class Search extends AbstractApi
             'merge_requests',
             'milestones',
             'snippet_titles',
-            'users'
+            'users',
         ];
         $resolver->setDefined('scope')
             ->setAllowedValues('scope', $scope);

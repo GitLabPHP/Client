@@ -37,7 +37,7 @@ class SearchTest extends TestCase
                 'confidential' => 'false',
                 'search' => 'bla',
                 'order_by' => 'created_at',
-                'sort' => 'desc'
+                'sort' => 'desc',
             ])
             ->will($this->returnValue($expectedArray));
 
@@ -46,7 +46,7 @@ class SearchTest extends TestCase
             'confidential' => false,
             'search' => 'bla',
             'order_by' => 'created_at',
-            'sort' => 'desc'
+            'sort' => 'desc',
         ]));
     }
 
