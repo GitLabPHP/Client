@@ -61,6 +61,7 @@ class Search extends AbstractApi
             ->setAllowedValues('order_by', ['created_at']);
         $resolver->setDefined('sort')
             ->setAllowedValues('sort', ['asc', 'desc']);
+
         return $this->get('search', $resolver->resolve($parameters));
     }
 }
