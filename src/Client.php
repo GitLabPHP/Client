@@ -38,6 +38,7 @@ use Gitlab\Api\ResourceLabelEvents;
 use Gitlab\Api\ResourceMilestoneEvents;
 use Gitlab\Api\ResourceStateEvents;
 use Gitlab\Api\ResourceWeightEvents;
+use Gitlab\Api\Search;
 use Gitlab\Api\Schedules;
 use Gitlab\Api\Snippets;
 use Gitlab\Api\SystemHooks;
@@ -333,6 +334,14 @@ class Client
     public function repositoryFiles(): RepositoryFiles
     {
         return new RepositoryFiles($this);
+    }
+
+    /**
+     * @return Search
+     */
+    public function search(): Search
+    {
+        return new Search($this);
     }
 
     /**
