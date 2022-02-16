@@ -106,7 +106,7 @@ abstract class AbstractApi
      *
      * @return mixed
      */
-    protected function post(string $uri, array $params = [], array $headers = [], array $files = [])
+    protected function post(string $uri, array $params = [], array $headers = [], array $files = [], array $uriParams = [])
     {
         if (0 < \count($files)) {
             $builder = $this->createMultipartStreamBuilder($params, $files);
@@ -120,7 +120,7 @@ abstract class AbstractApi
             }
         }
 
-        $response = $this->client->getHttpClient()->post(self::prepareUri($uri), $headers, $body);
+        $response = $this->client->getHttpClient()->post(self::prepareUri($uri, $uriParams), $headers, $body);
 
         return ResponseMediator::getContent($response);
     }

@@ -859,7 +859,7 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/pipeline', ['ref' => 'test-pipeline'])
+            ->with('projects/1/pipeline', [], [], [], ['ref' => 'test-pipeline'])
             ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->createPipeline(1, 'test-pipeline'));
@@ -888,7 +888,7 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/pipeline', ['ref' => 'test-pipeline', 'variables' => $variables])
+            ->with('projects/1/pipeline', ['variables' => $variables], [], [], ['ref' => 'test-pipeline'])
             ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->createPipeline(1, 'test-pipeline', $variables));
