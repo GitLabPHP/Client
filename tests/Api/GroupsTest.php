@@ -731,8 +731,8 @@ class GroupsTest extends TestCase
                 'revoked' => false,
                 'expired' => false,
                 'scopes' => [
-                  'read_repository',
-                  'read_registry'
+                    'read_repository',
+                    'read_registry',
                 ]
             ],
         ];
@@ -761,7 +761,7 @@ class GroupsTest extends TestCase
                 'expired' => true,
                 'scopes' => [
                     'read_repository',
-                    'read_registry'
+                    'read_registry',
                 ]
             ],
         ];
@@ -790,7 +790,7 @@ class GroupsTest extends TestCase
                 'expired' => true,
                 'scopes' => [
                     'read_repository',
-                    'read_registry'
+                    'read_registry',
                 ]
             ],
         ];
