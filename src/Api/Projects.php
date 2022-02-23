@@ -774,6 +774,77 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
+     * @param bool|null  $active
+     *
+     * @return mixed
+     */
+    public function deployTokens($project_id, bool $active = null)
+    {
+        return $this->get($this->getProjectPath($project_id, 'deploy_tokens'), (null !== $active) ? ['active' => $active] : []);
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param array      $parameters {
+     *
+     *     @var string $name                    the name of the deploy token
+     *     @var \DateTimeInterface $expires_at  expiration date for the deploy token, does not expire if no value is provided
+     *     @var string $username                the username for the deploy token
+     *     @var array  $scopes                  the scopes, one or many of: read_repository, read_registry, write_registry, read_package_registry, write_package_registry
+     * }
+     *
+     * @return mixed
+     */
+    public function createDeployToken($project_id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
+            return $value->format('c');
+        };
+
+        $resolver->define('name')
+            ->required()
+        ;
+
+        $resolver->define('scopes')
+            ->required()
+            ->allowedTypes('array')
+            ->allowedValues(function ($scopes) {
+                $allowed = ['read_repository', 'read_registry', 'write_registry', 'read_package_registry', 'write_package_registry'];
+                foreach ($scopes as $scope) {
+                    if (!\in_array($scope, $allowed, true)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            })
+        ;
+        $resolver->setDefined('username')
+            ->setAllowedTypes('username', 'string')
+        ;
+
+        $resolver->setDefined('expires_at')
+            ->setAllowedTypes('expires_at', \DateTimeInterface::class)
+            ->setNormalizer('expires_at', $datetimeNormalizer)
+        ;
+
+        return $this->post($this->getProjectPath($project_id, 'deploy_tokens'), $resolver->resolve($parameters));
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param int        $token_id
+     *
+     * @return mixed
+     */
+    public function deleteDeployToken($project_id, int $token_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'deploy_tokens/'.self::encodePath($token_id)));
+    }
+
+    /**
+     * @param int|string $project_id
      * @param array      $parameters {
      *
      *     @var string             $action      include only events of a particular action type
