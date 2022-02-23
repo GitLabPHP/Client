@@ -1365,7 +1365,7 @@ class ProjectsTest extends TestCase
                 'scopes' => [
                     'read_repository',
                     'read_registry',
-                ]
+                ],
             ],
         ];
 
@@ -1394,7 +1394,7 @@ class ProjectsTest extends TestCase
                 'scopes' => [
                     'read_repository',
                     'read_registry',
-                ]
+                ],
             ],
         ];
 
@@ -1423,7 +1423,7 @@ class ProjectsTest extends TestCase
                 'scopes' => [
                     'read_repository',
                     'read_registry',
-                ]
+                ],
             ],
         ];
 

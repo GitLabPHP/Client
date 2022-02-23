@@ -733,7 +733,7 @@ class GroupsTest extends TestCase
                 'scopes' => [
                     'read_repository',
                     'read_registry',
-                ]
+                ],
             ],
         ];
 
@@ -762,7 +762,7 @@ class GroupsTest extends TestCase
                 'scopes' => [
                     'read_repository',
                     'read_registry',
-                ]
+                ],
             ],
         ];
 
@@ -791,7 +791,7 @@ class GroupsTest extends TestCase
                 'scopes' => [
                     'read_repository',
                     'read_registry',
-                ]
+                ],
             ],
         ];
 
