@@ -717,7 +717,6 @@ class GroupsTest extends TestCase
         $this->assertEquals($expectedArray, $api->packages(1));
     }
 
-
     /**
      * @test
      */
@@ -747,6 +746,63 @@ class GroupsTest extends TestCase
         $this->assertEquals($expectedArray, $api->deployTokens(1));
     }
 
+    /**
+     * @test
+     */
+    public function shouldGetActiveDeployTokens(): void
+    {
+        $expectedArray = [
+            [
+                'id' => 1,
+                'name' => 'MyToken',
+                'username' => 'gitlab+deploy-token-1',
+                'expires_at' => '2020-02-14T00:00:00.000Z',
+                'revoked' => false,
+                'expired' => true,
+                'scopes' => [
+                  'read_repository',
+                  'read_registry'
+                ]
+            ],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/deploy_tokens', ['active' => true])
+            ->will($this->returnValue([]));
+
+        $this->assertEquals([], $api->deployTokens(1, true));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetInactiveDeployTokens(): void
+    {
+        $expectedArray = [
+            [
+                'id' => 1,
+                'name' => 'MyToken',
+                'username' => 'gitlab+deploy-token-1',
+                'expires_at' => '2020-02-14T00:00:00.000Z',
+                'revoked' => false,
+                'expired' => true,
+                'scopes' => [
+                  'read_repository',
+                  'read_registry'
+                ]
+            ],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/deploy_tokens', ['active' => false])
+            ->will($this->returnValue([]));
+
+        $this->assertEquals([], $api->deployTokens(1, false));
+    }
 
     /**
      * @test
