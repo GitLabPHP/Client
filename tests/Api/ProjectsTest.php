@@ -2260,7 +2260,7 @@ class ProjectsTest extends TestCase
     public function shouldPatchProtectedBranch(): void
     {
         $expectedArray = [
-            'code_owner_approval_required' => true
+            'code_owner_approval_required' => true,
         ];
         $api = $this->getApiMock();
         $api->expects($this->once())
