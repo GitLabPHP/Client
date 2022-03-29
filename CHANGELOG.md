@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Allow specifying params in `SystemHooks::create()`
 * Implement group merge requests endpoints
 * Implement event endpoints
+* Add support for `Projects::patchProtectedBranch()`
 
 [11.8.0]: https://github.com/GitLabPHP/Client/compare/11.7.0...11.8.0
 

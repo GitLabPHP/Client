@@ -2257,6 +2257,26 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldPatchProtectedBranch(): void
+    {
+        $expectedArray = [
+            'name' => 'master',
+            'code_owner_approval_required' => true,
+        ];
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('patch')
+            ->with(
+                'projects/1/protected_branches/test-branch',
+                ['name' => 'master', 'code_owner_approval_required' => true,]
+            )
+            ->will($this->returnValue($expectedArray));
+        $this->assertEquals($expectedArray, $api->patchProtectedBranch(1, 'test-branch', ['code_owner_approval_required' => true]));
+    }
+
+    /**
+     * @test
+     */
     public function shoudGetApprovalsConfiguration(): void
     {
         $expectedArray = [
