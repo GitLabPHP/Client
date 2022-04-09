@@ -64,6 +64,13 @@ class Users extends AbstractApi
             ->setAllowedTypes('blocked', 'bool')
             ->setAllowedValues('blocked', true)
         ;
+        $resolver->setDefined('with_custom_attributes')
+            ->setAllowedTypes('with_custom_attributes', 'bool')
+            ->setAllowedValues('with_custom_attributes', true)
+        ;
+        $resolver->setDefined('custom_attributes')
+            ->setAllowedTypes('custom_attributes', 'array')
+        ;
 
         return $this->get('users', $resolver->resolve($parameters));
     }
@@ -510,4 +517,66 @@ class Users extends AbstractApi
 
         return $this->get('users/'.self::encodePath($user_id).'/events', $resolver->resolve($parameters));
     }
+
+    /**
+     * @param int   $id
+     *
+     * @return mixed
+     */
+    public function customAttributes(int $id)
+    {
+        return $this->get('users/'.self::encodePath($id).'/custom_attributes');
+    }
+
+    /**
+     * @param int    $id
+     * @param string $key
+     * @param string $value
+     *
+     * @return mixed
+     */
+    public function customAttribute(int $id, string $key)
+    {
+        return $this->get('users/'.self::encodePath($id).'/custom_attributes/'.$key);
+    }
+
+    /**
+     * @param int    $id
+     * @param string $key
+     * @param string $value
+     *
+     * @return mixed
+     */
+    public function createCustomAttribute(int $id, string $key, string $value)
+    {
+        return $this->put('users/'.self::encodePath($id).'/custom_attributes/'.$key, [
+            'value' => $value,
+        ]);
+    }
+
+    /**
+     * @param int    $id
+     * @param string $key
+     * @param string $value
+     *
+     * @return mixed
+     */
+    public function updateCustomAttribute(int $id, string $key, string $value)
+    {
+        return $this->put('users/'.self::encodePath($id).'/custom_attributes/'.$key, [
+            'value' => $value,
+        ]);
+    }
+
+    /**
+     * @param int $id
+     * @param string $key
+     *
+     * @return mixed
+     */
+    public function removeCustomAttribute(int $id, string $key)
+    {
+        return $this->delete('users/'.self::encodePath($id).'/custom_attributes/'.$key);
+    }
+
 }
