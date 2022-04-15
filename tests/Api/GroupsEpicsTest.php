@@ -106,6 +106,27 @@ class GroupsEpicsTest extends TestCase
         $this->assertEquals($expectedBool, $api->remove(1, 2));
     }
 
+    /**
+     * @test
+     */
+    public function shouldGetEpicsIssues(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'title' => 'An issue'],
+            ['id' => 2, 'title' => 'Another issue'],
+        ];
+
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/epics/2/issues')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->issues(1, 2));
+    }
+
     protected function getApiClass()
     {
         return GroupsEpics::class;
