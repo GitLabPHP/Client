@@ -116,7 +116,6 @@ class GroupsEpicsTest extends TestCase
             ['id' => 2, 'title' => 'Another issue'],
         ];
 
-
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
