@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [11.7.1] - UPCOMING
 
+* Fixed `GroupsEpic::all()` method
 * Fixed `Projects::createPipeline()` method
 
 ## [11.7.0] - 2022-01-24
