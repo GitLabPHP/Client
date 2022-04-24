@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Add support for `reviewer_id` and `wip` params in `MergeRequests::all()`
 * Add support for `Projects::pipelineJobs()`
+* Add support for the confidential filter in `Issues:all()`
 * Allow specifying params in `Wiki::showAll()`
 * Allow specifying params in `SystemHooks::create()`
 * Implement group merge requests endpoints
