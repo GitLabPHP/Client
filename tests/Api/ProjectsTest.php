@@ -2530,6 +2530,46 @@ class ProjectsTest extends TestCase
         \unlink($fileName);
     }
 
+    /**
+     * @test
+     */
+    public function shouldAddProtectedTag(): void
+    {
+        $expectedArray = [
+            'name' => 'release-*',
+            'create_access_level' => [
+                'access_level' => 40,
+                'access_level_description' => 'Maintainers',
+            ],
+        ];
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with(
+                'projects/1/protected_tags',
+                ['name' => 'release-*', 'create_access_level' => 40]
+            )
+            ->will($this->returnValue($expectedArray));
+        $this->assertEquals($expectedArray, $api->addProtectedTag(1, ['name' => 'release-*', 'create_access_level' => 40]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRemoveProtectedTag(): void
+    {
+        $expectedBool = true;
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with(
+                'projects/1/protected_tags/release-%2A'
+            )
+            ->will($this->returnValue($expectedBool));
+
+        $this->assertEquals($expectedBool, $api->deleteProtectedTag(1, 'release-*'));
+    }
+
     protected function getApiClass()
     {
         return Projects::class;
