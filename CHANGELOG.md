@@ -15,7 +15,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Implement group merge requests endpoints
 * Implement event endpoints
 
-[11.8.0]: https://github.com/GitLabPHP/Client/compare/11.7.0...11.8.0
+[11.8.0]: https://github.com/GitLabPHP/Client/compare/11.7.1...11.8.0
+
+## [11.7.1] - 2022-04-24
+
+* Fixed `GroupsEpic::all()` method
+* Fixed `Projects::createPipeline()` method
+
+[11.7.1]: https://github.com/GitLabPHP/Client/compare/11.7.0...11.7.1
 
 ## [11.7.0] - 2022-01-24
 
