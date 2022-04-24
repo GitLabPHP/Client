@@ -19,7 +19,12 @@ class GroupsEpics extends AbstractApi
     /**
      * @var string
      */
-    public const STATE_ACTIVE = 'active';
+    public const STATE_ALL = 'all';
+
+    /**
+     * @var string
+     */
+    public const STATE_OPENED = 'opened';
 
     /**
      * @var string
@@ -47,7 +52,7 @@ class GroupsEpics extends AbstractApi
             })
         ;
         $resolver->setDefined('state')
-            ->setAllowedValues('state', [self::STATE_ACTIVE, self::STATE_CLOSED])
+            ->setAllowedValues('state', [self::STATE_ALL, self::STATE_OPENED, self::STATE_CLOSED])
         ;
         $resolver->setDefined('search');
 
