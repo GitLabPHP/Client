@@ -624,7 +624,7 @@ class Groups extends AbstractApi
      *
      *     @var string $state               Return opened, upcoming, current (previously started), closed, or all iterations.
      *                                      Filtering by started state is deprecated starting with 14.1, please use current instead.
-     *     @var string $search              Return only iterations with a title matching the provided string.
+     *     @var string $search              return only iterations with a title matching the provided string
      *     @var bool   $include_ancestors   Include iterations from parent group and its ancestors. Defaults to true.
      * }
      *

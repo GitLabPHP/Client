@@ -680,19 +680,19 @@ class ProjectsTest extends TestCase
     {
         $expectedArray = [
             [
-                "id" => 5,
-                "iid" => 2,
-                "sequence" => 1,
-                "group_id" => 123,
-                "title" => "2022: Sprint 1",
-                "description" => "",
-                "state" => 3,
-                "created_at" => "2021-09-29T21:24:43.913Z",
-                "updated_at" => "2022-03-29T19:09:08.368Z",
-                "start_date" => "2022-01-10",
-                "due_date" => "2022-01-23",
-                "web_url" => "https://example.com/groups/example/-/iterations/34",
-              ]
+                'id' => 5,
+                'iid' => 2,
+                'sequence' => 1,
+                'group_id' => 123,
+                'title' => '2022: Sprint 1',
+                'description' => '',
+                'state' => 3,
+                'created_at' => '2021-09-29T21:24:43.913Z',
+                'updated_at' => '2022-03-29T19:09:08.368Z',
+                'start_date' => '2022-01-10',
+                'due_date' => '2022-01-23',
+                'web_url' => 'https://example.com/groups/example/-/iterations/34',
+            ],
         ];
 
         $api = $this->getApiMock();
