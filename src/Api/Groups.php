@@ -622,6 +622,37 @@ class Groups extends AbstractApi
      * @param int|string $group_id
      * @param array      $parameters {
      *
+     *     @var string $state               Return opened, upcoming, current (previously started), closed, or all iterations.
+     *                                      Filtering by started state is deprecated starting with 14.1, please use current instead.
+     *     @var string $search              Return only iterations with a title matching the provided string.
+     *     @var bool   $include_ancestors   Include iterations from parent group and its ancestors. Defaults to true.
+     * }
+     *
+     * @return mixed
+     */
+    public function iterations($group_id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+        $booleanNormalizer = function (Options $resolver, $value): string {
+            return $value ? 'true' : 'false';
+        };
+
+        $resolver->setDefined('state')
+            ->setAllowedValues('state', ['opened', 'upcoming', 'current (previously started)', 'closed', 'all'])
+        ;
+        $resolver->setDefined('include_ancestors')
+            ->setAllowedTypes('include_ancestors', 'bool')
+            ->setNormalizer('include_ancestors', $booleanNormalizer)
+            ->setDefault('include_ancestors', true)
+        ;
+
+        return $this->get('groups/'.self::encodePath($group_id).'/iterations', $resolver->resolve($parameters));
+    }
+
+    /**
+     * @param int|string $group_id
+     * @param array      $parameters {
+     *
      *     @var bool   $exclude_subgroups   if the parameter is included as true, packages from projects from subgroups
      *                                      are not listed. default is false.
      *     @var string $order_by            the field to use as order. one of created_at (default), name, version, type,
