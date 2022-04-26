@@ -41,8 +41,11 @@ class Issues extends AbstractApi
      *     @var int[]  $iids                 return only the issues having the given iid
      *     @var string $order_by             return requests ordered by created_at or updated_at fields (default is created_at)
      *     @var string $sort                 return requests sorted in asc or desc order (default is desc)
-     *     @var bool $confidential           filter confidential or public issues
+     *     @var bool   $confidential         filter confidential or public issues
      *     @var string $search               search issues against their title and description
+     *     @var int    $assignee_id          return issues assigned to the specified user id
+     *     @var int    $iteration_id         return issues assigned to the specified iteration id
+     *     @var string $iteration_title      return issues assigned to the specified iteration title
      * }
      *
      * @return mixed
@@ -494,6 +497,12 @@ class Issues extends AbstractApi
         $resolver->setDefined('updated_before');
         $resolver->setDefined('assignee_id')
             ->setAllowedTypes('assignee_id', 'integer')
+        ;
+        $resolver->setDefined('iteration_id')
+            ->setAllowedTypes('iteration_id', 'integer')
+        ;
+        $resolver->setDefined('iteration_title')
+            ->setAllowedTypes('iteration_title', 'string')
         ;
         $resolver->setDefined('weight')
             ->setAllowedTypes('weight', 'integer')
