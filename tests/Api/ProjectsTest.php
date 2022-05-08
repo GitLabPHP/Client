@@ -850,6 +850,30 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetPipelineTestReport(): void
+    {
+        $expectedArray = [
+            'total_time' => 0.011809,
+            'total_count' => 8,
+            'success_count' => 8,
+            'failed_count' => 0,
+            'skipped_count' => 0,
+            'error_count' => 0,
+            'test_suites' => [],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/pipelines/3/test_report')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->pipelineTestReport(1, 3));
+    }
+
+    /**
+     * @test
+     */
     public function shouldCreatePipeline(): void
     {
         $expectedArray = [
