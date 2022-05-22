@@ -157,6 +157,33 @@ abstract class AbstractApi
      * @param string               $uri
      * @param array<string,mixed>  $params
      * @param array<string,string> $headers
+     * @param array<string,string> $files
+     *
+     * @return mixed
+     */
+    protected function patch(string $uri, array $params = [], array $headers = [], array $files = [])
+    {
+        if (0 < \count($files)) {
+            $builder = $this->createMultipartStreamBuilder($params, $files);
+            $body = self::prepareMultipartBody($builder);
+            $headers = self::addMultipartContentType($headers, $builder);
+        } else {
+            $body = self::prepareJsonBody($params);
+
+            if (null !== $body) {
+                $headers = self::addJsonContentType($headers);
+            }
+        }
+
+        $response = $this->client->getHttpClient()->patch(self::prepareUri($uri), $headers, $body ?? '');
+
+        return ResponseMediator::getContent($response);
+    }
+
+    /**
+     * @param string               $uri
+     * @param array<string,mixed>  $params
+     * @param array<string,string> $headers
      *
      * @return mixed
      */

@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Allow `chmod` action and `execute_filemode` attribute
 * Implement group merge requests endpoints
 * Implement event endpoints
+* Add support for `Projects::patchProtectedBranch()`
 
 [11.8.0]: https://github.com/GitLabPHP/Client/compare/11.7.1...11.8.0
 
