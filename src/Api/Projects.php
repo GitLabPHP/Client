@@ -672,7 +672,7 @@ class Projects extends AbstractApi
         };
 
         $resolver->setDefined('state')
-            ->setAllowedValues('state', ['opened', 'upcoming', 'current (previously started)', 'closed', 'all'])
+            ->setAllowedValues('state', ['opened', 'upcoming', 'current', 'current (previously started)', 'closed', 'all'])
         ;
         $resolver->setDefined('include_ancestors')
             ->setAllowedTypes('include_ancestors', 'bool')
