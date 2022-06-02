@@ -1347,7 +1347,7 @@ class Projects extends AbstractApi
 
         $resolver->setDefined('access_level')
             ->setAllowedTypes('access_level', 'int')
-            ->setAllowedValues('access_level', [10, 20, 30, 40])
+            ->setAllowedValues('access_level', [10, 20, 30, 40, 50])
         ;
 
         $resolver->setDefined('expires_at')
