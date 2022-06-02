@@ -1345,6 +1345,11 @@ class Projects extends AbstractApi
             })
         ;
 
+        $resolver->setDefined('access_level')
+            ->setAllowedTypes('access_level', 'int')
+            ->setAllowedValues('access_level', [10, 20, 30, 40])
+        ;
+
         $resolver->setDefined('expires_at')
             ->setAllowedTypes('expires_at', \DateTimeInterface::class)
             ->setNormalizer('expires_at', $datetimeNormalizer)
