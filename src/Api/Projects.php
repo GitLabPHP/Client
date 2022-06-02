@@ -1314,7 +1314,7 @@ class Projects extends AbstractApi
      *
      *     @var string $name                    the name of the project access token
      *     @var array  $scopes                  the scopes, one or many of: api, read_api, read_registry, write_registry, read_repository, write_repository
-     *     @var int    $access_level            the access level, one or many of: 10 (Guest), 20 (Reporter), 30 (Developer), 40 (Maintainer), 50 (Owner)
+     *     @var int    $access_level            the access level: 10 (Guest), 20 (Reporter), 30 (Developer), 40 (Maintainer), 50 (Owner)
      *     @var \DateTimeInterface $expires_at  the token expires at midnight UTC on that date
      * }
      *
