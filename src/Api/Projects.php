@@ -695,6 +695,97 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
+     * @param array      $parameters
+     *
+     * @return mixed
+     */
+    public function addBoard($project_id, array $parameters)
+    {
+        return $this->post($this->getProjectPath($project_id, 'boards'), $parameters);
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param int        $board_id
+     * @param array      $parameters
+     *
+     * @return mixed
+     */
+    public function updateBoard($project_id, int $board_id, array $parameters)
+    {
+        return $this->put($this->getProjectPath($project_id, 'boards/'.self::encodePath($board_id)), $parameters);
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param int        $board_id
+     *
+     * @return mixed
+     */
+    public function removeBoard($project_id, int $board_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'boards/'.self::encodePath($board_id)));
+    }
+
+    /**
+     * Get projects board lists list.
+     *
+     * See https://docs.gitlab.com/ee/api/boards.html#list-board-lists-in-a-project-issue-board for more info.
+     *
+     * @param int|string $project_id
+     * @param int|string $board_id
+     *
+     * @return mixed
+     */
+    public function boardLists($project_id, $board_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'boards/'.self::encodePath($board_id)));
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param int|string $board_id
+     * @param array      $parameters
+     *
+     * @return mixed
+     */
+    public function addBoardList($project_id, $board_id, array $parameters)
+    {
+        return $this->post($this->getProjectPath($project_id, 'boards/'.self::encodePath($board_id).'/lists'), $parameters);
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param int        $board_id
+     * @param int        $list_id
+     * @param int        $position
+     *
+     * @return mixed
+     */
+    public function reorderBoardList($project_id, int $board_id, int $list_id, int $position)
+    {
+        return $this->put($this->getProjectPath($project_id,
+            'boards/'.self::encodePath($board_id).'/lists/'.self::encodePath($list_id)),
+            ['position' => $position]
+        );
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param int        $board_id
+     * @param int        $list_id
+     *
+     * @return mixed
+     */
+    public function removeBoardList($project_id, int $board_id, int $list_id)
+    {
+        return $this->delete($this->getProjectPath($project_id,
+            'boards/'.self::encodePath($board_id).'/lists/'.self::encodePath($list_id))
+        );
+    }
+
+    /**
+     * @param int|string $project_id
      * @param array      $parameters {
      *
      *     @var string $state               Return opened, upcoming, current (previously started), closed, or all iterations.
