@@ -545,32 +545,42 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int|string $project_id
-     * @param int        $user_id
-     * @param int        $access_level
+     * @param int|string  $project_id
+     * @param int         $user_id
+     * @param int         $access_level
+     * @param string|null $expires_at
      *
      * @return mixed
      */
-    public function addMember($project_id, int $user_id, int $access_level)
+    public function addMember($project_id, int $user_id, int $access_level, string $expires_at = null)
     {
-        return $this->post($this->getProjectPath($project_id, 'members'), [
+        $params = [
             'user_id' => $user_id,
             'access_level' => $access_level,
-        ]);
+        ];
+        if (!is_null($expires_at)) {
+            $params['expires_at'] = $expires_at;
+        }
+        return $this->post($this->getProjectPath($project_id, 'members'), $params);
     }
 
     /**
-     * @param int|string $project_id
-     * @param int        $user_id
-     * @param int        $access_level
+     * @param int|string  $project_id
+     * @param int         $user_id
+     * @param int         $access_level
+     * @param string|null $expires_at
      *
      * @return mixed
      */
-    public function saveMember($project_id, int $user_id, int $access_level)
+    public function saveMember($project_id, int $user_id, int $access_level, string $expires_at = null)
     {
-        return $this->put($this->getProjectPath($project_id, 'members/'.self::encodePath($user_id)), [
+        $params = [
             'access_level' => $access_level,
-        ]);
+        ];
+        if (!is_null($expires_at)) {
+            $params['expires_at'] = $expires_at;
+        }
+        return $this->put($this->getProjectPath($project_id, 'members/'.self::encodePath($user_id)), $params);
     }
 
     /**
