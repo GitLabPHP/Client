@@ -558,9 +558,10 @@ class Projects extends AbstractApi
             'user_id' => $user_id,
             'access_level' => $access_level,
         ];
-        if (!is_null($expires_at)) {
+        if (null !== $expires_at) {
             $params['expires_at'] = $expires_at;
         }
+
         return $this->post($this->getProjectPath($project_id, 'members'), $params);
     }
 
@@ -577,9 +578,10 @@ class Projects extends AbstractApi
         $params = [
             'access_level' => $access_level,
         ];
-        if (!is_null($expires_at)) {
+        if (null !== $expires_at) {
             $params['expires_at'] = $expires_at;
         }
+
         return $this->put($this->getProjectPath($project_id, 'members/'.self::encodePath($user_id)), $params);
     }
 
