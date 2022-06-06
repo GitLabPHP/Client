@@ -389,7 +389,7 @@ class Groups extends AbstractApi
      *     @var int      $author_id                Return issues created by the given user id. Mutually exclusive with author_username.
      *                                             Combine with scope=all or scope=assigned_to_me.
      *     @var string   $author_username          Return issues created by the given username. Similar to author_id and mutually exclusive with author_id.
-     *     @var bool     $confidential             Filter confidential or public issues.
+     *     @var bool     $confidential             Filter confidential or public issues
      *     @var \DateTimeInterface $created_after  Return issues created after the given time (inclusive)
      *     @var \DateTimeInterface $created_before Return issues created before the given time (inclusive)
      *     @var int      $iteration_id             Return issues assigned to the given iteration ID. None returns issues that do not belong to an iteration. Any returns issues that belong to an iteration. Mutually exclusive with iteration_title.
