@@ -418,25 +418,75 @@ class Groups extends AbstractApi
         $booleanNormalizer = function (Options $resolver, $value): string {
             return $value ? 'true' : 'false';
         };
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
+            return $value->format('c');
+        };
+
+        $resolver->setDefined('assignee_id');
+        $resolver->setDefined('assignee_username')
+            ->setAllowedTypes('assignee_username', 'string');
+
+        $resolver->setDefined('author_id');
+        $resolver->setDefined('author_username')
+            ->setAllowedTypes('author_username', 'string');
 
         $resolver->setDefined('confidential')
             ->setAllowedTypes('confidential', 'bool')
-            ->setNormalizer('confidential', $booleanNormalizer)
-        ;
+            ->setNormalizer('confidential', $booleanNormalizer);
+
+        $resolver->setDefined('created_after')
+            ->setAllowedTypes('created_after', \DateTimeInterface::class)
+            ->setNormalizer('created_after', $datetimeNormalizer);
+        $resolver->setDefined('created_before')
+            ->setAllowedTypes('created_before', \DateTimeInterface::class)
+            ->setNormalizer('created_before', $datetimeNormalizer);
+
+        $resolver->setDefined('updated_after')
+            ->setAllowedTypes('updated_after', \DateTimeInterface::class)
+            ->setNormalizer('updated_after', $datetimeNormalizer);
+        $resolver->setDefined('updated_before')
+            ->setAllowedTypes('updated_before', \DateTimeInterface::class)
+            ->setNormalizer('updated_before', $datetimeNormalizer);
+
+        $resolver->setDefined('iteration_id');
+        $resolver->setDefined('iteration_title')
+            ->setAllowedTypes('iteration_title', 'string');
+
+        $resolver->setDefined('labels')
+            ->setAllowedTypes('labels', 'string');
+
+        $resolver->setDefined('milestone')
+            ->setAllowedTypes('milestone', 'string');
+
+        $resolver->setDefined('my_reaction_emoji')
+            ->setAllowedTypes('my_reaction_emoji', 'string');
 
         $resolver->setDefined('non_archived')
             ->setAllowedTypes('non_archived', 'bool')
-            ->setNormalizer('non_archived', $booleanNormalizer)
-        ;
+            ->setNormalizer('non_archived', $booleanNormalizer);
+
+        $resolver->setDefined('not')
+            ->setAllowedTypes('not', 'string');
+
+        $resolver->setDefined('order_by')
+            ->setAllowedValues('order_by', ['created_at', 'updated_at']);
+        $resolver->setDefined('sort')
+            ->setAllowedValues('sort', ['asc', 'desc']);
+
+        $resolver->setDefined('scope')
+            ->setAllowedTypes('scope', 'string');
+
+        $resolver->setDefined('search')
+            ->setAllowedTypes('search', 'string');
+
+        $resolver->setDefined('state')
+            ->setAllowedValues('state', [self::STATE_ALL, self::STATE_OPENED, self::STATE_CLOSED]);
+
+        $resolver->setDefined('weight');
 
         $resolver->setDefined('with_labels_details')
             ->setAllowedTypes('with_labels_details', 'bool')
-            ->setNormalizer('with_labels_details', $booleanNormalizer)
-        ;
-
-        $resolver->setDefined('state')
-            ->setAllowedValues('state', ['opened', 'closed'])
-        ;
+            ->setNormalizer('with_labels_details', $booleanNormalizer);
 
         return $this->get('groups/'.self::encodePath($group_id).'/issues', $resolver->resolve($parameters));
     }
