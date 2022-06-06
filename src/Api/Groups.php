@@ -380,6 +380,69 @@ class Groups extends AbstractApi
 
     /**
      * @param int|string $group_id
+     * @param array      $parameters {
+     *
+     *     @var string   $assignee_id              Return issues assigned to the given user id. Mutually exclusive with assignee_username.
+     *                                             None returns unassigned issues. Any returns issues with an assignee.
+     *     @var string   $assignee_username        Return issues assigned to the given username. Similar to assignee_id and mutually exclusive with assignee_id.
+     *                                             In GitLab CE, the assignee_username array should only contain a single value. Otherwise, an invalid parameter error is returned.
+     *     @var int      $author_id                Return issues created by the given user id. Mutually exclusive with author_username.
+     *                                             Combine with scope=all or scope=assigned_to_me.
+     *     @var string   $author_username          Return issues created by the given username. Similar to author_id and mutually exclusive with author_id.
+     *     @var bool     $confidential             Filter confidential or public issues.
+     *     @var \DateTimeInterface $created_after  Return issues created after the given time (inclusive)
+     *     @var \DateTimeInterface $created_before Return issues created before the given time (inclusive)
+     *     @var integer  $iteration_id             Return issues assigned to the given iteration ID. None returns issues that do not belong to an iteration. Any returns issues that belong to an iteration. Mutually exclusive with iteration_title.
+     *     @var string   $iteration_title          Return issues assigned to the iteration with the given title. Similar to iteration_id and mutually exclusive with iteration_id.
+     *     @var string   $labels                   Comma-separated list of label names, issues must have all labels to be returned. None lists all issues with no labels. Any lists all issues with at least one label. No+Label (Deprecated) lists all issues with no labels. Predefined names are case-insensitive.
+     *     @var string   $milestone                The milestone title. None lists all issues with no milestone. Any lists all issues that have an assigned milestone.
+     *     @var string   $my_reaction_emoji        Return issues reacted by the authenticated user by the given emoji. None returns issues not given a reaction. Any returns issues given at least one reaction.
+     *     @var boolean  $non_archived             Return issues from non archived projects. Default is true.
+     *     @var string   $not                      Return issues that do not match the parameters supplied. Accepts: labels, milestone, author_id, author_username, assignee_id, assignee_username, my_reaction_emoji, search, in
+     *     @var string   $order_by                 Return issues ordered by created_at, updated_at, priority, due_date, relative_position, label_priority, milestone_due, popularity, weight fields. Default is created_at
+     *     @var string   $scope                    Return issues for the given scope: created_by_me, assigned_to_me or all. Defaults to all.
+     *     @var string   $search                   Search group issues against their title and description
+     *     @var string   $sort                     Return issues sorted in asc or desc order. Default is desc
+     *     @var string   $state                    Return all issues or just those that are opened or closed
+     *     @var \DateTimeInterface $updated_after  Return issues updated on or after the given time. Expected in ISO 8601 format (2019-03-15T08:00:00Z)
+     *     @var \DateTimeInterface $updated_before Return issues updated on or before the given time. Expected in ISO 8601 format (2019-03-15T08:00:00Z)
+     *     @var integer  $weight                   Return issues with the specified weight. None returns issues with no weight assigned. Any returns issues with a weight assigned.
+     *     @var boolean  $with_labels_details      If true, the response returns more details for each label in labels field: :name, :color, :description, :description_html, :text_color. Default is false.
+     * }
+     *
+     * @return mixed
+     */
+    public function issues($group_id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+        $booleanNormalizer = function (Options $resolver, $value): string {
+            return $value ? 'true' : 'false';
+        };
+
+        $resolver->setDefined('confidential')
+            ->setAllowedTypes('confidential', 'bool')
+            ->setNormalizer('confidential', $booleanNormalizer)
+        ;
+
+        $resolver->setDefined('non_archived')
+            ->setAllowedTypes('non_archived', 'bool')
+            ->setNormalizer('non_archived', $booleanNormalizer)
+        ;
+
+        $resolver->setDefined('with_labels_details')
+            ->setAllowedTypes('with_labels_details', 'bool')
+            ->setNormalizer('with_labels_details', $booleanNormalizer)
+        ;
+
+        $resolver->setDefined('state')
+            ->setAllowedValues('state', ['opened', 'closed'])
+        ;
+
+        return $this->get('groups/'.self::encodePath($group_id).'/issues', $resolver->resolve($parameters));
+    }
+
+    /**
+     * @param int|string $group_id
      * @param array      $parameters
      *
      * @return mixed

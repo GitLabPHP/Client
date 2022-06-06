@@ -367,6 +367,27 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetAllIssues(): void
+    {
+        $expectedArray = [
+            ['id' => 101, 'name' => 'An issue'],
+            ['id' => 102, 'name' => 'Another issue'],
+            ['id' => 103, 'name' => 'A third issue'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/issues', ['page' => 1, 'per_page' => 10])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->issues(1, ['page' => 1, 'per_page' => 10]));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetLabels(): void
     {
         $expectedArray = [
