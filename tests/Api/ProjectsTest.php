@@ -2453,6 +2453,33 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetProjectAccessToken(): void
+    {
+        $expectedArray = [
+            'user_id' => 141,
+            'scopes' => [
+                'api',
+            ],
+            'name' => 'token',
+            'expires_at' => '2021-01-31',
+            'id' => 42,
+            'active' => true,
+            'created_at' => '2021-01-20T22:11:48.151Z',
+            'revoked' => false,
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/access_tokens/42')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->projectAccessToken(1, 42));
+    }
+
+    /**
+     * @test
+     */
     public function shouldCreateProjectAccessToken(): void
     {
         $expectedArray = [
