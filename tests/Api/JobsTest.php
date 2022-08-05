@@ -72,7 +72,6 @@ class JobsTest extends TestCase
             ['id' => 1, 'name' => 'A job'],
             ['id' => 2, 'name' => 'Another job'],
             ['id' => 3, 'name' => 'A job'],
-
         ];
 
         $api = $this->getApiMock();
