@@ -263,6 +263,9 @@ class Jobs extends AbstractApi
             })
         ;
 
+        $resolver->setDefined('include_retried')
+            ->setAllowedTypes('include_retried', ['bool']);
+
         return $resolver;
     }
 }
