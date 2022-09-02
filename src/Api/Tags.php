@@ -82,7 +82,9 @@ class Tags extends AbstractApi
      */
     public function createRelease($project_id, string $tag_name, array $params = [])
     {
-        return $this->post($this->getProjectPath($project_id, 'repository/tags/'.self::encodePath($tag_name).'/release'), $params);
+        $baseParams = ['tag_name' => $tag_name];
+        $params = \array_merge($baseParams, $params);
+        return $this->post($this->getProjectPath($project_id, 'releases'), $params);       
     }
 
     /**
@@ -94,6 +96,6 @@ class Tags extends AbstractApi
      */
     public function updateRelease($project_id, string $tag_name, array $params = [])
     {
-        return $this->put($this->getProjectPath($project_id, 'repository/tags/'.self::encodePath($tag_name).'/release'), $params);
+        return $this->post($this->getProjectPath($project_id, 'releases/'.self::encodePath($tag_name)), $params);
     }
 }
