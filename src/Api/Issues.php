@@ -468,6 +468,8 @@ class Issues extends AbstractApi
         ;
         $resolver->setDefined('labels');
         $resolver->setDefined('milestone');
+        $resolver->setDefined('milestone_id')
+            ->setAllowedTypes('milestone_id', 'integer');
         $resolver->setDefined('with_labels_details')
             ->setAllowedTypes('with_labels_details', 'bool')
             ->setNormalizer('with_labels_details', $booleanNormalizer)
