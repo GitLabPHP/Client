@@ -112,6 +112,28 @@ class Packages extends AbstractApi
 
     /**
      * @param int|string $project_id
+     * @param string     $package_name
+     * @param string     $package_version
+     * @param string     $file
+     * @param string     $status
+     *
+     * @return mixed
+     */
+    public function addGenericFile($project_id, string $package_name, string $package_version, string $file, string $status = 'default')
+    {
+        return $this->putFile(
+            $this->getProjectPath(
+                $project_id,
+                'packages/generic/'.self::encodePath($package_name).'/'.self::encodePath($package_version).'/'.self::encodePath(\basename($file))
+            ),
+            $file,
+            [],
+            ['status' => $status]
+        );
+    }
+
+    /**
+     * @param int|string $project_id
      * @param int        $package_id
      *
      * @return string

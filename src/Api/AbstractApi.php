@@ -155,6 +155,28 @@ abstract class AbstractApi
 
     /**
      * @param string               $uri
+     * @param string               $file
+     * @param array<string,string> $headers
+     * @param array<string,mixed>  $uriParams
+     *
+     * @return mixed
+     */
+    protected function putFile(string $uri, string $file, array $headers = [], array $uriParams = [])
+    {
+        $resource = self::tryFopen($file, 'r');
+        $body = $this->client->getStreamFactory()->createStreamFromResource($resource);
+
+        if ($body->isReadable()) {
+            $headers = \array_merge([ResponseMediator::CONTENT_TYPE_HEADER => self::guessFileContentType($file)], $headers);
+        }
+
+        $response = $this->client->getHttpClient()->put(self::prepareUri($uri, $uriParams), $headers, $body);
+
+        return ResponseMediator::getContent($response);
+    }
+
+    /**
+     * @param string               $uri
      * @param array<string,mixed>  $params
      * @param array<string,string> $headers
      *
