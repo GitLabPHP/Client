@@ -498,6 +498,18 @@ class Issues extends AbstractApi
         $resolver->setDefined('weight')
             ->setAllowedTypes('weight', 'integer')
         ;
+        
+        $resolver->setDefined('not[assignee_id]');
+        $resolver->setDefined('not[assignee_username]');
+        $resolver->setDefined('not[author_id]');
+        $resolver->setDefined('not[author_username]');
+        $resolver->setDefined('not[iids]');
+        $resolver->setDefined('not[iteration_id]');
+        $resolver->setDefined('not[iteration_title]');
+        $resolver->setDefined('not[labels]');
+        $resolver->setDefined('not[milestone]');
+        $resolver->setDefined('not[milestone_id]');
+        $resolver->setDefined('not[weight]');
 
         return $resolver;
     }
