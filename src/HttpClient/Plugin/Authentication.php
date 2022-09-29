@@ -85,6 +85,10 @@ final class Authentication implements Plugin
                 $headers['PRIVATE-TOKEN'] = $token;
 
                 break;
+            case Client::AUTH_HTTP_JOB_TOKEN:
+                $headers['JOB-TOKEN'] = $token;
+
+                break;
             case Client::AUTH_OAUTH_TOKEN:
                 $headers['Authorization'] = \sprintf('Bearer %s', $token);
 

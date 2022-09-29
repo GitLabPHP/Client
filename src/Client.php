@@ -73,6 +73,13 @@ class Client
     public const AUTH_HTTP_TOKEN = 'http_token';
 
     /**
+     * The job token authentication method.
+     *
+     * @var string
+     */
+    public const AUTH_HTTP_JOB_TOKEN = 'http_job_token';
+
+    /**
      * The OAuth 2 token authentication method.
      *
      * @var string
