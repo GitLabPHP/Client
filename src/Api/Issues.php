@@ -498,7 +498,6 @@ class Issues extends AbstractApi
         $resolver->setDefined('weight')
             ->setAllowedTypes('weight', 'integer')
         ;
-        
         $resolver->setDefined('not[assignee_id]');
         $resolver->setDefined('not[assignee_username]');
         $resolver->setDefined('not[author_id]');
