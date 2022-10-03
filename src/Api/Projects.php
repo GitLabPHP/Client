@@ -337,7 +337,7 @@ class Projects extends AbstractApi
      *     @var bool   $yaml_errors returns pipelines with invalid configurations
      *     @var string $name        the name of the user who triggered pipelines
      *     @var string $username    the username of the user who triggered pipelines
-     *     @var string $order_by    order pipelines by id, status, ref, or user_id (default: id)
+     *     @var string $order_by    order pipelines by id, status, ref, updated_at or user_id (default: id)
      *     @var string $order       Sort pipelines in asc or desc order (default: desc).
      * }
      *
@@ -376,7 +376,7 @@ class Projects extends AbstractApi
                  ->setNormalizer('updated_before', $datetimeNormalizer)
         ;
         $resolver->setDefined('order_by')
-            ->setAllowedValues('order_by', ['id', 'status', 'ref', 'user_id'])
+            ->setAllowedValues('order_by', ['id', 'status', 'ref', 'updated_at', 'user_id'])
         ;
         $resolver->setDefined('sort')
             ->setAllowedValues('sort', ['asc', 'desc'])
