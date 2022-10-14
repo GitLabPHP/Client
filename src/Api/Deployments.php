@@ -36,6 +36,11 @@ class Deployments extends AbstractApi
         $resolver->setDefined('sort')
             ->setAllowedTypes('sort', 'string')
             ->setAllowedValues('sort', ['desc', 'asc']);
+        $resolver->setDefined('environment')
+            ->setAllowedTypes('environment', 'string');
+        $resolver->setDefined('status')
+            ->setAllowedTypes('status', 'string')
+            ->setAllowedValues('status', ['created', 'running', 'success', 'failed', 'canceled', 'blocked']);
 
         return $this->get($this->getProjectPath($project_id, 'deployments'), $resolver->resolve($parameters));
     }
