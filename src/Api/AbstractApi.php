@@ -36,7 +36,7 @@ abstract class AbstractApi
      *
      * @var string
      */
-    private const URI_PREFIX = 'api/v4/';
+    private const URI_PREFIX = '/api/v4/';
 
     /**
      * The client instance.
