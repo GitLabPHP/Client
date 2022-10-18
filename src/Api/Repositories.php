@@ -127,6 +127,17 @@ class Repositories extends AbstractApi
     }
 
     /**
+     * @param int|string $project_id
+     * @param string     $tag
+     *
+     * @return mixed
+     */
+    public function tag($project_id, string $tag)
+    {
+        return $this->get($this->getProjectPath($project_id, 'repository/tags/'.self::encodePath($tag)));
+    }
+
+    /**
      * @param int|string  $project_id
      * @param string      $name
      * @param string      $ref

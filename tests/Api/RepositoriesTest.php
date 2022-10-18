@@ -163,6 +163,23 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetTag(): void
+    {
+        $expectedArray = ['name' => '1.0'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/repository/tags/foobar')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->tag(1, 'foobar'));
+    }
+
+    /**
+     * @test
+     */
     public function shouldCreateTag(): void
     {
         $expectedArray = ['name' => '1.0'];
