@@ -74,6 +74,19 @@ class Schedules extends AbstractApi
     /**
      * @param int|string $project_id
      * @param int        $schedule_id
+     *
+     * @return mixed
+     */
+    public function runPipeline($project_id, int $schedule_id)
+    {
+        $path = 'pipeline_schedules/'.self::encodePath($schedule_id).'/play';
+
+        return $this->post($this->getProjectPath($project_id, $path));
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param int        $schedule_id
      * @param array      $params
      *
      * @return mixed
