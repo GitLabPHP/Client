@@ -179,9 +179,7 @@ class Jobs extends AbstractApi
     public function artifactByJobId($project_id, $job_id, string $artifact_path)
     {
         return $this->getAsResponse('projects/'.self::encodePath($project_id).'/jobs/'.self::encodePath($job_id).'/artifacts/'.self::encodePath($artifact_path))->getBody();
-
     }
-
 
     /**
      * @param int|string $project_id
