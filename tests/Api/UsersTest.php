@@ -297,6 +297,97 @@ class UsersTest extends TestCase
     /**
      * @test
      */
+    public function shouldShowUsersStarredProjects(): void
+    {
+        $expectedArray = $this->getUsersProjectsData();
+
+        $api = $this->getUsersProjectsRequestMock('users/1/starred_projects', $expectedArray);
+
+        $this->assertEquals($expectedArray, $api->usersStarredProjects(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldShowUsersStarredProjectsWithLimit(): void
+    {
+        $expectedArray = [$this->getUsersProjectsData()[0]];
+
+        $api = $this->getUsersProjectsRequestMock('users/1/starred_projects', $expectedArray, ['per_page' => 1]);
+
+        $this->assertEquals($expectedArray, $api->usersStarredProjects(1, ['per_page' => 1]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAllUsersStarredProjectsSortedByName(): void
+    {
+        $expectedArray = $this->getUsersProjectsData();
+
+        $api = $this->getUsersProjectsRequestMock(
+            'users/1/starred_projects',
+            $expectedArray,
+            ['page' => 1, 'per_page' => 5, 'order_by' => 'name', 'sort' => 'asc']
+        );
+
+        $this->assertEquals(
+            $expectedArray,
+            $api->usersStarredProjects(1, ['page' => 1, 'per_page' => 5, 'order_by' => 'name', 'sort' => 'asc'])
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetNotArchivedUsersStarredProjects(): void
+    {
+        $expectedArray = $this->getUsersProjectsData();
+
+        $api = $this->getUsersProjectsRequestMock('users/1/starred_projects', $expectedArray, ['archived' => 'false']);
+
+        $this->assertEquals($expectedArray, $api->usersStarredProjects(1, ['archived' => false]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetOwnedUsersStarredProjects(): void
+    {
+        $expectedArray = $this->getUsersProjectsData();
+
+        $api = $this->getUsersProjectsRequestMock('users/1/starred_projects', $expectedArray, ['owned' => 'true']);
+
+        $this->assertEquals($expectedArray, $api->usersStarredProjects(1, ['owned' => true]));
+    }
+
+    /**
+     * @test
+     * @dataProvider possibleAccessLevels
+     */
+    public function shouldGetStarredProjectsWithMinimumAccessLevel($level): void
+    {
+        $expectedArray = $this->getUsersProjectsData();
+
+        $api = $this->getUsersProjectsRequestMock('users/1/starred_projects', $expectedArray, ['min_access_level' => $level]);
+
+        $this->assertEquals($expectedArray, $api->usersStarredProjects(1, ['min_access_level' => $level]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldSearchUsersStarredProjects(): void
+    {
+        $expectedArray = $this->getUsersProjectsData();
+
+        $api = $this->getUsersProjectsRequestMock('users/1/starred_projects', $expectedArray, ['search' => 'a project']);
+        $this->assertEquals($expectedArray, $api->usersStarredProjects(1, ['search' => 'a project']));
+    }
+
+    /**
+     * @test
+     */
     public function shouldCreateUser(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'Billy'];
