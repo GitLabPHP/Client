@@ -2539,7 +2539,7 @@ class ProjectsTest extends TestCase
             'name' => 'release-*',
             'create_access_level' => [
                 ['access_level' => 40, 'access_level_description' => 'Maintainers'],
-                ['group_id' => 123]
+                ['group_id' => 123],
             ],
         ];
         $api = $this->getApiMock();
