@@ -1411,6 +1411,7 @@ class Projects extends AbstractApi
                     return \array_values($item)[0] ?? '';
                 }, $value);
                 $integer = \count($values) === \count(\array_filter($values, 'is_int'));
+
                 return \count($value) > 0 && 0 === \count($diff) && $integer;
             })
         ;
