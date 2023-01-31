@@ -2538,19 +2538,21 @@ class ProjectsTest extends TestCase
         $expectedArray = [
             'name' => 'release-*',
             'create_access_level' => [
-                'access_level' => 40,
-                'access_level_description' => 'Maintainers',
+                ['access_level' => 40, 'access_level_description' => 'Maintainers'],
+                ['group_id' => 123]
             ],
         ];
         $api = $this->getApiMock();
+        $params = [
+            'name' => 'release-*',
+            'create_access_level' => 40,
+            'allowed_to_create' => [['group_id' => 123]],
+        ];
         $api->expects($this->once())
             ->method('post')
-            ->with(
-                'projects/1/protected_tags',
-                ['name' => 'release-*', 'create_access_level' => 40]
-            )
+            ->with('projects/1/protected_tags', $params)
             ->will($this->returnValue($expectedArray));
-        $this->assertEquals($expectedArray, $api->addProtectedTag(1, ['name' => 'release-*', 'create_access_level' => 40]));
+        $this->assertEquals($expectedArray, $api->addProtectedTag(1, $params));
     }
 
     /**

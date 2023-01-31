@@ -1402,6 +1402,18 @@ class Projects extends AbstractApi
             ->setAllowedTypes('create_access_level', 'int')
             ->setAllowedValues('create_access_level', [0, 30, 40])
         ;
+        $resolver->setDefined('allowed_to_create')
+            ->setAllowedTypes('allowed_to_create', 'array')
+            ->setAllowedValues('allowed_to_create', function (array $value) {
+              $keys = \array_keys((array) \call_user_func_array('array_merge', $value));
+              $diff = \array_diff($keys, array('user_id', 'group_id', 'access_level'));
+              $values = \array_map(function ($item) {
+                return \array_values($item)[0] ?? '';
+              }, $value);
+              $integer = \count($values) === \count(\array_filter($values, 'is_int'));
+              return \count($value) > 0 && \count($diff) === 0 && $integer;
+            })
+        ;
 
         return $this->post($this->getProjectPath($project_id, 'protected_tags'), $resolver->resolve($parameters));
     }
