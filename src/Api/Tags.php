@@ -32,7 +32,7 @@ class Tags extends AbstractApi
     {
         $resolver = $this->createOptionsResolver();
         $resolver->setDefined('order_by')
-            ->setAllowedValues('order_by', ['name', 'updated']);
+            ->setAllowedValues('order_by', ['name', 'updated', 'version']);
         $resolver->setDefined('sort')
             ->setAllowedValues('sort', ['asc', 'desc']);
         $resolver->setDefined('search');
