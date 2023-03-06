@@ -338,7 +338,8 @@ class Projects extends AbstractApi
      *     @var string $name        the name of the user who triggered pipelines
      *     @var string $username    the username of the user who triggered pipelines
      *     @var string $order_by    order pipelines by id, status, ref, or user_id (default: id)
-     *     @var string $order       Sort pipelines in asc or desc order (default: desc).
+     *     @var string $order       sort pipelines in asc or desc order (default: desc)
+     *     @var string $source      The source of the pipeline
      * }
      *
      * @return mixed
@@ -381,6 +382,24 @@ class Projects extends AbstractApi
         $resolver->setDefined('sort')
             ->setAllowedValues('sort', ['asc', 'desc'])
         ;
+        $resolver->setDefined('source')
+            ->setAllowedValues('source', [
+                'push',
+                'web',
+                'trigger',
+                'schedule',
+                'api',
+                'external',
+                'pipeline',
+                'chat',
+                'webide',
+                'merge_request_event',
+                'external_pull_request_event',
+                'parent_pipeline',
+                'ondemand_dast_scan',
+                'ondemand_dast_validation',
+            ]
+        );
 
         return $this->get($this->getProjectPath($project_id, 'pipelines'), $resolver->resolve($parameters));
     }
