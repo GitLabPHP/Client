@@ -10,14 +10,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Add PHP 8.2 support
 * Add support for group and project deploy tokens
 * Add source parameter to pipelines API
+* Add support for `Jobs::artifactByJobId`
+* Add support for `Users::usersStarredProjects`
 * Add support for `Groups::issues`
 * Add support for `Groups::iterations`
 * Add support for `Projects::iterations`
+* Add support for `Projects::projectAccessToken`
 * Add support for `Projects::pipelineTestReport`
 * Add support for `Projects::pipelineTestReportSummary`
-* Added support for `update_at` order by in `Projects::pipelines`
+* Add support for `allowed_to_create` in `Projects::addProtectedTag`
+* Add support for `update_at` order by in `Projects::pipelines`
 * Added additional parameters to `Issues::all`
 * Added additional parameters to `Issues::group`
+* Added the ability to authenticate with a job token
 
 ## [11.8.0] - 2022-04-24
 
