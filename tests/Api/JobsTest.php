@@ -122,6 +122,23 @@ class JobsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetArtifactsByJobId(): void
+    {
+        $returnedStream = new Response(200, [], 'foobar');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('getAsResponse')
+            ->with('projects/1/jobs/3/artifacts/artifact_path')
+            ->will($this->returnValue($returnedStream))
+        ;
+
+        $this->assertEquals('foobar', $api->artifactByJobId(1, 3, 'artifact_path')->getContents());
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetArtifactsByRefName(): void
     {
         $returnedStream = new Response(200, [], 'foobar');
