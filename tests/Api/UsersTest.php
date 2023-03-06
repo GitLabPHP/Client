@@ -259,7 +259,7 @@ class UsersTest extends TestCase
         $this->assertEquals($expectedArray, $api->usersProjects(1, ['owned' => true]));
     }
 
-    public function possibleAccessLevels()
+    public static function possibleAccessLevels(): array
     {
         return [
             [10],

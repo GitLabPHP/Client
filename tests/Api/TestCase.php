@@ -33,7 +33,7 @@ abstract class TestCase extends BaseTestCase
     protected function getApiMock(array $methods = [])
     {
         $httpClient = $this->getMockBuilder(ClientInterface::class)
-            ->setMethods(['sendRequest'])
+            ->onlyMethods(['sendRequest'])
             ->getMock();
         $httpClient
             ->expects($this->any())
@@ -42,7 +42,7 @@ abstract class TestCase extends BaseTestCase
         $client = Client::createWithHttpClient($httpClient);
 
         return $this->getMockBuilder($this->getApiClass())
-            ->setMethods(\array_merge(['getAsResponse', 'get', 'post', 'postRaw', 'patch', 'delete', 'put', 'head'], $methods))
+            ->onlyMethods(\array_merge(['getAsResponse', 'get', 'post', 'delete', 'put'], $methods))
             ->setConstructorArgs([$client, null])
             ->getMock();
     }

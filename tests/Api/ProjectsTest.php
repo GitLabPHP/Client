@@ -2082,7 +2082,7 @@ class ProjectsTest extends TestCase
         ];
     }
 
-    public function possibleAccessLevels()
+    public static function possibleAccessLevels(): array
     {
         return [
             [10],
