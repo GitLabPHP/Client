@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Gitlab\Tests\HttpClient\Util;
 
+use Generator;
 use Gitlab\HttpClient\Util\QueryStringBuilder;
 use PHPUnit\Framework\TestCase;
 
@@ -30,7 +31,7 @@ class QueryStringBuilderTest extends TestCase
         $this->assertSame(\sprintf('?%s', $expected), QueryStringBuilder::build($query));
     }
 
-    public function queryStringProvider()
+    public static function queryStringProvider(): Generator
     {
         yield 'indexed array' => [
             [

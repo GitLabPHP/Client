@@ -338,7 +338,8 @@ class Projects extends AbstractApi
      *     @var string $name        the name of the user who triggered pipelines
      *     @var string $username    the username of the user who triggered pipelines
      *     @var string $order_by    order pipelines by id, status, ref, updated_at, or user_id (default: id)
-     *     @var string $order       Sort pipelines in asc or desc order (default: desc).
+     *     @var string $order       sort pipelines in asc or desc order (default: desc)
+     *     @var string $source      the source of the pipeline
      * }
      *
      * @return mixed
@@ -381,6 +382,24 @@ class Projects extends AbstractApi
         $resolver->setDefined('sort')
             ->setAllowedValues('sort', ['asc', 'desc'])
         ;
+        $resolver->setDefined('source')
+            ->setAllowedValues('source', [
+                'push',
+                'web',
+                'trigger',
+                'schedule',
+                'api',
+                'external',
+                'pipeline',
+                'chat',
+                'webide',
+                'merge_request_event',
+                'external_pull_request_event',
+                'parent_pipeline',
+                'ondemand_dast_scan',
+                'ondemand_dast_validation',
+            ]
+        );
 
         return $this->get($this->getProjectPath($project_id, 'pipelines'), $resolver->resolve($parameters));
     }
@@ -416,6 +435,28 @@ class Projects extends AbstractApi
     public function pipelineVariables($project_id, int $pipeline_id)
     {
         return $this->get($this->getProjectPath($project_id, 'pipelines/'.self::encodePath($pipeline_id).'/variables'));
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param int        $pipeline_id
+     *
+     * @return mixed
+     */
+    public function pipelineTestReport($project_id, int $pipeline_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'pipelines/'.self::encodePath($pipeline_id).'/test_report'));
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param int        $pipeline_id
+     *
+     * @return mixed
+     */
+    public function pipelineTestReportSummary($project_id, int $pipeline_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'pipelines/'.self::encodePath($pipeline_id).'/test_report_summary'));
     }
 
     /**
@@ -781,6 +822,77 @@ class Projects extends AbstractApi
     public function enableDeployKey($project_id, int $key_id)
     {
         return $this->post($this->getProjectPath($project_id, 'deploy_keys/'.self::encodePath($key_id).'/enable'));
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param bool|null  $active
+     *
+     * @return mixed
+     */
+    public function deployTokens($project_id, bool $active = null)
+    {
+        return $this->get($this->getProjectPath($project_id, 'deploy_tokens'), (null !== $active) ? ['active' => $active] : []);
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param array      $parameters {
+     *
+     *     @var string $name                    the name of the deploy token
+     *     @var \DateTimeInterface $expires_at  expiration date for the deploy token, does not expire if no value is provided
+     *     @var string $username                the username for the deploy token
+     *     @var array  $scopes                  the scopes, one or many of: read_repository, read_registry, write_registry, read_package_registry, write_package_registry
+     * }
+     *
+     * @return mixed
+     */
+    public function createDeployToken($project_id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
+            return $value->format('c');
+        };
+
+        $resolver->define('name')
+            ->required()
+        ;
+
+        $resolver->define('scopes')
+            ->required()
+            ->allowedTypes('array')
+            ->allowedValues(function ($scopes) {
+                $allowed = ['read_repository', 'read_registry', 'write_registry', 'read_package_registry', 'write_package_registry'];
+                foreach ($scopes as $scope) {
+                    if (!\in_array($scope, $allowed, true)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            })
+        ;
+        $resolver->setDefined('username')
+            ->setAllowedTypes('username', 'string')
+        ;
+
+        $resolver->setDefined('expires_at')
+            ->setAllowedTypes('expires_at', \DateTimeInterface::class)
+            ->setNormalizer('expires_at', $datetimeNormalizer)
+        ;
+
+        return $this->post($this->getProjectPath($project_id, 'deploy_tokens'), $resolver->resolve($parameters));
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param int        $token_id
+     *
+     * @return mixed
+     */
+    public function deleteDeployToken($project_id, int $token_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'deploy_tokens/'.self::encodePath($token_id)));
     }
 
     /**

@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Gitlab\Tests\Api;
 
+use DateTime;
 use Gitlab\Api\Groups;
 
 class GroupsTest extends TestCase
@@ -734,5 +735,153 @@ class GroupsTest extends TestCase
         ;
 
         $this->assertEquals($expectedArray, $api->mergeRequests(1, []));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetDeployTokens(): void
+    {
+        $expectedArray = [
+            [
+                'id' => 1,
+                'name' => 'MyToken',
+                'username' => 'gitlab+deploy-token-1',
+                'expires_at' => '2020-02-14T00:00:00.000Z',
+                'revoked' => false,
+                'expired' => false,
+                'scopes' => [
+                    'read_repository',
+                    'read_registry',
+                ],
+            ],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/deploy_tokens')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->deployTokens(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetActiveDeployTokens(): void
+    {
+        $expectedArray = [
+            [
+                'id' => 1,
+                'name' => 'MyToken',
+                'username' => 'gitlab+deploy-token-1',
+                'expires_at' => '2020-02-14T00:00:00.000Z',
+                'revoked' => false,
+                'expired' => true,
+                'scopes' => [
+                    'read_repository',
+                    'read_registry',
+                ],
+            ],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/deploy_tokens', ['active' => true])
+            ->will($this->returnValue([]));
+
+        $this->assertEquals([], $api->deployTokens(1, true));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetInactiveDeployTokens(): void
+    {
+        $expectedArray = [
+            [
+                'id' => 1,
+                'name' => 'MyToken',
+                'username' => 'gitlab+deploy-token-1',
+                'expires_at' => '2020-02-14T00:00:00.000Z',
+                'revoked' => false,
+                'expired' => true,
+                'scopes' => [
+                    'read_repository',
+                    'read_registry',
+                ],
+            ],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/deploy_tokens', ['active' => false])
+            ->will($this->returnValue([]));
+
+        $this->assertEquals([], $api->deployTokens(1, false));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreateDeployToken(): void
+    {
+        $expectedArray = [
+            'id' => 1,
+            'name' => 'My Deploy Token',
+            'username' => 'custom-user',
+            'token' => 'jMRvtPNxrn3crTAGukpZ',
+            'expires_at' => '2021-01-01T00:00:00.000Z',
+            'revoked' => false,
+            'expired' => false,
+            'scopes' => [
+                'read_repository',
+                'read_registry',
+            ],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with(
+                'groups/1/deploy_tokens',
+                [
+                    'name' => 'My Deploy Token',
+                    'scopes' => [
+                        'read_repository',
+                        'read_registry',
+                    ],
+                    'expires_at' => (new DateTime('2021-01-01'))->format('c'),
+                ]
+            )
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->createDeployToken(1, [
+            'name' => 'My Deploy Token',
+            'scopes' => [
+                'read_repository',
+                'read_registry',
+            ],
+            'expires_at' => new DateTime('2021-01-01'),
+        ]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldDeleteDeployToken(): void
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('groups/1/deploy_tokens/2')
+            ->will($this->returnValue($expectedBool));
+
+        $this->assertEquals($expectedBool, $api->deleteDeployToken(1, 2));
     }
 }
