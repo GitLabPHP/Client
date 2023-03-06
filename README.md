@@ -5,7 +5,7 @@ We present a modern [GitLab API v4](https://docs.gitlab.com/ce/api/) client for 
 ![Banner](https://user-images.githubusercontent.com/2829600/86969006-fc2e3b00-c164-11ea-80b7-8750160a65c4.png)
 
 <p align="center">
-<a href="https://github.com/GitLabPHP/Client/actions?query=workflow%3ATests"><img src="https://img.shields.io/github/workflow/status/GitLabPHP/Client/Tests?label=Tests&style=flat-square" alt="Build Status"></img></a>
+<a href="https://github.com/GitLabPHP/Client/actions?query=workflow%3ATests"><img src="https://img.shields.io/github/actions/workflow/status/GitLabPHP/Client/tests.yml?label=Tests&style=flat-square" alt="Build Status"></img></a>
 <a href="https://github.styleci.io/repos/6816335"><img src="https://github.styleci.io/repos/6816335/shield" alt="StyleCI Status"></img></a>
 <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square" alt="Software License"></img></a>
 <a href="https://packagist.org/packages/m4tthumphrey/php-gitlab-api"><img src="https://img.shields.io/packagist/dt/m4tthumphrey/php-gitlab-api?style=flat-square" alt="Packagist Downloads"></img></a>
