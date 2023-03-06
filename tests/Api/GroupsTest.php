@@ -720,6 +720,26 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetGroupMergeRequests(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'title' => 'A merge request'],
+            ['id' => 2, 'title' => 'Another merge request'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/merge_requests')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->mergeRequests(1, []));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetDeployTokens(): void
     {
         $expectedArray = [
@@ -848,7 +868,6 @@ class GroupsTest extends TestCase
             'expires_at' => new DateTime('2021-01-01'),
         ]));
     }
-
     /**
      * @test
      */
@@ -859,7 +878,7 @@ class GroupsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('delete')
-            ->with('groups/1/deploy_tokens/2')
+            ->with('projects/1/deploy_tokens/2')
             ->will($this->returnValue($expectedBool));
 
         $this->assertEquals($expectedBool, $api->deleteDeployToken(1, 2));

@@ -33,6 +33,11 @@ use Gitlab\Api\ProjectNamespaces;
 use Gitlab\Api\Projects;
 use Gitlab\Api\Repositories;
 use Gitlab\Api\RepositoryFiles;
+use Gitlab\Api\ResourceIterationEvents;
+use Gitlab\Api\ResourceLabelEvents;
+use Gitlab\Api\ResourceMilestoneEvents;
+use Gitlab\Api\ResourceStateEvents;
+use Gitlab\Api\ResourceWeightEvents;
 use Gitlab\Api\Schedules;
 use Gitlab\Api\Snippets;
 use Gitlab\Api\SystemHooks;
@@ -86,7 +91,7 @@ class Client
      *
      * @var string
      */
-    private const USER_AGENT = 'gitlab-php-api-client/11.7';
+    private const USER_AGENT = 'gitlab-php-api-client/11.9';
 
     /**
      * The HTTP client builder.
@@ -216,6 +221,46 @@ class Client
     public function issues(): Issues
     {
         return new Issues($this);
+    }
+
+    /**
+     * @return ResourceIterationEvents
+     */
+    public function resourceIterationEvents(): ResourceIterationEvents
+    {
+        return new ResourceIterationEvents($this);
+    }
+
+    /**
+     * @return ResourceLabelEvents
+     */
+    public function resourceLabelEvents(): ResourceLabelEvents
+    {
+        return new ResourceLabelEvents($this);
+    }
+
+    /**
+     * @return ResourceMilestoneEvents
+     */
+    public function resourceMilestoneEvents(): ResourceMilestoneEvents
+    {
+        return new ResourceMilestoneEvents($this);
+    }
+
+    /**
+     * @return ResourceStateEvents
+     */
+    public function resourceStateEvents(): ResourceStateEvents
+    {
+        return new ResourceStateEvents($this);
+    }
+
+    /**
+     * @return ResourceWeightEvents
+     */
+    public function resourceWeightEvents(): ResourceWeightEvents
+    {
+        return new ResourceWeightEvents($this);
     }
 
     /**

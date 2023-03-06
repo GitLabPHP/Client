@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [11.9.0] - 2023-03-XX
+
+* Add PHP 8.2 support
+
+## [11.8.0] - 2022-04-24
+
+* Add support for `reviewer_id` and `wip` params in `MergeRequests::all()`
+* Add support for `GroupEpics::issues()`
+* Add support for `Projects::pipelineJobs()` and protected tags
+* Add support for the confidential filter in `Issues:all()`
+* Allow specifying params in `Wiki::showAll()`
+* Allow specifying params in `SystemHooks::create()`
+* Allow `chmod` action and `execute_filemode` attribute
+* Implement group merge requests endpoints
+* Implement event endpoints
+
+[11.8.0]: https://github.com/GitLabPHP/Client/compare/11.7.1...11.8.0
+
+## [11.7.1] - 2022-04-24
+
+* Fixed `GroupsEpic::all()` method
+* Fixed `Projects::createPipeline()` method
+
+[11.7.1]: https://github.com/GitLabPHP/Client/compare/11.7.0...11.7.1
+
 ## [11.7.0] - 2022-01-24
 
 * Dropped PHP 7.2 and 7.3 support

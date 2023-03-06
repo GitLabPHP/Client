@@ -307,7 +307,7 @@ class Repositories extends AbstractApi
                 $actionsOptionsResolver = new OptionsResolver();
                 $actionsOptionsResolver->setDefined('action')
                     ->setRequired('action')
-                    ->setAllowedValues('action', ['create', 'delete', 'move', 'update'])
+                    ->setAllowedValues('action', ['create', 'delete', 'move', 'update', 'chmod'])
                 ;
                 $actionsOptionsResolver->setDefined('file_path')
                     ->setRequired('file_path')
@@ -316,6 +316,9 @@ class Repositories extends AbstractApi
                 $actionsOptionsResolver->setDefined('content');
                 $actionsOptionsResolver->setDefined('encoding')
                     ->setAllowedValues('encoding', ['text', 'base64'])
+                ;
+                $actionsOptionsResolver->setDefined('execute_filemode')
+                    ->setAllowedValues('execute_filemode', [true, false])
                 ;
 
                 return \array_map(function ($action) use ($actionsOptionsResolver) {

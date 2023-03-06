@@ -402,6 +402,17 @@ class Projects extends AbstractApi
      *
      * @return mixed
      */
+    public function pipelineJobs($project_id, int $pipeline_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'pipelines/'.self::encodePath($pipeline_id).'/jobs'));
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param int        $pipeline_id
+     *
+     * @return mixed
+     */
     public function pipelineVariables($project_id, int $pipeline_id)
     {
         return $this->get($this->getProjectPath($project_id, 'pipelines/'.self::encodePath($pipeline_id).'/variables'));
@@ -421,15 +432,15 @@ class Projects extends AbstractApi
      */
     public function createPipeline($project_id, string $commit_ref, array $variables = null)
     {
-        $parameters = [
-            'ref' => $commit_ref,
-        ];
+        $parameters = [];
 
         if (null !== $variables) {
             $parameters['variables'] = $variables;
         }
 
-        return $this->post($this->getProjectPath($project_id, 'pipeline'), $parameters);
+        return $this->post($this->getProjectPath($project_id, 'pipeline'), $parameters, [], [], [
+            'ref' => $commit_ref,
+        ]);
     }
 
     /**
@@ -1422,5 +1433,58 @@ class Projects extends AbstractApi
     public function deleteProjectAccessToken($project_id, $token_id)
     {
         return $this->delete($this->getProjectPath($project_id, 'access_tokens/'.$token_id));
+    }
+
+    /**
+     * @param int|string $project_id
+     *
+     * @return mixed
+     */
+    public function protectedTags($project_id)
+    {
+        return $this->get('projects/'.self::encodePath($project_id).'/protected_tags');
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param string     $tag_name
+     *
+     * @return mixed
+     */
+    public function protectedTag($project_id, string $tag_name)
+    {
+        return $this->get('projects/'.self::encodePath($project_id).'/protected_tags/'.self::encodePath($tag_name));
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param array      $parameters
+     *
+     * @return mixed
+     */
+    public function addProtectedTag($project_id, array $parameters = [])
+    {
+        $resolver = new OptionsResolver();
+        $resolver->setDefined('name')
+            ->setAllowedTypes('name', 'string')
+            ->setRequired('name')
+        ;
+        $resolver->setDefined('create_access_level')
+            ->setAllowedTypes('create_access_level', 'int')
+            ->setAllowedValues('create_access_level', [0, 30, 40])
+        ;
+
+        return $this->post($this->getProjectPath($project_id, 'protected_tags'), $resolver->resolve($parameters));
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param string     $tag_name
+     *
+     * @return mixed
+     */
+    public function deleteProtectedTag($project_id, string $tag_name)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'protected_tags/'.self::encodePath($tag_name)));
     }
 }

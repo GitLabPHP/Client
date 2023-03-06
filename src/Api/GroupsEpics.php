@@ -19,7 +19,12 @@ class GroupsEpics extends AbstractApi
     /**
      * @var string
      */
-    public const STATE_ACTIVE = 'active';
+    public const STATE_ALL = 'all';
+
+    /**
+     * @var string
+     */
+    public const STATE_OPENED = 'opened';
 
     /**
      * @var string
@@ -47,7 +52,7 @@ class GroupsEpics extends AbstractApi
             })
         ;
         $resolver->setDefined('state')
-            ->setAllowedValues('state', [self::STATE_ACTIVE, self::STATE_CLOSED])
+            ->setAllowedValues('state', [self::STATE_ALL, self::STATE_OPENED, self::STATE_CLOSED])
         ;
         $resolver->setDefined('search');
 
@@ -97,5 +102,16 @@ class GroupsEpics extends AbstractApi
     public function remove($group_id, int $epic_id)
     {
         return $this->delete('groups/'.self::encodePath($group_id).'/epics/'.self::encodePath($epic_id));
+    }
+
+    /**
+     * @param int|string $group_id
+     * @param int        $epic_iid
+     *
+     * @return mixed
+     */
+    public function issues($group_id, int $epic_iid)
+    {
+        return $this->get('groups/'.self::encodePath($group_id).'/epics/'.self::encodePath($epic_iid).'/issues');
     }
 }

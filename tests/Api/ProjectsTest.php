@@ -811,6 +811,26 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetPipelineJobs(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'status' => 'success', 'stage' => 'Build'],
+            ['id' => 2, 'status' => 'failed', 'stage' => 'Build'],
+            ['id' => 3, 'status' => 'pending', 'stage' => 'Build'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/pipelines/3/jobs')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->pipelineJobs(1, 3));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetPipelineVariables(): void
     {
         $expectedArray = [
@@ -839,7 +859,7 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/pipeline', ['ref' => 'test-pipeline'])
+            ->with('projects/1/pipeline', [], [], [], ['ref' => 'test-pipeline'])
             ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->createPipeline(1, 'test-pipeline'));
@@ -868,7 +888,7 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/pipeline', ['ref' => 'test-pipeline', 'variables' => $variables])
+            ->with('projects/1/pipeline', ['variables' => $variables], [], [], ['ref' => 'test-pipeline'])
             ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->createPipeline(1, 'test-pipeline', $variables));
@@ -2210,7 +2230,7 @@ class ProjectsTest extends TestCase
         ];
     }
 
-    public function possibleAccessLevels()
+    public static function possibleAccessLevels(): array
     {
         return [
             [10],
@@ -2656,6 +2676,46 @@ class ProjectsTest extends TestCase
             ->will($this->returnValue($expectedArray));
         $this->assertEquals($expectedArray, $api->uploadAvatar(1, $fileName));
         \unlink($fileName);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAddProtectedTag(): void
+    {
+        $expectedArray = [
+            'name' => 'release-*',
+            'create_access_level' => [
+                'access_level' => 40,
+                'access_level_description' => 'Maintainers',
+            ],
+        ];
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with(
+                'projects/1/protected_tags',
+                ['name' => 'release-*', 'create_access_level' => 40]
+            )
+            ->will($this->returnValue($expectedArray));
+        $this->assertEquals($expectedArray, $api->addProtectedTag(1, ['name' => 'release-*', 'create_access_level' => 40]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRemoveProtectedTag(): void
+    {
+        $expectedBool = true;
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with(
+                'projects/1/protected_tags/release-%2A'
+            )
+            ->will($this->returnValue($expectedBool));
+
+        $this->assertEquals($expectedBool, $api->deleteProtectedTag(1, 'release-*'));
     }
 
     protected function getApiClass()

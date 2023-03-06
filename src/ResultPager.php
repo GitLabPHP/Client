@@ -259,6 +259,7 @@ final class ResultPager implements ResultPagerInterface
      */
     private static function bindPerPage(AbstractApi $api, int $perPage): AbstractApi
     {
+        /** @var Closure(AbstractApi): AbstractApi */
         $closure = Closure::bind(static function (AbstractApi $api) use ($perPage): AbstractApi {
             $clone = clone $api;
 
@@ -267,7 +268,6 @@ final class ResultPager implements ResultPagerInterface
             return $clone;
         }, null, AbstractApi::class);
 
-        /** @var AbstractApi */
         return $closure($api);
     }
 }

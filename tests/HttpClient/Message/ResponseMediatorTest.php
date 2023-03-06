@@ -75,12 +75,7 @@ class ResponseMediatorTest extends TestCase
 
     public function testGetPagination(): void
     {
-        $header = <<<'TEXT'
-<https://example.gitlab.com>; rel="first",
-<https://example.gitlab.com>; rel="next",
-<https://example.gitlab.com>; rel="prev",
-<https://example.gitlab.com>; rel="last",
-TEXT;
+        $header = '<https://example.gitlab.com>; rel="first",<https://example.gitlab.com>; rel="next",<https://example.gitlab.com>; rel="prev",<https://example.gitlab.com>; rel="last"';
 
         $pagination = [
             'first' => 'https://example.gitlab.com',
