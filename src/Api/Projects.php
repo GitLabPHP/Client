@@ -1453,6 +1453,17 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
+     * @param int|string $token_id
+     *
+     * @return mixed
+     */
+    public function projectAccessToken($project_id, $token_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'access_tokens/'.self::encodePath($token_id)));
+    }
+
+    /**
+     * @param int|string $project_id
      * @param array      $parameters {
      *
      *     @var string $name                    the name of the project access token
