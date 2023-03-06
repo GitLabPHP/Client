@@ -868,6 +868,7 @@ class GroupsTest extends TestCase
             'expires_at' => new DateTime('2021-01-01'),
         ]));
     }
+
     /**
      * @test
      */
@@ -878,7 +879,7 @@ class GroupsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('delete')
-            ->with('projects/1/deploy_tokens/2')
+            ->with('groups/1/deploy_tokens/2')
             ->will($this->returnValue($expectedBool));
 
         $this->assertEquals($expectedBool, $api->deleteDeployToken(1, 2));
