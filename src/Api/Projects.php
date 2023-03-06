@@ -439,6 +439,28 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
+     * @param int        $pipeline_id
+     *
+     * @return mixed
+     */
+    public function pipelineTestReport($project_id, int $pipeline_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'pipelines/'.self::encodePath($pipeline_id).'/test_report'));
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param int        $pipeline_id
+     *
+     * @return mixed
+     */
+    public function pipelineTestReportSummary($project_id, int $pipeline_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'pipelines/'.self::encodePath($pipeline_id).'/test_report_summary'));
+    }
+
+    /**
+     * @param int|string $project_id
      * @param string     $commit_ref
      * @param array|null $variables  {
      *
