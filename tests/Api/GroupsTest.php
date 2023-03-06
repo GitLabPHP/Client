@@ -368,6 +368,27 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetAllIssues(): void
+    {
+        $expectedArray = [
+            ['id' => 101, 'name' => 'An issue'],
+            ['id' => 102, 'name' => 'Another issue'],
+            ['id' => 103, 'name' => 'A third issue'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/issues', ['page' => 1, 'per_page' => 10])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->issues(1, ['page' => 1, 'per_page' => 10]));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetLabels(): void
     {
         $expectedArray = [
@@ -675,6 +696,38 @@ class GroupsTest extends TestCase
         ;
 
         $this->assertEquals($expectedArray, $api->projects(1, ['with_custom_attributes' => true]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetIterations(): void
+    {
+        $expectedArray = [
+            [
+                'id' => 5,
+                'iid' => 2,
+                'sequence' => 1,
+                'group_id' => 123,
+                'title' => '2022: Sprint 1',
+                'description' => '',
+                'state' => 3,
+                'created_at' => '2021-09-29T21:24:43.913Z',
+                'updated_at' => '2022-03-29T19:09:08.368Z',
+                'start_date' => '2022-01-10',
+                'due_date' => '2022-01-23',
+                'web_url' => 'https://example.com/groups/example/-/iterations/34',
+            ],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/iterations')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->iterations(1));
     }
 
     /**

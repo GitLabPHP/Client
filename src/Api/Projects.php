@@ -694,6 +694,37 @@ class Projects extends AbstractApi
     }
 
     /**
+     * @param int|string $project_id
+     * @param array      $parameters {
+     *
+     *     @var string $state               Return opened, upcoming, current (previously started), closed, or all iterations.
+     *                                      Filtering by started state is deprecated starting with 14.1, please use current instead.
+     *     @var string $search              return only iterations with a title matching the provided string
+     *     @var bool   $include_ancestors   Include iterations from parent group and its ancestors. Defaults to true.
+     * }
+     *
+     * @return mixed
+     */
+    public function iterations($project_id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+        $booleanNormalizer = function (Options $resolver, $value): string {
+            return $value ? 'true' : 'false';
+        };
+
+        $resolver->setDefined('state')
+            ->setAllowedValues('state', ['opened', 'upcoming', 'current', 'current (previously started)', 'closed', 'all'])
+        ;
+        $resolver->setDefined('include_ancestors')
+            ->setAllowedTypes('include_ancestors', 'bool')
+            ->setNormalizer('include_ancestors', $booleanNormalizer)
+            ->setDefault('include_ancestors', true)
+        ;
+
+        return $this->get('projects/'.self::encodePath($project_id).'/iterations', $resolver->resolve($parameters));
+    }
+
+    /**
      * Gets a list of all discussion items for a single commit.
      *
      * Example:
