@@ -175,6 +175,88 @@ class Users extends AbstractApi
     }
 
     /**
+     * @param int   $id
+     * @param array $parameters {
+     *
+     *     @var bool   $archived                    limit by archived status
+     *     @var string $visibility                  limit by visibility public, internal, or private
+     *     @var string $order_by                    Return projects ordered by id, name, path, created_at, updated_at,
+     *                                              or last_activity_at fields (default is created_at)
+     *     @var string $sort                        Return projects sorted in asc or desc order (default is desc)
+     *     @var string $search                      return list of projects matching the search criteria
+     *     @var bool   $simple                      return only the ID, URL, name, and path of each project
+     *     @var bool   $owned                       limit by projects owned by the current user
+     *     @var bool   $membership                  limit by projects that the current user is a member of
+     *     @var bool   $starred                     limit by projects starred by the current user
+     *     @var bool   $statistics                  include project statistics
+     *     @var bool   $with_issues_enabled         limit by enabled issues feature
+     *     @var bool   $with_merge_requests_enabled limit by enabled merge requests feature
+     *     @var int    $min_access_level            Limit by current user minimal access level
+     *     @var bool   $with_custom_attributes      Include custom attributes in response (administrator only)
+     * }
+     *
+     * @return mixed
+     */
+    public function usersStarredProjects(int $id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+        $booleanNormalizer = function (Options $resolver, $value): string {
+            return $value ? 'true' : 'false';
+        };
+        $resolver->setDefined('archived')
+            ->setAllowedTypes('archived', 'bool')
+            ->setNormalizer('archived', $booleanNormalizer)
+        ;
+        $resolver->setDefined('visibility')
+            ->setAllowedValues('visibility', ['public', 'internal', 'private'])
+        ;
+        $resolver->setDefined('order_by')
+            ->setAllowedValues('order_by', ['id', 'name', 'path', 'created_at', 'updated_at', 'last_activity_at'])
+        ;
+        $resolver->setDefined('sort')
+            ->setAllowedValues('sort', ['asc', 'desc'])
+        ;
+        $resolver->setDefined('search');
+        $resolver->setDefined('simple')
+            ->setAllowedTypes('simple', 'bool')
+            ->setNormalizer('simple', $booleanNormalizer)
+        ;
+        $resolver->setDefined('owned')
+            ->setAllowedTypes('owned', 'bool')
+            ->setNormalizer('owned', $booleanNormalizer)
+        ;
+        $resolver->setDefined('membership')
+            ->setAllowedTypes('membership', 'bool')
+            ->setNormalizer('membership', $booleanNormalizer)
+        ;
+        $resolver->setDefined('starred')
+            ->setAllowedTypes('starred', 'bool')
+            ->setNormalizer('starred', $booleanNormalizer)
+        ;
+        $resolver->setDefined('statistics')
+            ->setAllowedTypes('statistics', 'bool')
+            ->setNormalizer('statistics', $booleanNormalizer)
+        ;
+        $resolver->setDefined('with_issues_enabled')
+            ->setAllowedTypes('with_issues_enabled', 'bool')
+            ->setNormalizer('with_issues_enabled', $booleanNormalizer)
+        ;
+        $resolver->setDefined('with_merge_requests_enabled')
+            ->setAllowedTypes('with_merge_requests_enabled', 'bool')
+            ->setNormalizer('with_merge_requests_enabled', $booleanNormalizer)
+        ;
+        $resolver->setDefined('min_access_level')
+            ->setAllowedValues('min_access_level', [null, 10, 20, 30, 40, 50])
+        ;
+        $resolver->setDefined('with_custom_attributes')
+            ->setAllowedTypes('with_custom_attributes', 'bool')
+            ->setNormalizer('with_custom_attributes', $booleanNormalizer)
+        ;
+
+        return $this->get('users/'.self::encodePath($id).'/starred_projects', $resolver->resolve($parameters));
+    }
+
+    /**
      * @return mixed
      */
     public function user()
