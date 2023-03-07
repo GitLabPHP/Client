@@ -2735,6 +2735,7 @@ class ProjectsTest extends TestCase
                         'api',
                         'read_repository',
                     ],
+                    'access_level' => 30,
                     'expires_at' => '2021-01-31',
                 ]
             )
@@ -2746,6 +2747,7 @@ class ProjectsTest extends TestCase
                 'api',
                 'read_repository',
             ],
+            'access_level' => 30,
             'expires_at' => new DateTime('2021-01-31'),
         ]));
     }
