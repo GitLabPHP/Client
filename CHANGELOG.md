@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [11.9.0] - 2023-03-06
+
+* Add PHP 8.2 support
+* Add support for group and project deploy tokens
+* Add source parameter to pipelines API
+* Add support for `Jobs::artifactByJobId`
+* Add support for `Users::usersStarredProjects`
+* Add support for `Groups::issues`
+* Add support for `Groups::iterations`
+* Add support for `Projects::iterations`
+* Add support for `Projects::projectAccessToken`
+* Add support for `Projects::pipelineTestReport`
+* Add support for `Projects::pipelineTestReportSummary`
+* Add support for `allowed_to_create` in `Projects::addProtectedTag`
+* Add support for `update_at` order by in `Projects::pipelines`
+* Added additional parameters to `Issues::all`
+* Added additional parameters to `Issues::group`
+* Added the ability to authenticate with a job token
+
 ## [11.8.0] - 2022-04-24
 
 * Add support for `reviewer_id` and `wip` params in `MergeRequests::all()`

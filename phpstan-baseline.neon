@@ -1,12 +1,17 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int, array\\)\\: bool\\)\\|null, Closure\\(\\)\\: void given\\.$#"
+			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int\\)\\: bool\\)\\|null, Closure\\(\\)\\: void given\\.$#"
 			count: 1
 			path: src/Api/AbstractApi.php
 
 		-
 			message: "#^Parameter \\#2 \\$resource of method Http\\\\Message\\\\MultipartStream\\\\MultipartStreamBuilder\\:\\:addResource\\(\\) expects Psr\\\\Http\\\\Message\\\\StreamInterface\\|resource\\|string, mixed given\\.$#"
+			count: 1
+			path: src/Api/AbstractApi.php
+
+		-
+			message: "#^Parameter \\#4 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, mixed given\\.$#"
 			count: 1
 			path: src/Api/AbstractApi.php
 

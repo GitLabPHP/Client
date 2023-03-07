@@ -380,6 +380,119 @@ class Groups extends AbstractApi
 
     /**
      * @param int|string $group_id
+     * @param array      $parameters {
+     *
+     *     @var string   $assignee_id              Return issues assigned to the given user id. Mutually exclusive with assignee_username.
+     *                                             None returns unassigned issues. Any returns issues with an assignee.
+     *     @var string   $assignee_username        Return issues assigned to the given username. Similar to assignee_id and mutually exclusive with assignee_id.
+     *                                             In GitLab CE, the assignee_username array should only contain a single value. Otherwise, an invalid parameter error is returned.
+     *     @var int      $author_id                Return issues created by the given user id. Mutually exclusive with author_username.
+     *                                             Combine with scope=all or scope=assigned_to_me.
+     *     @var string   $author_username          Return issues created by the given username. Similar to author_id and mutually exclusive with author_id.
+     *     @var bool     $confidential             Filter confidential or public issues
+     *     @var \DateTimeInterface $created_after  Return issues created after the given time (inclusive)
+     *     @var \DateTimeInterface $created_before Return issues created before the given time (inclusive)
+     *     @var int      $iteration_id             Return issues assigned to the given iteration ID. None returns issues that do not belong to an iteration. Any returns issues that belong to an iteration. Mutually exclusive with iteration_title.
+     *     @var string   $iteration_title          Return issues assigned to the iteration with the given title. Similar to iteration_id and mutually exclusive with iteration_id.
+     *     @var string   $labels                   Comma-separated list of label names, issues must have all labels to be returned. None lists all issues with no labels. Any lists all issues with at least one label. No+Label (Deprecated) lists all issues with no labels. Predefined names are case-insensitive.
+     *     @var string   $milestone                The milestone title. None lists all issues with no milestone. Any lists all issues that have an assigned milestone.
+     *     @var string   $my_reaction_emoji        Return issues reacted by the authenticated user by the given emoji. None returns issues not given a reaction. Any returns issues given at least one reaction.
+     *     @var bool     $non_archived             Return issues from non archived projects. Default is true.
+     *     @var string   $not                      Return issues that do not match the parameters supplied. Accepts: labels, milestone, author_id, author_username, assignee_id, assignee_username, my_reaction_emoji, search, in
+     *     @var string   $order_by                 Return issues ordered by created_at, updated_at, priority, due_date, relative_position, label_priority, milestone_due, popularity, weight fields. Default is created_at
+     *     @var string   $scope                    Return issues for the given scope: created_by_me, assigned_to_me or all. Defaults to all.
+     *     @var string   $search                   Search group issues against their title and description
+     *     @var string   $sort                     Return issues sorted in asc or desc order. Default is desc
+     *     @var string   $state                    Return all issues or just those that are opened or closed
+     *     @var \DateTimeInterface $updated_after  Return issues updated on or after the given time. Expected in ISO 8601 format (2019-03-15T08:00:00Z)
+     *     @var \DateTimeInterface $updated_before Return issues updated on or before the given time. Expected in ISO 8601 format (2019-03-15T08:00:00Z)
+     *     @var int      $weight                   Return issues with the specified weight. None returns issues with no weight assigned. Any returns issues with a weight assigned.
+     *     @var bool     $with_labels_details      If true, the response returns more details for each label in labels field: :name, :color, :description, :description_html, :text_color. Default is false.
+     * }
+     *
+     * @return mixed
+     */
+    public function issues($group_id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+        $booleanNormalizer = function (Options $resolver, $value): string {
+            return $value ? 'true' : 'false';
+        };
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
+            return $value->format('c');
+        };
+
+        $resolver->setDefined('assignee_id');
+        $resolver->setDefined('assignee_username')
+            ->setAllowedTypes('assignee_username', 'string');
+
+        $resolver->setDefined('author_id');
+        $resolver->setDefined('author_username')
+            ->setAllowedTypes('author_username', 'string');
+
+        $resolver->setDefined('confidential')
+            ->setAllowedTypes('confidential', 'bool')
+            ->setNormalizer('confidential', $booleanNormalizer);
+
+        $resolver->setDefined('created_after')
+            ->setAllowedTypes('created_after', \DateTimeInterface::class)
+            ->setNormalizer('created_after', $datetimeNormalizer);
+        $resolver->setDefined('created_before')
+            ->setAllowedTypes('created_before', \DateTimeInterface::class)
+            ->setNormalizer('created_before', $datetimeNormalizer);
+
+        $resolver->setDefined('updated_after')
+            ->setAllowedTypes('updated_after', \DateTimeInterface::class)
+            ->setNormalizer('updated_after', $datetimeNormalizer);
+        $resolver->setDefined('updated_before')
+            ->setAllowedTypes('updated_before', \DateTimeInterface::class)
+            ->setNormalizer('updated_before', $datetimeNormalizer);
+
+        $resolver->setDefined('iteration_id');
+        $resolver->setDefined('iteration_title')
+            ->setAllowedTypes('iteration_title', 'string');
+
+        $resolver->setDefined('labels')
+            ->setAllowedTypes('labels', 'string');
+
+        $resolver->setDefined('milestone')
+            ->setAllowedTypes('milestone', 'string');
+
+        $resolver->setDefined('my_reaction_emoji')
+            ->setAllowedTypes('my_reaction_emoji', 'string');
+
+        $resolver->setDefined('non_archived')
+            ->setAllowedTypes('non_archived', 'bool')
+            ->setNormalizer('non_archived', $booleanNormalizer);
+
+        $resolver->setDefined('not')
+            ->setAllowedTypes('not', 'string');
+
+        $resolver->setDefined('order_by')
+            ->setAllowedValues('order_by', ['created_at', 'updated_at']);
+        $resolver->setDefined('sort')
+            ->setAllowedValues('sort', ['asc', 'desc']);
+
+        $resolver->setDefined('scope')
+            ->setAllowedTypes('scope', 'string');
+
+        $resolver->setDefined('search')
+            ->setAllowedTypes('search', 'string');
+
+        $resolver->setDefined('state')
+            ->setAllowedValues('state', [self::STATE_ALL, self::STATE_OPENED, self::STATE_CLOSED]);
+
+        $resolver->setDefined('weight');
+
+        $resolver->setDefined('with_labels_details')
+            ->setAllowedTypes('with_labels_details', 'bool')
+            ->setNormalizer('with_labels_details', $booleanNormalizer);
+
+        return $this->get('groups/'.self::encodePath($group_id).'/issues', $resolver->resolve($parameters));
+    }
+
+    /**
+     * @param int|string $group_id
      * @param array      $parameters
      *
      * @return mixed
@@ -622,6 +735,37 @@ class Groups extends AbstractApi
      * @param int|string $group_id
      * @param array      $parameters {
      *
+     *     @var string $state               Return opened, upcoming, current (previously started), closed, or all iterations.
+     *                                      Filtering by started state is deprecated starting with 14.1, please use current instead.
+     *     @var string $search              return only iterations with a title matching the provided string
+     *     @var bool   $include_ancestors   Include iterations from parent group and its ancestors. Defaults to true.
+     * }
+     *
+     * @return mixed
+     */
+    public function iterations($group_id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+        $booleanNormalizer = function (Options $resolver, $value): string {
+            return $value ? 'true' : 'false';
+        };
+
+        $resolver->setDefined('state')
+            ->setAllowedValues('state', ['opened', 'upcoming', 'current', 'current (previously started)', 'closed', 'all'])
+        ;
+        $resolver->setDefined('include_ancestors')
+            ->setAllowedTypes('include_ancestors', 'bool')
+            ->setNormalizer('include_ancestors', $booleanNormalizer)
+            ->setDefault('include_ancestors', true)
+        ;
+
+        return $this->get('groups/'.self::encodePath($group_id).'/iterations', $resolver->resolve($parameters));
+    }
+
+    /**
+     * @param int|string $group_id
+     * @param array      $parameters {
+     *
      *     @var bool   $exclude_subgroups   if the parameter is included as true, packages from projects from subgroups
      *                                      are not listed. default is false.
      *     @var string $order_by            the field to use as order. one of created_at (default), name, version, type,
@@ -728,5 +872,76 @@ class Groups extends AbstractApi
         ;
 
         return $resolver;
+    }
+
+    /**
+     * @param int|string $group_id
+     * @param bool|null  $active
+     *
+     * @return mixed
+     */
+    public function deployTokens($group_id, bool $active = null)
+    {
+        return $this->get('groups/'.self::encodePath($group_id).'/deploy_tokens', (null !== $active) ? ['active' => $active] : []);
+    }
+
+    /**
+     * @param int|string $group_id
+     * @param array      $parameters {
+     *
+     *     @var string $name                    the name of the deploy token
+     *     @var \DateTimeInterface $expires_at  expiration date for the deploy token, does not expire if no value is provided
+     *     @var string $username                the username for the deploy token
+     *     @var array  $scopes                  the scopes, one or many of: read_repository, read_registry, write_registry, read_package_registry, write_package_registry
+     * }
+     *
+     * @return mixed
+     */
+    public function createDeployToken($group_id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
+            return $value->format('c');
+        };
+
+        $resolver->define('name')
+            ->required()
+        ;
+
+        $resolver->define('scopes')
+            ->required()
+            ->allowedTypes('array')
+            ->allowedValues(function ($scopes) {
+                $allowed = ['read_repository', 'read_registry', 'write_registry', 'read_package_registry', 'write_package_registry'];
+                foreach ($scopes as $scope) {
+                    if (!\in_array($scope, $allowed, true)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            })
+        ;
+        $resolver->setDefined('username')
+            ->setAllowedTypes('username', 'string')
+        ;
+
+        $resolver->setDefined('expires_at')
+            ->setAllowedTypes('expires_at', \DateTimeInterface::class)
+            ->setNormalizer('expires_at', $datetimeNormalizer)
+        ;
+
+        return $this->post('groups/'.self::encodePath($group_id).'/deploy_tokens', $resolver->resolve($parameters));
+    }
+
+    /**
+     * @param int|string $group_id
+     * @param int        $token_id
+     *
+     * @return mixed
+     */
+    public function deleteDeployToken($group_id, int $token_id)
+    {
+        return $this->delete('groups/'.self::encodePath($group_id).'/deploy_tokens/'.self::encodePath($token_id));
     }
 }
