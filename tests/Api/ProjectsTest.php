@@ -1184,7 +1184,6 @@ class ProjectsTest extends TestCase
             'expires_at' => $expiration,
         ];
 
-
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
