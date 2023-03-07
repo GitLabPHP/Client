@@ -337,8 +337,9 @@ class Projects extends AbstractApi
      *     @var bool   $yaml_errors returns pipelines with invalid configurations
      *     @var string $name        the name of the user who triggered pipelines
      *     @var string $username    the username of the user who triggered pipelines
-     *     @var string $order_by    order pipelines by id, status, ref, or user_id (default: id)
-     *     @var string $order       Sort pipelines in asc or desc order (default: desc).
+     *     @var string $order_by    order pipelines by id, status, ref, updated_at, or user_id (default: id)
+     *     @var string $order       sort pipelines in asc or desc order (default: desc)
+     *     @var string $source      the source of the pipeline
      * }
      *
      * @return mixed
@@ -376,11 +377,29 @@ class Projects extends AbstractApi
                  ->setNormalizer('updated_before', $datetimeNormalizer)
         ;
         $resolver->setDefined('order_by')
-            ->setAllowedValues('order_by', ['id', 'status', 'ref', 'user_id'])
+            ->setAllowedValues('order_by', ['id', 'status', 'ref', 'updated_at', 'user_id'])
         ;
         $resolver->setDefined('sort')
             ->setAllowedValues('sort', ['asc', 'desc'])
         ;
+        $resolver->setDefined('source')
+            ->setAllowedValues('source', [
+                'push',
+                'web',
+                'trigger',
+                'schedule',
+                'api',
+                'external',
+                'pipeline',
+                'chat',
+                'webide',
+                'merge_request_event',
+                'external_pull_request_event',
+                'parent_pipeline',
+                'ondemand_dast_scan',
+                'ondemand_dast_validation',
+            ]
+        );
 
         return $this->get($this->getProjectPath($project_id, 'pipelines'), $resolver->resolve($parameters));
     }
@@ -416,6 +435,28 @@ class Projects extends AbstractApi
     public function pipelineVariables($project_id, int $pipeline_id)
     {
         return $this->get($this->getProjectPath($project_id, 'pipelines/'.self::encodePath($pipeline_id).'/variables'));
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param int        $pipeline_id
+     *
+     * @return mixed
+     */
+    public function pipelineTestReport($project_id, int $pipeline_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'pipelines/'.self::encodePath($pipeline_id).'/test_report'));
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param int        $pipeline_id
+     *
+     * @return mixed
+     */
+    public function pipelineTestReportSummary($project_id, int $pipeline_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'pipelines/'.self::encodePath($pipeline_id).'/test_report_summary'));
     }
 
     /**
@@ -744,6 +785,37 @@ class Projects extends AbstractApi
     }
 
     /**
+     * @param int|string $project_id
+     * @param array      $parameters {
+     *
+     *     @var string $state               Return opened, upcoming, current (previously started), closed, or all iterations.
+     *                                      Filtering by started state is deprecated starting with 14.1, please use current instead.
+     *     @var string $search              return only iterations with a title matching the provided string
+     *     @var bool   $include_ancestors   Include iterations from parent group and its ancestors. Defaults to true.
+     * }
+     *
+     * @return mixed
+     */
+    public function iterations($project_id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+        $booleanNormalizer = function (Options $resolver, $value): string {
+            return $value ? 'true' : 'false';
+        };
+
+        $resolver->setDefined('state')
+            ->setAllowedValues('state', ['opened', 'upcoming', 'current', 'current (previously started)', 'closed', 'all'])
+        ;
+        $resolver->setDefined('include_ancestors')
+            ->setAllowedTypes('include_ancestors', 'bool')
+            ->setNormalizer('include_ancestors', $booleanNormalizer)
+            ->setDefault('include_ancestors', true)
+        ;
+
+        return $this->get('projects/'.self::encodePath($project_id).'/iterations', $resolver->resolve($parameters));
+    }
+
+    /**
      * Gets a list of all discussion items for a single commit.
      *
      * Example:
@@ -872,6 +944,77 @@ class Projects extends AbstractApi
     public function enableDeployKey($project_id, int $key_id)
     {
         return $this->post($this->getProjectPath($project_id, 'deploy_keys/'.self::encodePath($key_id).'/enable'));
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param bool|null  $active
+     *
+     * @return mixed
+     */
+    public function deployTokens($project_id, bool $active = null)
+    {
+        return $this->get($this->getProjectPath($project_id, 'deploy_tokens'), (null !== $active) ? ['active' => $active] : []);
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param array      $parameters {
+     *
+     *     @var string $name                    the name of the deploy token
+     *     @var \DateTimeInterface $expires_at  expiration date for the deploy token, does not expire if no value is provided
+     *     @var string $username                the username for the deploy token
+     *     @var array  $scopes                  the scopes, one or many of: read_repository, read_registry, write_registry, read_package_registry, write_package_registry
+     * }
+     *
+     * @return mixed
+     */
+    public function createDeployToken($project_id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
+            return $value->format('c');
+        };
+
+        $resolver->define('name')
+            ->required()
+        ;
+
+        $resolver->define('scopes')
+            ->required()
+            ->allowedTypes('array')
+            ->allowedValues(function ($scopes) {
+                $allowed = ['read_repository', 'read_registry', 'write_registry', 'read_package_registry', 'write_package_registry'];
+                foreach ($scopes as $scope) {
+                    if (!\in_array($scope, $allowed, true)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            })
+        ;
+        $resolver->setDefined('username')
+            ->setAllowedTypes('username', 'string')
+        ;
+
+        $resolver->setDefined('expires_at')
+            ->setAllowedTypes('expires_at', \DateTimeInterface::class)
+            ->setNormalizer('expires_at', $datetimeNormalizer)
+        ;
+
+        return $this->post($this->getProjectPath($project_id, 'deploy_tokens'), $resolver->resolve($parameters));
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param int        $token_id
+     *
+     * @return mixed
+     */
+    public function deleteDeployToken($project_id, int $token_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'deploy_tokens/'.self::encodePath($token_id)));
     }
 
     /**
@@ -1401,6 +1544,17 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
+     * @param int|string $token_id
+     *
+     * @return mixed
+     */
+    public function projectAccessToken($project_id, $token_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'access_tokens/'.self::encodePath($token_id)));
+    }
+
+    /**
+     * @param int|string $project_id
      * @param array      $parameters {
      *
      *     @var string $name                    the name of the project access token
@@ -1492,6 +1646,19 @@ class Projects extends AbstractApi
         $resolver->setDefined('create_access_level')
             ->setAllowedTypes('create_access_level', 'int')
             ->setAllowedValues('create_access_level', [0, 30, 40])
+        ;
+        $resolver->setDefined('allowed_to_create')
+            ->setAllowedTypes('allowed_to_create', 'array')
+            ->setAllowedValues('allowed_to_create', function (array $value) {
+                $keys = \array_keys((array) \call_user_func_array('array_merge', $value));
+                $diff = \array_diff($keys, ['user_id', 'group_id', 'access_level']);
+                $values = \array_map(function ($item) {
+                    return \array_values($item)[0] ?? '';
+                }, $value);
+                $integer = \count($values) === \count(\array_filter($values, 'is_int'));
+
+                return \count($value) > 0 && 0 === \count($diff) && $integer;
+            })
         ;
 
         return $this->post($this->getProjectPath($project_id, 'protected_tags'), $resolver->resolve($parameters));

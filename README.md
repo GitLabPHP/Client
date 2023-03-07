@@ -5,7 +5,7 @@ We present a modern [GitLab API v4](https://docs.gitlab.com/ce/api/) client for 
 ![Banner](https://user-images.githubusercontent.com/2829600/86969006-fc2e3b00-c164-11ea-80b7-8750160a65c4.png)
 
 <p align="center">
-<a href="https://github.com/GitLabPHP/Client/actions?query=workflow%3ATests"><img src="https://img.shields.io/github/workflow/status/GitLabPHP/Client/Tests?label=Tests&style=flat-square" alt="Build Status"></img></a>
+<a href="https://github.com/GitLabPHP/Client/actions?query=workflow%3ATests"><img src="https://img.shields.io/github/actions/workflow/status/GitLabPHP/Client/tests.yml?label=Tests&style=flat-square" alt="Build Status"></img></a>
 <a href="https://github.styleci.io/repos/6816335"><img src="https://github.styleci.io/repos/6816335/shield" alt="StyleCI Status"></img></a>
 <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square" alt="Software License"></img></a>
 <a href="https://packagist.org/packages/m4tthumphrey/php-gitlab-api"><img src="https://img.shields.io/packagist/dt/m4tthumphrey/php-gitlab-api?style=flat-square" alt="Packagist Downloads"></img></a>
@@ -23,12 +23,13 @@ Check out the [change log](CHANGELOG.md), [releases](https://github.com/GitLabPH
 
 ## Installation
 
-This version supports [PHP](https://php.net) 7.4-8.1. To get started, simply require the project using [Composer](https://getcomposer.org). You will also need to install packages that "provide" [`psr/http-client-implementation`](https://packagist.org/providers/psr/http-client-implementation) and [`psr/http-factory-implementation`](https://packagist.org/providers/psr/http-factory-implementation).
+This version supports [PHP](https://php.net) 7.4-8.2. To get started, simply require the project using [Composer](https://getcomposer.org). You will also need to install packages that "provide" [`psr/http-client-implementation`](https://packagist.org/providers/psr/http-client-implementation) and [`psr/http-factory-implementation`](https://packagist.org/providers/psr/http-factory-implementation).
 
 ### Standard Installation
 
 ```bash
-$ composer require "m4tthumphrey/php-gitlab-api:^11.8" "guzzlehttp/guzzle:^7.4" "http-interop/http-factory-guzzle:^1.2"
+$ composer require "m4tthumphrey/php-gitlab-api:^11.9" \
+  "guzzlehttp/guzzle:^7.5" "http-interop/http-factory-guzzle:^1.2"
 ```
 
 ### Framework Integration
@@ -36,13 +37,14 @@ $ composer require "m4tthumphrey/php-gitlab-api:^11.8" "guzzlehttp/guzzle:^7.4" 
 #### Laravel:
 
 ```bash
-$ composer require "graham-campbell/gitlab:^6.1"
+$ composer require "graham-campbell/gitlab:^7.0"
 ```
 
 #### Symfony:
 
 ```bash
-$ composer require "zeichen32/gitlabapibundle:^6.0" "symfony/http-client:^5.4" "nyholm/psr7:^1.4"
+$ composer require "zeichen32/gitlabapibundle:^6.0" \
+  "symfony/http-client:^5.4" "nyholm/psr7:^1.4"
 ```
 
 We are decoupled from any HTTP messaging client by using [PSR-7](https://www.php-fig.org/psr/psr-7/), [PSR-17](https://www.php-fig.org/psr/psr-17/), [PSR-18](https://www.php-fig.org/psr/psr-18/), and [HTTPlug](https://httplug.io/). You can visit [HTTPlug for library users](https://docs.php-http.org/en/latest/httplug/users.html) to get more information about installing HTTPlug related packages. The framework integration [graham-campbell/gitlab](https://github.com/GrahamCampbell/Laravel-GitLab) is by [Graham Campbell](https://github.com/GrahamCampbell) and [zeichen32/gitlabapibundle](https://github.com/Zeichen32/GitLabApiBundle) is by [Jens Averkamp](https://github.com/Zeichen32).

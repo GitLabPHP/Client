@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.x-dev@">
+<files psalm-version="5.7.6@ae4ec68e00e4880e3f00b1edd2da891236d749ab">
   <file src="src/Api/AbstractApi.php">
-    <InvalidArgument occurrences="1"/>
+    <InvalidArgument>
+      <code><![CDATA[function () use ($filename, $mode, &$ex): void {
+            $ex = new RuntimeException(\sprintf(
+                'Unable to open %s using mode %s: %s',
+                $filename,
+                $mode,
+                \func_get_args()[1]
+            ));
+        }]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="src/Api/Projects.php">
+    <TypeDoesNotContainType>
+      <code><![CDATA['is_int']]></code>
+    </TypeDoesNotContainType>
   </file>
   <file src="src/ResultPager.php">
-    <InaccessibleProperty occurrences="1">
-      <code>$clone-&gt;perPage</code>
+    <InaccessibleProperty>
+      <code><![CDATA[$clone->perPage]]></code>
     </InaccessibleProperty>
-    <PossiblyInvalidFunctionCall occurrences="1">
-      <code>$closure($api)</code>
-    </PossiblyInvalidFunctionCall>
   </file>
 </files>
