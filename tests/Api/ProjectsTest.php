@@ -1177,11 +1177,11 @@ class ProjectsTest extends TestCase
     public function shouldAddMemberWithExpiration(): void
     {
         // tomorrow
-        $expiration = date('Y-m-d', time() + 86400);
+        $expiration = \date('Y-m-d', \time() + 86400);
         $expectedArray = [
             'user_id' => 3,
             'access_level' => 3,
-            'expires_at' => $expiration
+            'expires_at' => $expiration,
         ];
 
 
@@ -1216,11 +1216,11 @@ class ProjectsTest extends TestCase
     public function shouldSaveMemberWithExpiration(): void
     {
         // tomorrow
-        $expiration = date('Y-m-d', time() + 86400);
+        $expiration = \date('Y-m-d', \time() + 86400);
         $expectedArray = [
             'user_id' => 3,
             'access_level' => 4,
-            'expires_at' => $expiration
+            'expires_at' => $expiration,
         ];
 
         $api = $this->getApiMock();
