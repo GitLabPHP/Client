@@ -694,29 +694,69 @@ class Projects extends AbstractApi
     }
 
     /**
+     * Create an issue board
+     *
      * @param int|string $project_id
-     * @param array      $parameters
+     * @param array      $parameters {
+     *      @var string $name    The name of the new board
+     * }
      *
      * @return mixed
      */
     public function addBoard($project_id, array $parameters)
     {
-        return $this->post($this->getProjectPath($project_id, 'boards'), $parameters);
+        $resolver = $this->createOptionsResolver();
+        $resolver->setDefined('name')
+            ->setAllowedTypes('name', 'string')
+            ->setRequired('name')
+        ;
+
+        return $this->post($this->getProjectPath($project_id, 'boards'), $resolver->resolve($parameters));
     }
 
     /**
+     * Update an issue board
+     *
      * @param int|string $project_id
      * @param int        $board_id
-     * @param array      $parameters
+     * @param array      $parameters {
+     *      @var string $name       The name of the new board
+     *      @var int $assignee_id   The assignee the board should be scoped to
+     *      @var int $milestone_id  The milestone the board should be scoped to
+     *      @var string $labels     Comma-separated list of label names which the board should be scoped to
+     *      @var int $weight        The weight range from 0 to 9, to which the board should be scoped to
+     * }
      *
      * @return mixed
      */
     public function updateBoard($project_id, int $board_id, array $parameters)
     {
-        return $this->put($this->getProjectPath($project_id, 'boards/'.self::encodePath($board_id)), $parameters);
+        $resolver = $this->createOptionsResolver();
+        $resolver->setDefined('name')
+            ->setAllowedTypes('name', 'string')
+        ;
+        $resolver->setDefined('assignee_id')
+            ->setAllowedTypes('assignee_id', 'int')
+        ;
+        $resolver->setDefined('milestone_id')
+            ->setAllowedTypes('milestone_id', 'int')
+        ;
+        $resolver->setDefined('labels')
+            ->setAllowedTypes('labels', 'string')
+        ;
+        $resolver->setDefined('weight')
+            ->setAllowedTypes('weight', 'int')
+        ;
+
+        return $this->put(
+            $this->getProjectPath($project_id, 'boards/'.self::encodePath($board_id)),
+            $resolver->resolve($parameters)
+        );
     }
 
     /**
+     * Delete an issue board
+     *
      * @param int|string $project_id
      * @param int        $board_id
      *
@@ -743,18 +783,42 @@ class Projects extends AbstractApi
     }
 
     /**
+     * Create a board list
+     *
+     * See https://docs.gitlab.com/ee/api/boards.html#create-a-board-list for more info.
+     *
      * @param int|string $project_id
-     * @param int|string $board_id
-     * @param array      $parameters
+     * @param int        $board_id
+     * @param array      $parameters {
+     *      @var int $label_id      The ID of a label
+     *      @var int $assignee_id   The ID of a user
+     *      @var int $milestone_id  The ID of a milestone
+     * }
      *
      * @return mixed
      */
-    public function addBoardList($project_id, $board_id, array $parameters)
+    public function addBoardList($project_id, int $board_id, array $parameters)
     {
+        $resolver = $this->createOptionsResolver();
+        $resolver->setDefined('label_id')
+            ->setAllowedTypes('label_id', 'int')
+        ;
+        $resolver->setDefined('assignee_id')
+            ->setAllowedTypes('assignee_id', 'int')
+        ;
+        $resolver->setDefined('milestone_id')
+            ->setAllowedTypes('milestone_id', 'int')
+        ;
+
         return $this->post($this->getProjectPath($project_id, 'boards/'.self::encodePath($board_id).'/lists'), $parameters);
     }
 
     /**
+     * Reorder a list in a board
+     * Updates an existing issue board list. This call is used to change list position.
+     *
+     * See https://docs.gitlab.com/ee/api/boards.html#reorder-a-list-in-a-board for more info.
+     *
      * @param int|string $project_id
      * @param int        $board_id
      * @param int        $list_id
@@ -771,6 +835,11 @@ class Projects extends AbstractApi
     }
 
     /**
+     * Delete a board list from a board
+     * Only for administrators and project owners. Deletes a board list.
+     *
+     * See https://docs.gitlab.com/ee/api/boards.html#delete-a-board-list-from-a-board for more info.
+     *
      * @param int|string $project_id
      * @param int        $board_id
      * @param int        $list_id
