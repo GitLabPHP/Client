@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [11.10.0] - UPCOMING
+
+* Add support for `Packages::addGenericFile()`
+* Add support for `access_level` in `Projects::createProjectAccessToken`
+
 ## [11.9.0] - 2023-03-06
 
 * Add PHP 8.2 support
