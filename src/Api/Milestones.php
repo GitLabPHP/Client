@@ -109,4 +109,15 @@ class Milestones extends AbstractApi
     {
         return $this->get($this->getProjectPath($project_id, 'milestones/'.self::encodePath($milestone_id).'/issues'));
     }
+
+    /**
+     * @param int|string $project_id
+     * @param int        $milestone_id
+     *
+     * @return mixed
+     */
+    public function mergeRequests($project_id, int $milestone_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'milestones/'.self::encodePath($milestone_id).'/merge_requests'));
+    }
 }

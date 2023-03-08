@@ -126,6 +126,26 @@ class MilestonesTest extends TestCase
         $this->assertEquals($expectedArray, $api->issues(1, 3));
     }
 
+    /**
+     * @test
+     */
+    public function shouldGetMilestonesMergeRequests(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'title' => 'A merge request'],
+            ['id' => 2, 'title' => 'Another merge request'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/milestones/3/merge_requests')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->mergeRequests(1, 3));
+    }
+
     protected function getApiClass()
     {
         return Milestones::class;
