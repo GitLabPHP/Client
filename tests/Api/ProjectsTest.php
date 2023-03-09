@@ -1174,6 +1174,28 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldAddMemberWithExpiration(): void
+    {
+        // tomorrow
+        $expiration = \date('Y-m-d', \time() + 86400);
+        $expectedArray = [
+            'user_id' => 3,
+            'access_level' => 3,
+            'expires_at' => $expiration,
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/members', ['user_id' => 3, 'access_level' => 3, 'expires_at' => $expiration])
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->addMember(1, 3, 3, $expiration));
+    }
+
+    /**
+     * @test
+     */
     public function shouldSaveMember(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'Matt'];
@@ -1185,6 +1207,28 @@ class ProjectsTest extends TestCase
             ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->saveMember(1, 2, 4));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldSaveMemberWithExpiration(): void
+    {
+        // tomorrow
+        $expiration = \date('Y-m-d', \time() + 86400);
+        $expectedArray = [
+            'user_id' => 3,
+            'access_level' => 4,
+            'expires_at' => $expiration,
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/members/3', ['access_level' => 4, 'expires_at' => $expiration])
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->saveMember(1, 3, 4, $expiration));
     }
 
     /**
