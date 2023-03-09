@@ -7,8 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [11.10.0] - UPCOMING
 
-* Add support for `Packages::addGenericFile()`
+* Add support for `Packages::addGenericFile`
+* Add support for `Milestones::mergeRequests`
 * Add support for `access_level` in `Projects::createProjectAccessToken`
+* Add support for `expires_at` in `Projects::addMember` and `Projects::saveMember`
 
 ## [11.9.0] - 2023-03-06
 
