@@ -104,6 +104,7 @@ class ProjectsTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider possibleAccessLevels
      */
     public function shouldGetProjectsWithMinimumAccessLevel($level): void

@@ -272,6 +272,7 @@ class UsersTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider possibleAccessLevels
      */
     public function shouldGetProjectsWithMinimumAccessLevel($level): void
@@ -363,6 +364,7 @@ class UsersTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider possibleAccessLevels
      */
     public function shouldGetStarredProjectsWithMinimumAccessLevel($level): void

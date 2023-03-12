@@ -362,8 +362,9 @@ class RepositoriesTest extends TestCase
     }
 
     /**
-     * @dataProvider dataGetCommitRefsWithParams
      * @test
+     *
+     * @dataProvider dataGetCommitRefsWithParams
      *
      * @param string $type
      * @param array  $expectedArray
