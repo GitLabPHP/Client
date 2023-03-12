@@ -96,6 +96,7 @@ class TagsTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider releaseDataProvider
      *
      * @param string $releaseName
@@ -119,6 +120,7 @@ class TagsTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider releaseDataProvider
      *
      * @param string $releaseName
