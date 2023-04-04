@@ -191,7 +191,18 @@ abstract class AbstractApi
      */
     protected function getProjectPath($id, string $uri): string
     {
-        return 'projects/'.self::encodePath($id).'/'.$uri;
+        return $this->attachUri('projects/'.self::encodePath($id), $uri);
+    }
+
+    /**
+     * @param string $path
+     * @param string $uri
+     *
+     * @return string
+     */
+    private function attachUri(string $path, string $uri)
+    {
+        return $uri != '' ? "{$path}/{$uri}" : $path;
     }
 
     /**
