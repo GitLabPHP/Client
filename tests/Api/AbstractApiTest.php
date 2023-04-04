@@ -14,56 +14,67 @@ declare(strict_types=1);
 
 namespace Gitlab\Tests\Api;
 
-use Psr\Http\Client\ClientInterface;
 use Gitlab\Api\AbstractApi;
 use Gitlab\Client;
+use Psr\Http\Client\ClientInterface;
 
 class AbstractApiTest extends TestCase
 {
 
-	public function setUp(): void
-	{
-		parent::setUp();
+    public function setUp(): void
+    {
+        parent::setUp();
 
-		$this->api = $this->getTestApi();
-	}
-	/**
-	 * @test
-	 */
-	public function shouldNotHaveTrailingSlashForEmptyUri(): void
+        $this->api = $this->getTestApi();
+    }
+    /**
+     * @test
+     */
+    public function shouldNotHaveTrailingSlashForEmptyUri(): void
     {
         $expectedString = 'projects/1';
 
         $this->assertEquals($expectedString,
-        	$this->api->getProjectPath($id = 1, $uri = '')
+            $this->api->getProjectPath($id = 1, $uri = '')
         );
     }
 
-	/**
-	 * @test
-	 */
-	public function shouldHaveTrailingSlashIfProvidedInUri(): void
+    /**
+     * @test
+     */
+    public function shouldHaveTrailingSlashIfProvidedInUri(): void
     {
         $expectedString = 'projects/1/commits/';
 
         $this->assertEquals($expectedString,
-        	$this->api->getProjectPath($id = 1, $uri = 'commits/')
+            $this->api->getProjectPath($id = 1, $uri = 'commits/')
         );
     }
 
     protected function getTestApi(): TestApi
     {
-    	$httpClient = $this->getMockBuilder(ClientInterface::class)->getMock();
-	    $client = Client::createWithHttpClient($httpClient);
-	    return new TestApi($client);
+        $httpClient = $this->getMockBuilder(ClientInterface::class)->getMock();
+        $client = Client::createWithHttpClient($httpClient);
+        return new TestApi($client);
     }
 
-    protected function getApiClass() {}
+    protected function getApiClass(): void
+    {
+
+    }
 }
 
 class TestApi extends AbstractApi {
-	public function getProjectPath($id, string $uri): string
-	{
-		return parent::getProjectPath($id, $uri);
-	}
+    public function getProjectPath($id, string $uri): string
+    {
+        return parent::getProjectPath($id, $uri);
+    }
 }
+
+class TestApi extends AbstractApi
+{
+    public function getProjectPath($id, string $uri): string
+    {
+        return parent::getProjectPath($id, $uri);
+    }
+ }

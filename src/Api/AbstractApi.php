@@ -202,7 +202,7 @@ abstract class AbstractApi
      */
     private function attachUri(string $path, string $uri)
     {
-        return $uri != '' ? "{$path}/{$uri}" : $path;
+        return '' != $uri ? "{$path}/{$uri}" : $path;
     }
 
     /**
