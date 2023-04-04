@@ -20,13 +20,13 @@ use Psr\Http\Client\ClientInterface;
 
 class AbstractApiTest extends TestCase
 {
-
     public function setUp(): void
     {
         parent::setUp();
 
         $this->api = $this->getTestApi();
     }
+
     /**
      * @test
      */
@@ -55,19 +55,12 @@ class AbstractApiTest extends TestCase
     {
         $httpClient = $this->getMockBuilder(ClientInterface::class)->getMock();
         $client = Client::createWithHttpClient($httpClient);
+
         return new TestApi($client);
     }
 
     protected function getApiClass(): void
     {
-
-    }
-}
-
-class TestApi extends AbstractApi {
-    public function getProjectPath($id, string $uri): string
-    {
-        return parent::getProjectPath($id, $uri);
     }
 }
 
@@ -77,4 +70,4 @@ class TestApi extends AbstractApi
     {
         return parent::getProjectPath($id, $uri);
     }
- }
+}
