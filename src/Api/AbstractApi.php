@@ -43,7 +43,7 @@ abstract class AbstractApi
      * as defined in the Gitlab::Access module
      * @link https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/access.rb
      *
-     * @var string
+     * @var array
      */
     protected const ACCESS_LEVELS = [0, 10, 20, 30, 40, 50];
 
