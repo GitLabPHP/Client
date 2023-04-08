@@ -282,16 +282,19 @@ class GroupsTest extends TestCase
      */
     public function shouldAddMember(): void
     {
-        $expectedArray = ['id' => 1, 'name' => 'Matt'];
+        $tomorrow = (new DateTime('tomorrow'));
+        $expectedArray = ['id' => 1, 'name' => 'Matt', 'expires_at' => $tomorrow];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('groups/1/members', ['user_id' => 2, 'access_level' => 3])
+            ->with('groups/1/members', [
+                'user_id' => 2, 'access_level' => 3, 'expires_at' => $tomorrow->format('Y-m-d')
+            ])
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->addMember(1, 2, 3));
+        $this->assertEquals($expectedArray, $api->addMember(1, 2, 3, ['expires_at' => $tomorrow]));
     }
 
     /**
