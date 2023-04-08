@@ -214,21 +214,17 @@ class Groups extends AbstractApi
      */
     public function addMember($group_id, int $user_id, int $access_level, array $parameters = [])
     {
-        $resolver = $this->createOptionsResolver();
-
         $dateNormalizer = function (OptionsResolver $optionsResolver, \DateTimeInterface $date): string {
             return $date->format('Y-m-d');
         };
 
-        $resolver->setRequired('user_id')
-            ->setAllowedTypes('user_id', 'int');
-
-        $resolver->setRequired('access_level')
+        $resolver = $this->createOptionsResolver()
+            ->setRequired(['user_id', 'access_level'])
+            ->setDefined('expires_at')
+            ->setAllowedTypes('user_id', 'int')
             ->setAllowedTypes('access_level', 'int')
-            ->setAllowedValues('access_level', self::ACCESS_LEVELS);
-
-        $resolver->setDefined('expires_at')
             ->setAllowedTypes('expires_at', \DateTimeInterface::class)
+            ->setAllowedValues('access_level', self::ACCESS_LEVELS)
             ->setNormalizer('expires_at', $dateNormalizer)
         ;
 
