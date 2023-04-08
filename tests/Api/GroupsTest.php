@@ -289,12 +289,12 @@ class GroupsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('groups/1/members', [
-                'user_id' => 2, 'access_level' => 3, 'expires_at' => $tomorrow->format('Y-m-d')
+                'user_id' => 2, 'access_level' => 10, 'expires_at' => $tomorrow->format('Y-m-d')
             ])
             ->will($this->returnValue($expectedArray))
         ;
 
-        $this->assertEquals($expectedArray, $api->addMember(1, 2, 3, ['expires_at' => $tomorrow]));
+        $this->assertEquals($expectedArray, $api->addMember(1, 2, 10, ['expires_at' => $tomorrow]));
     }
 
     /**
