@@ -39,6 +39,15 @@ abstract class AbstractApi
     private const URI_PREFIX = '/api/v4/';
 
     /**
+     * The access levels for groups and projects
+     * as defined in the Gitlab::Access module
+     * @link https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/access.rb
+     *
+     * @var string
+     */
+    protected const ACCESS_LEVELS = [0, 10, 20, 30, 40, 50];
+
+    /**
      * The client instance.
      *
      * @var Client

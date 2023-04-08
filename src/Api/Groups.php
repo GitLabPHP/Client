@@ -225,7 +225,7 @@ class Groups extends AbstractApi
 
         $resolver->setRequired('access_level')
             ->setAllowedTypes('access_level', 'int')
-            ->setAllowedValues('access_level', [0, 10, 20, 30, 40, 50]);
+            ->setAllowedValues('access_level', self::ACCESS_LEVELS);
 
         $resolver->setDefined('expires_at')
             ->setAllowedTypes('expires_at', \DateTimeInterface::class)

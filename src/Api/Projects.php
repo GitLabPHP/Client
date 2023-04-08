@@ -1253,7 +1253,7 @@ class Projects extends AbstractApi
 
         $resolver->setRequired('group_access')
             ->setAllowedTypes('group_access', 'int')
-            ->setAllowedValues('group_access', [0, 10, 20, 30, 40, 50]);
+            ->setAllowedValues('group_access', self::ACCESS_LEVELS);
 
         $resolver->setDefined('expires_at')
             ->setAllowedTypes('expires_at', \DateTimeInterface::class)
