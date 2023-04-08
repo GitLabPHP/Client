@@ -289,7 +289,7 @@ class GroupsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('groups/1/members', [
-                'user_id' => 2, 'access_level' => 10, 'expires_at' => $tomorrow->format('Y-m-d')
+                'user_id' => 2, 'access_level' => 10, 'expires_at' => $tomorrow->format('Y-m-d'),
             ])
             ->will($this->returnValue($expectedArray))
         ;

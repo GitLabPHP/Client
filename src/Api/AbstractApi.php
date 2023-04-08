@@ -40,8 +40,9 @@ abstract class AbstractApi
 
     /**
      * The access levels for groups and projects
-     * as defined in the Gitlab::Access module
-     * @link https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/access.rb
+     * as defined in the Gitlab::Access module.
+     *
+     * @see https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/access.rb
      *
      * @var array
      */

@@ -228,7 +228,7 @@ class Groups extends AbstractApi
             ->setNormalizer('expires_at', $dateNormalizer)
         ;
 
-        $parameters = array_merge([
+        $parameters = \array_merge([
             'user_id' => $user_id,
             'access_level' => $access_level,
         ], $parameters);
