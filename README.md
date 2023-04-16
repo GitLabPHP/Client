@@ -60,7 +60,12 @@ $client->authenticate('your_http_token', Gitlab\Client::AUTH_HTTP_TOKEN);
 $client = new Gitlab\Client();
 $client->authenticate('your_oauth_token', Gitlab\Client::AUTH_OAUTH_TOKEN);
 
-// An example API call
+// Example API calls
+
+// Get project summary
+$repo = $client->projects()->show('vendor/project');
+
+// Create a new project
 $project = $client->projects()->create('My Project', [
     'description' => 'This is a project',
     'issues_enabled' => false,
