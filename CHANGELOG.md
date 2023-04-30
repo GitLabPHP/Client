@@ -9,8 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Add support for `Packages::addGenericFile`
 * Add support for `Milestones::mergeRequests`
+* Add support for `Project::removeTrigger`
+* Add support for `Schedules::takeOwnership` and `Schedules::play`
 * Add support for `access_level` in `Projects::createProjectAccessToken`
 * Add support for `expires_at` in `Projects::addMember` and `Projects::saveMember`
+* Add support for `order_by` `version` in `Tags::all`
+* Added support for `psr/http-message` v2
 
 ## [11.9.1] - 2023-04-30
 
