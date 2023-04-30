@@ -20,7 +20,7 @@ class Tags extends AbstractApi
      * @param int|string $project_id
      * @param array      $parameters {
      *
-     *     @var string $order_by Return tags ordered by `name` or `updated` fields. Default is `updated`.
+     *     @var string $order_by Return tags ordered by `name`, `updated` or `version` fields. Default is `updated`.
      *     @var string $sort     Return tags sorted in asc or desc order. Default is desc.
      *     @var string $search   Return list of tags matching the search criteria. You can use `^term` and `term$` to
      *                           find tags that begin and end with term respectively.
@@ -32,7 +32,7 @@ class Tags extends AbstractApi
     {
         $resolver = $this->createOptionsResolver();
         $resolver->setDefined('order_by')
-            ->setAllowedValues('order_by', ['name', 'updated']);
+            ->setAllowedValues('order_by', ['name', 'updated', 'version']);
         $resolver->setDefined('sort')
             ->setAllowedValues('sort', ['asc', 'desc']);
         $resolver->setDefined('search');
