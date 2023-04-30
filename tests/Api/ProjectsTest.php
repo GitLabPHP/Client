@@ -729,6 +729,22 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldRemoveTrigger(): void
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/triggers/2')
+            ->will($this->returnValue($expectedBool));
+
+        $this->assertEquals($expectedBool, $api->removeTrigger(1, 2));
+    }
+
+    /**
+     * @test
+     */
     public function shouldTriggerPipeline(): void
     {
         $expectedArray = [

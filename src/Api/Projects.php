@@ -285,6 +285,17 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
+     * @param int        $trigger_id
+     *
+     * @return mixed
+     */
+    public function removeTrigger($project_id, int $trigger_id)
+    {
+        return $this->delete($this->getProjectPath($project_id, 'triggers/'.self::encodePath($trigger_id)));
+    }
+
+    /**
+     * @param int|string $project_id
      * @param string     $ref
      * @param string     $token
      * @param array      $variables
