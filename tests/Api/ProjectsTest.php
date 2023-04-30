@@ -2842,7 +2842,7 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/', [], [], ['avatar' => $fileName])
+            ->with('projects/1', [], [], ['avatar' => $fileName])
             ->will($this->returnValue($expectedArray));
         $this->assertEquals($expectedArray, $api->uploadAvatar(1, $fileName));
         \unlink($fileName);
