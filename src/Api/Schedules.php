@@ -113,4 +113,26 @@ class Schedules extends AbstractApi
 
         return $this->delete($this->getProjectPath($project_id, $path));
     }
+
+    /**
+     * @param int|string $project_id
+     * @param int        $schedule_id
+     *
+     * @return mixed
+     */
+    public function takeOwnership($project_id, int $schedule_id)
+    {
+        return $this->post($this->getProjectPath($project_id, 'pipeline_schedules/'.self::encodePath($schedule_id)).'/take_ownership');
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param int        $schedule_id
+     *
+     * @return mixed
+     */
+    public function play($project_id, int $schedule_id)
+    {
+        return $this->post($this->getProjectPath($project_id, 'pipeline_schedules/'.self::encodePath($schedule_id)).'/play');
+    }
 }
