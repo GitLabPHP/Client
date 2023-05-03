@@ -1238,10 +1238,59 @@ class Projects extends AbstractApi
      * @param array      $parameters
      *
      * @return mixed
+     *
+     * @see https://docs.gitlab.com/ee/api/deployments.html#list-project-deployments
      */
     public function deployments($project_id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
+
+        $resolver->setDefined('order_by')
+            ->setAllowedTypes('order_by', 'string')
+            ->setAllowedValues('order_by', ['id', 'iid', 'created_at', 'updated_at', 'finished_at', 'ref'])
+        ;
+
+        $resolver->setDefined('sort')
+            ->setAllowedTypes('sort', 'string')
+            ->setAllowedValues('sort', ['asc', 'desc'])
+        ;
+
+        $resolver->setDefined('updated_after')
+            ->setAllowedTypes('updated_after', 'string')
+            ->setAllowedValues('updated_after', function ($value): bool {
+                return (bool) \DateTime::createFromFormat(\DateTimeInterface::ISO8601, $value);
+            })
+        ;
+
+        $resolver->setDefined('updated_before')
+            ->setAllowedTypes('updated_before', 'string')
+            ->setAllowedValues('updated_before', function ($value): bool {
+                return (bool) \DateTime::createFromFormat(\DateTimeInterface::ISO8601, $value);
+            })
+        ;
+
+        $resolver->setDefined('finished_after')
+            ->setAllowedTypes('finished_after', 'string')
+            ->setAllowedValues('finished_after', function ($value): bool {
+                return (bool) \DateTime::createFromFormat(\DateTimeInterface::ISO8601, $value);
+            })
+        ;
+
+        $resolver->setDefined('finished_before')
+            ->setAllowedTypes('finished_before', 'string')
+            ->setAllowedValues('finished_before', function ($value): bool {
+                return (bool) \DateTime::createFromFormat(\DateTimeInterface::ISO8601, $value);
+            })
+        ;
+
+        $resolver->setDefined('environment')
+            ->setAllowedTypes('environment', 'string')
+        ;
+
+        $resolver->setDefined('status')
+            ->setAllowedTypes('status', 'string')
+            ->setAllowedValues('status', ['created', 'running', 'success', 'failed', 'canceled', 'blocked'])
+        ;
 
         return $this->get($this->getProjectPath($project_id, 'deployments'), $resolver->resolve($parameters));
     }
