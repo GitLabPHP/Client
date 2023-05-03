@@ -102,8 +102,9 @@ class Jobs extends AbstractApi
      * @param int        $pipeline_id
      * @param array      $parameters  {
      *
-     *     @var string|string[] $scope The scope of bridge jobs to show, one or array of: created, pending, running, failed,
-     *                                 success, canceled, skipped, manual; showing all jobs if none provided.
+     *     @var string|string[] $scope            The scope of bridge jobs to show, one or array of: created, pending, running, failed,
+     *                                            success, canceled, skipped, manual; showing all jobs if none provided.
+     *     @var bool            $include_retried  Include retried jobs in the response. Defaults to false. Introduced in GitLab 13.9.
      * }
      *
      * @return mixed
