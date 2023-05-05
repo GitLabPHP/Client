@@ -1035,13 +1035,17 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param array      $parameters
+     * @param array      $parameters {
+     *
+     *     @var string $search         Return list of forks matching the search criteria (optional)
+     * }
      *
      * @return mixed
      */
     public function forks($project_id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
+        $resolver->setDefined('search');
 
         return $this->get($this->getProjectPath($project_id, 'forks'), $resolver->resolve($parameters));
     }
