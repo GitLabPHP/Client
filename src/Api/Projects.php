@@ -1245,6 +1245,10 @@ class Projects extends AbstractApi
     {
         $resolver = $this->createOptionsResolver();
 
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
+            return $value->format('c');
+        };
+
         $resolver->setDefined('order_by')
             ->setAllowedTypes('order_by', 'string')
             ->setAllowedValues('order_by', ['id', 'iid', 'created_at', 'updated_at', 'finished_at', 'ref'])
@@ -1256,31 +1260,23 @@ class Projects extends AbstractApi
         ;
 
         $resolver->setDefined('updated_after')
-            ->setAllowedTypes('updated_after', 'string')
-            ->setAllowedValues('updated_after', function ($value): bool {
-                return (bool) \DateTime::createFromFormat(\DateTimeInterface::ISO8601, $value);
-            })
+            ->setAllowedTypes('updated_after', \DateTimeInterface::class)
+            ->setNormalizer('updated_after', $datetimeNormalizer)
         ;
 
         $resolver->setDefined('updated_before')
-            ->setAllowedTypes('updated_before', 'string')
-            ->setAllowedValues('updated_before', function ($value): bool {
-                return (bool) \DateTime::createFromFormat(\DateTimeInterface::ISO8601, $value);
-            })
+            ->setAllowedTypes('updated_before', \DateTimeInterface::class)
+            ->setNormalizer('updated_before', $datetimeNormalizer)
         ;
 
         $resolver->setDefined('finished_after')
-            ->setAllowedTypes('finished_after', 'string')
-            ->setAllowedValues('finished_after', function ($value): bool {
-                return (bool) \DateTime::createFromFormat(\DateTimeInterface::ISO8601, $value);
-            })
+            ->setAllowedTypes('finished_after', \DateTimeInterface::class)
+            ->setNormalizer('finished_after', $datetimeNormalizer)
         ;
 
         $resolver->setDefined('finished_before')
-            ->setAllowedTypes('finished_before', 'string')
-            ->setAllowedValues('finished_before', function ($value): bool {
-                return (bool) \DateTime::createFromFormat(\DateTimeInterface::ISO8601, $value);
-            })
+            ->setAllowedTypes('finished_before', \DateTimeInterface::class)
+            ->setNormalizer('finished_before', $datetimeNormalizer)
         ;
 
         $resolver->setDefined('environment')
