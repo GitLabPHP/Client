@@ -285,17 +285,6 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param int        $trigger_id
-     *
-     * @return mixed
-     */
-    public function removeTrigger($project_id, int $trigger_id)
-    {
-        return $this->delete($this->getProjectPath($project_id, 'triggers/'.self::encodePath($trigger_id)));
-    }
-
-    /**
-     * @param int|string $project_id
      * @param string     $ref
      * @param string     $token
      * @param array      $variables
@@ -394,8 +383,23 @@ class Projects extends AbstractApi
             ->setAllowedValues('sort', ['asc', 'desc'])
         ;
         $resolver->setDefined('source')
-            ->setAllowedValues('source', ['push', 'web', 'trigger', 'schedule', 'api', 'external', 'pipeline', 'chat', 'webide', 'merge_request_event', 'external_pull_request_event', 'parent_pipeline', 'ondemand_dast_scan', 'ondemand_dast_validation'])
-        ;
+            ->setAllowedValues('source', [
+                'push',
+                'web',
+                'trigger',
+                'schedule',
+                'api',
+                'external',
+                'pipeline',
+                'chat',
+                'webide',
+                'merge_request_event',
+                'external_pull_request_event',
+                'parent_pipeline',
+                'ondemand_dast_scan',
+                'ondemand_dast_validation',
+            ]
+        );
 
         return $this->get($this->getProjectPath($project_id, 'pipelines'), $resolver->resolve($parameters));
     }
@@ -582,44 +586,32 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int|string  $project_id
-     * @param int         $user_id
-     * @param int         $access_level
-     * @param string|null $expires_at
+     * @param int|string $project_id
+     * @param int        $user_id
+     * @param int        $access_level
      *
      * @return mixed
      */
-    public function addMember($project_id, int $user_id, int $access_level, string $expires_at = null)
+    public function addMember($project_id, int $user_id, int $access_level)
     {
-        $params = [
+        return $this->post($this->getProjectPath($project_id, 'members'), [
             'user_id' => $user_id,
             'access_level' => $access_level,
-        ];
-        if (null !== $expires_at) {
-            $params['expires_at'] = $expires_at;
-        }
-
-        return $this->post($this->getProjectPath($project_id, 'members'), $params);
+        ]);
     }
 
     /**
-     * @param int|string  $project_id
-     * @param int         $user_id
-     * @param int         $access_level
-     * @param string|null $expires_at
+     * @param int|string $project_id
+     * @param int        $user_id
+     * @param int        $access_level
      *
      * @return mixed
      */
-    public function saveMember($project_id, int $user_id, int $access_level, string $expires_at = null)
+    public function saveMember($project_id, int $user_id, int $access_level)
     {
-        $params = [
+        return $this->put($this->getProjectPath($project_id, 'members/'.self::encodePath($user_id)), [
             'access_level' => $access_level,
-        ];
-        if (null !== $expires_at) {
-            $params['expires_at'] = $expires_at;
-        }
-
-        return $this->put($this->getProjectPath($project_id, 'members/'.self::encodePath($user_id)), $params);
+        ]);
     }
 
     /**
@@ -1037,7 +1029,24 @@ class Projects extends AbstractApi
      * @param int|string $project_id
      * @param array      $parameters {
      *
-     *     @var string $search         Return list of forks matching the search criteria (optional)
+     *     @var bool               $archived                    Limit by archived status
+     *     @var string             $visibility                  Limit by visibility public, internal, or private
+     *     @var string             $order_by                    Return projects ordered by id, name, path, created_at, updated_at,
+     *                                                          last_activity_at, repository_size, storage_size, packages_size or
+     *                                                          wiki_size fields (default is created_at)
+     *     @var string             $sort                        Return projects sorted in asc or desc order (default is desc)
+     *     @var string             $search                      Return list of projects matching the search criteria
+     *     @var bool               $simple                      Return only the ID, URL, name, and path of each project
+     *     @var bool               $owned                       Limit by projects owned by the current user
+     *     @var bool               $membership                  Limit by projects that the current user is a member of
+     *     @var bool               $starred                     Limit by projects starred by the current user
+     *     @var bool               $statistics                  Include project statistics
+     *     @var bool               $with_issues_enabled         Limit by enabled issues feature
+     *     @var bool               $with_merge_requests_enabled Limit by enabled merge requests feature
+     *     @var int                $min_access_level            Limit by current user minimal access level
+     *     @var \DateTimeInterface $updated_before              Limit results to projects last updated before the specified time.
+     *     @var \DateTimeInterface $updated_after               Limit results to projects last updated after the specified time.
+     *     @var bool               $with_custom_attributes      Include custom attributes in response
      * }
      *
      * @return mixed
@@ -1045,7 +1054,73 @@ class Projects extends AbstractApi
     public function forks($project_id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
+        $booleanNormalizer = function (Options $resolver, $value): string {
+            return $value ? 'true' : 'false';
+        };
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
+            return $value->format('c');
+        };
+        $resolver->setDefined('archived')
+            ->setAllowedTypes('archived', 'bool')
+            ->setNormalizer('archived', $booleanNormalizer)
+        ;
+        $resolver->setDefined('visibility')
+            ->setAllowedValues('visibility', ['public', 'internal', 'private'])
+        ;
+        $orderBy = [
+            'id', 'name', 'path', 'created_at', 'updated_at', 'last_activity_at',
+            'repository_size', 'storage_size', 'packages_size', 'wiki_size',
+        ];
+        $resolver->setDefined('order_by')
+            ->setAllowedValues('order_by', $orderBy)
+        ;
+        $resolver->setDefined('sort')
+            ->setAllowedValues('sort', ['asc', 'desc'])
+        ;
         $resolver->setDefined('search');
+        $resolver->setDefined('simple')
+            ->setAllowedTypes('simple', 'bool')
+            ->setNormalizer('simple', $booleanNormalizer)
+        ;
+        $resolver->setDefined('owned')
+            ->setAllowedTypes('owned', 'bool')
+            ->setNormalizer('owned', $booleanNormalizer)
+        ;
+        $resolver->setDefined('membership')
+            ->setAllowedTypes('membership', 'bool')
+            ->setNormalizer('membership', $booleanNormalizer)
+        ;
+        $resolver->setDefined('starred')
+            ->setAllowedTypes('starred', 'bool')
+            ->setNormalizer('starred', $booleanNormalizer)
+        ;
+        $resolver->setDefined('statistics')
+            ->setAllowedTypes('statistics', 'bool')
+            ->setNormalizer('statistics', $booleanNormalizer)
+        ;
+        $resolver->setDefined('with_issues_enabled')
+            ->setAllowedTypes('with_issues_enabled', 'bool')
+            ->setNormalizer('with_issues_enabled', $booleanNormalizer)
+        ;
+        $resolver->setDefined('with_merge_requests_enabled')
+            ->setAllowedTypes('with_merge_requests_enabled', 'bool')
+            ->setNormalizer('with_merge_requests_enabled', $booleanNormalizer)
+        ;
+        $resolver->setDefined('min_access_level')
+            ->setAllowedValues('min_access_level', [null, 10, 20, 30, 40, 50])
+        ;
+        $resolver->setDefined('updated_before')
+            ->setAllowedTypes('updated_before', \DateTimeInterface::class)
+            ->setNormalizer('updated_before', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('updated_after')
+            ->setAllowedTypes('updated_after', \DateTimeInterface::class)
+            ->setNormalizer('updated_after', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('with_custom_attributes')
+            ->setAllowedTypes('with_custom_attributes', 'bool')
+            ->setNormalizer('with_custom_attributes', $booleanNormalizer)
+        ;
 
         return $this->get($this->getProjectPath($project_id, 'forks'), $resolver->resolve($parameters));
     }
@@ -1234,7 +1309,7 @@ class Projects extends AbstractApi
      */
     public function uploadAvatar($project_id, string $file)
     {
-        return $this->put('projects/'.self::encodePath($project_id), [], [], ['avatar' => $file]);
+        return $this->put($this->getProjectPath($project_id, ''), [], [], ['avatar' => $file]);
     }
 
     /**
@@ -1480,7 +1555,6 @@ class Projects extends AbstractApi
      *
      *     @var string $name                    the name of the project access token
      *     @var array  $scopes                  the scopes, one or many of: api, read_api, read_registry, write_registry, read_repository, write_repository
-     *     @var int    $access_level            the access level: 10 (Guest), 20 (Reporter), 30 (Developer), 40 (Maintainer), 50 (Owner)
      *     @var \DateTimeInterface $expires_at  the token expires at midnight UTC on that date
      * }
      *
@@ -1510,11 +1584,6 @@ class Projects extends AbstractApi
 
                 return true;
             })
-        ;
-
-        $resolver->setDefined('access_level')
-            ->setAllowedTypes('access_level', 'int')
-            ->setAllowedValues('access_level', [10, 20, 30, 40, 50])
         ;
 
         $resolver->setDefined('expires_at')
