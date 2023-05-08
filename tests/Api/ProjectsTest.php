@@ -2384,9 +2384,9 @@ class ProjectsTest extends TestCase
                 'order_by' => 'id',
                 'sort' => 'desc',
             ])
-            ->will($this->returnValue(array_reverse($expectedArray)));
+            ->will($this->returnValue(\array_reverse($expectedArray)));
 
-        $this->assertEquals(array_reverse($expectedArray), $api->deployments(1, ['order_by' => 'id', 'sort' => 'desc']));
+        $this->assertEquals(\array_reverse($expectedArray), $api->deployments(1, ['order_by' => 'id', 'sort' => 'desc']));
     }
 
     /**
