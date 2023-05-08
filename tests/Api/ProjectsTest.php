@@ -2355,6 +2355,64 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->deployments(1, ['page' => 2, 'per_page' => 15]));
     }
 
+    /**
+     * @test
+     */
+    public function shouldGetDeploymentsSorted(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'sha' => '0000001'],
+            ['id' => 2, 'sha' => '0000002'],
+            ['id' => 3, 'sha' => '0000003'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/deployments', [
+                'order_by' => 'id',
+                'sort' => 'asc',
+            ])
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->deployments(1, ['order_by' => 'id', 'sort' => 'asc']));
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/deployments', [
+                'order_by' => 'id',
+                'sort' => 'desc',
+            ])
+            ->will($this->returnValue(array_reverse($expectedArray)));
+
+        $this->assertEquals(array_reverse($expectedArray), $api->deployments(1, ['order_by' => 'id', 'sort' => 'desc']));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetDeploymentsFiltered(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'sha' => '0000001'],
+            ['id' => 2, 'sha' => '0000002'],
+            ['id' => 3, 'sha' => '0000003'],
+        ];
+
+        $time = new DateTime('now');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/deployments', [
+                'updated_after' => $time->format('c'),
+            ])
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->deployments(1, ['updated_after' => $time]));
+    }
+
     protected function getMultipleProjectsData()
     {
         return [
