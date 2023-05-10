@@ -1052,8 +1052,8 @@ class Projects extends AbstractApi
      *     @var bool               $with_issues_enabled         Limit by enabled issues feature
      *     @var bool               $with_merge_requests_enabled Limit by enabled merge requests feature
      *     @var int                $min_access_level            Limit by current user minimal access level
-     *     @var \DateTimeInterface $updated_before              Limit results to projects last updated before the specified time.
-     *     @var \DateTimeInterface $updated_after               Limit results to projects last updated after the specified time.
+     *     @var \DateTimeInterface $updated_before              limit results to projects last updated before the specified time
+     *     @var \DateTimeInterface $updated_after               limit results to projects last updated after the specified time
      *     @var bool               $with_custom_attributes      Include custom attributes in response
      * }
      *
