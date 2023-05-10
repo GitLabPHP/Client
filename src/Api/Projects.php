@@ -42,8 +42,8 @@ class Projects extends AbstractApi
      *     @var int                $min_access_level            Limit by current user minimal access level
      *     @var int                $id_after                    Limit by project id's greater than the specified id
      *     @var int                $id_before                   Limit by project id's less than the specified id
-     *     @var \DateTimeInterface $last_activity_after         Limit by last_activity after specified time
-     *     @var \DateTimeInterface $last_activity_before        Limit by last_activity before specified time
+     *     @var \DateTimeInterface $last_activity_after         limit by last_activity after specified time
+     *     @var \DateTimeInterface $last_activity_before        limit by last_activity before specified time
      *     @var bool               $repository_checksum_failed  Limit by failed repository checksum calculation
      *     @var string             $repository_storage          Limit by repository storage type
      *     @var bool               $wiki_checksum_failed        Limit by failed wiki checksum calculation

@@ -1982,22 +1982,22 @@ class ProjectsTest extends TestCase
             ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->forks(1, [
-            'archived' => FALSE,
+            'archived' => false,
             'visibility' => 'public',
             'order_by' => 'id',
             'sort' => 'asc',
             'search' => 'term',
-            'simple' => TRUE,
-            'owned' => FALSE,
-            'membership' => FALSE,
-            'starred' => FALSE,
-            'statistics' => FALSE,
-            'with_issues_enabled' => FALSE,
-            'with_merge_requests_enabled' => FALSE,
+            'simple' => true,
+            'owned' => false,
+            'membership' => false,
+            'starred' => false,
+            'statistics' => false,
+            'with_issues_enabled' => false,
+            'with_merge_requests_enabled' => false,
             'min_access_level' => 30,
             'updated_after' => $updated_after,
             'updated_before' => $updated_before,
-            'with_custom_attributes' => TRUE,
+            'with_custom_attributes' => true,
         ]));
     }
 
