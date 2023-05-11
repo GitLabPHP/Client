@@ -219,21 +219,17 @@ class Groups extends AbstractApi
         };
 
         $resolver = $this->createOptionsResolver()
-            ->setRequired(['user_id', 'access_level'])
             ->setDefined('expires_at')
-            ->setAllowedTypes('user_id', 'int')
-            ->setAllowedTypes('access_level', 'int')
             ->setAllowedTypes('expires_at', \DateTimeInterface::class)
-            ->setAllowedValues('access_level', self::ACCESS_LEVELS)
             ->setNormalizer('expires_at', $dateNormalizer)
         ;
 
         $parameters = \array_merge([
             'user_id' => $user_id,
             'access_level' => $access_level,
-        ], $parameters);
+        ], $resolver->resolve($parameters));
 
-        return $this->post('groups/'.self::encodePath($group_id).'/members', $resolver->resolve($parameters));
+        return $this->post('groups/'.self::encodePath($group_id).'/members', $parameters);
     }
 
     /**
