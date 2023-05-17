@@ -349,7 +349,7 @@ class MergeRequestsTest extends TestCase
 
         $this->assertEquals($expectedBool, $api->removeNote(1, 2, 3));
     }
-    
+
     /**
      * @test
      */
