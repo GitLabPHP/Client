@@ -155,12 +155,14 @@ See merge request !1',
                 'name' => 'review/fix-baz',
                 'slug' => 'review-fix-baz-dfjre5',
                 'external_url' => 'https://review-fix-baz-dfjre5.example.gitlab.com',
+                'tier' => 'production'
             ],
         ];
 
         $params = [
             'name' => 'review/fix-baz',
             'external_url' => 'https://review-fix-baz-dfjre5.example.gitlab.com',
+            'tier' => 'production'
         ];
 
         $api = $this->getApiMock();
