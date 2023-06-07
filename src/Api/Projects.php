@@ -1203,12 +1203,13 @@ class Projects extends AbstractApi
     /**
      * @param int|string $project_id
      * @param string     $key
-     *
+     * @param array<string, mixed> $parameters
+     * 
      * @return mixed
      */
-    public function removeVariable($project_id, string $key)
+    public function removeVariable($project_id, string $key, array $parameters = [])
     {
-        return $this->delete($this->getProjectPath($project_id, 'variables/'.self::encodePath($key)));
+        return $this->delete($this->getProjectPath($project_id, 'variables/'.self::encodePath($key)), $parameters);
     }
 
     /**
