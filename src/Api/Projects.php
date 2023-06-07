@@ -1201,8 +1201,8 @@ class Projects extends AbstractApi
     }
 
     /**
-     * @param int|string $project_id
-     * @param string     $key
+     * @param int|string           $project_id
+     * @param string               $key
      * @param array<string, mixed> $parameters
      * 
      * @return mixed
