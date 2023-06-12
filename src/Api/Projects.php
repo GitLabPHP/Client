@@ -1597,4 +1597,36 @@ class Projects extends AbstractApi
     {
         return $this->delete($this->getProjectPath($project_id, 'protected_tags/'.self::encodePath($tag_name)));
     }
+
+
+    /**
+     * @param $project_id
+     * @param $integration
+     * @param array $parameters
+     *
+     * @return mixed
+     */
+    public function updateIntegration($project_id, $integration,  array $parameters = [])
+    {
+        $resolver = new OptionsResolver();
+        if ('jira' === $integration) {
+            $resolver->setDefined('url')
+                ->setAllowedTypes('url', 'string')
+                ->setRequired('url')
+            ;
+            $resolver->setDefined('password')
+                ->setAllowedTypes('password', 'string')
+                ->setRequired('password')
+            ;
+            $resolver->setDefined('username')
+                ->setAllowedTypes('username', 'string')
+            ;
+            $resolver->setDefined('jira_auth_type')
+                ->setAllowedTypes('jira_auth_type', 'int')
+                ->setAllowedValues('jira_auth_type', [0, 1]);
+            ;
+        }
+
+        return $this->put($this->getProjectPath($project_id, 'integrations/'. $integration), $parameters);
+    }
 }
