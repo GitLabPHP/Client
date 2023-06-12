@@ -1601,12 +1601,12 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param string $integration
-     * @param array $parameters
+     * @param string     $integration
+     * @param array      $parameters
      *
      * @return mixed
      */
-    public function updateIntegration($project_id, string $integration,  array $parameters = [])
+    public function updateIntegration($project_id, string $integration, array $parameters = [])
     {
         $resolver = new OptionsResolver();
         $booleanNormalizer = function (Options $resolver, $value): string {
@@ -1661,6 +1661,6 @@ class Projects extends AbstractApi
 
         }
 
-        return $this->put($this->getProjectPath($project_id, 'integrations/'. $integration), $parameters);
+        return $this->put($this->getProjectPath($project_id, 'integrations/'.$integration), $parameters);
     }
 }

@@ -2902,7 +2902,7 @@ class ProjectsTest extends TestCase
                 'projects/1/integrations/jira'
             )
             ->will($this->returnValue([]));
-        ;
+
         $this->assertEquals([], $api->updateIntegration(1, 'jira', []));
     }
 
