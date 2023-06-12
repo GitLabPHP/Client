@@ -1598,7 +1598,6 @@ class Projects extends AbstractApi
         return $this->delete($this->getProjectPath($project_id, 'protected_tags/'.self::encodePath($tag_name)));
     }
 
-
     /**
      * @param int|string $project_id
      * @param string     $integration
@@ -1627,7 +1626,7 @@ class Projects extends AbstractApi
             ;
             $resolver->setDefined('jira_auth_type')
                 ->setAllowedTypes('jira_auth_type', 'int')
-                ->setAllowedValues('jira_auth_type', [0, 1]);
+                ->setAllowedValues('jira_auth_type', [0, 1])
             ;
         }
 
@@ -1658,7 +1657,6 @@ class Projects extends AbstractApi
                 ->setAllowedTypes('branches_to_be_notified', 'string')
                 ->setAllowedValues('branches_to_be_notified', ['all', 'default', 'protected', 'default_and_protected'])
             ;
-
         }
 
         return $this->put($this->getProjectPath($project_id, 'integrations/'.$integration), $parameters);
