@@ -1600,15 +1600,19 @@ class Projects extends AbstractApi
 
 
     /**
-     * @param $project_id
-     * @param $integration
+     * @param int|string $project_id
+     * @param string $integration
      * @param array $parameters
      *
      * @return mixed
      */
-    public function updateIntegration($project_id, $integration,  array $parameters = [])
+    public function updateIntegration($project_id, string $integration,  array $parameters = [])
     {
         $resolver = new OptionsResolver();
+        $booleanNormalizer = function (Options $resolver, $value): string {
+            return $value ? 'true' : 'false';
+        };
+
         if ('jira' === $integration) {
             $resolver->setDefined('url')
                 ->setAllowedTypes('url', 'string')
@@ -1625,6 +1629,36 @@ class Projects extends AbstractApi
                 ->setAllowedTypes('jira_auth_type', 'int')
                 ->setAllowedValues('jira_auth_type', [0, 1]);
             ;
+        }
+
+        if ('slack' === $integration) {
+            $resolver->setDefined('webhook')
+                ->setAllowedTypes('webhook', 'string')
+                ->setRequired('webhook')
+            ;
+            $resolver->setDefined('username')
+                ->setAllowedTypes('username', 'string')
+            ;
+            $resolver->setDefined('channel')
+                ->setAllowedTypes('channel', 'string')
+            ;
+            $resolver->setDefined('pipeline_channel')
+                ->setAllowedTypes('pipeline_channel', 'string')
+            ;
+            $resolver->setDefined('pipeline_events')
+                ->setAllowedTypes('pipeline_events', 'bool')
+                ->setNormalizer('pipeline_events', $booleanNormalizer)
+            ;
+            $resolver->setDefined('notify_only_broken_pipelines')
+                ->setAllowedTypes('notify_only_broken_pipelines', 'bool')
+                ->setNormalizer('notify_only_broken_pipelines', $booleanNormalizer)
+            ;
+
+            $resolver->setDefined('branches_to_be_notified')
+                ->setAllowedTypes('branches_to_be_notified', 'string')
+                ->setAllowedValues('branches_to_be_notified', ['all', 'default', 'protected', 'default_and_protected'])
+            ;
+
         }
 
         return $this->put($this->getProjectPath($project_id, 'integrations/'. $integration), $parameters);

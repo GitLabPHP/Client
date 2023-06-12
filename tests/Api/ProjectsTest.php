@@ -2890,6 +2890,22 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedBool, $api->deleteProtectedTag(1, 'release-*'));
     }
 
+    /**
+     * @test
+     */
+    public function shouldUpdateIntegrationConfig(): void
+    {
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with(
+                'projects/1/integrations/jira'
+            )
+            ->will($this->returnValue([]));
+        ;
+        $this->assertEquals([], $api->updateIntegration(1, 'jira', []));
+    }
+
     protected function getApiClass()
     {
         return Projects::class;
