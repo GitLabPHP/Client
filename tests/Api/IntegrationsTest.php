@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gitlab\Tests\Api;
 
-use DateTime;
 use Gitlab\Api\Integrations;
 use Gitlab\Api\Projects;
 
@@ -35,7 +34,7 @@ class IntegrationsTest extends TestCase
     {
         $expectedArray = [
             'title' => 'Microsoft Teams notifications',
-            'slug' => 'microsoft-teams'
+            'slug' => 'microsoft-teams',
         ];
 
         $api = $this->getApiMock();
@@ -47,14 +46,13 @@ class IntegrationsTest extends TestCase
         $this->assertEquals($expectedArray, $api->createMicrosoftTeams(1, [
             'webroot' => 'http://test.org/',
         ]));
-
     }
 
     public function shouldUpdateMicrosoftTeams(): void
     {
         $expectedArray = [
             'title' => 'Microsoft Teams notifications',
-            'slug' => 'microsoft-teams'
+            'slug' => 'microsoft-teams',
         ];
 
         $api = $this->getApiMock();
@@ -97,13 +95,11 @@ class IntegrationsTest extends TestCase
         $this->assertEquals($expectedBool, $api->removeMicrosoftTeams(1));
     }
 
-
-
     public function shouldCreateJira(): void
     {
         $expectedArray = [
             'title' => 'Jira',
-            'slug' => 'jira'
+            'slug' => 'jira',
         ];
 
         $api = $this->getApiMock();
@@ -114,7 +110,7 @@ class IntegrationsTest extends TestCase
 
         $this->assertEquals($expectedArray, $api->createJira(1, [
             'url' => 'http://test.org/',
-            'password' => '123'
+            'password' => '123',
         ]));
 
     }
@@ -123,7 +119,7 @@ class IntegrationsTest extends TestCase
     {
         $expectedArray = [
             'title' => 'Jira',
-            'slug' => 'jira'
+            'slug' => 'jira',
         ];
 
         $api = $this->getApiMock();
@@ -167,13 +163,11 @@ class IntegrationsTest extends TestCase
         $this->assertEquals($expectedBool, $api->removeJira(1));
     }
 
-
-
     protected function getMultipleIntegrationsData()
     {
         return [
             ['id' => 1, 'title' => 'Microsoft Teams notifications', 'slug' => 'microsoft-teams'],
-            ['id' => 2, 'title' => 'Jira', 'slug' => 'jira']
+            ['id' => 2, 'title' => 'Jira', 'slug' => 'jira'],
         ];
     }
 

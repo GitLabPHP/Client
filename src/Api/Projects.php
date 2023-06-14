@@ -1843,5 +1843,4 @@ class Projects extends AbstractApi
     {
         return $this->get($this->getProjectPath($project_id, 'integrations'));
     }
-
 }

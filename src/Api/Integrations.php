@@ -266,10 +266,11 @@ class Integrations extends AbstractApi
 
     /**
      * Update Jira integration
-     * Set Jira integration for a project
+     * Set Jira integration for a project.
      *
      * @param int|string $project_id
      * @param array      $params {
+     *
      *     @var string $url                     The URL to the Jira project which is being linked to this GitLab project
      *     @var bool   $api_url                 The base URL to the Jira instance API. Web URL value is used if not set
      *     @var string $username                The email or username to be used with Jira. For Jira Cloud use an email,
