@@ -24,7 +24,7 @@ class Integrations extends AbstractApi
      *
      * @return mixed
      */
-    public function all(int|string $project_id): mixed
+    public function all($project_id)
     {
         $path = $this->getProjectPath($project_id, 'integrations');
         return $this->get($path);
@@ -56,7 +56,7 @@ class Integrations extends AbstractApi
      *
      *     @return mixed
      */
-    public function createMicrosoftTeams(int|string $project_id, array $params = []): mixed
+    public function createMicrosoftTeams($project_id, array $params = [])
     {
         $resolver = new OptionsResolver();
         $booleanNormalizer = function (Options $resolver, $value): string {
@@ -139,7 +139,7 @@ class Integrations extends AbstractApi
      *
      *     @return mixed
      */
-    public function updateMicrosoftTeams(int|string $project_id, array $params = []): mixed
+    public function updateMicrosoftTeams($project_id, array $params = [])
     {
         return $this->createMicrosoftTeams($project_id, $params);
     }
@@ -151,7 +151,7 @@ class Integrations extends AbstractApi
      *
      * @return mixed
      */
-    public function getMicrosoftTeams(int|string $project_id): mixed
+    public function getMicrosoftTeams($project_id)
     {
         return $this->get($this->getProjectPath($project_id, 'integrations/microsoft-teams'));
     }
@@ -163,7 +163,7 @@ class Integrations extends AbstractApi
      *
      * @return mixed
      */
-    public function removeMicrosoftTeams(int|string $project_id): mixed
+    public function removeMicrosoftTeams($project_id)
     {
         return $this->delete($this->getProjectPath($project_id, 'integrations/microsoft-teams'));
     }
@@ -207,7 +207,7 @@ class Integrations extends AbstractApi
      *
      *     @return mixed
      */
-    public function createJira(int|string $project_id, array $params = []): mixed
+    public function createJira($project_id, array $params = [])
     {
         $resolver = new OptionsResolver();
         $booleanNormalizer = function (Options $resolver, $value): string {
@@ -300,7 +300,7 @@ class Integrations extends AbstractApi
      *
      *     @return mixed
      */
-    public function updateJira(int|string $project_id, array $params = []): mixed
+    public function updateJira($project_id, array $params = [])
     {
         return $this->createJira($project_id, $params);
     }
@@ -312,7 +312,7 @@ class Integrations extends AbstractApi
      *
      * @return mixed
      */
-    public function getJira(int|string $project_id): mixed
+    public function getJira($project_id)
     {
         return $this->get($this->getProjectPath($project_id, 'integrations/jira'));
     }
@@ -324,7 +324,7 @@ class Integrations extends AbstractApi
      *
      * @return mixed
      */
-    public function removeJira(int|string $project_id): mixed
+    public function removeJira($project_id)
     {
         return $this->delete($this->getProjectPath($project_id, 'integrations/jira'));
     }
