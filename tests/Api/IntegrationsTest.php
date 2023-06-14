@@ -26,9 +26,9 @@ class IntegrationsTest extends TestCase
     public function shouldGetAllIntegrations(): void
     {
         $expectedArray = $this->getMultipleIntegrationsData();
-        $api = $this->getMultipleIntegrationsRequestMock('integrations', $expectedArray);
+        $api = $this->getMultipleIntegrationsRequestMock('projects/1/integrations', $expectedArray);
 
-        $this->assertEquals($expectedArray, $api->all());
+        $this->assertEquals($expectedArray, $api->all(1));
     }
 
     public function shouldCreateMicrosoftTeams(): void
