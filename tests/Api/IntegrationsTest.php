@@ -26,7 +26,7 @@ class IntegrationsTest extends TestCase
     public function shouldGetAllIntegrations(): void
     {
         $expectedArray = $this->getMultipleIntegrationsData();
-        $api = $this->getMultipleProjectsRequestMock('integrations', $expectedArray);
+        $api = $this->getMultipleIntegrationsRequestMock('integrations', $expectedArray);
 
         $this->assertEquals($expectedArray, $api->all());
     }
@@ -177,7 +177,7 @@ class IntegrationsTest extends TestCase
         ];
     }
 
-    protected function getMultipleProjectsRequestMock($path, $expectedArray = [], $expectedParameters = [])
+    protected function getMultipleIntegrationsRequestMock($path, $expectedArray = [], $expectedParameters = [])
     {
         $api = $this->getApiMock();
         $api->expects($this->once())
@@ -190,7 +190,7 @@ class IntegrationsTest extends TestCase
 
     protected function getApiClass()
     {
-        return Projects::class;
+        return Integrations::class;
     }
 
 }
