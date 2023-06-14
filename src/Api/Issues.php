@@ -509,6 +509,9 @@ class Issues extends AbstractApi
         $resolver->setDefined('weight')
             ->setAllowedTypes('weight', 'integer')
         ;
+        $resolver->setDefined('author_id')
+            ->setAllowedTypes('author_id', 'string')
+        ;
 
         return $resolver;
     }
