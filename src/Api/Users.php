@@ -596,8 +596,9 @@ class Users extends AbstractApi
     /**
      * Deletes a user’s authentication identity using the provider name associated with that identity.
      *
-     * @param int $user_id
+     * @param int    $user_id
      * @param string $provider
+     *
      * @return mixed
      */
     public function removeUserIdentity(int $user_id, string $provider)
