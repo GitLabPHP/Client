@@ -592,4 +592,15 @@ class Users extends AbstractApi
 
         return $this->get('users/'.self::encodePath($user_id).'/events', $resolver->resolve($parameters));
     }
+
+    /**
+     * Deletes a user’s authentication identity using the provider name associated with that identity
+     * @param int $user_id
+     * @param string $provider
+     * @return mixed
+     */
+    public function removeUserIdentity(int $user_id, string $provider)
+    {
+        return $this->delete('users/'.self::encodePath($user_id).'/identities/'.$provider);
+    }
 }
