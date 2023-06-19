@@ -39,7 +39,7 @@ class Integrations extends AbstractApi
      * @param int|string $project_id
      * @param array      $params {
      *
-     *     @var string $webhook                      The Microsoft Teams webhook.
+     *     @var string $webhook                      The Microsoft Teams webhook
      *     @var bool   $notify_only_broken_pipelines Send notifications for broken pipelines
      *     @var string $branches_to_be_notified      Branches to send notifications for. Valid options are all, default,
      *                                               protected, and default_and_protected. The default value is "default"
@@ -122,7 +122,7 @@ class Integrations extends AbstractApi
      * @param int|string $project_id
      * @param array      $params {
      *
-     *     @var string $webhook                      The Microsoft Teams webhook.
+     *     @var string $webhook                      The Microsoft Teams webhook
      *     @var bool   $notify_only_broken_pipelines Send notifications for broken pipelines
      *     @var string $branches_to_be_notified      Branches to send notifications for. Valid options are all, default,
      *                                               protected, and default_and_protected. The default value is "default"

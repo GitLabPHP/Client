@@ -70,7 +70,7 @@ class IntegrationsTest extends TestCase
     {
         $expectedArray = [
             'title' => 'Microsoft Teams notifications',
-            'slug' => 'microsoft-teams'
+            'slug' => 'microsoft-teams',
         ];
 
         $api = $this->getApiMock();
@@ -130,7 +130,7 @@ class IntegrationsTest extends TestCase
 
         $this->assertEquals($expectedArray, $api->updateJira(1, [
             'url' => 'http://test.org/',
-            'password' => '123'
+            'password' => '123',
         ]));
     }
 
@@ -138,7 +138,7 @@ class IntegrationsTest extends TestCase
     {
         $expectedArray = [
             'title' => 'Jira',
-            'slug' => 'jira'
+            'slug' => 'jira',
         ];
 
         $api = $this->getApiMock();
