@@ -112,7 +112,6 @@ class IntegrationsTest extends TestCase
             'url' => 'http://test.org/',
             'password' => '123',
         ]));
-
     }
 
     public function shouldUpdateJira(): void
@@ -186,5 +185,4 @@ class IntegrationsTest extends TestCase
     {
         return Integrations::class;
     }
-
 }

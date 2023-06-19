@@ -328,5 +328,4 @@ class Integrations extends AbstractApi
     {
         return $this->delete($this->getProjectPath($project_id, 'integrations/jira'));
     }
-
 }
