@@ -603,6 +603,6 @@ class Users extends AbstractApi
      */
     public function removeUserIdentity(int $user_id, string $provider)
     {
-        return $this->delete('users/'.self::encodePath($user_id).'/identities/'.$provider);
+        return $this->delete('users/'.self::encodePath($user_id).'/identities/'.self::encodePath($provider));
     }
 }
