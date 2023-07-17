@@ -208,15 +208,28 @@ class Groups extends AbstractApi
      * @param int|string $group_id
      * @param int        $user_id
      * @param int        $access_level
+     * @param array      $parameters
      *
      * @return mixed
      */
-    public function addMember($group_id, int $user_id, int $access_level)
+    public function addMember($group_id, int $user_id, int $access_level, array $parameters = [])
     {
-        return $this->post('groups/'.self::encodePath($group_id).'/members', [
+        $dateNormalizer = function (OptionsResolver $optionsResolver, \DateTimeInterface $date): string {
+            return $date->format('Y-m-d');
+        };
+
+        $resolver = $this->createOptionsResolver()
+            ->setDefined('expires_at')
+            ->setAllowedTypes('expires_at', \DateTimeInterface::class)
+            ->setNormalizer('expires_at', $dateNormalizer)
+        ;
+
+        $parameters = \array_merge([
             'user_id' => $user_id,
             'access_level' => $access_level,
-        ]);
+        ], $resolver->resolve($parameters));
+
+        return $this->post('groups/'.self::encodePath($group_id).'/members', $parameters);
     }
 
     /**
