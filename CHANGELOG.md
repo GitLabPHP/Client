@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [11.11.0] - UPCOMING
 
 * Add support for `expires_at` in `Groups::addMember`
+* Add support for `include_retried` in `Jobs::pipelineBridges`
 
 ## [11.10.0] - 2023-04-30
 
