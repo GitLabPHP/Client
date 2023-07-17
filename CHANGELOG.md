@@ -8,9 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [11.11.0] - UPCOMING
 
 * Add support for `author_id` in `Issues::all`
+* Add support for `tier` in `Environments::create`
 * Add support for `expires_at` in `Groups::addMember`
 * Add support for `include_retried` in `Jobs::pipelineBridges`
 * Add support for additional parameters in `Projects::deployment`
+* Add support for additional parameters in `Projects::forks`
+* Add support for `Events::all`
 * Add support for `Users::removeUserIdentity`
 * Add support for `MergeRequests::showParticipants`
 
