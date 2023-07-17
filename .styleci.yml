@@ -10,6 +10,7 @@ enabled:
   - declare_strict_types
   - native_constant_invocation
   - native_function_invocation
+  - phpdoc_align
   - phpdoc_order
   - void_return
 
