@@ -1939,6 +1939,71 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetForksUsingParameters(): void
+    {
+        $expectedArray = [
+            [
+                'id' => 2,
+                'forked_from_project' => [
+                    'id' => 1,
+                ],
+            ],
+            [
+                'id' => 3,
+                'forked_from_project' => [
+                    'id' => 1,
+                ],
+            ],
+        ];
+        $updated_after = new \DateTime('2018-01-01 00:00:00');
+        $updated_before = new \DateTime('2018-01-31 00:00:00');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/forks', [
+                'archived' => 'false',
+                'visibility' => 'public',
+                'order_by' => 'id',
+                'sort' => 'asc',
+                'search' => 'term',
+                'simple' => 'true',
+                'owned' => 'false',
+                'membership' => 'false',
+                'starred' => 'false',
+                'statistics' => 'false',
+                'with_issues_enabled' => 'false',
+                'with_merge_requests_enabled' => 'false',
+                'min_access_level' => 30,
+                'updated_after' => $updated_after->format('c'),
+                'updated_before' => $updated_before->format('c'),
+                'with_custom_attributes' => 'true',
+            ])
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->forks(1, [
+            'archived' => false,
+            'visibility' => 'public',
+            'order_by' => 'id',
+            'sort' => 'asc',
+            'search' => 'term',
+            'simple' => true,
+            'owned' => false,
+            'membership' => false,
+            'starred' => false,
+            'statistics' => false,
+            'with_issues_enabled' => false,
+            'with_merge_requests_enabled' => false,
+            'min_access_level' => 30,
+            'updated_after' => $updated_after,
+            'updated_before' => $updated_before,
+            'with_custom_attributes' => true,
+        ]));
+    }
+
+    /**
+     * @test
+     */
     public function shouldSetService(): void
     {
         $expectedBool = true;

@@ -17,6 +17,7 @@ namespace Gitlab;
 use Gitlab\Api\DeployKeys;
 use Gitlab\Api\Deployments;
 use Gitlab\Api\Environments;
+use Gitlab\Api\Events;
 use Gitlab\Api\Groups;
 use Gitlab\Api\GroupsBoards;
 use Gitlab\Api\GroupsEpics;
@@ -172,6 +173,14 @@ class Client
     public function environments(): Environments
     {
         return new Environments($this);
+    }
+
+    /**
+     * @return Events
+     */
+    public function events(): Events
+    {
+        return new Events($this);
     }
 
     /**
