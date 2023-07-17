@@ -1238,10 +1238,55 @@ class Projects extends AbstractApi
      * @param array      $parameters
      *
      * @return mixed
+     *
+     * @see https://docs.gitlab.com/ee/api/deployments.html#list-project-deployments
      */
     public function deployments($project_id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
+
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
+            return $value->format('c');
+        };
+
+        $resolver->setDefined('order_by')
+            ->setAllowedTypes('order_by', 'string')
+            ->setAllowedValues('order_by', ['id', 'iid', 'created_at', 'updated_at', 'finished_at', 'ref'])
+        ;
+
+        $resolver->setDefined('sort')
+            ->setAllowedTypes('sort', 'string')
+            ->setAllowedValues('sort', ['asc', 'desc'])
+        ;
+
+        $resolver->setDefined('updated_after')
+            ->setAllowedTypes('updated_after', \DateTimeInterface::class)
+            ->setNormalizer('updated_after', $datetimeNormalizer)
+        ;
+
+        $resolver->setDefined('updated_before')
+            ->setAllowedTypes('updated_before', \DateTimeInterface::class)
+            ->setNormalizer('updated_before', $datetimeNormalizer)
+        ;
+
+        $resolver->setDefined('finished_after')
+            ->setAllowedTypes('finished_after', \DateTimeInterface::class)
+            ->setNormalizer('finished_after', $datetimeNormalizer)
+        ;
+
+        $resolver->setDefined('finished_before')
+            ->setAllowedTypes('finished_before', \DateTimeInterface::class)
+            ->setNormalizer('finished_before', $datetimeNormalizer)
+        ;
+
+        $resolver->setDefined('environment')
+            ->setAllowedTypes('environment', 'string')
+        ;
+
+        $resolver->setDefined('status')
+            ->setAllowedTypes('status', 'string')
+            ->setAllowedValues('status', ['created', 'running', 'success', 'failed', 'canceled', 'blocked'])
+        ;
 
         return $this->get($this->getProjectPath($project_id, 'deployments'), $resolver->resolve($parameters));
     }
