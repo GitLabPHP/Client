@@ -7,8 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [11.11.0] - UPCOMING
 
+* Add support for `author_id` in `Issues::all`
 * Add support for `expires_at` in `Groups::addMember`
 * Add support for `include_retried` in `Jobs::pipelineBridges`
+* Add support for additional parameters in `Projects::deployment`
+* Add support for `Users::removeUserIdentity`
+* Add support for `MergeRequests::showParticipants`
 
 ## [11.10.0] - 2023-04-30
 
