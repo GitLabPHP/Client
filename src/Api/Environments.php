@@ -44,6 +44,7 @@ class Environments extends AbstractApi
      *
      *     @var string $name         The name of the environment
      *     @var string $external_url Place to link to for this environment
+     *     @var string $tier         The tier of the new environment. Allowed values are production, staging, testing, development, and other.
      * }
      *
      * @return mixed
@@ -56,6 +57,8 @@ class Environments extends AbstractApi
             ->setAllowedTypes('name', 'string');
         $resolver->setDefined('external_url')
             ->setAllowedTypes('external_url', 'string');
+        $resolver->setDefined('tier')
+            ->setAllowedValues('tier', ['production', 'staging', 'testing', 'development', 'other']);
 
         return $this->post($this->getProjectPath($project_id, 'environments'), $resolver->resolve($parameters));
     }
