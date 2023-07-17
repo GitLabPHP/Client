@@ -980,4 +980,22 @@ class UsersTest extends TestCase
 
         $this->assertEquals($expectedArray, $api->events(1, ['page' => 2, 'per_page' => 15]));
     }
+
+    /**
+     * @test
+     */
+    public function getRemoveUserIdentity(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'identities' => []],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('users/1/identities/test')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->removeUserIdentity(1, 'test'));
+    }
 }
