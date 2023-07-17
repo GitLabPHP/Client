@@ -66,6 +66,30 @@ class JobsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetPipelineJobsIncludingRetried(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'name' => 'A job'],
+            ['id' => 2, 'name' => 'Another job'],
+            ['id' => 3, 'name' => 'A job'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/pipelines/2/jobs', [
+                'scope' => ['pending', 'running'],
+                'include_retried' => true,
+            ])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->pipelineJobs(1, 2, ['scope' => [Jobs::SCOPE_PENDING, Jobs::SCOPE_RUNNING], 'include_retried' => true]));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetPipelineBridges(): void
     {
         $expectedArray = [
