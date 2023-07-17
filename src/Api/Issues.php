@@ -43,9 +43,10 @@ class Issues extends AbstractApi
      *     @var string $sort                 return requests sorted in asc or desc order (default is desc)
      *     @var bool   $confidential         filter confidential or public issues
      *     @var string $search               search issues against their title and description
-     *     @var int    $assignee_id          return issues assigned to the specified user id
-     *     @var int    $iteration_id         return issues assigned to the specified iteration id
-     *     @var string $iteration_title      return issues assigned to the specified iteration title
+     *     @var int    $author_id            filter issues assigned to the specified author user id
+     *     @var int    $assignee_id          filter issues assigned to the specified assignee user id
+     *     @var int    $iteration_id         filter issues assigned to the specified iteration id
+     *     @var string $iteration_title      filter issues assigned to the specified iteration title
      * }
      *
      * @return mixed
@@ -497,6 +498,9 @@ class Issues extends AbstractApi
         $resolver->setDefined('created_before');
         $resolver->setDefined('updated_after');
         $resolver->setDefined('updated_before');
+        $resolver->setDefined('author_id')
+            ->setAllowedTypes('author_id', 'integer')
+        ;
         $resolver->setDefined('assignee_id')
             ->setAllowedTypes('assignee_id', 'integer')
         ;
