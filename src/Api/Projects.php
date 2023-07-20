@@ -1215,7 +1215,7 @@ class Projects extends AbstractApi
     {
         $resolver = new OptionsResolver();
         $resolver->setDefined('filter')
-            ->setAllowedTypes('filter', 'array')
+            ->setAllowedTypes('filter', 'array');
         return $this->delete($this->getProjectPath($project_id, 'variables/'.self::encodePath($key)), $resolver->resolve($parameters));
     }
 
