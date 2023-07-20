@@ -1203,13 +1203,18 @@ class Projects extends AbstractApi
     /**
      * @param int|string           $project_id
      * @param string               $key
-     * @param array<string, mixed> $parameters
+     * @param array<string, mixed> $parameters {
+     *     @var string $environment_scope    Use filter[environment_scope] to select the variable with the matching environment_scope attribute.
+     * }
      *
      * @return mixed
      */
     public function removeVariable($project_id, string $key, array $parameters = [])
     {
-        return $this->delete($this->getProjectPath($project_id, 'variables/'.self::encodePath($key)), $parameters);
+        $resolver = new OptionsResolver();
+        $resolver->setDefined('environment_scope')
+            ->setAllowedTypes('environment_scope', 'string')
+        return $this->delete($this->getProjectPath($project_id, 'variables/'.self::encodePath($key)), $resolver->resolve($parameters));
     }
 
     /**
