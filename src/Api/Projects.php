@@ -1203,9 +1203,9 @@ class Projects extends AbstractApi
     /**
      * @param int|string           $project_id
      * @param string               $key
-     * @param array<string, mixed> $parameters {
+     * @param array<string, mixed> $parameters    {
      *
-     *    @var array $filter {
+     *    @var array $filter    {
      *
      *        @var string $environment_scope    Use filter[environment_scope] to select the variable with the matching environment_scope attribute.
      *    }
