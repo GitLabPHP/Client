@@ -1214,15 +1214,13 @@ class Projects extends AbstractApi
     /**
      * @param int|string $project_id
      * @param string     $key
-	 * @param array      $parameters
+     * @param array      $parameters
      *
      * @return mixed
      */
     public function variable($project_id, string $key, array $parameters = [])
     {
-		$resolver = $this->createOptionsResolver();
-
-		$resolver = $this->createOptionsResolver();
+        $resolver = $this->createOptionsResolver();
         $resolver->setDefined('filter')
             ->setAllowedTypes('filter', 'array');
 
