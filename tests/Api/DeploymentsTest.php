@@ -282,14 +282,14 @@ See merge request !2',
     /**
      * @test
      */
-    public function shouldAllowDeploymentFilterByStatus()
+    public function shouldAllowDeploymentFilterByStatus(): void
     {
         $expectedArray = $this->getMultipleDeploymentsData();
 
         $api = $this->getMultipleDeploymentsRequestMock(
             'projects/1/deployments',
             $expectedArray,
-            ['status'=>'success']
+            ['status' => 'success']
         );
 
         $this->assertEquals(
@@ -300,14 +300,14 @@ See merge request !2',
     /**
      * @test
      */
-    public function shouldAllowFilterByEnvironment()
+    public function shouldAllowFilterByEnvironment(): void
     {
         $expectedArray = $this->getMultipleDeploymentsData();
 
         $api = $this->getMultipleDeploymentsRequestMock(
             'projects/1/deployments',
             $expectedArray,
-            ['environment'=>'production']
+            ['environment' => 'production']
         );
 
         $this->assertEquals(
@@ -318,17 +318,17 @@ See merge request !2',
     /**
      * @test
      */
-    public function shouldAllowEmptyArrayIfAllExcludedByFilter()
+    public function shouldAllowEmptyArrayIfAllExcludedByFilter(): void
     {
         $expectedArray = $this->getMultipleDeploymentsData();
 
         $api = $this->getMultipleDeploymentsRequestMock(
             'projects/1/deployments',
             [],
-            ['environment'=>'test']
+            ['environment' => 'test']
         );
 
-        $this->assertEquals([],$api->all(1, ['environment' => 'test'])
+        $this->assertEquals([], $api->all(1, ['environment' => 'test'])
         );
     }
 }

@@ -38,7 +38,7 @@ class Deployments extends AbstractApi
             ->setAllowedValues('sort', ['desc', 'asc']);
         $resolver->setDefined('status')
             ->setAllowedTypes('status', 'string')
-            ->setAllowedValues('status',['created', 'running', 'success', 'failed', 'canceled','blocked']);
+            ->setAllowedValues('status', ['created', 'running', 'success', 'failed', 'canceled','blocked']);
         $resolver->setDefined('environment')
             ->setAllowedTypes('environment', 'string');
 
