@@ -297,7 +297,7 @@ See merge request !2',
             $api->all(1, ['status' => 'success'])
         );
     }
-    
+
     /**
      * @test
      */
@@ -316,7 +316,7 @@ See merge request !2',
             $api->all(1, ['environment' => 'production'])
         );
     }
-    
+
     /**
      * @test
      */
