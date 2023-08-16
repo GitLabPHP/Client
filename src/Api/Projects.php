@@ -1519,6 +1519,18 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
+     * @param string     $branch_name
+     * @param array      $parameters
+     *
+     * @return mixed
+     */
+    public function updateProtectedBranch($project_id, string $branch_name, array $parameters = [])
+    {
+        return $this->patch($this->getProjectPath($project_id, 'protected_branches/'.self::encodePath($branch_name)), $parameters);
+    }
+
+    /**
+     * @param int|string $project_id
      *
      * @return mixed
      */
