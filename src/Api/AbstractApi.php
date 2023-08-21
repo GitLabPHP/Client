@@ -264,7 +264,7 @@ abstract class AbstractApi
             return null !== $value;
         });
 
-        return \sprintf('%s%s%s', self::URI_PREFIX, $uri, QueryStringBuilder::build($query));
+        return \sprintf('%s%s%s', static::URI_PREFIX, $uri, QueryStringBuilder::build($query));
     }
 
     /**
