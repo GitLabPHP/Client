@@ -19,7 +19,7 @@ use Gitlab\Api\AbstractApi;
 class GraphQL extends AbstractApi
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     protected const URI_PREFIX = '/api/';
 
@@ -35,7 +35,7 @@ class GraphQL extends AbstractApi
             'query' => $query,
         ];
         if (!empty($variables)) {
-            $params['variables'] = json_encode($variables);
+            $params['variables'] = \json_encode($variables);
         }
 
         return $this->post('/graphql', $params);
@@ -49,6 +49,6 @@ class GraphQL extends AbstractApi
      */
     public function fromFile(string $file, array $variables = [])
     {
-        return $this->execute(file_get_contents($file), $variables);
+        return $this->execute(\file_get_contents($file), $variables);
     }
 }
