@@ -14,8 +14,6 @@ declare(strict_types=1);
 
 namespace Gitlab\Api;
 
-use Gitlab\Api\AbstractApi;
-
 class GraphQL extends AbstractApi
 {
     /**
