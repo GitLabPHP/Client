@@ -18,6 +18,7 @@ use Gitlab\Api\DeployKeys;
 use Gitlab\Api\Deployments;
 use Gitlab\Api\Environments;
 use Gitlab\Api\Events;
+use Gitlab\Api\GraphQL;
 use Gitlab\Api\Groups;
 use Gitlab\Api\GroupsBoards;
 use Gitlab\Api\GroupsEpics;
@@ -405,6 +406,14 @@ class Client
     public function wiki(): Wiki
     {
         return new Wiki($this);
+    }
+
+    /**
+     * @return GraphQL
+     */
+    public function graphql(): GraphQL
+    {
+        return new GraphQL($this);
     }
 
     /**
