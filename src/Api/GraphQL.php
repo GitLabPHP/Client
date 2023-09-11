@@ -19,7 +19,7 @@ class GraphQL extends AbstractApi
     /**
      * {@inheritDoc}
      */
-    protected const URI_PREFIX = '/api/';
+    protected const URI_PREFIX = '/api';
 
     /**
      * @param string $query
