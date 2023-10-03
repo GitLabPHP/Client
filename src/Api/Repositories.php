@@ -212,6 +212,7 @@ class Repositories extends AbstractApi
 
         $resolver->setDefined('path');
         $resolver->setDefined('ref_name');
+        $resolver->setDefined('author');
         $resolver->setDefined('since')
             ->setAllowedTypes('since', \DateTimeInterface::class)
             ->setNormalizer('since', $datetimeNormalizer)
