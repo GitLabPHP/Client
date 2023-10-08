@@ -150,7 +150,7 @@ class Jobs extends AbstractApi
     public function artifactsByRefName($project_id, string $ref_name, string $job_name)
     {
         return $this->getAsResponse('projects/'.self::encodePath($project_id).'/jobs/artifacts/'.self::encodePath($ref_name).'/download', [
-            'job' => self::encodePath($job_name),
+            'job' => $job_name,
         ])->getBody();
     }
 
@@ -165,7 +165,7 @@ class Jobs extends AbstractApi
     public function artifactByRefName($project_id, string $ref_name, string $job_name, string $artifact_path)
     {
         return $this->getAsResponse('projects/'.self::encodePath($project_id).'/jobs/artifacts/'.self::encodePath($ref_name).'/raw/'.self::encodePath($artifact_path), [
-            'job' => self::encodePath($job_name),
+            'job' => $job_name,
         ])->getBody();
     }
 
