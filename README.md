@@ -37,7 +37,7 @@ $ composer require "m4tthumphrey/php-gitlab-api:^11.10" \
 #### Laravel:
 
 ```bash
-$ composer require "graham-campbell/gitlab:^7.2"
+$ composer require "graham-campbell/gitlab:^7.1"
 ```
 
 #### Symfony:
