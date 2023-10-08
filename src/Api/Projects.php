@@ -1214,12 +1214,17 @@ class Projects extends AbstractApi
     /**
      * @param int|string $project_id
      * @param string     $key
+     * @param array      $parameters
      *
      * @return mixed
      */
-    public function variable($project_id, string $key)
+    public function variable($project_id, string $key, array $parameters = [])
     {
-        return $this->get($this->getProjectPath($project_id, 'variables/'.self::encodePath($key)));
+        $resolver = $this->createOptionsResolver();
+        $resolver->setDefined('filter')
+            ->setAllowedTypes('filter', 'array');
+
+        return $this->get($this->getProjectPath($project_id, 'variables/'.self::encodePath($key)), $resolver->resolve($parameters));
     }
 
     /**
