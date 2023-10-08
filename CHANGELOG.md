@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [11.12.0] - 2023-10-XX
 
 * Add PHP 8.3 support
-* Add `Projects::updateProtectedBranch` method
+* Add `Projects::updateProtectedBranch` and `Projects::updateApprovalsConfiguration`
 * Add support for `environment_scope` in `Projects::removeVariable`
 * Add support for `filter` in `Projects::variable`
 * Add support for `author` in `Repositories::commits`
