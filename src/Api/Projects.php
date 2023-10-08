@@ -1293,7 +1293,6 @@ class Projects extends AbstractApi
      * @param array<string, mixed> $parameters    {
      *
      *    @var array $filter    {
-     *
      *        @var string $environment_scope    Use filter[environment_scope] to select the variable with the matching environment_scope attribute.
      *    }
      * }
@@ -1305,6 +1304,7 @@ class Projects extends AbstractApi
         $resolver = new OptionsResolver();
         $resolver->setDefined('filter')
             ->setAllowedTypes('filter', 'array');
+
         return $this->delete($this->getProjectPath($project_id, 'variables/'.self::encodePath($key)), $resolver->resolve($parameters));
     }
 
