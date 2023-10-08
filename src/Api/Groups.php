@@ -506,13 +506,35 @@ class Groups extends AbstractApi
 
     /**
      * @param int|string $group_id
-     * @param array      $parameters
+     * @param array      $parameters {
+     *
+     *     @var bool     $with_counts               Whether or not to include issue and merge request counts. Defaults to false.
+     *     @var bool     $include_ancestor_groups   Include ancestor groups. Defaults to true.
+     *     @var bool     $include_descendant_groups Include descendant groups. Defaults to false.
+     *     @var bool     $only_group_labels         Toggle to include only group labels or also project labels. Defaults to true.
+     *     @var string   $search                    Keyword to filter labels by.
+     * }
      *
      * @return mixed
      */
     public function labels($group_id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
+
+        $resolver->setDefined('with_counts')
+            ->setAllowedTypes('with_counts', 'bool');
+
+        $resolver->setDefined('include_ancestor_groups')
+            ->setAllowedTypes('include_ancestor_groups', 'bool');
+
+        $resolver->setDefined('include_descendant_groups')
+            ->setAllowedTypes('include_descendant_groups', 'bool');
+
+        $resolver->setDefined('only_group_labels')
+            ->setAllowedTypes('only_group_labels', 'bool');
+
+        $resolver->setDefined('search')
+            ->setAllowedTypes('search', 'string');
 
         return $this->get('groups/'.self::encodePath($group_id).'/labels', $resolver->resolve($parameters));
     }
