@@ -1570,6 +1570,17 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
+     * @param array      $parameters
+     *
+     * @return mixed
+     */
+    public function updateApprovalsConfiguration($project_id, array $parameters = [])
+    {
+        return $this->post('projects/'.self::encodePath($project_id).'/approvals', $parameters);
+    }
+
+    /**
+     * @param int|string $project_id
      *
      * @return mixed
      */
