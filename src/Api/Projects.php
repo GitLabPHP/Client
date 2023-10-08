@@ -976,13 +976,27 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
-     * @param array      $parameters
+     * @param array      $parameters {
+     *
+     *     @var bool     $with_counts               Whether or not to include issue and merge request counts. Defaults to false.
+     *     @var bool     $include_ancestor_groups   Include ancestor groups. Defaults to true.
+     *     @var string   $search                    Keyword to filter labels by.
+     * }
      *
      * @return mixed
      */
     public function labels($project_id, array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
+
+        $resolver->setDefined('with_counts')
+            ->setAllowedTypes('with_counts', 'bool');
+
+        $resolver->setDefined('include_ancestor_groups')
+            ->setAllowedTypes('include_ancestor_groups', 'bool');
+
+        $resolver->setDefined('search')
+            ->setAllowedTypes('search', 'string');
 
         return $this->get($this->getProjectPath($project_id, 'labels'), $resolver->resolve($parameters));
     }
@@ -1214,12 +1228,17 @@ class Projects extends AbstractApi
     /**
      * @param int|string $project_id
      * @param string     $key
+     * @param array      $parameters
      *
      * @return mixed
      */
-    public function variable($project_id, string $key)
+    public function variable($project_id, string $key, array $parameters = [])
     {
-        return $this->get($this->getProjectPath($project_id, 'variables/'.self::encodePath($key)));
+        $resolver = $this->createOptionsResolver();
+        $resolver->setDefined('filter')
+            ->setAllowedTypes('filter', 'array');
+
+        return $this->get($this->getProjectPath($project_id, 'variables/'.self::encodePath($key)), $resolver->resolve($parameters));
     }
 
     /**
@@ -1529,12 +1548,35 @@ class Projects extends AbstractApi
 
     /**
      * @param int|string $project_id
+     * @param string     $branch_name
+     * @param array      $parameters
+     *
+     * @return mixed
+     */
+    public function updateProtectedBranch($project_id, string $branch_name, array $parameters = [])
+    {
+        return $this->patch($this->getProjectPath($project_id, 'protected_branches/'.self::encodePath($branch_name)), $parameters);
+    }
+
+    /**
+     * @param int|string $project_id
      *
      * @return mixed
      */
     public function approvalsConfiguration($project_id)
     {
         return $this->get('projects/'.self::encodePath($project_id).'/approvals');
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param array      $parameters
+     *
+     * @return mixed
+     */
+    public function updateApprovalsConfiguration($project_id, array $parameters = [])
+    {
+        return $this->post('projects/'.self::encodePath($project_id).'/approvals', $parameters);
     }
 
     /**
