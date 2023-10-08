@@ -24,7 +24,7 @@ class Deployments extends AbstractApi
      *                                              or ref fields (default is id)
      *     @var string $sort                        Return deployments sorted in asc or desc order (default is desc)
      *     @var string $status                      Return deployments filtered by status of deployment allowed
-+    *                                              values of status are 'created', 'running', 'success', 'failed',
+     *                                              values of status are 'created', 'running', 'success', 'failed',
      *                                              'canceled', 'blocked'
      *     @var string $environment                 Return deployments filtered to a particular environment
      * }
