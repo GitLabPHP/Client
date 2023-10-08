@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Add support for `author` in `Repositories::commits`
 * Add support for additional parameters in `Projects::labels` and `Groups::labels`
 
-## [11.11.1] - 2023-10-XX
+## [11.11.1] - 2023-10-08
 
 * Fixed double encoding of job name in artifacts download
 
