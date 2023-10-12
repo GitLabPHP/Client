@@ -1781,4 +1781,15 @@ class Projects extends AbstractApi
     {
         return $this->delete($this->getProjectPath($project_id, 'protected_tags/'.self::encodePath($tag_name)));
     }
+
+    /**
+     * @param $project_id
+     * @param array $parameters
+     *
+     * @return mixed
+     */
+    public function vulnerabilities($project_id, array $parameters = [])
+    {
+        return $this->get('projects/'.self::encodePath($project_id).'/vulnerabilities', $parameters);
+    }
 }
