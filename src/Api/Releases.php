@@ -21,11 +21,9 @@ class Releases extends AbstractApi
      * @param array $parameters {
      *
      * @return mixed
-     * @var string $sort Return tags sorted in asc or desc order. Default is desc.
-     * @var string $search Return list of tags matching the search criteria. You can use `^term` and `term$` to
-     *                           find tags that begin and end with term respectively.
-     * }
      *
+     * @var string $sort Return releases sorted in asc or desc order. Default is desc.
+     * }
      * @var string $order_by Return tags ordered by `name`, `updated` or `version` fields. Default is `updated`.
      */
     public function all($project_id, array $parameters = [])
@@ -49,7 +47,7 @@ class Releases extends AbstractApi
      */
     public function show($project_id, string $tag_name)
     {
-        return $this->get($this->getProjectPath($project_id, 'releases/' . self::encodePath($tag_name)));
+        return $this->get($this->getProjectPath($project_id, 'releases/'.self::encodePath($tag_name)));
     }
 
     /**
@@ -60,7 +58,6 @@ class Releases extends AbstractApi
     public function showLatest($project_id)
     {
         return $this->get($this->getProjectPath($project_id, 'releases/permalink/latest'));
-
     }
 
     /**
@@ -83,7 +80,7 @@ class Releases extends AbstractApi
      */
     public function update($project_id, string $tag_name, array $parameters)
     {
-        return $this->put($this->getProjectPath($project_id, 'releases/' . self::encodePath($tag_name)), $parameters);
+        return $this->put($this->getProjectPath($project_id, 'releases/'.self::encodePath($tag_name)), $parameters);
     }
 
     /**
@@ -94,6 +91,6 @@ class Releases extends AbstractApi
      */
     public function remove($project_id, string $tag_name)
     {
-        return $this->delete($this->getProjectPath($project_id, 'releases' . self::encodePath($tag_name)));
+        return $this->delete($this->getProjectPath($project_id, 'releases/'.self::encodePath($tag_name)));
     }
 }

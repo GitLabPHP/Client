@@ -98,6 +98,7 @@ class TagsTest extends TestCase
      * @test
      *
      * @dataProvider releaseDataProvider
+     *
      * @deprecated
      *
      * @param string $releaseName
@@ -123,6 +124,7 @@ class TagsTest extends TestCase
      * @test
      *
      * @dataProvider releaseDataProvider
+     *
      * @deprecated
      *
      * @param string $releaseName

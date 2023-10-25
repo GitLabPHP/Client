@@ -12,7 +12,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Gitlab\Tests\Api;
+namespace Tests\Gitlab\Api;
 
 use Gitlab\Api\Releases;
 
@@ -32,7 +32,7 @@ class ReleasesTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/releases')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
         $this->assertEquals($expectedArray, $api->all(1));
     }
 
@@ -49,10 +49,9 @@ class ReleasesTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/releases/v1.0.0')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
         $this->assertEquals($expectedArray, $api->show(1, 'v1.0.0'));
     }
-
 
     /**
      * @test
@@ -66,16 +65,17 @@ class ReleasesTest extends TestCase
     public function shouldCreateRelease(string $releaseName, string $description, array $expectedResult): void
     {
         $params = [
+            'name' => $releaseName,
             'description' => $description,
         ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/releases/'. $releaseName, $params)
-            ->will($this->returnValue($expectedResult));
+            ->with('projects/1/releases', $params)
+            ->willReturn($expectedResult);
 
-        $this->assertEquals($expectedResult, $api->createRelease(1, $releaseName, $params));
+        $this->assertEquals($expectedResult, $api->create(1, $params));
     }
 
     /**
@@ -91,10 +91,9 @@ class ReleasesTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/releases/v1.1.0')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
         $this->assertEquals($expectedArray, $api->remove(1, 'v1.1.0'));
     }
-
 
     /**
      * @test
@@ -114,10 +113,10 @@ class ReleasesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/releases/'. $releaseName, $params)
-            ->will($this->returnValue($expectedResult));
+            ->with('projects/1/releases/'.\str_replace('/', '%2F', $releaseName), $params)
+            ->willReturn($expectedResult);
 
-        $this->assertEquals($expectedResult, $api->updateRelease(1, $releaseName, $params));
+        $this->assertEquals($expectedResult, $api->update(1, $releaseName, $params));
     }
 
     public static function releaseDataProvider(): array
