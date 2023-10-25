@@ -14,24 +14,24 @@ declare(strict_types=1);
 
 namespace Gitlab\Tests\Api;
 
-use Gitlab\Api\Tags;
+use Gitlab\Api\Releases;
 
-class TagsTest extends TestCase
+class ReleasesTest extends TestCase
 {
     /**
      * @test
      */
-    public function shouldGetAllTags(): void
+    public function shouldGetAllReleases(): void
     {
         $expectedArray = [
-            ['name' => 'v1.0.0'],
-            ['name' => 'v1.1.0'],
+            ['tag_name' => 'v1.0.0'],
+            ['tag_name' => 'v1.1.0'],
         ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/repository/tags')
+            ->with('projects/1/releases')
             ->will($this->returnValue($expectedArray));
         $this->assertEquals($expectedArray, $api->all(1));
     }
@@ -39,66 +39,25 @@ class TagsTest extends TestCase
     /**
      * @test
      */
-    public function shouldShowTag(): void
+    public function shouldShowRelease(): void
     {
         $expectedArray = [
-            ['name' => 'v1.0.0'],
+            ['tag_name' => 'v1.0.0'],
         ];
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/repository/tags/v1.0.0')
+            ->with('projects/1/releases/v1.0.0')
             ->will($this->returnValue($expectedArray));
         $this->assertEquals($expectedArray, $api->show(1, 'v1.0.0'));
     }
 
-    /**
-     * @test
-     */
-    public function shouldCreateTag(): void
-    {
-        $expectedArray = [
-            ['name' => 'v1.1.0'],
-        ];
-
-        $params = [
-            'id' => 1,
-            'tag_name' => 'v1.1.0',
-            'ref' => 'ref/heads/master',
-        ];
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('post')
-            ->with('projects/1/repository/tags', $params)
-            ->will($this->returnValue($expectedArray));
-
-        $this->assertEquals($expectedArray, $api->create(1, $params));
-    }
-
-    /**
-     * @test
-     */
-    public function shouldRemoveTag(): void
-    {
-        $expectedArray = [
-            ['name' => 'v1.1.0'],
-        ];
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('delete')
-            ->with('projects/1/repository/tags/v1.1.0')
-            ->will($this->returnValue($expectedArray));
-        $this->assertEquals($expectedArray, $api->remove(1, 'v1.1.0'));
-    }
 
     /**
      * @test
      *
      * @dataProvider releaseDataProvider
-     * @deprecated
      *
      * @param string $releaseName
      * @param string $description
@@ -113,7 +72,7 @@ class TagsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/repository/tags/'.\str_replace('/', '%2F', $releaseName).'/release', $params)
+            ->with('projects/1/releases/'. $releaseName, $params)
             ->will($this->returnValue($expectedResult));
 
         $this->assertEquals($expectedResult, $api->createRelease(1, $releaseName, $params));
@@ -121,9 +80,26 @@ class TagsTest extends TestCase
 
     /**
      * @test
+     */
+    public function shouldRemoveRelease(): void
+    {
+        $expectedArray = [
+            ['name' => 'v1.1.0'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/releases/v1.1.0')
+            ->will($this->returnValue($expectedArray));
+        $this->assertEquals($expectedArray, $api->remove(1, 'v1.1.0'));
+    }
+
+
+    /**
+     * @test
      *
      * @dataProvider releaseDataProvider
-     * @deprecated
      *
      * @param string $releaseName
      * @param string $description
@@ -138,15 +114,12 @@ class TagsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/repository/tags/'.\str_replace('/', '%2F', $releaseName).'/release', $params)
+            ->with('projects/1/releases/'. $releaseName, $params)
             ->will($this->returnValue($expectedResult));
 
         $this->assertEquals($expectedResult, $api->updateRelease(1, $releaseName, $params));
     }
 
-    /**
-     * @deprecated
-     */
     public static function releaseDataProvider(): array
     {
         return [
@@ -171,6 +144,6 @@ class TagsTest extends TestCase
 
     protected function getApiClass()
     {
-        return Tags::class;
+        return Releases::class;
     }
 }
