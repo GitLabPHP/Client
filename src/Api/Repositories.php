@@ -146,16 +146,18 @@ class Repositories extends AbstractApi
     /**
      * @param int|string $project_id
      * @param string     $tag_name
-     * @param string     $description
+     * @param string $description
+     * @param ?string $name
      *
      * @return mixed
      */
-    public function createRelease($project_id, string $tag_name, string $description)
+    public function createRelease($project_id, string $tag_name, string $description, ?string $name = null)
     {
         return $this->post($this->getProjectPath($project_id, 'releases'), [
             'id' => $project_id,
             'tag_name' => $tag_name,
             'description' => $description,
+            'name' => $name ?? $tag_name,
         ]);
     }
 
