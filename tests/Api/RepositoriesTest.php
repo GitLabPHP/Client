@@ -58,6 +58,21 @@ class RepositoriesTest extends TestCase
     /**
      * @test
      */
+    public function shouldBranchExists(): void
+    {
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('head')
+            ->with('projects/1/repository/branches/master', [])
+            ->will($this->returnValue(200))
+        ;
+
+        $this->assertTrue($api->branchExists(1, 'master'));
+    }
+
+    /**
+     * @test
+     */
     public function shouldCreateBranch(): void
     {
         $expectedArray = ['name' => 'feature'];
