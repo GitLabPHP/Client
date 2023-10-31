@@ -161,6 +161,6 @@ class RepositoryFiles extends AbstractApi
             'ref' => $ref,
         ];
 
-        return $this->head($uri, $params) === 200;
+        return 200 === $this->head($uri, $params);
     }
 }

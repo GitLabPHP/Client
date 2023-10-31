@@ -68,7 +68,7 @@ class Repositories extends AbstractApi
     {
         $uri = $this->getProjectPath($project_id, 'repository/branches/'.self::encodePath($branch));
 
-        return $this->head($uri, []) === 200;
+        return 200 === $this->head($uri, []);
     }
 
     /**
