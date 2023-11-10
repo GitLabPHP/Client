@@ -54,9 +54,9 @@ class Search extends AbstractApi
             'snippet_titles',
             'users',
         ];
-        $resolver->setDefined('scope')
+        $resolver->setRequired('scope')
             ->setAllowedValues('scope', $scope);
-        $resolver->setDefined('search');
+        $resolver->setRequired('search');
         $resolver->setDefined('order_by')
             ->setAllowedValues('order_by', ['created_at']);
         $resolver->setDefined('sort')
