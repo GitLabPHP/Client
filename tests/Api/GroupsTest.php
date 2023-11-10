@@ -940,4 +940,36 @@ class GroupsTest extends TestCase
 
         $this->assertEquals($expectedBool, $api->deleteDeployToken(1, 2));
     }
+
+    /**
+     * @test
+     */
+    public function shouldSearchGroups(): void
+    {
+        $expectedArray = [
+            ['id' => 6, 'name' => 'Project 6 bla'],
+            ['id' => 7, 'name' => 'Project 7 bla'],
+            ['id' => 8, 'name' => 'Project 8 bla'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/123/search', [
+                'scope' => 'projects',
+                'confidential' => 'false',
+                'search' => 'bla',
+                'order_by' => 'created_at',
+                'sort' => 'desc',
+            ])
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->search(123, [
+            'scope' => 'projects',
+            'confidential' => false,
+            'search' => 'bla',
+            'order_by' => 'created_at',
+            'sort' => 'desc',
+        ]));
+    }
 }
