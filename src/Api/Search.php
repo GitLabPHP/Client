@@ -52,6 +52,10 @@ class Search extends AbstractApi
             'merge_requests',
             'milestones',
             'snippet_titles',
+            'wiki_blobs',
+            'commits',
+            'blobs',
+            'notes',
             'users',
         ];
         $resolver->setRequired('scope')
