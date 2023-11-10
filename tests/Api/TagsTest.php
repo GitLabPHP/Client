@@ -96,6 +96,7 @@ class TagsTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider releaseDataProvider
      *
      * @param string $releaseName
@@ -119,6 +120,7 @@ class TagsTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider releaseDataProvider
      *
      * @param string $releaseName
@@ -140,7 +142,7 @@ class TagsTest extends TestCase
         $this->assertEquals($expectedResult, $api->updateRelease(1, $releaseName, $params));
     }
 
-    public function releaseDataProvider()
+    public static function releaseDataProvider(): array
     {
         return [
             [

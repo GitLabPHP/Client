@@ -102,8 +102,9 @@ class Jobs extends AbstractApi
      * @param int        $pipeline_id
      * @param array      $parameters  {
      *
-     *     @var string|string[] $scope The scope of bridge jobs to show, one or array of: created, pending, running, failed,
-     *                                 success, canceled, skipped, manual; showing all jobs if none provided.
+     *     @var string|string[] $scope            The scope of bridge jobs to show, one or array of: created, pending, running, failed,
+     *                                            success, canceled, skipped, manual; showing all jobs if none provided
+     *     @var bool            $include_retried  Include retried jobs in the response. Defaults to false. Introduced in GitLab 13.9.
      * }
      *
      * @return mixed
@@ -150,7 +151,7 @@ class Jobs extends AbstractApi
     public function artifactsByRefName($project_id, string $ref_name, string $job_name)
     {
         return $this->getAsResponse('projects/'.self::encodePath($project_id).'/jobs/artifacts/'.self::encodePath($ref_name).'/download', [
-            'job' => self::encodePath($job_name),
+            'job' => $job_name,
         ])->getBody();
     }
 
@@ -165,8 +166,20 @@ class Jobs extends AbstractApi
     public function artifactByRefName($project_id, string $ref_name, string $job_name, string $artifact_path)
     {
         return $this->getAsResponse('projects/'.self::encodePath($project_id).'/jobs/artifacts/'.self::encodePath($ref_name).'/raw/'.self::encodePath($artifact_path), [
-            'job' => self::encodePath($job_name),
+            'job' => $job_name,
         ])->getBody();
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param int        $job_id
+     * @param string     $artifact_path
+     *
+     * @return StreamInterface
+     */
+    public function artifactByJobId($project_id, $job_id, string $artifact_path)
+    {
+        return $this->getAsResponse('projects/'.self::encodePath($project_id).'/jobs/'.self::encodePath($job_id).'/artifacts/'.self::encodePath($artifact_path))->getBody();
     }
 
     /**
@@ -262,6 +275,9 @@ class Jobs extends AbstractApi
                 return (array) $value;
             })
         ;
+
+        $resolver->setDefined('include_retried')
+            ->setAllowedTypes('include_retried', ['bool']);
 
         return $resolver;
     }

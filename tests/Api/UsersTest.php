@@ -259,7 +259,7 @@ class UsersTest extends TestCase
         $this->assertEquals($expectedArray, $api->usersProjects(1, ['owned' => true]));
     }
 
-    public function possibleAccessLevels()
+    public static function possibleAccessLevels(): array
     {
         return [
             [10],
@@ -272,6 +272,7 @@ class UsersTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider possibleAccessLevels
      */
     public function shouldGetProjectsWithMinimumAccessLevel($level): void
@@ -292,6 +293,98 @@ class UsersTest extends TestCase
 
         $api = $this->getUsersProjectsRequestMock('users/1/projects', $expectedArray, ['search' => 'a project']);
         $this->assertEquals($expectedArray, $api->usersProjects(1, ['search' => 'a project']));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldShowUsersStarredProjects(): void
+    {
+        $expectedArray = $this->getUsersProjectsData();
+
+        $api = $this->getUsersProjectsRequestMock('users/1/starred_projects', $expectedArray);
+
+        $this->assertEquals($expectedArray, $api->usersStarredProjects(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldShowUsersStarredProjectsWithLimit(): void
+    {
+        $expectedArray = [$this->getUsersProjectsData()[0]];
+
+        $api = $this->getUsersProjectsRequestMock('users/1/starred_projects', $expectedArray, ['per_page' => 1]);
+
+        $this->assertEquals($expectedArray, $api->usersStarredProjects(1, ['per_page' => 1]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAllUsersStarredProjectsSortedByName(): void
+    {
+        $expectedArray = $this->getUsersProjectsData();
+
+        $api = $this->getUsersProjectsRequestMock(
+            'users/1/starred_projects',
+            $expectedArray,
+            ['page' => 1, 'per_page' => 5, 'order_by' => 'name', 'sort' => 'asc']
+        );
+
+        $this->assertEquals(
+            $expectedArray,
+            $api->usersStarredProjects(1, ['page' => 1, 'per_page' => 5, 'order_by' => 'name', 'sort' => 'asc'])
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetNotArchivedUsersStarredProjects(): void
+    {
+        $expectedArray = $this->getUsersProjectsData();
+
+        $api = $this->getUsersProjectsRequestMock('users/1/starred_projects', $expectedArray, ['archived' => 'false']);
+
+        $this->assertEquals($expectedArray, $api->usersStarredProjects(1, ['archived' => false]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetOwnedUsersStarredProjects(): void
+    {
+        $expectedArray = $this->getUsersProjectsData();
+
+        $api = $this->getUsersProjectsRequestMock('users/1/starred_projects', $expectedArray, ['owned' => 'true']);
+
+        $this->assertEquals($expectedArray, $api->usersStarredProjects(1, ['owned' => true]));
+    }
+
+    /**
+     * @test
+     *
+     * @dataProvider possibleAccessLevels
+     */
+    public function shouldGetStarredProjectsWithMinimumAccessLevel($level): void
+    {
+        $expectedArray = $this->getUsersProjectsData();
+
+        $api = $this->getUsersProjectsRequestMock('users/1/starred_projects', $expectedArray, ['min_access_level' => $level]);
+
+        $this->assertEquals($expectedArray, $api->usersStarredProjects(1, ['min_access_level' => $level]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldSearchUsersStarredProjects(): void
+    {
+        $expectedArray = $this->getUsersProjectsData();
+
+        $api = $this->getUsersProjectsRequestMock('users/1/starred_projects', $expectedArray, ['search' => 'a project']);
+        $this->assertEquals($expectedArray, $api->usersStarredProjects(1, ['search' => 'a project']));
     }
 
     /**
@@ -886,5 +979,23 @@ class UsersTest extends TestCase
             ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->events(1, ['page' => 2, 'per_page' => 15]));
+    }
+
+    /**
+     * @test
+     */
+    public function getRemoveUserIdentity(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'identities' => []],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('users/1/identities/test')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->removeUserIdentity(1, 'test'));
     }
 }

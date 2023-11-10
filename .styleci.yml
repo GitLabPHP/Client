@@ -17,5 +17,6 @@ disabled:
   - native_constant_invocation_symfony
   - native_function_invocation_symfony
   - no_superfluous_phpdoc_tags_symfony
+  - phpdoc_align
   - phpdoc_to_comment
   - phpdoc_var_without_name

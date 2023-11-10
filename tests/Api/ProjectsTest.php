@@ -104,6 +104,7 @@ class ProjectsTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider possibleAccessLevels
      */
     public function shouldGetProjectsWithMinimumAccessLevel($level): void
@@ -676,6 +677,38 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetIterations(): void
+    {
+        $expectedArray = [
+            [
+                'id' => 5,
+                'iid' => 2,
+                'sequence' => 1,
+                'group_id' => 123,
+                'title' => '2022: Sprint 1',
+                'description' => '',
+                'state' => 3,
+                'created_at' => '2021-09-29T21:24:43.913Z',
+                'updated_at' => '2022-03-29T19:09:08.368Z',
+                'start_date' => '2022-01-10',
+                'due_date' => '2022-01-23',
+                'web_url' => 'https://example.com/groups/example/-/iterations/34',
+            ],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/iterations')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->iterations(1));
+    }
+
+    /**
+     * @test
+     */
     public function shouldCreateTrigger(): void
     {
         $expectedArray = [
@@ -691,6 +724,22 @@ class ProjectsTest extends TestCase
             ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->createTrigger(1, 'foobar'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRemoveTrigger(): void
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/triggers/2')
+            ->will($this->returnValue($expectedBool));
+
+        $this->assertEquals($expectedBool, $api->removeTrigger(1, 2));
     }
 
     /**
@@ -850,6 +899,54 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetPipelineTestReport(): void
+    {
+        $expectedArray = [
+            'total_time' => 0.011809,
+            'total_count' => 8,
+            'success_count' => 8,
+            'failed_count' => 0,
+            'skipped_count' => 0,
+            'error_count' => 0,
+            'test_suites' => [],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/pipelines/3/test_report')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->pipelineTestReport(1, 3));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetPipelineTestReportSummary(): void
+    {
+        $expectedArray = [
+            'total_time' => 0.011809,
+            'total_count' => 8,
+            'success_count' => 8,
+            'failed_count' => 0,
+            'skipped_count' => 0,
+            'error_count' => 0,
+            'test_suites' => [],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/pipelines/3/test_report_summary')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->pipelineTestReportSummary(1, 3));
+    }
+
+    /**
+     * @test
+     */
     public function shouldCreatePipeline(): void
     {
         $expectedArray = [
@@ -859,7 +956,7 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/pipeline', ['ref' => 'test-pipeline'])
+            ->with('projects/1/pipeline', [], [], [], ['ref' => 'test-pipeline'])
             ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->createPipeline(1, 'test-pipeline'));
@@ -888,7 +985,7 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/pipeline', ['ref' => 'test-pipeline', 'variables' => $variables])
+            ->with('projects/1/pipeline', ['variables' => $variables], [], [], ['ref' => 'test-pipeline'])
             ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->createPipeline(1, 'test-pipeline', $variables));
@@ -1094,6 +1191,28 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldAddMemberWithExpiration(): void
+    {
+        // tomorrow
+        $expiration = \date('Y-m-d', \time() + 86400);
+        $expectedArray = [
+            'user_id' => 3,
+            'access_level' => 3,
+            'expires_at' => $expiration,
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/members', ['user_id' => 3, 'access_level' => 3, 'expires_at' => $expiration])
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->addMember(1, 3, 3, $expiration));
+    }
+
+    /**
+     * @test
+     */
     public function shouldSaveMember(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'Matt'];
@@ -1105,6 +1224,28 @@ class ProjectsTest extends TestCase
             ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->saveMember(1, 2, 4));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldSaveMemberWithExpiration(): void
+    {
+        // tomorrow
+        $expiration = \date('Y-m-d', \time() + 86400);
+        $expectedArray = [
+            'user_id' => 3,
+            'access_level' => 4,
+            'expires_at' => $expiration,
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/members/3', ['access_level' => 4, 'expires_at' => $expiration])
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->saveMember(1, 3, 4, $expiration));
     }
 
     /**
@@ -1367,6 +1508,154 @@ class ProjectsTest extends TestCase
             ->will($this->returnValue($expectedBool));
 
         $this->assertEquals($expectedBool, $api->enableDeployKey(1, 3));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetDeployTokens(): void
+    {
+        $expectedArray = [
+            [
+                'id' => 1,
+                'name' => 'MyToken',
+                'username' => 'gitlab+deploy-token-1',
+                'expires_at' => '2020-02-14T00:00:00.000Z',
+                'revoked' => false,
+                'expired' => false,
+                'scopes' => [
+                    'read_repository',
+                    'read_registry',
+                ],
+            ],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/deploy_tokens')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->deployTokens(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetActiveDeployTokens(): void
+    {
+        $expectedArray = [
+            [
+                'id' => 1,
+                'name' => 'MyToken',
+                'username' => 'gitlab+deploy-token-1',
+                'expires_at' => '2020-02-14T00:00:00.000Z',
+                'revoked' => false,
+                'expired' => true,
+                'scopes' => [
+                    'read_repository',
+                    'read_registry',
+                ],
+            ],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/deploy_tokens', ['active' => true])
+            ->will($this->returnValue([]));
+
+        $this->assertEquals([], $api->deployTokens(1, true));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetInactiveDeployTokens(): void
+    {
+        $expectedArray = [
+            [
+                'id' => 1,
+                'name' => 'MyToken',
+                'username' => 'gitlab+deploy-token-1',
+                'expires_at' => '2020-02-14T00:00:00.000Z',
+                'revoked' => false,
+                'expired' => true,
+                'scopes' => [
+                    'read_repository',
+                    'read_registry',
+                ],
+            ],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/deploy_tokens', ['active' => false])
+            ->will($this->returnValue([]));
+
+        $this->assertEquals([], $api->deployTokens(1, false));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreateDeployToken(): void
+    {
+        $expectedArray = [
+            'id' => 1,
+            'name' => 'My Deploy Token',
+            'username' => 'custom-user',
+            'token' => 'jMRvtPNxrn3crTAGukpZ',
+            'expires_at' => '2021-01-01T00:00:00.000Z',
+            'revoked' => false,
+            'expired' => false,
+            'scopes' => [
+                'read_repository',
+                'read_registry',
+            ],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with(
+                'projects/1/deploy_tokens',
+                [
+                    'name' => 'My Deploy Token',
+                    'scopes' => [
+                        'read_repository',
+                        'read_registry',
+                    ],
+                    'expires_at' => (new DateTime('2021-01-01'))->format('c'),
+                ]
+            )
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->createDeployToken(1, [
+            'name' => 'My Deploy Token',
+            'scopes' => [
+                'read_repository',
+                'read_registry',
+            ],
+            'expires_at' => new DateTime('2021-01-01'),
+        ]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldDeleteDeployToken(): void
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/deploy_tokens/2')
+            ->will($this->returnValue($expectedBool));
+
+        $this->assertEquals($expectedBool, $api->deleteDeployToken(1, 2));
     }
 
     /**
@@ -1645,6 +1934,71 @@ class ProjectsTest extends TestCase
             ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->forks(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetForksUsingParameters(): void
+    {
+        $expectedArray = [
+            [
+                'id' => 2,
+                'forked_from_project' => [
+                    'id' => 1,
+                ],
+            ],
+            [
+                'id' => 3,
+                'forked_from_project' => [
+                    'id' => 1,
+                ],
+            ],
+        ];
+        $updated_after = new \DateTime('2018-01-01 00:00:00');
+        $updated_before = new \DateTime('2018-01-31 00:00:00');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/forks', [
+                'archived' => 'false',
+                'visibility' => 'public',
+                'order_by' => 'id',
+                'sort' => 'asc',
+                'search' => 'term',
+                'simple' => 'true',
+                'owned' => 'false',
+                'membership' => 'false',
+                'starred' => 'false',
+                'statistics' => 'false',
+                'with_issues_enabled' => 'false',
+                'with_merge_requests_enabled' => 'false',
+                'min_access_level' => 30,
+                'updated_after' => $updated_after->format('c'),
+                'updated_before' => $updated_before->format('c'),
+                'with_custom_attributes' => 'true',
+            ])
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->forks(1, [
+            'archived' => false,
+            'visibility' => 'public',
+            'order_by' => 'id',
+            'sort' => 'asc',
+            'search' => 'term',
+            'simple' => true,
+            'owned' => false,
+            'membership' => false,
+            'starred' => false,
+            'statistics' => false,
+            'with_issues_enabled' => false,
+            'with_merge_requests_enabled' => false,
+            'min_access_level' => 30,
+            'updated_after' => $updated_after,
+            'updated_before' => $updated_before,
+            'with_custom_attributes' => true,
+        ]));
     }
 
     /**
@@ -2066,6 +2420,64 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->deployments(1, ['page' => 2, 'per_page' => 15]));
     }
 
+    /**
+     * @test
+     */
+    public function shouldGetDeploymentsSorted(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'sha' => '0000001'],
+            ['id' => 2, 'sha' => '0000002'],
+            ['id' => 3, 'sha' => '0000003'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/deployments', [
+                'order_by' => 'id',
+                'sort' => 'asc',
+            ])
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->deployments(1, ['order_by' => 'id', 'sort' => 'asc']));
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/deployments', [
+                'order_by' => 'id',
+                'sort' => 'desc',
+            ])
+            ->will($this->returnValue(\array_reverse($expectedArray)));
+
+        $this->assertEquals(\array_reverse($expectedArray), $api->deployments(1, ['order_by' => 'id', 'sort' => 'desc']));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetDeploymentsFiltered(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'sha' => '0000001'],
+            ['id' => 2, 'sha' => '0000002'],
+            ['id' => 3, 'sha' => '0000003'],
+        ];
+
+        $time = new DateTime('now');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/deployments', [
+                'updated_after' => $time->format('c'),
+            ])
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->deployments(1, ['updated_after' => $time]));
+    }
+
     protected function getMultipleProjectsData()
     {
         return [
@@ -2082,7 +2494,7 @@ class ProjectsTest extends TestCase
         ];
     }
 
-    public function possibleAccessLevels()
+    public static function possibleAccessLevels(): array
     {
         return [
             [10],
@@ -2453,6 +2865,33 @@ class ProjectsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetProjectAccessToken(): void
+    {
+        $expectedArray = [
+            'user_id' => 141,
+            'scopes' => [
+                'api',
+            ],
+            'name' => 'token',
+            'expires_at' => '2021-01-31',
+            'id' => 42,
+            'active' => true,
+            'created_at' => '2021-01-20T22:11:48.151Z',
+            'revoked' => false,
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/access_tokens/42')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->projectAccessToken(1, 42));
+    }
+
+    /**
+     * @test
+     */
     public function shouldCreateProjectAccessToken(): void
     {
         $expectedArray = [
@@ -2480,6 +2919,7 @@ class ProjectsTest extends TestCase
                         'api',
                         'read_repository',
                     ],
+                    'access_level' => 30,
                     'expires_at' => '2021-01-31',
                 ]
             )
@@ -2491,6 +2931,7 @@ class ProjectsTest extends TestCase
                 'api',
                 'read_repository',
             ],
+            'access_level' => 30,
             'expires_at' => new DateTime('2021-01-31'),
         ]));
     }
@@ -2524,10 +2965,52 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/', [], [], ['avatar' => $fileName])
+            ->with('projects/1', [], [], ['avatar' => $fileName])
             ->will($this->returnValue($expectedArray));
         $this->assertEquals($expectedArray, $api->uploadAvatar(1, $fileName));
         \unlink($fileName);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAddProtectedTag(): void
+    {
+        $expectedArray = [
+            'name' => 'release-*',
+            'create_access_level' => [
+                ['access_level' => 40, 'access_level_description' => 'Maintainers'],
+                ['group_id' => 123],
+            ],
+        ];
+        $api = $this->getApiMock();
+        $params = [
+            'name' => 'release-*',
+            'create_access_level' => 40,
+            'allowed_to_create' => [['group_id' => 123]],
+        ];
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/protected_tags', $params)
+            ->will($this->returnValue($expectedArray));
+        $this->assertEquals($expectedArray, $api->addProtectedTag(1, $params));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRemoveProtectedTag(): void
+    {
+        $expectedBool = true;
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with(
+                'projects/1/protected_tags/release-%2A'
+            )
+            ->will($this->returnValue($expectedBool));
+
+        $this->assertEquals($expectedBool, $api->deleteProtectedTag(1, 'release-*'));
     }
 
     protected function getApiClass()

@@ -66,6 +66,30 @@ class JobsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetPipelineJobsIncludingRetried(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'name' => 'A job'],
+            ['id' => 2, 'name' => 'Another job'],
+            ['id' => 3, 'name' => 'A job'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/pipelines/2/jobs', [
+                'scope' => ['pending', 'running'],
+                'include_retried' => true,
+            ])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->pipelineJobs(1, 2, ['scope' => [Jobs::SCOPE_PENDING, Jobs::SCOPE_RUNNING], 'include_retried' => true]));
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetPipelineBridges(): void
     {
         $expectedArray = [
@@ -122,6 +146,23 @@ class JobsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetArtifactsByJobId(): void
+    {
+        $returnedStream = new Response(200, [], 'foobar');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('getAsResponse')
+            ->with('projects/1/jobs/3/artifacts/artifact_path')
+            ->will($this->returnValue($returnedStream))
+        ;
+
+        $this->assertEquals('foobar', $api->artifactByJobId(1, 3, 'artifact_path')->getContents());
+    }
+
+    /**
+     * @test
+     */
     public function shouldGetArtifactsByRefName(): void
     {
         $returnedStream = new Response(200, [], 'foobar');
@@ -130,12 +171,12 @@ class JobsTest extends TestCase
         $api->expects($this->once())
             ->method('getAsResponse')
             ->with('projects/1/jobs/artifacts/master/download', [
-                'job' => 'job_name',
+                'job' => 'job name',
             ])
             ->will($this->returnValue($returnedStream))
         ;
 
-        $this->assertEquals('foobar', $api->artifactsByRefName(1, 'master', 'job_name')->getContents());
+        $this->assertEquals('foobar', $api->artifactsByRefName(1, 'master', 'job name')->getContents());
     }
 
     /**
@@ -148,11 +189,11 @@ class JobsTest extends TestCase
         $api->expects($this->once())
             ->method('getAsResponse')
             ->with('projects/1/jobs/artifacts/master/raw/artifact_path', [
-                'job' => 'job_name',
+                'job' => 'job name',
             ])
             ->will($this->returnValue($returnedStream))
         ;
-        $this->assertEquals('foobar', $api->artifactByRefName(1, 'master', 'job_name', 'artifact_path')->getContents());
+        $this->assertEquals('foobar', $api->artifactByRefName(1, 'master', 'job name', 'artifact_path')->getContents());
     }
 
     /**

@@ -202,6 +202,40 @@ class ScheduleTest extends TestCase
         $this->assertEquals($expectedBool, $api->removeVariable(1, 2, 'FOO_BAR'));
     }
 
+    /**
+     * @test
+     */
+    public function shouldTakeOwnership(): void
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/pipeline_schedules/2/take_ownership')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->takeOwnership(1, 2));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldPlay(): void
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/pipeline_schedules/2/play')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->play(1, 2));
+    }
+
     protected function getApiClass()
     {
         return Schedules::class;

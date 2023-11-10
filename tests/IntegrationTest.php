@@ -26,7 +26,7 @@ class IntegrationTest extends TestCase
 
         $response = $client
             ->repositories()
-            ->contributors(5315609);
+            ->contributors(16155465);
 
         $this->assertIsArray($response);
         $this->assertTrue(isset($response[2]));

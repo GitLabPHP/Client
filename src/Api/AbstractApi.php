@@ -39,6 +39,16 @@ abstract class AbstractApi
     private const URI_PREFIX = '/api/v4/';
 
     /**
+     * The access levels for groups and projects
+     * as defined in the Gitlab::Access module.
+     *
+     * @see https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/access.rb
+     *
+     * @var array
+     */
+    protected const ACCESS_LEVELS = [0, 10, 20, 30, 40, 50];
+
+    /**
      * The client instance.
      *
      * @var Client
@@ -103,10 +113,11 @@ abstract class AbstractApi
      * @param array<string,mixed>  $params
      * @param array<string,string> $headers
      * @param array<string,string> $files
+     * @param array<string,mixed>  $uriParams
      *
      * @return mixed
      */
-    protected function post(string $uri, array $params = [], array $headers = [], array $files = [])
+    protected function post(string $uri, array $params = [], array $headers = [], array $files = [], array $uriParams = [])
     {
         if (0 < \count($files)) {
             $builder = $this->createMultipartStreamBuilder($params, $files);
@@ -120,7 +131,7 @@ abstract class AbstractApi
             }
         }
 
-        $response = $this->client->getHttpClient()->post(self::prepareUri($uri), $headers, $body);
+        $response = $this->client->getHttpClient()->post(self::prepareUri($uri, $uriParams), $headers, $body);
 
         return ResponseMediator::getContent($response);
     }
@@ -148,6 +159,55 @@ abstract class AbstractApi
         }
 
         $response = $this->client->getHttpClient()->put(self::prepareUri($uri), $headers, $body ?? '');
+
+        return ResponseMediator::getContent($response);
+    }
+
+    /**
+     * @param string               $uri
+     * @param array<string,mixed>  $params
+     * @param array<string,string> $headers
+     * @param array<string,string> $files
+     *
+     * @return mixed
+     */
+    protected function patch(string $uri, array $params = [], array $headers = [], array $files = [])
+    {
+        if (0 < \count($files)) {
+            $builder = $this->createMultipartStreamBuilder($params, $files);
+            $body = self::prepareMultipartBody($builder);
+            $headers = self::addMultipartContentType($headers, $builder);
+        } else {
+            $body = self::prepareJsonBody($params);
+
+            if (null !== $body) {
+                $headers = self::addJsonContentType($headers);
+            }
+        }
+
+        $response = $this->client->getHttpClient()->patch(self::prepareUri($uri), $headers, $body ?? '');
+
+        return ResponseMediator::getContent($response);
+    }
+
+    /**
+     * @param string               $uri
+     * @param string               $file
+     * @param array<string,string> $headers
+     * @param array<string,mixed>  $uriParams
+     *
+     * @return mixed
+     */
+    protected function putFile(string $uri, string $file, array $headers = [], array $uriParams = [])
+    {
+        $resource = self::tryFopen($file, 'r');
+        $body = $this->client->getStreamFactory()->createStreamFromResource($resource);
+
+        if ($body->isReadable()) {
+            $headers = \array_merge([ResponseMediator::CONTENT_TYPE_HEADER => self::guessFileContentType($file)], $headers);
+        }
+
+        $response = $this->client->getHttpClient()->put(self::prepareUri($uri, $uriParams), $headers, $body);
 
         return ResponseMediator::getContent($response);
     }

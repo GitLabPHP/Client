@@ -362,8 +362,9 @@ class RepositoriesTest extends TestCase
     }
 
     /**
-     * @dataProvider dataGetCommitRefsWithParams
      * @test
+     *
+     * @dataProvider dataGetCommitRefsWithParams
      *
      * @param string $type
      * @param array  $expectedArray
@@ -380,7 +381,7 @@ class RepositoriesTest extends TestCase
         $this->assertEquals($expectedArray, $api->commitRefs(1, 'abcd1234', ['type' => $type]));
     }
 
-    public function dataGetCommitRefsWithParams()
+    public static function dataGetCommitRefsWithParams(): array
     {
         return [
             'type_tag' => [

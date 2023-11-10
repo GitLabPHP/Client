@@ -17,6 +17,7 @@ namespace Gitlab;
 use Gitlab\Api\DeployKeys;
 use Gitlab\Api\Deployments;
 use Gitlab\Api\Environments;
+use Gitlab\Api\Events;
 use Gitlab\Api\Groups;
 use Gitlab\Api\GroupsBoards;
 use Gitlab\Api\GroupsEpics;
@@ -74,6 +75,13 @@ class Client
     public const AUTH_HTTP_TOKEN = 'http_token';
 
     /**
+     * The job token authentication method.
+     *
+     * @var string
+     */
+    public const AUTH_HTTP_JOB_TOKEN = 'http_job_token';
+
+    /**
      * The OAuth 2 token authentication method.
      *
      * @var string
@@ -92,7 +100,7 @@ class Client
      *
      * @var string
      */
-    private const USER_AGENT = 'gitlab-php-api-client/11.8';
+    private const USER_AGENT = 'gitlab-php-api-client/11.13';
 
     /**
      * The HTTP client builder.
@@ -166,6 +174,14 @@ class Client
     public function environments(): Environments
     {
         return new Environments($this);
+    }
+
+    /**
+     * @return Events
+     */
+    public function events(): Events
+    {
+        return new Events($this);
     }
 
     /**
