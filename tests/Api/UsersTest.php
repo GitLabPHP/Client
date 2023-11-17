@@ -908,6 +908,115 @@ class UsersTest extends TestCase
         $this->assertEquals($expectedArray, $api->userImpersonationTokens(1, ['state' => 'inactive']));
     }
 
+    /**
+     * @test
+     */
+    public function shouldGetCurrentUserPersonalAccessTokens(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'name' => 'A Name', 'revoked' => false],
+            ['id' => 2, 'name' => 'A Name', 'revoked' => false],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users/1/personal_access_tokens')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->userPersonalAccessTokens(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetUserPersonalAccessToken(): void
+    {
+        $expectedArray = ['id' => 2, 'name' => 'name'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users/1/personal_access_tokens/1')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->userPersonalAccessToken(1, 1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreatePersonalAccessTokenForUser(): void
+    {
+        $expectedArray = ['id' => 1, 'name' => 'name'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('users/1/personal_access_tokens', ['name' => 'name', 'scopes' => ['api'], 'expires_at' => null])
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->createPersonalAccessToken(1, 'name', ['api']));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldDeletePersonalAccessTokenForUser(): void
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('users/1/personal_access_tokens/1')
+            ->will($this->returnValue($expectedBool))
+        ;
+
+        $this->assertEquals($expectedBool, $api->removePersonalAccessToken(1, 1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetCurrentUserActivePersonalAccessTokens(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'name' => 'A Name', 'revoked' => true],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users/1/personal_access_tokens')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->userPersonalAccessTokens(1, ['state' => 'active']));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetCurrentUserInactivePersonalAccessTokens(): void
+    {
+        $expectedArray = [
+            ['id' => 2, 'name' => 'A Name', 'revoked' => false],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users/1/personal_access_tokens')
+            ->will($this->returnValue($expectedArray))
+        ;
+
+        $this->assertEquals($expectedArray, $api->userPersonalAccessTokens(1, ['state' => 'inactive']));
+    }
+
     protected function getApiClass()
     {
         return Users::class;

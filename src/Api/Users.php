@@ -555,6 +555,62 @@ class Users extends AbstractApi
 
     /**
      * @param int   $user_id
+     * @param array $params
+     *
+     * @return mixed
+     */
+    public function userPersonalAccessTokens(int $user_id, array $params = [])
+    {
+        $resolver = $this->createOptionsResolver();
+
+        $resolver->setDefined('state')
+            ->setAllowedValues('state', ['all', 'active', 'inactive'])
+        ;
+
+        return $this->get('users/'.self::encodePath($user_id).'/personal_access_tokens', $resolver->resolve($params));
+    }
+
+    /**
+     * @param int $user_id
+     * @param int $personal_access_token_id
+     *
+     * @return mixed
+     */
+    public function userPersonalAccessToken(int $user_id, int $personal_access_token_id)
+    {
+        return $this->get('users/'.self::encodePath($user_id).'/personal_access_tokens/'.self::encodePath($personal_access_token_id));
+    }
+
+    /**
+     * @param int         $user_id
+     * @param string      $name
+     * @param array       $scopes
+     * @param string|null $expires_at
+     *
+     * @return mixed
+     */
+    public function createPersonalAccessToken(int $user_id, string $name, array $scopes, ?string $expires_at = null)
+    {
+        return $this->post('users/'.self::encodePath($user_id).'/personal_access_tokens', [
+            'name' => $name,
+            'scopes' => $scopes,
+            'expires_at' => $expires_at,
+        ]);
+    }
+
+    /**
+     * @param int $user_id
+     * @param int $personal_access_token
+     *
+     * @return mixed
+     */
+    public function removePersonalAccessToken(int $user_id, int $personal_access_token)
+    {
+        return $this->delete('users/'.self::encodePath($user_id).'/personal_access_tokens/'.self::encodePath($personal_access_token));
+    }
+
+    /**
+     * @param int   $user_id
      * @param array $parameters {
      *
      *     @var string             $action      include only events of a particular action type
