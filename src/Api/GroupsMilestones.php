@@ -32,10 +32,10 @@ class GroupsMilestones extends AbstractApi
      *
      *     @var int[]  $iids   return only the milestones having the given iids
      *     @var string $state  return only active or closed milestones
-     *     @var string $search Return only milestones with a title or description matching the provided string.
-     *     @var string $updated_before Return only milestones updated before the given datetime.
+     *     @var string $search Return only milestones with a title or description matching the provided string
+     *     @var string $updated_before Return only milestones updated before the given datetime
      *                                 Expected in ISO 8601 format (2019-03-15T08:00:00Z). Introduced in GitLab 15.10
-     *     @var string $updated_after  Return only milestones updated after the given datetime.
+     *     @var string $updated_after  Return only milestones updated after the given datetime
      *                                 Expected in ISO 8601 format (2019-03-15T08:00:00Z). Introduced in GitLab 15.10
      * }
      *

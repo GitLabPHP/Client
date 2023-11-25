@@ -76,6 +76,7 @@ class GroupsMilestonesTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider getAllMilestonesWithParameterStateDataProvider
      */
     public function shouldGetAllMilestonesWithParameterState(string $state): void
