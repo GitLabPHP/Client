@@ -66,7 +66,7 @@ class GroupsMilestonesTest extends TestCase
         $api->all(1, ['iids' => [456, 789]]);
     }
 
-    public function getAllMilestonesWithParameterStateDataProvider()
+    public static function getAllMilestonesWithParameterStateDataProvider()
     {
         return [
             GroupsMilestones::STATE_ACTIVE => [GroupsMilestones::STATE_ACTIVE],
