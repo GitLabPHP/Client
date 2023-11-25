@@ -81,8 +81,6 @@ class GroupsMilestonesTest extends TestCase
      */
     public function shouldGetAllMilestonesWithParameterState(string $state): void
     {
-        $updatedBefore = '2023-11-25T08:00:00Z';
-
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
@@ -129,15 +127,15 @@ class GroupsMilestonesTest extends TestCase
      */
     public function shouldGetAllMilestonesWithParameterUpdatedAfter(): void
     {
-        $updatedBefore = '2023-11-25T08:00:00Z';
+        $updatedAfter = '2023-11-25T08:00:00Z';
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('groups/1/milestones', ['updated_after' => $updatedBefore])
+            ->with('groups/1/milestones', ['updated_after' => $updatedAfter])
         ;
 
-        $api->all(1, ['updated_after' => $updatedBefore]);
+        $api->all(1, ['updated_after' => $updatedAfter]);
     }
 
     /**
