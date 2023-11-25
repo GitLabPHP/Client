@@ -41,6 +41,107 @@ class GroupsMilestonesTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetAllMilestonesWithParameterOneIidsValue(): void
+    {
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/milestones', ['iids' => [456]])
+        ;
+
+        $api->all(1, ['iids' => [456]]);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAllMilestonesWithParameterTwoIidsValues(): void
+    {
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/milestones', ['iids' => [456, 789]])
+        ;
+
+        $api->all(1, ['iids' => [456, 789]]);
+    }
+
+    public function getAllMilestonesWithParameterStateDataProvider()
+    {
+        return [
+            GroupsMilestones::STATE_ACTIVE => [GroupsMilestones::STATE_ACTIVE],
+            GroupsMilestones::STATE_CLOSED => [GroupsMilestones::STATE_CLOSED],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider getAllMilestonesWithParameterStateDataProvider
+     */
+    public function shouldGetAllMilestonesWithParameterState(string $state): void
+    {
+        $updatedBefore = '2023-11-25T08:00:00Z';
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/milestones', ['state' => $state])
+        ;
+
+        $api->all(1, ['state' => $state]);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAllMilestonesWithParameterSearch(): void
+    {
+        $searchValue = 'abc';
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/milestones', ['search' => $searchValue])
+        ;
+
+        $api->all(1, ['search' => $searchValue]);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAllMilestonesWithParameterUpdatedBefore(): void
+    {
+        $updatedBefore = '2023-11-25T08:00:00Z';
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/milestones', ['updated_before' => $updatedBefore])
+        ;
+
+        $api->all(1, ['updated_before' => $updatedBefore]);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetAllMilestonesWithParameterUpdatedAfter(): void
+    {
+        $updatedBefore = '2023-11-25T08:00:00Z';
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/milestones', ['updated_after' => $updatedBefore])
+        ;
+
+        $api->all(1, ['updated_after' => $updatedBefore]);
+    }
+
+    /**
+     * @test
+     */
     public function shouldShowMilestone(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'A milestone'];
