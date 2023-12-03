@@ -278,4 +278,59 @@ See merge request !2',
     {
         return Deployments::class;
     }
+
+    /**
+     * @test
+     */
+    public function shouldAllowDeploymentFilterByStatus(): void
+    {
+        $expectedArray = $this->getMultipleDeploymentsData();
+
+        $api = $this->getMultipleDeploymentsRequestMock(
+            'projects/1/deployments',
+            $expectedArray,
+            ['status' => 'success']
+        );
+
+        $this->assertEquals(
+            $expectedArray,
+            $api->all(1, ['status' => 'success'])
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAllowFilterByEnvironment(): void
+    {
+        $expectedArray = $this->getMultipleDeploymentsData();
+
+        $api = $this->getMultipleDeploymentsRequestMock(
+            'projects/1/deployments',
+            $expectedArray,
+            ['environment' => 'production']
+        );
+
+        $this->assertEquals(
+            $expectedArray,
+            $api->all(1, ['environment' => 'production'])
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function shouldAllowEmptyArrayIfAllExcludedByFilter(): void
+    {
+        $expectedArray = $this->getMultipleDeploymentsData();
+
+        $api = $this->getMultipleDeploymentsRequestMock(
+            'projects/1/deployments',
+            [],
+            ['environment' => 'test']
+        );
+
+        $this->assertEquals([], $api->all(1, ['environment' => 'test'])
+        );
+    }
 }
