@@ -3017,4 +3017,36 @@ class ProjectsTest extends TestCase
     {
         return Projects::class;
     }
+
+    /**
+     * @test
+     */
+    public function shouldSearchGroups(): void
+    {
+        $expectedArray = [
+            ['id' => 6, 'title' => 'Issue 6 bla'],
+            ['id' => 7, 'title' => 'Issue 7 bla'],
+            ['id' => 8, 'title' => 'Issue 8 bla'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/123/search', [
+                'scope' => 'issues',
+                'confidential' => 'false',
+                'search' => 'bla',
+                'order_by' => 'created_at',
+                'sort' => 'desc',
+            ])
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->search(123, [
+            'scope' => 'issues',
+            'confidential' => false,
+            'search' => 'bla',
+            'order_by' => 'created_at',
+            'sort' => 'desc',
+        ]));
+    }
 }
