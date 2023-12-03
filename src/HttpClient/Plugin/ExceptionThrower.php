@@ -42,7 +42,7 @@ final class ExceptionThrower implements Plugin
      * @param callable         $next
      * @param callable         $first
      *
-     * @return Promise
+     * @return Promise<ResponseInterface>
      */
     public function handleRequest(RequestInterface $request, callable $next, callable $first): Promise
     {

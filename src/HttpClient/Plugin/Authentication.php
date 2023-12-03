@@ -19,6 +19,7 @@ use Gitlab\Exception\RuntimeException;
 use Http\Client\Common\Plugin;
 use Http\Promise\Promise;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Add authentication to the request.
@@ -54,7 +55,7 @@ final class Authentication implements Plugin
      * @param callable         $next
      * @param callable         $first
      *
-     * @return Promise
+     * @return Promise<ResponseInterface>
      */
     public function handleRequest(RequestInterface $request, callable $next, callable $first): Promise
     {
