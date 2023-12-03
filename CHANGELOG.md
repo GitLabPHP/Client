@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [11.13.0] - UPCOMING
 
 * Add support for `symfony/options-resolver:^7.0`
+* Add support for `status` and `environment` in `Deployments::all`
+* Add support for `Groups::search`, `Projects::search`, and `Search::all`
 
 ## [11.12.0] - 2023-10-08
 
