@@ -111,12 +111,12 @@ class GroupsMilestonesTest extends TestCase
      */
     public function shouldGetAllMilestonesWithParameterUpdatedBefore(): void
     {
-        $updatedBefore = '2023-11-25T08:00:00Z';
+        $updatedBefore = new \DateTimeImmutable('2023-11-25T08:00:00Z');
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('groups/1/milestones', ['updated_before' => $updatedBefore])
+            ->with('groups/1/milestones', ['updated_before' => $updatedBefore->format('c')])
         ;
 
         $api->all(1, ['updated_before' => $updatedBefore]);
@@ -127,12 +127,12 @@ class GroupsMilestonesTest extends TestCase
      */
     public function shouldGetAllMilestonesWithParameterUpdatedAfter(): void
     {
-        $updatedAfter = '2023-11-25T08:00:00Z';
+        $updatedAfter = new \DateTimeImmutable('2023-11-25T08:00:00Z');
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('groups/1/milestones', ['updated_after' => $updatedAfter])
+            ->with('groups/1/milestones', ['updated_after' => $updatedAfter->format('c')])
         ;
 
         $api->all(1, ['updated_after' => $updatedAfter]);
