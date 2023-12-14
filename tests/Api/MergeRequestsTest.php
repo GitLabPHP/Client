@@ -110,8 +110,8 @@ class MergeRequestsTest extends TestCase
         $createdBefore = new \DateTime('2018-01-31 00:00:00');
 
         $expectedWithArray = [
-            'created_after' => $createdAfter->format(\DATE_ATOM),
-            'created_before' => $createdBefore->format(\DATE_ATOM),
+            'created_after' => '2018-01-01T00:00:00.000Z',
+            'created_before' => '2018-01-01T00:00:00.000Z',
         ];
 
         $api = $this->getApiMock();
