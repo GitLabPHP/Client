@@ -111,7 +111,7 @@ class MergeRequestsTest extends TestCase
 
         $expectedWithArray = [
             'created_after' => '2018-01-01T00:00:00.000Z',
-            'created_before' => '2018-01-01T00:00:00.000Z',
+            'created_before' => '2018-01-31T00:00:00.000Z',
         ];
 
         $api = $this->getApiMock();
