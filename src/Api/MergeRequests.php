@@ -74,7 +74,7 @@ class MergeRequests extends AbstractApi
     {
         $resolver = $this->createOptionsResolver();
         $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
-            return $value->format('c');
+            return $value->format('c.u');
         };
         $resolver->setDefined('iids')
             ->setAllowedTypes('iids', 'array')
