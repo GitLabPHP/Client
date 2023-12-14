@@ -74,7 +74,8 @@ class MergeRequests extends AbstractApi
     {
         $resolver = $this->createOptionsResolver();
         $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
-            return $value->format('Y-m-d\TH:i:s.vp');
+            $utc = \DateTimeImmutable::createFromInterface($value)->setTimezone(new \DateTimeZone('UTC'));
+            return $utc->format('Y-m-d\TH:i:s.v\Z');
         };
         $resolver->setDefined('iids')
             ->setAllowedTypes('iids', 'array')
