@@ -185,6 +185,13 @@ class Repositories extends AbstractApi
         );
     }
 
+    public function commitMergeRequests(int|string $project_id, string $sha): mixed
+    {
+        return $this->get(
+            $this->getProjectPath($project_id, 'repository/commits/'.self::encodePath($sha).'/merge_requests'),
+        );
+    }
+
     /**
      * @param array      $parameters {
      *
