@@ -417,6 +417,29 @@ class MergeRequests extends AbstractApi
 
     /**
      * @param int|string $project_id
+     * @param int $mr_iid
+     *
+     * @return mixed
+     */
+    public function contextCommits($project_id, int $mr_iid)
+    {
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/context_commits'));
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param int $mr_iid
+     * @param array $params
+     *
+     * @return mixed
+     */
+    public function addContextCommits($project_id, int $mr_iid, array $params)
+    {
+        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/context_commits'), $params);
+    }
+
+    /**
+     * @param int|string $project_id
      * @param int        $mr_iid
      *
      * @return mixed
