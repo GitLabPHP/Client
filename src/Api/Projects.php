@@ -1462,6 +1462,26 @@ class Projects extends AbstractApi
      *
      * @return mixed
      */
+    public function starrers($project_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'starrers'));
+    }
+
+    /**
+     * @param int|string $project_id
+     *
+     * @return mixed
+     */
+    public function star($project_id)
+    {
+        return $this->post($this->getProjectPath($project_id, 'star'));
+    }
+
+    /**
+     * @param int|string $project_id
+     *
+     * @return mixed
+     */
     public function badges($project_id)
     {
         return $this->get($this->getProjectPath($project_id, 'badges'));
