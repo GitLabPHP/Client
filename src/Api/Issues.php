@@ -388,6 +388,18 @@ class Issues extends AbstractApi
 
     /**
      * @param int|string $project_id
+     * @param int $issue_iid
+     * @param string $name
+     *
+     * @return mixed
+     */
+    public function addAwardEmoji($project_id, int $issue_iid, string $name)
+    {
+        return $this->post($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/award_emoji'), ['name' => $name]);
+    }
+
+    /**
+     * @param int|string $project_id
      * @param int        $issue_iid
      * @param int        $award_id
      *
@@ -396,6 +408,30 @@ class Issues extends AbstractApi
     public function removeAwardEmoji($project_id, int $issue_iid, int $award_id)
     {
         return $this->delete($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/award_emoji/'.self::encodePath($award_id)));
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param int $issue_iid
+     * @param int $note_id
+     *
+     * @return mixed
+     */
+    public function showNoteAwardEmoji($project_id, int $issue_iid, int $note_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/notes/'.self::encodePath($note_id).'/award_emoji'));
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param int $issue_iid
+     * @param string $name
+     *
+     * @return mixed
+     */
+    public function addNoteAwardEmoji($project_id, int $issue_iid, int $note_id, string $name)
+    {
+        return $this->post($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/notes/'.self::encodePath($note_id).'/award_emoji'), ['name' => $name]);
     }
 
     /**
