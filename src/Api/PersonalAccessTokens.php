@@ -21,15 +21,14 @@ class PersonalAccessTokens extends AbstractApi
     /**
     * @param array $parameters {
     *
-    *     @var string             $search         search for user by email or username
-    *     @var string             $username       lookup for user by username
-    *     @var bool               $external       search for external users only
-    *     @var string             $extern_uid     lookup for users by external uid
-    *     @var string             $provider       lookup for users by provider
-    *     @var \DateTimeInterface $created_before return users created before the given time (inclusive)
-    *     @var \DateTimeInterface $created_after  return users created after the given time (inclusive)
-    *     @var bool               $active         Return only active users. It does not support filtering inactive users.
-    *     @var bool               $blocked        Return only blocked users. It does not support filtering non-blocked users.
+    *     @var string             $search            search text
+    *     @var string             $state             state of the token
+    *     @var int                $user_id           tokens belonging to the given user
+    *     @var book               $revoked           whether the token is revoked or not
+    *     @var \DateTimeInterface $created_before    return tokens created before the given time (inclusive)
+    *     @var \DateTimeInterface $created_after     return tokens created after the given time (inclusive)
+    *     @var \DateTimeInterface $last_used_after   return tokens used before the given time (inclusive)
+    *     @var \DateTimeInterface $last_used_before  return tokens used after the given time (inclusive)
     * }
     *
     * @return mixed
@@ -98,6 +97,8 @@ class PersonalAccessTokens extends AbstractApi
     
     /**
     * @param int $id
+    * 
+    * @param array $params
     *
     * @return mixed
     */
@@ -115,7 +116,7 @@ class PersonalAccessTokens extends AbstractApi
     }
     
     /**
-    * @param int $id
+    * @param array $params
     *
     * @return mixed
     */
