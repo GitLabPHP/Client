@@ -24,7 +24,7 @@ class PersonalAccessTokens extends AbstractApi
     *     @var string             $search            search text
     *     @var string             $state             state of the token
     *     @var int                $user_id           tokens belonging to the given user
-    *     @var book               $revoked           whether the token is revoked or not
+    *     @var bool               $revoked           whether the token is revoked or not
     *     @var \DateTimeInterface $created_before    return tokens created before the given time (inclusive)
     *     @var \DateTimeInterface $created_after     return tokens created after the given time (inclusive)
     *     @var \DateTimeInterface $last_used_after   return tokens used before the given time (inclusive)
