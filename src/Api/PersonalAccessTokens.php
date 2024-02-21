@@ -42,10 +42,10 @@ class PersonalAccessTokens extends AbstractApi
         $booleanNormalizer = function (Options $resolver, $value): string {
             return $value ? 'true' : 'false';
         };
-        
+
         $resolver->setDefined('search');
         $resolver->setDefined('state')
-            ->setAllowedValues('state', ['active', 'inactive']);
+            ->setAllowedValues('state', ['all', 'active', 'inactive']);
         $resolver->setDefined('user_id')
             ->setAllowedTypes('user_id', 'int')
             ->setAllowedValues('user_id', function ($value): bool {
@@ -72,10 +72,10 @@ class PersonalAccessTokens extends AbstractApi
             ->setAllowedTypes('revoked', 'bool')
             ->setNormalizer('revoked', $booleanNormalizer);
         ;
-        
+
         return $this->get('personal_access_tokens', $resolver->resolve($parameters));
     }
-    
+
     /**
     * @param int $id
     *
@@ -85,7 +85,7 @@ class PersonalAccessTokens extends AbstractApi
     {
         return $this->get('personal_access_tokens/'.self::encodePath($id));
     }
-    
+
     /**
     * @return mixed
     */
@@ -93,11 +93,11 @@ class PersonalAccessTokens extends AbstractApi
     {
         return $this->get('personal_access_tokens/self');
     }
-    
-    
+
+
     /**
     * @param int $id
-    * 
+    *
     * @param array $params
     *
     * @return mixed
@@ -114,7 +114,7 @@ class PersonalAccessTokens extends AbstractApi
         ;
         return $this->post('personal_access_tokens/'.self::encodePath($id).'/rotate', $resolver->resolve($params));
     }
-    
+
     /**
     * @param array $params
     *
@@ -132,7 +132,7 @@ class PersonalAccessTokens extends AbstractApi
         ;
         return $this->post('personal_access_tokens/self/rotate', $resolver->resolve($params));
     }
-    
+
     /**
     * @param int   $id
     *
@@ -142,7 +142,7 @@ class PersonalAccessTokens extends AbstractApi
     {
         return $this->delete('personal_access_tokens/'.self::encodePath($id));
     }
-    
+
     /**
     * @return mixed
     */
