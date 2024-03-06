@@ -254,6 +254,16 @@ abstract class AbstractApi
     }
 
     /**
+     * @param $id
+     * @param string $uri
+     * @return string
+     */
+    protected function getGroupPath($id, string $uri): string
+    {
+        return 'groups/'.self::encodePath($id).'/'.$uri;
+    }
+
+    /**
      * Create a new OptionsResolver with page and per_page options.
      *
      * @return OptionsResolver
