@@ -984,6 +984,7 @@ class Groups extends AbstractApi
 
     /**
      * @param $group_id
+     *
      * @return mixed
      */
     public function groupAccessTokens($group_id)
@@ -994,6 +995,7 @@ class Groups extends AbstractApi
     /**
      * @param $group_id
      * @param $token_id
+     *
      * @return mixed
      */
     public function groupAccessToken($group_id, $token_id)
@@ -1004,6 +1006,7 @@ class Groups extends AbstractApi
     /**
      * @param $group_id
      * @param array $parameters
+     *
      * @return mixed
      */
     public function createGroupAccessToken($group_id, array $parameters = [])
@@ -1044,6 +1047,7 @@ class Groups extends AbstractApi
     /**
      * @param $group_id
      * @param $token_id
+     *
      * @return mixed
      */
     public function deleteGroupAccessToken($group_id, $token_id)

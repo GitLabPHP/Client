@@ -256,6 +256,7 @@ abstract class AbstractApi
     /**
      * @param $id
      * @param string $uri
+     *
      * @return string
      */
     protected function getGroupPath($id, string $uri): string
