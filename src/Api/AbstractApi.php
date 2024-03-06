@@ -253,13 +253,13 @@ abstract class AbstractApi
         return 'projects/'.self::encodePath($id).'/'.$uri;
     }
 
-    /**
-     * @param $id
-     * @param string $uri
-     *
-     * @return string
-     */
-    protected function getGroupPath($id, string $uri): string
+	/**
+	 * @param string|int $id
+	 * @param string $uri
+	 *
+	 * @return string
+	 */
+    protected function getGroupPath(string|int $id, string $uri): string
     {
         return 'groups/'.self::encodePath($id).'/'.$uri;
     }
