@@ -55,7 +55,7 @@ final class Authentication implements Plugin
      * @param callable         $next
      * @param callable         $first
      *
-     * @return Promise<ResponseInterface>
+     * @return Promise
      */
     public function handleRequest(RequestInterface $request, callable $next, callable $first): Promise
     {
