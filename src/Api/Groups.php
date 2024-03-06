@@ -983,6 +983,75 @@ class Groups extends AbstractApi
     }
 
     /**
+     * @param $group_id
+     * @return mixed
+     */
+    public function groupAccessTokens($group_id)
+    {
+        return $this->get($this->getGroupPath($group_id, 'access_tokens'));
+    }
+
+    /**
+     * @param $group_id
+     * @param $token_id
+     * @return mixed
+     */
+    public function groupAccessToken($group_id, $token_id)
+    {
+        return $this->get($this->getGroupPath($group_id, 'access_tokens/'.self::encodePath($token_id)));
+    }
+
+    /**
+     * @param $group_id
+     * @param array $parameters
+     * @return mixed
+     */
+    public function createGroupAccessToken($group_id, array $parameters = [])
+    {
+        $resolver = $this->createOptionsResolver();
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
+            return $value->format('Y-m-d');
+        };
+
+        $resolver->define('name')
+            ->required();
+
+        $resolver->define('scopes')
+            ->required()
+            ->allowedTypes('array')
+            ->allowedValues(function ($scopes) {
+                $allowed = ['api', 'read_api', 'read_registry', 'write_registry', 'read_repository', 'write_repository'];
+                foreach ($scopes as $scope) {
+                    if (!\in_array($scope, $allowed, true)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+
+        $resolver->setDefined('access_level')
+            ->setAllowedTypes('access_level', 'int')
+            ->setAllowedValues('access_level', [10, 20, 30, 40, 50]);
+
+        $resolver->setDefined('expires_at')
+            ->setAllowedTypes('expires_at', \DateTimeInterface::class)
+            ->setNormalizer('expires_at', $datetimeNormalizer);
+
+        return $this->post($this->getGroupPath($group_id, 'access_tokens'), $resolver->resolve($parameters));
+    }
+
+    /**
+     * @param $group_id
+     * @param $token_id
+     * @return mixed
+     */
+    public function deleteGroupAccessToken($group_id, $token_id)
+    {
+        return $this->delete($this->getGroupPath($group_id, 'access_tokens/'.self::encodePath($token_id)));
+    }
+
+    /**
      * @param int|string $id
      * @param array $parameters {
      *
