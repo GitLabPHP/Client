@@ -19,7 +19,6 @@ use Gitlab\Exception\RuntimeException;
 use Http\Client\Common\Plugin;
 use Http\Promise\Promise;
 use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
 
 /**
  * Add authentication to the request.
