@@ -1056,6 +1056,24 @@ class Groups extends AbstractApi
     }
 
     /**
+     * @param string|int $group_id
+     * @param string|int $token_id
+     * @param string $expiry
+     *
+     * @return mixed
+     */
+    public function rotateGroupAccessToken(string|int $group_id, string|int $token_id, string $expiry = ''): mixed
+    {
+        $regex = '/(?:19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[01])/';
+        if ($expiry !== '' && preg_match($regex, $expiry) !== false) {
+            $uri = 'access_tokens/'.self::encodePath($token_id).'/rotate?expires_at='.$expiry;
+            return $this->post($this->getGroupPath($group_id, $uri));
+        }
+
+        return $this->post($this->getGroupPath($group_id, 'access_tokens/'.self::encodePath($token_id).'/rotate'));
+    }
+
+    /**
      * @param int|string $id
      * @param array $parameters {
      *
