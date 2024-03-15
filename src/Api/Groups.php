@@ -796,6 +796,16 @@ class Groups extends AbstractApi
             ->setDefault('include_ancestors', true)
         ;
 
+        $resolver->setDefined('search');
+
+        $resolver->setDefined('in')
+        ->setAllowedTypes('in', 'array')
+        ->setAllowedValues('in', function (array $value) {
+            return \count($value) === \count(\array_filter($value, function ($item) {
+                return \is_string($item) && in_array($item, ['title', 'cadence_title']);
+            }));
+        });
+
         return $this->get('groups/'.self::encodePath($group_id).'/iterations', $resolver->resolve($parameters));
     }
 
