@@ -802,7 +802,7 @@ class Groups extends AbstractApi
         ->setAllowedTypes('in', 'array')
         ->setAllowedValues('in', function (array $value) {
             return \count($value) === \count(\array_filter($value, function ($item) {
-                return \is_string($item) && in_array($item, ['title', 'cadence_title']);
+                return \is_string($item) && \in_array($item, ['title', 'cadence_title']);
             }));
         });
 
