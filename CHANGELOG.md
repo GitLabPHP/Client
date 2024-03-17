@@ -7,7 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [11.14.0] - UPCOMING
 
-TBC
+* Add support for `php-http/cache-plugin:^2.0`
+* Add support for `'approved'` `status` in `Project::events`
+* Add support for `name` in `createRelease` and `updateRelease`
+* Add support for date filtering to `GroupsMilestones::all()`
+* Update `MergeRequests::all` to use millisecond precision for date filters
 
 ## [11.13.0] - 2023-12-03
 
