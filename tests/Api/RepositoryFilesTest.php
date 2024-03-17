@@ -281,6 +281,23 @@ class RepositoryFilesTest extends TestCase
     }
 
     /**
+     * @test
+     */
+    public function shouldFileExists(): void
+    {
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('head')
+            ->with('projects/1/repository/files/dir%2Ffile1.txt', [
+                'ref' => 'master',
+            ])
+            ->will($this->returnValue(200))
+        ;
+
+        $this->assertTrue($api->fileExists(1, 'dir/file1.txt', 'master'));
+    }
+
+    /**
      * @return string
      */
     protected function getApiClass()

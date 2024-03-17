@@ -233,6 +233,20 @@ abstract class AbstractApi
     }
 
     /**
+     * @param string               $uri
+     * @param array<string,mixed> $params
+     * @param array<string,string> $headers
+     *
+     * @return int
+     */
+    protected function head(string $uri, array $params, array $headers = []): int
+    {
+        $response = $this->client->getHttpClient()->head(self::prepareUri($uri, $params), $headers);
+
+        return $response->getStatusCode();
+    }
+
+    /**
      * @param int|string $uri
      *
      * @return string

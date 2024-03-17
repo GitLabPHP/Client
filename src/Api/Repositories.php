@@ -61,6 +61,19 @@ class Repositories extends AbstractApi
     /**
      * @param int|string $project_id
      * @param string     $branch
+     *
+     * @return bool
+     */
+    public function branchExists($project_id, string $branch): bool
+    {
+        $uri = $this->getProjectPath($project_id, 'repository/branches/'.self::encodePath($branch));
+
+        return 200 === $this->head($uri, []);
+    }
+
+    /**
+     * @param int|string $project_id
+     * @param string     $branch
      * @param string     $ref
      *
      * @return mixed

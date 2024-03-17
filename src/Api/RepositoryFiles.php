@@ -146,4 +146,21 @@ class RepositoryFiles extends AbstractApi
 
         return $this->delete($this->getProjectPath($project_id, 'repository/files/'.self::encodePath($resolved['file_path'])), $resolved);
     }
+
+    /**
+     * @param int|string $project_id
+     * @param string     $file_path
+     * @param string     $ref
+     *
+     * @return bool
+     */
+    public function fileExists($project_id, string $file_path, string $ref): bool
+    {
+        $uri = $this->getProjectPath($project_id, 'repository/files/'.self::encodePath($file_path));
+        $params = [
+            'ref' => $ref,
+        ];
+
+        return 200 === $this->head($uri, $params);
+    }
 }
