@@ -153,7 +153,7 @@ class Repositories extends AbstractApi
      */
     public function createRelease($project_id, string $tag_name, string $description, ?string $name = null)
     {
-        return $this->post($this->getProjectPath($project_id, 'releases'), array_filter([
+        return $this->post($this->getProjectPath($project_id, 'releases'), \array_filter([
             'id' => $project_id,
             'tag_name' => $tag_name,
             'description' => $description,
@@ -171,7 +171,7 @@ class Repositories extends AbstractApi
      */
     public function updateRelease($project_id, string $tag_name, string $description, ?string $name = null)
     {
-        return $this->put($this->getProjectPath($project_id, 'releases/'.self::encodePath($tag_name)), array_filter([
+        return $this->put($this->getProjectPath($project_id, 'releases/'.self::encodePath($tag_name)), \array_filter([
             'id' => $project_id,
             'tag_name' => $tag_name,
             'description' => $description,
