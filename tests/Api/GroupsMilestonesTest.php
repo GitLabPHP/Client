@@ -116,7 +116,7 @@ class GroupsMilestonesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('groups/1/milestones', ['updated_before' => $updatedBefore->format('c')])
+            ->with('groups/1/milestones', ['updated_before' => '2023-11-25T08:00:00.000Z'])
         ;
 
         $api->all(1, ['updated_before' => $updatedBefore]);
@@ -132,7 +132,7 @@ class GroupsMilestonesTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('groups/1/milestones', ['updated_after' => $updatedAfter->format('c')])
+            ->with('groups/1/milestones', ['updated_after' => '2023-11-25T08:00:00.000Z'])
         ;
 
         $api->all(1, ['updated_after' => $updatedAfter]);
