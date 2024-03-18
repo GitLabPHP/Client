@@ -2975,7 +2975,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with(
-                'projects/1/access_tokens/2/rotate?expires_at=2021-01-31',)
+                'projects/1/access_tokens/2/rotate?expires_at=2021-01-31')
             ->will($this->returnValue($expectedArray));
 
         $this->assertEquals($expectedArray, $api->rotateProjectAccessToken(1, 2, '2021-01-31'));
