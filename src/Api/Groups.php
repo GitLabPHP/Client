@@ -983,6 +983,98 @@ class Groups extends AbstractApi
     }
 
     /**
+     * @param string|int $group_id
+     *
+     * @return mixed
+     */
+    public function groupAccessTokens(string|int $group_id): mixed
+    {
+        return $this->get($this->getGroupPath($group_id, 'access_tokens'));
+    }
+
+    /**
+     * @param string|int $group_id
+     * @param string|int $token_id
+     *
+     * @return mixed
+     */
+    public function groupAccessToken(string|int $group_id, string|int $token_id): mixed
+    {
+        return $this->get($this->getGroupPath($group_id, 'access_tokens/'.self::encodePath($token_id)));
+    }
+
+    /**
+     * @param string|int $group_id
+     * @param array $parameters
+     *
+     * @return mixed
+     */
+    public function createGroupAccessToken(string|int $group_id, array $parameters = []): mixed
+    {
+        $resolver = $this->createOptionsResolver();
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
+            return $value->format('Y-m-d');
+        };
+
+        $resolver->define('name')
+            ->required();
+
+        $resolver->define('scopes')
+            ->required()
+            ->allowedTypes('array')
+            ->allowedValues(function ($scopes) {
+                $allowed = ['api', 'read_api', 'read_registry', 'write_registry', 'read_repository', 'write_repository'];
+                foreach ($scopes as $scope) {
+                    if (!\in_array($scope, $allowed, true)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+
+        $resolver->setDefined('access_level')
+            ->setAllowedTypes('access_level', 'int')
+            ->setAllowedValues('access_level', [10, 20, 30, 40, 50]);
+
+        $resolver->setDefined('expires_at')
+            ->setAllowedTypes('expires_at', \DateTimeInterface::class)
+            ->setNormalizer('expires_at', $datetimeNormalizer);
+
+        return $this->post($this->getGroupPath($group_id, 'access_tokens'), $resolver->resolve($parameters));
+    }
+
+    /**
+     * @param string|int $group_id
+     * @param string|int $token_id
+     *
+     * @return mixed
+     */
+    public function deleteGroupAccessToken(string|int $group_id, string|int $token_id): mixed
+    {
+        return $this->delete($this->getGroupPath($group_id, 'access_tokens/'.self::encodePath($token_id)));
+    }
+
+    /**
+     * @param string|int $group_id
+     * @param string|int $token_id
+     * @param string $expiry
+     *
+     * @return mixed
+     */
+    public function rotateGroupAccessToken(string|int $group_id, string|int $token_id, string $expiry = ''): mixed
+    {
+        $regex = '/(?:19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[01])/';
+        if ('' !== $expiry && false !== \preg_match($regex, $expiry)) {
+            $uri = 'access_tokens/'.self::encodePath($token_id).'/rotate?expires_at='.$expiry;
+
+            return $this->post($this->getGroupPath($group_id, $uri));
+        }
+
+        return $this->post($this->getGroupPath($group_id, 'access_tokens/'.self::encodePath($token_id).'/rotate'));
+    }
+
+    /**
      * @param int|string $id
      * @param array $parameters {
      *

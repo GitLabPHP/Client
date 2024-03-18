@@ -944,6 +944,153 @@ class GroupsTest extends TestCase
     /**
      * @test
      */
+    public function shouldGetGroupAccessTokens(): void
+    {
+        $expectedArray = [
+            [
+                'user_id' => 141,
+                'scopes' => [
+                    'api',
+                ],
+                'name' => 'token',
+                'expires_at' => '2021-01-31',
+                'id' => 42,
+                'active' => true,
+                'created_at' => '2021-01-20T22:11:48.151Z',
+                'revoked' => false,
+            ],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/access_tokens')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->groupAccessTokens(1));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldGetGroupAccessToken(): void
+    {
+        $expectedArray = [
+            'user_id' => 141,
+            'scopes' => [
+                'api',
+            ],
+            'name' => 'token',
+            'expires_at' => '2021-01-31',
+            'id' => 42,
+            'active' => true,
+            'created_at' => '2021-01-20T22:11:48.151Z',
+            'revoked' => false,
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/access_tokens/42')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->groupAccessToken(1, 42));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCreateGroupAccessToken(): void
+    {
+        $expectedArray = [
+            'scopes' => [
+                'api',
+                'read_repository',
+            ],
+            'active' => true,
+            'name' => 'test',
+            'revoked' => false,
+            'created_at' => '2021-01-21T19:35:37.921Z',
+            'user_id' => 166,
+            'id' => 58,
+            'expires_at' => '2021-01-31',
+            'token' => 'D4y...Wzr',
+        ];
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with(
+                'groups/1/access_tokens',
+                [
+                    'name' => 'test_token',
+                    'scopes' => [
+                        'api',
+                        'read_repository',
+                    ],
+                    'access_level' => 30,
+                    'expires_at' => '2021-01-31',
+                ]
+            )
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->createGroupAccessToken(1, [
+            'name' => 'test_token',
+            'scopes' => [
+                'api',
+                'read_repository',
+            ],
+            'access_level' => 30,
+            'expires_at' => new DateTime('2021-01-31'),
+        ]));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldDeleteGroupAccessToken(): void
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('groups/1/access_tokens/2')
+            ->will($this->returnValue($expectedBool));
+
+        $this->assertEquals($expectedBool, $api->deleteGroupAccessToken(1, 2));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRotateGroupAccessToken(): void
+    {
+        $expectedArray = [
+            'scopes' => [
+                'api',
+                'read_repository',
+            ],
+            'active' => true,
+            'name' => 'test',
+            'revoked' => false,
+            'created_at' => '2021-01-21T19:35:37.921Z',
+            'user_id' => 166,
+            'id' => 58,
+            'expires_at' => '2021-01-31',
+            'token' => 'D4y...Wzr',
+        ];
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('groups/1/access_tokens/2/rotate?expires_at=2021-01-31')
+            ->will($this->returnValue($expectedArray));
+
+        $this->assertEquals($expectedArray, $api->rotateGroupAccessToken(1, 2, '2021-01-31'));
+    }
+
+    /**
+     * @test
+     */
     public function shouldSearchGroups(): void
     {
         $expectedArray = [

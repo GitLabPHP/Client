@@ -1716,6 +1716,25 @@ class Projects extends AbstractApi
     }
 
     /**
+     * @param string|int $project_id
+     * @param string|int $token_id
+     * @param string $expiry
+     *
+     * @return mixed
+     */
+    public function rotateProjectAccessToken(string|int $project_id, string|int $token_id, string $expiry = ''): mixed
+    {
+        $regex = '/(?:19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[01])/';
+        if ('' !== $expiry && false !== \preg_match($regex, $expiry)) {
+            $uri = 'access_tokens/'.self::encodePath($token_id).'/rotate?expires_at='.$expiry;
+
+            return $this->post($this->getProjectPath($project_id, $uri));
+        }
+
+        return $this->post($this->getProjectPath($project_id, 'access_tokens/'.self::encodePath($token_id).'/rotate'));
+    }
+
+    /**
      * @param int|string $project_id
      *
      * @return mixed
