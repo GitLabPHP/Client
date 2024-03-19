@@ -22,6 +22,7 @@ use Gitlab\Api\Groups;
 use Gitlab\Api\GroupsBoards;
 use Gitlab\Api\GroupsEpics;
 use Gitlab\Api\GroupsMilestones;
+use Gitlab\Api\Integrations;
 use Gitlab\Api\IssueBoards;
 use Gitlab\Api\IssueLinks;
 use Gitlab\Api\Issues;
@@ -214,6 +215,14 @@ class Client
     public function groupsMilestones(): GroupsMilestones
     {
         return new GroupsMilestones($this);
+    }
+
+    /**
+     * @return Integrations
+     */
+    public function integrations(): Integrations
+    {
+        return new Integrations($this);
     }
 
     /**

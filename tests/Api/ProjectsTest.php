@@ -3013,6 +3013,19 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedBool, $api->deleteProtectedTag(1, 'release-*'));
     }
 
+    public function shouldGetIntegrations(): void
+    {
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with(
+                'projects/1/integrations'
+            )
+            ->will($this->returnValue([]));
+
+        $this->assertEquals([], $api->integrations(1));
+    }
+
     protected function getApiClass()
     {
         return Projects::class;
