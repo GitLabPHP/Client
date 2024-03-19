@@ -27,6 +27,7 @@ class Integrations extends AbstractApi
     public function all($project_id)
     {
         $path = $this->getProjectPath($project_id, 'integrations');
+
         return $this->get($path);
     }
 
@@ -167,7 +168,6 @@ class Integrations extends AbstractApi
     {
         return $this->delete($this->getProjectPath($project_id, 'integrations/microsoft-teams'));
     }
-
 
     // JIRA
 

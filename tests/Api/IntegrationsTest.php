@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\Integrations;
-use Gitlab\Api\Projects;
 
 class IntegrationsTest extends TestCase
 {
