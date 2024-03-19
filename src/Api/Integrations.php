@@ -21,6 +21,7 @@ class Integrations extends AbstractApi
 {
     /**
      * @param int|string $project_id
+     *
      * @return mixed
      */
     public function all(int|string $project_id): mixed
@@ -33,10 +34,11 @@ class Integrations extends AbstractApi
 
     /**
      * Create Microsoft Teams integration
-     * Set Microsoft Teams integration for a project
+     * Set Microsoft Teams integration for a project.
      *
      * @param int|string $project_id
      * @param array      $params {
+     *
      *     @var string $webhook                      The Microsoft Teams webhook.
      *     @var bool   $notify_only_broken_pipelines Send notifications for broken pipelines
      *     @var string $branches_to_be_notified      Branches to send notifications for. Valid options are all, default,
@@ -115,10 +117,11 @@ class Integrations extends AbstractApi
 
     /**
      * Update Microsoft Teams integration
-     * Set Microsoft Teams integration for a project
+     * Set Microsoft Teams integration for a project.
      *
      * @param int|string $project_id
      * @param array      $params {
+     *
      *     @var string $webhook                      The Microsoft Teams webhook.
      *     @var bool   $notify_only_broken_pipelines Send notifications for broken pipelines
      *     @var string $branches_to_be_notified      Branches to send notifications for. Valid options are all, default,
@@ -142,9 +145,10 @@ class Integrations extends AbstractApi
     }
 
     /**
-     * Get Microsoft Teams integration settings for a project
+     * Get Microsoft Teams integration settings for a project.
      *
      * @param int|string $project_id
+     *
      * @return mixed
      */
     public function getMicrosoftTeams(int|string $project_id): mixed
@@ -153,9 +157,10 @@ class Integrations extends AbstractApi
     }
 
     /**
-     * Disable the Microsoft Teams integration for a project. Integration settings are reset
+     * Disable the Microsoft Teams integration for a project. Integration settings are reset.
      *
      * @param int|string $project_id
+     *
      * @return mixed
      */
     public function removeMicrosoftTeams(int|string $project_id): mixed
@@ -168,10 +173,11 @@ class Integrations extends AbstractApi
 
     /**
      * Create Jira integration
-     * Set Jira integration for a project
+     * Set Jira integration for a project.
      *
      * @param int|string $project_id
      * @param array      $params {
+     *
      *     @var string $url                     The URL to the Jira project which is being linked to this GitLab project
      *     @var bool   $api_url                 The base URL to the Jira instance API. Web URL value is used if not set
      *     @var string $username                The email or username to be used with Jira. For Jira Cloud use an email,
@@ -185,8 +191,8 @@ class Integrations extends AbstractApi
      *     @var string $active                  Activates or deactivates the integration. Defaults to false (deactivated).
      *     @var string $jira_auth_type          The authentication method to be used with Jira. 0 means Basic
      *                                          Authentication. 1 means Jira personal access token. Defaults to 0.
-     *     @var string $jira_issue_prefix       Prefix to match Jira issue keys.
-     *     @var string $jira_issue_regex        Regular expression to match Jira issue keys.
+     *     @var string $jira_issue_prefix       Prefix to match Jira issue keys
+     *     @var string $jira_issue_regex        Regular expression to match Jira issue keys
      *     @var string $jira_issue_transition_automatic     Enable automatic issue transitions. Takes precedence over
      *                                                      jira_issue_transition_id if enabled. Defaults to false
      *     @var string $jira_issue_transition_id            The ID of one or more transitions for custom issue
@@ -277,8 +283,8 @@ class Integrations extends AbstractApi
      *     @var string $active                  Activates or deactivates the integration. Defaults to false (deactivated).
      *     @var string $jira_auth_type          The authentication method to be used with Jira. 0 means Basic
      *                                          Authentication. 1 means Jira personal access token. Defaults to 0.
-     *     @var string $jira_issue_prefix       Prefix to match Jira issue keys.
-     *     @var string $jira_issue_regex        Regular expression to match Jira issue keys.
+     *     @var string $jira_issue_prefix       Prefix to match Jira issue keys
+     *     @var string $jira_issue_regex        Regular expression to match Jira issue keys
      *     @var string $jira_issue_transition_automatic     Enable automatic issue transitions. Takes precedence over
      *                                                      jira_issue_transition_id if enabled. Defaults to false
      *     @var string $jira_issue_transition_id            The ID of one or more transitions for custom issue
@@ -299,9 +305,10 @@ class Integrations extends AbstractApi
     }
 
     /**
-     * Get Jira integration settings for a project
+     * Get Jira integration settings for a project.
      *
      * @param int|string $project_id
+     *
      * @return mixed
      */
     public function getJira(int|string $project_id): mixed
@@ -310,9 +317,10 @@ class Integrations extends AbstractApi
     }
 
     /**
-     * Disable the Jira integration for a project. Integration settings are reset
+     * Disable the Jira integration for a project. Integration settings are reset.
      *
      * @param int|string $project_id
+     *
      * @return mixed
      */
     public function removeJira(int|string $project_id): mixed
