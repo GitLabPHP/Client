@@ -1832,4 +1832,14 @@ class Projects extends AbstractApi
 
         return $this->get('projects/'.self::encodePath($id).'/search', $resolver->resolve($parameters));
     }
+
+    /**
+     * @param int|string $project_id
+     *
+     * @return mixed
+     */
+    public function integrations($project_id)
+    {
+        return $this->get($this->getProjectPath($project_id, 'integrations'));
+    }
 }
