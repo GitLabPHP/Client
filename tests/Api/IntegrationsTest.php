@@ -16,6 +16,7 @@ namespace Gitlab\Tests\Api;
 
 use DateTime;
 use Gitlab\Api\Integrations;
+use Gitlab\Api\Projects;
 
 class IntegrationsTest extends TestCase
 {
