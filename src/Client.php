@@ -52,7 +52,7 @@ use Gitlab\HttpClient\Plugin\Authentication;
 use Gitlab\HttpClient\Plugin\ExceptionThrower;
 use Gitlab\HttpClient\Plugin\History;
 use Http\Client\Common\HttpMethodsClientInterface;
-use Http\Client\Common\Plugin\AddHostPlugin;
+use Http\Client\Common\Plugin\BaseUriPlugin;
 use Http\Client\Common\Plugin\HeaderDefaultsPlugin;
 use Http\Client\Common\Plugin\HistoryPlugin;
 use Http\Client\Common\Plugin\RedirectPlugin;
@@ -440,8 +440,8 @@ class Client
     {
         $uri = $this->getHttpClientBuilder()->getUriFactory()->createUri($url);
 
-        $this->getHttpClientBuilder()->removePlugin(AddHostPlugin::class);
-        $this->getHttpClientBuilder()->addPlugin(new AddHostPlugin($uri));
+        $this->getHttpClientBuilder()->removePlugin(BaseUriPlugin::class);
+        $this->getHttpClientBuilder()->addPlugin(new BaseUriPlugin($uri));
     }
 
     /**
