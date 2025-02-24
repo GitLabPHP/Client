@@ -19,20 +19,20 @@ use Symfony\Component\OptionsResolver\Options;
 class PersonalAccessTokens extends AbstractApi
 {
     /**
-    * @param array $parameters {
-    *
-    *     @var string             $search            search text
-    *     @var string             $state             state of the token
-    *     @var int                $user_id           tokens belonging to the given user
-    *     @var bool               $revoked           whether the token is revoked or not
-    *     @var \DateTimeInterface $created_before    return tokens created before the given time (inclusive)
-    *     @var \DateTimeInterface $created_after     return tokens created after the given time (inclusive)
-    *     @var \DateTimeInterface $last_used_after   return tokens used before the given time (inclusive)
-    *     @var \DateTimeInterface $last_used_before  return tokens used after the given time (inclusive)
-    * }
-    *
-    * @return mixed
-    */
+     * @param array $parameters {
+     *
+     *     @var string             $search            search text
+     *     @var string             $state             state of the token
+     *     @var int                $user_id           tokens belonging to the given user
+     *     @var bool               $revoked           whether the token is revoked or not
+     *     @var \DateTimeInterface $created_before    return tokens created before the given time (inclusive)
+     *     @var \DateTimeInterface $created_after     return tokens created after the given time (inclusive)
+     *     @var \DateTimeInterface $last_used_after   return tokens used before the given time (inclusive)
+     *     @var \DateTimeInterface $last_used_before  return tokens used after the given time (inclusive)
+     * }
+     *
+     * @return mixed
+     */
     public function all(array $parameters = [])
     {
         $resolver = $this->createOptionsResolver();
@@ -70,25 +70,23 @@ class PersonalAccessTokens extends AbstractApi
         ;
         $resolver->setDefined('revoked')
             ->setAllowedTypes('revoked', 'bool')
-            ->setNormalizer('revoked', $booleanNormalizer);
+            ->setNormalizer('revoked', $booleanNormalizer)
         ;
 
         return $this->get('personal_access_tokens', $resolver->resolve($parameters));
     }
 
     /**
-    * @param int $id
-    *
-    * @return mixed
-    */
+     * @return mixed
+     */
     public function show(int $id)
     {
         return $this->get('personal_access_tokens/'.self::encodePath($id));
     }
 
     /**
-    * @return mixed
-    */
+     * @return mixed
+     */
     public function current()
     {
         return $this->get('personal_access_tokens/self');
@@ -96,12 +94,8 @@ class PersonalAccessTokens extends AbstractApi
 
 
     /**
-    * @param int $id
-    *
-    * @param array $params
-    *
-    * @return mixed
-    */
+     * @return mixed
+     */
     public function rotate(int $id, array $params = [])
     {
         $resolver = $this->createOptionsResolver();
@@ -116,10 +110,8 @@ class PersonalAccessTokens extends AbstractApi
     }
 
     /**
-    * @param array $params
-    *
-    * @return mixed
-    */
+     * @return mixed
+     */
     public function rotateCurrent(array $params = [])
     {
         $resolver = $this->createOptionsResolver();
@@ -134,18 +126,16 @@ class PersonalAccessTokens extends AbstractApi
     }
 
     /**
-    * @param int   $id
-    *
-    * @return mixed
-    */
+     * @return mixed
+     */
     public function remove(int $id)
     {
         return $this->delete('personal_access_tokens/'.self::encodePath($id));
     }
 
     /**
-    * @return mixed
-    */
+     * @return mixed
+     */
     public function removeCurrent()
     {
         return $this->delete('personal_access_tokens/self');
