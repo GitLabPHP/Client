@@ -15,12 +15,11 @@ declare(strict_types=1);
 namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\GroupsEpics;
+use PHPUnit\Framework\Attributes\Test;
 
 class GroupsEpicsTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetAllEpics(): void
     {
         $expectedArray = [
@@ -32,15 +31,13 @@ class GroupsEpicsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('groups/1/epics')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->all(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldShowEpic(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'A epic'];
@@ -49,15 +46,13 @@ class GroupsEpicsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('groups/1/epics/2')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->show(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldCreateEpic(): void
     {
         $expectedArray = ['id' => 3, 'title' => 'A new epic'];
@@ -66,15 +61,13 @@ class GroupsEpicsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('groups/1/epics', ['description' => 'Some text', 'title' => 'A new epic'])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->create(1, ['description' => 'Some text', 'title' => 'A new epic']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldUpdateEpic(): void
     {
         $expectedArray = ['id' => 3, 'title' => 'Updated epic'];
@@ -83,15 +76,13 @@ class GroupsEpicsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('groups/1/epics/3', ['title' => 'Updated epic', 'description' => 'Updated description', 'state_event' => 'close'])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->update(1, 3, ['title' => 'Updated epic', 'description' => 'Updated description', 'state_event' => 'close']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRemoveEpic(): void
     {
         $expectedBool = true;
@@ -100,15 +91,12 @@ class GroupsEpicsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('groups/1/epics/2')
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->remove(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetEpicsIssues(): void
     {
         $expectedArray = [
@@ -120,13 +108,13 @@ class GroupsEpicsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('groups/1/epics/2/issues')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->issues(1, 2));
     }
 
-    protected function getApiClass()
+    protected function getApiClass(): string
     {
         return GroupsEpics::class;
     }

@@ -29,7 +29,6 @@ class GroupsMilestones extends AbstractApi
     public const STATE_CLOSED = 'closed';
 
     /**
-     * @param int|string $group_id
      * @param array      $parameters {
      *
      *     @var int[]  $iids   return only the milestones having the given iids
@@ -38,10 +37,8 @@ class GroupsMilestones extends AbstractApi
      *     @var \DateTimeInterface $updated_after Return only milestones updated on or after the given datetime. Expected in ISO 8601 format (2019-03-15T08:00:00Z)
      *     @var \DateTimeInterface $updated_before Return only milestones updated on or before the given datetime. Expected in ISO 8601 format (2019-03-15T08:00:00Z)
      * }
-     *
-     * @return mixed
      */
-    public function all($group_id, array $parameters = [])
+    public function all(int|string $group_id, array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
         $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
@@ -70,69 +67,32 @@ class GroupsMilestones extends AbstractApi
         return $this->get('groups/'.self::encodePath($group_id).'/milestones', $resolver->resolve($parameters));
     }
 
-    /**
-     * @param int|string $group_id
-     * @param int        $milestone_id
-     *
-     * @return mixed
-     */
-    public function show($group_id, int $milestone_id)
+    public function show(int|string $group_id, int $milestone_id): mixed
     {
         return $this->get('groups/'.self::encodePath($group_id).'/milestones/'.self::encodePath($milestone_id));
     }
 
-    /**
-     * @param int|string $group_id
-     * @param array      $params
-     *
-     * @return mixed
-     */
-    public function create($group_id, array $params)
+    public function create(int|string $group_id, array $params): mixed
     {
         return $this->post('groups/'.self::encodePath($group_id).'/milestones', $params);
     }
 
-    /**
-     * @param int|string $group_id
-     * @param int        $milestone_id
-     * @param array      $params
-     *
-     * @return mixed
-     */
-    public function update($group_id, int $milestone_id, array $params)
+    public function update(int|string $group_id, int $milestone_id, array $params): mixed
     {
         return $this->put('groups/'.self::encodePath($group_id).'/milestones/'.self::encodePath($milestone_id), $params);
     }
 
-    /**
-     * @param int|string $group_id
-     * @param int        $milestone_id
-     *
-     * @return mixed
-     */
-    public function remove($group_id, int $milestone_id)
+    public function remove(int|string $group_id, int $milestone_id): mixed
     {
         return $this->delete('groups/'.self::encodePath($group_id).'/milestones/'.self::encodePath($milestone_id));
     }
 
-    /**
-     * @param int|string $group_id
-     * @param int        $milestone_id
-     *
-     * @return mixed
-     */
-    public function issues($group_id, int $milestone_id)
+    public function issues(int|string $group_id, int $milestone_id): mixed
     {
         return $this->get('groups/'.self::encodePath($group_id).'/milestones/'.self::encodePath($milestone_id).'/issues');
     }
 
-    /**
-     * @param int|string $group_id
-     * @param int        $milestone_id
-     *
-     * @return mixed
-     */
-    public function mergeRequests($group_id, int $milestone_id)
+    public function mergeRequests(int|string $group_id, int $milestone_id): mixed
     {
         return $this->get('groups/'.self::encodePath($group_id).'/milestones/'.self::encodePath($milestone_id).'/merge_requests');
     }

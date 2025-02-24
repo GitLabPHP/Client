@@ -15,12 +15,11 @@ declare(strict_types=1);
 namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\DeployKeys;
+use PHPUnit\Framework\Attributes\Test;
 
 class DeployKeysTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetAllDeployKeys(): void
     {
         $expectedArray = $this->getMultipleDeployKeysData();
@@ -29,13 +28,13 @@ class DeployKeysTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('deploy_keys', ['page' => 2, 'per_page' => 5])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->all(['page' => 2, 'per_page' => 5]));
     }
 
-    protected function getMultipleDeployKeysData()
+    protected function getMultipleDeployKeysData(): array
     {
         return [
             [
@@ -53,7 +52,7 @@ class DeployKeysTest extends TestCase
         ];
     }
 
-    protected function getApiClass()
+    protected function getApiClass(): string
     {
         return DeployKeys::class;
     }

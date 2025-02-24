@@ -15,12 +15,11 @@ declare(strict_types=1);
 namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\ProjectNamespaces;
+use PHPUnit\Framework\Attributes\Test;
 
 class ProjectNamespacesTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetAllNamespaces(): void
     {
         $expectedArray = [
@@ -32,15 +31,13 @@ class ProjectNamespacesTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('namespaces', [])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->all());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldShowNamespace(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'internal'];
@@ -49,13 +46,13 @@ class ProjectNamespacesTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('namespaces/1')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->show(1));
     }
 
-    protected function getApiClass()
+    protected function getApiClass(): string
     {
         return ProjectNamespaces::class;
     }

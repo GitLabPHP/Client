@@ -14,17 +14,16 @@ declare(strict_types=1);
 namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\Events;
+use PHPUnit\Framework\Attributes\Test;
 
 class EventsTest extends TestCase
 {
-    protected function getApiClass()
+    protected function getApiClass(): string
     {
         return Events::class;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetAllEvents(): void
     {
         $expectedArray = [
@@ -36,15 +35,13 @@ class EventsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('events', [])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->all());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetEventsAfter(): void
     {
         $expectedArray = [
@@ -56,7 +53,7 @@ class EventsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('events', ['after' => '1970-01-01'])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->all(['after' => new \DateTime('1970-01-01')]));

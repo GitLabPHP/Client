@@ -19,16 +19,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SystemHooks extends AbstractApi
 {
-    /**
-     * @return mixed
-     */
-    public function all()
+    public function all(): mixed
     {
         return $this->get('hooks');
     }
 
     /**
-     * @param string                    $url
      * @param array<string,string|bool> $parameters {
      *
      *     @var string  $token                      secret token to validate received payloads
@@ -38,10 +34,8 @@ class SystemHooks extends AbstractApi
      *     @var bool    $repository_update_events   trigger hook on repository update events
      *     @var bool    $enable_ssl_verification    do SSL verification when triggering the hook
      * }
-     *
-     * @return mixed
      */
-    public function create(string $url, array $parameters = [])
+    public function create(string $url, array $parameters = []): mixed
     {
         $parameters = $this->createOptionsResolver()->resolve($parameters);
 
@@ -50,22 +44,12 @@ class SystemHooks extends AbstractApi
         return $this->post('hooks', $parameters);
     }
 
-    /**
-     * @param int $id
-     *
-     * @return mixed
-     */
-    public function test(int $id)
+    public function test(int $id): mixed
     {
         return $this->get('hooks/'.self::encodePath($id));
     }
 
-    /**
-     * @param int $id
-     *
-     * @return mixed
-     */
-    public function remove(int $id)
+    public function remove(int $id): mixed
     {
         return $this->delete('hooks/'.self::encodePath($id));
     }

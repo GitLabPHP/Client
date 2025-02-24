@@ -16,13 +16,7 @@ namespace Gitlab\Api;
 
 class IssueBoards extends AbstractApi
 {
-    /**
-     * @param int|string|null $project_id
-     * @param array           $parameters
-     *
-     * @return mixed
-     */
-    public function all($project_id = null, array $parameters = [])
+    public function all(int|string|null $project_id = null, array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
 
@@ -31,82 +25,37 @@ class IssueBoards extends AbstractApi
         return $this->get($path, $resolver->resolve($parameters));
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $board_id
-     *
-     * @return mixed
-     */
-    public function show($project_id, int $board_id)
+    public function show(int|string $project_id, int $board_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'boards/'.self::encodePath($board_id)));
     }
 
-    /**
-     * @param int|string $project_id
-     * @param array      $params
-     *
-     * @return mixed
-     */
-    public function create($project_id, array $params)
+    public function create(int|string $project_id, array $params): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'boards'), $params);
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $board_id
-     * @param array      $params
-     *
-     * @return mixed
-     */
-    public function update($project_id, int $board_id, array $params)
+    public function update(int|string $project_id, int $board_id, array $params): mixed
     {
         return $this->put($this->getProjectPath($project_id, 'boards/'.self::encodePath($board_id)), $params);
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $board_id
-     *
-     * @return mixed
-     */
-    public function remove($project_id, int $board_id)
+    public function remove(int|string $project_id, int $board_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'boards/'.self::encodePath($board_id)));
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $board_id
-     *
-     * @return mixed
-     */
-    public function allLists($project_id, int $board_id)
+    public function allLists(int|string $project_id, int $board_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'boards/'.self::encodePath($board_id).'/lists'));
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $board_id
-     * @param int        $list_id
-     *
-     * @return mixed
-     */
-    public function showList($project_id, int $board_id, int $list_id)
+    public function showList(int|string $project_id, int $board_id, int $list_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'boards/'.self::encodePath($board_id).'/lists/'.self::encodePath($list_id)));
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $board_id
-     * @param int        $label_id
-     *
-     * @return mixed
-     */
-    public function createList($project_id, int $board_id, int $label_id)
+    public function createList(int|string $project_id, int $board_id, int $label_id): mixed
     {
         $params = [
             'label_id' => $label_id,
@@ -115,15 +64,7 @@ class IssueBoards extends AbstractApi
         return $this->post($this->getProjectPath($project_id, 'boards/'.self::encodePath($board_id).'/lists'), $params);
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $board_id
-     * @param int        $list_id
-     * @param int        $position
-     *
-     * @return mixed
-     */
-    public function updateList($project_id, int $board_id, int $list_id, int $position)
+    public function updateList(int|string $project_id, int $board_id, int $list_id, int $position): mixed
     {
         $params = [
             'position' => $position,
@@ -132,14 +73,7 @@ class IssueBoards extends AbstractApi
         return $this->put($this->getProjectPath($project_id, 'boards/'.self::encodePath($board_id).'/lists/'.self::encodePath($list_id)), $params);
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $board_id
-     * @param int        $list_id
-     *
-     * @return mixed
-     */
-    public function deleteList($project_id, int $board_id, int $list_id)
+    public function deleteList(int|string $project_id, int $board_id, int $list_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'boards/'.self::encodePath($board_id).'/lists/'.self::encodePath($list_id)));
     }

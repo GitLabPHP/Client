@@ -21,10 +21,8 @@ class ProjectNamespaces extends AbstractApi
      *
      *     @var string $search Returns a list of namespaces the user is authorized to see based on the search criteria.
      * }
-     *
-     * @return mixed
      */
-    public function all(array $parameters = [])
+    public function all(array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
         $resolver->setDefined('search');
@@ -32,12 +30,7 @@ class ProjectNamespaces extends AbstractApi
         return $this->get('namespaces', $resolver->resolve($parameters));
     }
 
-    /**
-     * @param int|string $namespace_id
-     *
-     * @return mixed
-     */
-    public function show($namespace_id)
+    public function show(int|string $namespace_id): mixed
     {
         return $this->get('namespaces/'.self::encodePath($namespace_id));
     }

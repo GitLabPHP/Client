@@ -16,12 +16,13 @@ namespace Gitlab\Tests\Api;
 
 use DateTime;
 use Gitlab\Api\Projects;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ProjectsTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetAllProjects(): void
     {
         $expectedArray = $this->getMultipleProjectsData();
@@ -31,9 +32,7 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->all());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetAllProjectsSortedByName(): void
     {
         $expectedArray = $this->getMultipleProjectsData();
@@ -50,9 +49,7 @@ class ProjectsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldNotNeedPaginationWhenGettingProjects(): void
     {
         $expectedArray = $this->getMultipleProjectsData();
@@ -61,14 +58,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->all());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetAccessibleProjects(): void
     {
         $expectedArray = $this->getMultipleProjectsData();
@@ -78,9 +73,7 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->all());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetOwnedProjects(): void
     {
         $expectedArray = $this->getMultipleProjectsData();
@@ -90,9 +83,7 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->all(['owned' => true]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetNotArchivedProjects(): void
     {
         $expectedArray = $this->getMultipleProjectsData();
@@ -102,11 +93,8 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->all(['archived' => false]));
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider possibleAccessLevels
-     */
+    #[Test]
+    #[DataProvider('possibleAccessLevels')]
     public function shouldGetProjectsWithMinimumAccessLevel($level): void
     {
         $expectedArray = $this->getMultipleProjectsData();
@@ -116,9 +104,7 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->all(['min_access_level' => $level]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldSearchProjects(): void
     {
         $expectedArray = $this->getMultipleProjectsData();
@@ -127,9 +113,7 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->all(['search' => 'a project']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldSearchProjectsWithNamespace(): void
     {
         $expectedArray = $this->getMultipleProjectsDataWithNamespace();
@@ -138,9 +122,7 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->all(['search' => 'a_project', 'search_namespaces' => true]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetProjectsAfterId(): void
     {
         $expectedArray = $this->getMultipleProjectsData();
@@ -150,9 +132,7 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->all(['id_after' => 0]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetProjectsWithLastActivityAfter(): void
     {
         $unixEpochDateTime = new DateTime('@0');
@@ -164,9 +144,7 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->all(['last_activity_after' => $unixEpochDateTime]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetProjectsWithLastActivityBefore(): void
     {
         $now = new DateTime();
@@ -178,9 +156,7 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->all(['last_activity_before' => $now]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetProjectsWithoutFailedRepositoryChecksum(): void
     {
         $expectedArray = $this->getMultipleProjectsData();
@@ -190,9 +166,7 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->all(['repository_checksum_failed' => false]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetProjectsWithDefaultRepositoryStorage(): void
     {
         $expectedArray = $this->getMultipleProjectsData();
@@ -202,9 +176,7 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->all(['repository_storage' => 'default']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetStarredProjects(): void
     {
         $expectedArray = $this->getMultipleProjectsData();
@@ -214,9 +186,7 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->all(['starred' => true]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetProjectsWithoutFailedWikiChecksum(): void
     {
         $expectedArray = $this->getMultipleProjectsData();
@@ -226,9 +196,7 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->all(['wiki_checksum_failed' => false]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetProjectsWithCustomAttributes(): void
     {
         $expectedArray = $this->getMultipleProjectsData();
@@ -238,9 +206,7 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->all(['with_custom_attributes' => true]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetProjectsWithPhpProgrammingLanguage(): void
     {
         $expectedArray = $this->getMultipleProjectsData();
@@ -250,9 +216,7 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedArray, $api->all(['with_programming_language' => 'php']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldShowProject(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'Project Name'];
@@ -261,14 +225,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->show(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldShowProjectWithStatistics(): void
     {
         $expectedArray = [
@@ -287,14 +249,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1', ['statistics' => true])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->show(1, ['statistics' => true]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldCreateProject(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'Project Name'];
@@ -303,16 +263,14 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects', ['name' => 'Project Name', 'issues_enabled' => true])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->create('Project Name', [
             'issues_enabled' => true,
         ]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldUpdateProject(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'Updated Name'];
@@ -321,7 +279,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1', ['name' => 'Updated Name', 'issues_enabled' => true])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->update(1, [
             'name' => 'Updated Name',
@@ -329,9 +287,7 @@ class ProjectsTest extends TestCase
         ]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldArchiveProject(): void
     {
         $expectedArray = ['id' => 1, 'archived' => true];
@@ -340,14 +296,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/archive')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->archive(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldUnarchiveProject(): void
     {
         $expectedArray = ['id' => 1, 'archived' => false];
@@ -356,14 +310,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/unarchive')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->unarchive(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldCreateProjectForUser(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'Project Name'];
@@ -372,16 +324,14 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/user/1', ['name' => 'Project Name', 'issues_enabled' => true])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->createForUser(1, 'Project Name', [
             'issues_enabled' => true,
         ]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRemoveProject(): void
     {
         $expectedBool = true;
@@ -390,14 +340,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1')
-            ->will($this->returnValue($expectedBool));
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->remove(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetPipelines(): void
     {
         $expectedArray = [
@@ -410,14 +358,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/pipelines')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->pipelines(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetTriggers(): void
     {
         $expectedArray = [
@@ -429,14 +375,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/triggers')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->triggers(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetTrigger(): void
     {
         $expectedArray = [
@@ -449,16 +393,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/triggers/3')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->trigger(1, 3));
     }
 
-    /**
-     * Check we can request project issues.
-     *
-     * @test
-     */
+    #[Test]
     public function shouldGetProjectIssues(): void
     {
         $expectedArray = $this->getProjectIssuesExpectedArray();
@@ -467,16 +407,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/issues')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->issues(1));
     }
 
-    /**
-     * Check we can request project issues.
-     *
-     * @test
-     */
+    #[Test]
     public function shouldGetProjectUsers(): void
     {
         $expectedArray = $this->getProjectUsersExpectedArray();
@@ -485,16 +421,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
         ->method('get')
         ->with('projects/1/users')
-        ->will($this->returnValue($expectedArray));
+        ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->users(1));
     }
 
-    /**
-     * Check we can request project issues with query parameters.
-     *
-     * @test
-     */
+    #[Test]
     public function shouldGetProjectIssuesParameters(): void
     {
         $expectedArray = $this->getProjectIssuesExpectedArray();
@@ -503,7 +435,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/issues')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->issues(1, ['state' => 'opened']));
     }
@@ -514,7 +446,7 @@ class ProjectsTest extends TestCase
      * @return array
      *               Project issues list
      */
-    public function getProjectIssuesExpectedArray()
+    public function getProjectIssuesExpectedArray(): array
     {
         return [
             [
@@ -584,10 +516,8 @@ class ProjectsTest extends TestCase
 
     /**
      * Get expected array for tests which check project users method.
-     *
-     * @return array
      */
-    public function getProjectUsersExpectedArray()
+    public function getProjectUsersExpectedArray(): array
     {
         return [
             [
@@ -601,9 +531,7 @@ class ProjectsTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetBoards(): void
     {
         $expectedArray = $this->getProjectIssuesExpectedArray();
@@ -612,7 +540,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/boards')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->boards(1));
     }
@@ -623,7 +551,7 @@ class ProjectsTest extends TestCase
      * @return array
      *               Project issues list
      */
-    public function getProjectBoardsExpectedArray()
+    public function getProjectBoardsExpectedArray(): array
     {
         return [
             [
@@ -674,9 +602,7 @@ class ProjectsTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetIterations(): void
     {
         $expectedArray = [
@@ -700,15 +626,13 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/iterations')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->iterations(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldCreateTrigger(): void
     {
         $expectedArray = [
@@ -721,14 +645,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/triggers', ['description' => 'foobar'])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->createTrigger(1, 'foobar'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRemoveTrigger(): void
     {
         $expectedBool = true;
@@ -737,14 +659,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/triggers/2')
-            ->will($this->returnValue($expectedBool));
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->removeTrigger(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldTriggerPipeline(): void
     {
         $expectedArray = [
@@ -761,14 +681,12 @@ class ProjectsTest extends TestCase
                 'projects/1/trigger/pipeline',
                 ['ref' => 'master', 'token' => 'some_token', 'variables' => ['VAR_1' => 'value 1']]
             )
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->triggerPipeline(1, 'master', 'some_token', ['VAR_1' => 'value 1']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetPipelinesWithBooleanParam(): void
     {
         $expectedArray = [
@@ -781,14 +699,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/pipelines', ['yaml_errors' => 'false'])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->pipelines(1, ['yaml_errors' => false]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetPipelineWithDateParam(): void
     {
         $expectedArray = [
@@ -809,7 +725,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/pipelines', $expectedWithArray)
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->pipelines(1, [
             'updated_after' => $updated_after,
@@ -817,9 +733,7 @@ class ProjectsTest extends TestCase
         ]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetPipelinesWithSHA(): void
     {
         $expectedArray = [
@@ -832,14 +746,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/pipelines', ['sha' => '123'])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->pipelines(1, ['sha' => '123']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetPipeline(): void
     {
         $expectedArray = [
@@ -852,14 +764,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/pipelines/3')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->pipeline(1, 3));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetPipelineJobs(): void
     {
         $expectedArray = [
@@ -872,14 +782,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/pipelines/3/jobs')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->pipelineJobs(1, 3));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetPipelineVariables(): void
     {
         $expectedArray = [
@@ -891,14 +799,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/pipelines/3/variables')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->pipelineVariables(1, 3));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetPipelineTestReport(): void
     {
         $expectedArray = [
@@ -915,14 +821,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/pipelines/3/test_report')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->pipelineTestReport(1, 3));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetPipelineTestReportSummary(): void
     {
         $expectedArray = [
@@ -939,14 +843,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/pipelines/3/test_report_summary')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->pipelineTestReportSummary(1, 3));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldCreatePipeline(): void
     {
         $expectedArray = [
@@ -957,14 +859,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/pipeline', [], [], [], ['ref' => 'test-pipeline'])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->createPipeline(1, 'test-pipeline'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldCreatePipelineWithVariables(): void
     {
         $expectedArray = [
@@ -986,14 +886,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/pipeline', ['variables' => $variables], [], [], ['ref' => 'test-pipeline'])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->createPipeline(1, 'test-pipeline', $variables));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRetryPipeline(): void
     {
         $expectedArray = [
@@ -1004,14 +902,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/pipelines/4/retry')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->retryPipeline(1, 4));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldCancelPipeline(): void
     {
         $expectedArray = [
@@ -1022,14 +918,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/pipelines/6/cancel')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->cancelPipeline(1, 6));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldDeletePipeline(): void
     {
         $expectedBool = true;
@@ -1038,14 +932,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/pipelines/3')
-            ->will($this->returnValue($expectedBool));
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->deletePipeline(1, 3));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetAllMembers(): void
     {
         $expectedArray = [
@@ -1057,14 +949,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/members/all')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->allMembers(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetAllMember(): void
     {
         $expectedArray = ['id' => 2, 'name' => 'Bob'];
@@ -1073,14 +963,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/members/all/2')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->allMember(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetMembers(): void
     {
         $expectedArray = [
@@ -1092,14 +980,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/members')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->members(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetMembersWithQuery(): void
     {
         $expectedArray = [
@@ -1110,14 +996,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/members', ['query' => 'at'])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->members(1, ['query' => 'at']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetMembersWithNullQuery(): void
     {
         $expectedArray = [
@@ -1129,14 +1013,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/members')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->members(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetMembersWithPagination(): void
     {
         $expectedArray = [
@@ -1151,14 +1033,12 @@ class ProjectsTest extends TestCase
                 'page' => 2,
                 'per_page' => 15,
             ])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->members(1, ['page' => 2, 'per_page' => 15]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetMember(): void
     {
         $expectedArray = ['id' => 2, 'name' => 'Matt'];
@@ -1167,14 +1047,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/members/2')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->member(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldAddMember(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'Matt'];
@@ -1183,14 +1061,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/members', ['user_id' => 2, 'access_level' => 3])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->addMember(1, 2, 3));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldAddMemberWithExpiration(): void
     {
         // tomorrow
@@ -1205,14 +1081,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/members', ['user_id' => 3, 'access_level' => 3, 'expires_at' => $expiration])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->addMember(1, 3, 3, $expiration));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldSaveMember(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'Matt'];
@@ -1221,14 +1095,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/members/2', ['access_level' => 4])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->saveMember(1, 2, 4));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldSaveMemberWithExpiration(): void
     {
         // tomorrow
@@ -1243,14 +1115,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/members/3', ['access_level' => 4, 'expires_at' => $expiration])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->saveMember(1, 3, 4, $expiration));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRemoveMember(): void
     {
         $expectedBool = true;
@@ -1259,14 +1129,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/members/2')
-            ->will($this->returnValue($expectedBool));
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->removeMember(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetHooks(): void
     {
         $expectedArray = [
@@ -1278,14 +1146,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/hooks')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->hooks(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetHook(): void
     {
         $expectedArray = ['id' => 2, 'name' => 'Another hook'];
@@ -1294,14 +1160,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/hooks/2')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->hook(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldAddHook(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'A new hook', 'url' => 'http://www.example.com'];
@@ -1315,7 +1179,7 @@ class ProjectsTest extends TestCase
                 'issues_events' => true,
                 'merge_requests_events' => true,
             ])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->addHook(
             1,
@@ -1324,9 +1188,7 @@ class ProjectsTest extends TestCase
         ));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldAddHookWithOnlyUrl(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'A new hook', 'url' => 'http://www.example.com'];
@@ -1335,14 +1197,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/hooks', ['url' => 'http://www.example.com', 'push_events' => true])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->addHook(1, 'http://www.example.com'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldAddHookWithoutPushEvents(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'A new hook', 'url' => 'http://www.example.com'];
@@ -1351,14 +1211,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/hooks', ['url' => 'http://www.example.com', 'push_events' => false])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->addHook(1, 'http://www.example.com', ['push_events' => false]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldUpdateHook(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'A new hook', 'url' => 'http://www.example.com'];
@@ -1367,7 +1225,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/hooks/3', ['url' => 'http://www.example-test.com', 'push_events' => false])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals(
             $expectedArray,
@@ -1375,9 +1233,7 @@ class ProjectsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRemoveHook(): void
     {
         $expectedBool = true;
@@ -1386,14 +1242,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/hooks/2')
-            ->will($this->returnValue($expectedBool));
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->removeHook(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldTransfer(): void
     {
         $expectedArray = [
@@ -1406,14 +1260,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/transfer', ['namespace' => 'a_namespace'])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->transfer(1, 'a_namespace'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetDeployKeys(): void
     {
         $expectedArray = [
@@ -1425,14 +1277,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/deploy_keys')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->deployKeys(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetDeployKey(): void
     {
         $expectedArray = ['id' => 2, 'title' => 'another-key'];
@@ -1441,14 +1291,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/deploy_keys/2')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->deployKey(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldAddKey(): void
     {
         $expectedArray = ['id' => 3, 'title' => 'new-key', 'can_push' => false];
@@ -1457,14 +1305,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/deploy_keys', ['title' => 'new-key', 'key' => '...', 'can_push' => false])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->addDeployKey(1, 'new-key', '...'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldAddKeyWithPushOption(): void
     {
         $expectedArray = ['id' => 3, 'title' => 'new-key', 'can_push' => true];
@@ -1473,14 +1319,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/deploy_keys', ['title' => 'new-key', 'key' => '...', 'can_push' => true])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->addDeployKey(1, 'new-key', '...', true));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldDeleteDeployKey(): void
     {
         $expectedBool = true;
@@ -1489,14 +1333,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/deploy_keys/3')
-            ->will($this->returnValue($expectedBool));
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->deleteDeployKey(1, 3));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shoudEnableDeployKey(): void
     {
         $expectedBool = true;
@@ -1505,14 +1347,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/deploy_keys/3/enable')
-            ->will($this->returnValue($expectedBool));
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->enableDeployKey(1, 3));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetDeployTokens(): void
     {
         $expectedArray = [
@@ -1534,14 +1374,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/deploy_tokens')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->deployTokens(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetActiveDeployTokens(): void
     {
         $expectedArray = [
@@ -1563,14 +1401,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/deploy_tokens', ['active' => true])
-            ->will($this->returnValue([]));
+            ->willReturn([]);
 
         $this->assertEquals([], $api->deployTokens(1, true));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetInactiveDeployTokens(): void
     {
         $expectedArray = [
@@ -1592,14 +1428,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/deploy_tokens', ['active' => false])
-            ->will($this->returnValue([]));
+            ->willReturn([]);
 
         $this->assertEquals([], $api->deployTokens(1, false));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldCreateDeployToken(): void
     {
         $expectedArray = [
@@ -1630,7 +1464,7 @@ class ProjectsTest extends TestCase
                     'expires_at' => (new DateTime('2021-01-01'))->format('c'),
                 ]
             )
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->createDeployToken(1, [
             'name' => 'My Deploy Token',
@@ -1642,9 +1476,7 @@ class ProjectsTest extends TestCase
         ]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldDeleteDeployToken(): void
     {
         $expectedBool = true;
@@ -1653,14 +1485,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/deploy_tokens/2')
-            ->will($this->returnValue($expectedBool));
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->deleteDeployToken(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetEvents(): void
     {
         $expectedArray = [
@@ -1672,14 +1502,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/events', [])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->events(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetEventsWithDateTimeParams(): void
     {
         $expectedArray = [
@@ -1699,14 +1527,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/events', $expectedWithArray)
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->events(1, ['after' => $after, 'before' => $before]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetEventsWithPagination(): void
     {
         $expectedArray = [
@@ -1721,14 +1547,12 @@ class ProjectsTest extends TestCase
                 'page' => 2,
                 'per_page' => 15,
             ])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->events(1, ['page' => 2, 'per_page' => 15]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetLabels(): void
     {
         $expectedArray = [
@@ -1740,14 +1564,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/labels')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->labels(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldAddLabel(): void
     {
         $expectedArray = ['name' => 'bug', 'color' => '#000000'];
@@ -1756,14 +1578,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/labels', ['name' => 'wont-fix', 'color' => '#ffffff'])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->addLabel(1, ['name' => 'wont-fix', 'color' => '#ffffff']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldUpdateLabel(): void
     {
         $expectedArray = ['name' => 'bug', 'color' => '#00ffff'];
@@ -1772,7 +1592,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/labels/123', ['new_name' => 'big-bug', 'color' => '#00ffff'])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals(
             $expectedArray,
@@ -1780,9 +1600,7 @@ class ProjectsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRemoveLabel(): void
     {
         $expectedBool = true;
@@ -1791,28 +1609,24 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/labels/456', [])
-            ->will($this->returnValue($expectedBool));
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->removeLabel(1, 456));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetLanguages(): void
     {
         $expectedArray = ['php' => 100];
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->languages(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldForkWithNamespace(): void
     {
         $expectedArray = [
@@ -1823,16 +1637,14 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/fork', $expectedArray)
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->fork(1, [
             'namespace' => 'new_namespace',
         ]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldForkWithNamespaceAndPath(): void
     {
         $expectedArray = [
@@ -1844,7 +1656,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/fork', $expectedArray)
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->fork(1, [
             'namespace' => 'new_namespace',
@@ -1852,9 +1664,7 @@ class ProjectsTest extends TestCase
         ]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldForkWithNamespaceAndPathAndName(): void
     {
         $expectedArray = [
@@ -1867,7 +1677,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/fork', $expectedArray)
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->fork(1, [
             'namespace' => 'new_namespace',
@@ -1876,9 +1686,7 @@ class ProjectsTest extends TestCase
         ]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldCreateForkRelation(): void
     {
         $expectedArray = ['project_id' => 1, 'forked_id' => 2];
@@ -1887,14 +1695,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/fork/2')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->createForkRelation(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRemoveForkRelation(): void
     {
         $expectedBool = true;
@@ -1903,14 +1709,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/2/fork')
-            ->will($this->returnValue($expectedBool));
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->removeForkRelation(2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetForks(): void
     {
         $expectedArray = [
@@ -1931,14 +1735,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/forks')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->forks(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetForksUsingParameters(): void
     {
         $expectedArray = [
@@ -1979,7 +1781,7 @@ class ProjectsTest extends TestCase
                 'updated_before' => $updated_before->format('c'),
                 'with_custom_attributes' => 'true',
             ])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->forks(1, [
             'archived' => false,
@@ -2001,9 +1803,7 @@ class ProjectsTest extends TestCase
         ]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldSetService(): void
     {
         $expectedBool = true;
@@ -2012,14 +1812,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/services/hipchat', ['param' => 'value'])
-            ->will($this->returnValue($expectedBool));
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->setService(1, 'hipchat', ['param' => 'value']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRemoveService(): void
     {
         $expectedBool = true;
@@ -2028,14 +1826,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/services/hipchat')
-            ->will($this->returnValue($expectedBool));
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->removeService(1, 'hipchat'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetVariables(): void
     {
         $expectedArray = [
@@ -2047,14 +1843,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/variables')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->variables(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetVariable(): void
     {
         $expectedArray = ['key' => 'ftp_username', 'value' => 'ftp'];
@@ -2063,14 +1857,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/variables/ftp_username')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->variable(1, 'ftp_username'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldAddVariable(): void
     {
         $expectedKey = 'ftp_port';
@@ -2085,14 +1877,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/variables', $expectedArray)
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->addVariable(1, $expectedKey, $expectedValue));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldAddVariableWithProtected(): void
     {
         $expectedArray = [
@@ -2105,14 +1895,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/variables', $expectedArray)
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->addVariable(1, 'DEPLOY_SERVER', 'stage.example.com', true));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldAddVariableWithEnvironment(): void
     {
         $expectedArray = [
@@ -2125,7 +1913,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/variables', $expectedArray)
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals(
             $expectedArray,
@@ -2133,9 +1921,7 @@ class ProjectsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldAddVariableWithProtectionAndEnvironment(): void
     {
         $expectedArray = [
@@ -2149,7 +1935,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/variables', $expectedArray)
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals(
             $expectedArray,
@@ -2157,9 +1943,7 @@ class ProjectsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldAddVariableWithEnvironmentAndVariableType(): void
     {
         $expectedArray = [
@@ -2173,7 +1957,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/variables', $expectedArray)
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals(
             $expectedArray,
@@ -2181,9 +1965,7 @@ class ProjectsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldAddVariableWithEnvironmentFromParameterList(): void
     {
         $expectedArray = [
@@ -2196,7 +1978,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/variables', $expectedArray)
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals(
             $expectedArray,
@@ -2204,9 +1986,7 @@ class ProjectsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldUpdateVariable(): void
     {
         $expectedKey = 'ftp_port';
@@ -2221,14 +2001,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/variables/'.$expectedKey, ['value' => $expectedValue])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->updateVariable(1, $expectedKey, $expectedValue));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldUpdateVariableWithProtected(): void
     {
         $expectedArray = [
@@ -2241,14 +2019,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/variables/DEPLOY_SERVER', ['value' => 'stage.example.com', 'protected' => true])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->updateVariable(1, 'DEPLOY_SERVER', 'stage.example.com', true));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldUpdateVariableWithEnvironment(): void
     {
         $expectedArray = [
@@ -2264,7 +2040,7 @@ class ProjectsTest extends TestCase
                 'projects/1/variables/DEPLOY_SERVER',
                 ['value' => 'stage.example.com', 'environment_scope' => 'staging']
             )
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals(
             $expectedArray,
@@ -2272,9 +2048,7 @@ class ProjectsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldUpdateVariableWithProtectedAndEnvironment(): void
     {
         $expectedArray = [
@@ -2291,7 +2065,7 @@ class ProjectsTest extends TestCase
                 'projects/1/variables/DEPLOY_SERVER',
                 ['value' => 'stage.example.com', 'protected' => true, 'environment_scope' => 'staging']
             )
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals(
             $expectedArray,
@@ -2299,9 +2073,7 @@ class ProjectsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldUpdateVariableWithEnvironmentAndVariableType(): void
     {
         $expectedArray = [
@@ -2318,7 +2090,7 @@ class ProjectsTest extends TestCase
                 'projects/1/variables/DEPLOY_SERVER',
                 ['value' => 'stage.example.com', 'environment_scope' => 'staging', 'variable_type' => 'file']
             )
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals(
             $expectedArray,
@@ -2326,9 +2098,7 @@ class ProjectsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldUpdateVariableWithEnvironmentFromParameterList(): void
     {
         $expectedArray = [
@@ -2344,7 +2114,7 @@ class ProjectsTest extends TestCase
                 'projects/1/variables/DEPLOY_SERVER',
                 ['value' => 'stage.example.com', 'environment_scope' => 'staging']
             )
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals(
             $expectedArray,
@@ -2352,9 +2122,7 @@ class ProjectsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRemoveVariable(): void
     {
         $expectedBool = true;
@@ -2363,25 +2131,23 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/variables/ftp_password')
-            ->will($this->returnValue($expectedBool));
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->removeVariable(1, 'ftp_password'));
     }
 
-    protected function getMultipleProjectsRequestMock($path, $expectedArray = [], $expectedParameters = [])
+    protected function getMultipleProjectsRequestMock($path, $expectedArray = [], $expectedParameters = []): MockObject
     {
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
             ->with($path, $expectedParameters)
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         return $api;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetDeployments(): void
     {
         $expectedArray = [
@@ -2393,14 +2159,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/deployments', [])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->deployments(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetDeploymentsWithPagination(): void
     {
         $expectedArray = [
@@ -2415,14 +2179,12 @@ class ProjectsTest extends TestCase
                 'page' => 2,
                 'per_page' => 15,
             ])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->deployments(1, ['page' => 2, 'per_page' => 15]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetDeploymentsSorted(): void
     {
         $expectedArray = [
@@ -2438,7 +2200,7 @@ class ProjectsTest extends TestCase
                 'order_by' => 'id',
                 'sort' => 'asc',
             ])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->deployments(1, ['order_by' => 'id', 'sort' => 'asc']));
 
@@ -2449,14 +2211,12 @@ class ProjectsTest extends TestCase
                 'order_by' => 'id',
                 'sort' => 'desc',
             ])
-            ->will($this->returnValue(\array_reverse($expectedArray)));
+            ->willReturn(\array_reverse($expectedArray));
 
         $this->assertEquals(\array_reverse($expectedArray), $api->deployments(1, ['order_by' => 'id', 'sort' => 'desc']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetDeploymentsFiltered(): void
     {
         $expectedArray = [
@@ -2473,12 +2233,12 @@ class ProjectsTest extends TestCase
             ->with('projects/1/deployments', [
                 'updated_after' => $time->format('c'),
             ])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->deployments(1, ['updated_after' => $time]));
     }
 
-    protected function getMultipleProjectsData()
+    protected function getMultipleProjectsData(): array
     {
         return [
             ['id' => 1, 'name' => 'A project'],
@@ -2486,7 +2246,7 @@ class ProjectsTest extends TestCase
         ];
     }
 
-    protected function getMultipleProjectsDataWithNamespace()
+    protected function getMultipleProjectsDataWithNamespace(): array
     {
         return [
             ['id' => 1, 'name' => 'A project', 'namespace' => ['id' => 4, 'name' => 'A namespace', 'path' => 'a_namespace']],
@@ -2505,7 +2265,7 @@ class ProjectsTest extends TestCase
         ];
     }
 
-    public function getBadgeExpectedArray()
+    public function getBadgeExpectedArray(): array
     {
         return [
             [
@@ -2527,9 +2287,7 @@ class ProjectsTest extends TestCase
         ];
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetBadges(): void
     {
         $expectedArray = $this->getBadgeExpectedArray();
@@ -2538,14 +2296,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/badges')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->badges(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetBadge(): void
     {
         $expectedBadgesArray = $this->getBadgeExpectedArray();
@@ -2557,14 +2313,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/badges/1')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->badge(1, 1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldAddBadge(): void
     {
         $link_url = 'http://example.com/ci_status.svg?project=%{project_path}&ref=%{default_branch}';
@@ -2579,7 +2333,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/badges', ['link_url' => $link_url, 'image_url' => $image_url])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals(
             $expectedArray,
@@ -2587,9 +2341,7 @@ class ProjectsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldUpdateBadge(): void
     {
         $image_url = 'https://shields.io/my/new/badge';
@@ -2601,14 +2353,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/badges/2')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->updateBadge(1, 2, ['image_url' => $image_url]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRemoveBadge(): void
     {
         $expectedBool = true;
@@ -2617,14 +2367,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/badges/1')
-            ->will($this->returnValue($expectedBool));
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->removeBadge(1, 1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldAddProtectedBranch(): void
     {
         $expectedArray = [
@@ -2645,13 +2393,11 @@ class ProjectsTest extends TestCase
                 'projects/1/protected_branches',
                 ['name' => 'master', 'push_access_level' => 0, 'merge_access_level' => 30]
             )
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
         $this->assertEquals($expectedArray, $api->addProtectedBranch(1, ['name' => 'master', 'push_access_level' => 0, 'merge_access_level' => 30]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRemoveProtectedBranch(): void
     {
         $expectedBool = true;
@@ -2661,14 +2407,12 @@ class ProjectsTest extends TestCase
             ->with(
                 'projects/1/protected_branches/test-branch'
             )
-            ->will($this->returnValue($expectedBool));
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->deleteProtectedBranch(1, 'test-branch'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shoudGetApprovalsConfiguration(): void
     {
         $expectedArray = [
@@ -2686,14 +2430,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/approvals')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->approvalsConfiguration(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shoudGetApprovalsRules(): void
     {
         $expectedArray = [
@@ -2714,14 +2456,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/approval_rules')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->approvalsRules(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shoudCreateApprovalsRule(): void
     {
         $expectedArray = [
@@ -2736,7 +2476,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/approval_rules/', ['name' => 'All Members', 'rule_type' => 'any_approver'])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->createApprovalsRule(1, [
             'name' => 'All Members',
@@ -2744,9 +2484,7 @@ class ProjectsTest extends TestCase
         ]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shoudUpdateApprovalsRule(): void
     {
         $expectedArray = [
@@ -2759,16 +2497,14 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/approval_rules/1', ['name' => 'Updated Name'])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->updateApprovalsRule(1, 1, [
             'name' => 'Updated Name',
         ]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shoudDeleteApprovalsRule(): void
     {
         $expectedBool = true;
@@ -2777,14 +2513,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/approval_rules/1')
-            ->will($this->returnValue($expectedBool));
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->deleteApprovalsRule(1, 1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldDeleteAllMergedBranches(): void
     {
         $expectedBool = true;
@@ -2793,14 +2527,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/repository/merged_branches')
-            ->will($this->returnValue($expectedBool));
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->deleteAllMergedBranches(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetProtectedBranches(): void
     {
         $expectedArray = [
@@ -2828,14 +2560,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/protected_branches')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->protectedBranches(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetProjectAccessTokens(): void
     {
         $expectedArray = [
@@ -2857,14 +2587,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/access_tokens')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->projectAccessTokens(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetProjectAccessToken(): void
     {
         $expectedArray = [
@@ -2884,14 +2612,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/access_tokens/42')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->projectAccessToken(1, 42));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldCreateProjectAccessToken(): void
     {
         $expectedArray = [
@@ -2923,7 +2649,7 @@ class ProjectsTest extends TestCase
                     'expires_at' => '2021-01-31',
                 ]
             )
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->createProjectAccessToken(1, [
             'name' => 'test_token',
@@ -2936,9 +2662,7 @@ class ProjectsTest extends TestCase
         ]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldDeleteProjectAccessToken(): void
     {
         $expectedBool = true;
@@ -2947,14 +2671,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/access_tokens/2')
-            ->will($this->returnValue($expectedBool));
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->deleteProjectAccessToken(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldUploadAvatar(): void
     {
         $emptyPNGContents = 'iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAACYElEQVR42u3UMQEAAAjDMFCO9GEAByQSerQrmQJeagMAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwADAAAwADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMAAzAAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwADMAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAMAAZwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAOCybrx+H1CTHLYAAAAASUVORK5CYII=';
@@ -2966,14 +2688,12 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1', [], [], ['avatar' => $fileName])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
         $this->assertEquals($expectedArray, $api->uploadAvatar(1, $fileName));
         \unlink($fileName);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldAddProtectedTag(): void
     {
         $expectedArray = [
@@ -2992,13 +2712,11 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/protected_tags', $params)
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
         $this->assertEquals($expectedArray, $api->addProtectedTag(1, $params));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRemoveProtectedTag(): void
     {
         $expectedBool = true;
@@ -3008,19 +2726,17 @@ class ProjectsTest extends TestCase
             ->with(
                 'projects/1/protected_tags/release-%2A'
             )
-            ->will($this->returnValue($expectedBool));
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->deleteProtectedTag(1, 'release-*'));
     }
 
-    protected function getApiClass()
+    protected function getApiClass(): string
     {
         return Projects::class;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldSearchGroups(): void
     {
         $expectedArray = [
@@ -3039,7 +2755,7 @@ class ProjectsTest extends TestCase
                 'order_by' => 'created_at',
                 'sort' => 'desc',
             ])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->search(123, [
             'scope' => 'issues',

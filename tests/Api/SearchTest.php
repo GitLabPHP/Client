@@ -15,12 +15,11 @@ declare(strict_types=1);
 namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\Search;
+use PHPUnit\Framework\Attributes\Test;
 
 class SearchTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetAll(): void
     {
         $expectedArray = [
@@ -39,7 +38,7 @@ class SearchTest extends TestCase
                 'order_by' => 'created_at',
                 'sort' => 'desc',
             ])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->all([
             'scope' => 'projects',
@@ -50,7 +49,7 @@ class SearchTest extends TestCase
         ]));
     }
 
-    protected function getApiClass()
+    protected function getApiClass(): string
     {
         return Search::class;
     }

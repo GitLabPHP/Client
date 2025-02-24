@@ -15,12 +15,11 @@ declare(strict_types=1);
 namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\IssuesStatistics;
+use PHPUnit\Framework\Attributes\Test;
 
 class IssuesStatisticsTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetAll(): void
     {
         $expectedArray = [];
@@ -46,7 +45,7 @@ class IssuesStatisticsTest extends TestCase
                 'updated_before' => $now->format('c'),
                 'confidential' => 'false',
             ])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->all([
             'milestone' => '',
@@ -66,9 +65,7 @@ class IssuesStatisticsTest extends TestCase
         ]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetProject(): void
     {
         $expectedArray = [];
@@ -77,14 +74,12 @@ class IssuesStatisticsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/issues_statistics', [])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->project(1, []));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetGroup(): void
     {
         $expectedArray = [];
@@ -93,12 +88,12 @@ class IssuesStatisticsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('groups/1/issues_statistics', [])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->group(1, []));
     }
 
-    protected function getApiClass()
+    protected function getApiClass(): string
     {
         return IssuesStatistics::class;
     }

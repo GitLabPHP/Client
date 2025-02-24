@@ -17,37 +17,25 @@ namespace Gitlab\Api;
 class Wiki extends AbstractApi
 {
     /**
-     * @param int|string          $project_id
      * @param array<string,mixed> $params
-     *
-     * @return mixed
      */
-    public function create($project_id, array $params)
+    public function create(int|string $project_id, array $params): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'wikis'), $params);
     }
 
-    /**
-     * @param int|string $project_id
-     * @param string     $wiki_slug
-     *
-     * @return mixed
-     */
-    public function show($project_id, string $wiki_slug)
+    public function show(int|string $project_id, string $wiki_slug): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'wikis/'.self::encodePath($wiki_slug)));
     }
 
     /**
-     * @param int|string          $project_id
      * @param array<string,mixed> $params     {
      *
      *     @var bool $with_content Include pages' content
      * }
-     *
-     * @return mixed
      */
-    public function showAll($project_id, array $params)
+    public function showAll(int|string $project_id, array $params): mixed
     {
         $resolver = $this->createOptionsResolver();
         $resolver->setDefined('with_content')
@@ -57,24 +45,14 @@ class Wiki extends AbstractApi
     }
 
     /**
-     * @param int|string          $project_id
-     * @param string              $wiki_slug
      * @param array<string,mixed> $params
-     *
-     * @return mixed
      */
-    public function update($project_id, string $wiki_slug, array $params)
+    public function update(int|string $project_id, string $wiki_slug, array $params): mixed
     {
         return $this->put($this->getProjectPath($project_id, 'wikis/'.self::encodePath($wiki_slug)), $params);
     }
 
-    /**
-     * @param int|string $project_id
-     * @param string     $wiki_slug
-     *
-     * @return mixed
-     */
-    public function remove($project_id, string $wiki_slug)
+    public function remove(int|string $project_id, string $wiki_slug): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'wikis/'.self::encodePath($wiki_slug)));
     }

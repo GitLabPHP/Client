@@ -19,7 +19,6 @@ use Symfony\Component\OptionsResolver\Options;
 class Packages extends AbstractApi
 {
     /**
-     * @param int|string $project_id
      * @param array      $parameters {
      *
      *     @var string $order_by            the field to use as order. one of created_at (default), name,
@@ -33,10 +32,8 @@ class Packages extends AbstractApi
      *     @var string $status              filter the returned packages by status. one of default (default),
      *                                      hidden, or processing.
      * }
-     *
-     * @return mixed
      */
-    public function all($project_id, array $parameters = [])
+    public function all(int|string $project_id, array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
 
@@ -63,63 +60,29 @@ class Packages extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'packages'), $resolver->resolve($parameters));
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $package_id
-     *
-     * @return mixed
-     */
-    public function show($project_id, int $package_id)
+    public function show(int|string $project_id, int $package_id): mixed
     {
         return $this->get($this->getPackagePath($project_id, $package_id));
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $package_id
-     *
-     * @return mixed
-     */
-    public function allFiles($project_id, int $package_id)
+    public function allFiles(int|string $project_id, int $package_id): mixed
     {
         return $this->get($this->getPackagePath($project_id, $package_id).'/package_files');
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $package_id
-     *
-     * @return mixed
-     */
-    public function remove($project_id, int $package_id)
+    public function remove(int|string $project_id, int $package_id): mixed
     {
         return $this->delete($this->getPackagePath($project_id, $package_id));
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $package_id
-     * @param int        $package_file_id
-     *
-     * @return mixed
-     */
-    public function removeFile($project_id, int $package_id, int $package_file_id)
+    public function removeFile(int|string $project_id, int $package_id, int $package_file_id): mixed
     {
         return $this->delete(
             $this->getPackagePath($project_id, $package_id).'/package_files/'.self::encodePath($package_file_id)
         );
     }
 
-    /**
-     * @param int|string $project_id
-     * @param string     $package_name
-     * @param string     $package_version
-     * @param string     $file
-     * @param string     $status
-     *
-     * @return mixed
-     */
-    public function addGenericFile($project_id, string $package_name, string $package_version, string $file, string $status = 'default')
+    public function addGenericFile(int|string $project_id, string $package_name, string $package_version, string $file, string $status = 'default'): mixed
     {
         return $this->putFile(
             $this->getProjectPath(
@@ -132,13 +95,7 @@ class Packages extends AbstractApi
         );
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $package_id
-     *
-     * @return string
-     */
-    private function getPackagePath($project_id, int $package_id): string
+    private function getPackagePath(int|string $project_id, int $package_id): string
     {
         return $this->getProjectPath($project_id, 'packages/'.self::encodePath($package_id));
     }

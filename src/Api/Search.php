@@ -33,10 +33,8 @@ class Search extends AbstractApi
      *
      * @throws UndefinedOptionsException If an option name is undefined
      * @throws InvalidOptionsException   If an option doesn't fulfill the specified validation rules
-     *
-     * @return mixed
      */
-    public function all(array $parameters = [])
+    public function all(array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
         $booleanNormalizer = function (Options $resolver, $value): string {

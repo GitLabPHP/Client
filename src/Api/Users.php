@@ -31,10 +31,8 @@ class Users extends AbstractApi
      *     @var bool               $active         Return only active users. It does not support filtering inactive users.
      *     @var bool               $blocked        Return only blocked users. It does not support filtering non-blocked users.
      * }
-     *
-     * @return mixed
      */
-    public function all(array $parameters = [])
+    public function all(array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
         $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
@@ -68,26 +66,18 @@ class Users extends AbstractApi
         return $this->get('users', $resolver->resolve($parameters));
     }
 
-    /**
-     * @param int $id
-     *
-     * @return mixed
-     */
-    public function show(int $id)
+    public function show(int $id): mixed
     {
         return $this->get('users/'.self::encodePath($id));
     }
 
     /**
-     * @param int   $id
      * @param array $parameters {
      *
      *     @var string $type Filter memberships by type. Can be either Project or Namespace
      * }
-     *
-     * @return mixed
      */
-    public function usersMemberships(int $id, array $parameters = [])
+    public function usersMemberships(int $id, array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
         $resolver->setDefined('type')
@@ -98,7 +88,6 @@ class Users extends AbstractApi
     }
 
     /**
-     * @param int   $id
      * @param array $parameters {
      *
      *     @var bool   $archived                    limit by archived status
@@ -116,10 +105,8 @@ class Users extends AbstractApi
      *     @var bool   $with_merge_requests_enabled limit by enabled merge requests feature
      *     @var int    $min_access_level            Limit by current user minimal access level
      * }
-     *
-     * @return mixed
      */
-    public function usersProjects(int $id, array $parameters = [])
+    public function usersProjects(int $id, array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
         $booleanNormalizer = function (Options $resolver, $value): string {
@@ -175,7 +162,6 @@ class Users extends AbstractApi
     }
 
     /**
-     * @param int   $id
      * @param array $parameters {
      *
      *     @var bool   $archived                    limit by archived status
@@ -194,10 +180,8 @@ class Users extends AbstractApi
      *     @var int    $min_access_level            Limit by current user minimal access level
      *     @var bool   $with_custom_attributes      Include custom attributes in response (administrator only)
      * }
-     *
-     * @return mixed
      */
-    public function usersStarredProjects(int $id, array $parameters = [])
+    public function usersStarredProjects(int $id, array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
         $booleanNormalizer = function (Options $resolver, $value): string {
@@ -256,22 +240,12 @@ class Users extends AbstractApi
         return $this->get('users/'.self::encodePath($id).'/starred_projects', $resolver->resolve($parameters));
     }
 
-    /**
-     * @return mixed
-     */
-    public function user()
+    public function user(): mixed
     {
         return $this->get('user');
     }
 
-    /**
-     * @param string $email
-     * @param string $password
-     * @param array  $params
-     *
-     * @return mixed
-     */
-    public function create(string $email, string $password, array $params = [])
+    public function create(string $email, string $password, array $params = []): mixed
     {
         $params['email'] = $email;
         $params['password'] = $password;
@@ -279,106 +253,59 @@ class Users extends AbstractApi
         return $this->post('users', $params);
     }
 
-    /**
-     * @param int   $id
-     * @param array $params
-     * @param array $files
-     *
-     * @return mixed
-     */
-    public function update(int $id, array $params, array $files = [])
+    public function update(int $id, array $params, array $files = []): mixed
     {
         return $this->put('users/'.self::encodePath($id), $params, [], $files);
     }
 
     /**
-     * @param int   $id
      * @param array $params {
      *
      *     @var bool   $hard_delete     If true, contributions that would usually be moved to the ghost user are
      *                                  deleted instead, as well as groups owned solely by this user.
      * }
-     *
-     * @return mixed
      */
-    public function remove(int $id, array $params = [])
+    public function remove(int $id, array $params = []): mixed
     {
         return $this->delete('users/'.self::encodePath($id), $params);
     }
 
-    /**
-     * @param int $id
-     *
-     * @return mixed
-     */
-    public function block(int $id)
+    public function block(int $id): mixed
     {
         return $this->post('users/'.self::encodePath($id).'/block');
     }
 
-    /**
-     * @param int $id
-     *
-     * @return mixed
-     */
-    public function unblock(int $id)
+    public function unblock(int $id): mixed
     {
         return $this->post('users/'.self::encodePath($id).'/unblock');
     }
 
-    /**
-     * @param int $id
-     *
-     * @return mixed
-     */
-    public function activate(int $id)
+    public function activate(int $id): mixed
     {
         return $this->post('users/'.self::encodePath($id).'/activate');
     }
 
-    /**
-     * @param int $id
-     *
-     * @return mixed
-     */
-    public function deactivate(int $id)
+    public function deactivate(int $id): mixed
     {
         return $this->post('users/'.self::encodePath($id).'/deactivate');
     }
 
-    /**
-     * @return mixed
-     */
-    public function me()
+    public function me(): mixed
     {
         return $this->get('user');
     }
 
-    /**
-     * @return mixed
-     */
-    public function keys()
+    public function keys(): mixed
     {
         return $this->get('user/keys');
     }
 
-    /**
-     * @param int $id
-     *
-     * @return mixed
-     */
-    public function key(int $id)
+    public function key(int $id): mixed
     {
         return $this->get('user/keys/'.self::encodePath($id));
     }
 
-    /**
-     * @param string $title
-     * @param string $key
-     *
-     * @return mixed
-     */
-    public function createKey(string $title, string $key)
+    public function createKey(string $title, string $key): mixed
     {
         return $this->post('user/keys', [
             'title' => $title,
@@ -386,45 +313,22 @@ class Users extends AbstractApi
         ]);
     }
 
-    /**
-     * @param int $id
-     *
-     * @return mixed
-     */
-    public function removeKey(int $id)
+    public function removeKey(int $id): mixed
     {
         return $this->delete('user/keys/'.self::encodePath($id));
     }
 
-    /**
-     * @param int $user_id
-     *
-     * @return mixed
-     */
-    public function userKeys(int $user_id)
+    public function userKeys(int $user_id): mixed
     {
         return $this->get('users/'.self::encodePath($user_id).'/keys');
     }
 
-    /**
-     * @param int $user_id
-     * @param int $key_id
-     *
-     * @return mixed
-     */
-    public function userKey(int $user_id, int $key_id)
+    public function userKey(int $user_id, int $key_id): mixed
     {
         return $this->get('users/'.self::encodePath($user_id).'/keys/'.self::encodePath($key_id));
     }
 
-    /**
-     * @param int    $user_id
-     * @param string $title
-     * @param string $key
-     *
-     * @return mixed
-     */
-    public function createKeyForUser(int $user_id, string $title, string $key)
+    public function createKeyForUser(int $user_id, string $title, string $key): mixed
     {
         return $this->post('users/'.self::encodePath($user_id).'/keys', [
             'title' => $title,
@@ -432,53 +336,27 @@ class Users extends AbstractApi
         ]);
     }
 
-    /**
-     * @param int $user_id
-     * @param int $key_id
-     *
-     * @return mixed
-     */
-    public function removeUserKey(int $user_id, int $key_id)
+    public function removeUserKey(int $user_id, int $key_id): mixed
     {
         return $this->delete('users/'.self::encodePath($user_id).'/keys/'.self::encodePath($key_id));
     }
 
-    /**
-     * @return mixed
-     */
-    public function emails()
+    public function emails(): mixed
     {
         return $this->get('user/emails');
     }
 
-    /**
-     * @param int $id
-     *
-     * @return mixed
-     */
-    public function email(int $id)
+    public function email(int $id): mixed
     {
         return $this->get('user/emails/'.self::encodePath($id));
     }
 
-    /**
-     * @param int $user_id
-     *
-     * @return mixed
-     */
-    public function userEmails(int $user_id)
+    public function userEmails(int $user_id): mixed
     {
         return $this->get('users/'.self::encodePath($user_id).'/emails');
     }
 
-    /**
-     * @param int    $user_id
-     * @param string $email
-     * @param bool   $skip_confirmation
-     *
-     * @return mixed
-     */
-    public function createEmailForUser(int $user_id, string $email, bool $skip_confirmation = false)
+    public function createEmailForUser(int $user_id, string $email, bool $skip_confirmation = false): mixed
     {
         return $this->post('users/'.self::encodePath($user_id).'/emails', [
             'email' => $email,
@@ -486,24 +364,12 @@ class Users extends AbstractApi
         ]);
     }
 
-    /**
-     * @param int $user_id
-     * @param int $email_id
-     *
-     * @return mixed
-     */
-    public function removeUserEmail(int $user_id, int $email_id)
+    public function removeUserEmail(int $user_id, int $email_id): mixed
     {
         return $this->delete('users/'.self::encodePath($user_id).'/emails/'.self::encodePath($email_id));
     }
 
-    /**
-     * @param int   $user_id
-     * @param array $params
-     *
-     * @return mixed
-     */
-    public function userImpersonationTokens(int $user_id, array $params = [])
+    public function userImpersonationTokens(int $user_id, array $params = []): mixed
     {
         $resolver = $this->createOptionsResolver();
 
@@ -514,26 +380,12 @@ class Users extends AbstractApi
         return $this->get('users/'.self::encodePath($user_id).'/impersonation_tokens', $resolver->resolve($params));
     }
 
-    /**
-     * @param int $user_id
-     * @param int $impersonation_token_id
-     *
-     * @return mixed
-     */
-    public function userImpersonationToken(int $user_id, int $impersonation_token_id)
+    public function userImpersonationToken(int $user_id, int $impersonation_token_id): mixed
     {
         return $this->get('users/'.self::encodePath($user_id).'/impersonation_tokens/'.self::encodePath($impersonation_token_id));
     }
 
-    /**
-     * @param int         $user_id
-     * @param string      $name
-     * @param array       $scopes
-     * @param string|null $expires_at
-     *
-     * @return mixed
-     */
-    public function createImpersonationToken(int $user_id, string $name, array $scopes, ?string $expires_at = null)
+    public function createImpersonationToken(int $user_id, string $name, array $scopes, ?string $expires_at = null): mixed
     {
         return $this->post('users/'.self::encodePath($user_id).'/impersonation_tokens', [
             'name' => $name,
@@ -542,19 +394,12 @@ class Users extends AbstractApi
         ]);
     }
 
-    /**
-     * @param int $user_id
-     * @param int $impersonation_token_id
-     *
-     * @return mixed
-     */
-    public function removeImpersonationToken(int $user_id, int $impersonation_token_id)
+    public function removeImpersonationToken(int $user_id, int $impersonation_token_id): mixed
     {
         return $this->delete('users/'.self::encodePath($user_id).'/impersonation_tokens/'.self::encodePath($impersonation_token_id));
     }
 
     /**
-     * @param int   $user_id
      * @param array $parameters {
      *
      *     @var string             $action      include only events of a particular action type
@@ -563,10 +408,8 @@ class Users extends AbstractApi
      *     @var \DateTimeInterface $after       include only events created after a particular date
      *     @var string             $sort        Sort events in asc or desc order by created_at (default is desc)
      * }
-     *
-     * @return mixed
      */
-    public function events(int $user_id, array $parameters = [])
+    public function events(int $user_id, array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
         $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
@@ -595,13 +438,8 @@ class Users extends AbstractApi
 
     /**
      * Deletes a user’s authentication identity using the provider name associated with that identity.
-     *
-     * @param int    $user_id
-     * @param string $provider
-     *
-     * @return mixed
      */
-    public function removeUserIdentity(int $user_id, string $provider)
+    public function removeUserIdentity(int $user_id, string $provider): mixed
     {
         return $this->delete('users/'.self::encodePath($user_id).'/identities/'.self::encodePath($provider));
     }

@@ -15,12 +15,12 @@ declare(strict_types=1);
 namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\Deployments;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class DeploymentsTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetAllDeployments(): void
     {
         $expectedArray = $this->getMultipleDeploymentsData();
@@ -30,9 +30,7 @@ class DeploymentsTest extends TestCase
         $this->assertEquals($expectedArray, $api->all(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldShowDeployment(): void
     {
         $expectedArray = [
@@ -106,11 +104,11 @@ See merge request !2',
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/deployments/42')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
         $this->assertEquals($expectedArray, $api->show(1, 42));
     }
 
-    private function getMultipleDeploymentsData()
+    private function getMultipleDeploymentsData(): array
     {
         return [
             [
@@ -244,20 +242,18 @@ See merge request !2',
         ];
     }
 
-    protected function getMultipleDeploymentsRequestMock(string $path, array $expectedArray, array $expectedParameters)
+    protected function getMultipleDeploymentsRequestMock(string $path, array $expectedArray, array $expectedParameters): MockObject
     {
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
             ->with($path, $expectedParameters)
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         return $api;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetAllDeploymentsSortedByCreatedAt(): void
     {
         $expectedArray = $this->getMultipleDeploymentsData();
@@ -274,14 +270,12 @@ See merge request !2',
         );
     }
 
-    protected function getApiClass()
+    protected function getApiClass(): string
     {
         return Deployments::class;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldAllowDeploymentFilterByStatus(): void
     {
         $expectedArray = $this->getMultipleDeploymentsData();
@@ -298,9 +292,7 @@ See merge request !2',
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldAllowFilterByEnvironment(): void
     {
         $expectedArray = $this->getMultipleDeploymentsData();
@@ -317,9 +309,7 @@ See merge request !2',
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldAllowEmptyArrayIfAllExcludedByFilter(): void
     {
         $expectedArray = $this->getMultipleDeploymentsData();

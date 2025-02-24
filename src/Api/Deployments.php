@@ -17,7 +17,6 @@ namespace Gitlab\Api;
 class Deployments extends AbstractApi
 {
     /**
-     * @param int|string $project_id
      * @param array      $parameters {
      *
      *     @var string $order_by                    Return deployments ordered by id, iid, created_at, updated_at,
@@ -28,10 +27,8 @@ class Deployments extends AbstractApi
      *                                              'canceled', 'blocked'
      *     @var string $environment                 Return deployments filtered to a particular environment
      * }
-     *
-     * @return mixed
      */
-    public function all($project_id, array $parameters = [])
+    public function all(int|string $project_id, array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
         $resolver->setDefined('order_by')
@@ -49,13 +46,7 @@ class Deployments extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'deployments'), $resolver->resolve($parameters));
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $deployment_id
-     *
-     * @return mixed
-     */
-    public function show($project_id, int $deployment_id)
+    public function show(int|string $project_id, int $deployment_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'deployments/'.$deployment_id));
     }

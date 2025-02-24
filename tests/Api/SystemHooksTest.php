@@ -15,12 +15,11 @@ declare(strict_types=1);
 namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\SystemHooks;
+use PHPUnit\Framework\Attributes\Test;
 
 class SystemHooksTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetAllHooks(): void
     {
         $expectedArray = [
@@ -32,15 +31,13 @@ class SystemHooksTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('hooks')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->all());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldCreateHook(): void
     {
         $expectedArray = ['id' => 3, 'url' => 'http://www.example.net'];
@@ -49,15 +46,13 @@ class SystemHooksTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('hooks', ['url' => 'http://www.example.net'])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->create('http://www.example.net'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldTestHook(): void
     {
         $expectedBool = true;
@@ -66,15 +61,12 @@ class SystemHooksTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('hooks/3')
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->test(3));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRemoveHook(): void
     {
         $expectedBool = true;
@@ -83,13 +75,12 @@ class SystemHooksTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('hooks/3')
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->remove(3));
     }
 
-    protected function getApiClass()
+    protected function getApiClass(): string
     {
         return SystemHooks::class;
     }

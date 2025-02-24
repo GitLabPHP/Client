@@ -48,42 +48,22 @@ abstract class AbstractApi
      */
     protected const ACCESS_LEVELS = [0, 10, 20, 30, 40, 50];
 
-    /**
-     * The client instance.
-     *
-     * @var Client
-     */
-    private $client;
+    private readonly Client $client;
 
-    /**
-     * The per page parameter.
-     *
-     * @var int|null
-     */
-    private $perPage;
+    private ?int $perPage;
 
-    /**
-     * Create a new API instance.
-     *
-     * @param Client $client
-     *
-     * @return void
-     */
     public function __construct(Client $client)
     {
         $this->client = $client;
+        $this->perPage = null;
     }
 
     /**
      * Send a GET request with query params and return the raw response.
      *
-     * @param string               $uri
-     * @param array                $params
      * @param array<string,string> $headers
      *
      * @throws \Http\Client\Exception
-     *
-     * @return \Psr\Http\Message\ResponseInterface
      */
     protected function getAsResponse(string $uri, array $params = [], array $headers = []): ResponseInterface
     {
@@ -95,13 +75,10 @@ abstract class AbstractApi
     }
 
     /**
-     * @param string               $uri
      * @param array<string,mixed>  $params
      * @param array<string,string> $headers
-     *
-     * @return mixed
      */
-    protected function get(string $uri, array $params = [], array $headers = [])
+    protected function get(string $uri, array $params = [], array $headers = []): mixed
     {
         $response = $this->getAsResponse($uri, $params, $headers);
 
@@ -109,15 +86,12 @@ abstract class AbstractApi
     }
 
     /**
-     * @param string               $uri
      * @param array<string,mixed>  $params
      * @param array<string,string> $headers
      * @param array<string,string> $files
      * @param array<string,mixed>  $uriParams
-     *
-     * @return mixed
      */
-    protected function post(string $uri, array $params = [], array $headers = [], array $files = [], array $uriParams = [])
+    protected function post(string $uri, array $params = [], array $headers = [], array $files = [], array $uriParams = []): mixed
     {
         if (0 < \count($files)) {
             $builder = $this->createMultipartStreamBuilder($params, $files);
@@ -137,14 +111,11 @@ abstract class AbstractApi
     }
 
     /**
-     * @param string               $uri
      * @param array<string,mixed>  $params
      * @param array<string,string> $headers
      * @param array<string,string> $files
-     *
-     * @return mixed
      */
-    protected function put(string $uri, array $params = [], array $headers = [], array $files = [])
+    protected function put(string $uri, array $params = [], array $headers = [], array $files = []): mixed
     {
         if (0 < \count($files)) {
             $builder = $this->createMultipartStreamBuilder($params, $files);
@@ -164,14 +135,11 @@ abstract class AbstractApi
     }
 
     /**
-     * @param string               $uri
      * @param array<string,mixed>  $params
      * @param array<string,string> $headers
      * @param array<string,string> $files
-     *
-     * @return mixed
      */
-    protected function patch(string $uri, array $params = [], array $headers = [], array $files = [])
+    protected function patch(string $uri, array $params = [], array $headers = [], array $files = []): mixed
     {
         if (0 < \count($files)) {
             $builder = $this->createMultipartStreamBuilder($params, $files);
@@ -191,14 +159,10 @@ abstract class AbstractApi
     }
 
     /**
-     * @param string               $uri
-     * @param string               $file
      * @param array<string,string> $headers
      * @param array<string,mixed>  $uriParams
-     *
-     * @return mixed
      */
-    protected function putFile(string $uri, string $file, array $headers = [], array $uriParams = [])
+    protected function putFile(string $uri, string $file, array $headers = [], array $uriParams = []): mixed
     {
         $resource = self::tryFopen($file, 'r');
         $body = $this->client->getStreamFactory()->createStreamFromResource($resource);
@@ -213,13 +177,10 @@ abstract class AbstractApi
     }
 
     /**
-     * @param string               $uri
      * @param array<string,mixed>  $params
      * @param array<string,string> $headers
-     *
-     * @return mixed
      */
-    protected function delete(string $uri, array $params = [], array $headers = [])
+    protected function delete(string $uri, array $params = [], array $headers = []): mixed
     {
         $body = self::prepareJsonBody($params);
 
@@ -232,31 +193,18 @@ abstract class AbstractApi
         return ResponseMediator::getContent($response);
     }
 
-    /**
-     * @param int|string $uri
-     *
-     * @return string
-     */
-    protected static function encodePath($uri): string
+    protected static function encodePath(int|string $uri): string
     {
         return \rawurlencode((string) $uri);
     }
 
-    /**
-     * @param int|string $id
-     * @param string     $uri
-     *
-     * @return string
-     */
-    protected function getProjectPath($id, string $uri): string
+    protected function getProjectPath(int|string $id, string $uri): string
     {
         return 'projects/'.self::encodePath($id).'/'.$uri;
     }
 
     /**
      * Create a new OptionsResolver with page and per_page options.
-     *
-     * @return OptionsResolver
      */
     protected function createOptionsResolver(): OptionsResolver
     {
@@ -279,11 +227,6 @@ abstract class AbstractApi
 
     /**
      * Prepare the request URI.
-     *
-     * @param string $uri
-     * @param array  $query
-     *
-     * @return string
      */
     private static function prepareUri(string $uri, array $query = []): string
     {
@@ -299,8 +242,6 @@ abstract class AbstractApi
      *
      * @param array<string,mixed>  $params
      * @param array<string,string> $files
-     *
-     * @return MultipartStreamBuilder
      */
     private function createMultipartStreamBuilder(array $params = [], array $files = []): MultipartStreamBuilder
     {
@@ -324,10 +265,6 @@ abstract class AbstractApi
 
     /**
      * Prepare the request multipart body.
-     *
-     * @param MultipartStreamBuilder $builder
-     *
-     * @return StreamInterface
      */
     private static function prepareMultipartBody(MultipartStreamBuilder $builder): StreamInterface
     {
@@ -338,7 +275,6 @@ abstract class AbstractApi
      * Add the multipart content type to the headers if one is not already present.
      *
      * @param array<string,string>   $headers
-     * @param MultipartStreamBuilder $builder
      *
      * @return array<string,string>
      */
@@ -353,8 +289,6 @@ abstract class AbstractApi
      * Prepare the request JSON body.
      *
      * @param array<string,mixed> $params
-     *
-     * @return string|null
      */
     private static function prepareJsonBody(array $params): ?string
     {
@@ -421,10 +355,6 @@ abstract class AbstractApi
 
     /**
      * Guess the content type of the file if possible.
-     *
-     * @param string $file
-     *
-     * @return string
      */
     private static function guessFileContentType(string $file): string
     {

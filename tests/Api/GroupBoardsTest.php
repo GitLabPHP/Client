@@ -15,12 +15,11 @@ declare(strict_types=1);
 namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\GroupsBoards;
+use PHPUnit\Framework\Attributes\Test;
 
 class GroupBoardsTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetAllBoards(): void
     {
         $expectedArray = [
@@ -32,15 +31,13 @@ class GroupBoardsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('boards', [])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->all());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldShowIssueBoard(): void
     {
         $expectedArray = ['id' => 2, 'name' => 'Another issue board'];
@@ -49,15 +46,13 @@ class GroupBoardsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('groups/1/boards/2')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->show(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldCreateIssueBoard(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'A new issue board'];
@@ -66,15 +61,13 @@ class GroupBoardsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('groups/1/boards', ['name' => 'A new issue board'])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->create(1, ['name' => 'A new issue board']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldUpdateIssueBoard(): void
     {
         $expectedArray = ['id' => 2, 'name' => 'A renamed issue board'];
@@ -83,15 +76,13 @@ class GroupBoardsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('groups/1/boards/2', ['name' => 'A renamed issue board', 'labels' => 'foo'])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->update(1, 2, ['name' => 'A renamed issue board', 'labels' => 'foo']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRemoveIssueBoard(): void
     {
         $expectedBool = true;
@@ -100,15 +91,12 @@ class GroupBoardsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('groups/1/boards/2')
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->remove(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetAllLists(): void
     {
         $expectedArray = [
@@ -135,15 +123,13 @@ class GroupBoardsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('groups/1/boards/2/lists')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->allLists(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetList(): void
     {
         $expectedArray = [
@@ -162,15 +148,13 @@ class GroupBoardsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('groups/1/boards/2/lists/3')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->showList(1, 2, 3));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldCreateList(): void
     {
         $expectedArray = [
@@ -189,15 +173,13 @@ class GroupBoardsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('groups/1/boards/2/lists', ['label_id' => 4])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->createList(1, 2, 4));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldUpdateList(): void
     {
         $expectedArray = [
@@ -216,15 +198,13 @@ class GroupBoardsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('groups/5/boards/2/lists/3', ['position' => 1])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->updateList(5, 2, 3, 1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldDeleteList(): void
     {
         $expectedBool = true;
@@ -233,13 +213,12 @@ class GroupBoardsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('groups/1/boards/2/lists/3')
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->deleteList(1, 2, 3));
     }
 
-    protected function getApiClass()
+    protected function getApiClass(): string
     {
         return GroupsBoards::class;
     }

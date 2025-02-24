@@ -15,12 +15,11 @@ declare(strict_types=1);
 namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\Version;
+use PHPUnit\Framework\Attributes\Test;
 
 class VersionTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldShowVersion(): void
     {
         $expectedArray = [
@@ -32,11 +31,11 @@ class VersionTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('version')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
         $this->assertEquals($expectedArray, $api->show());
     }
 
-    protected function getApiClass()
+    protected function getApiClass(): string
     {
         return Version::class;
     }

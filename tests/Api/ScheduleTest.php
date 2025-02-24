@@ -15,12 +15,11 @@ declare(strict_types=1);
 namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\Schedules;
+use PHPUnit\Framework\Attributes\Test;
 
 class ScheduleTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldCreateSchedule(): void
     {
         $expectedArray = [
@@ -49,7 +48,7 @@ class ScheduleTest extends TestCase
                 'created_at' => '2017-05-19T13:31:08.849Z',
                 'updated_at' => '2017-05-19T13:40:17.727Z',
             ])
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->create(
             1,
@@ -67,9 +66,7 @@ class ScheduleTest extends TestCase
         ));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldShowSchedule(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'A schedule'];
@@ -78,15 +75,13 @@ class ScheduleTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/pipeline_schedules/2')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->show(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldShowAllSchedule(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'A schedule'];
@@ -95,15 +90,13 @@ class ScheduleTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/pipeline_schedules')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->showAll(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldUpdateSchedule(): void
     {
         $expectedArray = ['id' => 3, 'title' => 'Updated schedule'];
@@ -112,15 +105,13 @@ class ScheduleTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/pipeline_schedules/3', ['title' => 'Updated schedule', 'due_date' => '2015-04-01', 'state_event' => 'close'])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->update(1, 3, ['title' => 'Updated schedule', 'due_date' => '2015-04-01', 'state_event' => 'close']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRemoveSchedule(): void
     {
         $expectedBool = true;
@@ -129,15 +120,12 @@ class ScheduleTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/pipeline_schedules/2')
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->remove(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldCreateScheduleVariable(): void
     {
         $expectedArray = [
@@ -150,7 +138,7 @@ class ScheduleTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/pipeline_schedules/2/variables', $expectedArray)
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->addVariable(
             1,
@@ -159,9 +147,7 @@ class ScheduleTest extends TestCase
         ));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldUpdateScheduleVariable(): void
     {
         $variabelName = 'FOO_BAR';
@@ -175,7 +161,7 @@ class ScheduleTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/pipeline_schedules/2/variables/'.$variabelName, $expectedArray)
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->updateVariable(
             1,
@@ -185,9 +171,7 @@ class ScheduleTest extends TestCase
         ));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRemoveScheduleVariable(): void
     {
         $expectedBool = true;
@@ -196,15 +180,12 @@ class ScheduleTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/pipeline_schedules/2/variables/FOO_BAR')
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->removeVariable(1, 2, 'FOO_BAR'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldTakeOwnership(): void
     {
         $expectedBool = true;
@@ -213,15 +194,12 @@ class ScheduleTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/pipeline_schedules/2/take_ownership')
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->takeOwnership(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldPlay(): void
     {
         $expectedBool = true;
@@ -230,13 +208,12 @@ class ScheduleTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/pipeline_schedules/2/play')
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->play(1, 2));
     }
 
-    protected function getApiClass()
+    protected function getApiClass(): string
     {
         return Schedules::class;
     }

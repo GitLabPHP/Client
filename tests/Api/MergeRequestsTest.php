@@ -15,12 +15,11 @@ declare(strict_types=1);
 namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\MergeRequests;
+use PHPUnit\Framework\Attributes\Test;
 
 class MergeRequestsTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetAll(): void
     {
         $expectedArray = $this->getMultipleMergeRequestsData();
@@ -29,15 +28,13 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/merge_requests', [])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->all(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetAllWithNoProject(): void
     {
         $expectedArray = $this->getMultipleMergeRequestsData();
@@ -46,15 +43,13 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('merge_requests', [])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->all());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetAllWithParams(): void
     {
         $expectedArray = $this->getMultipleMergeRequestsData();
@@ -78,7 +73,7 @@ class MergeRequestsTest extends TestCase
                 'with_merge_status_recheck' => true,
                 'approved_by_ids' => [1],
             ])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->all(1, [
@@ -99,9 +94,7 @@ class MergeRequestsTest extends TestCase
         ]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetAllWithDateTimeParams(): void
     {
         $expectedArray = $this->getMultipleMergeRequestsData();
@@ -118,7 +111,7 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/merge_requests', $expectedWithArray)
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals(
@@ -127,9 +120,7 @@ class MergeRequestsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldShowMergeRequest(): void
     {
         $expectedArray = ['id' => 2, 'name' => 'A merge request'];
@@ -138,15 +129,13 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/merge_requests/2')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->show(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldShowMergeRequestWithOptionalParameters(): void
     {
         $expectedArray = [
@@ -160,7 +149,7 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/merge_requests/2', ['include_diverged_commits_count' => true,  'include_rebase_in_progress' => true])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->show(1, 2, [
@@ -169,9 +158,7 @@ class MergeRequestsTest extends TestCase
         ]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldCreateMergeRequestWithoutOptionalParams(): void
     {
         $expectedArray = ['id' => 3, 'title' => 'Merge Request'];
@@ -184,15 +171,13 @@ class MergeRequestsTest extends TestCase
                 'target_branch' => 'master',
                 'source_branch' => 'develop',
             ])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->create(1, 'develop', 'master', 'Merge Request'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldCreateMergeRequestWithOptionalParams(): void
     {
         $expectedArray = ['id' => 3, 'title' => 'Merge Request'];
@@ -209,7 +194,7 @@ class MergeRequestsTest extends TestCase
                 'description' => 'Some changes',
                 'remove_source_branch' => true,
             ])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals(
@@ -224,9 +209,7 @@ class MergeRequestsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldUpdateMergeRequest(): void
     {
         $expectedArray = ['id' => 2, 'title' => 'Updated title'];
@@ -235,7 +218,7 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/merge_requests/2', ['title' => 'Updated title', 'description' => 'No so many changes now', 'state_event' => 'close'])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->update(1, 2, [
@@ -245,9 +228,7 @@ class MergeRequestsTest extends TestCase
         ]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldMergeMergeRequest(): void
     {
         $expectedArray = ['id' => 2, 'title' => 'Updated title'];
@@ -256,15 +237,13 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/merge_requests/2/merge', ['merge_commit_message' => 'Accepted'])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->merge(1, 2, ['merge_commit_message' => 'Accepted']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetNotes(): void
     {
         $expectedArray = [
@@ -276,15 +255,13 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/merge_requests/2/notes')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->showNotes(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetNote(): void
     {
         $expectedArray = ['id' => 3, 'body' => 'A new note'];
@@ -293,15 +270,13 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/merge_requests/2/notes/3')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->showNote(1, 2, 3));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldCreateNote(): void
     {
         $expectedArray = ['id' => 3, 'body' => 'A new note'];
@@ -310,15 +285,13 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/merge_requests/2/notes', ['body' => 'A new note'])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->addNote(1, 2, 'A new note'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldUpdateNote(): void
     {
         $expectedArray = ['id' => 3, 'body' => 'An edited comment'];
@@ -327,15 +300,13 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/merge_requests/2/notes/3', ['body' => 'An edited comment'])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->updateNote(1, 2, 3, 'An edited comment'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRemoveNote(): void
     {
         $expectedBool = true;
@@ -344,15 +315,12 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/merge_requests/2/notes/3')
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->removeNote(1, 2, 3));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetMergeRequestParticipants(): void
     {
         $expectedArray = [
@@ -378,15 +346,13 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/merge_requests/2/participants')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->showParticipants(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetMergeRequestChanges(): void
     {
         $expectedArray = ['id' => 1, 'title' => 'A merge request'];
@@ -395,15 +361,13 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/merge_requests/2/changes')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->changes(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetMergeRequestDiscussions(): void
     {
         $expectedArray = [
@@ -415,15 +379,13 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/merge_requests/2/discussions')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->showDiscussions(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetMergeRequestDiscussion(): void
     {
         $expectedArray = ['id' => 'abc', 'body' => 'A discussion'];
@@ -432,15 +394,13 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/merge_requests/2/discussions/abc')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->showDiscussion(1, 2, 'abc'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldCreateDiscussion(): void
     {
         $expectedArray = ['id' => 'abc', 'body' => 'A new discussion'];
@@ -449,15 +409,13 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/merge_requests/2/discussions', ['body' => 'A new discussion'])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->addDiscussion(1, 2, ['body' => 'A new discussion']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldResolveDiscussion(): void
     {
         $expectedArray = ['id' => 'abc', 'resolved' => true];
@@ -466,15 +424,13 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/merge_requests/2/discussions/abc', ['resolved' => true])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->resolveDiscussion(1, 2, 'abc', true));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldUnresolveDiscussion(): void
     {
         $expectedArray = ['id' => 'abc', 'resolved' => false];
@@ -483,15 +439,13 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/merge_requests/2/discussions/abc', ['resolved' => false])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->resolveDiscussion(1, 2, 'abc', false));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldCreateDiscussionNote(): void
     {
         $expectedArray = ['id' => 3, 'body' => 'A new discussion note'];
@@ -500,15 +454,13 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/merge_requests/2/discussions/abc/notes', ['body' => 'A new discussion note'])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->addDiscussionNote(1, 2, 'abc', 'A new discussion note'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldUpdateDiscussionNote(): void
     {
         $expectedArray = ['id' => 3, 'body' => 'An edited discussion note'];
@@ -517,15 +469,13 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/merge_requests/2/discussions/abc/notes/3', ['body' => 'An edited discussion note'])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->updateDiscussionNote(1, 2, 'abc', 3, ['body' => 'An edited discussion note']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRemoveDiscussionNote(): void
     {
         $expectedBool = true;
@@ -534,15 +484,12 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/merge_requests/2/discussions/abc/notes/3')
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->removeDiscussionNote(1, 2, 'abc', 3));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetIssuesClosedByMergeRequest(): void
     {
         $expectedArray = ['id' => 1, 'title' => 'A merge request'];
@@ -551,15 +498,13 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/merge_requests/2/closes_issues')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->closesIssues(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetMergeRequestByIid(): void
     {
         $expectedArray = ['id' => 1, 'title' => 'A merge request'];
@@ -568,15 +513,13 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/merge_requests', ['iids' => [2]])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->all(1, ['iids' => [2]]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldApproveMergeRequest(): void
     {
         $expectedArray = ['id' => 1, 'title' => 'Approvals API'];
@@ -585,15 +528,13 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/merge_requests/2/approve')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->approve(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldUnApproveMergeRequest(): void
     {
         $expectedArray = ['id' => 1, 'title' => 'Approvals API'];
@@ -602,15 +543,13 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/merge_requests/2/unapprove')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->unapprove(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetMergeRequestApprovals(): void
     {
         $expectedArray = ['id' => 1, 'title' => 'Approvals API'];
@@ -619,15 +558,13 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/merge_requests', ['iids' => [2]])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->all(1, ['iids' => [2]]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldIssueMergeRequestAwardEmoji(): void
     {
         $expectedArray = [
@@ -639,15 +576,13 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/merge_requests/2/award_emoji')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->awardEmoji(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRevokeMergeRequestAwardEmoji(): void
     {
         $expectedBool = true;
@@ -656,15 +591,12 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/merge_requests/2/award_emoji/3')
-            ->will($this->returnValue($expectedBool))
-        ;
+            ->willReturn($expectedBool);
 
         $this->assertEquals(true, $api->removeAwardEmoji(1, 2, 3));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shoudGetApprovalState(): void
     {
         $expectedArray = [
@@ -676,14 +608,12 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/merge_requests/2/approval_state')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->approvalState(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shoudGetLevelRules(): void
     {
         $expectedArray = [
@@ -706,14 +636,12 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/merge_requests/2/approval_rules')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->levelRules(1, 2));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shoudCreateLevelRuleWithoutOptionalParameters(): void
     {
         $expectedArray = [
@@ -740,14 +668,12 @@ class MergeRequestsTest extends TestCase
                     'approvals_required' => 3,
                 ]
             )
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->createLevelRule(1, 2, 'Foo', 3));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shoudCreateLevelRuleWithOptionalParameters(): void
     {
         $expectedArray = [
@@ -776,7 +702,7 @@ class MergeRequestsTest extends TestCase
                     'group_ids' => [104121],
                 ]
             )
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->createLevelRule(1, 2, 'Foo', 3, [
             'user_ids' => [1951878],
@@ -784,9 +710,7 @@ class MergeRequestsTest extends TestCase
         ]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shoudUpdateLevelRuleWithoutOptionalParameters(): void
     {
         $expectedArray = [
@@ -813,14 +737,12 @@ class MergeRequestsTest extends TestCase
                     'approvals_required' => 3,
                 ]
             )
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->updateLevelRule(1, 2, 20892835, 'Foo', 3));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shoudUpdateLevelRuleWithOptionalParameters(): void
     {
         $expectedArray = [
@@ -849,7 +771,7 @@ class MergeRequestsTest extends TestCase
                     'group_ids' => [104121],
                 ]
             )
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->updateLevelRule(1, 2, 20892835, 'Foo', 3, [
             'user_ids' => [1951878],
@@ -857,9 +779,7 @@ class MergeRequestsTest extends TestCase
         ]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shoudDeleteLevelRule(): void
     {
         $expectedValue = true;
@@ -868,12 +788,12 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/merge_requests/2/approval_rules/3')
-            ->will($this->returnValue($expectedValue));
+            ->willReturn($expectedValue);
 
         $this->assertEquals($expectedValue, $api->deleteLevelRule(1, 2, 3));
     }
 
-    protected function getMultipleMergeRequestsData()
+    protected function getMultipleMergeRequestsData(): array
     {
         return [
             ['id' => 1, 'title' => 'A merge request'],
@@ -881,14 +801,12 @@ class MergeRequestsTest extends TestCase
         ];
     }
 
-    protected function getApiClass()
+    protected function getApiClass(): string
     {
         return MergeRequests::class;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRebaseMergeRequest(): void
     {
         $expectedArray = ['rebase_in_progress' => true];
@@ -897,7 +815,7 @@ class MergeRequestsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/merge_requests/2/rebase', ['skip_ci' => true])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->rebase(1, 2, [

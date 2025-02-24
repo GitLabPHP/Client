@@ -28,10 +28,8 @@ class Events extends AbstractApi
      *     @var string             $sort           sort events in asc or desc order by created_at
      *
      * }
-     *
-     * @return mixed
      */
-    public function all(array $parameters = [])
+    public function all(array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
         $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {

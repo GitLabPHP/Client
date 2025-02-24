@@ -15,12 +15,11 @@ declare(strict_types=1);
 namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\ResourceLabelEvents;
+use PHPUnit\Framework\Attributes\Test;
 
 class ResourceLabelEventsTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetAllEvents(): void
     {
         $expectedArray = [
@@ -77,9 +76,7 @@ class ResourceLabelEventsTest extends TestCase
         $this->assertEquals($expectedArray, $api->all(1, 253));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldShowEvent(): void
     {
         $expectedArray = [
@@ -113,9 +110,6 @@ class ResourceLabelEventsTest extends TestCase
         $this->assertEquals($expectedArray, $api->show(1, 253, 142));
     }
 
-    /**
-     * @return string
-     */
     protected function getApiClass(): string
     {
         return ResourceLabelEvents::class;

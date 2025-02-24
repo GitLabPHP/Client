@@ -16,13 +16,7 @@ namespace Gitlab\Api;
 
 class GroupsBoards extends AbstractApi
 {
-    /**
-     * @param int|string|null $group_id
-     * @param array           $parameters
-     *
-     * @return mixed
-     */
-    public function all($group_id = null, array $parameters = [])
+    public function all(int|string|null $group_id = null, array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
 
@@ -31,82 +25,37 @@ class GroupsBoards extends AbstractApi
         return $this->get($path, $resolver->resolve($parameters));
     }
 
-    /**
-     * @param int|string $group_id
-     * @param int        $board_id
-     *
-     * @return mixed
-     */
-    public function show($group_id, int $board_id)
+    public function show(int|string $group_id, int $board_id): mixed
     {
         return $this->get('groups/'.self::encodePath($group_id).'/boards/'.self::encodePath($board_id));
     }
 
-    /**
-     * @param int|string $group_id
-     * @param array      $params
-     *
-     * @return mixed
-     */
-    public function create($group_id, array $params)
+    public function create(int|string $group_id, array $params): mixed
     {
         return $this->post('groups/'.self::encodePath($group_id).'/boards', $params);
     }
 
-    /**
-     * @param int|string $group_id
-     * @param int        $board_id
-     * @param array      $params
-     *
-     * @return mixed
-     */
-    public function update($group_id, int $board_id, array $params)
+    public function update(int|string $group_id, int $board_id, array $params): mixed
     {
         return $this->put('groups/'.self::encodePath($group_id).'/boards/'.self::encodePath($board_id), $params);
     }
 
-    /**
-     * @param int|string $group_id
-     * @param int        $board_id
-     *
-     * @return mixed
-     */
-    public function remove($group_id, int $board_id)
+    public function remove(int|string $group_id, int $board_id): mixed
     {
         return $this->delete('groups/'.self::encodePath($group_id).'/boards/'.self::encodePath($board_id));
     }
 
-    /**
-     * @param int|string $group_id
-     * @param int        $board_id
-     *
-     * @return mixed
-     */
-    public function allLists($group_id, int $board_id)
+    public function allLists(int|string $group_id, int $board_id): mixed
     {
         return $this->get('groups/'.self::encodePath($group_id).'/boards/'.self::encodePath($board_id).'/lists');
     }
 
-    /**
-     * @param int|string $group_id
-     * @param int        $board_id
-     * @param int        $list_id
-     *
-     * @return mixed
-     */
-    public function showList($group_id, int $board_id, int $list_id)
+    public function showList(int|string $group_id, int $board_id, int $list_id): mixed
     {
         return $this->get('groups/'.self::encodePath($group_id).'/boards/'.self::encodePath($board_id).'/lists/'.self::encodePath($list_id));
     }
 
-    /**
-     * @param int|string $group_id
-     * @param int        $board_id
-     * @param int        $label_id
-     *
-     * @return mixed
-     */
-    public function createList($group_id, int $board_id, int $label_id)
+    public function createList(int|string $group_id, int $board_id, int $label_id): mixed
     {
         $params = [
             'label_id' => $label_id,
@@ -115,15 +64,7 @@ class GroupsBoards extends AbstractApi
         return $this->post('groups/'.self::encodePath($group_id).'/boards/'.self::encodePath($board_id).'/lists', $params);
     }
 
-    /**
-     * @param int|string $group_id
-     * @param int        $board_id
-     * @param int        $list_id
-     * @param int        $position
-     *
-     * @return mixed
-     */
-    public function updateList($group_id, int $board_id, int $list_id, int $position)
+    public function updateList(int|string $group_id, int $board_id, int $list_id, int $position): mixed
     {
         $params = [
             'position' => $position,
@@ -132,14 +73,7 @@ class GroupsBoards extends AbstractApi
         return $this->put('groups/'.self::encodePath($group_id).'/boards/'.self::encodePath($board_id).'/lists/'.self::encodePath($list_id), $params);
     }
 
-    /**
-     * @param int|string $group_id
-     * @param int        $board_id
-     * @param int        $list_id
-     *
-     * @return mixed
-     */
-    public function deleteList($group_id, int $board_id, int $list_id)
+    public function deleteList(int|string $group_id, int $board_id, int $list_id): mixed
     {
         return $this->delete('groups/'.self::encodePath($group_id).'/boards/'.self::encodePath($board_id).'/lists/'.self::encodePath($list_id));
     }

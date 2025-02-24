@@ -30,7 +30,6 @@ class Issues extends AbstractApi
     public const STATE_CLOSED = 'closed';
 
     /**
-     * @param int|string|null $project_id
      * @param array           $parameters {
      *
      *     @var string $state                return all issues or just those that are opened or closed
@@ -48,23 +47,15 @@ class Issues extends AbstractApi
      *     @var int    $iteration_id         filter issues assigned to the specified iteration id
      *     @var string $iteration_title      filter issues assigned to the specified iteration title
      * }
-     *
-     * @return mixed
      */
-    public function all($project_id = null, array $parameters = [])
+    public function all(int|string|null $project_id = null, array $parameters = []): mixed
     {
         $path = null === $project_id ? 'issues' : $this->getProjectPath($project_id, 'issues');
 
         return $this->get($path, $this->createOptionsResolver()->resolve($parameters));
     }
 
-    /**
-     * @param int|string $group_id
-     * @param array      $parameters
-     *
-     * @return mixed
-     */
-    public function group($group_id, array $parameters = [])
+    public function group(int|string $group_id, array $parameters = []): mixed
     {
         return $this->get(
             'groups/'.self::encodePath($group_id).'/issues',
@@ -72,273 +63,120 @@ class Issues extends AbstractApi
         );
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $issue_iid
-     *
-     * @return mixed
-     */
-    public function show($project_id, int $issue_iid)
+    public function show(int|string $project_id, int $issue_iid): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid)));
     }
 
-    /**
-     * @param int|string $project_id
-     * @param array      $params
-     *
-     * @return mixed
-     */
-    public function create($project_id, array $params)
+    public function create(int|string $project_id, array $params): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'issues'), $params);
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $issue_iid
-     * @param array      $params
-     *
-     * @return mixed
-     */
-    public function update($project_id, int $issue_iid, array $params)
+    public function update(int|string $project_id, int $issue_iid, array $params): mixed
     {
         return $this->put($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid)), $params);
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $issue_iid
-     * @param array      $params
-     *
-     * @return mixed
-     */
-    public function reorder($project_id, int $issue_iid, array $params)
+    public function reorder(int|string $project_id, int $issue_iid, array $params): mixed
     {
         return $this->put($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid)).'/reorder', $params);
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $issue_iid
-     * @param int|string $to_project_id
-     *
-     * @return mixed
-     */
-    public function move($project_id, int $issue_iid, $to_project_id)
+    public function move(int|string $project_id, int $issue_iid, int|string $to_project_id): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid)).'/move', [
             'to_project_id' => $to_project_id,
         ]);
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $issue_iid
-     *
-     * @return mixed
-     */
-    public function remove($project_id, int $issue_iid)
+    public function remove(int|string $project_id, int $issue_iid): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid)));
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $issue_iid
-     *
-     * @return mixed
-     */
-    public function showNotes($project_id, int $issue_iid)
+    public function showNotes(int|string $project_id, int $issue_iid): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/notes'));
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $issue_iid
-     * @param int        $note_id
-     *
-     * @return mixed
-     */
-    public function showNote($project_id, int $issue_iid, int $note_id)
+    public function showNote(int|string $project_id, int $issue_iid, int $note_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/notes/'.self::encodePath($note_id)));
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $issue_iid
-     * @param string     $body
-     * @param array      $params
-     *
-     * @return mixed
-     */
-    public function addNote($project_id, int $issue_iid, string $body, array $params = [])
+    public function addNote(int|string $project_id, int $issue_iid, string $body, array $params = []): mixed
     {
         $params['body'] = $body;
 
         return $this->post($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/notes'), $params);
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $issue_iid
-     * @param int        $note_id
-     * @param string     $body
-     * @param array      $params
-     *
-     * @return mixed
-     */
-    public function updateNote($project_id, int $issue_iid, int $note_id, string $body, array $params = [])
+    public function updateNote(int|string $project_id, int $issue_iid, int $note_id, string $body, array $params = []): mixed
     {
         $params['body'] = $body;
 
         return $this->put($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/notes/'.self::encodePath($note_id)), $params);
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $issue_iid
-     * @param int        $note_id
-     *
-     * @return mixed
-     */
-    public function removeNote($project_id, int $issue_iid, int $note_id)
+    public function removeNote(int|string $project_id, int $issue_iid, int $note_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/notes/'.self::encodePath($note_id)));
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $issue_iid
-     *
-     * @return mixed
-     */
-    public function showDiscussions($project_id, int $issue_iid)
+    public function showDiscussions(int|string $project_id, int $issue_iid): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid)).'/discussions');
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $issue_iid
-     * @param string     $discussion_id
-     *
-     * @return mixed
-     */
-    public function showDiscussion($project_id, int $issue_iid, string $discussion_id)
+    public function showDiscussion(int|string $project_id, int $issue_iid, string $discussion_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid)).'/discussions/'.self::encodePath($discussion_id));
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $issue_iid
-     * @param string     $body
-     *
-     * @return mixed
-     */
-    public function addDiscussion($project_id, int $issue_iid, string $body)
+    public function addDiscussion(int|string $project_id, int $issue_iid, string $body): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/discussions'), ['body' => $body]);
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $issue_iid
-     * @param string     $discussion_id
-     * @param string     $body
-     *
-     * @return mixed
-     */
-    public function addDiscussionNote($project_id, int $issue_iid, string $discussion_id, string $body)
+    public function addDiscussionNote(int|string $project_id, int $issue_iid, string $discussion_id, string $body): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/discussions/'.self::encodePath($discussion_id).'/notes'), ['body' => $body]);
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $issue_iid
-     * @param string     $discussion_id
-     * @param int        $note_id
-     * @param string     $body
-     *
-     * @return mixed
-     */
-    public function updateDiscussionNote($project_id, int $issue_iid, string $discussion_id, int $note_id, string $body)
+    public function updateDiscussionNote(int|string $project_id, int $issue_iid, string $discussion_id, int $note_id, string $body): mixed
     {
         return $this->put($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/discussions/'.self::encodePath($discussion_id).'/notes/'.self::encodePath($note_id)), [
             'body' => $body,
         ]);
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $issue_iid
-     * @param string     $discussion_id
-     * @param int        $note_id
-     *
-     * @return mixed
-     */
-    public function removeDiscussionNote($project_id, int $issue_iid, string $discussion_id, int $note_id)
+    public function removeDiscussionNote(int|string $project_id, int $issue_iid, string $discussion_id, int $note_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/discussions/'.self::encodePath($discussion_id).'/notes/'.self::encodePath($note_id)));
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $issue_iid
-     * @param string     $duration
-     *
-     * @return mixed
-     */
-    public function setTimeEstimate($project_id, int $issue_iid, string $duration)
+    public function setTimeEstimate(int|string $project_id, int $issue_iid, string $duration): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/time_estimate'), ['duration' => $duration]);
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $issue_iid
-     *
-     * @return mixed
-     */
-    public function resetTimeEstimate($project_id, int $issue_iid)
+    public function resetTimeEstimate(int|string $project_id, int $issue_iid): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/reset_time_estimate'));
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $issue_iid
-     * @param string     $duration
-     *
-     * @return mixed
-     */
-    public function addSpentTime($project_id, int $issue_iid, string $duration)
+    public function addSpentTime(int|string $project_id, int $issue_iid, string $duration): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/add_spent_time'), ['duration' => $duration]);
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $issue_iid
-     *
-     * @return mixed
-     */
-    public function resetSpentTime($project_id, int $issue_iid)
+    public function resetSpentTime(int|string $project_id, int $issue_iid): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/reset_spent_time'));
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $issue_iid
-     *
-     * @return mixed
-     */
-    public function getTimeStats($project_id, int $issue_iid)
+    public function getTimeStats(int|string $project_id, int $issue_iid): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/time_stats'));
     }
@@ -351,10 +189,8 @@ class Issues extends AbstractApi
      *
      * @param int|string $project_id The ID or URL-encoded path of the project owned by the authenticated user
      * @param int        $issue_iid  The internal ID of a project’s issue
-     *
-     * @return mixed
      */
-    public function subscribe($project_id, int $issue_iid)
+    public function subscribe(int|string $project_id, int $issue_iid): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/subscribe'));
     }
@@ -367,96 +203,47 @@ class Issues extends AbstractApi
      *
      * @param int|string $project_id The ID or URL-encoded path of the project owned by the authenticated user
      * @param int        $issue_iid  The internal ID of a project’s issue
-     *
-     * @return mixed
      */
-    public function unsubscribe($project_id, int $issue_iid)
+    public function unsubscribe(int|string $project_id, int $issue_iid): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/unsubscribe'));
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $issue_iid
-     *
-     * @return mixed
-     */
-    public function awardEmoji($project_id, int $issue_iid)
+    public function awardEmoji(int|string $project_id, int $issue_iid): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/award_emoji'));
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $issue_iid
-     * @param int        $award_id
-     *
-     * @return mixed
-     */
-    public function removeAwardEmoji($project_id, int $issue_iid, int $award_id)
+    public function removeAwardEmoji(int|string $project_id, int $issue_iid, int $award_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/award_emoji/'.self::encodePath($award_id)));
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $issue_iid
-     *
-     * @return mixed
-     */
-    public function closedByMergeRequests($project_id, int $issue_iid)
+    public function closedByMergeRequests(int|string $project_id, int $issue_iid): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid)).'/closed_by');
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $issue_iid
-     *
-     * @return mixed
-     */
-    public function relatedMergeRequests($project_id, int $issue_iid)
+    public function relatedMergeRequests(int|string $project_id, int $issue_iid): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid).'/related_merge_requests'));
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $issue_iid
-     *
-     * @return mixed
-     */
-    public function showParticipants($project_id, int $issue_iid)
+    public function showParticipants(int|string $project_id, int $issue_iid): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid)).'/participants');
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $issue_iid
-     *
-     * @return mixed
-     */
-    public function showResourceLabelEvents($project_id, int $issue_iid)
+    public function showResourceLabelEvents(int|string $project_id, int $issue_iid): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid)).'/resource_label_events');
     }
 
-    /**
-     * @param int|string $project_id
-     * @param int        $issue_iid
-     * @param int        $resource_label_event_id
-     *
-     * @return mixed
-     */
-    public function showResourceLabelEvent($project_id, int $issue_iid, int $resource_label_event_id)
+    public function showResourceLabelEvent(int|string $project_id, int $issue_iid, int $resource_label_event_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid)).'/resource_label_events/'.self::encodePath($resource_label_event_id));
     }
 
-    /**
-     * @return OptionsResolver
-     */
     protected function createOptionsResolver(): OptionsResolver
     {
         $resolver = parent::createOptionsResolver();

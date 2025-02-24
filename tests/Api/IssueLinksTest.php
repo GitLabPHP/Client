@@ -15,20 +15,19 @@ declare(strict_types=1);
 namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\IssueLinks;
+use PHPUnit\Framework\Attributes\Test;
 
 class IssueLinksTest extends TestCase
 {
     /**
      * {@inheritdoc}
      */
-    protected function getApiClass()
+    protected function getApiClass(): string
     {
         return IssueLinks::class;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetIssueLinks(): void
     {
         $expectedArray = [
@@ -40,15 +39,13 @@ class IssueLinksTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/issues/10/links')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->all(1, 10));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldCreateIssueLink(): void
     {
         $expectedArray = [
@@ -60,15 +57,13 @@ class IssueLinksTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/issues/10/links', ['target_project_id' => 2, 'target_issue_iid' => 20])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->create(1, 10, 2, 20));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRemoveIssueLink(): void
     {
         $expectedArray = [
@@ -80,7 +75,7 @@ class IssueLinksTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/issues/10/links/100')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->remove(1, 10, 100));

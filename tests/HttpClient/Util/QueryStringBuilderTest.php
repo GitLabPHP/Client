@@ -16,16 +16,12 @@ namespace Gitlab\Tests\HttpClient\Util;
 
 use Generator;
 use Gitlab\HttpClient\Util\QueryStringBuilder;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class QueryStringBuilderTest extends TestCase
 {
-    /**
-     * @dataProvider queryStringProvider
-     *
-     * @param array  $query
-     * @param string $expected
-     */
+    #[DataProvider('queryStringProvider')]
     public function testBuild(array $query, string $expected): void
     {
         $this->assertSame(\sprintf('?%s', $expected), QueryStringBuilder::build($query));

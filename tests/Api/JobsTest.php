@@ -16,12 +16,11 @@ namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\Jobs;
 use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\Attributes\Test;
 
 class JobsTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetAllJobs(): void
     {
         $expectedArray = [
@@ -35,15 +34,13 @@ class JobsTest extends TestCase
             ->with('projects/1/jobs', [
                 'scope' => ['pending'],
             ])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->all(1, ['scope' => Jobs::SCOPE_PENDING]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetPipelineJobs(): void
     {
         $expectedArray = [
@@ -57,15 +54,13 @@ class JobsTest extends TestCase
             ->with('projects/1/pipelines/2/jobs', [
                 'scope' => ['pending', 'running'],
             ])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->pipelineJobs(1, 2, ['scope' => [Jobs::SCOPE_PENDING, Jobs::SCOPE_RUNNING]]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetPipelineJobsIncludingRetried(): void
     {
         $expectedArray = [
@@ -81,15 +76,13 @@ class JobsTest extends TestCase
                 'scope' => ['pending', 'running'],
                 'include_retried' => true,
             ])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->pipelineJobs(1, 2, ['scope' => [Jobs::SCOPE_PENDING, Jobs::SCOPE_RUNNING], 'include_retried' => true]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetPipelineBridges(): void
     {
         $expectedArray = [
@@ -103,15 +96,13 @@ class JobsTest extends TestCase
             ->with('projects/1/pipelines/2/bridges', [
                 'scope' => ['pending', 'running'],
             ])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->pipelineBridges(1, 2, ['scope' => [Jobs::SCOPE_PENDING, Jobs::SCOPE_RUNNING]]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetJob(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'A job'];
@@ -120,15 +111,13 @@ class JobsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/jobs/3')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->show(1, 3));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetArtifacts(): void
     {
         $returnedStream = new Response(200, [], 'foobar');
@@ -137,15 +126,12 @@ class JobsTest extends TestCase
         $api->expects($this->once())
             ->method('getAsResponse')
             ->with('projects/1/jobs/3/artifacts')
-            ->will($this->returnValue($returnedStream))
-        ;
+            ->willReturn($returnedStream);
 
         $this->assertEquals('foobar', $api->artifacts(1, 3)->getContents());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetArtifactsByJobId(): void
     {
         $returnedStream = new Response(200, [], 'foobar');
@@ -154,15 +140,12 @@ class JobsTest extends TestCase
         $api->expects($this->once())
             ->method('getAsResponse')
             ->with('projects/1/jobs/3/artifacts/artifact_path')
-            ->will($this->returnValue($returnedStream))
-        ;
+            ->willReturn($returnedStream);
 
         $this->assertEquals('foobar', $api->artifactByJobId(1, 3, 'artifact_path')->getContents());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetArtifactsByRefName(): void
     {
         $returnedStream = new Response(200, [], 'foobar');
@@ -173,15 +156,12 @@ class JobsTest extends TestCase
             ->with('projects/1/jobs/artifacts/master/download', [
                 'job' => 'job name',
             ])
-            ->will($this->returnValue($returnedStream))
-        ;
+            ->willReturn($returnedStream);
 
         $this->assertEquals('foobar', $api->artifactsByRefName(1, 'master', 'job name')->getContents());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetArtifactByRefName(): void
     {
         $returnedStream = new Response(200, [], 'foobar');
@@ -191,14 +171,12 @@ class JobsTest extends TestCase
             ->with('projects/1/jobs/artifacts/master/raw/artifact_path', [
                 'job' => 'job name',
             ])
-            ->will($this->returnValue($returnedStream))
-        ;
+            ->willReturn($returnedStream);
+
         $this->assertEquals('foobar', $api->artifactByRefName(1, 'master', 'job name', 'artifact_path')->getContents());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetTrace(): void
     {
         $expectedString = 'some trace';
@@ -207,15 +185,12 @@ class JobsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/jobs/3/trace')
-            ->will($this->returnValue($expectedString))
-        ;
+            ->willReturn($expectedString);
 
         $this->assertEquals($expectedString, $api->trace(1, 3));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldCancel(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'A job'];
@@ -224,15 +199,13 @@ class JobsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/jobs/3/cancel')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->cancel(1, 3));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRetry(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'A job'];
@@ -241,15 +214,13 @@ class JobsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/jobs/3/retry')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->retry(1, 3));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldErase(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'A job'];
@@ -258,15 +229,13 @@ class JobsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/jobs/3/erase')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->erase(1, 3));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldKeepArtifacts(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'A job'];
@@ -275,15 +244,13 @@ class JobsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/jobs/3/artifacts/keep')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->keepArtifacts(1, 3));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldPlay(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'A job'];
@@ -292,13 +259,13 @@ class JobsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/jobs/3/play')
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->play(1, 3));
     }
 
-    protected function getApiClass()
+    protected function getApiClass(): string
     {
         return Jobs::class;
     }

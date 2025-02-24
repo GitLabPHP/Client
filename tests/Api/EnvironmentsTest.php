@@ -15,12 +15,11 @@ declare(strict_types=1);
 namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\Environments;
+use PHPUnit\Framework\Attributes\Test;
 
 class EnvironmentsTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetAllEnvironments(): void
     {
         $expectedArray = [
@@ -42,11 +41,11 @@ class EnvironmentsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/environments')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
         $this->assertEquals($expectedArray, $api->all(1));
     }
 
-    /** @test */
+    #[Test]
     public function shouldFilterEnvironmentByName(): void
     {
         $expected = [
@@ -61,13 +60,11 @@ class EnvironmentsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/environments')
-            ->will($this->returnValue($expected));
+            ->willReturn($expected);
         $this->assertEquals($expected, $api->all(1, ['name' => 'review/fix-bar']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetSingleEnvironment(): void
     {
         $expected = [
@@ -140,13 +137,11 @@ See merge request !1',
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/environments/1')
-            ->will($this->returnValue($expected));
+            ->willReturn($expected);
         $this->assertEquals($expected, $api->show(1, 1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldCreateEnvironment(): void
     {
         $expectedArray = [
@@ -169,14 +164,12 @@ See merge request !1',
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/environments', $params)
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->create(1, $params));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRemoveEnvironment(): void
     {
         $expectedBool = true;
@@ -185,13 +178,11 @@ See merge request !1',
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/environments/3')
-            ->will($this->returnValue($expectedBool));
+            ->willReturn($expectedBool);
         $this->assertEquals($expectedBool, $api->remove(1, 3));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldStopEnvironment(): void
     {
         $expectedBool = true;
@@ -200,11 +191,11 @@ See merge request !1',
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/environments/3/stop')
-            ->will($this->returnValue($expectedBool));
+            ->willReturn($expectedBool);
         $this->assertEquals($expectedBool, $api->stop(1, 3));
     }
 
-    protected function getApiClass()
+    protected function getApiClass(): string
     {
         return Environments::class;
     }

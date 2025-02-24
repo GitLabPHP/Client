@@ -1,42 +1,104 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Parameter \\#1 \\$callback of function set_error_handler expects \\(callable\\(int, string, string, int\\)\\: bool\\)\\|null, Closure\\(\\)\\: void given\\.$#"
+			message: '#^Parameter \#1 \$callback of function set_error_handler expects \(callable\(int, string, string, int\)\: bool\)\|null, Closure\(\)\: void given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Api/AbstractApi.php
 
 		-
-			message: "#^Parameter \\#2 \\$resource of method Http\\\\Message\\\\MultipartStream\\\\MultipartStreamBuilder\\:\\:addResource\\(\\) expects Psr\\\\Http\\\\Message\\\\StreamInterface\\|resource\\|string, mixed given\\.$#"
+			message: '#^Parameter \#2 \$resource of method Http\\Message\\MultipartStream\\MultipartStreamBuilder\:\:addResource\(\) expects Psr\\Http\\Message\\StreamInterface\|resource\|string, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Api/AbstractApi.php
 
 		-
-			message: "#^Parameter \\#4 \\.\\.\\.\\$values of function sprintf expects bool\\|float\\|int\\|string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#4 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Api/AbstractApi.php
 
 		-
-			message: "#^Property Gitlab\\\\Api\\\\AbstractApi\\:\\:\\$perPage is never written, only read\\.$#"
+			message: '#^Property Gitlab\\Api\\AbstractApi\:\:\$perPage \(int\|null\) is never assigned int so it can be removed from the property type\.$#'
+			identifier: property.unusedType
 			count: 1
 			path: src/Api/AbstractApi.php
 
 		-
-			message: "#^PHPDoc tag @return contains generic type Http\\\\Promise\\\\Promise\\<Psr\\\\Http\\\\Message\\\\ResponseInterface\\> but interface Http\\\\Promise\\\\Promise is not generic\\.$#"
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: src/Api/Groups.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 2
+			path: src/Api/Projects.php
+
+		-
+			message: '#^Parameter \#1 \$array of function array_values expects array\<T\>, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Api/Projects.php
+
+		-
+			message: '#^Parameter \#1 \$options of method Symfony\\Component\\OptionsResolver\\OptionsResolver\:\:resolve\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Api/Repositories.php
+
+		-
+			message: '#^Parameter \#1 \$uri of static method Gitlab\\Api\\AbstractApi\:\:encodePath\(\) expects int\|string, mixed given\.$#'
+			identifier: argument.type
+			count: 3
+			path: src/Api/RepositoryFiles.php
+
+		-
+			message: '#^Parameter \#1 \$message of static method Gitlab\\HttpClient\\Message\\ResponseMediator\:\:getMessageAsString\(\) expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/HttpClient/Message/ResponseMediator.php
+
+		-
+			message: '#^Parameter \#3 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/HttpClient/Message/ResponseMediator.php
+
+		-
+			message: '#^PHPDoc tag @return contains generic type Http\\Promise\\Promise\<Psr\\Http\\Message\\ResponseInterface\> but interface Http\\Promise\\Promise is not generic\.$#'
+			identifier: generics.notGeneric
 			count: 1
 			path: src/HttpClient/Plugin/Authentication.php
 
 		-
-			message: "#^PHPDoc tag @return contains generic type Http\\\\Promise\\\\Promise\\<Psr\\\\Http\\\\Message\\\\ResponseInterface\\> but interface Http\\\\Promise\\\\Promise is not generic\\.$#"
+			message: '#^PHPDoc tag @return contains generic type Http\\Promise\\Promise\<Psr\\Http\\Message\\ResponseInterface\> but interface Http\\Promise\\Promise is not generic\.$#'
+			identifier: generics.notGeneric
 			count: 1
 			path: src/HttpClient/Plugin/ExceptionThrower.php
 
 		-
-			message: "#^Cannot cast mixed to string\\.$#"
+			message: '#^PHPDoc tag @var with type string is not subtype of native type non\-empty\-string\|false\.$#'
+			identifier: varTag.nativeType
+			count: 1
+			path: src/HttpClient/Util/JsonArray.php
+
+		-
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
 			count: 1
 			path: src/HttpClient/Util/QueryStringBuilder.php
 
 		-
-			message: "#^Variable method call on Gitlab\\\\Api\\\\AbstractApi\\.$#"
+			message: '#^PHPDoc tag @var with type Closure\(Gitlab\\Api\\AbstractApi\)\: Gitlab\\Api\\AbstractApi is not subtype of type Closure\(Gitlab\\Api\\AbstractApi\)\: Gitlab\\Api\\AbstractApi\.$#'
+			identifier: varTag.type
+			count: 1
+			path: src/ResultPager.php
+
+		-
+			message: '#^Variable method call on Gitlab\\Api\\AbstractApi\.$#'
+			identifier: method.dynamicName
 			count: 1
 			path: src/ResultPager.php
 

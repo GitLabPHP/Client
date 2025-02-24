@@ -53,12 +53,8 @@ final class ResponseMediator
 
     /**
      * Return the response body as a string or JSON array if content type is JSON.
-     *
-     * @param ResponseInterface $response
-     *
-     * @return array|string
      */
-    public static function getContent(ResponseInterface $response)
+    public static function getContent(ResponseInterface $response): array|string
     {
         $body = (string) $response->getBody();
 
@@ -71,8 +67,6 @@ final class ResponseMediator
 
     /**
      * Extract pagination URIs from Link header.
-     *
-     * @param ResponseInterface $response
      *
      * @return array<string,string>
      */
@@ -99,11 +93,6 @@ final class ResponseMediator
 
     /**
      * Get the value for a single header.
-     *
-     * @param ResponseInterface $response
-     * @param string            $name
-     *
-     * @return string|null
      */
     private static function getHeader(ResponseInterface $response, string $name): ?string
     {
@@ -114,10 +103,6 @@ final class ResponseMediator
 
     /**
      * Get the error message from the response if present.
-     *
-     * @param ResponseInterface $response
-     *
-     * @return string|null
      */
     public static function getErrorMessage(ResponseInterface $response): ?string
     {
@@ -162,11 +147,6 @@ final class ResponseMediator
         return null;
     }
 
-    /**
-     * @param array $message
-     *
-     * @return string
-     */
     private static function getMessageAsString(array $message): string
     {
         $format = '"%s" %s';

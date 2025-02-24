@@ -16,12 +16,7 @@ namespace Gitlab\Api;
 
 class DeployKeys extends AbstractApi
 {
-    /**
-     * @param array $parameters
-     *
-     * @return mixed
-     */
-    public function all(array $parameters = [])
+    public function all(array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
 

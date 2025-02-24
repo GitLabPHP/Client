@@ -15,12 +15,12 @@ declare(strict_types=1);
 namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\Tags;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 
 class TagsTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetAllTags(): void
     {
         $expectedArray = [
@@ -32,13 +32,11 @@ class TagsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/repository/tags')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
         $this->assertEquals($expectedArray, $api->all(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldShowTag(): void
     {
         $expectedArray = [
@@ -49,13 +47,11 @@ class TagsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/repository/tags/v1.0.0')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
         $this->assertEquals($expectedArray, $api->show(1, 'v1.0.0'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldCreateTag(): void
     {
         $expectedArray = [
@@ -72,14 +68,12 @@ class TagsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/repository/tags', $params)
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->create(1, $params));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRemoveTag(): void
     {
         $expectedArray = [
@@ -90,19 +84,12 @@ class TagsTest extends TestCase
         $api->expects($this->once())
             ->method('delete')
             ->with('projects/1/repository/tags/v1.1.0')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
         $this->assertEquals($expectedArray, $api->remove(1, 'v1.1.0'));
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider releaseDataProvider
-     *
-     * @param string $releaseName
-     * @param string $description
-     * @param array  $expectedResult
-     */
+    #[Test]
+    #[DataProvider('releaseDataProvider')]
     public function shouldCreateRelease(string $releaseName, string $description, array $expectedResult): void
     {
         $params = [
@@ -113,20 +100,13 @@ class TagsTest extends TestCase
         $api->expects($this->once())
             ->method('post')
             ->with('projects/1/repository/tags/'.\str_replace('/', '%2F', $releaseName).'/release', $params)
-            ->will($this->returnValue($expectedResult));
+            ->willReturn($expectedResult);
 
         $this->assertEquals($expectedResult, $api->createRelease(1, $releaseName, $params));
     }
 
-    /**
-     * @test
-     *
-     * @dataProvider releaseDataProvider
-     *
-     * @param string $releaseName
-     * @param string $description
-     * @param array  $expectedResult
-     */
+    #[Test]
+    #[DataProvider('releaseDataProvider')]
     public function shouldUpdateRelease(string $releaseName, string $description, array $expectedResult): void
     {
         $params = [
@@ -137,7 +117,7 @@ class TagsTest extends TestCase
         $api->expects($this->once())
             ->method('put')
             ->with('projects/1/repository/tags/'.\str_replace('/', '%2F', $releaseName).'/release', $params)
-            ->will($this->returnValue($expectedResult));
+            ->willReturn($expectedResult);
 
         $this->assertEquals($expectedResult, $api->updateRelease(1, $releaseName, $params));
     }
@@ -146,7 +126,7 @@ class TagsTest extends TestCase
     {
         return [
             [
-                'tagName' => 'v1.1.0',
+                'releaseName' => 'v1.1.0',
                 'description' => 'Amazing release. Wow',
                 'expectedResult' => [
                     'tag_name' => '1.0.0',
@@ -154,7 +134,7 @@ class TagsTest extends TestCase
                 ],
             ],
             [
-                'tagName' => 'version/1.1.0',
+                'releaseName' => 'version/1.1.0',
                 'description' => 'Amazing release. Wow',
                 'expectedResult' => [
                     'tag_name' => 'version/1.1.0',
@@ -164,7 +144,7 @@ class TagsTest extends TestCase
         ];
     }
 
-    protected function getApiClass()
+    protected function getApiClass(): string
     {
         return Tags::class;
     }

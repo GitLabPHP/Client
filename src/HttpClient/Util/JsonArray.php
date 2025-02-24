@@ -24,11 +24,7 @@ final class JsonArray
     /**
      * Decode a JSON string into a PHP array.
      *
-     * @param string $json
-     *
      * @throws RuntimeException
-     *
-     * @return array
      */
     public static function decode(string $json): array
     {
@@ -49,11 +45,7 @@ final class JsonArray
     /**
      * Encode a PHP array into a JSON string.
      *
-     * @param array $value
-     *
      * @throws RuntimeException
-     *
-     * @return string
      */
     public static function encode(array $value): string
     {

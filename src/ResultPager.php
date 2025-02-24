@@ -37,36 +37,16 @@ final class ResultPager implements ResultPagerInterface
      */
     private const PER_PAGE = 50;
 
-    /**
-     * The client to use for pagination.
-     *
-     * @var Client
-     */
-    private $client;
+    private readonly Client $client;
+
+    private readonly int $perPage;
 
     /**
-     * The number of entries to request per page.
-     *
-     * @var int
-     */
-    private $perPage;
-
-    /**
-     * The pagination result from the API.
-     *
      * @var array<string,string>
      */
-    private $pagination;
+    private array $pagination;
 
-    /**
-     * Create a new result pager instance.
-     *
-     * @param Client   $client
-     * @param int|null $perPage
-     *
-     * @return void
-     */
-    public function __construct(Client $client, int $perPage = null)
+    public function __construct(Client $client, ?int $perPage = null)
     {
         if (null !== $perPage && ($perPage < 1 || $perPage > 100)) {
             throw new ValueError(\sprintf('%s::__construct(): Argument #2 ($perPage) must be between 1 and 100, or null', self::class));
@@ -80,13 +60,7 @@ final class ResultPager implements ResultPagerInterface
     /**
      * Fetch a single result from an api call.
      *
-     * @param AbstractApi $api
-     * @param string      $method
-     * @param array       $parameters
-     *
      * @throws \Http\Client\Exception
-     *
-     * @return array
      */
     public function fetch(AbstractApi $api, string $method, array $parameters = []): array
     {
@@ -104,13 +78,7 @@ final class ResultPager implements ResultPagerInterface
     /**
      * Fetch all results from an api call.
      *
-     * @param AbstractApi $api
-     * @param string      $method
-     * @param array       $parameters
-     *
      * @throws \Http\Client\Exception
-     *
-     * @return array
      */
     public function fetchAll(AbstractApi $api, string $method, array $parameters = []): array
     {
@@ -120,13 +88,7 @@ final class ResultPager implements ResultPagerInterface
     /**
      * Lazily fetch all results from an api call.
      *
-     * @param AbstractApi $api
-     * @param string      $method
-     * @param array       $parameters
-     *
      * @throws \Http\Client\Exception
-     *
-     * @return \Generator
      */
     public function fetchAllLazy(AbstractApi $api, string $method, array $parameters = []): Generator
     {
@@ -145,8 +107,6 @@ final class ResultPager implements ResultPagerInterface
 
     /**
      * Check to determine the availability of a next page.
-     *
-     * @return bool
      */
     public function hasNext(): bool
     {
@@ -157,8 +117,6 @@ final class ResultPager implements ResultPagerInterface
      * Fetch the next page.
      *
      * @throws \Http\Client\Exception
-     *
-     * @return array
      */
     public function fetchNext(): array
     {
@@ -167,8 +125,6 @@ final class ResultPager implements ResultPagerInterface
 
     /**
      * Check to determine the availability of a previous page.
-     *
-     * @return bool
      */
     public function hasPrevious(): bool
     {
@@ -179,8 +135,6 @@ final class ResultPager implements ResultPagerInterface
      * Fetch the previous page.
      *
      * @throws \Http\Client\Exception
-     *
-     * @return array
      */
     public function fetchPrevious(): array
     {
@@ -191,8 +145,6 @@ final class ResultPager implements ResultPagerInterface
      * Fetch the first page.
      *
      * @throws \Http\Client\Exception
-     *
-     * @return array
      */
     public function fetchFirst(): array
     {
@@ -203,8 +155,6 @@ final class ResultPager implements ResultPagerInterface
      * Fetch the last page.
      *
      * @throws \Http\Client\Exception
-     *
-     * @return array
      */
     public function fetchLast(): array
     {
@@ -213,8 +163,6 @@ final class ResultPager implements ResultPagerInterface
 
     /**
      * Refresh the pagination property.
-     *
-     * @return void
      */
     private function postFetch(): void
     {
@@ -224,11 +172,7 @@ final class ResultPager implements ResultPagerInterface
     }
 
     /**
-     * @param string $key
-     *
      * @throws \Http\Client\Exception
-     *
-     * @return array
      */
     private function get(string $key): array
     {
@@ -251,12 +195,6 @@ final class ResultPager implements ResultPagerInterface
         return $content;
     }
 
-    /**
-     * @param \Gitlab\Api\AbstractApi $api
-     * @param int                     $perPage
-     *
-     * @return \Gitlab\Api\AbstractApi
-     */
     private static function bindPerPage(AbstractApi $api, int $perPage): AbstractApi
     {
         /** @var Closure(AbstractApi): AbstractApi */

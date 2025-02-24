@@ -17,6 +17,7 @@ namespace Gitlab\Tests\HttpClient;
 use Gitlab\HttpClient\Builder;
 use Http\Client\Common\HttpMethodsClientInterface;
 use Http\Client\Common\Plugin;
+use PHPUnit\Framework\Attributes\Before;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -27,14 +28,9 @@ use Psr\Http\Message\StreamFactoryInterface;
  */
 class BuilderTest extends TestCase
 {
-    /**
-     * @var Builder
-     */
-    private $subject;
+    private Builder $subject;
 
-    /**
-     * @before
-     */
+    #[Before]
     public function initBuilder(): void
     {
         $this->subject = new Builder(

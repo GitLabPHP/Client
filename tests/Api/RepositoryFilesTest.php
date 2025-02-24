@@ -15,12 +15,11 @@ declare(strict_types=1);
 namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\RepositoryFiles;
+use PHPUnit\Framework\Attributes\Test;
 
 class RepositoryFilesTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetBlob(): void
     {
         $expectedString = 'something in a file';
@@ -29,15 +28,12 @@ class RepositoryFilesTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/repository/files/dir%2Ffile1.txt/raw', ['ref' => 'abcd1234'])
-            ->will($this->returnValue($expectedString))
-        ;
+            ->willReturn($expectedString);
 
         $this->assertEquals($expectedString, $api->getRawFile(1, 'dir/file1.txt', 'abcd1234'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetFile(): void
     {
         $expectedArray = ['file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt'];
@@ -46,15 +42,13 @@ class RepositoryFilesTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/repository/files/dir%2Ffile1.txt', ['ref' => 'abcd1234'])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->getFile(1, 'dir/file1.txt', 'abcd1234'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldCreateFile(): void
     {
         $expectedArray = ['file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt'];
@@ -68,7 +62,7 @@ class RepositoryFilesTest extends TestCase
                 'content' => 'some contents',
                 'commit_message' => 'Added new file',
             ])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->createFile(1, [
@@ -79,9 +73,7 @@ class RepositoryFilesTest extends TestCase
         ]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldCreateFileWithEncoding(): void
     {
         $expectedArray = ['file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt'];
@@ -96,7 +88,7 @@ class RepositoryFilesTest extends TestCase
                 'content' => 'some contents',
                 'commit_message' => 'Added new file',
             ])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->createFile(1, [
@@ -108,9 +100,7 @@ class RepositoryFilesTest extends TestCase
         ]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldCreateFileWithAuthor(): void
     {
         $expectedArray = ['file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt'];
@@ -126,7 +116,7 @@ class RepositoryFilesTest extends TestCase
                 'author_email' => 'gitlab@example.com',
                 'author_name' => 'GitLab User',
             ])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->createFile(1, [
@@ -139,9 +129,7 @@ class RepositoryFilesTest extends TestCase
         ]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldUpdateFile(): void
     {
         $expectedArray = ['file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt'];
@@ -155,7 +143,7 @@ class RepositoryFilesTest extends TestCase
                 'content' => 'some new contents',
                 'commit_message' => 'Updated new file',
             ])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->updateFile(1, [
@@ -166,9 +154,7 @@ class RepositoryFilesTest extends TestCase
         ]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldUpdateFileWithEncoding(): void
     {
         $expectedArray = ['file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt'];
@@ -183,7 +169,7 @@ class RepositoryFilesTest extends TestCase
                 'content' => 'c29tZSBuZXcgY29udGVudHM=',
                 'commit_message' => 'Updated file',
             ])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->updateFile(1, [
@@ -195,9 +181,7 @@ class RepositoryFilesTest extends TestCase
         ]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldUpdateFileWithAuthor(): void
     {
         $expectedArray = ['file_name' => 'file1.txt', 'file_path' => 'dir/file1.txt'];
@@ -213,7 +197,7 @@ class RepositoryFilesTest extends TestCase
                 'author_email' => 'gitlab@example.com',
                 'author_name' => 'GitLab User',
             ])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->updateFile(1, [
@@ -226,9 +210,7 @@ class RepositoryFilesTest extends TestCase
         ]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldDeleteFile(): void
     {
         $expectedArray = ['file_name' => 'app/project.rb', 'branch' => 'master'];
@@ -241,7 +223,7 @@ class RepositoryFilesTest extends TestCase
                 'branch' => 'master',
                 'commit_message' => 'Deleted file',
             ])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->deleteFile(1, [
@@ -251,9 +233,7 @@ class RepositoryFilesTest extends TestCase
         ]));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldDeleteFileWithAuthor(): void
     {
         $expectedArray = ['file_name' => 'app/project.rb', 'branch' => 'master'];
@@ -268,7 +248,7 @@ class RepositoryFilesTest extends TestCase
                 'author_email' => 'gitlab@example.com',
                 'author_name' => 'GitLab User',
             ])
-            ->will($this->returnValue($expectedArray))
+            ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->deleteFile(1, [
@@ -280,10 +260,7 @@ class RepositoryFilesTest extends TestCase
         ]));
     }
 
-    /**
-     * @return string
-     */
-    protected function getApiClass()
+    protected function getApiClass(): string
     {
         return RepositoryFiles::class;
     }

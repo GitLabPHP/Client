@@ -15,12 +15,11 @@ declare(strict_types=1);
 namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\Keys;
+use PHPUnit\Framework\Attributes\Test;
 
 class KeysTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldShowKey(): void
     {
         $expectedArray = ['id' => 1, 'title' => 'A key', 'key' => 'ssh-rsa key', 'created_at' => '2016-01-01T01:00:00.000Z'];
@@ -28,12 +27,12 @@ class KeysTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('keys/1')
-            ->will($this->returnValue($expectedArray));
+            ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->show(1));
     }
 
-    protected function getApiClass()
+    protected function getApiClass(): string
     {
         return Keys::class;
     }

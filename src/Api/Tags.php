@@ -17,7 +17,6 @@ namespace Gitlab\Api;
 class Tags extends AbstractApi
 {
     /**
-     * @param int|string $project_id
      * @param array      $parameters {
      *
      *     @var string $order_by Return tags ordered by `name`, `updated` or `version` fields. Default is `updated`.
@@ -25,10 +24,8 @@ class Tags extends AbstractApi
      *     @var string $search   Return list of tags matching the search criteria. You can use `^term` and `term$` to
      *                           find tags that begin and end with term respectively.
      * }
-     *
-     * @return mixed
      */
-    public function all($project_id, array $parameters = [])
+    public function all(int|string $project_id, array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
         $resolver->setDefined('order_by')
@@ -40,59 +37,27 @@ class Tags extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'repository/tags'), $resolver->resolve($parameters));
     }
 
-    /**
-     * @param int|string $project_id
-     * @param string     $tag_name
-     *
-     * @return mixed
-     */
-    public function show($project_id, string $tag_name)
+    public function show(int|string $project_id, string $tag_name): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'repository/tags/'.self::encodePath($tag_name)));
     }
 
-    /**
-     * @param int|string $project_id
-     * @param array      $params
-     *
-     * @return mixed
-     */
-    public function create($project_id, array $params = [])
+    public function create(int|string $project_id, array $params = []): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'repository/tags'), $params);
     }
 
-    /**
-     * @param int|string $project_id
-     * @param string     $tag_name
-     *
-     * @return mixed
-     */
-    public function remove($project_id, string $tag_name)
+    public function remove(int|string $project_id, string $tag_name): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'repository/tags/'.self::encodePath($tag_name)));
     }
 
-    /**
-     * @param int|string $project_id
-     * @param string     $tag_name
-     * @param array      $params
-     *
-     * @return mixed
-     */
-    public function createRelease($project_id, string $tag_name, array $params = [])
+    public function createRelease(int|string $project_id, string $tag_name, array $params = []): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'repository/tags/'.self::encodePath($tag_name).'/release'), $params);
     }
 
-    /**
-     * @param int|string $project_id
-     * @param string     $tag_name
-     * @param array      $params
-     *
-     * @return mixed
-     */
-    public function updateRelease($project_id, string $tag_name, array $params = [])
+    public function updateRelease(int|string $project_id, string $tag_name, array $params = []): mixed
     {
         return $this->put($this->getProjectPath($project_id, 'repository/tags/'.self::encodePath($tag_name).'/release'), $params);
     }

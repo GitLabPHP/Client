@@ -34,26 +34,15 @@ final class Authentication implements Plugin
     /**
      * @var array<string,string>
      */
-    private $headers;
+    private readonly array $headers;
 
-    /**
-     * @param string      $method
-     * @param string      $token
-     * @param string|null $sudo
-     *
-     * @return void
-     */
-    public function __construct(string $method, string $token, string $sudo = null)
+    public function __construct(string $method, string $token, ?string $sudo = null)
     {
         $this->headers = self::buildHeaders($method, $token, $sudo);
     }
 
     /**
      * Handle the request and return the response coming from the next callable.
-     *
-     * @param RequestInterface $request
-     * @param callable         $next
-     * @param callable         $first
      *
      * @return Promise<ResponseInterface>
      */
@@ -69,15 +58,11 @@ final class Authentication implements Plugin
     /**
      * Build the headers to be attached to the request.
      *
-     * @param string      $method
-     * @param string      $token
-     * @param string|null $sudo
-     *
      * @throws RuntimeException
      *
      * @return array<string,string>
      */
-    private static function buildHeaders(string $method, string $token, string $sudo = null): array
+    private static function buildHeaders(string $method, string $token, ?string $sudo = null): array
     {
         $headers = [];
 
