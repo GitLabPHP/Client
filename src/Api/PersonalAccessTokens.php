@@ -92,7 +92,6 @@ class PersonalAccessTokens extends AbstractApi
         return $this->get('personal_access_tokens/self');
     }
 
-
     /**
      * @return mixed
      */
@@ -106,6 +105,7 @@ class PersonalAccessTokens extends AbstractApi
             ->setAllowedTypes('expires_at', \DateTimeInterface::class)
             ->setNormalizer('expires_at', $datetimeNormalizer)
         ;
+
         return $this->post('personal_access_tokens/'.self::encodePath($id).'/rotate', $resolver->resolve($params));
     }
 
@@ -122,6 +122,7 @@ class PersonalAccessTokens extends AbstractApi
             ->setAllowedTypes('expires_at', \DateTimeInterface::class)
             ->setNormalizer('expires_at', $datetimeNormalizer)
         ;
+
         return $this->post('personal_access_tokens/self/rotate', $resolver->resolve($params));
     }
 

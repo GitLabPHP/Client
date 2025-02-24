@@ -163,5 +163,4 @@ class PersonalAccessTokensTest extends TestCase
 
         $this->assertEquals($expectedBool, $api->removeCurrent());
     }
-
 }
