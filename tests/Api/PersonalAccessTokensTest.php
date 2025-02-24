@@ -18,7 +18,7 @@ use Gitlab\Api\PersonalAccessTokens;
 
 class PersonalAccessTokensTest extends TestCase
 {
-    protected function getApiClass()
+    protected function getApiClass(): string
     {
         return PersonalAccessTokens::class;
     }
