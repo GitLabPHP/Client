@@ -55,7 +55,6 @@ class Registry extends AbstractApi
      * @see https://docs.gitlab.com/ee/api/container_registry.html#list-registry-repository-tags
      *
      * @param int|string $project_id
-     * @param int $repository_id
      *
      * @return mixed
      */
@@ -70,8 +69,6 @@ class Registry extends AbstractApi
      * @see https://docs.gitlab.com/ee/api/container_registry.html#get-details-of-a-registry-repository-tag
      *
      * @param int|string $project_id
-     * @param int $repository_id
-     * @param string $tag_name
      *
      * @return mixed
      */
@@ -89,8 +86,6 @@ class Registry extends AbstractApi
      * @see https://docs.gitlab.com/ee/api/container_registry.html#delete-a-registry-repository-tag
      *
      * @param int|string $project_id
-     * @param int $repository_id
-     * @param string $tag_name
      *
      * @return mixed
      */
@@ -108,7 +103,6 @@ class Registry extends AbstractApi
      * @see https://docs.gitlab.com/ee/api/container_registry.html#delete-registry-repository-tags-in-bulk
      *
      * @param int|string $project_id
-     * @param int $repository_id
      * @param array $parameters {
      *
      *      @var string $name_regex_delete
