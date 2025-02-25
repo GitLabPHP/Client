@@ -30,8 +30,6 @@ class PersonalAccessTokens extends AbstractApi
      *     @var \DateTimeInterface $last_used_after   return tokens used before the given time (inclusive)
      *     @var \DateTimeInterface $last_used_before  return tokens used after the given time (inclusive)
      * }
-     *
-     * @return mixed
      */
     public function all(array $parameters = [])
     {
@@ -76,25 +74,16 @@ class PersonalAccessTokens extends AbstractApi
         return $this->get('personal_access_tokens', $resolver->resolve($parameters));
     }
 
-    /**
-     * @return mixed
-     */
     public function show(int $id)
     {
         return $this->get('personal_access_tokens/'.self::encodePath($id));
     }
 
-    /**
-     * @return mixed
-     */
     public function current()
     {
         return $this->get('personal_access_tokens/self');
     }
 
-    /**
-     * @return mixed
-     */
     public function rotate(int $id, array $params = [])
     {
         $resolver = $this->createOptionsResolver();
@@ -109,9 +98,6 @@ class PersonalAccessTokens extends AbstractApi
         return $this->post('personal_access_tokens/'.self::encodePath($id).'/rotate', $resolver->resolve($params));
     }
 
-    /**
-     * @return mixed
-     */
     public function rotateCurrent(array $params = [])
     {
         $resolver = $this->createOptionsResolver();
@@ -126,17 +112,11 @@ class PersonalAccessTokens extends AbstractApi
         return $this->post('personal_access_tokens/self/rotate', $resolver->resolve($params));
     }
 
-    /**
-     * @return mixed
-     */
     public function remove(int $id)
     {
         return $this->delete('personal_access_tokens/'.self::encodePath($id));
     }
 
-    /**
-     * @return mixed
-     */
     public function removeCurrent()
     {
         return $this->delete('personal_access_tokens/self');
