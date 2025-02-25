@@ -23,9 +23,7 @@ class PersonalAccessTokensTest extends TestCase
         return PersonalAccessTokens::class;
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetAllTokens(): void
     {
         $expectedArray = [
@@ -43,9 +41,7 @@ class PersonalAccessTokensTest extends TestCase
         $this->assertEquals($expectedArray, $api->all());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldGetActiveTokens(): void
     {
         $expectedArray = [
@@ -62,9 +58,7 @@ class PersonalAccessTokensTest extends TestCase
         $this->assertEquals($expectedArray, $api->all(['state' => 'active']));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldShowToken(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'Token 1', 'state' => 'active'];
@@ -79,9 +73,7 @@ class PersonalAccessTokensTest extends TestCase
         $this->assertEquals($expectedArray, $api->show(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldShowCurrent(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'Token 1', 'state' => 'active'];
@@ -96,9 +88,7 @@ class PersonalAccessTokensTest extends TestCase
         $this->assertEquals($expectedArray, $api->current());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRotate(): void
     {
         $expectedArray = ['id' => 4, 'name' => 'Token 4'];
@@ -113,9 +103,7 @@ class PersonalAccessTokensTest extends TestCase
         $this->assertEquals($expectedArray, $api->rotate(3));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRotateCurrent(): void
     {
         $expectedArray = ['id' => 4, 'name' => 'Token 4'];
@@ -130,9 +118,7 @@ class PersonalAccessTokensTest extends TestCase
         $this->assertEquals($expectedArray, $api->rotateCurrent());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRemoveToken(): void
     {
         $expectedBool = true;
@@ -147,9 +133,7 @@ class PersonalAccessTokensTest extends TestCase
         $this->assertEquals($expectedBool, $api->remove(1));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRemoveCurrentToken(): void
     {
         $expectedBool = true;
