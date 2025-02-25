@@ -31,7 +31,7 @@ class PersonalAccessTokens extends AbstractApi
      *     @var \DateTimeInterface $last_used_before  return tokens used after the given time (inclusive)
      * }
      */
-    public function all(array $parameters = [])
+    public function all(array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
         $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
@@ -74,17 +74,17 @@ class PersonalAccessTokens extends AbstractApi
         return $this->get('personal_access_tokens', $resolver->resolve($parameters));
     }
 
-    public function show(int $id)
+    public function show(int $id): mixed
     {
         return $this->get('personal_access_tokens/'.self::encodePath($id));
     }
 
-    public function current()
+    public function current(): mixed
     {
         return $this->get('personal_access_tokens/self');
     }
 
-    public function rotate(int $id, array $params = [])
+    public function rotate(int $id, array $params = []): mixed
     {
         $resolver = $this->createOptionsResolver();
         $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
@@ -98,7 +98,7 @@ class PersonalAccessTokens extends AbstractApi
         return $this->post('personal_access_tokens/'.self::encodePath($id).'/rotate', $resolver->resolve($params));
     }
 
-    public function rotateCurrent(array $params = [])
+    public function rotateCurrent(array $params = []): mixed
     {
         $resolver = $this->createOptionsResolver();
         $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
@@ -112,12 +112,12 @@ class PersonalAccessTokens extends AbstractApi
         return $this->post('personal_access_tokens/self/rotate', $resolver->resolve($params));
     }
 
-    public function remove(int $id)
+    public function remove(int $id): mixed
     {
         return $this->delete('personal_access_tokens/'.self::encodePath($id));
     }
 
-    public function removeCurrent()
+    public function removeCurrent(): mixed
     {
         return $this->delete('personal_access_tokens/self');
     }
