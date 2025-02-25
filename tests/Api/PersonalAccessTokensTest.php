@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Gitlab\Tests\Api;
 
 use Gitlab\Api\PersonalAccessTokens;
+use PHPUnit\Framework\Attributes\Test;
 
 class PersonalAccessTokensTest extends TestCase
 {
