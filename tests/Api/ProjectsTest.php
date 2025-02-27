@@ -2766,7 +2766,7 @@ class ProjectsTest extends TestCase
         ]));
     }
 
-    # [Test]
+    #[Test]
     public function shouldGetIntegrations(): void
     {
         $api = $this->getApiMock();
@@ -2779,5 +2779,4 @@ class ProjectsTest extends TestCase
 
         $this->assertEquals([], $api->integrations(1));
     }
-
 }

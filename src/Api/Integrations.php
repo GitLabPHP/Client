@@ -19,11 +19,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Integrations extends AbstractApi
 {
-    /**
-     * @param int|string $project_id
-     *
-     * @return mixed
-     */
     public function all(int|string $project_id): mixed
     {
         $path = $this->getProjectPath($project_id, 'integrations');
@@ -37,10 +32,8 @@ class Integrations extends AbstractApi
      * Create Microsoft Teams integration
      * Set Microsoft Teams integration for a project.
      *
-     * @param int|string $project_id
      * @param array      $params {
      *
-     *     @return mixed
      *@var string $webhook                      The Microsoft Teams webhook
      *     @var bool   $notify_only_broken_pipelines Send notifications for broken pipelines
      *     @var string $branches_to_be_notified      Branches to send notifications for. Valid options are all, default,
@@ -55,7 +48,6 @@ class Integrations extends AbstractApi
      *     @var bool   $pipeline_events              Enable notifications for pipeline events
      *     @var bool   $wiki_page_events             Enable notifications for wiki page events
      * }
-     *
      */
     public function createMicrosoftTeams(int|string $project_id, array $params = []): mixed
     {
@@ -120,10 +112,8 @@ class Integrations extends AbstractApi
      * Update Microsoft Teams integration
      * Set Microsoft Teams integration for a project.
      *
-     * @param int|string $project_id
      * @param array      $params {
      *
-     *     @return mixed
      *@var string $webhook                      The Microsoft Teams webhook
      *     @var bool   $notify_only_broken_pipelines Send notifications for broken pipelines
      *     @var string $branches_to_be_notified      Branches to send notifications for. Valid options are all, default,
@@ -138,7 +128,6 @@ class Integrations extends AbstractApi
      *     @var bool   $pipeline_events              Enable notifications for pipeline events
      *     @var bool   $wiki_page_events             Enable notifications for wiki page events
      * }
-     *
      */
     public function updateMicrosoftTeams(int|string $project_id, array $params = []): mixed
     {
@@ -147,10 +136,6 @@ class Integrations extends AbstractApi
 
     /**
      * Get Microsoft Teams integration settings for a project.
-     *
-     * @param int|string $project_id
-     *
-     * @return mixed
      */
     public function getMicrosoftTeams(int|string $project_id): mixed
     {
@@ -159,10 +144,6 @@ class Integrations extends AbstractApi
 
     /**
      * Disable the Microsoft Teams integration for a project. Integration settings are reset.
-     *
-     * @param int|string $project_id
-     *
-     * @return mixed
      */
     public function removeMicrosoftTeams(int|string $project_id): mixed
     {
@@ -175,10 +156,8 @@ class Integrations extends AbstractApi
      * Create Jira integration
      * Set Jira integration for a project.
      *
-     * @param int|string $project_id
      * @param array      $params {
      *
-     *     @return mixed
      *@var string $url                     The URL to the Jira project which is being linked to this GitLab project
      *     @var bool   $api_url                 The base URL to the Jira instance API. Web URL value is used if not set
      *     @var string $username                The email or username to be used with Jira. For Jira Cloud use an email,
@@ -205,7 +184,6 @@ class Integrations extends AbstractApi
      *     @var string $comment_on_event_enabled            Enable comments inside Jira issues on each GitLab event
      *                                                      (commit / merge request)
      * }
-     *
      */
     public function createJira(int|string $project_id, array $params = []): mixed
     {
@@ -268,10 +246,8 @@ class Integrations extends AbstractApi
      * Update Jira integration
      * Set Jira integration for a project.
      *
-     * @param int|string $project_id
      * @param array      $params {
      *
-     *     @return mixed
      *@var string $url                     The URL to the Jira project which is being linked to this GitLab project
      *     @var bool   $api_url                 The base URL to the Jira instance API. Web URL value is used if not set
      *     @var string $username                The email or username to be used with Jira. For Jira Cloud use an email,
@@ -298,7 +274,6 @@ class Integrations extends AbstractApi
      *     @var string $comment_on_event_enabled            Enable comments inside Jira issues on each GitLab event
      *                                                      (commit / merge request)
      * }
-     *
      */
     public function updateJira(int|string $project_id, array $params = []): mixed
     {
@@ -307,10 +282,6 @@ class Integrations extends AbstractApi
 
     /**
      * Get Jira integration settings for a project.
-     *
-     * @param int|string $project_id
-     *
-     * @return mixed
      */
     public function getJira(int|string $project_id): mixed
     {
@@ -319,10 +290,6 @@ class Integrations extends AbstractApi
 
     /**
      * Disable the Jira integration for a project. Integration settings are reset.
-     *
-     * @param int|string $project_id
-     *
-     * @return mixed
      */
     public function removeJira(int|string $project_id): mixed
     {
