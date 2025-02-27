@@ -2765,4 +2765,19 @@ class ProjectsTest extends TestCase
             'sort' => 'desc',
         ]));
     }
+
+    # [Test]
+    public function shouldGetIntegrations(): void
+    {
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with(
+                'projects/1/integrations'
+            )
+            ->willReturn([]);
+
+        $this->assertEquals([], $api->integrations(1));
+    }
+
 }
