@@ -2769,14 +2769,17 @@ class ProjectsTest extends TestCase
     #[Test]
     public function shouldGetIntegrations(): void
     {
+        $expectedArray = [
+            ['id' => 1, 'title' => 'Microsoft Teams notifications', 'slug' => 'microsoft-teams'],
+        ];
         $api = $this->getApiMock();
         $api->expects($this->once())
-            ->method('put')
+            ->method('get')
             ->with(
                 'projects/1/integrations'
             )
-            ->willReturn([]);
+            ->willReturn($expectedArray);
 
-        $this->assertEquals([], $api->integrations(1));
+        $this->assertEquals($expectedArray, $api->integrations(1));
     }
 }
