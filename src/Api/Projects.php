@@ -1126,9 +1126,9 @@ class Projects extends AbstractApi
         return $this->delete($this->getProjectPath($project_id, 'repository/merged_branches'));
     }
 
-    public function projectAccessTokens(int|string $project_id): mixed
+    public function projectAccessTokens(int|string $project_id, array $parameters = []): mixed
     {
-        return $this->get($this->getProjectPath($project_id, 'access_tokens'));
+        return $this->get($this->getProjectPath($project_id, 'access_tokens'), $parameters);
     }
 
     public function projectAccessToken(int|string $project_id, int|string $token_id): mixed
