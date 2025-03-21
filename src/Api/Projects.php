@@ -349,11 +349,7 @@ class Projects extends AbstractApi
      */
     public function createPipeline(int|string $project_id, string $commit_ref, ?array $variables = null): mixed
     {
-        $parameters = [];
-
-        if (null !== $variables) {
-            $parameters['variables'] = $variables;
-        }
+        $parameters = $variables ?? [];
 
         return $this->post($this->getProjectPath($project_id, 'pipeline'), $parameters, [], [], [
             'ref' => $commit_ref,
