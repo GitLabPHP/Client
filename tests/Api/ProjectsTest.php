@@ -713,8 +713,8 @@ class ProjectsTest extends TestCase
             ['id' => 3, 'status' => 'pending', 'ref' => 'test-pipeline'],
         ];
 
-        $updated_after = new \DateTime('2018-01-01 00:00:00');
-        $updated_before = new \DateTime('2018-01-31 00:00:00');
+        $updated_after = new DateTime('2018-01-01 00:00:00');
+        $updated_before = new DateTime('2018-01-31 00:00:00');
 
         $expectedWithArray = [
             'updated_after' => $updated_after->format('Y-m-d'),
@@ -1515,8 +1515,8 @@ class ProjectsTest extends TestCase
             ['id' => 2, 'title' => 'Another event'],
         ];
 
-        $after = new \DateTime('2018-01-01 00:00:00');
-        $before = new \DateTime('2018-01-31 00:00:00');
+        $after = new DateTime('2018-01-01 00:00:00');
+        $before = new DateTime('2018-01-31 00:00:00');
 
         $expectedWithArray = [
             'after' => $after->format('Y-m-d'),
@@ -1757,8 +1757,8 @@ class ProjectsTest extends TestCase
                 ],
             ],
         ];
-        $updated_after = new \DateTime('2018-01-01 00:00:00');
-        $updated_before = new \DateTime('2018-01-31 00:00:00');
+        $updated_after = new DateTime('2018-01-01 00:00:00');
+        $updated_before = new DateTime('2018-01-31 00:00:00');
 
         $api = $this->getApiMock();
         $api->expects($this->once())
