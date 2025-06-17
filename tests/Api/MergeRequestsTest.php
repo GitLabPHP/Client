@@ -822,4 +822,69 @@ class MergeRequestsTest extends TestCase
             'skip_ci' => true,
         ]));
     }
+
+    #[Test]
+    public function shouldCreateDependency(): void
+    {
+        $expectedArray = ['id' => 1, 'blocking_merge_request_id' => 3];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/merge_requests/2/blocks/3')
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->createDependency(1, 2, 3));
+    }
+
+    #[Test]
+    public function shouldGetDependencies(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'blocking_merge_request_id' => 3],
+            ['id' => 2, 'blocking_merge_request_id' => 4],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_requests/2/blocks')
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->dependencies(1, 2));
+    }
+
+    #[Test]
+    public function shouldDeleteDependency(): void
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/merge_requests/2/blocks/3')
+            ->willReturn($expectedBool);
+
+        $this->assertEquals($expectedBool, $api->deleteDependency(1, 2, 3));
+    }
+
+    #[Test]
+    public function shouldGetBlockedMergeRequests(): void
+    {
+        $expectedArray = [
+            ['id' => 3, 'project_id' => 1, 'blocking_merge_request' => [], 'blocked_merge_request' => []],
+            ['id' => 4, 'project_id' => 1, 'blocking_merge_request' => [], 'blocked_merge_request' => []],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_requests/2/blockees')
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->blockedMrs(1, 2));
+    }
 }

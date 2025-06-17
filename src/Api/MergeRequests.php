@@ -368,4 +368,26 @@ class MergeRequests extends AbstractApi
     {
         return $this->delete($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/approval_rules/'.self::encodePath($approval_rule_id)));
     }
+
+    public function createDependency(int|string $project_id, int $mr_iid, int $blocking_merge_request_id): mixed
+    {
+        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/blocks'), [
+            'blocking_merge_request_id' => $blocking_merge_request_id,
+        ]);
+    }
+
+    public function dependencies(int|string $project_id, int $mr_iid): mixed
+    {
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/blocks'));
+    }
+
+    public function deleteDependency(int|string $project_id, int $mr_iid, int $block_id): mixed
+    {
+        return $this->delete($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/blocks/'.self::encodePath($block_id)));
+    }
+
+    public function blockedMrs(int|string $project_id, int $mr_iid): mixed
+    {
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/blockees'));
+    }
 }
