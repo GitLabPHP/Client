@@ -126,6 +126,22 @@ class GroupsTest extends TestCase
     }
 
     #[Test]
+    public function shouldShowGroupWithAdditionalParameters(): void
+    {
+        $expectedArray = ['id' => 1, 'name' => 'A group'];
+        $parameters = ['with_custom_attributes' => false, 'with_projects' => false];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1', $parameters)
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->show(1, $parameters));
+    }
+
+    #[Test]
     public function shouldCreateGroup(): void
     {
         $expectedArray = ['id' => 1, 'name' => 'A new group'];
