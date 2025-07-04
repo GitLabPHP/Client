@@ -1353,6 +1353,20 @@ class ProjectsTest extends TestCase
     }
 
     #[Test]
+    public function shouldUpdateDeployKey(): void
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/deploy_keys/3', ['title' => 'new-title', 'can_push' => true])
+            ->willReturn($expectedBool);
+
+        $this->assertEquals($expectedBool, $api->updateDeployKey(1, 3, ['title' => 'new-title', 'can_push' => true]));
+    }
+
+    #[Test]
     public function shouldGetDeployTokens(): void
     {
         $expectedArray = [
