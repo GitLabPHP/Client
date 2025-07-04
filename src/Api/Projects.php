@@ -647,6 +647,130 @@ class Projects extends AbstractApi
         return $this->delete($this->getProjectPath($project_id, 'deploy_tokens/'.self::encodePath($token_id)));
     }
 
+    public function pushRule(int|string $project_id): mixed
+    {
+        return $this->get($this->getProjectPath($project_id, 'push_rule'));
+    }
+
+    public function createPushRule(int|string $project_id, array $parameters = []): mixed
+    {
+        $resolver = $this->createOptionsResolver();
+        $booleanNormalizer = function (Options $resolver, $value): string {
+            return $value ? 'true' : 'false';
+        };
+
+        $resolver->setDefined('author_email_regex')
+            ->setAllowedTypes('author_email_regex', 'string')
+        ;
+        $resolver->setDefined('branch_name_regex')
+            ->setAllowedTypes('branch_name_regex', 'string')
+        ;
+        $resolver->setDefined('commit_message_negative_regex')
+            ->setAllowedTypes('commit_message_negative_regex', 'string')
+        ;
+        $resolver->setDefined('commit_message_regex')
+            ->setAllowedTypes('commit_message_regex', 'string')
+        ;
+        $resolver->setDefined('deny_delete_tag')
+            ->setAllowedTypes('deny_delete_tag', 'bool')
+            ->setNormalizer('deny_delete_tag', $booleanNormalizer)
+        ;
+        $resolver->setDefined('file_name_regex')
+            ->setAllowedTypes('file_name_regex', 'string')
+        ;
+        $resolver->setDefined('max_file_size')
+            ->setAllowedTypes('max_file_size', 'string')
+        ;
+        $resolver->setDefined('member_check')
+            ->setAllowedTypes('member_check', 'bool')
+            ->setNormalizer('member_check', $booleanNormalizer)
+        ;
+        $resolver->setDefined('prevent_secrets')
+            ->setAllowedTypes('prevent_secrets', 'bool')
+            ->setNormalizer('prevent_secrets', $booleanNormalizer)
+        ;
+        $resolver->setDefined('commit_committer_check')
+            ->setAllowedTypes('commit_committer_check', 'bool')
+            ->setNormalizer('commit_committer_check', $booleanNormalizer)
+        ;
+        $resolver->setDefined('commit_committer_name_check')
+            ->setAllowedTypes('commit_committer_name_check', 'bool')
+            ->setNormalizer('commit_committer_name_check', $booleanNormalizer)
+        ;
+        $resolver->setDefined('reject_unsigned_commits')
+            ->setAllowedTypes('reject_unsigned_commits', 'bool')
+            ->setNormalizer('reject_unsigned_commits', $booleanNormalizer)
+        ;
+        $resolver->setDefined('reject_non_dco_commits')
+            ->setAllowedTypes('reject_non_dco_commits', 'bool')
+            ->setNormalizer('reject_non_dco_commits', $booleanNormalizer)
+        ;
+
+        return $this->post($this->getProjectPath($project_id, 'push_rule'), $resolver->resolve($parameters));
+    }
+
+    public function updatePushRule(int|string $project_id, array $parameters = []): mixed
+    {
+        $resolver = $this->createOptionsResolver();
+        $booleanNormalizer = function (Options $resolver, $value): string {
+            return $value ? 'true' : 'false';
+        };
+
+        $resolver->setDefined('author_email_regex')
+            ->setAllowedTypes('author_email_regex', 'string')
+        ;
+        $resolver->setDefined('branch_name_regex')
+            ->setAllowedTypes('branch_name_regex', 'string')
+        ;
+        $resolver->setDefined('commit_message_negative_regex')
+            ->setAllowedTypes('commit_message_negative_regex', 'string')
+        ;
+        $resolver->setDefined('commit_message_regex')
+            ->setAllowedTypes('commit_message_regex', 'string')
+        ;
+        $resolver->setDefined('deny_delete_tag')
+            ->setAllowedTypes('deny_delete_tag', 'bool')
+            ->setNormalizer('deny_delete_tag', $booleanNormalizer)
+        ;
+        $resolver->setDefined('file_name_regex')
+            ->setAllowedTypes('file_name_regex', 'string')
+        ;
+        $resolver->setDefined('max_file_size')
+            ->setAllowedTypes('max_file_size', 'string')
+        ;
+        $resolver->setDefined('member_check')
+            ->setAllowedTypes('member_check', 'bool')
+            ->setNormalizer('member_check', $booleanNormalizer)
+        ;
+        $resolver->setDefined('prevent_secrets')
+            ->setAllowedTypes('prevent_secrets', 'bool')
+            ->setNormalizer('prevent_secrets', $booleanNormalizer)
+        ;
+        $resolver->setDefined('commit_committer_check')
+            ->setAllowedTypes('commit_committer_check', 'bool')
+            ->setNormalizer('commit_committer_check', $booleanNormalizer)
+        ;
+        $resolver->setDefined('commit_committer_name_check')
+            ->setAllowedTypes('commit_committer_name_check', 'bool')
+            ->setNormalizer('commit_committer_name_check', $booleanNormalizer)
+        ;
+        $resolver->setDefined('reject_unsigned_commits')
+            ->setAllowedTypes('reject_unsigned_commits', 'bool')
+            ->setNormalizer('reject_unsigned_commits', $booleanNormalizer)
+        ;
+        $resolver->setDefined('reject_non_dco_commits')
+            ->setAllowedTypes('reject_non_dco_commits', 'bool')
+            ->setNormalizer('reject_non_dco_commits', $booleanNormalizer)
+        ;
+
+        return $this->put($this->getProjectPath($project_id, 'push_rule'), $resolver->resolve($parameters));
+    }
+
+    public function deletePushRule(int|string $project_id): mixed
+    {
+        return $this->delete($this->getProjectPath($project_id, 'push_rule'));
+    }
+
     /**
      * @param array      $parameters {
      *

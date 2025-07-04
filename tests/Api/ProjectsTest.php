@@ -1491,6 +1491,78 @@ class ProjectsTest extends TestCase
     }
 
     #[Test]
+    public function shouldGetPushRule(): void
+    {
+        $expectedArray = [
+            'id' => 1,
+            'project_id' => 3,
+            'commit_message_regex' => '.*',
+            'branch_name_regex' => '.*',
+            'author_email_regex' => '.*',
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/3/push_rule')
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->pushRule(3));
+    }
+
+    #[Test]
+    public function shouldCreatePushRule(): void
+    {
+        $expectedBool = true;
+        $params = [
+            'commit_message_regex' => '.*',
+            'branch_name_regex' => '.*',
+            'author_email_regex' => '.*',
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/3/push_rule', $params)
+            ->willReturn($expectedBool);
+
+        $this->assertEquals($expectedBool, $api->createPushRule(3, $params));
+    }
+
+    #[Test]
+    public function shouldUpdatePushRule(): void
+    {
+        $expectedBool = true;
+        $params = [
+            'commit_message_regex' => '.*',
+            'branch_name_regex' => '.*',
+            'author_email_regex' => '.*',
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/3/push_rule', $params)
+            ->willReturn($expectedBool);
+
+        $this->assertEquals($expectedBool, $api->updatePushRule(3, $params));
+    }
+
+    #[Test]
+    public function shouldDeletePushRule(): void
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/3/push_rule')
+            ->willReturn($expectedBool);
+
+        $this->assertEquals($expectedBool, $api->deletePushRule(3));
+    }
+
+    #[Test]
     public function shouldGetEvents(): void
     {
         $expectedArray = [
