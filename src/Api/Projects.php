@@ -854,7 +854,7 @@ class Projects extends AbstractApi
      *     @var string  $name                       The name of the forked project (optional)
      *     @var string  $branches                   The branches to fork (empty for all branches) (optional)
      *     @var string  $description                The description assigned to the resultant project after forking (optional)
-     *     @var boolean $mr_default_target_self     For forked projects, target merge requests to this project. If false, the target is the upstream project. (optional)
+     *     @var bool $mr_default_target_self     For forked projects, target merge requests to this project. If false, the target is the upstream project. (optional)
      *     @var string  $visibility                 The visibility level assigned to the resultant project after forking. (optional)
      * }
      */
