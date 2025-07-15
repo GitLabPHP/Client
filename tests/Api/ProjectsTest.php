@@ -1698,7 +1698,7 @@ class ProjectsTest extends TestCase
             'name' => 'new_name',
             'description' => 'new_description',
             'visibility' => 'public',
-            'mr_default_target_self' => 'true',
+            'mr_default_target_self' => true,
         ];
 
         $api = $this->getApiMock();
