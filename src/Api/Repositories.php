@@ -191,6 +191,7 @@ class Repositories extends AbstractApi
      *     @var string $branch         Name of the branch to commit into. To create a new branch, also provide start_branch.
      *     @var string $commit_message commit message
      *     @var string $start_branch   name of the branch to start the new commit from
+     *     @var bool $force            true if the new changes should override existing ones
      *     @var array $actions {
      *         @var string $action        he action to perform, create, delete, move, update
      *         @var string $file_path     full path to the file
@@ -212,6 +213,8 @@ class Repositories extends AbstractApi
             ->setRequired('commit_message')
         ;
         $resolver->setDefined('start_branch');
+        $resolver->setDefined('force')
+            ->setAllowedTypes('force', 'bool');
         $resolver->setDefined('actions')
             ->setRequired('actions')
             ->setAllowedTypes('actions', 'array')
