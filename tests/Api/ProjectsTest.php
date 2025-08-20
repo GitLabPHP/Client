@@ -2791,7 +2791,7 @@ class ProjectsTest extends TestCase
                 'state' => 'active',
                 'locked' => false,
                 'avatar_url' => 'https://gitlab.domain.com/uploads/-/system/user/avatar/1/avatar.png',
-                'web_url' => 'https://gitlab.domain.com/usernam'
+                'web_url' => 'https://gitlab.domain.com/usernam',
             ],
             'started_at' => '2025-08-19T17:17:24.643Z',
             'finished_at' => '2025-08-19T20:30:54.414Z',
@@ -2808,9 +2808,9 @@ class ProjectsTest extends TestCase
                 'has_details' => false,
                 'details_path' => '/group/project-1/-/pipelines/2',
                 'illustration' => null,
-                'favicon' => '/assets/ci_favicons/favicon_status_failed-312312312hghj312j3jh4123hj13j1h2.png'
+                'favicon' => '/assets/ci_favicons/favicon_status_failed-312312312hghj312j3jh4123hj13j1h2.png',
             ],
-            'name' => null
+            'name' => null,
         ];
 
         $api = $this->getApiMock();
