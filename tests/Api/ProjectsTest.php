@@ -2765,4 +2765,60 @@ class ProjectsTest extends TestCase
             'sort' => 'desc',
         ]));
     }
+
+    #[Test]
+    public function shouldLatestPipeline(): void
+    {
+        $expectedArray = [
+            "id" => 1,
+            "iid" => 11,
+            "project_id" => 1,
+            "sha" => "005b54847000bd171b3fc64fb86d23f17d488456",
+            "ref" => "branch-name",
+            "status" => "failed",
+            "source" => "schedule",
+            "created_at" => "2025-08-19T17:17:21.946Z",
+            "updated_at" => "2025-08-19T20:30:54.436Z",
+            "web_url" => "https://gitlab.domain.com/group/project-1/-/pipelines/2",
+            "before_sha" => "0000000000000000000000000000000000000000",
+            "tag" => false,
+            "yaml_errors" => null,
+            "user" => [
+                "id" => 1,
+                "username" => "username",
+                "public_email" => "",
+                "name" => "Username",
+                "state" => "active",
+                "locked" => false,
+                "avatar_url" => "https://gitlab.domain.com/uploads/-/system/user/avatar/1/avatar.png",
+                "web_url" => "https://gitlab.domain.com/usernam"
+            ],
+            "started_at" => "2025-08-19T17:17:24.643Z",
+            "finished_at" => "2025-08-19T20:30:54.414Z",
+            "committed_at" => null,
+            "duration" => 51,
+            "queued_duration" => 2,
+            "coverage" => null,
+            "detailed_status" => [
+                "icon" => "status_failed",
+                "text" => "Failed",
+                "label" => "failed",
+                "group" => "failed",
+                "tooltip" => "failed",
+                "has_details" => false,
+                "details_path" => "/group/project-1/-/pipelines/2",
+                "illustration" => null,
+                "favicon" => "/assets/ci_favicons/favicon_status_failed-312312312hghj312j3jh4123hj13j1h2.png"
+            ],
+            "name" => null
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/pipelines/latest')
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->latestPipeline(1));
+    }
 }
