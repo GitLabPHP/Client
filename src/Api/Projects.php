@@ -1280,4 +1280,14 @@ class Projects extends AbstractApi
 
         return $this->get('projects/'.self::encodePath($id).'/search', $resolver->resolve($parameters));
     }
+
+    public function remoteMirrors(int|string $project_id): mixed
+    {
+        return $this->get('projects/'.self::encodePath($project_id).'/remote_mirrors');
+    }
+
+    public function remoteMirror(int|string $project_id, int $mirror_id): mixed
+    {
+        return $this->get('projects/'.self::encodePath($project_id).'/remote_mirrors/'.self::encodePath($mirror_id));
+    }
 }
