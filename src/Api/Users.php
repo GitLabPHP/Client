@@ -68,7 +68,6 @@ class Users extends AbstractApi
             ->setAllowedValues('without_project_bots', true)
         ;
 
-
         return $this->get('users', $resolver->resolve($parameters));
     }
 
