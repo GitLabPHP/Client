@@ -21,15 +21,16 @@ class Users extends AbstractApi
     /**
      * @param array $parameters {
      *
-     *     @var string             $search         search for user by email or username
-     *     @var string             $username       lookup for user by username
-     *     @var bool               $external       search for external users only
-     *     @var string             $extern_uid     lookup for users by external uid
-     *     @var string             $provider       lookup for users by provider
-     *     @var \DateTimeInterface $created_before return users created before the given time (inclusive)
-     *     @var \DateTimeInterface $created_after  return users created after the given time (inclusive)
-     *     @var bool               $active         Return only active users. It does not support filtering inactive users.
-     *     @var bool               $blocked        Return only blocked users. It does not support filtering non-blocked users.
+     *     @var string             $search                      search for user by email or username
+     *     @var string             $username                    lookup for user by username
+     *     @var bool               $external                    search for external users only
+     *     @var string             $extern_uid                  lookup for users by external uid
+     *     @var string             $provider                    lookup for users by provider
+     *     @var \DateTimeInterface $created_before              return users created before the given time (inclusive)
+     *     @var \DateTimeInterface $created_after               return users created after the given time (inclusive)
+     *     @var bool               $active                      Return only active users. It does not support filtering inactive users.
+     *     @var bool               $blocked                     Return only blocked users. It does not support filtering non-blocked users.
+     *     @var bool               $without_project_bots        Do not include project bots.
      * }
      */
     public function all(array $parameters = []): mixed
@@ -62,6 +63,11 @@ class Users extends AbstractApi
             ->setAllowedTypes('blocked', 'bool')
             ->setAllowedValues('blocked', true)
         ;
+        $resolver->setDefined('without_project_bots')
+            ->setAllowedTypes('without_project_bots', 'bool')
+            ->setAllowedValues('without_project_bots', true)
+        ;
+
 
         return $this->get('users', $resolver->resolve($parameters));
     }
