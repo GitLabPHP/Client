@@ -2233,7 +2233,7 @@ class ProjectsTest extends TestCase
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/deployments', [
-                'updated_after' => $utc->format('Y-m-d\TH:i:s.v\Z')
+                'updated_after' => $utc->format('Y-m-d\TH:i:s.v\Z'),
             ])
             ->willReturn($expectedArray);
 
