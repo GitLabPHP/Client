@@ -323,4 +323,25 @@ See merge request !2',
         $this->assertEquals([], $api->all(1, ['environment' => 'test'])
         );
     }
+
+    #[Test]
+    public function shouldShowDeploymentMergeRequests(): void
+    {
+        $expectedArray = $this->getMultipleMergeRequestsData();
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/deployments/42/merge_requests')
+            ->willReturn($expectedArray);
+        $this->assertEquals($expectedArray, $api->showMergeRequests(1, 42));
+    }
+
+    protected function getMultipleMergeRequestsData(): array
+    {
+        return [
+            ['id' => 1, 'title' => 'A merge request'],
+            ['id' => 2, 'title' => 'Another merge request'],
+        ];
+    }
 }
