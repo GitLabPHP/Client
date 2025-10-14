@@ -2225,17 +2225,19 @@ class ProjectsTest extends TestCase
             ['id' => 3, 'sha' => '0000003'],
         ];
 
-        $time = new DateTime('now');
+        $dateTime = new DateTime();
+        $utc = (new \DateTimeImmutable($dateTime->format(\DateTimeImmutable::RFC3339_EXTENDED)))
+                ->setTimezone(new \DateTimeZone('UTC'));
 
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
             ->with('projects/1/deployments', [
-                'updated_after' => $time->format('c'),
+                'updated_after' => $utc->format('Y-m-d\TH:i:s.v\Z')
             ])
             ->willReturn($expectedArray);
 
-        $this->assertEquals($expectedArray, $api->deployments(1, ['updated_after' => $time]));
+        $this->assertEquals($expectedArray, $api->deployments(1, ['updated_after' => $dateTime]));
     }
 
     protected function getMultipleProjectsData(): array

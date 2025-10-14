@@ -323,4 +323,25 @@ See merge request !2',
         $this->assertEquals([], $api->all(1, ['environment' => 'test'])
         );
     }
+
+    #[Test]
+    public function shouldAllowFilterByUpdateAfter(): void
+    {
+        $expectedArray = $this->getMultipleDeploymentsData();
+
+        $dateTime = new \DateTime();
+        $utc = (new \DateTimeImmutable($dateTime->format(\DateTimeImmutable::RFC3339_EXTENDED)))
+            ->setTimezone(new \DateTimeZone('UTC'));
+
+        $api = $this->getMultipleDeploymentsRequestMock(
+            'projects/1/deployments',
+            $expectedArray,
+            ['updated_after' => $utc->format('Y-m-d\TH:i:s.v\Z')]
+        );
+
+        $this->assertEquals(
+            $expectedArray,
+            $api->all(1, ['updated_after' => $dateTime])
+        );
+    }
 }
