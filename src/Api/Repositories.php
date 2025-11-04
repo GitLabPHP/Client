@@ -40,6 +40,8 @@ class Repositories extends AbstractApi
         $resolver = $this->createOptionsResolver();
         $resolver->setDefined('search')
             ->setAllowedTypes('search', 'string');
+        $resolver->setDefined('sort')
+            ->setAllowedValues('sort', ['name_asc', 'updated_asc', 'updated_desc']);
 
         return $this->get($this->getProjectPath($project_id, 'repository/branches'), $resolver->resolve($parameters));
     }
