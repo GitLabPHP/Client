@@ -1280,4 +1280,80 @@ class Projects extends AbstractApi
 
         return $this->get('projects/'.self::encodePath($id).'/search', $resolver->resolve($parameters));
     }
+
+    /**
+     * @see https://docs.gitlab.com/api/project_job_token_scopes/#get-a-projects-cicd-job-token-access-settings
+     */
+    public function jobTokenScope(int|string $project_id): mixed
+    {
+        return $this->get($this->getProjectPath($project_id, 'job_token_scope'));
+    }
+
+    /**
+     * @param bool $enabled Restricts job token access to allowlisted projects only. Set to false to allow access from all projects. This parameter can be overridden by the Enforce job token allowlist instance setting.
+     *
+     * @see https://docs.gitlab.com/api/project_job_token_scopes/#patch-a-projects-cicd-job-token-access-settings
+     */
+    public function setJobTokenAllowListEnabled(int|string $project_id, bool $enabled): mixed
+    {
+        return $this->patch($this->getProjectPath($project_id, 'job_token_scope'), ['enabled' => $enabled]);
+    }
+
+    /**
+     * @see https://docs.gitlab.com/api/project_job_token_scopes/#get-a-projects-cicd-job-token-inbound-allowlist
+     */
+    public function jobTokenAllowList(int|string $project_id): mixed
+    {
+        return $this->get($this->getProjectPath($project_id, 'job_token_scope/allowlist'));
+    }
+
+    /**
+     * @see https://docs.gitlab.com/api/project_job_token_scopes/#add-a-project-to-a-cicd-job-token-inbound-allowlist
+     */
+    public function addJobTokenAllowList(int|string $project_id, int $target_project_id): mixed
+    {
+        return $this->post(
+            $this->getProjectPath($project_id, 'job_token_scope/allowlist'),
+            ['target_project_id' => $target_project_id]
+        );
+    }
+
+    /**
+     * @see https://docs.gitlab.com/api/project_job_token_scopes/#remove-a-project-from-a-cicd-job-token-inbound-allowlist
+     */
+    public function removeJobTokenAllowList(int|string $project_id, int $target_project_id): mixed
+    {
+        return $this->delete(
+            $this->getProjectPath($project_id, 'job_token_scope/allowlist/'.self::encodePath($target_project_id))
+        );
+    }
+
+    /**
+     * @see https://docs.gitlab.com/api/project_job_token_scopes/#get-a-projects-cicd-job-token-allowlist-of-groups
+     */
+    public function jobTokenGroupAllowList(int|string $project_id): mixed
+    {
+        return $this->get($this->getProjectPath($project_id, 'job_token_scope/groups_allowlist'));
+    }
+
+    /**
+     * @see https://docs.gitlab.com/api/project_job_token_scopes/#add-a-group-to-a-cicd-job-token-allowlist
+     */
+    public function addJobTokenGroupAllowList(int|string $project_id, int $target_group_id): mixed
+    {
+        return $this->post(
+            $this->getProjectPath($project_id, 'job_token_scope/groups_allowlist'),
+            ['target_group_id' => $target_group_id]
+        );
+    }
+
+    /**
+     * @see https://docs.gitlab.com/api/project_job_token_scopes/#remove-a-group-from-a-cicd-job-token-allowlist
+     */
+    public function removeJobTokenGroupAllowList(int|string $project_id, int $target_group_id): mixed
+    {
+        return $this->delete(
+            $this->getProjectPath($project_id, 'job_token_scope/groups_allowlist/'.self::encodePath($target_group_id))
+        );
+    }
 }

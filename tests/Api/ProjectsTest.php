@@ -2765,4 +2765,128 @@ class ProjectsTest extends TestCase
             'sort' => 'desc',
         ]));
     }
+
+    #[Test]
+    public function shouldGetJobTokenSettings(): void
+    {
+        $expectedArray = ['inbound_enabled' => true, 'outbound_enabled' => false];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/job_token_scope')
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->jobTokenScope(1));
+    }
+
+    #[Test]
+    public function shouldUpdateJobTokenSettings(): void
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('patch')
+            ->with('projects/1/job_token_scope', ['enabled' => false])
+            ->willReturn($expectedBool);
+
+        $this->assertEquals($expectedBool, $api->setJobTokenAllowListEnabled(1, false));
+    }
+
+    #[Test]
+    public function shouldGetJobTokenAllowList(): void
+    {
+        $expectedArray = [[
+            'id' => 1,
+        ]];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/job_token_scope/allowlist')
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->jobTokenAllowList(1));
+    }
+
+    #[Test]
+    public function shouldAddToJobTokenAllowList(): void
+    {
+        $expectedArray = [
+            'source_project_id' => 1,
+            'target_project_id' => 42,
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/job_token_scope/allowlist', ['target_project_id' => 42])
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->addJobTokenAllowList(1, 42));
+    }
+
+    #[Test]
+    public function shouldRemoveToJobTokenAllowList(): void
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/job_token_scope/allowlist/42')
+            ->willReturn($expectedBool);
+
+        $this->assertEquals($expectedBool, $api->removeJobTokenAllowList(1, 42));
+    }
+
+    #[Test]
+    public function shouldGetJobTokenGroupAllowList(): void
+    {
+        $expectedArray = [[
+            'id' => 1,
+            'name' => 'my-group',
+            'web_url' => 'https://gitlab.example.com/groups/my-group',
+        ]];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/job_token_scope/groups_allowlist')
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->jobTokenGroupAllowList(1));
+    }
+
+    #[Test]
+    public function shouldAddToJobTokenGroupsAllowList(): void
+    {
+        $expectedArray = [
+            'source_project_id' => 1,
+            'target_group_id' => 42,
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/job_token_scope/groups_allowlist', ['target_group_id' => 42])
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->addJobTokenGroupAllowList(1, 42));
+    }
+
+    #[Test]
+    public function shouldRemoveToJobTokenGroupsAllowList(): void
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/job_token_scope/groups_allowlist/42')
+            ->willReturn($expectedBool);
+
+        $this->assertEquals($expectedBool, $api->removeJobTokenGroupAllowList(1, 42));
+    }
 }
