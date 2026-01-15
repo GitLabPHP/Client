@@ -18,6 +18,7 @@ class GroupsHooks extends AbstractApi
 {
     /**
      * @param array $parameters {
+     *
      *     @var int $page       page number (default: 1)
      *     @var int $per_page   number of items to list per page (default: 20, max: 100)
      * }
