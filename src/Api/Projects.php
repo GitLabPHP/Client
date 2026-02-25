@@ -203,6 +203,7 @@ class Projects extends AbstractApi
                 'full_path' => $fullPath,
             ];
         }
+
         return $this->delete('projects/'.self::encodePath($project_id), $params);
     }
 
