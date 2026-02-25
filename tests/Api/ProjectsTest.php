@@ -346,6 +346,35 @@ class ProjectsTest extends TestCase
     }
 
     #[Test]
+    public function shouldRemoveProjectPermanently(): void
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1', ['permanently_remove' => true, 'full_path' => 'full/path/to/project'])
+            ->willReturn(true);
+
+        $this->assertEquals($expectedBool, $api->remove(1, true, 'full/path/to/project'));
+
+    }
+
+    #[Test]
+    public function shouldRestoreDeletedProject(): void
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/restore')
+            ->willReturn(true);
+
+        $this->assertEquals($expectedBool, $api->restore(1));
+    }
+
+    #[Test]
     public function shouldGetPipelines(): void
     {
         $expectedArray = [
