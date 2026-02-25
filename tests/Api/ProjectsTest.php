@@ -356,7 +356,10 @@ class ProjectsTest extends TestCase
             ->with('projects/1', ['permanently_remove' => true, 'full_path' => 'full/path/to/project'])
             ->willReturn(true);
 
-        $this->assertEquals($expectedBool, $api->remove(1, true, 'full/path/to/project'));
+        $this->assertEquals($expectedBool, $api->remove(1, [
+            'permanently_remove' => true,
+            'full_path' => 'full/path/to/project',
+        ]));
     }
 
     #[Test]
