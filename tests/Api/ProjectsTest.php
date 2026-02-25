@@ -357,7 +357,6 @@ class ProjectsTest extends TestCase
             ->willReturn(true);
 
         $this->assertEquals($expectedBool, $api->remove(1, true, 'full/path/to/project'));
-
     }
 
     #[Test]

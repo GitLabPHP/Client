@@ -194,13 +194,13 @@ class Projects extends AbstractApi
         return $this->put('projects/'.self::encodePath($project_id), $parameters);
     }
 
-    public function remove(int|string $project_id, bool $permanent = false, string $fullPath = ""): mixed
+    public function remove(int|string $project_id, bool $permanent = false, string $fullPath = ''): mixed
     {
         $params = [];
         if ($permanent) {
             $params = [
                 'permanently_remove' => true,
-                'full_path' => $fullPath
+                'full_path' => $fullPath,
             ];
         }
         return $this->delete('projects/'.self::encodePath($project_id), $params);
