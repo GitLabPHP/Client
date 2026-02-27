@@ -46,26 +46,70 @@ class MergeRequests extends AbstractApi
     public const STATE_LOCKED = 'locked';
 
     /**
-     * @param array           $parameters {
      *
-     *     @var int[]              $iids           return the request having the given iid
-     *     @var string             $state          return all merge requests or just those that are opened, closed, or
-     *                                             merged
-     *     @var string             $scope          Return merge requests for the given scope: created-by-me,
-     *                                             assigned-to-me or all (default is created-by-me)
-     *     @var string             $order_by       return requests ordered by created_at or updated_at fields (default is created_at)
-     *     @var string             $sort           return requests sorted in asc or desc order (default is desc)
-     *     @var string             $milestone      return merge requests for a specific milestone
-     *     @var string             $view           if simple, returns the iid, URL, title, description, and basic state of merge request
-     *     @var string             $labels         return merge requests matching a comma separated list of labels
-     *     @var \DateTimeInterface $created_after  return merge requests created after the given time (inclusive)
-     *     @var \DateTimeInterface $created_before return merge requests created before the given time (inclusive)
-     *     @var int                $reviewer_id    return merge requests which have the user as a reviewer with the given user id
-     *     @var bool               $wip            return only draft merge requests (true) or only non-draft merge requests (false)
+     * @param array           $parameters {
+     *     @throws UndefinedOptionsException if an option name is undefined
+     * @throws InvalidOptionsException   if an option doesn't fulfill the specified validation rules
+     *@var int[]              $iids                return the request having the given iid
+     *     @var int[]              $approved_by_ids     return merge requests approved by all the users with the given id.
+     *     @var int[]              $approver_ids        return merge requests which have specified all the users with
+     *                                                  the given id as individual approvers.
+     *     @var int                $assignee_id         return merge requests assigned to the given user id.
+     *                                                  None returns unassigned merge requests.
+     *     @var int                $author_id           return merge requests created by the given user id.
+     *                                                  Mutually exclusive with author_username.
+     *     @var string             $author_username     return merge requests created by the given username.
+     *                                                  Mutually exclusive with author_id.
+     *     @var \DateTimeInterface $created_after       return merge requests created after the given time (inclusive)
+     *     @var \DateTimeInterface $created_before      return merge requests created before the given time (inclusive)
+     *     @var \DateTimeInterface $deployed_after      return merge requests deployed after the given time (inclusive)
+     *     @var \DateTimeInterface $deployed_before     return merge requests deployed before the given time (inclusive)
+     *     @var string             $environment         return only merge requests deployed to the given environment.
+     *     @var string             $in                  Change the scope of the search attribute. title, description, or
+     *                                                  a string joining them with comma. Default is title,description.
+     *     @var string             $labels              return merge requests matching a comma separated list of labels
+     *     @var int                $merge_user_id       return merge requests merged by the given user id.
+     *                                                  Mutually exclusive with merge_username.
+     *     @var string             $merge_user_username return merge requests merged by the given username.
+     *                                                  Mutually exclusive with merge_user_id.
+     *     @var string             $milestone           return merge requests for a specific milestone
+     *     @var string             $my_reaction_emoji   return merge requests reacted by the authenticated user
+     *                                                  by the given emoji.
+     *     @var string[]           $not                 return merge requests that do not match the parameters supplied.
+     *                                                  Accepts: labels, milestone, author_id, author_username, assignee_id,
+     *                                                           assignee_username, reviewer_id, reviewer_username,
+     *                                                           my_reaction_emoji.
+     *     @var string             $order_by            return requests ordered by created_at or updated_at fields
+     *                                                  (default is created_at)
+     *     @var bool               $render_html         if true, the response includes rendered HTML fields title_html
+     *                                                  and description_html.
+     *     @var int                $reviewer_id         return merge requests which have the user as a reviewer with the
+     *                                                  given user id. Mutually exclusive with reviewer_username.
+     *     @var string             $reviewer_username   return merge requests which have the user as a reviewer with
+     *                                                  the given username. Mutually exclusive with reviewer_id.
+     *     @var string             $scope               Return merge requests for the given scope: created-by-me,
+     *                                                  assigned-to-me, reviews_for_me or all (default is created-by-me)
+     *                                                  reviews_for_me returns merge requests where the current user is
+     *                                                  assigned as a reviewer.
+     *     @var string             $search              Search merge requests against their title and description.
+     *     @var string             $sort                return requests sorted in asc or desc order (default is desc)
+     *     @var string             $source_branch       return merge requests with the given source branch.
+     *     @var string             $state               return all merge requests or just those that are opened, closed, or
+     *                                                  merged
+     *     @var string             $target_branch       Returns merge requests with the given target branch.
+     *     @var \DateTimeInterface $updated_after       Returns merge requests updated on or after the given time.
+     *     @var \DateTimeInterface $updated_before      Returns merge requests updated on or before the given time.
+     *     @var string             $view                if simple, returns the iid, URL, title, description, and basic
+     *     @var bool               $with_labels_details if true, response returns more details for each label in labels field:
+     *                                                  :name, :color, :description, :description_html, :text_color
+     *     @var bool               $with_merge_status_recheck If true, this projection requests (but does not guarantee)
+     *                                                  an asynchronous recalculation of the merge_status field.
+     *                                                  Enable the restrict_merge_status_recheck feature flag to ignore
+     *                                                  this attribute when requested by users without the Developer,
+     *                                                  Maintainer, or Owner role.
+     *     @var bool               $wip                 return only draft merge requests (true) or only non-draft merge
      * }
      *
-     * @throws UndefinedOptionsException if an option name is undefined
-     * @throws InvalidOptionsException   if an option doesn't fulfill the specified validation rules
      */
     public function all(int|string|null $project_id = null, array $parameters = []): mixed
     {
@@ -81,23 +125,25 @@ class MergeRequests extends AbstractApi
                 return \count($value) === \count(\array_filter($value, 'is_int'));
             })
         ;
-        $resolver->setDefined('state')
-            ->setAllowedValues('state', [self::STATE_ALL, self::STATE_MERGED, self::STATE_OPENED, self::STATE_CLOSED, self::STATE_LOCKED])
+        $resolver->setDefined('approved_by_ids')
+            ->setAllowedTypes('approved_by_ids', 'array')
+            ->setAllowedValues('approved_by_ids', function (array $value) {
+                return \count($value) === \count(\array_filter($value, 'is_int'));
+            })
         ;
-        $resolver->setDefined('scope')
-            ->setAllowedValues('scope', ['created-by-me', 'assigned-to-me', 'all'])
+        $resolver->setDefined('approver_ids')
+            ->setAllowedTypes('approver_ids', 'array')
+            ->setAllowedValues('approver_ids', function (array $value) {
+                return \count($value) === \count(\array_filter($value, 'is_int'));
+            })
         ;
-        $resolver->setDefined('order_by')
-            ->setAllowedValues('order_by', ['created_at', 'updated_at'])
+        $resolver->setDefined('assignee_id')
+            ->setAllowedTypes('assignee_id', 'integer')
         ;
-        $resolver->setDefined('sort')
-            ->setAllowedValues('sort', ['asc', 'desc'])
+        $resolver->setDefined('author_id')
+            ->setAllowedTypes('author_id', 'integer')
         ;
-        $resolver->setDefined('milestone');
-        $resolver->setDefined('view')
-            ->setAllowedValues('view', ['simple'])
-        ;
-        $resolver->setDefined('labels');
+        $resolver->setDefined('author_username');
         $resolver->setDefined('created_after')
             ->setAllowedTypes('created_after', \DateTimeInterface::class)
             ->setNormalizer('created_after', $datetimeNormalizer)
@@ -106,7 +152,53 @@ class MergeRequests extends AbstractApi
             ->setAllowedTypes('created_before', \DateTimeInterface::class)
             ->setNormalizer('created_before', $datetimeNormalizer)
         ;
-
+        $resolver->setDefined('deployed_after')
+            ->setAllowedTypes('deployed_after', \DateTimeInterface::class)
+            ->setNormalizer('deployed_after', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('deployed_before')
+            ->setAllowedTypes('deployed_before', \DateTimeInterface::class)
+            ->setNormalizer('deployed_before', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('environment');
+        $resolver->setDefined('in')
+            ->setAllowedValues('in', ['title', 'description', 'title,description', 'description,title'])
+        ;
+        $resolver->setDefined('labels');
+        $resolver->setDefined('merge_user_id')
+            ->setAllowedTypes('merge_user_id', 'integer')
+        ;
+        $resolver->setDefined('merge_username');
+        $resolver->setDefined('milestone');
+        $resolver->setDefined('my_reaction_emoji');
+        $resolver->setDefined('not')
+            ->setAllowedValues('not', [
+                'labels', 'milestone', 'author_id', 'author_username', 'assignee_id', 'assignee_username',
+                'reviewer_id', 'reviewer_username', 'my_reaction_emoji'
+            ])
+        ;
+        $resolver->setDefined('order_by')
+            ->setAllowedValues('order_by', ['created_at', 'updated_at'])
+        ;
+        $resolver->setDefined('render_html')
+            ->setAllowedTypes('render_html', 'bool')
+        ;
+        $resolver->setDefined('reviewer_id')
+            ->setAllowedTypes('reviewer_id', 'integer')
+        ;
+        $resolver->setDefined('reviewer_username');
+        $resolver->setDefined('scope')
+            ->setAllowedValues('scope', ['created-by-me', 'assigned-to-me', 'reviews_for_me', 'all'])
+        ;
+        $resolver->setDefined('search');
+        $resolver->setDefined('sort')
+            ->setAllowedValues('sort', ['asc', 'desc'])
+        ;
+        $resolver->setDefined('source_branch');
+        $resolver->setDefined('state')
+            ->setAllowedValues('state', [self::STATE_ALL, self::STATE_MERGED, self::STATE_OPENED, self::STATE_CLOSED, self::STATE_LOCKED])
+        ;
+        $resolver->setDefined('target_branch');
         $resolver->setDefined('updated_after')
             ->setAllowedTypes('updated_after', \DateTimeInterface::class)
             ->setNormalizer('updated_after', $datetimeNormalizer)
@@ -115,30 +207,15 @@ class MergeRequests extends AbstractApi
             ->setAllowedTypes('updated_before', \DateTimeInterface::class)
             ->setNormalizer('updated_before', $datetimeNormalizer)
         ;
-
-        $resolver->setDefined('scope')
-            ->setAllowedValues('scope', ['created_by_me', 'assigned_to_me', 'all'])
+        $resolver->setDefined('view')
+            ->setAllowedValues('view', ['simple'])
         ;
-        $resolver->setDefined('author_id')
-            ->setAllowedTypes('author_id', 'integer');
-
-        $resolver->setDefined('assignee_id')
-            ->setAllowedTypes('assignee_id', 'integer');
-
-        $resolver->setDefined('search');
-        $resolver->setDefined('source_branch');
-        $resolver->setDefined('target_branch');
+        $resolver->setDefined('with_labels_details')
+            ->setAllowedTypes('with_labels_details', 'bool')
+        ;
         $resolver->setDefined('with_merge_status_recheck')
             ->setAllowedTypes('with_merge_status_recheck', 'bool')
         ;
-        $resolver->setDefined('approved_by_ids')
-            ->setAllowedTypes('approved_by_ids', 'array')
-            ->setAllowedValues('approved_by_ids', function (array $value) {
-                return \count($value) === \count(\array_filter($value, 'is_int'));
-            })
-        ;
-        $resolver->setDefined('reviewer_id')
-            ->setAllowedTypes('reviewer_id', 'integer');
         $resolver->setDefined('wip')
             ->setAllowedTypes('wip', 'boolean')
             ->addNormalizer('wip', static function ($resolver, $wip) {

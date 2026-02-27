@@ -60,18 +60,29 @@ class MergeRequestsTest extends TestCase
             ->with('projects/1/merge_requests', [
                 'page' => 2,
                 'per_page' => 5,
+
+                'approved_by_ids' => [1],
+                'approver_ids' => [1],
+                'assignee_id' => 1,
+                'author_id' => 1,
+                'environment' => 'production',
+                'in' => 'title',
                 'labels' => 'label1,label2,label3',
+                'merge_user_id' => 1,
                 'milestone' => 'milestone1',
                 'order_by' => 'updated_at',
-                'state' => 'all',
-                'sort' => 'desc',
+                'render_html' => true,
+                'reviewer_id' => 1,
                 'scope' => 'all',
-                'author_id' => 1,
-                'assignee_id' => 1,
+                'search' => 'search term',
+                'sort' => 'desc',
                 'source_branch' => 'develop',
+                'state' => 'all',
                 'target_branch' => 'master',
+                'view' => 'simple',
+                'with_labels_details' => true,
                 'with_merge_status_recheck' => true,
-                'approved_by_ids' => [1],
+                'wip' => 'yes',
             ])
             ->willReturn($expectedArray)
         ;
@@ -79,18 +90,28 @@ class MergeRequestsTest extends TestCase
         $this->assertEquals($expectedArray, $api->all(1, [
             'page' => 2,
             'per_page' => 5,
+            'approved_by_ids' => [1],
+            'approver_ids' => [1],
+            'assignee_id' => 1,
+            'author_id' => 1,
+            'environment' => 'production',
+            'in' => 'title',
             'labels' => 'label1,label2,label3',
+            'merge_user_id' => 1,
             'milestone' => 'milestone1',
             'order_by' => 'updated_at',
-            'state' => 'all',
-            'sort' => 'desc',
+            'render_html' => true,
+            'reviewer_id' => 1,
             'scope' => 'all',
-            'author_id' => 1,
-            'assignee_id' => 1,
+            'search' => 'search term',
+            'sort' => 'desc',
             'source_branch' => 'develop',
+            'state' => 'all',
             'target_branch' => 'master',
+            'view' => 'simple',
+            'with_labels_details' => true,
             'with_merge_status_recheck' => true,
-            'approved_by_ids' => [1],
+            'wip' => true,
         ]));
     }
 
@@ -101,10 +122,18 @@ class MergeRequestsTest extends TestCase
 
         $createdAfter = new \DateTime('2018-01-01 00:00:00');
         $createdBefore = new \DateTime('2018-01-31 12:00:00.123+03:00');
+        $deployedAfter = new \DateTime('2018-01-01 00:00:00');
+        $deployedBefore = new \DateTime('2018-01-31 12:00:00.123+03:00');
+        $updatedAfter = new \DateTime('2018-01-01 00:00:00');
+        $updatedBefore = new \DateTime('2018-01-31 12:00:00.123+03:00');
 
         $expectedWithArray = [
             'created_after' => '2018-01-01T00:00:00.000Z',
             'created_before' => '2018-01-31T09:00:00.123Z',
+            'deployed_after' => '2018-01-01T00:00:00.000Z',
+            'deployed_before' => '2018-01-31T09:00:00.123Z',
+            'updated_after' => '2018-01-01T00:00:00.000Z',
+            'updated_before' => '2018-01-31T09:00:00.123Z',
         ];
 
         $api = $this->getApiMock();
@@ -116,7 +145,14 @@ class MergeRequestsTest extends TestCase
 
         $this->assertEquals(
             $expectedArray,
-            $api->all(1, ['created_after' => $createdAfter, 'created_before' => $createdBefore])
+            $api->all(1, [
+                'created_after' => $createdAfter,
+                'created_before' => $createdBefore,
+                'deployed_after' => $deployedAfter,
+                'deployed_before' => $deployedBefore,
+                'updated_after' => $updatedAfter,
+                'updated_before' => $updatedBefore,
+            ])
         );
     }
 
