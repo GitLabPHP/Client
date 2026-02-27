@@ -164,6 +164,35 @@ class Users extends AbstractApi
     /**
      * @param array $parameters {
      *
+     *     @var string $order_by                    Return projects ordered by id, name, path, created_at, updated_at,
+     *                                              star_count, or last_activity_at fields (default is created_at)
+     *     @var string $sort                        Return projects sorted in asc or desc order (default is desc)
+     *     @var bool   $simple                      return only the ID, URL, name, and path of each project
+     * }
+     */
+    public function usersContributedProjects(int $id, array $parameters = []): mixed
+    {
+        $resolver = $this->createOptionsResolver();
+        $booleanNormalizer = function (Options $resolver, $value): string {
+            return $value ? 'true' : 'false';
+        };
+        $resolver->setDefined('order_by')
+            ->setAllowedValues('order_by', ['id', 'name', 'path', 'created_at', 'updated_at', 'star_count', 'last_activity_at'])
+        ;
+        $resolver->setDefined('sort')
+            ->setAllowedValues('sort', ['asc', 'desc'])
+        ;
+        $resolver->setDefined('simple')
+            ->setAllowedTypes('simple', 'bool')
+            ->setNormalizer('simple', $booleanNormalizer)
+        ;
+
+        return $this->get('users/'.self::encodePath($id).'/contributed_projects', $resolver->resolve($parameters));
+    }
+
+    /**
+     * @param array $parameters {
+     *
      *     @var bool   $archived                    limit by archived status
      *     @var string $visibility                  limit by visibility public, internal, or private
      *     @var string $order_by                    Return projects ordered by id, name, path, created_at, updated_at,

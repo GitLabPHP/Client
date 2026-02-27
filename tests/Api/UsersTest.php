@@ -347,6 +347,43 @@ class UsersTest extends TestCase
     }
 
     #[Test]
+    public function shouldGetUsersContributedProjects(): void
+    {
+        $expectedArray = $this->getUsersProjectsData();
+
+        $api = $this->getUsersProjectsRequestMock('users/1/contributed_projects', $expectedArray);
+
+        $this->assertEquals($expectedArray, $api->usersContributedProjects(1));
+    }
+
+    #[Test]
+    public function shouldGetUsersContributedProjectsOrderByIdDesc(): void
+    {
+        $expectedArray = $this->getUsersProjectsData();
+
+        $api = $this->getUsersProjectsRequestMock(
+            'users/1/contributed_projects',
+            $expectedArray,
+            ['order_by' => 'id', 'sort' => 'desc']
+        );
+
+        $this->assertEquals(
+            $expectedArray,
+            $api->usersContributedProjects(1, ['order_by' => 'id', 'sort' => 'desc'])
+        );
+    }
+
+    #[Test]
+    public function shouldGetUsersContributedProjectsSimple(): void
+    {
+        $expectedArray = $this->getUsersProjectsData();
+
+        $api = $this->getUsersProjectsRequestMock('users/1/contributed_projects', $expectedArray, ['simple' => 'true']);
+
+        $this->assertEquals($expectedArray, $api->usersContributedProjects(1, ['simple' => true]));
+    }
+
+    #[Test]
     public function shouldCreateUser(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'Billy'];
