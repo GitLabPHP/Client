@@ -583,6 +583,21 @@ class MergeRequestsTest extends TestCase
     }
 
     #[Test]
+    public function shouldAddMergeRequestAwardEmoji(): void
+    {
+        $expectedArray = ['id' => 1, 'name' => 'sparkles'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/merge_requests/2/award_emoji', ['name' => 'sparkles'])
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->addAwardEmoji(1, 2, 'sparkles'));
+    }
+
+    #[Test]
     public function shouldRevokeMergeRequestAwardEmoji(): void
     {
         $expectedBool = true;
@@ -594,6 +609,53 @@ class MergeRequestsTest extends TestCase
             ->willReturn($expectedBool);
 
         $this->assertEquals(true, $api->removeAwardEmoji(1, 2, 3));
+    }
+
+    #[Test]
+    public function shouldShowMergeRequestNoteAwardEmoji(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'name' => 'sparkles'],
+            ['id' => 2, 'name' => 'heart_eyes'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_requests/2/notes/3/award_emoji')
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->showNoteAwardEmoji(1, 2, 3));
+    }
+
+    #[Test]
+    public function shouldAddMergeRequestNoteAwardEmoji(): void
+    {
+        $expectedArray = ['id' => 1, 'name' => 'sparkles'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/merge_requests/2/notes/3/award_emoji', ['name' => 'sparkles'])
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->addNoteAwardEmoji(1, 2, 3, 'sparkles'));
+    }
+
+    #[Test]
+    public function shouldRevokeMergeRequestNoteAwardEmoji(): void
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/merge_requests/2/notes/3/award_emoji/4')
+            ->willReturn($expectedBool);
+
+        $this->assertEquals(true, $api->removeNoteAwardEmoji(1, 2, 3, 4));
     }
 
     #[Test]
