@@ -162,9 +162,37 @@ class Jobs extends AbstractApi
         return $this->post('projects/'.self::encodePath($project_id).'/jobs/'.self::encodePath($job_id).'/artifacts/keep');
     }
 
-    public function play(int|string $project_id, int $job_id): mixed
+    /**
+     * @param array $parameters {
+     *
+     *     @var array $job_inputs               job input values to use when playing the job
+     *     @var array $job_variables_attributes custom variables available to the job
+     * }
+     */
+    public function play(int|string $project_id, int $job_id, array $parameters = []): mixed
     {
-        return $this->post('projects/'.self::encodePath($project_id).'/jobs/'.self::encodePath($job_id).'/play');
+        $resolver = new OptionsResolver();
+        $resolver->setDefined('job_inputs')
+            ->setAllowedTypes('job_inputs', 'array')
+        ;
+        $resolver->setDefined('job_variables_attributes')
+            ->setAllowedTypes('job_variables_attributes', 'array')
+            ->setAllowedValues('job_variables_attributes', function (array $variables): bool {
+                foreach ($variables as $variable) {
+                    if (!\is_array($variable) || !isset($variable['key'], $variable['value'])) {
+                        return false;
+                    }
+
+                    if (!\is_string($variable['key']) || !\is_string($variable['value'])) {
+                        return false;
+                    }
+                }
+
+                return true;
+            })
+        ;
+
+        return $this->post('projects/'.self::encodePath($project_id).'/jobs/'.self::encodePath($job_id).'/play', $resolver->resolve($parameters));
     }
 
     protected function createOptionsResolver(): OptionsResolver
