@@ -58,6 +58,7 @@ class Groups extends AbstractApi
      *     @var bool   $owned            limit by groups owned by the current user
      *     @var int    $min_access_level limit by groups in which the current user has at least this access level
      *     @var bool   $top_level_only   limit to top level groups, excluding all subgroups
+     *     @var string $visibility       limit by visibility public, internal, or private
      * }
      */
     public function all(array $parameters = []): mixed
@@ -708,6 +709,9 @@ class Groups extends AbstractApi
         $resolver->setDefined('top_level_only')
             ->setAllowedTypes('top_level_only', 'bool')
             ->setNormalizer('top_level_only', $booleanNormalizer)
+        ;
+        $resolver->setDefined('visibility')
+            ->setAllowedValues('visibility', ['public', 'internal', 'private'])
         ;
 
         return $resolver;

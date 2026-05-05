@@ -75,6 +75,24 @@ class GroupsTest extends TestCase
     }
 
     #[Test]
+    public function shouldGetAllGroupsWithVisibilityParam(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'name' => 'A group'],
+            ['id' => 2, 'name' => 'Another group'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups', ['visibility' => 'public'])
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->all(['visibility' => 'public']));
+    }
+
+    #[Test]
     public function shouldGetAllGroupProjectsWithBooleanParam(): void
     {
         $expectedArray = [
