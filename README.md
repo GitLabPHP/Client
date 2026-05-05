@@ -28,7 +28,7 @@ This version supports [PHP](https://php.net) 8.1-8.5. To get started, simply req
 ### Standard Installation
 
 ```bash
-$ composer require "m4tthumphrey/php-gitlab-api:^12.0" "guzzlehttp/guzzle:^7.9.2"
+$ composer require "m4tthumphrey/php-gitlab-api:^12.1" "guzzlehttp/guzzle:^7.9.2"
 ```
 
 ### Framework Integration
@@ -36,7 +36,7 @@ $ composer require "m4tthumphrey/php-gitlab-api:^12.0" "guzzlehttp/guzzle:^7.9.2
 #### Laravel:
 
 ```bash
-$ composer require "graham-campbell/gitlab:^8.0"
+$ composer require "graham-campbell/gitlab:^8.1"
 ```
 
 #### Symfony:
