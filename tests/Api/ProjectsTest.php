@@ -2586,10 +2586,69 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/access_tokens')
+            ->with('projects/1/access_tokens', [])
             ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->projectAccessTokens(1));
+    }
+
+    #[Test]
+    public function shouldGetProjectAccessTokensWithFilters(): void
+    {
+        $expectedArray = [
+            [
+                'user_id' => 141,
+                'scopes' => [
+                    'api',
+                ],
+                'name' => 'token',
+                'expires_at' => '2021-01-31',
+                'id' => 42,
+                'active' => true,
+                'created_at' => '2021-01-20T22:11:48.151Z',
+                'revoked' => false,
+            ],
+        ];
+        $createdAfter = new DateTime('2025-01-01 00:00:00');
+        $createdBefore = new DateTime('2025-02-01 00:00:00');
+        $expiresAfter = new DateTime('2025-03-01 00:00:00');
+        $expiresBefore = new DateTime('2025-04-01 00:00:00');
+        $lastUsedAfter = new DateTime('2025-05-01 00:00:00');
+        $lastUsedBefore = new DateTime('2025-06-01 00:00:00');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/access_tokens', [
+                'search' => 'token',
+                'state' => 'active',
+                'revoked' => 'false',
+                'created_after' => $createdAfter->format('c'),
+                'created_before' => $createdBefore->format('c'),
+                'expires_after' => $expiresAfter->format('Y-m-d'),
+                'expires_before' => $expiresBefore->format('Y-m-d'),
+                'last_used_after' => $lastUsedAfter->format('c'),
+                'last_used_before' => $lastUsedBefore->format('c'),
+                'sort' => 'name_desc',
+                'page' => 1,
+                'per_page' => 10,
+            ])
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->projectAccessTokens(1, [
+            'search' => 'token',
+            'state' => 'active',
+            'revoked' => false,
+            'created_after' => $createdAfter,
+            'created_before' => $createdBefore,
+            'expires_after' => $expiresAfter,
+            'expires_before' => $expiresBefore,
+            'last_used_after' => $lastUsedAfter,
+            'last_used_before' => $lastUsedBefore,
+            'sort' => 'name_desc',
+            'page' => 1,
+            'per_page' => 10,
+        ]));
     }
 
     #[Test]
