@@ -333,20 +333,37 @@ abstract class AbstractApi
     private static function tryFopen(string $filename, string $mode)
     {
         $ex = null;
-        \set_error_handler(function () use ($filename, $mode, &$ex): void {
+        \set_error_handler(static function (int $severity, string $message) use ($filename, $mode, &$ex): bool {
             $ex = new RuntimeException(\sprintf(
                 'Unable to open %s using mode %s: %s',
                 $filename,
                 $mode,
-                \func_get_args()[1]
+                $message
             ));
+
+            return true;
         });
 
-        $handle = \fopen($filename, $mode);
-        \restore_error_handler();
+        try {
+            $handle = \fopen($filename, $mode);
+        } catch (\ValueError $e) {
+            $ex = new RuntimeException(\sprintf(
+                'Unable to open %s using mode %s: %s',
+                $filename,
+                $mode,
+                $e->getMessage()
+            ), 0, $e);
+            $handle = false;
+        } finally {
+            \restore_error_handler();
+        }
 
         if (null !== $ex) {
             throw $ex;
+        }
+
+        if (false === $handle) {
+            throw new RuntimeException(\sprintf('Unable to open %s using mode %s', $filename, $mode));
         }
 
         /** @var resource */
@@ -362,8 +379,12 @@ abstract class AbstractApi
             return ResponseMediator::STREAM_CONTENT_TYPE;
         }
 
-        $finfo = new \finfo(\FILEINFO_MIME_TYPE);
-        $type = $finfo->file($file);
+        try {
+            $finfo = new \finfo(\FILEINFO_MIME_TYPE);
+            $type = $finfo->file($file);
+        } catch (\Exception|\TypeError|\ValueError) {
+            return ResponseMediator::STREAM_CONTENT_TYPE;
+        }
 
         return false !== $type ? $type : ResponseMediator::STREAM_CONTENT_TYPE;
     }
