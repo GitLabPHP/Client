@@ -30,6 +30,7 @@ use Gitlab\Api\Jobs;
 use Gitlab\Api\Keys;
 use Gitlab\Api\MergeRequests;
 use Gitlab\Api\Milestones;
+use Gitlab\Api\PersonalAccessTokens;
 use Gitlab\Api\ProjectNamespaces;
 use Gitlab\Api\Projects;
 use Gitlab\Api\Repositories;
@@ -233,6 +234,11 @@ class Client
     public function milestones(): Milestones
     {
         return new Milestones($this);
+    }
+
+    public function personalAccessTokens(): PersonalAccessTokens
+    {
+        return new PersonalAccessTokens($this);
     }
 
     public function namespaces(): ProjectNamespaces
