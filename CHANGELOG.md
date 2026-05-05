@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Add PHP 8.5 support
 * Add support for `symfony/options-resolver:^8.0`
 * Add support for `visibility` in `Groups::all`
+* Add support for personal access tokens
 
 
 ## [12.0.0] - 2025-02-23
