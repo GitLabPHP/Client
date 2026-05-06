@@ -1126,9 +1126,73 @@ class Projects extends AbstractApi
         return $this->delete($this->getProjectPath($project_id, 'repository/merged_branches'));
     }
 
-    public function projectAccessTokens(int|string $project_id): mixed
+    /**
+     * @param array $parameters {
+     *
+     *     @var string             $search             search text
+     *     @var string             $state              state of the token
+     *     @var bool               $revoked            whether the token is revoked or not
+     *     @var \DateTimeInterface $created_after      return tokens created after the given time
+     *     @var \DateTimeInterface $created_before     return tokens created before the given time
+     *     @var \DateTimeInterface $expires_after      return tokens that expire after the given date
+     *     @var \DateTimeInterface $expires_before     return tokens that expire before the given date
+     *     @var \DateTimeInterface $last_used_after    return tokens last used after the given time
+     *     @var \DateTimeInterface $last_used_before   return tokens last used before the given time
+     *     @var string             $sort               sort by created, expires, last_used, or name
+     * }
+     */
+    public function projectAccessTokens(int|string $project_id, array $parameters = []): mixed
     {
-        return $this->get($this->getProjectPath($project_id, 'access_tokens'));
+        $resolver = $this->createOptionsResolver();
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
+            return $value->format('c');
+        };
+        $dateNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
+            return $value->format('Y-m-d');
+        };
+        $booleanNormalizer = function (Options $resolver, $value): string {
+            return $value ? 'true' : 'false';
+        };
+
+        $resolver->setDefined('search')
+            ->setAllowedTypes('search', 'string')
+        ;
+        $resolver->setDefined('state')
+            ->setAllowedValues('state', ['active', 'inactive'])
+        ;
+        $resolver->setDefined('revoked')
+            ->setAllowedTypes('revoked', 'bool')
+            ->setNormalizer('revoked', $booleanNormalizer)
+        ;
+        $resolver->setDefined('created_after')
+            ->setAllowedTypes('created_after', \DateTimeInterface::class)
+            ->setNormalizer('created_after', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('created_before')
+            ->setAllowedTypes('created_before', \DateTimeInterface::class)
+            ->setNormalizer('created_before', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('expires_after')
+            ->setAllowedTypes('expires_after', \DateTimeInterface::class)
+            ->setNormalizer('expires_after', $dateNormalizer)
+        ;
+        $resolver->setDefined('expires_before')
+            ->setAllowedTypes('expires_before', \DateTimeInterface::class)
+            ->setNormalizer('expires_before', $dateNormalizer)
+        ;
+        $resolver->setDefined('last_used_after')
+            ->setAllowedTypes('last_used_after', \DateTimeInterface::class)
+            ->setNormalizer('last_used_after', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('last_used_before')
+            ->setAllowedTypes('last_used_before', \DateTimeInterface::class)
+            ->setNormalizer('last_used_before', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('sort')
+            ->setAllowedValues('sort', ['created_asc', 'created_desc', 'expires_asc', 'expires_desc', 'last_used_asc', 'last_used_desc', 'name_asc', 'name_desc'])
+        ;
+
+        return $this->get($this->getProjectPath($project_id, 'access_tokens'), $resolver->resolve($parameters));
     }
 
     public function projectAccessToken(int|string $project_id, int|string $token_id): mixed
