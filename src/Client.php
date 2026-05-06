@@ -101,7 +101,7 @@ class Client
      *
      * @var string
      */
-    private const USER_AGENT = 'gitlab-php-api-client/12.0';
+    private const USER_AGENT = 'gitlab-php-api-client/12.1';
 
     private readonly Builder $httpClientBuilder;
     private readonly History $responseHistory;
