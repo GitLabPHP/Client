@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Add support for personal access tokens
 * Add support for `job_inputs` and `job_variables_attributes` in `Jobs::play`
 * Add support for filters in `Projects::projectAccessTokens`
+* Add support for `Projects::rotateProjectAccessToken`
 * Add support for listing merge requests associated with a commit
 * Add support for `without_project_bots` in `Users::all`
 * Add support for date filters and `finished_at` ordering in `Deployments::all`
