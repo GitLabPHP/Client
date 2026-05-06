@@ -342,6 +342,26 @@ class MergeRequests extends AbstractApi
         return $this->delete($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/notes/'.self::encodePath($note_id)));
     }
 
+    public function showNoteAwardEmojis(int|string $project_id, int $mr_iid, int $note_id): mixed
+    {
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/notes/'.self::encodePath($note_id).'/award_emoji'));
+    }
+
+    public function showNoteAwardEmoji(int|string $project_id, int $mr_iid, int $note_id, int $award_id): mixed
+    {
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/notes/'.self::encodePath($note_id).'/award_emoji/'.self::encodePath($award_id)));
+    }
+
+    public function addNoteAwardEmoji(int|string $project_id, int $mr_iid, int $note_id, string $name): mixed
+    {
+        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/notes/'.self::encodePath($note_id).'/award_emoji'), ['name' => $name]);
+    }
+
+    public function removeNoteAwardEmoji(int|string $project_id, int $mr_iid, int $note_id, int $award_id): mixed
+    {
+        return $this->delete($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/notes/'.self::encodePath($note_id).'/award_emoji/'.self::encodePath($award_id)));
+    }
+
     public function showDiscussions(int|string $project_id, int $mr_iid): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid)).'/discussions');
@@ -427,6 +447,16 @@ class MergeRequests extends AbstractApi
     public function awardEmoji(int|string $project_id, int $mr_iid): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/award_emoji'));
+    }
+
+    public function showAwardEmoji(int|string $project_id, int $mr_iid, int $award_id): mixed
+    {
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/award_emoji/'.self::encodePath($award_id)));
+    }
+
+    public function addAwardEmoji(int|string $project_id, int $mr_iid, string $name): mixed
+    {
+        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/award_emoji'), ['name' => $name]);
     }
 
     public function removeAwardEmoji(int|string $project_id, int $mr_iid, int $award_id): mixed

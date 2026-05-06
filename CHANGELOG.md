@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Add support for additional filters and ordering options in `MergeRequests::all`
 * Add support for project CI/CD job token scope endpoints
 * Add support for merge request resource label event endpoints
+* Add support for merge request and merge request note award emoji endpoints
 * Add support for `Environments::stopStale`
 * Add support for `last_activity_after` and `last_activity_before` in `Groups::projects`
 * Fix `Projects::pipelines` date filters to include time information
