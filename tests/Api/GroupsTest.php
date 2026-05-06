@@ -664,6 +664,46 @@ class GroupsTest extends TestCase
     }
 
     #[Test]
+    public function shouldGetAllGroupProjectsWithLastActivityAfter(): void
+    {
+        $lastActivityAfter = new DateTime('2018-01-01 00:00:00');
+
+        $expectedArray = [
+            ['id' => 1, 'name' => 'A project'],
+            ['id' => 2, 'name' => 'Another project'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/projects', ['last_activity_after' => $lastActivityAfter->format('c')])
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->projects(1, ['last_activity_after' => $lastActivityAfter]));
+    }
+
+    #[Test]
+    public function shouldGetAllGroupProjectsWithLastActivityBefore(): void
+    {
+        $lastActivityBefore = new DateTime('2018-01-31 00:00:00');
+
+        $expectedArray = [
+            ['id' => 1, 'name' => 'A project'],
+            ['id' => 2, 'name' => 'Another project'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('groups/1/projects', ['last_activity_before' => $lastActivityBefore->format('c')])
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->projects(1, ['last_activity_before' => $lastActivityBefore]));
+    }
+
+    #[Test]
     public function shouldGetIterations(): void
     {
         $expectedArray = [

@@ -236,20 +236,22 @@ class Groups extends AbstractApi
     /**
      * @param array      $parameters {
      *
-     *     @var bool   $archived                    limit by archived status
-     *     @var string $visibility                  limit by visibility public, internal, or private
-     *     @var string $order_by                    Return projects ordered by id, name, path, created_at, updated_at, or last_activity_at fields.
-     *                                              Default is created_at.
-     *     @var string $sort                        Return projects sorted in asc or desc order (default is desc)
-     *     @var string $search                      return list of authorized projects matching the search criteria
-     *     @var bool   $simple                      return only the ID, URL, name, and path of each project
-     *     @var bool   $owned                       limit by projects owned by the current user
-     *     @var bool   $starred                     limit by projects starred by the current user
-     *     @var bool   $with_issues_enabled         Limit by projects with issues feature enabled (default is false)
-     *     @var bool   $with_merge_requests_enabled Limit by projects with merge requests feature enabled (default is false)
-     *     @var bool   $with_shared                 Include projects shared to this group (default is true)
-     *     @var bool   $include_subgroups           Include projects in subgroups of this group (default is false)
-     *     @var bool   $with_custom_attributes      Include custom attributes in response (admins only).
+     *     @var bool               $archived                    limit by archived status
+     *     @var string             $visibility                  limit by visibility public, internal, or private
+     *     @var string             $order_by                    Return projects ordered by id, name, path, created_at, updated_at, or last_activity_at fields.
+     *                                                          Default is created_at.
+     *     @var string             $sort                        Return projects sorted in asc or desc order (default is desc)
+     *     @var string             $search                      return list of authorized projects matching the search criteria
+     *     @var bool               $simple                      return only the ID, URL, name, and path of each project
+     *     @var bool               $owned                       limit by projects owned by the current user
+     *     @var bool               $starred                     limit by projects starred by the current user
+     *     @var bool               $with_issues_enabled         Limit by projects with issues feature enabled (default is false)
+     *     @var bool               $with_merge_requests_enabled Limit by projects with merge requests feature enabled (default is false)
+     *     @var bool               $with_shared                 Include projects shared to this group (default is true)
+     *     @var bool               $include_subgroups           Include projects in subgroups of this group (default is false)
+     *     @var bool               $with_custom_attributes      include custom attributes in response (admins only)
+     *     @var \DateTimeInterface $last_activity_after         Limit by last_activity after specified time
+     *     @var \DateTimeInterface $last_activity_before        Limit by last_activity before specified time
      * }
      */
     public function projects(int|string $id, array $parameters = []): mixed
@@ -257,6 +259,9 @@ class Groups extends AbstractApi
         $resolver = $this->createOptionsResolver();
         $booleanNormalizer = function (Options $resolver, $value): string {
             return $value ? 'true' : 'false';
+        };
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
+            return $value->format('c');
         };
 
         $resolver->setDefined('archived')
@@ -304,6 +309,14 @@ class Groups extends AbstractApi
         $resolver->setDefined('with_custom_attributes')
             ->setAllowedTypes('with_custom_attributes', 'bool')
             ->setNormalizer('with_custom_attributes', $booleanNormalizer)
+        ;
+        $resolver->setDefined('last_activity_after')
+            ->setAllowedTypes('last_activity_after', \DateTimeInterface::class)
+            ->setNormalizer('last_activity_after', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('last_activity_before')
+            ->setAllowedTypes('last_activity_before', \DateTimeInterface::class)
+            ->setNormalizer('last_activity_before', $datetimeNormalizer)
         ;
 
         return $this->get('groups/'.self::encodePath($id).'/projects', $resolver->resolve($parameters));

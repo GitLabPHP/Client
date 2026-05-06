@@ -761,12 +761,12 @@ class ProjectsTest extends TestCase
             ['id' => 3, 'status' => 'pending', 'ref' => 'test-pipeline'],
         ];
 
-        $updated_after = new DateTime('2018-01-01 00:00:00');
-        $updated_before = new DateTime('2018-01-31 00:00:00');
+        $updatedAfter = new DateTime('2018-01-01 00:00:00');
+        $updatedBefore = new DateTime('2018-01-31 00:00:00');
 
         $expectedWithArray = [
-            'updated_after' => $updated_after->format('Y-m-d'),
-            'updated_before' => $updated_before->format('Y-m-d'),
+            'updated_after' => $updatedAfter->format('c'),
+            'updated_before' => $updatedBefore->format('c'),
         ];
 
         $api = $this->getApiMock();
@@ -776,8 +776,8 @@ class ProjectsTest extends TestCase
             ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->pipelines(1, [
-            'updated_after' => $updated_after,
-            'updated_before' => $updated_before,
+            'updated_after' => $updatedAfter,
+            'updated_before' => $updatedBefore,
         ]));
     }
 
