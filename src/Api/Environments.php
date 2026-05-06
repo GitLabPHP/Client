@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Gitlab\Api;
 
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Environments extends AbstractApi
@@ -62,6 +63,27 @@ class Environments extends AbstractApi
     public function stop(int|string $project_id, int $environment_id): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'environments/'.self::encodePath($environment_id).'/stop'));
+    }
+
+    /**
+     * @param array      $parameters {
+     *
+     *     @var \DateTimeInterface $before Stop environments that have been modified or deployed to before the specified date.
+     * }
+     */
+    public function stopStale(int|string $project_id, array $parameters = []): mixed
+    {
+        $resolver = new OptionsResolver();
+        $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
+            return $value->format('c');
+        };
+
+        $resolver->setDefined('before')
+            ->setRequired('before')
+            ->setAllowedTypes('before', \DateTimeInterface::class)
+            ->setNormalizer('before', $datetimeNormalizer);
+
+        return $this->post($this->getProjectPath($project_id, 'environments/stop_stale'), $resolver->resolve($parameters));
     }
 
     public function show(int|string $project_id, int $environment_id): mixed
