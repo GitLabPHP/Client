@@ -270,6 +270,74 @@ See merge request !2',
         );
     }
 
+    #[Test]
+    public function shouldGetAllDeploymentsSortedByFinishedAt(): void
+    {
+        $expectedArray = $this->getMultipleDeploymentsData();
+
+        $api = $this->getMultipleDeploymentsRequestMock(
+            'projects/1/deployments',
+            $expectedArray,
+            ['order_by' => 'finished_at', 'sort' => 'desc']
+        );
+
+        $this->assertEquals(
+            $expectedArray,
+            $api->all(1, ['order_by' => 'finished_at', 'sort' => 'desc'])
+        );
+    }
+
+    #[Test]
+    public function shouldAllowDeploymentDateFilters(): void
+    {
+        $expectedArray = $this->getMultipleDeploymentsData();
+        $updatedAfter = new \DateTimeImmutable('2019-03-15T08:00:00+00:00');
+        $updatedBefore = new \DateTimeImmutable('2019-03-16T08:00:00+00:00');
+        $finishedAfter = new \DateTimeImmutable('2019-03-17T08:00:00+00:00');
+        $finishedBefore = new \DateTimeImmutable('2019-03-18T08:00:00+00:00');
+
+        $api = $this->getMultipleDeploymentsRequestMock(
+            'projects/1/deployments',
+            $expectedArray,
+            [
+                'updated_after' => $updatedAfter->format('c'),
+                'updated_before' => $updatedBefore->format('c'),
+                'finished_after' => $finishedAfter->format('c'),
+                'finished_before' => $finishedBefore->format('c'),
+            ]
+        );
+
+        $this->assertEquals($expectedArray, $api->all(1, [
+            'updated_after' => $updatedAfter,
+            'updated_before' => $updatedBefore,
+            'finished_after' => $finishedAfter,
+            'finished_before' => $finishedBefore,
+        ]));
+    }
+
+    #[Test]
+    public function shouldAllowFinishedFilterWithRecommendedParameters(): void
+    {
+        $expectedArray = $this->getMultipleDeploymentsData();
+        $finishedAfter = new \DateTimeImmutable('2019-03-17T08:00:00+00:00');
+
+        $api = $this->getMultipleDeploymentsRequestMock(
+            'projects/1/deployments',
+            $expectedArray,
+            [
+                'order_by' => 'finished_at',
+                'status' => 'success',
+                'finished_after' => $finishedAfter->format('c'),
+            ]
+        );
+
+        $this->assertEquals($expectedArray, $api->all(1, [
+            'order_by' => 'finished_at',
+            'status' => 'success',
+            'finished_after' => $finishedAfter,
+        ]));
+    }
+
     protected function getApiClass(): string
     {
         return Deployments::class;
