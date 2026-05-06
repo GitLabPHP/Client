@@ -443,6 +443,39 @@ class MergeRequestsTest extends TestCase
     }
 
     #[Test]
+    public function shouldGetMergeRequestResourceLabelEvents(): void
+    {
+        $expectedArray = [
+            ['id' => 119, 'resource_type' => 'MergeRequest', 'action' => 'add'],
+            ['id' => 120, 'resource_type' => 'MergeRequest', 'action' => 'add'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_requests/2/resource_label_events')
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->showResourceLabelEvents(1, 2));
+    }
+
+    #[Test]
+    public function shouldGetMergeRequestResourceLabelEvent(): void
+    {
+        $expectedArray = ['id' => 119, 'resource_type' => 'MergeRequest', 'action' => 'add'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_requests/2/resource_label_events/3')
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->showResourceLabelEvent(1, 2, 3));
+    }
+
+    #[Test]
     public function shouldGetMergeRequestChanges(): void
     {
         $expectedArray = ['id' => 1, 'title' => 'A merge request'];

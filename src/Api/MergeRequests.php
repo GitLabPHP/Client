@@ -384,6 +384,16 @@ class MergeRequests extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid)).'/participants');
     }
 
+    public function showResourceLabelEvents(int|string $project_id, int $mr_iid): mixed
+    {
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid)).'/resource_label_events');
+    }
+
+    public function showResourceLabelEvent(int|string $project_id, int $mr_iid, int $resource_label_event_id): mixed
+    {
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid)).'/resource_label_events/'.self::encodePath($resource_label_event_id));
+    }
+
     public function changes(int|string $project_id, int $mr_iid): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/changes'));
