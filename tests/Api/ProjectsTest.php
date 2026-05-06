@@ -1420,6 +1420,21 @@ class ProjectsTest extends TestCase
     }
 
     #[Test]
+    public function shouldUpdateDeployKey(): void
+    {
+        $expectedArray = ['id' => 3, 'title' => 'new-title', 'key' => 'ssh-rsa AAAA...', 'can_push' => true];
+        $parameters = ['can_push' => true, 'title' => 'new-title'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/deploy_keys/3', $parameters)
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->updateDeployKey(1, 3, $parameters));
+    }
+
+    #[Test]
     public function shouldDeleteDeployKey(): void
     {
         $expectedBool = true;
