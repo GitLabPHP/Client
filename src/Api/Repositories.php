@@ -186,6 +186,25 @@ class Repositories extends AbstractApi
     }
 
     /**
+     * @param array $parameters {
+     *
+     *     @var string $state Returns merge requests with the specified state: opened, closed, locked, or merged.
+     * }
+     */
+    public function commitMergeRequests(int|string $project_id, string $sha, array $parameters = []): mixed
+    {
+        $resolver = new OptionsResolver();
+        $resolver->setDefined('state')
+            ->setAllowedValues('state', ['opened', 'closed', 'locked', 'merged'])
+        ;
+
+        return $this->get(
+            $this->getProjectPath($project_id, 'repository/commits/'.self::encodePath($sha).'/merge_requests'),
+            $resolver->resolve($parameters)
+        );
+    }
+
+    /**
      * @param array      $parameters {
      *
      *     @var string $branch         Name of the branch to commit into. To create a new branch, also provide start_branch.
