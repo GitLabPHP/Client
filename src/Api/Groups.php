@@ -68,9 +68,30 @@ class Groups extends AbstractApi
         return $this->get('groups', $resolver->resolve($parameters));
     }
 
-    public function show(int|string $id): mixed
+    /**
+     * @param array $parameters {
+     *
+     *     @var bool $with_custom_attributes include custom attributes in response
+     *     @var bool $with_projects          Include details from projects that belong to the group.
+     * }
+     */
+    public function show(int|string $id, array $parameters = []): mixed
     {
-        return $this->get('groups/'.self::encodePath($id));
+        $resolver = $this->createOptionsResolver();
+        $booleanNormalizer = function (Options $resolver, $value): string {
+            return $value ? 'true' : 'false';
+        };
+
+        $resolver->setDefined('with_custom_attributes')
+            ->setAllowedTypes('with_custom_attributes', 'bool')
+            ->setNormalizer('with_custom_attributes', $booleanNormalizer)
+        ;
+        $resolver->setDefined('with_projects')
+            ->setAllowedTypes('with_projects', 'bool')
+            ->setNormalizer('with_projects', $booleanNormalizer)
+        ;
+
+        return $this->get('groups/'.self::encodePath($id), $resolver->resolve($parameters));
     }
 
     public function create(string $name, string $path, ?string $description = null, string $visibility = 'private', ?bool $lfs_enabled = null, ?bool $request_access_enabled = null, ?int $parent_id = null, ?int $shared_runners_minutes_limit = null): mixed
