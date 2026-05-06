@@ -249,7 +249,7 @@ class Groups extends AbstractApi
      *     @var bool               $with_merge_requests_enabled Limit by projects with merge requests feature enabled (default is false)
      *     @var bool               $with_shared                 Include projects shared to this group (default is true)
      *     @var bool               $include_subgroups           Include projects in subgroups of this group (default is false)
-     *     @var bool               $with_custom_attributes      Include custom attributes in response (admins only).
+     *     @var bool               $with_custom_attributes      include custom attributes in response (admins only)
      *     @var \DateTimeInterface $last_activity_after         Limit by last_activity after specified time
      *     @var \DateTimeInterface $last_activity_before        Limit by last_activity before specified time
      * }
