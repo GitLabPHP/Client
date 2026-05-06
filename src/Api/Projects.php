@@ -849,28 +849,29 @@ class Projects extends AbstractApi
      * @param array      $parameters {
      *
      *     @var bool               $archived                    Limit by archived status
-     *     @var string             $visibility                  Limit by visibility public, internal, or private
-     *     @var string             $order_by                    Return projects ordered by id, name, path, created_at, updated_at,
-     *                                                          last_activity_at, repository_size, storage_size, packages_size or
-     *                                                          wiki_size fields (default is created_at)
-     *     @var string             $sort                        Return projects sorted in asc or desc order (default is desc)
-     *     @var string             $search                      Return list of projects matching the search criteria
-     *     @var bool               $simple                      Return only the ID, URL, name, and path of each project
-     *     @var bool               $owned                       Limit by projects owned by the current user
      *     @var bool               $membership                  Limit by projects that the current user is a member of
+     *     @var int                $min_access_level            Limit by current user minimal access level
+     *     @var string             $order_by                    Return projects ordered by id, name, path, created_at, updated_at, star_count, or last_activity_at
+     *     @var bool               $owned                       Limit by projects owned by the current user
+     *     @var string             $search                      Return list of projects matching the search criteria
+     *     @var bool               $simple                      Return only limited fields for each project
+     *     @var string             $sort                        Return projects sorted in asc or desc order
      *     @var bool               $starred                     Limit by projects starred by the current user
      *     @var bool               $statistics                  Include project statistics
+     *     @var \DateTimeInterface $updated_after               Limit results to projects last updated after the specified time
+     *     @var \DateTimeInterface $updated_before              Limit results to projects last updated before the specified time
+     *     @var string             $visibility                  Limit by visibility public, internal, or private
+     *     @var bool               $with_custom_attributes      Include custom attributes in response
      *     @var bool               $with_issues_enabled         Limit by enabled issues feature
      *     @var bool               $with_merge_requests_enabled Limit by enabled merge requests feature
-     *     @var int                $min_access_level            Limit by current user minimal access level
-     *     @var \DateTimeInterface $updated_before              limit results to projects last updated before the specified time
-     *     @var \DateTimeInterface $updated_after               limit results to projects last updated after the specified time
-     *     @var bool               $with_custom_attributes      Include custom attributes in response
      * }
+     *
+     * @throws UndefinedOptionsException If an option name is undefined
+     * @throws InvalidOptionsException   If an option doesn't fulfill the specified validation rules
      */
     public function forks(int|string $project_id, array $parameters = []): mixed
     {
-        $resolver = $this->createOptionsResolver();
+        $resolver = new OptionsResolver();
         $booleanNormalizer = function (Options $resolver, $value): string {
             return $value ? 'true' : 'false';
         };
@@ -881,31 +882,30 @@ class Projects extends AbstractApi
             ->setAllowedTypes('archived', 'bool')
             ->setNormalizer('archived', $booleanNormalizer)
         ;
-        $resolver->setDefined('visibility')
-            ->setAllowedValues('visibility', ['public', 'internal', 'private'])
+        $resolver->setDefined('membership')
+            ->setAllowedTypes('membership', 'bool')
+            ->setNormalizer('membership', $booleanNormalizer)
         ;
-        $orderBy = [
-            'id', 'name', 'path', 'created_at', 'updated_at', 'last_activity_at',
-            'repository_size', 'storage_size', 'packages_size', 'wiki_size',
-        ];
+        $resolver->setDefined('min_access_level')
+            ->setAllowedValues('min_access_level', [null, 5, 10, 15, 20, 25, 30, 40, 50])
+        ;
+        $orderBy = ['id', 'name', 'path', 'created_at', 'updated_at', 'star_count', 'last_activity_at'];
         $resolver->setDefined('order_by')
             ->setAllowedValues('order_by', $orderBy)
-        ;
-        $resolver->setDefined('sort')
-            ->setAllowedValues('sort', ['asc', 'desc'])
-        ;
-        $resolver->setDefined('search');
-        $resolver->setDefined('simple')
-            ->setAllowedTypes('simple', 'bool')
-            ->setNormalizer('simple', $booleanNormalizer)
         ;
         $resolver->setDefined('owned')
             ->setAllowedTypes('owned', 'bool')
             ->setNormalizer('owned', $booleanNormalizer)
         ;
-        $resolver->setDefined('membership')
-            ->setAllowedTypes('membership', 'bool')
-            ->setNormalizer('membership', $booleanNormalizer)
+        $resolver->setDefined('search')
+            ->setAllowedTypes('search', 'string')
+        ;
+        $resolver->setDefined('simple')
+            ->setAllowedTypes('simple', 'bool')
+            ->setNormalizer('simple', $booleanNormalizer)
+        ;
+        $resolver->setDefined('sort')
+            ->setAllowedValues('sort', ['asc', 'desc'])
         ;
         $resolver->setDefined('starred')
             ->setAllowedTypes('starred', 'bool')
@@ -915,6 +915,21 @@ class Projects extends AbstractApi
             ->setAllowedTypes('statistics', 'bool')
             ->setNormalizer('statistics', $booleanNormalizer)
         ;
+        $resolver->setDefined('updated_after')
+            ->setAllowedTypes('updated_after', \DateTimeInterface::class)
+            ->setNormalizer('updated_after', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('updated_before')
+            ->setAllowedTypes('updated_before', \DateTimeInterface::class)
+            ->setNormalizer('updated_before', $datetimeNormalizer)
+        ;
+        $resolver->setDefined('visibility')
+            ->setAllowedValues('visibility', ['public', 'internal', 'private'])
+        ;
+        $resolver->setDefined('with_custom_attributes')
+            ->setAllowedTypes('with_custom_attributes', 'bool')
+            ->setNormalizer('with_custom_attributes', $booleanNormalizer)
+        ;
         $resolver->setDefined('with_issues_enabled')
             ->setAllowedTypes('with_issues_enabled', 'bool')
             ->setNormalizer('with_issues_enabled', $booleanNormalizer)
@@ -922,21 +937,6 @@ class Projects extends AbstractApi
         $resolver->setDefined('with_merge_requests_enabled')
             ->setAllowedTypes('with_merge_requests_enabled', 'bool')
             ->setNormalizer('with_merge_requests_enabled', $booleanNormalizer)
-        ;
-        $resolver->setDefined('min_access_level')
-            ->setAllowedValues('min_access_level', [null, 10, 20, 30, 40, 50])
-        ;
-        $resolver->setDefined('updated_before')
-            ->setAllowedTypes('updated_before', \DateTimeInterface::class)
-            ->setNormalizer('updated_before', $datetimeNormalizer)
-        ;
-        $resolver->setDefined('updated_after')
-            ->setAllowedTypes('updated_after', \DateTimeInterface::class)
-            ->setNormalizer('updated_after', $datetimeNormalizer)
-        ;
-        $resolver->setDefined('with_custom_attributes')
-            ->setAllowedTypes('with_custom_attributes', 'bool')
-            ->setNormalizer('with_custom_attributes', $booleanNormalizer)
         ;
 
         return $this->get($this->getProjectPath($project_id, 'forks'), $resolver->resolve($parameters));
