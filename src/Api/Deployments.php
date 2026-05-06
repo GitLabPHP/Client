@@ -79,6 +79,13 @@ class Deployments extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'deployments/'.$deployment_id));
     }
 
+    /**
+     * @param array $parameters {
+     *
+     *     @var string $state  return all merge requests or just those that are opened, closed, locked, or merged
+     *     @var string $labels return merge requests matching a comma separated list of labels
+     * }
+     */
     public function mergeRequests(int|string $project_id, int $deployment_id, array $parameters = []): mixed
     {
         $resolver = new OptionsResolver();
