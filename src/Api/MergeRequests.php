@@ -318,6 +318,11 @@ class MergeRequests extends AbstractApi
         return $this->put($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/merge'), $parameters);
     }
 
+    public function addToMergeTrain(int|string $project_id, int $mr_iid, array $parameters = []): mixed
+    {
+        return $this->post($this->getProjectPath($project_id, 'merge_trains/merge_requests/'.self::encodePath($mr_iid)), $parameters);
+    }
+
     public function showNotes(int|string $project_id, int $mr_iid): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/notes'));

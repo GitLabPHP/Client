@@ -348,6 +348,29 @@ class MergeRequestsTest extends TestCase
     }
 
     #[Test]
+    public function shouldAddMergeRequestToMergeTrain(): void
+    {
+        $expectedArray = ['id' => 267, 'target_branch' => 'main', 'status' => 'idle'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/merge_trains/merge_requests/2', [
+                'auto_merge' => true,
+                'sha' => 'abc123',
+                'squash' => true,
+            ])
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->addToMergeTrain(1, 2, [
+            'auto_merge' => true,
+            'sha' => 'abc123',
+            'squash' => true,
+        ]));
+    }
+
+    #[Test]
     public function shouldGetNotes(): void
     {
         $expectedArray = [
