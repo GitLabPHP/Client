@@ -1296,6 +1296,21 @@ class Projects extends AbstractApi
         return $this->delete($this->getProjectPath($project_id, 'protected_tags/'.self::encodePath($tag_name)));
     }
 
+    public function remoteMirrors(int|string $project_id): mixed
+    {
+        return $this->get($this->getProjectPath($project_id, 'remote_mirrors'));
+    }
+
+    public function remoteMirror(int|string $project_id, int $mirror_id): mixed
+    {
+        return $this->get($this->getProjectPath($project_id, 'remote_mirrors/'.self::encodePath($mirror_id)));
+    }
+
+    public function remoteMirrorPublicKey(int|string $project_id, int $mirror_id): mixed
+    {
+        return $this->get($this->getProjectPath($project_id, 'remote_mirrors/'.self::encodePath($mirror_id).'/public_key'));
+    }
+
     /**
      * @param array $parameters {
      *
