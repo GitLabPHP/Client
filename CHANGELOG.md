@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Add support for merge request and merge request note award emoji endpoints
 * Add support for `MergeRequests::remove`
 * Add support for `MergeRequests::addToMergeTrain`
+* Correct merge request API parameter handling
 * Add support for container registry endpoints
 * Add support for `Environments::stopStale`
 * Add support for `last_activity_after` and `last_activity_before` in `Groups::projects`

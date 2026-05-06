@@ -68,6 +68,7 @@ class MergeRequests extends AbstractApi
      *     @var string             $merge_user_username       return merge requests merged by the given username
      *     @var string             $milestone                 return merge requests for a specific milestone
      *     @var string             $my_reaction_emoji         return merge requests reacted to by the authenticated user
+     *     @var bool               $non_archived              return merge requests from non-archived projects only
      *     @var array<string,mixed> $not                      return merge requests that do not match the supplied filters
      *     @var string             $order_by                  return requests ordered by the given field
      *     @var int|string         $reviewer_id               return merge requests reviewed by the given user ID, Any, or None
@@ -83,7 +84,7 @@ class MergeRequests extends AbstractApi
      *     @var string             $view                      if simple, returns a limited set of merge request fields
      *     @var bool               $with_labels_details       include label details in each merge request
      *     @var bool               $with_merge_status_recheck request an asynchronous merge status recalculation
-     *     @var bool               $wip                       return only draft or only non-draft merge requests
+     *     @var bool|string        $wip                       return only draft or only non-draft merge requests
      * }
      *
      * @throws UndefinedOptionsException if an option name is undefined
@@ -193,14 +194,18 @@ class MergeRequests extends AbstractApi
         $resolver->setDefined('in')
             ->setAllowedValues('in', ['title', 'description', 'title,description', 'description,title'])
         ;
-        $resolver->setDefined('labels');
+        $resolver->setDefined('labels')
+            ->setAllowedTypes('labels', 'string')
+        ;
         $resolver->setDefined('merge_user_id')
             ->setAllowedTypes('merge_user_id', 'integer')
         ;
         $resolver->setDefined('merge_user_username')
             ->setAllowedTypes('merge_user_username', 'string')
         ;
-        $resolver->setDefined('milestone');
+        $resolver->setDefined('milestone')
+            ->setAllowedTypes('milestone', 'string')
+        ;
         $resolver->setDefined('my_reaction_emoji')
             ->setAllowedTypes('my_reaction_emoji', 'string')
         ;
@@ -224,15 +229,21 @@ class MergeRequests extends AbstractApi
         $resolver->setDefined('scope')
             ->setAllowedValues('scope', ['created_by_me', 'assigned_to_me', 'reviews_for_me', 'all'])
         ;
-        $resolver->setDefined('search');
+        $resolver->setDefined('search')
+            ->setAllowedTypes('search', 'string')
+        ;
         $resolver->setDefined('sort')
             ->setAllowedValues('sort', ['asc', 'desc'])
         ;
-        $resolver->setDefined('source_branch');
+        $resolver->setDefined('source_branch')
+            ->setAllowedTypes('source_branch', 'string')
+        ;
         $resolver->setDefined('state')
             ->setAllowedValues('state', [self::STATE_ALL, self::STATE_MERGED, self::STATE_OPENED, self::STATE_CLOSED, self::STATE_LOCKED])
         ;
-        $resolver->setDefined('target_branch');
+        $resolver->setDefined('target_branch')
+            ->setAllowedTypes('target_branch', 'string')
+        ;
         $resolver->setDefined('updated_after')
             ->setAllowedTypes('updated_after', \DateTimeInterface::class)
             ->setNormalizer('updated_after', $datetimeNormalizer)
@@ -251,8 +262,13 @@ class MergeRequests extends AbstractApi
             ->setAllowedTypes('with_merge_status_recheck', 'bool')
         ;
         $resolver->setDefined('wip')
-            ->setAllowedTypes('wip', 'boolean')
+            ->setAllowedTypes('wip', ['bool', 'string'])
+            ->setAllowedValues('wip', [true, false, 'yes', 'no'])
             ->addNormalizer('wip', static function ($resolver, $wip) {
+                if (\is_string($wip)) {
+                    return $wip;
+                }
+
                 return $wip ? 'yes' : 'no';
             })
         ;
@@ -267,6 +283,7 @@ class MergeRequests extends AbstractApi
      *
      *     @var bool               $include_diverged_commits_count      Return the commits behind the target branch
      *     @var bool               $include_rebase_in_progress          Return whether a rebase operation is in progress
+     *     @var bool               $render_html                         Return `title` and `description` fields as HTML
      * }
      */
     public function show(int|string $project_id, int $mr_iid, array $parameters = []): mixed
@@ -278,25 +295,86 @@ class MergeRequests extends AbstractApi
         $resolver->setDefined('include_rebase_in_progress')
             ->setAllowedTypes('include_rebase_in_progress', 'bool')
         ;
+        $resolver->setDefined('render_html')
+            ->setAllowedTypes('render_html', 'bool')
+        ;
 
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid)), $resolver->resolve($parameters));
     }
 
     /**
-     * @param array<string,mixed> $parameters {
+     * @param array $parameters {
      *
-     *     @var int        $assignee_id       the assignee id
-     *     @var int|string $target_project_id the target project id
-     *     @var string     $description       the description
+     *     @var bool     $allow_collaboration    allow commits from upstream members
+     *     @var bool     $allow_maintainer_to_push deprecated; use allow_collaboration instead
+     *     @var int      $approvals_before_merge deprecated; use merge request approvals instead
+     *     @var int      $assignee_id            the assignee id
+     *     @var int[]    $assignee_ids           the assignee ids
+     *     @var string   $description            the description
+     *     @var string   $labels                 labels for the merge request
+     *     @var string   $merge_after            date after which the merge request can be merged
+     *     @var int      $milestone_id           the milestone id
+     *     @var bool     $remove_source_branch   remove the source branch when merged
+     *     @var int[]    $reviewer_ids           the reviewer ids
+     *     @var bool     $squash                 squash commits into one commit when merged
+     *     @var int      $target_project_id      the target project id
      * }
      */
     public function create(int|string $project_id, string $source, string $target, string $title, array $parameters = []): mixed
     {
+        $resolver = new OptionsResolver();
+        $resolver->setDefined('allow_collaboration')
+            ->setAllowedTypes('allow_collaboration', 'bool')
+        ;
+        $resolver->setDefined('allow_maintainer_to_push')
+            ->setAllowedTypes('allow_maintainer_to_push', 'bool')
+        ;
+        $resolver->setDefined('approvals_before_merge')
+            ->setAllowedTypes('approvals_before_merge', 'int')
+        ;
+        $resolver->setDefined('assignee_id')
+            ->setAllowedTypes('assignee_id', 'int')
+        ;
+        $resolver->setDefined('assignee_ids')
+            ->setAllowedTypes('assignee_ids', 'array')
+            ->setAllowedValues('assignee_ids', static function (array $value): bool {
+                return self::isIntegerArray($value);
+            })
+        ;
+        $resolver->setDefined('description')
+            ->setAllowedTypes('description', 'string')
+        ;
+        $resolver->setDefined('labels')
+            ->setAllowedTypes('labels', 'string')
+        ;
+        $resolver->setDefined('merge_after')
+            ->setAllowedTypes('merge_after', 'string')
+        ;
+        $resolver->setDefined('milestone_id')
+            ->setAllowedTypes('milestone_id', 'int')
+        ;
+        $resolver->setDefined('remove_source_branch')
+            ->setAllowedTypes('remove_source_branch', 'bool')
+        ;
+        $resolver->setDefined('reviewer_ids')
+            ->setAllowedTypes('reviewer_ids', 'array')
+            ->setAllowedValues('reviewer_ids', static function (array $value): bool {
+                return self::isIntegerArray($value);
+            })
+        ;
+        $resolver->setDefined('squash')
+            ->setAllowedTypes('squash', 'bool')
+        ;
+        $resolver->setDefined('target_project_id')
+            ->setAllowedTypes('target_project_id', 'int')
+        ;
+
         $baseParams = [
             'source_branch' => $source,
             'target_branch' => $target,
             'title' => $title,
         ];
+        $parameters = $resolver->resolve($parameters);
 
         return $this->post(
             $this->getProjectPath($project_id, 'merge_requests'),
@@ -304,9 +382,91 @@ class MergeRequests extends AbstractApi
         );
     }
 
+    /**
+     * @param array $parameters {
+     *
+     *     @var string $add_labels               labels to add to the merge request
+     *     @var bool   $allow_collaboration      allow commits from upstream members
+     *     @var bool   $allow_maintainer_to_push deprecated; use allow_collaboration instead
+     *     @var int    $assignee_id              the assignee id
+     *     @var int[]  $assignee_ids             the assignee ids
+     *     @var string $description              the description
+     *     @var bool   $discussion_locked        lock discussions on the merge request
+     *     @var string $labels                   labels for the merge request
+     *     @var string $merge_after              date after which the merge request can be merged
+     *     @var int    $milestone_id             the milestone id
+     *     @var string $remove_labels            labels to remove from the merge request
+     *     @var bool   $remove_source_branch     remove the source branch when merged
+     *     @var int[]  $reviewer_ids             the reviewer ids
+     *     @var bool   $squash                   squash commits into one commit when merged
+     *     @var string $state_event              close or reopen the merge request
+     *     @var string $target_branch            the target branch
+     *     @var string $title                    the title
+     * }
+     */
     public function update(int|string $project_id, int $mr_iid, array $parameters): mixed
     {
-        return $this->put($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid)), $parameters);
+        $resolver = new OptionsResolver();
+        $resolver->setDefined('add_labels')
+            ->setAllowedTypes('add_labels', 'string')
+        ;
+        $resolver->setDefined('allow_collaboration')
+            ->setAllowedTypes('allow_collaboration', 'bool')
+        ;
+        $resolver->setDefined('allow_maintainer_to_push')
+            ->setAllowedTypes('allow_maintainer_to_push', 'bool')
+        ;
+        $resolver->setDefined('assignee_id')
+            ->setAllowedTypes('assignee_id', 'int')
+        ;
+        $resolver->setDefined('assignee_ids')
+            ->setAllowedTypes('assignee_ids', 'array')
+            ->setAllowedValues('assignee_ids', static function (array $value): bool {
+                return self::isIntegerArray($value);
+            })
+        ;
+        $resolver->setDefined('description')
+            ->setAllowedTypes('description', 'string')
+        ;
+        $resolver->setDefined('discussion_locked')
+            ->setAllowedTypes('discussion_locked', 'bool')
+        ;
+        $resolver->setDefined('labels')
+            ->setAllowedTypes('labels', 'string')
+        ;
+        $resolver->setDefined('merge_after')
+            ->setAllowedTypes('merge_after', 'string')
+        ;
+        $resolver->setDefined('milestone_id')
+            ->setAllowedTypes('milestone_id', 'int')
+        ;
+        $resolver->setDefined('remove_labels')
+            ->setAllowedTypes('remove_labels', 'string')
+        ;
+        $resolver->setDefined('remove_source_branch')
+            ->setAllowedTypes('remove_source_branch', 'bool')
+        ;
+        $resolver->setDefined('reviewer_ids')
+            ->setAllowedTypes('reviewer_ids', 'array')
+            ->setAllowedValues('reviewer_ids', static function (array $value): bool {
+                return self::isIntegerArray($value);
+            })
+        ;
+        $resolver->setDefined('squash')
+            ->setAllowedTypes('squash', 'bool')
+        ;
+        $resolver->setDefined('state_event')
+            ->setAllowedTypes('state_event', 'string')
+            ->setAllowedValues('state_event', ['close', 'reopen'])
+        ;
+        $resolver->setDefined('target_branch')
+            ->setAllowedTypes('target_branch', 'string')
+        ;
+        $resolver->setDefined('title')
+            ->setAllowedTypes('title', 'string')
+        ;
+
+        return $this->put($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid)), $resolver->resolve($parameters));
     }
 
     public function remove(int|string $project_id, int $mr_iid): mixed
@@ -314,9 +474,44 @@ class MergeRequests extends AbstractApi
         return $this->delete($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid)));
     }
 
+    /**
+     * @param array $parameters {
+     *
+     *     @var bool   $auto_merge                    merge when checks pass
+     *     @var string $merge_commit_message          custom merge commit message
+     *     @var bool   $merge_when_pipeline_succeeds  deprecated; use auto_merge instead
+     *     @var string $sha                           SHA that must match the merge request HEAD
+     *     @var bool   $should_remove_source_branch   remove the source branch
+     *     @var string $squash_commit_message         custom squash commit message
+     *     @var bool   $squash                        squash commits into a single commit
+     * }
+     */
     public function merge(int|string $project_id, int $mr_iid, array $parameters = []): mixed
     {
-        return $this->put($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/merge'), $parameters);
+        $resolver = new OptionsResolver();
+        $resolver->setDefined('auto_merge')
+            ->setAllowedTypes('auto_merge', 'bool')
+        ;
+        $resolver->setDefined('merge_commit_message')
+            ->setAllowedTypes('merge_commit_message', 'string')
+        ;
+        $resolver->setDefined('merge_when_pipeline_succeeds')
+            ->setAllowedTypes('merge_when_pipeline_succeeds', 'bool')
+        ;
+        $resolver->setDefined('sha')
+            ->setAllowedTypes('sha', 'string')
+        ;
+        $resolver->setDefined('should_remove_source_branch')
+            ->setAllowedTypes('should_remove_source_branch', 'bool')
+        ;
+        $resolver->setDefined('squash_commit_message')
+            ->setAllowedTypes('squash_commit_message', 'string')
+        ;
+        $resolver->setDefined('squash')
+            ->setAllowedTypes('squash', 'bool')
+        ;
+
+        return $this->put($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/merge'), $resolver->resolve($parameters));
     }
 
     /**
@@ -347,9 +542,24 @@ class MergeRequests extends AbstractApi
         return $this->post($this->getProjectPath($project_id, 'merge_trains/merge_requests/'.self::encodePath($mr_iid)), $resolver->resolve($parameters));
     }
 
-    public function showNotes(int|string $project_id, int $mr_iid): mixed
+    /**
+     * @param array $parameters {
+     *
+     *     @var string $sort     return notes sorted in asc or desc order
+     *     @var string $order_by return notes ordered by created_at or updated_at
+     * }
+     */
+    public function showNotes(int|string $project_id, int $mr_iid, array $parameters = []): mixed
     {
-        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/notes'));
+        $resolver = $this->createOptionsResolver();
+        $resolver->setDefined('sort')
+            ->setAllowedValues('sort', ['asc', 'desc'])
+        ;
+        $resolver->setDefined('order_by')
+            ->setAllowedValues('order_by', ['created_at', 'updated_at'])
+        ;
+
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/notes'), $resolver->resolve($parameters));
     }
 
     public function showNote(int|string $project_id, int $mr_iid, int $note_id): mixed
@@ -357,18 +567,48 @@ class MergeRequests extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/notes/'.self::encodePath($note_id)));
     }
 
+    /**
+     * @param array $params {
+     *
+     *     @var string $created_at                  creation timestamp for admins or project owners
+     *     @var bool   $internal                    mark the note as internal
+     *     @var string $merge_request_diff_head_sha merge request diff head SHA
+     * }
+     */
     public function addNote(int|string $project_id, int $mr_iid, string $body, array $params = []): mixed
     {
-        $params['body'] = $body;
+        $resolver = new OptionsResolver();
+        $resolver->setDefined('created_at')
+            ->setAllowedTypes('created_at', 'string')
+        ;
+        $resolver->setDefined('internal')
+            ->setAllowedTypes('internal', 'bool')
+        ;
+        $resolver->setDefined('merge_request_diff_head_sha')
+            ->setAllowedTypes('merge_request_diff_head_sha', 'string')
+        ;
 
-        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/notes'), $params);
+        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/notes'), \array_merge([
+            'body' => $body,
+        ], $resolver->resolve($params)));
     }
 
-    public function updateNote(int|string $project_id, int $mr_iid, int $note_id, string $body): mixed
+    /**
+     * @param array $params {
+     *
+     *     @var bool $confidential deprecated; use internal instead
+     * }
+     */
+    public function updateNote(int|string $project_id, int $mr_iid, int $note_id, string $body, array $params = []): mixed
     {
-        return $this->put($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/notes/'.self::encodePath($note_id)), [
+        $resolver = new OptionsResolver();
+        $resolver->setDefined('confidential')
+            ->setAllowedTypes('confidential', 'bool')
+        ;
+
+        return $this->put($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/notes/'.self::encodePath($note_id)), \array_merge([
             'body' => $body,
-        ]);
+        ], $resolver->resolve($params)));
     }
 
     public function removeNote(int|string $project_id, int $mr_iid, int $note_id): mixed
@@ -406,9 +646,32 @@ class MergeRequests extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid)).'/discussions/'.self::encodePath($discussion_id));
     }
 
+    /**
+     * @param array $params {
+     *
+     *     @var string $body       the note body
+     *     @var string $commit_id  commit SHA for a commit-specific discussion
+     *     @var string $created_at creation timestamp for admins or project owners
+     *     @var array  $position   position parameters for a diff discussion
+     * }
+     */
     public function addDiscussion(int|string $project_id, int $mr_iid, array $params): mixed
     {
-        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/discussions'), $params);
+        $resolver = new OptionsResolver();
+        $resolver->setRequired('body')
+            ->setAllowedTypes('body', 'string')
+        ;
+        $resolver->setDefined('commit_id')
+            ->setAllowedTypes('commit_id', 'string')
+        ;
+        $resolver->setDefined('created_at')
+            ->setAllowedTypes('created_at', 'string')
+        ;
+        $resolver->setDefined('position')
+            ->setAllowedTypes('position', 'array')
+        ;
+
+        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/discussions'), $resolver->resolve($params));
     }
 
     public function resolveDiscussion(int|string $project_id, int $mr_iid, string $discussion_id, bool $resolved = true): mixed
@@ -418,14 +681,40 @@ class MergeRequests extends AbstractApi
         ]);
     }
 
-    public function addDiscussionNote(int|string $project_id, int $mr_iid, string $discussion_id, string $body): mixed
+    /**
+     * @param array $params {
+     *
+     *     @var string $created_at creation timestamp for admins or project owners
+     * }
+     */
+    public function addDiscussionNote(int|string $project_id, int $mr_iid, string $discussion_id, string $body, array $params = []): mixed
     {
-        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/discussions/'.self::encodePath($discussion_id).'/notes'), ['body' => $body]);
+        $resolver = new OptionsResolver();
+        $resolver->setDefined('created_at')
+            ->setAllowedTypes('created_at', 'string')
+        ;
+
+        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/discussions/'.self::encodePath($discussion_id).'/notes'), \array_merge(['body' => $body], $resolver->resolve($params)));
     }
 
+    /**
+     * @param array $params {
+     *
+     *     @var string $body     the note body
+     *     @var bool   $resolved resolve or unresolve the note's discussion
+     * }
+     */
     public function updateDiscussionNote(int|string $project_id, int $mr_iid, string $discussion_id, int $note_id, array $params): mixed
     {
-        return $this->put($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/discussions/'.self::encodePath($discussion_id).'/notes/'.self::encodePath($note_id)), $params);
+        $resolver = new OptionsResolver();
+        $resolver->setDefined('body')
+            ->setAllowedTypes('body', 'string')
+        ;
+        $resolver->setDefined('resolved')
+            ->setAllowedTypes('resolved', 'bool')
+        ;
+
+        return $this->put($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/discussions/'.self::encodePath($discussion_id).'/notes/'.self::encodePath($note_id)), $resolver->resolve($params));
     }
 
     public function removeDiscussionNote(int|string $project_id, int $mr_iid, string $discussion_id, int $note_id): mixed
@@ -448,9 +737,24 @@ class MergeRequests extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid)).'/resource_label_events/'.self::encodePath($resource_label_event_id));
     }
 
-    public function changes(int|string $project_id, int $mr_iid): mixed
+    /**
+     * @param array $parameters {
+     *
+     *     @var bool $access_raw_diffs access raw diffs
+     *     @var bool $unidiff          present diffs in unified diff format
+     * }
+     */
+    public function changes(int|string $project_id, int $mr_iid, array $parameters = []): mixed
     {
-        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/changes'));
+        $resolver = new OptionsResolver();
+        $resolver->setDefined('access_raw_diffs')
+            ->setAllowedTypes('access_raw_diffs', 'bool')
+        ;
+        $resolver->setDefined('unidiff')
+            ->setAllowedTypes('unidiff', 'bool')
+        ;
+
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/changes'), $resolver->resolve($parameters));
     }
 
     public function commits(int|string $project_id, int $mr_iid): mixed
@@ -468,9 +772,24 @@ class MergeRequests extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/approvals'));
     }
 
-    public function approve(int|string $project_id, int $mr_iid): mixed
+    /**
+     * @param array $parameters {
+     *
+     *     @var string $approval_password current user's password
+     *     @var string $sha               SHA that must match the merge request HEAD
+     * }
+     */
+    public function approve(int|string $project_id, int $mr_iid, array $parameters = []): mixed
     {
-        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/approve'));
+        $resolver = new OptionsResolver();
+        $resolver->setDefined('approval_password')
+            ->setAllowedTypes('approval_password', 'string')
+        ;
+        $resolver->setDefined('sha')
+            ->setAllowedTypes('sha', 'string')
+        ;
+
+        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/approve'), $resolver->resolve($parameters));
     }
 
     public function unapprove(int|string $project_id, int $mr_iid): mixed
@@ -498,9 +817,15 @@ class MergeRequests extends AbstractApi
         return $this->delete($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/award_emoji/'.self::encodePath($award_id)));
     }
 
+    /**
+     * @param array $params {
+     *
+     *     @var bool $skip_ci skip the CI pipeline
+     * }
+     */
     public function rebase(int|string $project_id, int $mr_iid, array $params = []): mixed
     {
-        $resolver = $this->createOptionsResolver();
+        $resolver = new OptionsResolver();
         $resolver->setDefined('skip_ci')
             ->setAllowedTypes('skip_ci', 'bool');
 
@@ -512,16 +837,47 @@ class MergeRequests extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/approval_state'));
     }
 
-    public function levelRules(int|string $project_id, int $mr_iid): mixed
+    public function levelRules(int|string $project_id, int $mr_iid, array $parameters = []): mixed
     {
-        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/approval_rules'));
+        $resolver = $this->createOptionsResolver();
+
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/approval_rules'), $resolver->resolve($parameters));
     }
 
     /**
-     * @param array<string,mixed> $parameters
+     * @param array $parameters {
+     *
+     *     @var int      $approval_project_rule_id approval project rule id
+     *     @var int[]    $group_ids                group ids
+     *     @var int[]    $user_ids                 user ids
+     *     @var string[] $usernames                usernames
+     * }
      */
     public function createLevelRule(int|string $project_id, int $mr_iid, string $name, int $approvals_required, array $parameters = []): mixed
     {
+        $resolver = new OptionsResolver();
+        $resolver->setDefined('approval_project_rule_id')
+            ->setAllowedTypes('approval_project_rule_id', 'int')
+        ;
+        $resolver->setDefined('group_ids')
+            ->setAllowedTypes('group_ids', 'array')
+            ->setAllowedValues('group_ids', static function (array $value): bool {
+                return self::isIntegerArray($value);
+            })
+        ;
+        $resolver->setDefined('user_ids')
+            ->setAllowedTypes('user_ids', 'array')
+            ->setAllowedValues('user_ids', static function (array $value): bool {
+                return self::isIntegerArray($value);
+            })
+        ;
+        $resolver->setDefined('usernames')
+            ->setAllowedTypes('usernames', 'array')
+            ->setAllowedValues('usernames', static function (array $value): bool {
+                return self::isStringArray($value);
+            })
+        ;
+
         $baseParam = [
             'name' => $name,
             'approvals_required' => $approvals_required,
@@ -529,15 +885,44 @@ class MergeRequests extends AbstractApi
 
         return $this->post(
             $this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/approval_rules'),
-            \array_merge($baseParam, $parameters)
+            \array_merge($baseParam, $resolver->resolve($parameters))
         );
     }
 
     /**
-     * @param array<string,mixed> $parameters
+     * @param array $parameters {
+     *
+     *     @var int[]    $group_ids            group ids
+     *     @var bool     $remove_hidden_groups remove hidden groups
+     *     @var int[]    $user_ids             user ids
+     *     @var string[] $usernames            usernames
+     * }
      */
     public function updateLevelRule(int|string $project_id, int $mr_iid, int $approval_rule_id, string $name, int $approvals_required, array $parameters = []): mixed
     {
+        $resolver = new OptionsResolver();
+        $resolver->setDefined('group_ids')
+            ->setAllowedTypes('group_ids', 'array')
+            ->setAllowedValues('group_ids', static function (array $value): bool {
+                return self::isIntegerArray($value);
+            })
+        ;
+        $resolver->setDefined('remove_hidden_groups')
+            ->setAllowedTypes('remove_hidden_groups', 'bool')
+        ;
+        $resolver->setDefined('user_ids')
+            ->setAllowedTypes('user_ids', 'array')
+            ->setAllowedValues('user_ids', static function (array $value): bool {
+                return self::isIntegerArray($value);
+            })
+        ;
+        $resolver->setDefined('usernames')
+            ->setAllowedTypes('usernames', 'array')
+            ->setAllowedValues('usernames', static function (array $value): bool {
+                return self::isStringArray($value);
+            })
+        ;
+
         $baseParam = [
             'name' => $name,
             'approvals_required' => $approvals_required,
@@ -545,12 +930,22 @@ class MergeRequests extends AbstractApi
 
         return $this->put(
             $this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/approval_rules/'.self::encodePath($approval_rule_id)),
-            \array_merge($baseParam, $parameters)
+            \array_merge($baseParam, $resolver->resolve($parameters))
         );
     }
 
     public function deleteLevelRule(int|string $project_id, int $mr_iid, int $approval_rule_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/approval_rules/'.self::encodePath($approval_rule_id)));
+    }
+
+    private static function isIntegerArray(array $value): bool
+    {
+        return \count($value) === \count(\array_filter($value, 'is_int'));
+    }
+
+    private static function isStringArray(array $value): bool
+    {
+        return \count($value) === \count(\array_filter($value, 'is_string'));
     }
 }
