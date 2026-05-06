@@ -325,7 +325,7 @@ class Client
      * @param string      $token      Gitlab private token
      * @param string      $authMethod One of the AUTH_* class constants
      */
-    public function authenticate(string $token, string $authMethod, ?string $sudo = null): void
+    public function authenticate(#[\SensitiveParameter] string $token, string $authMethod, ?string $sudo = null): void
     {
         $this->getHttpClientBuilder()->removePlugin(Authentication::class);
         $this->getHttpClientBuilder()->addPlugin(new Authentication($authMethod, $token, $sudo));

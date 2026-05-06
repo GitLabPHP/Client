@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Add PHP 8.5 support
 * Add support for `symfony/options-resolver:^8.0`
+* Add sensitive parameter annotations for authentication, trigger tokens, and user passwords
 * Add support for `force` in `Repositories::createCommit`
 * Add support for personal access tokens
 * Add support for project access token filters and rotation

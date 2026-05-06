@@ -251,7 +251,7 @@ class Projects extends AbstractApi
         return $this->delete($this->getProjectPath($project_id, 'triggers/'.self::encodePath($trigger_id)));
     }
 
-    public function triggerPipeline(int|string $project_id, string $ref, string $token, array $variables = []): mixed
+    public function triggerPipeline(int|string $project_id, string $ref, #[\SensitiveParameter] string $token, array $variables = []): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'trigger/pipeline'), [
             'ref' => $ref,

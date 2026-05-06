@@ -36,7 +36,7 @@ final class Authentication implements Plugin
      */
     private readonly array $headers;
 
-    public function __construct(string $method, string $token, ?string $sudo = null)
+    public function __construct(string $method, #[\SensitiveParameter] string $token, ?string $sudo = null)
     {
         $this->headers = self::buildHeaders($method, $token, $sudo);
     }
@@ -62,7 +62,7 @@ final class Authentication implements Plugin
      *
      * @return array<string,string>
      */
-    private static function buildHeaders(string $method, string $token, ?string $sudo = null): array
+    private static function buildHeaders(string $method, #[\SensitiveParameter] string $token, ?string $sudo = null): array
     {
         $headers = [];
 
