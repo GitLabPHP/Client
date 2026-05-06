@@ -1345,6 +1345,32 @@ class Projects extends AbstractApi
         return $this->delete($this->getProjectPath($project_id, 'job_token_scope/groups_allowlist/'.self::encodePath($target_group_id)));
     }
 
+    /**
+     * @param array $parameters {
+     *
+     *     @var bool $tags       include an array of tags in each repository
+     *     @var bool $tags_count include tags_count in each repository
+     * }
+     */
+    public function registryRepositories(int|string $project_id, array $parameters = []): mixed
+    {
+        $resolver = $this->createOptionsResolver();
+        $booleanNormalizer = function (Options $resolver, $value): string {
+            return $value ? 'true' : 'false';
+        };
+
+        $resolver->setDefined('tags')
+            ->setAllowedTypes('tags', 'bool')
+            ->setNormalizer('tags', $booleanNormalizer)
+        ;
+        $resolver->setDefined('tags_count')
+            ->setAllowedTypes('tags_count', 'bool')
+            ->setNormalizer('tags_count', $booleanNormalizer)
+        ;
+
+        return $this->get($this->getProjectPath($project_id, 'registry/repositories'), $resolver->resolve($parameters));
+    }
+
     public function protectedTags(int|string $project_id): mixed
     {
         return $this->get('projects/'.self::encodePath($project_id).'/protected_tags');

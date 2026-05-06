@@ -733,6 +733,13 @@ class Groups extends AbstractApi
         return $this->get('groups/'.self::encodePath($group_id).'/packages', $resolver->resolve($parameters));
     }
 
+    public function registryRepositories(int|string $group_id, array $parameters = []): mixed
+    {
+        $resolver = $this->createOptionsResolver();
+
+        return $this->get('groups/'.self::encodePath($group_id).'/registry/repositories', $resolver->resolve($parameters));
+    }
+
     private function getGroupSearchResolver(): OptionsResolver
     {
         $resolver = $this->getSubgroupSearchResolver();
