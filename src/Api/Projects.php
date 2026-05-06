@@ -945,19 +945,52 @@ class Projects extends AbstractApi
     /**
      * @param array      $parameters {
      *
-     *     @var string $namespace      The ID or path of the namespace that the project will be forked to
-     *     @var string $path           The path of the forked project (optional)
-     *     @var string $name           The name of the forked project (optional)
+     *     @var string     $branches               Branches to fork (empty for all branches)
+     *     @var string     $description            The description assigned to the resultant project after forking
+     *     @var bool       $mr_default_target_self For forked projects, target merge requests to this project
+     *     @var string     $name                   The name assigned to the resultant project after forking
+     *     @var int        $namespace_id           The ID of the namespace that the project is forked to
+     *     @var string     $namespace_path         The path of the namespace that the project is forked to
+     *     @var int|string $namespace              deprecated; use namespace_id or namespace_path instead
+     *     @var string     $path                   The path assigned to the resultant project after forking
+     *     @var string     $visibility             The visibility level assigned to the resultant project after forking
      * }
+     *
+     * @throws UndefinedOptionsException If an option name is undefined
+     * @throws InvalidOptionsException   If an option doesn't fulfill the specified validation rules
      */
     public function fork(int|string $project_id, array $parameters = []): mixed
     {
         $resolver = new OptionsResolver();
-        $resolver->setDefined(['namespace', 'path', 'name']);
+        $resolver->setDefined('branches')
+            ->setAllowedTypes('branches', 'string')
+        ;
+        $resolver->setDefined('description')
+            ->setAllowedTypes('description', 'string')
+        ;
+        $resolver->setDefined('mr_default_target_self')
+            ->setAllowedTypes('mr_default_target_self', 'bool')
+        ;
+        $resolver->setDefined('name')
+            ->setAllowedTypes('name', 'string')
+        ;
+        $resolver->setDefined('namespace_id')
+            ->setAllowedTypes('namespace_id', 'int')
+        ;
+        $resolver->setDefined('namespace_path')
+            ->setAllowedTypes('namespace_path', 'string')
+        ;
+        $resolver->setDefined('namespace')
+            ->setAllowedTypes('namespace', ['int', 'string'])
+        ;
+        $resolver->setDefined('path')
+            ->setAllowedTypes('path', 'string')
+        ;
+        $resolver->setDefined('visibility')
+            ->setAllowedValues('visibility', ['public', 'internal', 'private'])
+        ;
 
-        $resolved = $resolver->resolve($parameters);
-
-        return $this->post($this->getProjectPath($project_id, 'fork'), $resolved);
+        return $this->post($this->getProjectPath($project_id, 'fork'), $resolver->resolve($parameters));
     }
 
     public function createForkRelation(int|string $project_id, int|string $forked_project_id): mixed

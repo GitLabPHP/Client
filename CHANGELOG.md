@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Add support for project integrations endpoints
 * Add support for `Projects::updateDeployKey`
 * Add support for project push rules
+* Add support for additional parameters in `Projects::fork`
 * Add support for group hook endpoints
 * Add support for `job_inputs` and `job_variables_attributes` in `Jobs::play`
 * Add support for `inputs` in `Projects::createPipeline`

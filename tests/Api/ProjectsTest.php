@@ -1937,6 +1937,42 @@ class ProjectsTest extends TestCase
     }
 
     #[Test]
+    public function shouldForkWithIntegerNamespace(): void
+    {
+        $expectedArray = [
+            'namespace' => 123,
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/fork', $expectedArray)
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->fork(1, [
+            'namespace' => 123,
+        ]));
+    }
+
+    #[Test]
+    public function shouldForkWithNamespaceId(): void
+    {
+        $expectedArray = [
+            'namespace_id' => 7,
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/fork', $expectedArray)
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->fork(1, [
+            'namespace_id' => 7,
+        ]));
+    }
+
+    #[Test]
     public function shouldForkWithNamespaceAndPath(): void
     {
         $expectedArray = [
@@ -1975,6 +2011,32 @@ class ProjectsTest extends TestCase
             'namespace' => 'new_namespace',
             'path' => 'new_path',
             'name' => 'new_name',
+        ]));
+    }
+
+    #[Test]
+    public function shouldForkWithNamespacePathAndAdditionalParameters(): void
+    {
+        $expectedArray = [
+            'namespace_path' => 'group/subgroup',
+            'branches' => 'main',
+            'description' => 'Fork description',
+            'mr_default_target_self' => true,
+            'visibility' => 'private',
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/fork', $expectedArray)
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->fork(1, [
+            'namespace_path' => 'group/subgroup',
+            'branches' => 'main',
+            'description' => 'Fork description',
+            'mr_default_target_self' => true,
+            'visibility' => 'private',
         ]));
     }
 
