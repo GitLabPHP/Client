@@ -33,6 +33,7 @@ use Gitlab\Api\Milestones;
 use Gitlab\Api\PersonalAccessTokens;
 use Gitlab\Api\ProjectNamespaces;
 use Gitlab\Api\Projects;
+use Gitlab\Api\Registry;
 use Gitlab\Api\Repositories;
 use Gitlab\Api\RepositoryFiles;
 use Gitlab\Api\ResourceIterationEvents;
@@ -249,6 +250,11 @@ class Client
     public function projects(): Projects
     {
         return new Projects($this);
+    }
+
+    public function registry(): Registry
+    {
+        return new Registry($this);
     }
 
     public function repositories(): Repositories
