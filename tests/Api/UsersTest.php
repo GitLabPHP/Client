@@ -58,6 +58,24 @@ class UsersTest extends TestCase
     }
 
     #[Test]
+    public function shouldGetAllUsersWithoutProjectBots(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'name' => 'Matt'],
+            ['id' => 2, 'name' => 'John'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('users', ['without_project_bots' => true])
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->all(['without_project_bots' => true]));
+    }
+
+    #[Test]
     public function shouldGetUsersWithDateTimeParams(): void
     {
         $expectedArray = [
