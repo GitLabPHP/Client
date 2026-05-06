@@ -26,6 +26,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Add support for project CI/CD job token scope endpoints
 * Add support for merge request resource label event endpoints
 * Add support for `Environments::stopStale`
+* Add support for `last_activity_after` and `last_activity_before` in `Groups::projects`
+* Fix `Projects::pipelines` date filters to include time information
 
 
 ## [12.0.0] - 2025-02-23

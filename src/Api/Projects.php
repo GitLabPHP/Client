@@ -277,16 +277,18 @@ class Projects extends AbstractApi
     /**
      * @param array      $parameters {
      *
-     *     @var string $scope       the scope of pipelines, one of: running, pending, finished, branches, tags
-     *     @var string $status      the status of pipelines, one of: running, pending, success, failed, canceled, skipped
-     *     @var string $ref         the ref of pipelines
-     *     @var string $sha         the sha of pipelines
-     *     @var bool   $yaml_errors returns pipelines with invalid configurations
-     *     @var string $name        the name of the user who triggered pipelines
-     *     @var string $username    the username of the user who triggered pipelines
-     *     @var string $order_by    order pipelines by id, status, ref, updated_at, or user_id (default: id)
-     *     @var string $order       sort pipelines in asc or desc order (default: desc)
-     *     @var string $source      the source of the pipeline
+     *     @var string             $scope          the scope of pipelines, one of: running, pending, finished, branches, tags
+     *     @var string             $status         the status of pipelines, one of: running, pending, success, failed, canceled, skipped
+     *     @var string             $ref            the ref of pipelines
+     *     @var string             $sha            the sha of pipelines
+     *     @var bool               $yaml_errors    returns pipelines with invalid configurations
+     *     @var string             $name           the name of the user who triggered pipelines
+     *     @var string             $username       the username of the user who triggered pipelines
+     *     @var \DateTimeInterface $updated_after  Return pipelines updated on or after the given date and time
+     *     @var \DateTimeInterface $updated_before Return pipelines updated on or before the given date and time
+     *     @var string             $order_by       order pipelines by id, status, ref, updated_at, or user_id (default: id)
+     *     @var string             $sort           sort pipelines in asc or desc order (default: desc)
+     *     @var string             $source         the source of the pipeline
      * }
      */
     public function pipelines(int|string $project_id, array $parameters = []): mixed
@@ -296,7 +298,7 @@ class Projects extends AbstractApi
             return $value ? 'true' : 'false';
         };
         $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
-            return $value->format('Y-m-d');
+            return $value->format('c');
         };
 
         $resolver->setDefined('scope')
@@ -314,12 +316,12 @@ class Projects extends AbstractApi
         $resolver->setDefined('name');
         $resolver->setDefined('username');
         $resolver->setDefined('updated_after')
-                 ->setAllowedTypes('updated_after', \DateTimeInterface::class)
-                 ->setNormalizer('updated_after', $datetimeNormalizer)
+            ->setAllowedTypes('updated_after', \DateTimeInterface::class)
+            ->setNormalizer('updated_after', $datetimeNormalizer)
         ;
         $resolver->setDefined('updated_before')
-                 ->setAllowedTypes('updated_before', \DateTimeInterface::class)
-                 ->setNormalizer('updated_before', $datetimeNormalizer)
+            ->setAllowedTypes('updated_before', \DateTimeInterface::class)
+            ->setNormalizer('updated_before', $datetimeNormalizer)
         ;
         $resolver->setDefined('order_by')
             ->setAllowedValues('order_by', ['id', 'status', 'ref', 'updated_at', 'user_id'])
