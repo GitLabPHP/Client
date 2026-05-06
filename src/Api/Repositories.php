@@ -32,9 +32,9 @@ class Repositories extends AbstractApi
     /**
      * @param array      $parameters {
      *
-     *     @var string $search     Return branches matching the search string.
-     *     @var string $regex      Return branches matching an RE2 regex.
-     *     @var string $sort       Return branches sorted by name_asc, updated_asc, or updated_desc.
+     *     @var string $search     return branches matching the search string
+     *     @var string $regex      return branches matching an RE2 regex
+     *     @var string $sort       return branches sorted by name_asc, updated_asc, or updated_desc
      *     @var string $page_token Name of the branch to start pagination from.
      * }
      */
