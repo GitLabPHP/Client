@@ -9,39 +9,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Add PHP 8.5 support
 * Add support for `symfony/options-resolver:^8.0`
-* Add support for `visibility` in `Groups::all`
+* Add support for `force` in `Repositories::createCommit`
 * Add support for personal access tokens
-* Add support for project integrations endpoints
+* Add support for project access token filters and rotation
+* Add support for project CI/CD job token scope endpoints
+* Add support for project integrations, push rules, and remote mirror read endpoints
+* Add support for permanent project removal and project restoration
 * Add support for `Projects::updateDeployKey`
 * Add support for `Projects::latestPipeline`
-* Add support for project push rules
 * Add support for additional parameters in `Projects::fork`
-* Correct project forks list parameter handling
-* Add support for group hook endpoints
-* Add support for `job_inputs` and `job_variables_attributes` in `Jobs::play`
 * Add support for `inputs` in `Projects::createPipeline`
-* Add support for filters in `Projects::projectAccessTokens`
-* Add support for `Projects::rotateProjectAccessToken`
-* Add support for listing merge requests associated with a commit
-* Add support for `without_project_bots` in `Users::all`
-* Add support for date filters and `finished_at` ordering in `Deployments::all`
-* Add support for listing merge requests associated with a deployment
+* Add support for `job_inputs` and `job_variables_attributes` in `Jobs::play`
+* Add support for `visibility` in `Groups::all`
 * Add support for `with_custom_attributes` and `with_projects` in `Groups::show`
-* Add support for project remote mirror read endpoints
-* Add support for permanent project removal and project restoration
+* Add support for `last_activity_after` and `last_activity_before` in `Groups::projects`
+* Add support for group hook endpoints
+* Add support for date filters and `finished_at` ordering in `Deployments::all`
+* Add support for `Environments::stopStale`
+* Add support for container registry endpoints
 * Add support for `regex` and `sort` in `Repositories::branches`
 * Add support for `Users::usersContributedProjects`
+* Add support for `without_project_bots` in `Users::all`
 * Add support for additional filters and ordering options in `MergeRequests::all`
-* Add support for project CI/CD job token scope endpoints
-* Add support for merge request resource label event endpoints
-* Add support for merge request and merge request note award emoji endpoints
-* Add support for merge request dependency endpoints
-* Add support for `MergeRequests::remove`
-* Add support for `MergeRequests::addToMergeTrain`
+* Add support for listing merge requests associated with commits and deployments
+* Add support for merge request dependency, merge train, removal, resource label event, and award emoji endpoints
 * Correct merge request API parameter handling
-* Add support for container registry endpoints
-* Add support for `Environments::stopStale`
-* Add support for `last_activity_after` and `last_activity_before` in `Groups::projects`
+* Correct project forks list parameter handling
 * Fix recent list endpoints to rely on the result pager for pagination
 * Fix `Projects::pipelines` date filters to include time information
 
