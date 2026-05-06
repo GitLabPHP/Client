@@ -108,6 +108,47 @@ See merge request !2',
         $this->assertEquals($expectedArray, $api->show(1, 42));
     }
 
+    #[Test]
+    public function shouldGetDeploymentMergeRequests(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'title' => 'A merge request'],
+            ['id' => 2, 'title' => 'Another merge request'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/deployments/42/merge_requests', [])
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->mergeRequests(1, 42));
+    }
+
+    #[Test]
+    public function shouldGetDeploymentMergeRequestsWithParameters(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'title' => 'A merge request'],
+        ];
+        $parameters = [
+            'state' => 'merged',
+            'labels' => 'release,backend',
+            'page' => 2,
+            'per_page' => 25,
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/deployments/42/merge_requests', $parameters)
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->mergeRequests(1, 42, $parameters));
+    }
+
     private function getMultipleDeploymentsData(): array
     {
         return [

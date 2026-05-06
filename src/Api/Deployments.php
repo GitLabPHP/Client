@@ -77,4 +77,9 @@ class Deployments extends AbstractApi
     {
         return $this->get($this->getProjectPath($project_id, 'deployments/'.$deployment_id));
     }
+
+    public function mergeRequests(int|string $project_id, int $deployment_id, array $parameters = []): mixed
+    {
+        return $this->get($this->getProjectPath($project_id, 'deployments/'.$deployment_id.'/merge_requests'), $parameters);
+    }
 }

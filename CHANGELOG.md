@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Add support for listing merge requests associated with a commit
 * Add support for `without_project_bots` in `Users::all`
 * Add support for date filters and `finished_at` ordering in `Deployments::all`
+* Add support for listing merge requests associated with a deployment
 
 
 ## [12.0.0] - 2025-02-23
