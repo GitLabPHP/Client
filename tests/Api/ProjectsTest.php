@@ -2790,6 +2790,50 @@ class ProjectsTest extends TestCase
         $this->assertEquals($expectedBool, $api->deleteProtectedTag(1, 'release-*'));
     }
 
+    #[Test]
+    public function shouldGetRemoteMirrors(): void
+    {
+        $expectedArray = [
+            ['id' => 101486, 'url' => 'https://*****:*****@gitlab.com/gitlab-org/security/gitlab.git'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/remote_mirrors')
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->remoteMirrors(1));
+    }
+
+    #[Test]
+    public function shouldGetRemoteMirror(): void
+    {
+        $expectedArray = ['id' => 101486, 'url' => 'https://*****:*****@gitlab.com/gitlab-org/security/gitlab.git'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/remote_mirrors/101486')
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->remoteMirror(1, 101486));
+    }
+
+    #[Test]
+    public function shouldGetRemoteMirrorPublicKey(): void
+    {
+        $expectedArray = ['public_key' => 'ssh-rsa AAAAB3NzaC1yc2EA...'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/remote_mirrors/101486/public_key')
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->remoteMirrorPublicKey(1, 101486));
+    }
+
     protected function getApiClass(): string
     {
         return Projects::class;
