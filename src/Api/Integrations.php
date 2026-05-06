@@ -27,6 +27,12 @@ class Integrations extends AbstractApi
     }
 
     /**
+     * Configure a project integration by slug.
+     *
+     * Integration parameters vary by slug and are passed through to GitLab.
+     *
+     * @see https://docs.gitlab.com/api/project_integrations/
+     *
      * @param array<string,mixed> $parameters
      */
     public function set(int|string $project_id, string $integration_slug, array $parameters = []): mixed
