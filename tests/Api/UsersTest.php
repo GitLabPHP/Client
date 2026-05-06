@@ -308,16 +308,6 @@ class UsersTest extends TestCase
     }
 
     #[Test]
-    public function shouldShowUsersContributedProjectsWithLimit(): void
-    {
-        $expectedArray = [$this->getUsersProjectsData()[0]];
-
-        $api = $this->getUsersProjectsRequestMock('users/1/contributed_projects', $expectedArray, ['per_page' => 1]);
-
-        $this->assertEquals($expectedArray, $api->usersContributedProjects(1, ['per_page' => 1]));
-    }
-
-    #[Test]
     public function shouldGetAllUsersContributedProjectsSortedByStars(): void
     {
         $expectedArray = $this->getUsersProjectsData();
@@ -325,12 +315,12 @@ class UsersTest extends TestCase
         $api = $this->getUsersProjectsRequestMock(
             'users/1/contributed_projects',
             $expectedArray,
-            ['page' => 1, 'per_page' => 5, 'order_by' => 'star_count', 'sort' => 'desc']
+            ['order_by' => 'star_count', 'sort' => 'desc']
         );
 
         $this->assertEquals(
             $expectedArray,
-            $api->usersContributedProjects(1, ['page' => 1, 'per_page' => 5, 'order_by' => 'star_count', 'sort' => 'desc'])
+            $api->usersContributedProjects(1, ['order_by' => 'star_count', 'sort' => 'desc'])
         );
     }
 

@@ -72,27 +72,10 @@ final class RegistryTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/registry/repositories/2/tags', [])
+            ->with('projects/1/registry/repositories/2/tags')
             ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->repositoryTags(1, 2));
-    }
-
-    #[Test]
-    public function shouldGetRepositoryTagsWithPagination(): void
-    {
-        $expectedArray = [
-            ['name' => 'v1.0.0', 'path' => 'group/project:v1.0.0'],
-            ['name' => 'v1.1.0', 'path' => 'group/project:v1.1.0'],
-        ];
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('get')
-            ->with('projects/1/registry/repositories/2/tags', ['page' => 2, 'per_page' => 15])
-            ->willReturn($expectedArray);
-
-        $this->assertEquals($expectedArray, $api->repositoryTags(1, 2, ['page' => 2, 'per_page' => 15]));
     }
 
     #[Test]

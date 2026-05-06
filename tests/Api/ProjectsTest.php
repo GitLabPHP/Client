@@ -2678,8 +2678,6 @@ class ProjectsTest extends TestCase
                 'last_used_after' => $lastUsedAfter->format('c'),
                 'last_used_before' => $lastUsedBefore->format('c'),
                 'sort' => 'name_desc',
-                'page' => 1,
-                'per_page' => 10,
             ])
             ->willReturn($expectedArray);
 
@@ -2694,8 +2692,6 @@ class ProjectsTest extends TestCase
             'last_used_after' => $lastUsedAfter,
             'last_used_before' => $lastUsedBefore,
             'sort' => 'name_desc',
-            'page' => 1,
-            'per_page' => 10,
         ]));
     }
 
@@ -2878,28 +2874,10 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/job_token_scope/allowlist', [])
+            ->with('projects/1/job_token_scope/allowlist')
             ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->jobTokenScopeAllowlistProjects(1));
-    }
-
-    #[Test]
-    public function shouldGetJobTokenScopeAllowlistProjectsWithPagination(): void
-    {
-        $expectedArray = [[
-            'id' => 4,
-            'name' => 'Diaspora Client',
-            'web_url' => 'https://gitlab.example.com/diaspora/diaspora-client',
-        ]];
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('get')
-            ->with('projects/1/job_token_scope/allowlist', ['page' => 2, 'per_page' => 15])
-            ->willReturn($expectedArray);
-
-        $this->assertEquals($expectedArray, $api->jobTokenScopeAllowlistProjects(1, ['page' => 2, 'per_page' => 15]));
     }
 
     #[Test]
@@ -2945,28 +2923,10 @@ class ProjectsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/job_token_scope/groups_allowlist', [])
+            ->with('projects/1/job_token_scope/groups_allowlist')
             ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->jobTokenScopeAllowlistGroups(1));
-    }
-
-    #[Test]
-    public function shouldGetJobTokenScopeAllowlistGroupsWithPagination(): void
-    {
-        $expectedArray = [[
-            'id' => 4,
-            'name' => 'namegroup',
-            'web_url' => 'https://gitlab.example.com/groups/diaspora/diaspora-group',
-        ]];
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('get')
-            ->with('projects/1/job_token_scope/groups_allowlist', ['page' => 2, 'per_page' => 15])
-            ->willReturn($expectedArray);
-
-        $this->assertEquals($expectedArray, $api->jobTokenScopeAllowlistGroups(1, ['page' => 2, 'per_page' => 15]));
     }
 
     #[Test]
@@ -3032,23 +2992,6 @@ class ProjectsTest extends TestCase
             ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->registryRepositories(123, ['tags' => true, 'tags_count' => true]));
-    }
-
-    #[Test]
-    public function shouldGetProjectRegistryRepositoriesWithPagination(): void
-    {
-        $expectedArray = [
-            ['id' => 1, 'name' => 'A registry'],
-            ['id' => 2, 'name' => 'Another registry'],
-        ];
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('get')
-            ->with('projects/123/registry/repositories', ['page' => 2, 'per_page' => 15])
-            ->willReturn($expectedArray);
-
-        $this->assertEquals($expectedArray, $api->registryRepositories(123, ['page' => 2, 'per_page' => 15]));
     }
 
     #[Test]

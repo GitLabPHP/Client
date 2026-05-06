@@ -782,29 +782,11 @@ class GroupsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('groups/1/registry/repositories', [])
+            ->with('groups/1/registry/repositories')
             ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->registryRepositories(1));
-    }
-
-    #[Test]
-    public function shouldGetGroupRegistryRepositoriesWithPagination(): void
-    {
-        $expectedArray = [
-            ['id' => 1, 'name' => 'A registry'],
-            ['id' => 2, 'name' => 'Another registry'],
-        ];
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('get')
-            ->with('groups/1/registry/repositories', ['page' => 2, 'per_page' => 15])
-            ->willReturn($expectedArray)
-        ;
-
-        $this->assertEquals($expectedArray, $api->registryRepositories(1, ['page' => 2, 'per_page' => 15]));
     }
 
     #[Test]

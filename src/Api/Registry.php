@@ -39,14 +39,9 @@ class Registry extends AbstractApi
         return $this->delete($this->getProjectPath($project_id, 'registry/repositories/'.self::encodePath($repository_id)));
     }
 
-    public function repositoryTags(int|string $project_id, int $repository_id, array $parameters = []): mixed
+    public function repositoryTags(int|string $project_id, int $repository_id): mixed
     {
-        $resolver = $this->createOptionsResolver();
-
-        return $this->get(
-            $this->getProjectPath($project_id, 'registry/repositories/'.self::encodePath($repository_id).'/tags'),
-            $resolver->resolve($parameters)
-        );
+        return $this->get($this->getProjectPath($project_id, 'registry/repositories/'.self::encodePath($repository_id).'/tags'));
     }
 
     public function repositoryTag(int|string $project_id, int $repository_id, string $tag_name): mixed
