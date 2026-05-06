@@ -50,18 +50,20 @@ We are decoupled from any HTTP messaging client by using [PSR-7](https://www.php
 ## General API Usage
 
 ```php
-// Token authentication
 $client = new Gitlab\Client();
-$client->authenticate('your_http_token', Gitlab\Client::AUTH_HTTP_TOKEN);
+
+// Choose one authentication method.
+
+// Personal access token authentication
+$client->authenticate('your_access_token', Gitlab\Client::AUTH_HTTP_TOKEN);
 
 // OAuth2 authentication
-$client = new Gitlab\Client();
-$client->authenticate('your_oauth_token', Gitlab\Client::AUTH_OAUTH_TOKEN);
+// $client->authenticate('your_oauth_token', Gitlab\Client::AUTH_OAUTH_TOKEN);
 
 // An example API call
 $project = $client->projects()->create('My Project', [
     'description' => 'This is a project',
-    'issues_enabled' => false,
+    'issues_access_level' => 'disabled',
 ]);
 ```
 
@@ -70,7 +72,7 @@ $project = $client->projects()->create('My Project', [
 ```php
 $client = new Gitlab\Client();
 $client->setUrl('https://git.yourdomain.com');
-$client->authenticate('your_http_token', Gitlab\Client::AUTH_HTTP_TOKEN);
+$client->authenticate('your_access_token', Gitlab\Client::AUTH_HTTP_TOKEN);
 ```
 
 ### Example with Pager
@@ -95,7 +97,7 @@ $builder->addPlugin($plugin);
 $client = new Gitlab\Client($builder);
 ```
 
-One can read more about HTTPlug plugins [here](https://docs.php-http.org/en/latest/plugins/introduction.html#how-it-works). Take a look around the [API methods](https://github.com/GitLabPHP/Client/tree/12.0/src/Api), and please feel free to report any bugs, noting our [code of conduct](.github/CODE_OF_CONDUCT.md).
+One can read more about HTTPlug plugins [here](https://docs.php-http.org/en/latest/plugins/introduction.html#how-it-works). Take a look around the [API methods](https://github.com/GitLabPHP/Client/tree/12.1/src/Api), and please feel free to report any bugs, noting our [code of conduct](.github/CODE_OF_CONDUCT.md).
 
 
 ## Contributing
