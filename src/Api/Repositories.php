@@ -32,14 +32,24 @@ class Repositories extends AbstractApi
     /**
      * @param array      $parameters {
      *
-     *     @var string $search
+     *     @var string $search     return branches matching the search string
+     *     @var string $regex      return branches matching an RE2 regex
+     *     @var string $sort       return branches sorted by name_asc, updated_asc, or updated_desc
      * }
      */
     public function branches(int|string $project_id, array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
         $resolver->setDefined('search')
-            ->setAllowedTypes('search', 'string');
+            ->setAllowedTypes('search', 'string')
+        ;
+        $resolver->setDefined('regex')
+            ->setAllowedTypes('regex', 'string')
+        ;
+        $resolver->setDefined('sort')
+            ->setAllowedTypes('sort', 'string')
+            ->setAllowedValues('sort', ['name_asc', 'updated_asc', 'updated_desc'])
+        ;
 
         return $this->get($this->getProjectPath($project_id, 'repository/branches'), $resolver->resolve($parameters));
     }
