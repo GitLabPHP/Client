@@ -281,7 +281,7 @@ class Users extends AbstractApi
         return $this->get('user');
     }
 
-    public function create(string $email, string $password, array $params = []): mixed
+    public function create(string $email, #[\SensitiveParameter] string $password, array $params = []): mixed
     {
         $params['email'] = $email;
         $params['password'] = $password;
