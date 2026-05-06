@@ -1328,6 +1328,156 @@ class MergeRequestsTest extends TestCase
         $this->assertEquals($expectedValue, $api->deleteLevelRule(1, 2, 3));
     }
 
+    #[Test]
+    public function shouldGetDependencies(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'project_id' => 1, 'blocking_merge_request' => ['id' => 3], 'blocked_merge_request' => ['id' => 2]],
+            ['id' => 2, 'project_id' => 1, 'blocking_merge_request' => ['id' => 4], 'blocked_merge_request' => ['id' => 2]],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_requests/2/blocks')
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->dependencies(1, 2));
+    }
+
+    #[Test]
+    public function shouldGetDependenciesForStringProjectPath(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'project_id' => 1, 'blocking_merge_request' => ['id' => 3], 'blocked_merge_request' => ['id' => 2]],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/group%2Fproject/merge_requests/2/blocks')
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->dependencies('group/project', 2));
+    }
+
+    #[Test]
+    public function shouldShowDependency(): void
+    {
+        $expectedArray = ['id' => 3, 'project_id' => 1, 'blocking_merge_request' => ['id' => 4], 'blocked_merge_request' => ['id' => 2]];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_requests/2/blocks/3')
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->showDependency(1, 2, 3));
+    }
+
+    #[Test]
+    public function shouldCreateDependencyWithBlockingMergeRequestId(): void
+    {
+        $expectedArray = ['id' => 1, 'project_id' => 1, 'blocking_merge_request' => ['id' => 3], 'blocked_merge_request' => ['id' => 2]];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/merge_requests/2/blocks', ['blocking_merge_request_id' => 3])
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->createDependency(1, 2, ['blocking_merge_request_id' => 3]));
+    }
+
+    #[Test]
+    public function shouldCreateDependencyWithBlockingMergeRequestIid(): void
+    {
+        $expectedArray = ['id' => 1, 'project_id' => 1, 'blocking_merge_request' => ['iid' => 3], 'blocked_merge_request' => ['iid' => 2]];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/merge_requests/2/blocks', ['blocking_merge_request_iid' => 3])
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->createDependency(1, 2, ['blocking_merge_request_iid' => 3]));
+    }
+
+    #[Test]
+    public function shouldCreateDependencyWithBlockingProjectId(): void
+    {
+        $expectedArray = ['id' => 1, 'project_id' => 1, 'blocking_merge_request' => ['iid' => 3], 'blocked_merge_request' => ['iid' => 2]];
+        $parameters = ['blocking_merge_request_iid' => 3, 'blocking_project_id' => 'group/project'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/merge_requests/2/blocks', $parameters)
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->createDependency(1, 2, $parameters));
+    }
+
+    #[Test]
+    public function shouldRejectDependencyWithoutBlockingMergeRequest(): void
+    {
+        $this->expectException(\Symfony\Component\OptionsResolver\Exception\InvalidOptionsException::class);
+        $this->expectExceptionMessage('Exactly one of "blocking_merge_request_id" or "blocking_merge_request_iid" must be provided.');
+
+        $this->getApiMock()->createDependency(1, 2, []);
+    }
+
+    #[Test]
+    public function shouldRejectDependencyWithMultipleBlockingMergeRequests(): void
+    {
+        $this->expectException(\Symfony\Component\OptionsResolver\Exception\InvalidOptionsException::class);
+        $this->expectExceptionMessage('Exactly one of "blocking_merge_request_id" or "blocking_merge_request_iid" must be provided.');
+
+        $this->getApiMock()->createDependency(1, 2, [
+            'blocking_merge_request_id' => 3,
+            'blocking_merge_request_iid' => 4,
+        ]);
+    }
+
+    #[Test]
+    public function shouldDeleteDependency(): void
+    {
+        $expectedValue = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/merge_requests/2/blocks/3')
+            ->willReturn($expectedValue)
+        ;
+
+        $this->assertEquals($expectedValue, $api->deleteDependency(1, 2, 3));
+    }
+
+    #[Test]
+    public function shouldGetBlockedMergeRequests(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'project_id' => 1, 'blocking_merge_request' => ['id' => 2], 'blocked_merge_request' => ['id' => 3]],
+            ['id' => 2, 'project_id' => 1, 'blocking_merge_request' => ['id' => 2], 'blocked_merge_request' => ['id' => 4]],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_requests/2/blockees')
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->blockedMergeRequests(1, 2));
+    }
+
     protected function getMultipleMergeRequestsData(): array
     {
         return [

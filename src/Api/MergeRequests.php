@@ -939,6 +939,58 @@ class MergeRequests extends AbstractApi
         return $this->delete($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/approval_rules/'.self::encodePath($approval_rule_id)));
     }
 
+    public function dependencies(int|string $project_id, int $mr_iid): mixed
+    {
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/blocks'));
+    }
+
+    public function showDependency(int|string $project_id, int $mr_iid, int $block_id): mixed
+    {
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/blocks/'.self::encodePath($block_id)));
+    }
+
+    /**
+     * @param array $parameters {
+     *
+     *     @var int        $blocking_merge_request_id  global ID of the blocking merge request
+     *     @var int        $blocking_merge_request_iid IID of the blocking merge request
+     *     @var int|string $blocking_project_id        project containing the blocking merge request
+     * }
+     */
+    public function createDependency(int|string $project_id, int $mr_iid, array $parameters): mixed
+    {
+        $resolver = new OptionsResolver();
+        $resolver->setDefined('blocking_merge_request_id')
+            ->setAllowedTypes('blocking_merge_request_id', 'int')
+        ;
+        $resolver->setDefined('blocking_merge_request_iid')
+            ->setAllowedTypes('blocking_merge_request_iid', 'int')
+        ;
+        $resolver->setDefined('blocking_project_id')
+            ->setAllowedTypes('blocking_project_id', ['int', 'string'])
+        ;
+
+        $parameters = $resolver->resolve($parameters);
+        $hasBlockingId = isset($parameters['blocking_merge_request_id']);
+        $hasBlockingIid = isset($parameters['blocking_merge_request_iid']);
+
+        if ($hasBlockingId === $hasBlockingIid) {
+            throw new InvalidOptionsException('Exactly one of "blocking_merge_request_id" or "blocking_merge_request_iid" must be provided.');
+        }
+
+        return $this->post($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/blocks'), $parameters);
+    }
+
+    public function deleteDependency(int|string $project_id, int $mr_iid, int $block_id): mixed
+    {
+        return $this->delete($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/blocks/'.self::encodePath($block_id)));
+    }
+
+    public function blockedMergeRequests(int|string $project_id, int $mr_iid): mixed
+    {
+        return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/blockees'));
+    }
+
     private static function isIntegerArray(array $value): bool
     {
         return \count($value) === \count(\array_filter($value, 'is_int'));

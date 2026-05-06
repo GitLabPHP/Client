@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Add support for project CI/CD job token scope endpoints
 * Add support for merge request resource label event endpoints
 * Add support for merge request and merge request note award emoji endpoints
+* Add support for merge request dependency endpoints
 * Add support for `MergeRequests::remove`
 * Add support for `MergeRequests::addToMergeTrain`
 * Correct merge request API parameter handling
