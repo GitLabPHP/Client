@@ -1270,6 +1270,26 @@ class Projects extends AbstractApi
         return $this->post($this->getProjectPath($project_id, 'access_tokens'), $resolver->resolve($parameters));
     }
 
+    /**
+     * @param array $parameters {
+     *
+     *     @var \DateTimeInterface $expires_at expiration date of the access token
+     * }
+     */
+    public function rotateProjectAccessToken(int|string $project_id, int|string $token_id, array $parameters = []): mixed
+    {
+        $resolver = new OptionsResolver();
+        $dateNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
+            return $value->format('Y-m-d');
+        };
+        $resolver->setDefined('expires_at')
+            ->setAllowedTypes('expires_at', \DateTimeInterface::class)
+            ->setNormalizer('expires_at', $dateNormalizer)
+        ;
+
+        return $this->post($this->getProjectPath($project_id, 'access_tokens/'.self::encodePath($token_id).'/rotate'), $resolver->resolve($parameters));
+    }
+
     public function deleteProjectAccessToken(int|string $project_id, int|string $token_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'access_tokens/'.$token_id));

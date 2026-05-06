@@ -2770,6 +2770,61 @@ class ProjectsTest extends TestCase
     }
 
     #[Test]
+    public function shouldRotateProjectAccessToken(): void
+    {
+        $expectedArray = [
+            'scopes' => [
+                'api',
+                'read_repository',
+            ],
+            'active' => true,
+            'name' => 'test',
+            'revoked' => false,
+            'created_at' => '2021-01-21T19:35:37.921Z',
+            'user_id' => 166,
+            'id' => 58,
+            'expires_at' => '2021-01-31',
+            'token' => 'D4y...Wzr',
+        ];
+        $expiresAt = new DateTime('2021-01-31');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/access_tokens/2/rotate', ['expires_at' => '2021-01-31'])
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->rotateProjectAccessToken(1, 2, ['expires_at' => $expiresAt]));
+    }
+
+    #[Test]
+    public function shouldRotateCurrentProjectAccessToken(): void
+    {
+        $expectedArray = [
+            'scopes' => [
+                'api',
+                'read_repository',
+            ],
+            'active' => true,
+            'name' => 'test',
+            'revoked' => false,
+            'created_at' => '2021-01-21T19:35:37.921Z',
+            'user_id' => 166,
+            'id' => 58,
+            'expires_at' => '2021-01-31',
+            'token' => 'D4y...Wzr',
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/access_tokens/self/rotate', [])
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->rotateProjectAccessToken(1, 'self'));
+    }
+
+    #[Test]
     public function shouldDeleteProjectAccessToken(): void
     {
         $expectedBool = true;
