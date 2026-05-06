@@ -699,6 +699,68 @@ class Projects extends AbstractApi
         return $this->delete($this->getProjectPath($project_id, 'deploy_tokens/'.self::encodePath($token_id)));
     }
 
+    public function pushRule(int|string $project_id): mixed
+    {
+        return $this->get($this->getProjectPath($project_id, 'push_rule'));
+    }
+
+    /**
+     * @param array $parameters {
+     *
+     *     @var string $author_email_regex            all commit author emails must match this regular expression
+     *     @var string $branch_name_regex             all branch names must match this regular expression
+     *     @var bool   $commit_committer_check        only allow commits when the committer email is one of the user's verified emails
+     *     @var bool   $commit_committer_name_check   only allow commits when the author name matches the user's GitLab account name
+     *     @var string $commit_message_negative_regex reject commit messages matching this regular expression
+     *     @var string $commit_message_regex          require commit messages to match this regular expression
+     *     @var bool   $deny_delete_tag               deny deleting tags
+     *     @var string $file_name_regex               reject committed filenames matching this regular expression
+     *     @var int    $max_file_size                 maximum file size in MB
+     *     @var bool   $member_check                  restrict commit authors by email to existing GitLab users
+     *     @var bool   $prevent_secrets               reject files likely to contain secrets
+     *     @var bool   $reject_non_dco_commits        reject commits that are not DCO certified
+     *     @var bool   $reject_unsigned_commits       reject unsigned commits
+     * }
+     *
+     * @throws UndefinedOptionsException If an option name is undefined
+     * @throws InvalidOptionsException   If an option doesn't fulfill the specified validation rules
+     */
+    public function createPushRule(int|string $project_id, array $parameters = []): mixed
+    {
+        return $this->post($this->getProjectPath($project_id, 'push_rule'), self::createPushRuleOptionsResolver()->resolve($parameters));
+    }
+
+    /**
+     * @param array $parameters {
+     *
+     *     @var string $author_email_regex            all commit author emails must match this regular expression
+     *     @var string $branch_name_regex             all branch names must match this regular expression
+     *     @var bool   $commit_committer_check        only allow commits when the committer email is one of the user's verified emails
+     *     @var bool   $commit_committer_name_check   only allow commits when the author name matches the user's GitLab account name
+     *     @var string $commit_message_negative_regex reject commit messages matching this regular expression
+     *     @var string $commit_message_regex          require commit messages to match this regular expression
+     *     @var bool   $deny_delete_tag               deny deleting tags
+     *     @var string $file_name_regex               reject committed filenames matching this regular expression
+     *     @var int    $max_file_size                 maximum file size in MB
+     *     @var bool   $member_check                  restrict commit authors by email to existing GitLab users
+     *     @var bool   $prevent_secrets               reject files likely to contain secrets
+     *     @var bool   $reject_non_dco_commits        reject commits that are not DCO certified
+     *     @var bool   $reject_unsigned_commits       reject unsigned commits
+     * }
+     *
+     * @throws UndefinedOptionsException If an option name is undefined
+     * @throws InvalidOptionsException   If an option doesn't fulfill the specified validation rules
+     */
+    public function updatePushRule(int|string $project_id, array $parameters = []): mixed
+    {
+        return $this->put($this->getProjectPath($project_id, 'push_rule'), self::createPushRuleOptionsResolver()->resolve($parameters));
+    }
+
+    public function deletePushRule(int|string $project_id): mixed
+    {
+        return $this->delete($this->getProjectPath($project_id, 'push_rule'));
+    }
+
     /**
      * @param array      $parameters {
      *
@@ -1502,5 +1564,42 @@ class Projects extends AbstractApi
             ->setAllowedValues('state', ['opened', 'closed']);
 
         return $this->get('projects/'.self::encodePath($id).'/search', $resolver->resolve($parameters));
+    }
+
+    private static function createPushRuleOptionsResolver(): OptionsResolver
+    {
+        $resolver = new OptionsResolver();
+
+        foreach ([
+            'author_email_regex',
+            'branch_name_regex',
+            'commit_message_negative_regex',
+            'commit_message_regex',
+            'file_name_regex',
+        ] as $option) {
+            $resolver->setDefined($option)
+                ->setAllowedTypes($option, 'string')
+            ;
+        }
+
+        foreach ([
+            'commit_committer_check',
+            'commit_committer_name_check',
+            'deny_delete_tag',
+            'member_check',
+            'prevent_secrets',
+            'reject_non_dco_commits',
+            'reject_unsigned_commits',
+        ] as $option) {
+            $resolver->setDefined($option)
+                ->setAllowedTypes($option, 'bool')
+            ;
+        }
+
+        $resolver->setDefined('max_file_size')
+            ->setAllowedTypes('max_file_size', 'int')
+        ;
+
+        return $resolver;
     }
 }

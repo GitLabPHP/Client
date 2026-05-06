@@ -19,6 +19,8 @@ use Gitlab\Api\Projects;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
+use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 
 class ProjectsTest extends TestCase
 {
@@ -1598,6 +1600,186 @@ class ProjectsTest extends TestCase
             ->willReturn($expectedBool);
 
         $this->assertEquals($expectedBool, $api->deleteDeployToken(1, 2));
+    }
+
+    #[Test]
+    public function shouldGetPushRule(): void
+    {
+        $expectedArray = [
+            'id' => 1,
+            'project_id' => 3,
+            'commit_message_regex' => 'Fixes \\d+\\..*',
+            'branch_name_regex' => 'feature\\/.*',
+            'author_email_regex' => '@example.com$',
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/3/push_rule')
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->pushRule(3));
+    }
+
+    #[Test]
+    public function shouldGetUnsetPushRule(): void
+    {
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/3/push_rule')
+            ->willReturn('null');
+
+        $this->assertEquals('null', $api->pushRule(3));
+    }
+
+    #[Test]
+    public function shouldCreatePushRule(): void
+    {
+        $expectedBool = true;
+        $parameters = [
+            'commit_message_regex' => 'Fixes \\d+\\..*',
+            'branch_name_regex' => 'feature\\/.*',
+            'author_email_regex' => '@example.com$',
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/3/push_rule', $parameters)
+            ->willReturn($expectedBool);
+
+        $this->assertEquals($expectedBool, $api->createPushRule(3, $parameters));
+    }
+
+    #[Test]
+    public function shouldCreatePushRuleWithBooleanAndIntegerParameters(): void
+    {
+        $expectedBool = true;
+        $parameters = [
+            'deny_delete_tag' => false,
+            'member_check' => true,
+            'prevent_secrets' => true,
+            'commit_committer_check' => false,
+            'commit_committer_name_check' => true,
+            'reject_unsigned_commits' => false,
+            'reject_non_dco_commits' => true,
+            'max_file_size' => 100,
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/3/push_rule', $parameters)
+            ->willReturn($expectedBool);
+
+        $this->assertEquals($expectedBool, $api->createPushRule(3, $parameters));
+    }
+
+    #[Test]
+    public function shouldUpdatePushRule(): void
+    {
+        $expectedBool = true;
+        $parameters = [
+            'commit_message_regex' => 'Fixes \\d+\\..*',
+            'branch_name_regex' => 'feature\\/.*',
+            'author_email_regex' => '@example.com$',
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/3/push_rule', $parameters)
+            ->willReturn($expectedBool);
+
+        $this->assertEquals($expectedBool, $api->updatePushRule(3, $parameters));
+    }
+
+    #[Test]
+    public function shouldUpdatePushRuleWithBooleanAndIntegerParameters(): void
+    {
+        $expectedBool = true;
+        $parameters = [
+            'deny_delete_tag' => true,
+            'member_check' => false,
+            'prevent_secrets' => false,
+            'commit_committer_check' => true,
+            'commit_committer_name_check' => false,
+            'reject_unsigned_commits' => true,
+            'reject_non_dco_commits' => false,
+            'max_file_size' => 25,
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/3/push_rule', $parameters)
+            ->willReturn($expectedBool);
+
+        $this->assertEquals($expectedBool, $api->updatePushRule(3, $parameters));
+    }
+
+    #[Test]
+    public function shouldDeletePushRule(): void
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/3/push_rule')
+            ->willReturn($expectedBool);
+
+        $this->assertEquals($expectedBool, $api->deletePushRule(3));
+    }
+
+    #[Test]
+    public function shouldRejectUndefinedParameterWhenCreatingPushRule(): void
+    {
+        $api = $this->getApiMock();
+        $api->expects($this->never())
+            ->method('post');
+
+        $this->expectException(UndefinedOptionsException::class);
+
+        $api->createPushRule(3, ['unsupported_parameter' => true]);
+    }
+
+    #[Test]
+    public function shouldRejectUndefinedParameterWhenUpdatingPushRule(): void
+    {
+        $api = $this->getApiMock();
+        $api->expects($this->never())
+            ->method('put');
+
+        $this->expectException(UndefinedOptionsException::class);
+
+        $api->updatePushRule(3, ['unsupported_parameter' => true]);
+    }
+
+    #[Test]
+    public function shouldRequireIntegerMaxFileSizeWhenCreatingPushRule(): void
+    {
+        $api = $this->getApiMock();
+        $api->expects($this->never())
+            ->method('post');
+
+        $this->expectException(InvalidOptionsException::class);
+
+        $api->createPushRule(3, ['max_file_size' => '100']);
+    }
+
+    #[Test]
+    public function shouldRequireIntegerMaxFileSizeWhenUpdatingPushRule(): void
+    {
+        $api = $this->getApiMock();
+        $api->expects($this->never())
+            ->method('put');
+
+        $this->expectException(InvalidOptionsException::class);
+
+        $api->updatePushRule(3, ['max_file_size' => '100']);
     }
 
     #[Test]
