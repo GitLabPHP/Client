@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Add support for personal access tokens
 * Add support for project integrations endpoints
 * Add support for `Projects::updateDeployKey`
+* Add support for `Projects::latestPipeline`
 * Add support for project push rules
 * Add support for additional parameters in `Projects::fork`
 * Correct project forks list parameter handling

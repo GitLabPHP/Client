@@ -820,6 +820,69 @@ class ProjectsTest extends TestCase
     }
 
     #[Test]
+    public function shouldGetLatestPipeline(): void
+    {
+        $expectedArray = [
+            'id' => 287,
+            'iid' => 144,
+            'project_id' => 21,
+            'ref' => 'main',
+            'status' => 'success',
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/pipelines/latest', [])
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->latestPipeline(1));
+    }
+
+    #[Test]
+    public function shouldGetLatestPipelineWithRef(): void
+    {
+        $expectedArray = [
+            'id' => 287,
+            'iid' => 144,
+            'project_id' => 21,
+            'ref' => 'develop',
+            'status' => 'success',
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/pipelines/latest', ['ref' => 'develop'])
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->latestPipeline(1, ['ref' => 'develop']));
+    }
+
+    #[Test]
+    public function shouldGetLatestPipelineForStringProjectPath(): void
+    {
+        $expectedArray = [
+            'id' => 287,
+            'iid' => 144,
+            'project_id' => 21,
+            'ref' => 'main',
+            'status' => 'success',
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/group%2Fproject/pipelines/latest', [])
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->latestPipeline('group/project'));
+    }
+
+    #[Test]
     public function shouldGetPipelineJobs(): void
     {
         $expectedArray = [
