@@ -197,7 +197,7 @@ class Projects extends AbstractApi
     /**
      * @param array $parameters {
      *
-     *     @var string      $full_path           Full path of project to use with permanently_remove.
+     *     @var string      $full_path           full path of project to use with permanently_remove
      *     @var bool|string $permanently_remove Immediately delete a project that is already marked for deletion.
      * }
      */
