@@ -719,7 +719,7 @@ class Projects extends AbstractApi
      *     @var bool   $member_check                  restrict commit authors by email to existing GitLab users
      *     @var bool   $prevent_secrets               reject files likely to contain secrets
      *     @var bool   $reject_non_dco_commits        reject commits that are not DCO certified
-     *     @var bool   $reject_unsigned_commits       Reject unsigned commits.
+     *     @var bool   $reject_unsigned_commits       reject unsigned commits
      * }
      *
      * @throws UndefinedOptionsException If an option name is undefined
@@ -745,7 +745,7 @@ class Projects extends AbstractApi
      *     @var bool   $member_check                  restrict commit authors by email to existing GitLab users
      *     @var bool   $prevent_secrets               reject files likely to contain secrets
      *     @var bool   $reject_non_dco_commits        reject commits that are not DCO certified
-     *     @var bool   $reject_unsigned_commits       Reject unsigned commits.
+     *     @var bool   $reject_unsigned_commits       reject unsigned commits
      * }
      *
      * @throws UndefinedOptionsException If an option name is undefined
