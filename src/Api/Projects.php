@@ -341,6 +341,22 @@ class Projects extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'pipelines/'.self::encodePath($pipeline_id)));
     }
 
+    /**
+     * @param array $parameters {
+     *
+     *     @var string $ref branch or tag to check for the latest pipeline
+     * }
+     */
+    public function latestPipeline(int|string $project_id, array $parameters = []): mixed
+    {
+        $resolver = new OptionsResolver();
+        $resolver->setDefined('ref')
+            ->setAllowedTypes('ref', 'string')
+        ;
+
+        return $this->get($this->getProjectPath($project_id, 'pipelines/latest'), $resolver->resolve($parameters));
+    }
+
     public function pipelineJobs(int|string $project_id, int $pipeline_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'pipelines/'.self::encodePath($pipeline_id).'/jobs'));
