@@ -940,6 +940,53 @@ class ProjectsTest extends TestCase
     }
 
     #[Test]
+    public function shouldCreatePipelineWithInputs(): void
+    {
+        $expectedArray = [
+            ['id' => 4, 'status' => 'created', 'ref' => 'test-pipeline'],
+        ];
+        $inputs = [
+            'environment' => 'production',
+            'scan_security' => false,
+            'level' => 3,
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/pipeline', ['inputs' => $inputs], [], [], ['ref' => 'test-pipeline'])
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->createPipeline(1, 'test-pipeline', null, ['inputs' => $inputs]));
+    }
+
+    #[Test]
+    public function shouldCreatePipelineWithVariablesAndInputs(): void
+    {
+        $expectedArray = [
+            ['id' => 4, 'status' => 'created', 'ref' => 'test-pipeline'],
+        ];
+        $variables = [
+            [
+                'key' => 'test_var_1',
+                'value' => 'test_value_1',
+            ],
+        ];
+        $inputs = [
+            'environment' => 'production',
+            'scan_security' => false,
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/pipeline', ['inputs' => $inputs, 'variables' => $variables], [], [], ['ref' => 'test-pipeline'])
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->createPipeline(1, 'test-pipeline', $variables, ['inputs' => $inputs]));
+    }
+
+    #[Test]
     public function shouldRetryPipeline(): void
     {
         $expectedArray = [

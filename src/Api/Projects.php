@@ -368,10 +368,20 @@ class Projects extends AbstractApi
      *     @var mixed $value           The value of the variable
      *     @var string $variable_type  env_var (default) or file
      * }
+     *
+     * @param array $parameters {
+     *
+     *     @var array $inputs Inputs to use when creating the pipeline.
+     * }
      */
-    public function createPipeline(int|string $project_id, string $commit_ref, ?array $variables = null): mixed
+    public function createPipeline(int|string $project_id, string $commit_ref, ?array $variables = null, array $parameters = []): mixed
     {
-        $parameters = [];
+        $resolver = new OptionsResolver();
+        $resolver->setDefined('inputs')
+            ->setAllowedTypes('inputs', 'array')
+        ;
+
+        $parameters = $resolver->resolve($parameters);
 
         if (null !== $variables) {
             $parameters['variables'] = $variables;
