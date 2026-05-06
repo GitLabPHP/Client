@@ -65,8 +65,6 @@ class PersonalAccessTokensTest extends TestCase
                 'last_used_after' => $lastUsedAfter->format('c'),
                 'last_used_before' => $lastUsedBefore->format('c'),
                 'sort' => 'name_desc',
-                'page' => 1,
-                'per_page' => 10,
             ])
             ->willReturn($expectedArray)
         ;
@@ -83,8 +81,6 @@ class PersonalAccessTokensTest extends TestCase
             'last_used_after' => $lastUsedAfter,
             'last_used_before' => $lastUsedBefore,
             'sort' => 'name_desc',
-            'page' => 1,
-            'per_page' => 10,
         ]));
     }
 

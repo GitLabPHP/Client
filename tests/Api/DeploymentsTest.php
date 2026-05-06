@@ -135,8 +135,6 @@ See merge request !2',
         $parameters = [
             'state' => 'merged',
             'labels' => 'release,backend',
-            'page' => 2,
-            'per_page' => 25,
         ];
 
         $api = $this->getApiMock();

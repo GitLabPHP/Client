@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Add support for container registry endpoints
 * Add support for `Environments::stopStale`
 * Add support for `last_activity_after` and `last_activity_before` in `Groups::projects`
+* Fix recent list endpoints to rely on the result pager for pagination
 * Fix `Projects::pipelines` date filters to include time information
 
 

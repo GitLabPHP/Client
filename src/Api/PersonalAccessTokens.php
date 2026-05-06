@@ -37,7 +37,7 @@ class PersonalAccessTokens extends AbstractApi
      */
     public function all(array $parameters = []): mixed
     {
-        $resolver = $this->createOptionsResolver();
+        $resolver = new OptionsResolver();
         $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
             return $value->format('c');
         };

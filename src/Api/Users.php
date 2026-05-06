@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Gitlab\Api;
 
 use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Users extends AbstractApi
 {
@@ -177,7 +178,7 @@ class Users extends AbstractApi
      */
     public function usersContributedProjects(int|string $id, array $parameters = []): mixed
     {
-        $resolver = $this->createOptionsResolver();
+        $resolver = new OptionsResolver();
         $booleanNormalizer = function (Options $resolver, $value): string {
             return $value ? 'true' : 'false';
         };

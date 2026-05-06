@@ -1165,7 +1165,7 @@ class Projects extends AbstractApi
      */
     public function projectAccessTokens(int|string $project_id, array $parameters = []): mixed
     {
-        $resolver = $this->createOptionsResolver();
+        $resolver = new OptionsResolver();
         $datetimeNormalizer = function (Options $resolver, \DateTimeInterface $value): string {
             return $value->format('c');
         };
@@ -1305,11 +1305,9 @@ class Projects extends AbstractApi
         return $this->patch($this->getProjectPath($project_id, 'job_token_scope'), ['enabled' => $enabled]);
     }
 
-    public function jobTokenScopeAllowlistProjects(int|string $project_id, array $parameters = []): mixed
+    public function jobTokenScopeAllowlistProjects(int|string $project_id): mixed
     {
-        $resolver = $this->createOptionsResolver();
-
-        return $this->get($this->getProjectPath($project_id, 'job_token_scope/allowlist'), $resolver->resolve($parameters));
+        return $this->get($this->getProjectPath($project_id, 'job_token_scope/allowlist'));
     }
 
     public function addJobTokenScopeAllowlistProject(int|string $project_id, int $target_project_id): mixed
@@ -1325,11 +1323,9 @@ class Projects extends AbstractApi
         return $this->delete($this->getProjectPath($project_id, 'job_token_scope/allowlist/'.self::encodePath($target_project_id)));
     }
 
-    public function jobTokenScopeAllowlistGroups(int|string $project_id, array $parameters = []): mixed
+    public function jobTokenScopeAllowlistGroups(int|string $project_id): mixed
     {
-        $resolver = $this->createOptionsResolver();
-
-        return $this->get($this->getProjectPath($project_id, 'job_token_scope/groups_allowlist'), $resolver->resolve($parameters));
+        return $this->get($this->getProjectPath($project_id, 'job_token_scope/groups_allowlist'));
     }
 
     public function addJobTokenScopeAllowlistGroup(int|string $project_id, int $target_group_id): mixed
@@ -1354,7 +1350,7 @@ class Projects extends AbstractApi
      */
     public function registryRepositories(int|string $project_id, array $parameters = []): mixed
     {
-        $resolver = $this->createOptionsResolver();
+        $resolver = new OptionsResolver();
         $booleanNormalizer = function (Options $resolver, $value): string {
             return $value ? 'true' : 'false';
         };
