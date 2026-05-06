@@ -2784,6 +2784,168 @@ class ProjectsTest extends TestCase
     }
 
     #[Test]
+    public function shouldGetJobTokenScope(): void
+    {
+        $expectedArray = ['inbound_enabled' => true, 'outbound_enabled' => false];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/job_token_scope')
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->jobTokenScope(1));
+    }
+
+    #[Test]
+    public function shouldUpdateJobTokenScope(): void
+    {
+        $expectedString = '';
+
+        $api = $this->getApiMock(['patch']);
+        $api->expects($this->once())
+            ->method('patch')
+            ->with('projects/1/job_token_scope', ['enabled' => false])
+            ->willReturn($expectedString);
+
+        $this->assertEquals($expectedString, $api->updateJobTokenScope(1, false));
+    }
+
+    #[Test]
+    public function shouldGetJobTokenScopeAllowlistProjects(): void
+    {
+        $expectedArray = [[
+            'id' => 4,
+            'name' => 'Diaspora Client',
+            'web_url' => 'https://gitlab.example.com/diaspora/diaspora-client',
+        ]];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/job_token_scope/allowlist', [])
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->jobTokenScopeAllowlistProjects(1));
+    }
+
+    #[Test]
+    public function shouldGetJobTokenScopeAllowlistProjectsWithPagination(): void
+    {
+        $expectedArray = [[
+            'id' => 4,
+            'name' => 'Diaspora Client',
+            'web_url' => 'https://gitlab.example.com/diaspora/diaspora-client',
+        ]];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/job_token_scope/allowlist', ['page' => 2, 'per_page' => 15])
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->jobTokenScopeAllowlistProjects(1, ['page' => 2, 'per_page' => 15]));
+    }
+
+    #[Test]
+    public function shouldAddJobTokenScopeAllowlistProject(): void
+    {
+        $expectedArray = [
+            'source_project_id' => 1,
+            'target_project_id' => 42,
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/job_token_scope/allowlist', ['target_project_id' => 42])
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->addJobTokenScopeAllowlistProject(1, 42));
+    }
+
+    #[Test]
+    public function shouldRemoveJobTokenScopeAllowlistProject(): void
+    {
+        $expectedString = '';
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/job_token_scope/allowlist/42')
+            ->willReturn($expectedString);
+
+        $this->assertEquals($expectedString, $api->removeJobTokenScopeAllowlistProject(1, 42));
+    }
+
+    #[Test]
+    public function shouldGetJobTokenScopeAllowlistGroups(): void
+    {
+        $expectedArray = [[
+            'id' => 4,
+            'name' => 'namegroup',
+            'web_url' => 'https://gitlab.example.com/groups/diaspora/diaspora-group',
+        ]];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/job_token_scope/groups_allowlist', [])
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->jobTokenScopeAllowlistGroups(1));
+    }
+
+    #[Test]
+    public function shouldGetJobTokenScopeAllowlistGroupsWithPagination(): void
+    {
+        $expectedArray = [[
+            'id' => 4,
+            'name' => 'namegroup',
+            'web_url' => 'https://gitlab.example.com/groups/diaspora/diaspora-group',
+        ]];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/job_token_scope/groups_allowlist', ['page' => 2, 'per_page' => 15])
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->jobTokenScopeAllowlistGroups(1, ['page' => 2, 'per_page' => 15]));
+    }
+
+    #[Test]
+    public function shouldAddJobTokenScopeAllowlistGroup(): void
+    {
+        $expectedArray = [
+            'source_project_id' => 1,
+            'target_group_id' => 42,
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/job_token_scope/groups_allowlist', ['target_group_id' => 42])
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->addJobTokenScopeAllowlistGroup(1, 42));
+    }
+
+    #[Test]
+    public function shouldRemoveJobTokenScopeAllowlistGroup(): void
+    {
+        $expectedString = '';
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1/job_token_scope/groups_allowlist/42')
+            ->willReturn($expectedString);
+
+        $this->assertEquals($expectedString, $api->removeJobTokenScopeAllowlistGroup(1, 42));
+    }
+
+    #[Test]
     public function shouldUploadAvatar(): void
     {
         $emptyPNGContents = 'iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAACYElEQVR42u3UMQEAAAjDMFCO9GEAByQSerQrmQJeagMAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwADAAAwADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMAAzAAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwADMAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAMAAZwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAwAAAAwAMADAAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMADAAAADAAwAMAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAMAAAAMADAAwAOCybrx+H1CTHLYAAAAASUVORK5CYII=';

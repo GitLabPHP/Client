@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Add support for `regex` and `sort` in `Repositories::branches`
 * Add support for `Users::usersContributedProjects`
 * Add support for additional filters and ordering options in `MergeRequests::all`
+* Add support for project CI/CD job token scope endpoints
 
 
 ## [12.0.0] - 2025-02-23

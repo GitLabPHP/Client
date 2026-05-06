@@ -1273,6 +1273,56 @@ class Projects extends AbstractApi
         return $this->delete($this->getProjectPath($project_id, 'access_tokens/'.$token_id));
     }
 
+    public function jobTokenScope(int|string $project_id): mixed
+    {
+        return $this->get($this->getProjectPath($project_id, 'job_token_scope'));
+    }
+
+    public function updateJobTokenScope(int|string $project_id, bool $enabled): mixed
+    {
+        return $this->patch($this->getProjectPath($project_id, 'job_token_scope'), ['enabled' => $enabled]);
+    }
+
+    public function jobTokenScopeAllowlistProjects(int|string $project_id, array $parameters = []): mixed
+    {
+        $resolver = $this->createOptionsResolver();
+
+        return $this->get($this->getProjectPath($project_id, 'job_token_scope/allowlist'), $resolver->resolve($parameters));
+    }
+
+    public function addJobTokenScopeAllowlistProject(int|string $project_id, int $target_project_id): mixed
+    {
+        return $this->post(
+            $this->getProjectPath($project_id, 'job_token_scope/allowlist'),
+            ['target_project_id' => $target_project_id]
+        );
+    }
+
+    public function removeJobTokenScopeAllowlistProject(int|string $project_id, int $target_project_id): mixed
+    {
+        return $this->delete($this->getProjectPath($project_id, 'job_token_scope/allowlist/'.self::encodePath($target_project_id)));
+    }
+
+    public function jobTokenScopeAllowlistGroups(int|string $project_id, array $parameters = []): mixed
+    {
+        $resolver = $this->createOptionsResolver();
+
+        return $this->get($this->getProjectPath($project_id, 'job_token_scope/groups_allowlist'), $resolver->resolve($parameters));
+    }
+
+    public function addJobTokenScopeAllowlistGroup(int|string $project_id, int $target_group_id): mixed
+    {
+        return $this->post(
+            $this->getProjectPath($project_id, 'job_token_scope/groups_allowlist'),
+            ['target_group_id' => $target_group_id]
+        );
+    }
+
+    public function removeJobTokenScopeAllowlistGroup(int|string $project_id, int $target_group_id): mixed
+    {
+        return $this->delete($this->getProjectPath($project_id, 'job_token_scope/groups_allowlist/'.self::encodePath($target_group_id)));
+    }
+
     public function protectedTags(int|string $project_id): mixed
     {
         return $this->get('projects/'.self::encodePath($project_id).'/protected_tags');
