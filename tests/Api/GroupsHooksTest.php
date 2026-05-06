@@ -30,28 +30,11 @@ class GroupsHooksTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('groups/1/hooks', [])
+            ->with('groups/1/hooks')
             ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->all(1));
-    }
-
-    #[Test]
-    public function shouldGetAllHooksWithPagination(): void
-    {
-        $expectedArray = [
-            ['id' => 1, 'url' => 'https://example.com/webhook-trigger/1'],
-        ];
-
-        $api = $this->getApiMock();
-        $api->expects($this->once())
-            ->method('get')
-            ->with('groups/1/hooks', ['page' => 2, 'per_page' => 50])
-            ->willReturn($expectedArray)
-        ;
-
-        $this->assertEquals($expectedArray, $api->all(1, ['page' => 2, 'per_page' => 50]));
     }
 
     #[Test]
@@ -64,7 +47,7 @@ class GroupsHooksTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('groups/foo%2Fbar/hooks', [])
+            ->with('groups/foo%2Fbar/hooks')
             ->willReturn($expectedArray)
         ;
 
@@ -177,13 +160,11 @@ class GroupsHooksTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('groups/1/hooks/2/events', ['page' => 2, 'per_page' => 15, 'status' => 'server_failure'])
+            ->with('groups/1/hooks/2/events', ['status' => 'server_failure'])
             ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->events(1, 2, [
-            'page' => 2,
-            'per_page' => 15,
             'status' => 'server_failure',
         ]));
     }

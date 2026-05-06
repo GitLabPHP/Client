@@ -14,20 +14,13 @@ declare(strict_types=1);
 
 namespace Gitlab\Api;
 
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
 class GroupsHooks extends AbstractApi
 {
-    /**
-     * @param array $parameters {
-     *
-     *     @var int $page     page number
-     *     @var int $per_page number of items to list per page
-     * }
-     */
-    public function all(int|string $group_id, array $parameters = []): mixed
+    public function all(int|string $group_id): mixed
     {
-        $resolver = $this->createOptionsResolver();
-
-        return $this->get('groups/'.self::encodePath($group_id).'/hooks', $resolver->resolve($parameters));
+        return $this->get('groups/'.self::encodePath($group_id).'/hooks');
     }
 
     public function show(int|string $group_id, int $hook_id): mixed
@@ -73,14 +66,12 @@ class GroupsHooks extends AbstractApi
     /**
      * @param array $parameters {
      *
-     *     @var int        $page     page number
-     *     @var int        $per_page number of items to list per page
      *     @var int|string $status   response status code or status category
      * }
      */
     public function events(int|string $group_id, int $hook_id, array $parameters = []): mixed
     {
-        $resolver = $this->createOptionsResolver();
+        $resolver = new OptionsResolver();
         $resolver->setDefined('status')
             ->setAllowedTypes('status', ['int', 'string'])
         ;
