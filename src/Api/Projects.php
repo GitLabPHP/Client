@@ -368,6 +368,7 @@ class Projects extends AbstractApi
      *     @var mixed $value           The value of the variable
      *     @var string $variable_type  env_var (default) or file
      * }
+     *
      * @param array $parameters {
      *
      *     @var array $inputs Inputs to use when creating the pipeline.
