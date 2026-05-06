@@ -288,6 +288,63 @@ class UsersTest extends TestCase
     }
 
     #[Test]
+    public function shouldShowUsersContributedProjects(): void
+    {
+        $expectedArray = $this->getUsersProjectsData();
+
+        $api = $this->getUsersProjectsRequestMock('users/1/contributed_projects', $expectedArray);
+
+        $this->assertEquals($expectedArray, $api->usersContributedProjects(1));
+    }
+
+    #[Test]
+    public function shouldShowUsersContributedProjectsByUsername(): void
+    {
+        $expectedArray = $this->getUsersProjectsData();
+
+        $api = $this->getUsersProjectsRequestMock('users/matt/contributed_projects', $expectedArray);
+
+        $this->assertEquals($expectedArray, $api->usersContributedProjects('matt'));
+    }
+
+    #[Test]
+    public function shouldShowUsersContributedProjectsWithLimit(): void
+    {
+        $expectedArray = [$this->getUsersProjectsData()[0]];
+
+        $api = $this->getUsersProjectsRequestMock('users/1/contributed_projects', $expectedArray, ['per_page' => 1]);
+
+        $this->assertEquals($expectedArray, $api->usersContributedProjects(1, ['per_page' => 1]));
+    }
+
+    #[Test]
+    public function shouldGetAllUsersContributedProjectsSortedByStars(): void
+    {
+        $expectedArray = $this->getUsersProjectsData();
+
+        $api = $this->getUsersProjectsRequestMock(
+            'users/1/contributed_projects',
+            $expectedArray,
+            ['page' => 1, 'per_page' => 5, 'order_by' => 'star_count', 'sort' => 'desc']
+        );
+
+        $this->assertEquals(
+            $expectedArray,
+            $api->usersContributedProjects(1, ['page' => 1, 'per_page' => 5, 'order_by' => 'star_count', 'sort' => 'desc'])
+        );
+    }
+
+    #[Test]
+    public function shouldShowSimpleUsersContributedProjects(): void
+    {
+        $expectedArray = $this->getUsersProjectsData();
+
+        $api = $this->getUsersProjectsRequestMock('users/1/contributed_projects', $expectedArray, ['simple' => 'true']);
+
+        $this->assertEquals($expectedArray, $api->usersContributedProjects(1, ['simple' => true]));
+    }
+
+    #[Test]
     public function shouldShowUsersStarredProjects(): void
     {
         $expectedArray = $this->getUsersProjectsData();
