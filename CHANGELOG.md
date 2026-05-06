@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Add support for listing merge requests associated with a deployment
 * Add support for `with_custom_attributes` and `with_projects` in `Groups::show`
 * Add support for project remote mirror read endpoints
+* Add support for permanent project removal and project restoration
 
 
 ## [12.0.0] - 2025-02-23

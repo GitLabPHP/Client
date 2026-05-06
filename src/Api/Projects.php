@@ -194,9 +194,29 @@ class Projects extends AbstractApi
         return $this->put('projects/'.self::encodePath($project_id), $parameters);
     }
 
-    public function remove(int|string $project_id): mixed
+    /**
+     * @param array $parameters {
+     *
+     *     @var string      $full_path           Full path of project to use with permanently_remove.
+     *     @var bool|string $permanently_remove Immediately delete a project that is already marked for deletion.
+     * }
+     */
+    public function remove(int|string $project_id, array $parameters = []): mixed
     {
-        return $this->delete('projects/'.self::encodePath($project_id));
+        $resolver = new OptionsResolver();
+        $resolver->setDefined('full_path')
+            ->setAllowedTypes('full_path', 'string')
+        ;
+        $resolver->setDefined('permanently_remove')
+            ->setAllowedTypes('permanently_remove', ['bool', 'string'])
+        ;
+
+        return $this->delete('projects/'.self::encodePath($project_id), $resolver->resolve($parameters));
+    }
+
+    public function restore(int|string $project_id): mixed
+    {
+        return $this->post('projects/'.self::encodePath($project_id).'/restore');
     }
 
     public function archive(int|string $project_id): mixed

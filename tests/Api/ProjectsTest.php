@@ -346,6 +346,54 @@ class ProjectsTest extends TestCase
     }
 
     #[Test]
+    public function shouldRemoveProjectPermanently(): void
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1', ['full_path' => 'group/project', 'permanently_remove' => true])
+            ->willReturn($expectedBool);
+
+        $this->assertEquals($expectedBool, $api->remove(1, [
+            'full_path' => 'group/project',
+            'permanently_remove' => true,
+        ]));
+    }
+
+    #[Test]
+    public function shouldRemoveProjectPermanentlyWithStringParameter(): void
+    {
+        $expectedBool = true;
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('delete')
+            ->with('projects/1', ['full_path' => 'group/project', 'permanently_remove' => 'true'])
+            ->willReturn($expectedBool);
+
+        $this->assertEquals($expectedBool, $api->remove(1, [
+            'full_path' => 'group/project',
+            'permanently_remove' => 'true',
+        ]));
+    }
+
+    #[Test]
+    public function shouldRestoreProject(): void
+    {
+        $expectedArray = ['id' => 1, 'name' => 'Project Name'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/restore')
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->restore(1));
+    }
+
+    #[Test]
     public function shouldGetPipelines(): void
     {
         $expectedArray = [
