@@ -329,6 +329,41 @@ class RepositoriesTest extends TestCase
     }
 
     #[Test]
+    public function shouldGetCommitMergeRequests(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'title' => 'A merge request'],
+            ['id' => 2, 'title' => 'Another merge request'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/repository/commits/abcd1234/merge_requests', [])
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->commitMergeRequests(1, 'abcd1234'));
+    }
+
+    #[Test]
+    public function shouldGetCommitMergeRequestsWithState(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'title' => 'A merge request', 'state' => 'opened'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/repository/commits/abcd1234/merge_requests', ['state' => 'opened'])
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->commitMergeRequests(1, 'abcd1234', ['state' => 'opened']));
+    }
+
+    #[Test]
     #[DataProvider('dataGetCommitRefsWithParams')]
     public function shouldGetCommitRefsWithParams(string $type, array $expectedArray): void
     {
