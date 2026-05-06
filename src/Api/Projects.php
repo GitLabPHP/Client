@@ -707,18 +707,18 @@ class Projects extends AbstractApi
     /**
      * @param array $parameters {
      *
-     *     @var string $author_email_regex            All commit author emails must match this regular expression.
-     *     @var string $branch_name_regex             All branch names must match this regular expression.
-     *     @var bool   $commit_committer_check        Only allow commits when the committer email is one of the user's verified emails.
-     *     @var bool   $commit_committer_name_check   Only allow commits when the author name matches the user's GitLab account name.
-     *     @var string $commit_message_negative_regex Reject commit messages matching this regular expression.
-     *     @var string $commit_message_regex          Require commit messages to match this regular expression.
-     *     @var bool   $deny_delete_tag               Deny deleting tags.
-     *     @var string $file_name_regex               Reject committed filenames matching this regular expression.
-     *     @var int    $max_file_size                 Maximum file size in MB.
-     *     @var bool   $member_check                  Restrict commit authors by email to existing GitLab users.
-     *     @var bool   $prevent_secrets               Reject files likely to contain secrets.
-     *     @var bool   $reject_non_dco_commits        Reject commits that are not DCO certified.
+     *     @var string $author_email_regex            all commit author emails must match this regular expression
+     *     @var string $branch_name_regex             all branch names must match this regular expression
+     *     @var bool   $commit_committer_check        only allow commits when the committer email is one of the user's verified emails
+     *     @var bool   $commit_committer_name_check   only allow commits when the author name matches the user's GitLab account name
+     *     @var string $commit_message_negative_regex reject commit messages matching this regular expression
+     *     @var string $commit_message_regex          require commit messages to match this regular expression
+     *     @var bool   $deny_delete_tag               deny deleting tags
+     *     @var string $file_name_regex               reject committed filenames matching this regular expression
+     *     @var int    $max_file_size                 maximum file size in MB
+     *     @var bool   $member_check                  restrict commit authors by email to existing GitLab users
+     *     @var bool   $prevent_secrets               reject files likely to contain secrets
+     *     @var bool   $reject_non_dco_commits        reject commits that are not DCO certified
      *     @var bool   $reject_unsigned_commits       Reject unsigned commits.
      * }
      *
@@ -733,18 +733,18 @@ class Projects extends AbstractApi
     /**
      * @param array $parameters {
      *
-     *     @var string $author_email_regex            All commit author emails must match this regular expression.
-     *     @var string $branch_name_regex             All branch names must match this regular expression.
-     *     @var bool   $commit_committer_check        Only allow commits when the committer email is one of the user's verified emails.
-     *     @var bool   $commit_committer_name_check   Only allow commits when the author name matches the user's GitLab account name.
-     *     @var string $commit_message_negative_regex Reject commit messages matching this regular expression.
-     *     @var string $commit_message_regex          Require commit messages to match this regular expression.
-     *     @var bool   $deny_delete_tag               Deny deleting tags.
-     *     @var string $file_name_regex               Reject committed filenames matching this regular expression.
-     *     @var int    $max_file_size                 Maximum file size in MB.
-     *     @var bool   $member_check                  Restrict commit authors by email to existing GitLab users.
-     *     @var bool   $prevent_secrets               Reject files likely to contain secrets.
-     *     @var bool   $reject_non_dco_commits        Reject commits that are not DCO certified.
+     *     @var string $author_email_regex            all commit author emails must match this regular expression
+     *     @var string $branch_name_regex             all branch names must match this regular expression
+     *     @var bool   $commit_committer_check        only allow commits when the committer email is one of the user's verified emails
+     *     @var bool   $commit_committer_name_check   only allow commits when the author name matches the user's GitLab account name
+     *     @var string $commit_message_negative_regex reject commit messages matching this regular expression
+     *     @var string $commit_message_regex          require commit messages to match this regular expression
+     *     @var bool   $deny_delete_tag               deny deleting tags
+     *     @var string $file_name_regex               reject committed filenames matching this regular expression
+     *     @var int    $max_file_size                 maximum file size in MB
+     *     @var bool   $member_check                  restrict commit authors by email to existing GitLab users
+     *     @var bool   $prevent_secrets               reject files likely to contain secrets
+     *     @var bool   $reject_non_dco_commits        reject commits that are not DCO certified
      *     @var bool   $reject_unsigned_commits       Reject unsigned commits.
      * }
      *
