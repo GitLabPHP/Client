@@ -48,7 +48,6 @@ class RepositoriesTest extends TestCase
         $parameters = [
             'regex' => '^release/.*',
             'sort' => 'updated_desc',
-            'page_token' => 'release/1.0',
         ];
 
         $api = $this->getApiMock();

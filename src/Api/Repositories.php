@@ -35,7 +35,6 @@ class Repositories extends AbstractApi
      *     @var string $search     return branches matching the search string
      *     @var string $regex      return branches matching an RE2 regex
      *     @var string $sort       return branches sorted by name_asc, updated_asc, or updated_desc
-     *     @var string $page_token Name of the branch to start pagination from.
      * }
      */
     public function branches(int|string $project_id, array $parameters = []): mixed
@@ -50,9 +49,6 @@ class Repositories extends AbstractApi
         $resolver->setDefined('sort')
             ->setAllowedTypes('sort', 'string')
             ->setAllowedValues('sort', ['name_asc', 'updated_asc', 'updated_desc'])
-        ;
-        $resolver->setDefined('page_token')
-            ->setAllowedTypes('page_token', 'string')
         ;
 
         return $this->get($this->getProjectPath($project_id, 'repository/branches'), $resolver->resolve($parameters));
