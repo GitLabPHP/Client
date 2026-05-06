@@ -117,6 +117,21 @@ class MergeRequestsTest extends TestCase
     }
 
     #[Test]
+    public function shouldGetAllWithStringWipParam(): void
+    {
+        $expectedArray = $this->getMultipleMergeRequestsData();
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_requests', ['wip' => 'no'])
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->all(1, ['wip' => 'no']));
+    }
+
+    #[Test]
     public function shouldGetAllWithUsernameAndNotParams(): void
     {
         $expectedArray = $this->getMultipleMergeRequestsData();
@@ -238,13 +253,14 @@ class MergeRequestsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/merge_requests/2', ['include_diverged_commits_count' => true,  'include_rebase_in_progress' => true])
+            ->with('projects/1/merge_requests/2', ['include_diverged_commits_count' => true, 'include_rebase_in_progress' => true, 'render_html' => true])
             ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->show(1, 2, [
             'include_diverged_commits_count' => true,
             'include_rebase_in_progress' => true,
+            'render_html' => true,
         ]));
     }
 
@@ -279,10 +295,19 @@ class MergeRequestsTest extends TestCase
                 'title' => 'Merge Request',
                 'target_branch' => 'master',
                 'source_branch' => 'develop',
+                'allow_collaboration' => true,
+                'allow_maintainer_to_push' => false,
+                'approvals_before_merge' => 2,
                 'assignee_id' => 6,
-                'target_project_id' => 20,
+                'assignee_ids' => [6, 7],
                 'description' => 'Some changes',
+                'labels' => 'feature,backend',
+                'merge_after' => '2025-01-01T00:00:00Z',
+                'milestone_id' => 8,
                 'remove_source_branch' => true,
+                'reviewer_ids' => [9],
+                'squash' => true,
+                'target_project_id' => 20,
             ])
             ->willReturn($expectedArray)
         ;
@@ -294,7 +319,21 @@ class MergeRequestsTest extends TestCase
                 'develop',
                 'master',
                 'Merge Request',
-                ['assignee_id' => 6, 'target_project_id' => 20, 'description' => 'Some changes', 'remove_source_branch' => true]
+                [
+                    'allow_collaboration' => true,
+                    'allow_maintainer_to_push' => false,
+                    'approvals_before_merge' => 2,
+                    'assignee_id' => 6,
+                    'assignee_ids' => [6, 7],
+                    'description' => 'Some changes',
+                    'labels' => 'feature,backend',
+                    'merge_after' => '2025-01-01T00:00:00Z',
+                    'milestone_id' => 8,
+                    'remove_source_branch' => true,
+                    'reviewer_ids' => [9],
+                    'squash' => true,
+                    'target_project_id' => 20,
+                ]
             )
         );
     }
@@ -307,14 +346,46 @@ class MergeRequestsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/merge_requests/2', ['title' => 'Updated title', 'description' => 'No so many changes now', 'state_event' => 'close'])
+            ->with('projects/1/merge_requests/2', [
+                'add_labels' => 'ready',
+                'allow_collaboration' => true,
+                'allow_maintainer_to_push' => false,
+                'assignee_id' => 6,
+                'assignee_ids' => [6, 7],
+                'description' => 'No so many changes now',
+                'discussion_locked' => true,
+                'labels' => 'feature,backend',
+                'merge_after' => '2025-01-01T00:00:00Z',
+                'milestone_id' => 8,
+                'remove_labels' => 'draft',
+                'remove_source_branch' => true,
+                'reviewer_ids' => [9],
+                'squash' => true,
+                'state_event' => 'close',
+                'target_branch' => 'main',
+                'title' => 'Updated title',
+            ])
             ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->update(1, 2, [
-            'title' => 'Updated title',
+            'add_labels' => 'ready',
+            'allow_collaboration' => true,
+            'allow_maintainer_to_push' => false,
+            'assignee_id' => 6,
+            'assignee_ids' => [6, 7],
             'description' => 'No so many changes now',
+            'discussion_locked' => true,
+            'labels' => 'feature,backend',
+            'merge_after' => '2025-01-01T00:00:00Z',
+            'milestone_id' => 8,
+            'remove_labels' => 'draft',
+            'remove_source_branch' => true,
+            'reviewer_ids' => [9],
+            'squash' => true,
             'state_event' => 'close',
+            'target_branch' => 'main',
+            'title' => 'Updated title',
         ]));
     }
 
@@ -340,11 +411,27 @@ class MergeRequestsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('put')
-            ->with('projects/1/merge_requests/2/merge', ['merge_commit_message' => 'Accepted'])
+            ->with('projects/1/merge_requests/2/merge', [
+                'auto_merge' => true,
+                'merge_commit_message' => 'Accepted',
+                'merge_when_pipeline_succeeds' => false,
+                'sha' => 'abc123',
+                'should_remove_source_branch' => true,
+                'squash_commit_message' => 'Squashed',
+                'squash' => true,
+            ])
             ->willReturn($expectedArray)
         ;
 
-        $this->assertEquals($expectedArray, $api->merge(1, 2, ['merge_commit_message' => 'Accepted']));
+        $this->assertEquals($expectedArray, $api->merge(1, 2, [
+            'auto_merge' => true,
+            'merge_commit_message' => 'Accepted',
+            'merge_when_pipeline_succeeds' => false,
+            'sha' => 'abc123',
+            'should_remove_source_branch' => true,
+            'squash_commit_message' => 'Squashed',
+            'squash' => true,
+        ]));
     }
 
     #[Test]
@@ -383,11 +470,29 @@ class MergeRequestsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/merge_requests/2/notes')
+            ->with('projects/1/merge_requests/2/notes', [])
             ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->showNotes(1, 2));
+    }
+
+    #[Test]
+    public function shouldGetNotesWithParameters(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'body' => 'A note'],
+            ['id' => 2, 'body' => 'Another note'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_requests/2/notes', ['page' => 2, 'per_page' => 15, 'sort' => 'asc', 'order_by' => 'updated_at'])
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->showNotes(1, 2, ['page' => 2, 'per_page' => 15, 'sort' => 'asc', 'order_by' => 'updated_at']));
     }
 
     #[Test]
@@ -421,6 +526,30 @@ class MergeRequestsTest extends TestCase
     }
 
     #[Test]
+    public function shouldCreateNoteWithOptionalParameters(): void
+    {
+        $expectedArray = ['id' => 3, 'body' => 'A new note'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/merge_requests/2/notes', [
+                'body' => 'A new note',
+                'created_at' => '2025-01-01T00:00:00Z',
+                'internal' => true,
+                'merge_request_diff_head_sha' => 'abc123',
+            ])
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->addNote(1, 2, 'A new note', [
+            'created_at' => '2025-01-01T00:00:00Z',
+            'internal' => true,
+            'merge_request_diff_head_sha' => 'abc123',
+        ]));
+    }
+
+    #[Test]
     public function shouldUpdateNote(): void
     {
         $expectedArray = ['id' => 3, 'body' => 'An edited comment'];
@@ -433,6 +562,21 @@ class MergeRequestsTest extends TestCase
         ;
 
         $this->assertEquals($expectedArray, $api->updateNote(1, 2, 3, 'An edited comment'));
+    }
+
+    #[Test]
+    public function shouldUpdateNoteWithOptionalParameters(): void
+    {
+        $expectedArray = ['id' => 3, 'body' => 'An edited comment'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/merge_requests/2/notes/3', ['body' => 'An edited comment', 'confidential' => true])
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->updateNote(1, 2, 3, 'An edited comment', ['confidential' => true]));
     }
 
     #[Test]
@@ -584,11 +728,41 @@ class MergeRequestsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/merge_requests/2/changes')
+            ->with('projects/1/merge_requests/2/changes', [])
             ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->changes(1, 2));
+    }
+
+    #[Test]
+    public function shouldGetMergeRequestChangesWithParameters(): void
+    {
+        $expectedArray = ['id' => 1, 'title' => 'A merge request'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_requests/2/changes', ['access_raw_diffs' => true, 'unidiff' => true])
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->changes(1, 2, ['access_raw_diffs' => true, 'unidiff' => true]));
+    }
+
+    #[Test]
+    public function shouldGetMergeRequestCommits(): void
+    {
+        $expectedArray = [['id' => 'abc123', 'title' => 'A commit']];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_requests/2/commits')
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->commits(1, 2));
     }
 
     #[Test]
@@ -640,6 +814,27 @@ class MergeRequestsTest extends TestCase
     }
 
     #[Test]
+    public function shouldCreateDiscussionWithOptionalParameters(): void
+    {
+        $expectedArray = ['id' => 'abc', 'body' => 'A new discussion'];
+        $params = [
+            'body' => 'A new discussion',
+            'commit_id' => 'abc123',
+            'created_at' => '2025-01-01T00:00:00Z',
+            'position' => ['position_type' => 'text'],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/merge_requests/2/discussions', $params)
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->addDiscussion(1, 2, $params));
+    }
+
+    #[Test]
     public function shouldResolveDiscussion(): void
     {
         $expectedArray = ['id' => 'abc', 'resolved' => true];
@@ -685,6 +880,26 @@ class MergeRequestsTest extends TestCase
     }
 
     #[Test]
+    public function shouldCreateDiscussionNoteWithOptionalParameters(): void
+    {
+        $expectedArray = ['id' => 3, 'body' => 'A new discussion note'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/merge_requests/2/discussions/abc/notes', [
+                'body' => 'A new discussion note',
+                'created_at' => '2025-01-01T00:00:00Z',
+            ])
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->addDiscussionNote(1, 2, 'abc', 'A new discussion note', [
+            'created_at' => '2025-01-01T00:00:00Z',
+        ]));
+    }
+
+    #[Test]
     public function shouldUpdateDiscussionNote(): void
     {
         $expectedArray = ['id' => 3, 'body' => 'An edited discussion note'];
@@ -697,6 +912,21 @@ class MergeRequestsTest extends TestCase
         ;
 
         $this->assertEquals($expectedArray, $api->updateDiscussionNote(1, 2, 'abc', 3, ['body' => 'An edited discussion note']));
+    }
+
+    #[Test]
+    public function shouldResolveDiscussionNote(): void
+    {
+        $expectedArray = ['id' => 3, 'resolved' => true];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('put')
+            ->with('projects/1/merge_requests/2/discussions/abc/notes/3', ['resolved' => true])
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->updateDiscussionNote(1, 2, 'abc', 3, ['resolved' => true]));
     }
 
     #[Test]
@@ -751,11 +981,26 @@ class MergeRequestsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('post')
-            ->with('projects/1/merge_requests/2/approve')
+            ->with('projects/1/merge_requests/2/approve', [])
             ->willReturn($expectedArray)
         ;
 
         $this->assertEquals($expectedArray, $api->approve(1, 2));
+    }
+
+    #[Test]
+    public function shouldApproveMergeRequestWithParameters(): void
+    {
+        $expectedArray = ['id' => 1, 'title' => 'Approvals API'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/merge_requests/2/approve', ['approval_password' => 'secret', 'sha' => 'abc123'])
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->approve(1, 2, ['approval_password' => 'secret', 'sha' => 'abc123']));
     }
 
     #[Test]
@@ -781,11 +1026,11 @@ class MergeRequestsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/merge_requests', ['iids' => [2]])
+            ->with('projects/1/merge_requests/2/approvals')
             ->willReturn($expectedArray)
         ;
 
-        $this->assertEquals($expectedArray, $api->all(1, ['iids' => [2]]));
+        $this->assertEquals($expectedArray, $api->approvals(1, 2));
     }
 
     #[Test]
@@ -889,10 +1134,38 @@ class MergeRequestsTest extends TestCase
         $api = $this->getApiMock();
         $api->expects($this->once())
             ->method('get')
-            ->with('projects/1/merge_requests/2/approval_rules')
+            ->with('projects/1/merge_requests/2/approval_rules', [])
             ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->levelRules(1, 2));
+    }
+
+    #[Test]
+    public function shoudGetLevelRulesWithPagination(): void
+    {
+        $expectedArray = [
+            [
+                'id' => 1,
+                'name' => 'Foo',
+                'rule_type' => 'regular',
+                'eligible_approvers' => [],
+                'approvals_required' => 1,
+                'users' => [],
+                'groups' => [],
+                'contains_hidden_groups' => null,
+                'section' => null,
+                'source_rule' => null,
+                'overridden' => null,
+            ],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_requests/2/approval_rules', ['page' => 2, 'per_page' => 15])
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->levelRules(1, 2, ['page' => 2, 'per_page' => 15]));
     }
 
     #[Test]
@@ -952,15 +1225,19 @@ class MergeRequestsTest extends TestCase
                 [
                     'name' => 'Foo',
                     'approvals_required' => 3,
+                    'approval_project_rule_id' => 10,
                     'user_ids' => [1951878],
                     'group_ids' => [104121],
+                    'usernames' => ['alice'],
                 ]
             )
             ->willReturn($expectedArray);
 
         $this->assertEquals($expectedArray, $api->createLevelRule(1, 2, 'Foo', 3, [
+            'approval_project_rule_id' => 10,
             'user_ids' => [1951878],
             'group_ids' => [104121],
+            'usernames' => ['alice'],
         ]));
     }
 
@@ -1023,6 +1300,8 @@ class MergeRequestsTest extends TestCase
                     'approvals_required' => 3,
                     'user_ids' => [1951878],
                     'group_ids' => [104121],
+                    'remove_hidden_groups' => true,
+                    'usernames' => ['alice'],
                 ]
             )
             ->willReturn($expectedArray);
@@ -1030,6 +1309,8 @@ class MergeRequestsTest extends TestCase
         $this->assertEquals($expectedArray, $api->updateLevelRule(1, 2, 20892835, 'Foo', 3, [
             'user_ids' => [1951878],
             'group_ids' => [104121],
+            'remove_hidden_groups' => true,
+            'usernames' => ['alice'],
         ]));
     }
 
