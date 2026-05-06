@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Add support for `job_inputs` and `job_variables_attributes` in `Jobs::play`
 * Add support for filters in `Projects::projectAccessTokens`
 * Add support for listing merge requests associated with a commit
+* Add support for `without_project_bots` in `Users::all`
 
 
 ## [12.0.0] - 2025-02-23
