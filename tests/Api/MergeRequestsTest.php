@@ -60,18 +60,29 @@ class MergeRequestsTest extends TestCase
             ->with('projects/1/merge_requests', [
                 'page' => 2,
                 'per_page' => 5,
-                'labels' => 'label1,label2,label3',
-                'milestone' => 'milestone1',
-                'order_by' => 'updated_at',
-                'state' => 'all',
-                'sort' => 'desc',
-                'scope' => 'all',
-                'author_id' => 1,
-                'assignee_id' => 1,
-                'source_branch' => 'develop',
-                'target_branch' => 'master',
-                'with_merge_status_recheck' => true,
                 'approved_by_ids' => [1],
+                'approver_ids' => [2],
+                'assignee_id' => 1,
+                'author_id' => 1,
+                'environment' => 'production',
+                'in' => 'title,description',
+                'labels' => 'label1,label2,label3',
+                'merge_user_id' => 3,
+                'milestone' => 'milestone1',
+                'my_reaction_emoji' => 'thumbsup',
+                'non_archived' => true,
+                'order_by' => 'merged_at',
+                'reviewer_id' => 4,
+                'scope' => 'reviews_for_me',
+                'search' => 'search term',
+                'sort' => 'asc',
+                'source_branch' => 'develop',
+                'state' => 'all',
+                'target_branch' => 'master',
+                'view' => 'simple',
+                'with_labels_details' => true,
+                'with_merge_status_recheck' => true,
+                'wip' => 'yes',
             ])
             ->willReturn($expectedArray)
         ;
@@ -79,19 +90,83 @@ class MergeRequestsTest extends TestCase
         $this->assertEquals($expectedArray, $api->all(1, [
             'page' => 2,
             'per_page' => 5,
-            'labels' => 'label1,label2,label3',
-            'milestone' => 'milestone1',
-            'order_by' => 'updated_at',
-            'state' => 'all',
-            'sort' => 'desc',
-            'scope' => 'all',
-            'author_id' => 1,
-            'assignee_id' => 1,
-            'source_branch' => 'develop',
-            'target_branch' => 'master',
-            'with_merge_status_recheck' => true,
             'approved_by_ids' => [1],
+            'approver_ids' => [2],
+            'assignee_id' => 1,
+            'author_id' => 1,
+            'environment' => 'production',
+            'in' => 'title,description',
+            'labels' => 'label1,label2,label3',
+            'merge_user_id' => 3,
+            'milestone' => 'milestone1',
+            'my_reaction_emoji' => 'thumbsup',
+            'non_archived' => true,
+            'order_by' => 'merged_at',
+            'reviewer_id' => 4,
+            'scope' => 'reviews_for_me',
+            'search' => 'search term',
+            'sort' => 'asc',
+            'source_branch' => 'develop',
+            'state' => 'all',
+            'target_branch' => 'master',
+            'view' => 'simple',
+            'with_labels_details' => true,
+            'with_merge_status_recheck' => true,
+            'wip' => true,
         ]));
+    }
+
+    #[Test]
+    public function shouldGetAllWithUsernameAndNotParams(): void
+    {
+        $expectedArray = $this->getMultipleMergeRequestsData();
+        $parameters = [
+            'approved_by_usernames' => ['alice', 'bob'],
+            'assignee_username' => ['carol'],
+            'author_username' => 'dan',
+            'merge_user_username' => 'erin',
+            'not' => [
+                'labels' => 'draft',
+                'milestone' => 'Backlog',
+                'author_username' => 'ignored-author',
+                'assignee_username' => 'ignored-assignee',
+                'reviewer_username' => 'ignored-reviewer',
+                'my_reaction_emoji' => 'thumbsup',
+            ],
+            'reviewer_username' => 'frank',
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_requests', $parameters)
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->all(1, $parameters));
+    }
+
+    #[Test]
+    public function shouldGetAllWithAnyAndNoneParams(): void
+    {
+        $expectedArray = $this->getMultipleMergeRequestsData();
+        $parameters = [
+            'approved_by_ids' => ['Any'],
+            'approver_ids' => ['None'],
+            'assignee_id' => 'Any',
+            'labels' => 'None',
+            'milestone' => 'Any',
+            'reviewer_id' => 'None',
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/merge_requests', $parameters)
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->all(1, $parameters));
     }
 
     #[Test]
@@ -101,10 +176,18 @@ class MergeRequestsTest extends TestCase
 
         $createdAfter = new \DateTime('2018-01-01 00:00:00');
         $createdBefore = new \DateTime('2018-01-31 12:00:00.123+03:00');
+        $deployedAfter = new \DateTime('2018-01-01 00:00:00');
+        $deployedBefore = new \DateTime('2018-01-31 12:00:00.123+03:00');
+        $updatedAfter = new \DateTime('2018-01-01 00:00:00');
+        $updatedBefore = new \DateTime('2018-01-31 12:00:00.123+03:00');
 
         $expectedWithArray = [
             'created_after' => '2018-01-01T00:00:00.000Z',
             'created_before' => '2018-01-31T09:00:00.123Z',
+            'deployed_after' => '2018-01-01T00:00:00.000Z',
+            'deployed_before' => '2018-01-31T09:00:00.123Z',
+            'updated_after' => '2018-01-01T00:00:00.000Z',
+            'updated_before' => '2018-01-31T09:00:00.123Z',
         ];
 
         $api = $this->getApiMock();
@@ -116,7 +199,14 @@ class MergeRequestsTest extends TestCase
 
         $this->assertEquals(
             $expectedArray,
-            $api->all(1, ['created_after' => $createdAfter, 'created_before' => $createdBefore])
+            $api->all(1, [
+                'created_after' => $createdAfter,
+                'created_before' => $createdBefore,
+                'deployed_after' => $deployedAfter,
+                'deployed_before' => $deployedBefore,
+                'updated_after' => $updatedAfter,
+                'updated_before' => $updatedBefore,
+            ])
         );
     }
 
