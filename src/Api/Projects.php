@@ -613,6 +613,26 @@ class Projects extends AbstractApi
         ]);
     }
 
+    /**
+     * @param array $parameters {
+     *
+     *     @var bool   $can_push can deploy key push to the project's repository
+     *     @var string $title    new deploy key's title
+     * }
+     */
+    public function updateDeployKey(int|string $project_id, int $key_id, array $parameters = []): mixed
+    {
+        $resolver = new OptionsResolver();
+        $resolver->setDefined('can_push')
+            ->setAllowedTypes('can_push', 'bool')
+        ;
+        $resolver->setDefined('title')
+            ->setAllowedTypes('title', 'string')
+        ;
+
+        return $this->put($this->getProjectPath($project_id, 'deploy_keys/'.self::encodePath($key_id)), $resolver->resolve($parameters));
+    }
+
     public function deleteDeployKey(int|string $project_id, int $key_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'deploy_keys/'.self::encodePath($key_id)));
