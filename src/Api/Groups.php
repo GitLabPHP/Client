@@ -71,7 +71,7 @@ class Groups extends AbstractApi
     /**
      * @param array $parameters {
      *
-     *     @var bool $with_custom_attributes Include custom attributes in response.
+     *     @var bool $with_custom_attributes include custom attributes in response
      *     @var bool $with_projects          Include details from projects that belong to the group.
      * }
      */
