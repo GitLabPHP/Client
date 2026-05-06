@@ -17,6 +17,7 @@ namespace Gitlab\Api;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MergeRequests extends AbstractApi
 {
@@ -316,6 +317,34 @@ class MergeRequests extends AbstractApi
     public function merge(int|string $project_id, int $mr_iid, array $parameters = []): mixed
     {
         return $this->put($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/merge'), $parameters);
+    }
+
+    /**
+     * @param array $parameters {
+     *
+     *     @var bool   $auto_merge             add the merge request to the merge train when checks pass
+     *     @var string $sha                    must match the HEAD of the source branch if present
+     *     @var bool   $squash                 squash commits into a single commit on merge
+     *     @var bool   $when_pipeline_succeeds deprecated in GitLab 17.11. Use auto_merge instead.
+     * }
+     */
+    public function addToMergeTrain(int|string $project_id, int $mr_iid, array $parameters = []): mixed
+    {
+        $resolver = new OptionsResolver();
+        $resolver->setDefined('auto_merge')
+            ->setAllowedTypes('auto_merge', 'bool')
+        ;
+        $resolver->setDefined('sha')
+            ->setAllowedTypes('sha', 'string')
+        ;
+        $resolver->setDefined('squash')
+            ->setAllowedTypes('squash', 'bool')
+        ;
+        $resolver->setDefined('when_pipeline_succeeds')
+            ->setAllowedTypes('when_pipeline_succeeds', 'bool')
+        ;
+
+        return $this->post($this->getProjectPath($project_id, 'merge_trains/merge_requests/'.self::encodePath($mr_iid)), $resolver->resolve($parameters));
     }
 
     public function showNotes(int|string $project_id, int $mr_iid): mixed
