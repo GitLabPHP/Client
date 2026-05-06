@@ -39,6 +39,29 @@ class RepositoriesTest extends TestCase
     }
 
     #[Test]
+    public function shouldGetBranchesWithAdditionalParameters(): void
+    {
+        $expectedArray = [
+            ['name' => 'release/1.0'],
+            ['name' => 'release/1.1'],
+        ];
+        $parameters = [
+            'regex' => '^release/.*',
+            'sort' => 'updated_desc',
+            'page_token' => 'release/1.0',
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/repository/branches', $parameters)
+            ->willReturn($expectedArray)
+        ;
+
+        $this->assertEquals($expectedArray, $api->branches(1, $parameters));
+    }
+
+    #[Test]
     public function shouldGetBranch(): void
     {
         $expectedArray = ['name' => 'master'];
