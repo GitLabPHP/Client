@@ -534,6 +534,22 @@ class Projects extends AbstractApi
     }
 
     /**
+     * See https://docs.gitlab.com/api/project_webhooks/#resend-a-project-webhook-event for more info.
+     */
+    public function resendHookEvent(int|string $project_id, int $hook_id, int $hook_event_id): mixed
+    {
+        return $this->post($this->getProjectPath($project_id, 'hooks/'.self::encodePath($hook_id).'/events/'.self::encodePath($hook_event_id).'/resend'));
+    }
+
+    /**
+     * See https://docs.gitlab.com/api/project_webhooks/#trigger-a-test-project-webhook for more info.
+     */
+    public function testHook(int|string $project_id, int $hook_id, string $trigger): mixed
+    {
+        return $this->post($this->getProjectPath($project_id, 'hooks/'.self::encodePath($hook_id).'/test/'.self::encodePath($trigger)));
+    }
+
+    /**
      * Get project users.
      *
      * See https://docs.gitlab.com/ee/api/projects.html#get-project-users for more info.

@@ -1359,6 +1359,34 @@ class ProjectsTest extends TestCase
     }
 
     #[Test]
+    public function shouldResendHookEvent(): void
+    {
+        $expectedArray = ['message' => '201 Created'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/hooks/2/events/3/resend')
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->resendHookEvent(1, 2, 3));
+    }
+
+    #[Test]
+    public function shouldTestHook(): void
+    {
+        $expectedArray = ['message' => '201 Created'];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('post')
+            ->with('projects/1/hooks/2/test/push_events')
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->testHook(1, 2, 'push_events'));
+    }
+
+    #[Test]
     public function shouldAddHook(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'A new hook', 'url' => 'http://www.example.com'];
