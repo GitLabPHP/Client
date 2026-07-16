@@ -1326,6 +1326,39 @@ class ProjectsTest extends TestCase
     }
 
     #[Test]
+    public function shouldGetHookEvents(): void
+    {
+        $expectedArray = [
+            ['id' => 1, 'url' => 'http://example.com', 'response_status' => 200],
+            ['id' => 2, 'url' => 'http://example.com', 'response_status' => 500],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/hooks/2/events')
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->hookEvents(1, 2));
+    }
+
+    #[Test]
+    public function shouldGetHookEventsWithStatusFilter(): void
+    {
+        $expectedArray = [
+            ['id' => 2, 'url' => 'http://example.com', 'response_status' => 500],
+        ];
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('get')
+            ->with('projects/1/hooks/2/events', ['status' => 'server_failure'])
+            ->willReturn($expectedArray);
+
+        $this->assertEquals($expectedArray, $api->hookEvents(1, 2, ['status' => 'server_failure']));
+    }
+
+    #[Test]
     public function shouldAddHook(): void
     {
         $expectedArray = ['id' => 3, 'name' => 'A new hook', 'url' => 'http://www.example.com'];

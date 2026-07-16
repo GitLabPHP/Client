@@ -513,6 +513,27 @@ class Projects extends AbstractApi
     }
 
     /**
+     * List all events for a specified project webhook in the past 7 days from the start date.
+     *
+     * See https://docs.gitlab.com/api/project_webhooks/#list-project-webhook-events for more info.
+     *
+     * @param array $parameters {
+     *
+     *     @var int|string $status Response status code, for example 200 or 500, or a category of status
+     *                             codes: successful, client_failure, or server_failure.
+     * }
+     */
+    public function hookEvents(int|string $project_id, int $hook_id, array $parameters = []): mixed
+    {
+        $resolver = $this->createOptionsResolver();
+        $resolver->setDefined('status')
+            ->setAllowedTypes('status', ['int', 'string'])
+        ;
+
+        return $this->get($this->getProjectPath($project_id, 'hooks/'.self::encodePath($hook_id).'/events'), $resolver->resolve($parameters));
+    }
+
+    /**
      * Get project users.
      *
      * See https://docs.gitlab.com/ee/api/projects.html#get-project-users for more info.
