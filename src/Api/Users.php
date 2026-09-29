@@ -20,6 +20,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class Users extends AbstractApi
 {
     /**
+     * List all users.
+     *
+     * @see https://docs.gitlab.com/api/users/#list-all-users
+     *
      * @param array $parameters {
      *
      *     @var string             $search               search for user by email or username
@@ -72,12 +76,21 @@ class Users extends AbstractApi
         return $this->get('users', $resolver->resolve($parameters));
     }
 
+    /**
+     * Retrieve a single user.
+     *
+     * @see https://docs.gitlab.com/api/users/#retrieve-a-single-user
+     */
     public function show(int $id): mixed
     {
         return $this->get('users/'.self::encodePath($id));
     }
 
     /**
+     * List projects and groups that a user is a member of.
+     *
+     * @see https://docs.gitlab.com/api/users/#list-projects-and-groups-that-a-user-is-a-member-of
+     *
      * @param array $parameters {
      *
      *     @var string $type Filter memberships by type. Can be either Project or Namespace
@@ -94,6 +107,10 @@ class Users extends AbstractApi
     }
 
     /**
+     * List all personal projects for a user.
+     *
+     * @see https://docs.gitlab.com/api/projects/#list-all-personal-projects-for-a-user
+     *
      * @param array $parameters {
      *
      *     @var bool   $archived                    limit by archived status
@@ -168,6 +185,10 @@ class Users extends AbstractApi
     }
 
     /**
+     * List all projects contributions for a user.
+     *
+     * @see https://docs.gitlab.com/api/projects/#list-all-projects-contributions-for-a-user
+     *
      * @param array $parameters {
      *
      *     @var string $order_by return projects ordered by id, name, path, created_at, updated_at,
@@ -198,6 +219,10 @@ class Users extends AbstractApi
     }
 
     /**
+     * List projects starred by a user.
+     *
+     * @see https://docs.gitlab.com/api/project_starring/#list-projects-starred-by-a-user
+     *
      * @param array $parameters {
      *
      *     @var bool   $archived                    limit by archived status
@@ -276,11 +301,21 @@ class Users extends AbstractApi
         return $this->get('users/'.self::encodePath($id).'/starred_projects', $resolver->resolve($parameters));
     }
 
+    /**
+     * Retrieve the current user.
+     *
+     * @see https://docs.gitlab.com/api/users/#retrieve-the-current-user
+     */
     public function user(): mixed
     {
         return $this->get('user');
     }
 
+    /**
+     * Create a user.
+     *
+     * @see https://docs.gitlab.com/api/users/#create-a-user
+     */
     public function create(string $email, #[\SensitiveParameter] string $password, array $params = []): mixed
     {
         $params['email'] = $email;
@@ -289,12 +324,21 @@ class Users extends AbstractApi
         return $this->post('users', $params);
     }
 
+    /**
+     * Modify a user.
+     *
+     * @see https://docs.gitlab.com/api/users/#modify-a-user
+     */
     public function update(int $id, array $params, array $files = []): mixed
     {
         return $this->put('users/'.self::encodePath($id), $params, [], $files);
     }
 
     /**
+     * Delete a user.
+     *
+     * @see https://docs.gitlab.com/api/users/#delete-a-user
+     *
      * @param array $params {
      *
      *     @var bool   $hard_delete     If true, contributions that would usually be moved to the ghost user are
@@ -306,41 +350,81 @@ class Users extends AbstractApi
         return $this->delete('users/'.self::encodePath($id), $params);
     }
 
+    /**
+     * Block access to a user.
+     *
+     * @see https://docs.gitlab.com/api/user_moderation/#block-access-to-a-user
+     */
     public function block(int $id): mixed
     {
         return $this->post('users/'.self::encodePath($id).'/block');
     }
 
+    /**
+     * Unblock access to a user.
+     *
+     * @see https://docs.gitlab.com/api/user_moderation/#unblock-access-to-a-user
+     */
     public function unblock(int $id): mixed
     {
         return $this->post('users/'.self::encodePath($id).'/unblock');
     }
 
+    /**
+     * Reactivate a user.
+     *
+     * @see https://docs.gitlab.com/api/user_moderation/#reactivate-a-user
+     */
     public function activate(int $id): mixed
     {
         return $this->post('users/'.self::encodePath($id).'/activate');
     }
 
+    /**
+     * Deactivate a user.
+     *
+     * @see https://docs.gitlab.com/api/user_moderation/#deactivate-a-user
+     */
     public function deactivate(int $id): mixed
     {
         return $this->post('users/'.self::encodePath($id).'/deactivate');
     }
 
+    /**
+     * Retrieve the current user.
+     *
+     * @see https://docs.gitlab.com/api/users/#retrieve-the-current-user
+     */
     public function me(): mixed
     {
         return $this->get('user');
     }
 
+    /**
+     * List all SSH keys.
+     *
+     * @see https://docs.gitlab.com/api/user_keys/#list-all-ssh-keys
+     */
     public function keys(): mixed
     {
         return $this->get('user/keys');
     }
 
+    /**
+     * Retrieve an SSH key.
+     *
+     * @see https://docs.gitlab.com/api/user_keys/#retrieve-an-ssh-key
+     */
     public function key(int $id): mixed
     {
         return $this->get('user/keys/'.self::encodePath($id));
     }
 
+    /**
+     * Add an SSH key.
+     *
+     * @see https://docs.gitlab.com/api/user_keys/#add-an-ssh-key
+     */
     public function createKey(string $title, string $key): mixed
     {
         return $this->post('user/keys', [
@@ -349,21 +433,41 @@ class Users extends AbstractApi
         ]);
     }
 
+    /**
+     * Delete an SSH key.
+     *
+     * @see https://docs.gitlab.com/api/user_keys/#delete-an-ssh-key
+     */
     public function removeKey(int $id): mixed
     {
         return $this->delete('user/keys/'.self::encodePath($id));
     }
 
+    /**
+     * List all SSH keys for a user.
+     *
+     * @see https://docs.gitlab.com/api/user_keys/#list-all-ssh-keys-for-a-user
+     */
     public function userKeys(int $user_id): mixed
     {
         return $this->get('users/'.self::encodePath($user_id).'/keys');
     }
 
+    /**
+     * Retrieve an SSH key for a user.
+     *
+     * @see https://docs.gitlab.com/api/user_keys/#retrieve-an-ssh-key-for-a-user
+     */
     public function userKey(int $user_id, int $key_id): mixed
     {
         return $this->get('users/'.self::encodePath($user_id).'/keys/'.self::encodePath($key_id));
     }
 
+    /**
+     * Add an SSH key for a user.
+     *
+     * @see https://docs.gitlab.com/api/user_keys/#add-an-ssh-key-for-a-user
+     */
     public function createKeyForUser(int $user_id, string $title, string $key): mixed
     {
         return $this->post('users/'.self::encodePath($user_id).'/keys', [
@@ -372,26 +476,51 @@ class Users extends AbstractApi
         ]);
     }
 
+    /**
+     * Delete an SSH key for a user.
+     *
+     * @see https://docs.gitlab.com/api/user_keys/#delete-an-ssh-key-for-a-user
+     */
     public function removeUserKey(int $user_id, int $key_id): mixed
     {
         return $this->delete('users/'.self::encodePath($user_id).'/keys/'.self::encodePath($key_id));
     }
 
+    /**
+     * List all email addresses.
+     *
+     * @see https://docs.gitlab.com/api/user_email_addresses/#list-all-email-addresses
+     */
     public function emails(): mixed
     {
         return $this->get('user/emails');
     }
 
+    /**
+     * Retrieve details on an email address.
+     *
+     * @see https://docs.gitlab.com/api/user_email_addresses/#retrieve-details-on-an-email-address
+     */
     public function email(int $id): mixed
     {
         return $this->get('user/emails/'.self::encodePath($id));
     }
 
+    /**
+     * List all email addresses for a user.
+     *
+     * @see https://docs.gitlab.com/api/user_email_addresses/#list-all-email-addresses-for-a-user
+     */
     public function userEmails(int $user_id): mixed
     {
         return $this->get('users/'.self::encodePath($user_id).'/emails');
     }
 
+    /**
+     * Add an email address for a user.
+     *
+     * @see https://docs.gitlab.com/api/user_email_addresses/#add-an-email-address-for-a-user
+     */
     public function createEmailForUser(int $user_id, string $email, bool $skip_confirmation = false): mixed
     {
         return $this->post('users/'.self::encodePath($user_id).'/emails', [
@@ -400,11 +529,21 @@ class Users extends AbstractApi
         ]);
     }
 
+    /**
+     * Delete an email address for a user.
+     *
+     * @see https://docs.gitlab.com/api/user_email_addresses/#delete-an-email-address-for-a-user
+     */
     public function removeUserEmail(int $user_id, int $email_id): mixed
     {
         return $this->delete('users/'.self::encodePath($user_id).'/emails/'.self::encodePath($email_id));
     }
 
+    /**
+     * List all impersonation tokens for a user.
+     *
+     * @see https://docs.gitlab.com/api/user_tokens/#list-all-impersonation-tokens-for-a-user
+     */
     public function userImpersonationTokens(int $user_id, array $params = []): mixed
     {
         $resolver = $this->createOptionsResolver();
@@ -416,11 +555,21 @@ class Users extends AbstractApi
         return $this->get('users/'.self::encodePath($user_id).'/impersonation_tokens', $resolver->resolve($params));
     }
 
+    /**
+     * Retrieve an impersonation token for a user.
+     *
+     * @see https://docs.gitlab.com/api/user_tokens/#retrieve-an-impersonation-token-for-a-user
+     */
     public function userImpersonationToken(int $user_id, int $impersonation_token_id): mixed
     {
         return $this->get('users/'.self::encodePath($user_id).'/impersonation_tokens/'.self::encodePath($impersonation_token_id));
     }
 
+    /**
+     * Create an impersonation token.
+     *
+     * @see https://docs.gitlab.com/api/user_tokens/#create-an-impersonation-token
+     */
     public function createImpersonationToken(int $user_id, string $name, array $scopes, ?string $expires_at = null): mixed
     {
         return $this->post('users/'.self::encodePath($user_id).'/impersonation_tokens', [
@@ -430,12 +579,21 @@ class Users extends AbstractApi
         ]);
     }
 
+    /**
+     * Revoke an impersonation token.
+     *
+     * @see https://docs.gitlab.com/api/user_tokens/#revoke-an-impersonation-token
+     */
     public function removeImpersonationToken(int $user_id, int $impersonation_token_id): mixed
     {
         return $this->delete('users/'.self::encodePath($user_id).'/impersonation_tokens/'.self::encodePath($impersonation_token_id));
     }
 
     /**
+     * Retrieve contribution events for a user.
+     *
+     * @see https://docs.gitlab.com/api/events/#retrieve-contribution-events-for-a-user
+     *
      * @param array $parameters {
      *
      *     @var string             $action      include only events of a particular action type
@@ -474,6 +632,8 @@ class Users extends AbstractApi
 
     /**
      * Deletes a user’s authentication identity using the provider name associated with that identity.
+     *
+     * @see https://docs.gitlab.com/api/users/#delete-authentication-identity-from-a-user
      */
     public function removeUserIdentity(int $user_id, string $provider): mixed
     {

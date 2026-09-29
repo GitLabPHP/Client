@@ -19,12 +19,21 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SystemHooks extends AbstractApi
 {
+    /**
+     * List all system hooks.
+     *
+     * @see https://docs.gitlab.com/api/system_hooks/#list-all-system-hooks
+     */
     public function all(): mixed
     {
         return $this->get('hooks');
     }
 
     /**
+     * Add new system hook.
+     *
+     * @see https://docs.gitlab.com/api/system_hooks/#add-new-system-hook
+     *
      * @param array<string,string|bool> $parameters {
      *
      *     @var string  $token                      secret token to validate received payloads
@@ -44,11 +53,24 @@ class SystemHooks extends AbstractApi
         return $this->post('hooks', $parameters);
     }
 
+    /**
+     * Retrieve system hook.
+     *
+     * Note: despite its name, this performs a GET request, which the current GitLab
+     * docs document as retrieving the hook configuration (not firing a test event).
+     *
+     * @see https://docs.gitlab.com/api/system_hooks/#retrieve-system-hook
+     */
     public function test(int $id): mixed
     {
         return $this->get('hooks/'.self::encodePath($id));
     }
 
+    /**
+     * Delete system hook.
+     *
+     * @see https://docs.gitlab.com/api/system_hooks/#delete-system-hook
+     */
     public function remove(int $id): mixed
     {
         return $this->delete('hooks/'.self::encodePath($id));

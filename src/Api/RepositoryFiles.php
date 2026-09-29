@@ -18,6 +18,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RepositoryFiles extends AbstractApi
 {
+    /**
+     * @see https://docs.gitlab.com/api/repository_files/#retrieve-a-file-from-a-repository
+     */
     public function getFile(int|string $project_id, string $file_path, string $ref): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'repository/files/'.self::encodePath($file_path)), [
@@ -25,6 +28,9 @@ class RepositoryFiles extends AbstractApi
         ]);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/repository_files/#retrieve-a-raw-file-from-a-repository
+     */
     public function getRawFile(int|string $project_id, string $file_path, string $ref): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'repository/files/'.self::encodePath($file_path).'/raw'), [
@@ -33,6 +39,8 @@ class RepositoryFiles extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/repository_files/#create-a-file-in-a-repository
+     *
      * @param array      $parameters {
      *
      *     @var string $file_path      Url encoded full path to new file. Ex. lib%2Fclass%2Erb.
@@ -65,6 +73,8 @@ class RepositoryFiles extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/repository_files/#update-a-file-in-a-repository
+     *
      * @param array      $parameters {
      *
      *     @var string $file_path      Url encoded full path to new file. Ex. lib%2Fclass%2Erb.
@@ -99,6 +109,8 @@ class RepositoryFiles extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/repository_files/#delete-a-file-in-a-repository
+     *
      * @param array      $parameters {
      *
      *     @var string $file_path      Url encoded full path to new file. Ex. lib%2Fclass%2Erb.

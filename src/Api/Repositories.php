@@ -30,6 +30,8 @@ class Repositories extends AbstractApi
     public const TYPE_TAG = 'tag';
 
     /**
+     * @see https://docs.gitlab.com/api/branches/#list-all-repository-branches
+     *
      * @param array      $parameters {
      *
      *     @var string $search     return branches matching the search string
@@ -54,11 +56,17 @@ class Repositories extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'repository/branches'), $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/branches/#retrieve-a-repository-branch
+     */
     public function branch(int|string $project_id, string $branch): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'repository/branches/'.self::encodePath($branch)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/branches/#create-repository-branch
+     */
     public function createBranch(int|string $project_id, string $branch, string $ref): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'repository/branches'), [
@@ -67,11 +75,17 @@ class Repositories extends AbstractApi
         ]);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/branches/#delete-repository-branch
+     */
     public function deleteBranch(int|string $project_id, string $branch): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'repository/branches/'.self::encodePath($branch)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/branches/#protect-repository-branch
+     */
     public function protectBranch(int|string $project_id, string $branch, bool $devPush = false, bool $devMerge = false): mixed
     {
         return $this->put($this->getProjectPath($project_id, 'repository/branches/'.self::encodePath($branch).'/protect'), [
@@ -80,11 +94,17 @@ class Repositories extends AbstractApi
         ]);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/branches/#unprotect-repository-branch
+     */
     public function unprotectBranch(int|string $project_id, string $branch): mixed
     {
         return $this->put($this->getProjectPath($project_id, 'repository/branches/'.self::encodePath($branch).'/unprotect'));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/tags/#list-all-project-repository-tags
+     */
     public function tags(int|string $project_id, array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
@@ -94,6 +114,9 @@ class Repositories extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'repository/tags'), $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/tags/#create-a-new-tag
+     */
     public function createTag(int|string $project_id, string $name, string $ref, ?string $message = null): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'repository/tags'), [
@@ -103,6 +126,9 @@ class Repositories extends AbstractApi
         ]);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/releases/#create-a-release
+     */
     public function createRelease(int|string $project_id, string $tag_name, string $description, ?string $name = null): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'releases'), \array_filter([
@@ -113,6 +139,9 @@ class Repositories extends AbstractApi
         ], fn ($v) => null !== $v));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/releases/#update-a-release
+     */
     public function updateRelease(int|string $project_id, string $tag_name, string $description, ?string $name = null): mixed
     {
         return $this->put($this->getProjectPath($project_id, 'releases/'.self::encodePath($tag_name)), \array_filter([
@@ -123,6 +152,9 @@ class Repositories extends AbstractApi
         ], fn ($v) => null !== $v));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/releases/#list-releases
+     */
     public function releases(int|string $project_id): mixed
     {
         $resolver = $this->createOptionsResolver();
@@ -131,7 +163,7 @@ class Repositories extends AbstractApi
     }
 
     /**
-     * @see https://docs.gitlab.com/ee/api/commits.html#list-repository-commits
+     * @see https://docs.gitlab.com/api/commits/#list-repository-commits
      *
      * @param array      $parameters {
      *
@@ -180,11 +212,17 @@ class Repositories extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'repository/commits'), $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/commits/#retrieve-a-commit
+     */
     public function commit(int|string $project_id, string $sha): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'repository/commits/'.self::encodePath($sha)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/commits/#list-all-references-a-commit-is-pushed-to
+     */
     public function commitRefs(int|string $project_id, string $sha, array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
@@ -196,6 +234,8 @@ class Repositories extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/commits/#list-merge-requests-associated-with-a-commit
+     *
      * @param array $parameters {
      *
      *     @var string $state Returns merge requests with the specified state: opened, closed, locked, or merged.
@@ -215,6 +255,8 @@ class Repositories extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/commits/#create-a-commit
+     *
      * @param array      $parameters {
      *
      *     @var string $branch         Name of the branch to commit into. To create a new branch, also provide start_branch.
@@ -279,6 +321,9 @@ class Repositories extends AbstractApi
         return $this->post($this->getProjectPath($project_id, 'repository/commits'), $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/commits/#revert-a-commit
+     */
     public function revertCommit(int|string $project_id, string $branch, string $sha): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'repository/commits/'.self::encodePath($sha).'/revert'), [
@@ -286,6 +331,9 @@ class Repositories extends AbstractApi
         ]);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/commits/#list-all-commit-comments
+     */
     public function commitComments(int|string $project_id, string $sha, array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
@@ -296,6 +344,9 @@ class Repositories extends AbstractApi
         );
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/commits/#post-comment-to-commit
+     */
     public function createCommitComment(int|string $project_id, string $sha, string $note, array $params = []): mixed
     {
         $params['note'] = $note;
@@ -303,11 +354,17 @@ class Repositories extends AbstractApi
         return $this->post($this->getProjectPath($project_id, 'repository/commits/'.self::encodePath($sha).'/comments'), $params);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/commits/#list-commit-statuses
+     */
     public function getCommitBuildStatus(int|string $project_id, string $sha, array $params = []): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'repository/commits/'.self::encodePath($sha).'/statuses'), $params);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/commits/#set-commit-pipeline-status
+     */
     public function postCommitBuildStatus(int|string $project_id, string $sha, string $state, array $params = []): mixed
     {
         $params['state'] = $state;
@@ -315,6 +372,9 @@ class Repositories extends AbstractApi
         return $this->post($this->getProjectPath($project_id, 'statuses/'.self::encodePath($sha)), $params);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/repositories/#compare-branches-tags-or-commits
+     */
     public function compare(int|string $project_id, string $fromShaOrMaster, string $toShaOrMaster, bool $straight = false, ?string $fromProjectId = null): mixed
     {
         $params = [
@@ -330,22 +390,33 @@ class Repositories extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'repository/compare'), $params);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/commits/#retrieve-commit-diff
+     */
     public function diff(int|string $project_id, string $sha): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'repository/commits/'.self::encodePath($sha).'/diff'));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/repositories/#list-all-repository-trees-in-a-project
+     */
     public function tree(int|string $project_id, array $params = []): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'repository/tree'), $params);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/repositories/#get-contributor-list
+     */
     public function contributors(int|string $project_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'repository/contributors'));
     }
 
     /**
+     * @see https://docs.gitlab.com/api/repositories/#retrieve-file-archive-from-a-repository
+     *
      * @param string     $format     Options: "tar.gz", "zip", "tar.bz2" and "tar"
      */
     public function archive(int|string $project_id, array $params = [], string $format = 'tar.gz'): mixed
@@ -353,11 +424,17 @@ class Repositories extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'repository/archive.'.$format), $params);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/repositories/#get-merge-base
+     */
     public function mergeBase(int|string $project_id, array $refs): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'repository/merge_base'), ['refs' => $refs]);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/commits/#cherry-pick-a-commit
+     */
     public function cherryPick(int|string $project_id, string $sha, array $params = []): mixed
     {
         $resolver = $this->createOptionsResolver();

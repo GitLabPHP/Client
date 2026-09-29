@@ -21,6 +21,10 @@ use Symfony\Component\OptionsResolver\Options;
 class Search extends AbstractApi
 {
     /**
+     * Search an instance.
+     *
+     * @see https://docs.gitlab.com/api/search/#search-an-instance
+     *
      * @param array $parameters {
      *
      *     @var string $scope        The scope to search in

@@ -20,6 +20,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class PersonalAccessTokens extends AbstractApi
 {
     /**
+     * @see https://docs.gitlab.com/api/personal_access_tokens/#list-all-personal-access-tokens
+     *
      * @param array $parameters {
      *
      *     @var string             $search            search text
@@ -95,17 +97,25 @@ class PersonalAccessTokens extends AbstractApi
         return $this->get('personal_access_tokens', $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/personal_access_tokens/#retrieve-a-personal-access-token
+     */
     public function show(int|string $id): mixed
     {
         return $this->get('personal_access_tokens/'.self::encodePath($id));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/personal_access_tokens/#self-inform
+     */
     public function current(): mixed
     {
         return $this->get('personal_access_tokens/self');
     }
 
     /**
+     * @see https://docs.gitlab.com/api/personal_access_tokens/#rotate-a-personal-access-token
+     *
      * @param array $parameters {
      *
      *     @var \DateTimeInterface $expires_at expiration date of the access token
@@ -126,6 +136,8 @@ class PersonalAccessTokens extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/personal_access_tokens/#self-rotate
+     *
      * @param array $parameters {
      *
      *     @var \DateTimeInterface $expires_at expiration date of the access token
@@ -145,11 +157,17 @@ class PersonalAccessTokens extends AbstractApi
         return $this->post('personal_access_tokens/self/rotate', $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/personal_access_tokens/#revoke-a-personal-access-token
+     */
     public function remove(int|string $id): mixed
     {
         return $this->delete('personal_access_tokens/'.self::encodePath($id));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/personal_access_tokens/#self-revoke
+     */
     public function removeCurrent(): mixed
     {
         return $this->delete('personal_access_tokens/self');

@@ -20,6 +20,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class Deployments extends AbstractApi
 {
     /**
+     * List all deployments of a project.
+     *
+     * @see https://docs.gitlab.com/api/deployments/#list-all-project-deployments
+     *
      * @param array      $parameters {
      *
      *     @var string             $order_by        Return deployments ordered by id, iid, created_at, updated_at, finished_at, or ref fields (default is id)
@@ -74,12 +78,21 @@ class Deployments extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'deployments'), $resolver->resolve($parameters));
     }
 
+    /**
+     * Get a specific deployment of a project.
+     *
+     * @see https://docs.gitlab.com/api/deployments/#retrieve-a-deployment
+     */
     public function show(int|string $project_id, int $deployment_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'deployments/'.$deployment_id));
     }
 
     /**
+     * List the merge requests associated with a deployment.
+     *
+     * @see https://docs.gitlab.com/api/deployments/#list-all-merge-requests-associated-with-a-deployment
+     *
      * @param array $parameters {
      *
      *     @var string $state  return all merge requests or just those that are opened, closed, locked, or merged

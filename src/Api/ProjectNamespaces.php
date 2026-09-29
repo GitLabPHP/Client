@@ -17,6 +17,8 @@ namespace Gitlab\Api;
 class ProjectNamespaces extends AbstractApi
 {
     /**
+     * @see https://docs.gitlab.com/api/namespaces/#list-all-namespaces
+     *
      * @param array $parameters {
      *
      *     @var string $search Returns a list of namespaces the user is authorized to see based on the search criteria.
@@ -30,6 +32,9 @@ class ProjectNamespaces extends AbstractApi
         return $this->get('namespaces', $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/namespaces/#retrieve-namespace-details
+     */
     public function show(int|string $namespace_id): mixed
     {
         return $this->get('namespaces/'.self::encodePath($namespace_id));

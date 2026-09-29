@@ -47,6 +47,10 @@ class Groups extends AbstractApi
     public const STATE_LOCKED = 'locked';
 
     /**
+     * List all groups visible to the authenticated user.
+     *
+     * @see https://docs.gitlab.com/api/groups/#list-all-groups
+     *
      * @param array $parameters {
      *
      *     @var int[]  $skip_groups      skip the group IDs passes
@@ -69,6 +73,10 @@ class Groups extends AbstractApi
     }
 
     /**
+     * Get a single group.
+     *
+     * @see https://docs.gitlab.com/api/groups/#retrieve-a-group
+     *
      * @param array $parameters {
      *
      *     @var bool $with_custom_attributes include custom attributes in response
@@ -94,6 +102,11 @@ class Groups extends AbstractApi
         return $this->get('groups/'.self::encodePath($id), $resolver->resolve($parameters));
     }
 
+    /**
+     * Create a new group.
+     *
+     * @see https://docs.gitlab.com/api/groups/#create-a-group
+     */
     public function create(string $name, string $path, ?string $description = null, string $visibility = 'private', ?bool $lfs_enabled = null, ?bool $request_access_enabled = null, ?int $parent_id = null, ?int $shared_runners_minutes_limit = null): mixed
     {
         $params = [
@@ -112,21 +125,41 @@ class Groups extends AbstractApi
         }));
     }
 
+    /**
+     * Update an existing group.
+     *
+     * @see https://docs.gitlab.com/api/groups/#update-group-attributes
+     */
     public function update(int|string $id, array $params): mixed
     {
         return $this->put('groups/'.self::encodePath($id), $params);
     }
 
+    /**
+     * Schedule a group for deletion.
+     *
+     * @see https://docs.gitlab.com/api/groups/#schedule-a-group-for-deletion
+     */
     public function remove(int|string $group_id): mixed
     {
         return $this->delete('groups/'.self::encodePath($group_id));
     }
 
+    /**
+     * Transfer a project to a group.
+     *
+     * @see https://docs.gitlab.com/api/groups/#transfer-a-project-to-a-group
+     */
     public function transfer(int|string $group_id, int|string $project_id): mixed
     {
         return $this->post('groups/'.self::encodePath($group_id).'/projects/'.self::encodePath($project_id));
     }
 
+    /**
+     * List all members of a group, including inherited and invited members.
+     *
+     * @see https://docs.gitlab.com/api/members/#list-all-group-members-including-inherited-and-invited-members
+     */
     public function allMembers(int|string $group_id, array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
@@ -142,6 +175,10 @@ class Groups extends AbstractApi
     }
 
     /**
+     * List all members of a group.
+     *
+     * @see https://docs.gitlab.com/api/members/#list-all-group-members
+     *
      * @param array      $parameters {
      *
      *     @var string $query A query string to search for members.
@@ -161,16 +198,31 @@ class Groups extends AbstractApi
         return $this->get('groups/'.self::encodePath($group_id).'/members', $resolver->resolve($parameters));
     }
 
+    /**
+     * Get a single member of a group.
+     *
+     * @see https://docs.gitlab.com/api/members/#retrieve-a-group-member
+     */
     public function member(int|string $group_id, int $user_id): mixed
     {
         return $this->get('groups/'.self::encodePath($group_id).'/members/'.self::encodePath($user_id));
     }
 
+    /**
+     * Get a single member of a group, including inherited and invited members.
+     *
+     * @see https://docs.gitlab.com/api/members/#retrieve-a-group-member-including-inherited-and-invited-members
+     */
     public function allMember(int|string $group_id, int $user_id): mixed
     {
         return $this->get('groups/'.self::encodePath($group_id).'/members/all/'.self::encodePath($user_id));
     }
 
+    /**
+     * Add a member to a group.
+     *
+     * @see https://docs.gitlab.com/api/members/#add-a-group-member
+     */
     public function addMember(int|string $group_id, int $user_id, int $access_level, array $parameters = []): mixed
     {
         $dateNormalizer = function (OptionsResolver $optionsResolver, \DateTimeInterface $date): string {
@@ -191,6 +243,11 @@ class Groups extends AbstractApi
         return $this->post('groups/'.self::encodePath($group_id).'/members', $parameters);
     }
 
+    /**
+     * Update a member of a group.
+     *
+     * @see https://docs.gitlab.com/api/members/#update-a-group-member
+     */
     public function saveMember(int|string $group_id, int $user_id, int $access_level): mixed
     {
         return $this->put('groups/'.self::encodePath($group_id).'/members/'.self::encodePath($user_id), [
@@ -199,6 +256,10 @@ class Groups extends AbstractApi
     }
 
     /**
+     * Share a group with another group (create a group invitation).
+     *
+     * @see https://docs.gitlab.com/api/groups/#create-a-group-invitation
+     *
      * @param array      $parameters {
      *
      *     @var int    $group_access the access level to grant the group
@@ -228,12 +289,21 @@ class Groups extends AbstractApi
         return $this->post('groups/'.self::encodePath($group_id).'/share', $resolver->resolve($parameters));
     }
 
+    /**
+     * Remove a member from a group.
+     *
+     * @see https://docs.gitlab.com/api/members/#remove-a-group-member
+     */
     public function removeMember(int|string $group_id, int $user_id): mixed
     {
         return $this->delete('groups/'.self::encodePath($group_id).'/members/'.self::encodePath($user_id));
     }
 
     /**
+     * List the projects of a group.
+     *
+     * @see https://docs.gitlab.com/api/groups/#list-projects
+     *
      * @param array      $parameters {
      *
      *     @var bool               $archived                    limit by archived status
@@ -323,6 +393,10 @@ class Groups extends AbstractApi
     }
 
     /**
+     * List the subgroups of a group.
+     *
+     * @see https://docs.gitlab.com/api/groups/#list-subgroups
+     *
      * @param array      $parameters {
      *
      *     @var int[]  $skip_groups   skip the group IDs passes
@@ -342,6 +416,10 @@ class Groups extends AbstractApi
     }
 
     /**
+     * List all issues of a group.
+     *
+     * @see https://docs.gitlab.com/api/issues/#list-all-group-issues
+     *
      * @param array      $parameters {
      *
      *     @var string   $assignee_id              Return issues assigned to the given user id. Mutually exclusive with assignee_username.
@@ -452,6 +530,10 @@ class Groups extends AbstractApi
     }
 
     /**
+     * List all labels of a group.
+     *
+     * @see https://docs.gitlab.com/api/group_labels/#list-group-labels
+     *
      * @param array      $parameters {
      *
      *     @var bool     $with_counts               Whether or not to include issue and merge request counts. Defaults to false.
@@ -483,21 +565,41 @@ class Groups extends AbstractApi
         return $this->get('groups/'.self::encodePath($group_id).'/labels', $resolver->resolve($parameters));
     }
 
+    /**
+     * Create a new label for a group.
+     *
+     * @see https://docs.gitlab.com/api/group_labels/#create-a-new-group-label
+     */
     public function addLabel(int|string $group_id, array $params): mixed
     {
         return $this->post('groups/'.self::encodePath($group_id).'/labels', $params);
     }
 
+    /**
+     * Update an existing label of a group.
+     *
+     * @see https://docs.gitlab.com/api/group_labels/#update-a-group-label
+     */
     public function updateLabel(int|string $group_id, int $label_id, array $params): mixed
     {
         return $this->put('groups/'.self::encodePath($group_id).'/labels/'.self::encodePath($label_id), $params);
     }
 
+    /**
+     * Delete a label of a group.
+     *
+     * @see https://docs.gitlab.com/api/group_labels/#delete-a-group-label
+     */
     public function removeLabel(int|string $group_id, int $label_id): mixed
     {
         return $this->delete('groups/'.self::encodePath($group_id).'/labels/'.self::encodePath($label_id));
     }
 
+    /**
+     * List all variables of a group.
+     *
+     * @see https://docs.gitlab.com/api/group_level_variables/#list-all-group-variables
+     */
     public function variables(int|string $group_id, array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
@@ -505,12 +607,21 @@ class Groups extends AbstractApi
         return $this->get('groups/'.self::encodePath($group_id).'/variables', $resolver->resolve($parameters));
     }
 
+    /**
+     * Get the details of a single group variable.
+     *
+     * @see https://docs.gitlab.com/api/group_level_variables/#retrieve-details-of-a-group-variable
+     */
     public function variable(int|string $group_id, string $key): mixed
     {
         return $this->get('groups/'.self::encodePath($group_id).'/variables/'.self::encodePath($key));
     }
 
     /**
+     * Create a new variable for a group.
+     *
+     * @see https://docs.gitlab.com/api/group_level_variables/#create-a-group-variable
+     *
      * @param array      $parameters {
      *
      *      @var string $masked         true or false
@@ -539,6 +650,11 @@ class Groups extends AbstractApi
         return $this->post('groups/'.self::encodePath($group_id).'/variables', $payload);
     }
 
+    /**
+     * Update an existing variable of a group.
+     *
+     * @see https://docs.gitlab.com/api/group_level_variables/#update-a-group-variable
+     */
     public function updateVariable(int|string $group_id, string $key, string $value, ?bool $protected = null): mixed
     {
         $payload = [
@@ -552,12 +668,21 @@ class Groups extends AbstractApi
         return $this->put('groups/'.self::encodePath($group_id).'/variables/'.self::encodePath($key), $payload);
     }
 
+    /**
+     * Delete a variable of a group.
+     *
+     * @see https://docs.gitlab.com/api/group_level_variables/#delete-a-group-variable
+     */
     public function removeVariable(int|string $group_id, string $key): mixed
     {
         return $this->delete('groups/'.self::encodePath($group_id).'/variables/'.self::encodePath($key));
     }
 
     /**
+     * List all merge requests of a group.
+     *
+     * @see https://docs.gitlab.com/api/merge_requests/#list-group-merge-requests
+     *
      * @param array      $parameters {
      *
      *     @var int[]              $iids           return the request having the given iid
@@ -657,6 +782,10 @@ class Groups extends AbstractApi
     }
 
     /**
+     * List all iterations of a group.
+     *
+     * @see https://docs.gitlab.com/api/group_iterations/#list-all-group-iterations
+     *
      * @param array      $parameters {
      *
      *     @var string $state               Return opened, upcoming, current (previously started), closed, or all iterations.
@@ -685,6 +814,10 @@ class Groups extends AbstractApi
     }
 
     /**
+     * List all packages of a group.
+     *
+     * @see https://docs.gitlab.com/api/packages/#for-a-group
+     *
      * @param array      $parameters {
      *
      *     @var bool   $exclude_subgroups   if the parameter is included as true, packages from projects from subgroups
@@ -733,6 +866,11 @@ class Groups extends AbstractApi
         return $this->get('groups/'.self::encodePath($group_id).'/packages', $resolver->resolve($parameters));
     }
 
+    /**
+     * List all registry repositories of a group.
+     *
+     * @see https://docs.gitlab.com/api/container_registry/#within-a-group
+     */
     public function registryRepositories(int|string $group_id): mixed
     {
         return $this->get('groups/'.self::encodePath($group_id).'/registry/repositories');
@@ -795,12 +933,21 @@ class Groups extends AbstractApi
         return $resolver;
     }
 
+    /**
+     * List all deploy tokens of a group.
+     *
+     * @see https://docs.gitlab.com/api/deploy_tokens/#list-group-deploy-tokens
+     */
     public function deployTokens(int|string $group_id, ?bool $active = null): mixed
     {
         return $this->get('groups/'.self::encodePath($group_id).'/deploy_tokens', (null !== $active) ? ['active' => $active] : []);
     }
 
     /**
+     * Create a new deploy token for a group.
+     *
+     * @see https://docs.gitlab.com/api/deploy_tokens/#create-a-group-deploy-token
+     *
      * @param array      $parameters {
      *
      *     @var string $name                    the name of the deploy token
@@ -846,12 +993,21 @@ class Groups extends AbstractApi
         return $this->post('groups/'.self::encodePath($group_id).'/deploy_tokens', $resolver->resolve($parameters));
     }
 
+    /**
+     * Delete a deploy token of a group.
+     *
+     * @see https://docs.gitlab.com/api/deploy_tokens/#delete-a-group-deploy-token
+     */
     public function deleteDeployToken(int|string $group_id, int $token_id): mixed
     {
         return $this->delete('groups/'.self::encodePath($group_id).'/deploy_tokens/'.self::encodePath($token_id));
     }
 
     /**
+     * Search within a group.
+     *
+     * @see https://docs.gitlab.com/api/search/#search-a-group
+     *
      * @param array $parameters {
      *
      *     @var string $scope        The scope to search in

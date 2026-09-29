@@ -16,6 +16,9 @@ namespace Gitlab\Api;
 
 class Keys extends AbstractApi
 {
+    /**
+     * @see https://docs.gitlab.com/api/keys/#retrieve-user-by-ssh-key-id
+     */
     public function show(int $id): mixed
     {
         return $this->get('keys/'.self::encodePath($id));

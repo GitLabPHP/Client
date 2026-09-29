@@ -16,6 +16,11 @@ namespace Gitlab\Api;
 
 class DeployKeys extends AbstractApi
 {
+    /**
+     * List all deploy keys across all projects of the GitLab instance.
+     *
+     * @see https://docs.gitlab.com/api/deploy_keys/#list-all-deploy-keys
+     */
     public function all(array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();

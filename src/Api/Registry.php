@@ -20,6 +20,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class Registry extends AbstractApi
 {
     /**
+     * @see https://docs.gitlab.com/api/container_registry/#retrieve-details-of-a-single-repository
+     *
      * @param array $parameters {
      *
      *     @var bool $tags       include an array of tags in the response
@@ -34,16 +36,25 @@ class Registry extends AbstractApi
         return $this->get('registry/repositories/'.self::encodePath($repository_id), $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/container_registry/#delete-registry-repository
+     */
     public function removeRepository(int|string $project_id, int $repository_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'registry/repositories/'.self::encodePath($repository_id)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/container_registry/#list-all-registry-repository-tags
+     */
     public function repositoryTags(int|string $project_id, int $repository_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'registry/repositories/'.self::encodePath($repository_id).'/tags'));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/container_registry/#retrieve-details-of-a-registry-repository-tag
+     */
     public function repositoryTag(int|string $project_id, int $repository_id, string $tag_name): mixed
     {
         return $this->get($this->getProjectPath(
@@ -52,6 +63,9 @@ class Registry extends AbstractApi
         ));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/container_registry/#delete-a-registry-repository-tag
+     */
     public function removeRepositoryTag(int|string $project_id, int $repository_id, string $tag_name): mixed
     {
         return $this->delete($this->getProjectPath(
@@ -61,6 +75,8 @@ class Registry extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/container_registry/#delete-registry-repository-tags-in-bulk
+     *
      * @param array $parameters {
      *
      *     @var string $name_regex_delete regex of tag names to delete

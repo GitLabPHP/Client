@@ -18,6 +18,10 @@ use Symfony\Component\OptionsResolver\Options;
 class Events extends AbstractApi
 {
     /**
+     * List currently authenticated user's events.
+     *
+     * @see https://docs.gitlab.com/api/events/#list-all-events
+     *
      * @param array $parameters {
      *
      *     @var string             $action         include only events of a particular action type

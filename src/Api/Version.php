@@ -16,6 +16,14 @@ namespace Gitlab\Api;
 
 class Version extends AbstractApi
 {
+    /**
+     * Retrieve version information for the GitLab instance.
+     *
+     * Note: `GET /version` is documented together with `GET /metadata` on the
+     * Metadata API page, which has no dedicated per-endpoint anchor.
+     *
+     * @see https://docs.gitlab.com/api/metadata/
+     */
     public function show(): mixed
     {
         return $this->get('version');
