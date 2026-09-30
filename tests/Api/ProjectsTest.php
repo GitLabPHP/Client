@@ -16,6 +16,7 @@ namespace Gitlab\Tests\Api;
 
 use DateTime;
 use Gitlab\Api\Projects;
+use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -3378,6 +3379,20 @@ class ProjectsTest extends TestCase
             ->willReturn($expectedArray);
         $this->assertEquals($expectedArray, $api->uploadAvatar(1, $fileName));
         \unlink($fileName);
+    }
+
+    #[Test]
+    public function shouldDownloadUpload(): void
+    {
+        $returnedStream = new Response(200, [], 'foobar');
+
+        $api = $this->getApiMock();
+        $api->expects($this->once())
+            ->method('getAsResponse')
+            ->with('projects/1/uploads/66dbcd21ec5d24ed6ea225176098d52b/example.txt')
+            ->willReturn($returnedStream);
+
+        $this->assertEquals('foobar', $api->downloadUpload(1, '66dbcd21ec5d24ed6ea225176098d52b', 'example.txt')->getContents());
     }
 
     #[Test]

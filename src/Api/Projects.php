@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Gitlab\Api;
 
+use Psr\Http\Message\StreamInterface;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
 use Symfony\Component\OptionsResolver\Options;
@@ -1116,6 +1117,14 @@ class Projects extends AbstractApi
     public function uploadFile(int|string $project_id, string $file): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'uploads'), [], [], ['file' => $file]);
+    }
+
+    /**
+     * @see https://docs.gitlab.com/api/project_markdown_uploads/#download-an-uploaded-file-by-secret-and-filename
+     */
+    public function downloadUpload(int|string $project_id, string $secret, string $filename): StreamInterface
+    {
+        return $this->getAsResponse($this->getProjectPath($project_id, 'uploads/'.self::encodePath($secret).'/'.self::encodePath($filename)))->getBody();
     }
 
     public function uploadAvatar(int|string $project_id, string $file): mixed
