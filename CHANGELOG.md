@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [12.1.1] - UPCOMING
 
+* Add `PRIVATE-TOKEN`, `JOB-TOKEN`, and `SUDO` to the default cache key headers
 * Fix authentication headers being sent to origins other than the base URL (GHSA-9hx4-j425-r37q)
 * Stop authenticating requests redirected from an `http` base URL to `https`
 * Disable redirect following in Symfony's `Psr18Client` and `HttplugClient`
