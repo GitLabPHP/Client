@@ -20,6 +20,7 @@ use Http\Client\Common\Plugin;
 use Http\Promise\Promise;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\UriInterface;
 
 /**
  * Add authentication to the request.
@@ -36,9 +37,20 @@ final class Authentication implements Plugin
      */
     private readonly array $headers;
 
-    public function __construct(string $method, #[\SensitiveParameter] string $token, ?string $sudo = null)
+    private UriInterface $url;
+
+    public function __construct(string $method, #[\SensitiveParameter] string $token, ?string $sudo, UriInterface $url)
     {
         $this->headers = self::buildHeaders($method, $token, $sudo);
+        $this->url = $url;
+    }
+
+    public function withUrl(UriInterface $url): self
+    {
+        $plugin = clone $this;
+        $plugin->url = $url;
+
+        return $plugin;
     }
 
     /**
@@ -48,11 +60,32 @@ final class Authentication implements Plugin
      */
     public function handleRequest(RequestInterface $request, callable $next, callable $first): Promise
     {
+        $sameOrigin = self::isSameOrigin($request->getUri(), $this->url);
+        $credential = (string) \array_key_first($this->headers);
+        $carried = $request->getHeaderLine($credential) === $this->headers[$credential];
+
         foreach ($this->headers as $header => $value) {
-            $request = $request->withHeader($header, $value);
+            if ($sameOrigin) {
+                $request = $request->withHeader($header, $value);
+            } elseif ($carried && $request->getHeaderLine($header) === $value) {
+                // a redirected request already carries it
+                $request = $request->withoutHeader($header);
+            }
         }
 
         return $next($request);
+    }
+
+    private static function isSameOrigin(UriInterface $a, UriInterface $b): bool
+    {
+        return 0 === \strcasecmp($a->getScheme(), $b->getScheme())
+            && 0 === \strcasecmp($a->getHost(), $b->getHost())
+            && self::getPort($a) === self::getPort($b);
+    }
+
+    private static function getPort(UriInterface $uri): ?int
+    {
+        return $uri->getPort() ?? ['http' => 80, 'https' => 443][\strtolower($uri->getScheme())] ?? null;
     }
 
     /**

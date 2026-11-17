@@ -63,6 +63,7 @@ use Http\Client\Common\Plugin\RedirectPlugin;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Http\Message\UriInterface;
 
 /**
  * Simple API wrapper for Gitlab.
@@ -108,11 +109,14 @@ class Client
 
     private readonly Builder $httpClientBuilder;
     private readonly History $responseHistory;
+    private UriInterface $url;
+    private ?Authentication $authentication = null;
 
     public function __construct(?Builder $httpClientBuilder = null)
     {
         $this->httpClientBuilder = $builder = $httpClientBuilder ?? new Builder();
         $this->responseHistory = new History();
+        $this->url = $builder->getUriFactory()->createUri(self::BASE_URL);
 
         $builder->addPlugin(new ExceptionThrower());
         $builder->addPlugin(new HistoryPlugin($this->responseHistory));
@@ -327,16 +331,26 @@ class Client
      */
     public function authenticate(#[\SensitiveParameter] string $token, string $authMethod, ?string $sudo = null): void
     {
+        $this->authentication = new Authentication($authMethod, $token, $sudo, $this->url);
+
         $this->getHttpClientBuilder()->removePlugin(Authentication::class);
-        $this->getHttpClientBuilder()->addPlugin(new Authentication($authMethod, $token, $sudo));
+        $this->getHttpClientBuilder()->addPlugin($this->authentication);
     }
 
     public function setUrl(string $url): void
     {
-        $uri = $this->getHttpClientBuilder()->getUriFactory()->createUri($url);
+        $this->url = $this->getHttpClientBuilder()->getUriFactory()->createUri($url);
 
         $this->getHttpClientBuilder()->removePlugin(AddHostPlugin::class);
-        $this->getHttpClientBuilder()->addPlugin(new AddHostPlugin($uri));
+        $this->getHttpClientBuilder()->addPlugin(new AddHostPlugin($this->url));
+
+        if (null !== $this->authentication) {
+            $this->authentication = $this->authentication->withUrl($this->url);
+
+            // the authentication plugin must run after the host plugin
+            $this->getHttpClientBuilder()->removePlugin(Authentication::class);
+            $this->getHttpClientBuilder()->addPlugin($this->authentication);
+        }
     }
 
     /**

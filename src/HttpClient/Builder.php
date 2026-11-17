@@ -27,6 +27,8 @@ use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
+use Symfony\Component\HttpClient\HttplugClient;
+use Symfony\Component\HttpClient\Psr18Client;
 
 /**
  * The HTTP client builder class.
@@ -58,7 +60,7 @@ final class Builder
         ?StreamFactoryInterface $streamFactory = null,
         ?UriFactoryInterface $uriFactory = null
     ) {
-        $this->httpClient = $httpClient ?? Psr18ClientDiscovery::find();
+        $this->httpClient = self::withoutRedirects($httpClient ?? Psr18ClientDiscovery::find());
         $this->requestFactory = $requestFactory ?? Psr17FactoryDiscovery::findRequestFactory();
         $this->streamFactory = $streamFactory ?? Psr17FactoryDiscovery::findStreamFactory();
         $this->uriFactory = $uriFactory ?? Psr17FactoryDiscovery::findUriFactory();
@@ -152,5 +154,14 @@ final class Builder
     {
         $this->cachePlugin = null;
         $this->pluginClient = null;
+    }
+
+    private static function withoutRedirects(ClientInterface $httpClient): ClientInterface
+    {
+        if (($httpClient instanceof Psr18Client || $httpClient instanceof HttplugClient) && \method_exists($httpClient, 'withOptions')) {
+            return $httpClient->withOptions(['max_redirects' => 0]);
+        }
+
+        return $httpClient;
     }
 }
