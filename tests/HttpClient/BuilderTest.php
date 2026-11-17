@@ -22,6 +22,10 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
+use Symfony\Component\HttpClient\HttplugClient;
+use Symfony\Component\HttpClient\MockHttpClient;
+use Symfony\Component\HttpClient\Psr18Client;
+use Symfony\Component\HttpClient\Response\MockResponse;
 
 /**
  * @author Fabien Bourigault <bourigaultfabien@gmail.com>
@@ -63,6 +67,38 @@ class BuilderTest extends TestCase
     public function testHttpClientShouldBeAnHttpMethodsClient(): void
     {
         $this->assertInstanceOf(HttpMethodsClientInterface::class, $this->subject->getHttpClient());
+    }
+
+    public function testSymfonyPsr18ClientShouldNotFollowRedirects(): void
+    {
+        $maxRedirects = null;
+
+        $httpClient = new MockHttpClient(static function (string $method, string $url, array $options) use (&$maxRedirects): MockResponse {
+            $maxRedirects = $options['max_redirects'];
+
+            return new MockResponse();
+        });
+
+        $builder = new Builder(new Psr18Client($httpClient));
+        $builder->getHttpClient()->get('https://gitlab.com/api/v4/version');
+
+        $this->assertSame(0, $maxRedirects);
+    }
+
+    public function testSymfonyHttplugClientShouldNotFollowRedirects(): void
+    {
+        $maxRedirects = null;
+
+        $httpClient = new MockHttpClient(static function (string $method, string $url, array $options) use (&$maxRedirects): MockResponse {
+            $maxRedirects = $options['max_redirects'];
+
+            return new MockResponse();
+        });
+
+        $builder = new Builder(new HttplugClient($httpClient));
+        $builder->getHttpClient()->get('https://gitlab.com/api/v4/version');
+
+        $this->assertSame(0, $maxRedirects);
     }
 
     public function testStreamFactoryShouldBeAStreamFactory(): void

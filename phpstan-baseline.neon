@@ -43,6 +43,12 @@ parameters:
 			path: src/Api/RepositoryFiles.php
 
 		-
+			message: '#^Call to function method_exists\(\) with Symfony\\Component\\HttpClient\\HttplugClient\|Symfony\\Component\\HttpClient\\Psr18Client and ''withOptions'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/HttpClient/Builder.php
+
+		-
 			message: '#^Parameter \#1 \$message of static method Gitlab\\HttpClient\\Message\\ResponseMediator\:\:getMessageAsString\(\) expects array, mixed given\.$#'
 			identifier: argument.type
 			count: 1
