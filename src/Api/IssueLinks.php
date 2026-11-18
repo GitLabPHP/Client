@@ -16,12 +16,21 @@ namespace Gitlab\Api;
 
 class IssueLinks extends AbstractApi
 {
+    /**
+     * List all issue links of an issue.
+     *
+     * @see https://docs.gitlab.com/api/issue_links/#list-all-issue-links
+     */
     public function all(int|string $project_id, int $issue_iid): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'issues/'.self::encodePath($issue_iid)).'/links');
     }
 
     /**
+     * Create an issue link between two issues.
+     *
+     * @see https://docs.gitlab.com/api/issue_links/#create-an-issue-link
+     *
      * @param array      $parameters        {
      *
      *     @var string $link_type
@@ -36,6 +45,10 @@ class IssueLinks extends AbstractApi
     }
 
     /**
+     * Delete an issue link.
+     *
+     * @see https://docs.gitlab.com/api/issue_links/#delete-an-issue-link
+     *
      * @param array      $parameters    {
      *
      *     @var string $link_type

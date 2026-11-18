@@ -60,6 +60,8 @@ class Jobs extends AbstractApi
     public const SCOPE_MANUAL = 'manual';
 
     /**
+     * @see https://docs.gitlab.com/api/jobs/#list-all-jobs-for-a-project
+     *
      * @param array      $parameters {
      *
      *     @var string|string[] $scope The scope of jobs to show, one or array of: created, pending, running, failed,
@@ -74,6 +76,8 @@ class Jobs extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/jobs/#list-all-jobs-by-pipeline
+     *
      * @param array      $parameters  {
      *
      *     @var string|string[] $scope The scope of jobs to show, one or array of: created, pending, running, failed,
@@ -91,6 +95,8 @@ class Jobs extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/jobs/#list-all-trigger-jobs-by-pipeline
+     *
      * @param array      $parameters  {
      *
      *     @var string|string[] $scope            The scope of bridge jobs to show, one or array of: created, pending, running, failed,
@@ -108,16 +114,25 @@ class Jobs extends AbstractApi
         );
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/jobs/#retrieve-a-job-by-job-id
+     */
     public function show(int|string $project_id, int $job_id): mixed
     {
         return $this->get('projects/'.self::encodePath($project_id).'/jobs/'.self::encodePath($job_id));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/job_artifacts/#download-job-artifacts-by-job-id
+     */
     public function artifacts(int|string $project_id, int $job_id): StreamInterface
     {
         return $this->getAsResponse('projects/'.self::encodePath($project_id).'/jobs/'.self::encodePath($job_id).'/artifacts')->getBody();
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/job_artifacts/#download-job-artifacts-by-reference-name
+     */
     public function artifactsByRefName(int|string $project_id, string $ref_name, string $job_name): StreamInterface
     {
         return $this->getAsResponse('projects/'.self::encodePath($project_id).'/jobs/artifacts/'.self::encodePath($ref_name).'/download', [
@@ -125,6 +140,9 @@ class Jobs extends AbstractApi
         ])->getBody();
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/job_artifacts/#download-a-single-artifact-file-by-reference-name
+     */
     public function artifactByRefName(int|string $project_id, string $ref_name, string $job_name, string $artifact_path): StreamInterface
     {
         return $this->getAsResponse('projects/'.self::encodePath($project_id).'/jobs/artifacts/'.self::encodePath($ref_name).'/raw/'.self::encodePath($artifact_path), [
@@ -132,37 +150,57 @@ class Jobs extends AbstractApi
         ])->getBody();
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/job_artifacts/#download-a-single-artifact-file-by-job-id
+     */
     public function artifactByJobId(int|string $project_id, int $job_id, string $artifact_path): StreamInterface
     {
         return $this->getAsResponse('projects/'.self::encodePath($project_id).'/jobs/'.self::encodePath($job_id).'/artifacts/'.self::encodePath($artifact_path))->getBody();
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/jobs/#retrieve-a-log-file-for-a-job
+     */
     public function trace(int|string $project_id, int $job_id): mixed
     {
         return $this->get('projects/'.self::encodePath($project_id).'/jobs/'.self::encodePath($job_id).'/trace');
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/jobs/#cancel-a-job
+     */
     public function cancel(int|string $project_id, int $job_id): mixed
     {
         return $this->post('projects/'.self::encodePath($project_id).'/jobs/'.self::encodePath($job_id).'/cancel');
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/jobs/#retry-a-job
+     */
     public function retry(int|string $project_id, int $job_id): mixed
     {
         return $this->post('projects/'.self::encodePath($project_id).'/jobs/'.self::encodePath($job_id).'/retry');
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/jobs/#erase-a-job
+     */
     public function erase(int|string $project_id, int $job_id): mixed
     {
         return $this->post('projects/'.self::encodePath($project_id).'/jobs/'.self::encodePath($job_id).'/erase');
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/job_artifacts/#keep-job-artifacts
+     */
     public function keepArtifacts(int|string $project_id, int $job_id): mixed
     {
         return $this->post('projects/'.self::encodePath($project_id).'/jobs/'.self::encodePath($job_id).'/artifacts/keep');
     }
 
     /**
+     * @see https://docs.gitlab.com/api/jobs/#run-a-job
+     *
      * @param array $parameters {
      *
      *     @var array $job_inputs               job input values to use when playing the job

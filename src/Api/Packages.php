@@ -19,6 +19,8 @@ use Symfony\Component\OptionsResolver\Options;
 class Packages extends AbstractApi
 {
     /**
+     * @see https://docs.gitlab.com/api/packages/#for-a-project
+     *
      * @param array      $parameters {
      *
      *     @var string $order_by            the field to use as order. one of created_at (default), name,
@@ -60,21 +62,33 @@ class Packages extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'packages'), $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/packages/#retrieve-a-project-package
+     */
     public function show(int|string $project_id, int $package_id): mixed
     {
         return $this->get($this->getPackagePath($project_id, $package_id));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/packages/#list-package-files
+     */
     public function allFiles(int|string $project_id, int $package_id): mixed
     {
         return $this->get($this->getPackagePath($project_id, $package_id).'/package_files');
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/packages/#delete-a-project-package
+     */
     public function remove(int|string $project_id, int $package_id): mixed
     {
         return $this->delete($this->getPackagePath($project_id, $package_id));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/packages/#delete-a-package-file
+     */
     public function removeFile(int|string $project_id, int $package_id, int $package_file_id): mixed
     {
         return $this->delete(
@@ -82,6 +96,9 @@ class Packages extends AbstractApi
         );
     }
 
+    /**
+     * @see https://docs.gitlab.com/user/packages/generic_packages/#publish-a-single-file
+     */
     public function addGenericFile(int|string $project_id, string $package_name, string $package_version, string $file, string $status = 'default'): mixed
     {
         return $this->putFile(

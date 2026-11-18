@@ -32,6 +32,10 @@ class GroupsEpics extends AbstractApi
     public const STATE_CLOSED = 'closed';
 
     /**
+     * List all epics of a group.
+     *
+     * @see https://docs.gitlab.com/api/epics/#list-all-group-epics
+     *
      * @param array      $parameters {
      *
      *     @var int[]  $iids   return only the epics having the given iids
@@ -56,26 +60,51 @@ class GroupsEpics extends AbstractApi
         return $this->get('groups/'.self::encodePath($group_id).'/epics', $resolver->resolve($parameters));
     }
 
+    /**
+     * Get a single epic of a group.
+     *
+     * @see https://docs.gitlab.com/api/epics/#retrieve-an-epic
+     */
     public function show(int|string $group_id, int $epic_id): mixed
     {
         return $this->get('groups/'.self::encodePath($group_id).'/epics/'.self::encodePath($epic_id));
     }
 
+    /**
+     * Create a new epic.
+     *
+     * @see https://docs.gitlab.com/api/epics/#create-an-epic
+     */
     public function create(int|string $group_id, array $params): mixed
     {
         return $this->post('groups/'.self::encodePath($group_id).'/epics', $params);
     }
 
+    /**
+     * Update an existing epic.
+     *
+     * @see https://docs.gitlab.com/api/epics/#update-an-epic
+     */
     public function update(int|string $group_id, int $epic_id, array $params): mixed
     {
         return $this->put('groups/'.self::encodePath($group_id).'/epics/'.self::encodePath($epic_id), $params);
     }
 
+    /**
+     * Delete an epic.
+     *
+     * @see https://docs.gitlab.com/api/epics/#delete-an-epic
+     */
     public function remove(int|string $group_id, int $epic_id): mixed
     {
         return $this->delete('groups/'.self::encodePath($group_id).'/epics/'.self::encodePath($epic_id));
     }
 
+    /**
+     * List all issues assigned to an epic.
+     *
+     * @see https://docs.gitlab.com/api/epic_issues/#list-all-issues-for-an-epic
+     */
     public function issues(int|string $group_id, int $epic_iid): mixed
     {
         return $this->get('groups/'.self::encodePath($group_id).'/epics/'.self::encodePath($epic_iid).'/issues');

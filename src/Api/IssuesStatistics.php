@@ -19,16 +19,25 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class IssuesStatistics extends AbstractApi
 {
+    /**
+     * @see https://docs.gitlab.com/api/issues_statistics/#retrieve-issues-statistics-for-a-user
+     */
     public function all(array $parameters): mixed
     {
         return $this->get('issues_statistics', $this->createOptionsResolver()->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/issues_statistics/#retrieve-issues-statistics-for-a-project
+     */
     public function project(int|string $project_id, array $parameters): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'issues_statistics'), $this->createOptionsResolver()->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/issues_statistics/#retrieve-issues-statistics-for-a-group
+     */
     public function group(int|string $group_id, array $parameters): mixed
     {
         return $this->get('groups/'.self::encodePath($group_id).'/issues_statistics', $this->createOptionsResolver()->resolve($parameters));

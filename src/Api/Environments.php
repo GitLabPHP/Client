@@ -19,6 +19,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Environments extends AbstractApi
 {
+    /**
+     * List all environments of a project.
+     *
+     * @see https://docs.gitlab.com/api/environments/#list-all-environments
+     */
     public function all(int|string $project_id, array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
@@ -34,6 +39,10 @@ class Environments extends AbstractApi
     }
 
     /**
+     * Create a new environment.
+     *
+     * @see https://docs.gitlab.com/api/environments/#create-an-environment
+     *
      * @param array      $parameters {
      *
      *     @var string $name         The name of the environment
@@ -55,17 +64,31 @@ class Environments extends AbstractApi
         return $this->post($this->getProjectPath($project_id, 'environments'), $resolver->resolve($parameters));
     }
 
+    /**
+     * Delete an environment.
+     *
+     * @see https://docs.gitlab.com/api/environments/#delete-an-environment
+     */
     public function remove(int|string $project_id, int $environment_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'environments/'.$environment_id));
     }
 
+    /**
+     * Stop an environment.
+     *
+     * @see https://docs.gitlab.com/api/environments/#stop-an-environment
+     */
     public function stop(int|string $project_id, int $environment_id): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'environments/'.self::encodePath($environment_id).'/stop'));
     }
 
     /**
+     * Stop multiple stale environments.
+     *
+     * @see https://docs.gitlab.com/api/environments/#stop-stale-environments
+     *
      * @param array      $parameters {
      *
      *     @var \DateTimeInterface $before Stop environments that have been modified or deployed to before the specified date.
@@ -86,6 +109,11 @@ class Environments extends AbstractApi
         return $this->post($this->getProjectPath($project_id, 'environments/stop_stale'), $resolver->resolve($parameters));
     }
 
+    /**
+     * Get a specific environment.
+     *
+     * @see https://docs.gitlab.com/api/environments/#retrieve-an-environment
+     */
     public function show(int|string $project_id, int $environment_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'environments/'.self::encodePath($environment_id)));

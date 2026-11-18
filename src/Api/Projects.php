@@ -22,6 +22,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class Projects extends AbstractApi
 {
     /**
+     * @see https://docs.gitlab.com/api/projects/#list-all-projects
+     *
      * @param array $parameters {
      *
      *     @var bool               $archived                    limit by archived status
@@ -151,6 +153,8 @@ class Projects extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/projects/#retrieve-a-project
+     *
      * @param array      $parameters {
      *
      *     @var bool   $statistics                    include project statistics
@@ -175,6 +179,9 @@ class Projects extends AbstractApi
         return $this->get('projects/'.self::encodePath($project_id), $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/projects/#create-a-project
+     */
     public function create(string $name, array $parameters = []): mixed
     {
         $parameters['name'] = $name;
@@ -182,6 +189,9 @@ class Projects extends AbstractApi
         return $this->post('projects', $parameters);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/projects/#create-a-project-for-a-user
+     */
     public function createForUser(int $user_id, string $name, array $parameters = []): mixed
     {
         $parameters['name'] = $name;
@@ -189,12 +199,17 @@ class Projects extends AbstractApi
         return $this->post('projects/user/'.self::encodePath($user_id), $parameters);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/projects/#update-a-project
+     */
     public function update(int|string $project_id, array $parameters): mixed
     {
         return $this->put('projects/'.self::encodePath($project_id), $parameters);
     }
 
     /**
+     * @see https://docs.gitlab.com/api/projects/#delete-a-project
+     *
      * @param array $parameters {
      *
      *     @var string      $full_path           full path of project to use with permanently_remove
@@ -214,31 +229,49 @@ class Projects extends AbstractApi
         return $this->delete('projects/'.self::encodePath($project_id), $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/projects/#restore-a-project-marked-for-deletion
+     */
     public function restore(int|string $project_id): mixed
     {
         return $this->post('projects/'.self::encodePath($project_id).'/restore');
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/projects/#archive-a-project
+     */
     public function archive(int|string $project_id): mixed
     {
         return $this->post('projects/'.self::encodePath($project_id).'/archive');
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/projects/#unarchive-a-project
+     */
     public function unarchive(int|string $project_id): mixed
     {
         return $this->post('projects/'.self::encodePath($project_id).'/unarchive');
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/pipeline_triggers/#list-project-trigger-tokens
+     */
     public function triggers(int|string $project_id): mixed
     {
         return $this->get('projects/'.self::encodePath($project_id).'/triggers');
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/pipeline_triggers/#retrieve-trigger-token-details
+     */
     public function trigger(int|string $project_id, int $trigger_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'triggers/'.self::encodePath($trigger_id)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/pipeline_triggers/#create-a-trigger-token
+     */
     public function createTrigger(int|string $project_id, string $description): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'triggers'), [
@@ -246,11 +279,17 @@ class Projects extends AbstractApi
         ]);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/pipeline_triggers/#delete-a-pipeline-trigger-token
+     */
     public function removeTrigger(int|string $project_id, int $trigger_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'triggers/'.self::encodePath($trigger_id)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/pipeline_triggers/#trigger-a-pipeline-with-a-token
+     */
     public function triggerPipeline(int|string $project_id, string $ref, #[\SensitiveParameter] string $token, array $variables = []): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'trigger/pipeline'), [
@@ -260,11 +299,17 @@ class Projects extends AbstractApi
         ]);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/runners/#unassign-a-runner-from-project
+     */
     public function disableRunner(int $project_id, int $runner_id): mixed
     {
         return $this->delete('projects/'.self::encodePath($project_id).'/runners/'.self::encodePath($runner_id));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/runners/#assign-a-runner-to-project
+     */
     public function enableRunner(int $project_id, int $runner_id): mixed
     {
         $parameters = [
@@ -275,6 +320,8 @@ class Projects extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/pipelines/#list-project-pipelines
+     *
      * @param array      $parameters {
      *
      *     @var string             $scope          the scope of pipelines, one of: running, pending, finished, branches, tags
@@ -336,12 +383,17 @@ class Projects extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'pipelines'), $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/pipelines/#retrieve-a-single-pipeline
+     */
     public function pipeline(int|string $project_id, int $pipeline_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'pipelines/'.self::encodePath($pipeline_id)));
     }
 
     /**
+     * @see https://docs.gitlab.com/api/pipelines/#retrieve-the-latest-pipeline
+     *
      * @param array $parameters {
      *
      *     @var string $ref branch or tag to check for the latest pipeline
@@ -357,27 +409,41 @@ class Projects extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'pipelines/latest'), $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/jobs/#list-all-jobs-by-pipeline
+     */
     public function pipelineJobs(int|string $project_id, int $pipeline_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'pipelines/'.self::encodePath($pipeline_id).'/jobs'));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/pipelines/#retrieve-pipeline-variables
+     */
     public function pipelineVariables(int|string $project_id, int $pipeline_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'pipelines/'.self::encodePath($pipeline_id).'/variables'));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/pipelines/#retrieve-a-test-report-for-a-pipeline
+     */
     public function pipelineTestReport(int|string $project_id, int $pipeline_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'pipelines/'.self::encodePath($pipeline_id).'/test_report'));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/pipelines/#retrieve-a-test-report-summary-for-a-pipeline
+     */
     public function pipelineTestReportSummary(int|string $project_id, int $pipeline_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'pipelines/'.self::encodePath($pipeline_id).'/test_report_summary'));
     }
 
     /**
+     * @see https://docs.gitlab.com/api/pipelines/#create-a-new-pipeline
+     *
      * @param array|null $variables  {
      *
      *     @var string $key            The name of the variable
@@ -408,21 +474,33 @@ class Projects extends AbstractApi
         ]);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/pipelines/#retry-jobs-in-a-pipeline
+     */
     public function retryPipeline(int|string $project_id, int $pipeline_id): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'pipelines/'.self::encodePath($pipeline_id)).'/retry');
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/pipelines/#cancel-all-jobs-for-a-pipeline
+     */
     public function cancelPipeline(int|string $project_id, int $pipeline_id): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'pipelines/'.self::encodePath($pipeline_id)).'/cancel');
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/pipelines/#delete-a-pipeline
+     */
     public function deletePipeline(int|string $project_id, int $pipeline_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'pipelines/'.self::encodePath($pipeline_id)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_members/#list-all-members-of-a-project
+     */
     public function allMembers(int|string $project_id, array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
@@ -438,6 +516,8 @@ class Projects extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/project_members/#list-all-direct-members-of-a-project
+     *
      * @param array      $parameters {
      *
      *     @var string $query           The query you want to search members for.
@@ -460,16 +540,25 @@ class Projects extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'members'), $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_members/#retrieve-a-direct-member-of-a-project
+     */
     public function member(int|string $project_id, int $user_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'members/'.self::encodePath($user_id)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_members/#retrieve-a-member-of-a-project
+     */
     public function allMember(int|string $project_id, int $user_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'members/all/'.self::encodePath($user_id)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_members/#add-a-member-to-a-project
+     */
     public function addMember(int|string $project_id, int $user_id, int $access_level, ?string $expires_at = null): mixed
     {
         $params = [
@@ -483,6 +572,9 @@ class Projects extends AbstractApi
         return $this->post($this->getProjectPath($project_id, 'members'), $params);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_members/#update-a-member-of-a-project
+     */
     public function saveMember(int|string $project_id, int $user_id, int $access_level, ?string $expires_at = null): mixed
     {
         $params = [
@@ -495,11 +587,17 @@ class Projects extends AbstractApi
         return $this->put($this->getProjectPath($project_id, 'members/'.self::encodePath($user_id)), $params);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_members/#remove-a-direct-member-of-a-project
+     */
     public function removeMember(int|string $project_id, int $user_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'members/'.self::encodePath($user_id)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_webhooks/#list-webhooks-for-a-project
+     */
     public function hooks(int|string $project_id, array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
@@ -507,6 +605,9 @@ class Projects extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'hooks'), $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_webhooks/#retrieve-a-project-webhook
+     */
     public function hook(int|string $project_id, int $hook_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'hooks/'.self::encodePath($hook_id)));
@@ -515,7 +616,7 @@ class Projects extends AbstractApi
     /**
      * Get project users.
      *
-     * See https://docs.gitlab.com/ee/api/projects.html#get-project-users for more info.
+     * @see https://docs.gitlab.com/api/projects/#list-all-members-of-a-project
      */
     public function users(int|string $project_id, array $parameters = []): mixed
     {
@@ -525,7 +626,7 @@ class Projects extends AbstractApi
     /**
      * Get project issues.
      *
-     * See https://docs.gitlab.com/ee/api/issues.html#list-project-issues for more info.
+     * @see https://docs.gitlab.com/api/issues/#list-all-project-issues
      */
     public function issues(int|string $project_id, array $parameters = []): mixed
     {
@@ -535,7 +636,7 @@ class Projects extends AbstractApi
     /**
      * Get projects board list.
      *
-     * See https://docs.gitlab.com/ee/api/boards.html for more info.
+     * @see https://docs.gitlab.com/api/boards/#list-all-project-issue-boards
      */
     public function boards(int|string $project_id): mixed
     {
@@ -543,6 +644,8 @@ class Projects extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/iterations/#list-all-project-iterations
+     *
      * @param array      $parameters {
      *
      *     @var string $state               Return opened, upcoming, current (previously started), closed, or all iterations.
@@ -577,13 +680,16 @@ class Projects extends AbstractApi
      * - https://gitlab.com/gitlab-org/gitlab/-/commit/695c29abcf7dc2eabde8d59869abcea0923ce8fa#note_334686748
      * - https://gitlab.com/api/v4/projects/gitlab-org%2Fgitlab/repository/commits/695c29abcf7dc2eabde8d59869abcea0923ce8fa/discussions
      *
-     * @see https://docs.gitlab.com/ee/api/discussions.html#list-project-commit-discussion-items
+     * @see https://docs.gitlab.com/api/discussions/#list-all-commit-discussion-items
      */
     public function getRepositoryCommitDiscussions(int|string $project_id, string $commit_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'repository/commits/'.self::encodePath($commit_id)).'/discussions');
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_webhooks/#add-a-webhook-to-a-project
+     */
     public function addHook(int|string $project_id, string $url, array $parameters = []): mixed
     {
         if (0 === \count($parameters)) {
@@ -595,31 +701,49 @@ class Projects extends AbstractApi
         return $this->post($this->getProjectPath($project_id, 'hooks'), $parameters);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_webhooks/#update-a-project-webhook
+     */
     public function updateHook(int|string $project_id, int $hook_id, array $parameters): mixed
     {
         return $this->put($this->getProjectPath($project_id, 'hooks/'.self::encodePath($hook_id)), $parameters);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_webhooks/#delete-project-webhook
+     */
     public function removeHook(int|string $project_id, int $hook_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'hooks/'.self::encodePath($hook_id)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/projects/#transfer-a-project-to-a-new-namespace
+     */
     public function transfer(int|string $project_id, mixed $namespace): mixed
     {
         return $this->put($this->getProjectPath($project_id, 'transfer'), ['namespace' => $namespace]);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/deploy_keys/#list-deploy-keys-for-project
+     */
     public function deployKeys(int|string $project_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'deploy_keys'));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/deploy_keys/#retrieve-a-deploy-key
+     */
     public function deployKey(int|string $project_id, int $key_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'deploy_keys/'.self::encodePath($key_id)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/deploy_keys/#add-a-deploy-key-for-a-project
+     */
     public function addDeployKey(int|string $project_id, string $title, string $key, bool $canPush = false): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'deploy_keys'), [
@@ -630,6 +754,8 @@ class Projects extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/deploy_keys/#update-a-deploy-key
+     *
      * @param array $parameters {
      *
      *     @var bool   $can_push can deploy key push to the project's repository
@@ -649,22 +775,33 @@ class Projects extends AbstractApi
         return $this->put($this->getProjectPath($project_id, 'deploy_keys/'.self::encodePath($key_id)), $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/deploy_keys/#delete-a-deploy-key
+     */
     public function deleteDeployKey(int|string $project_id, int $key_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'deploy_keys/'.self::encodePath($key_id)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/deploy_keys/#enable-a-deploy-key
+     */
     public function enableDeployKey(int|string $project_id, int $key_id): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'deploy_keys/'.self::encodePath($key_id).'/enable'));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/deploy_tokens/#list-project-deploy-tokens
+     */
     public function deployTokens(int|string $project_id, ?bool $active = null): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'deploy_tokens'), (null !== $active) ? ['active' => $active] : []);
     }
 
     /**
+     * @see https://docs.gitlab.com/api/deploy_tokens/#create-a-project-deploy-token
+     *
      * @param array      $parameters {
      *
      *     @var string $name                    the name of the deploy token
@@ -710,17 +847,25 @@ class Projects extends AbstractApi
         return $this->post($this->getProjectPath($project_id, 'deploy_tokens'), $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/deploy_tokens/#delete-a-project-deploy-token
+     */
     public function deleteDeployToken(int|string $project_id, int $token_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'deploy_tokens/'.self::encodePath($token_id)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_push_rules/#retrieve-the-push-rules-of-a-project
+     */
     public function pushRule(int|string $project_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'push_rule'));
     }
 
     /**
+     * @see https://docs.gitlab.com/api/project_push_rules/#add-push-rules-to-a-project
+     *
      * @param array $parameters {
      *
      *     @var string $author_email_regex            all commit author emails must match this regular expression
@@ -747,6 +892,8 @@ class Projects extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/project_push_rules/#update-push-rules-of-a-project
+     *
      * @param array $parameters {
      *
      *     @var string $author_email_regex            all commit author emails must match this regular expression
@@ -772,12 +919,17 @@ class Projects extends AbstractApi
         return $this->put($this->getProjectPath($project_id, 'push_rule'), self::createPushRuleOptionsResolver()->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_push_rules/#delete-the-push-rules-of-a-project
+     */
     public function deletePushRule(int|string $project_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'push_rule'));
     }
 
     /**
+     * @see https://docs.gitlab.com/api/events/#list-all-visible-events-for-a-project
+     *
      * @param array      $parameters {
      *
      *     @var string             $action      include only events of a particular action type
@@ -815,6 +967,8 @@ class Projects extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/labels/#list-all-project-labels
+     *
      * @param array      $parameters {
      *
      *     @var bool     $with_counts               Whether or not to include issue and merge request counts. Defaults to false.
@@ -838,16 +992,25 @@ class Projects extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'labels'), $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/labels/#create-a-project-label
+     */
     public function addLabel(int|string $project_id, array $parameters): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'labels'), $parameters);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/labels/#update-a-project-label
+     */
     public function updateLabel(int|string $project_id, int $label_id, array $parameters): mixed
     {
         return $this->put($this->getProjectPath($project_id, 'labels/'.self::encodePath($label_id)), $parameters);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/labels/#delete-a-project-label
+     */
     public function removeLabel(int|string $project_id, int $label_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'labels/'.self::encodePath($label_id)));
@@ -855,6 +1018,8 @@ class Projects extends AbstractApi
 
     /**
      * Get languages used in a project with percentage value.
+     *
+     * @see https://docs.gitlab.com/api/projects/#retrieve-programming-language-usage-information
      */
     public function languages(int|string $project_id): mixed
     {
@@ -862,6 +1027,8 @@ class Projects extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/project_forks/#list-all-forks-of-a-project
+     *
      * @param array      $parameters {
      *
      *     @var bool               $archived                    Limit by archived status
@@ -959,6 +1126,8 @@ class Projects extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/project_forks/#create-a-fork-of-a-project
+     *
      * @param array      $parameters {
      *
      *     @var string     $branches               Branches to fork (empty for all branches)
@@ -1009,26 +1178,41 @@ class Projects extends AbstractApi
         return $this->post($this->getProjectPath($project_id, 'fork'), $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_forks/#create-a-fork-relationship
+     */
     public function createForkRelation(int|string $project_id, int|string $forked_project_id): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'fork/'.self::encodePath($forked_project_id)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_forks/#delete-a-fork-relationship
+     */
     public function removeForkRelation(int|string $project_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'fork'));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_integrations/
+     */
     public function setService(int|string $project_id, string $service_name, array $parameters = []): mixed
     {
         return $this->put($this->getProjectPath($project_id, 'services/'.self::encodePath($service_name)), $parameters);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_integrations/
+     */
     public function removeService(int|string $project_id, string $service_name): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'services/'.self::encodePath($service_name)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_level_variables/#list-project-variables
+     */
     public function variables(int|string $project_id, array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
@@ -1036,6 +1220,9 @@ class Projects extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'variables'), $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_level_variables/#retrieve-a-single-variable
+     */
     public function variable(int|string $project_id, string $key, array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
@@ -1046,6 +1233,8 @@ class Projects extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/project_level_variables/#create-a-variable
+     *
      * @param array<string,mixed> $parameters        {
      *
      *      @var string $variable_type  env_var (default) or file
@@ -1072,6 +1261,8 @@ class Projects extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/project_level_variables/#update-a-variable
+     *
      * @param array<string,mixed> $parameters        {
      *
      *      @var string $variable_type  env_var (default) or file
@@ -1097,6 +1288,8 @@ class Projects extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/project_level_variables/#delete-a-variable
+     *
      * @param array<string, mixed> $parameters    {
      *
      *    @var array $filter    {
@@ -1113,18 +1306,24 @@ class Projects extends AbstractApi
         return $this->delete($this->getProjectPath($project_id, 'variables/'.self::encodePath($key)), $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_markdown_uploads/#create-an-upload
+     */
     public function uploadFile(int|string $project_id, string $file): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'uploads'), [], [], ['file' => $file]);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/projects/#upload-a-project-avatar
+     */
     public function uploadAvatar(int|string $project_id, string $file): mixed
     {
         return $this->put('projects/'.self::encodePath($project_id), [], [], ['avatar' => $file]);
     }
 
     /**
-     * @see https://docs.gitlab.com/ee/api/deployments.html#list-project-deployments
+     * @see https://docs.gitlab.com/api/deployments/#list-all-project-deployments
      */
     public function deployments(int|string $project_id, array $parameters = []): mixed
     {
@@ -1176,11 +1375,17 @@ class Projects extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'deployments'), $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/deployments/#retrieve-a-deployment
+     */
     public function deployment(int|string $project_id, int $deployment_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'deployments/'.self::encodePath($deployment_id)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/projects/#share-a-project-with-a-group
+     */
     public function addShare(int|string $project_id, array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
@@ -1204,92 +1409,145 @@ class Projects extends AbstractApi
         return $this->post($this->getProjectPath($project_id, 'share'), $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/projects/#delete-a-shared-project-link-in-a-group
+     */
     public function removeShare(int|string $project_id, int|string $group_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'share/'.$group_id));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_badges/#list-all-badges-of-a-project
+     */
     public function badges(int|string $project_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'badges'));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_badges/#retrieve-a-badge-of-a-project
+     */
     public function badge(int|string $project_id, int $badge_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'badges/'.self::encodePath($badge_id)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_badges/#create-a-badge-for-a-project
+     */
     public function addBadge(int|string $project_id, array $parameters = []): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'badges'), $parameters);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_badges/#delete-a-badge-from-a-project
+     */
     public function removeBadge(int|string $project_id, int $badge_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'badges/'.self::encodePath($badge_id)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_badges/#update-a-badge-of-a-project
+     */
     public function updateBadge(int|string $project_id, int $badge_id, array $parameters = []): mixed
     {
         return $this->put($this->getProjectPath($project_id, 'badges/'.self::encodePath($badge_id)), $parameters);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/protected_branches/#list-protected-branches
+     */
     public function protectedBranches(int|string $project_id, array $parameters = []): mixed
     {
         return $this->get('projects/'.self::encodePath($project_id).'/protected_branches');
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/protected_branches/#protect-repository-branches
+     */
     public function addProtectedBranch(int|string $project_id, array $parameters = []): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'protected_branches'), $parameters);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/protected_branches/#unprotect-repository-branches
+     */
     public function deleteProtectedBranch(int|string $project_id, string $branch_name): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'protected_branches/'.self::encodePath($branch_name)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/protected_branches/#update-a-protected-branch
+     */
     public function updateProtectedBranch(int|string $project_id, string $branch_name, array $parameters = []): mixed
     {
         return $this->patch($this->getProjectPath($project_id, 'protected_branches/'.self::encodePath($branch_name)), $parameters);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/merge_request_approvals/#retrieve-approval-configuration-for-a-project
+     */
     public function approvalsConfiguration(int|string $project_id): mixed
     {
         return $this->get('projects/'.self::encodePath($project_id).'/approvals');
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/merge_request_approvals/#update-approval-configuration-for-a-project
+     */
     public function updateApprovalsConfiguration(int|string $project_id, array $parameters = []): mixed
     {
         return $this->post('projects/'.self::encodePath($project_id).'/approvals', $parameters);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/merge_request_approvals/#list-all-approval-rules-for-a-project
+     */
     public function approvalsRules(int|string $project_id): mixed
     {
         return $this->get('projects/'.self::encodePath($project_id).'/approval_rules');
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/merge_request_approvals/#create-an-approval-rule-for-a-project
+     */
     public function createApprovalsRule(int|string $project_id, array $parameters = []): mixed
     {
         return $this->post('projects/'.self::encodePath($project_id).'/approval_rules/', $parameters);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/merge_request_approvals/#update-an-approval-rule-for-a-project
+     */
     public function updateApprovalsRule(int|string $project_id, int $approval_rule_id, array $parameters = []): mixed
     {
         return $this->put('projects/'.self::encodePath($project_id).'/approval_rules/'.self::encodePath($approval_rule_id), $parameters);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/merge_request_approvals/#delete-an-approval-rule-for-a-project
+     */
     public function deleteApprovalsRule(int|string $project_id, int $approval_rule_id): mixed
     {
         return $this->delete('projects/'.self::encodePath($project_id).'/approval_rules/'.self::encodePath($approval_rule_id));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/branches/#delete-all-merged-branches
+     */
     public function deleteAllMergedBranches(int|string $project_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'repository/merged_branches'));
     }
 
     /**
+     * @see https://docs.gitlab.com/api/project_access_tokens/#list-all-project-access-tokens
+     *
      * @param array $parameters {
      *
      *     @var string             $search             search text
@@ -1358,12 +1616,17 @@ class Projects extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'access_tokens'), $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_access_tokens/#retrieve-details-on-a-project-access-token
+     */
     public function projectAccessToken(int|string $project_id, int|string $token_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'access_tokens/'.self::encodePath($token_id)));
     }
 
     /**
+     * @see https://docs.gitlab.com/api/project_access_tokens/#create-a-project-access-token
+     *
      * @param array      $parameters {
      *
      *     @var string $name                    the name of the project access token
@@ -1412,6 +1675,8 @@ class Projects extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/project_access_tokens/#rotate-a-project-access-token
+     *
      * @param array $parameters {
      *
      *     @var \DateTimeInterface $expires_at expiration date of the access token
@@ -1431,26 +1696,41 @@ class Projects extends AbstractApi
         return $this->post($this->getProjectPath($project_id, 'access_tokens/'.self::encodePath($token_id).'/rotate'), $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_access_tokens/#revoke-a-project-access-token
+     */
     public function deleteProjectAccessToken(int|string $project_id, int|string $token_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'access_tokens/'.$token_id));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_job_token_scopes/#retrieve-the-cicd-job-token-access-settings-for-a-project
+     */
     public function jobTokenScope(int|string $project_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'job_token_scope'));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_job_token_scopes/#update-the-cicd-job-token-access-settings-for-a-project
+     */
     public function updateJobTokenScope(int|string $project_id, bool $enabled): mixed
     {
         return $this->patch($this->getProjectPath($project_id, 'job_token_scope'), ['enabled' => $enabled]);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_job_token_scopes/#list-all-projects-in-a-cicd-job-token-allowlist
+     */
     public function jobTokenScopeAllowlistProjects(int|string $project_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'job_token_scope/allowlist'));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_job_token_scopes/#add-a-project-to-a-cicd-job-token-allowlist
+     */
     public function addJobTokenScopeAllowlistProject(int|string $project_id, int $target_project_id): mixed
     {
         return $this->post(
@@ -1459,16 +1739,25 @@ class Projects extends AbstractApi
         );
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_job_token_scopes/#delete-a-project-from-a-cicd-job-token-allowlist
+     */
     public function removeJobTokenScopeAllowlistProject(int|string $project_id, int $target_project_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'job_token_scope/allowlist/'.self::encodePath($target_project_id)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_job_token_scopes/#list-all-groups-in-a-cicd-job-token-allowlist
+     */
     public function jobTokenScopeAllowlistGroups(int|string $project_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'job_token_scope/groups_allowlist'));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_job_token_scopes/#add-a-group-to-a-cicd-job-token-allowlist
+     */
     public function addJobTokenScopeAllowlistGroup(int|string $project_id, int $target_group_id): mixed
     {
         return $this->post(
@@ -1477,12 +1766,17 @@ class Projects extends AbstractApi
         );
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/project_job_token_scopes/#delete-a-group-from-a-cicd-job-token-allowlist
+     */
     public function removeJobTokenScopeAllowlistGroup(int|string $project_id, int $target_group_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'job_token_scope/groups_allowlist/'.self::encodePath($target_group_id)));
     }
 
     /**
+     * @see https://docs.gitlab.com/api/container_registry/#within-a-project
+     *
      * @param array $parameters {
      *
      *     @var bool $tags       include an array of tags in each repository
@@ -1508,16 +1802,25 @@ class Projects extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'registry/repositories'), $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/protected_tags/#list-protected-tags
+     */
     public function protectedTags(int|string $project_id): mixed
     {
         return $this->get('projects/'.self::encodePath($project_id).'/protected_tags');
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/protected_tags/#get-a-protected-tag-or-wildcard-protected-tag
+     */
     public function protectedTag(int|string $project_id, string $tag_name): mixed
     {
         return $this->get('projects/'.self::encodePath($project_id).'/protected_tags/'.self::encodePath($tag_name));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/protected_tags/#protect-a-repository-tag
+     */
     public function addProtectedTag(int|string $project_id, array $parameters = []): mixed
     {
         $resolver = new OptionsResolver();
@@ -1546,27 +1849,41 @@ class Projects extends AbstractApi
         return $this->post($this->getProjectPath($project_id, 'protected_tags'), $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/protected_tags/#unprotect-repository-tags
+     */
     public function deleteProtectedTag(int|string $project_id, string $tag_name): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'protected_tags/'.self::encodePath($tag_name)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/remote_mirrors/#list-all-remote-mirrors-for-a-project
+     */
     public function remoteMirrors(int|string $project_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'remote_mirrors'));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/remote_mirrors/#retrieve-a-remote-mirror-for-a-project
+     */
     public function remoteMirror(int|string $project_id, int $mirror_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'remote_mirrors/'.self::encodePath($mirror_id)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/remote_mirrors/#retrieve-a-public-key-for-a-remote-mirror
+     */
     public function remoteMirrorPublicKey(int|string $project_id, int $mirror_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'remote_mirrors/'.self::encodePath($mirror_id).'/public_key'));
     }
 
     /**
+     * @see https://docs.gitlab.com/api/search/#search-a-project
+     *
      * @param array $parameters {
      *
      *     @var string $scope        The scope to search in

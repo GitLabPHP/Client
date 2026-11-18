@@ -47,6 +47,9 @@ class MergeRequests extends AbstractApi
     public const STATE_LOCKED = 'locked';
 
     /**
+     * @see https://docs.gitlab.com/api/merge_requests/#list-merge-requests
+     * @see https://docs.gitlab.com/api/merge_requests/#list-project-merge-requests
+     *
      * @param array $parameters {
      *
      *     @var int[]              $iids                      return merge requests having the given IIDs
@@ -279,6 +282,8 @@ class MergeRequests extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/merge_requests/#retrieve-a-merge-request
+     *
      * @param array      $parameters {
      *
      *     @var bool               $include_diverged_commits_count      Return the commits behind the target branch
@@ -303,6 +308,8 @@ class MergeRequests extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/merge_requests/#create-a-merge-request
+     *
      * @param array $parameters {
      *
      *     @var bool     $allow_collaboration    allow commits from upstream members
@@ -383,6 +390,8 @@ class MergeRequests extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/merge_requests/#update-a-merge-request
+     *
      * @param array $parameters {
      *
      *     @var string $add_labels               labels to add to the merge request
@@ -469,12 +478,17 @@ class MergeRequests extends AbstractApi
         return $this->put($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid)), $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/merge_requests/#delete-a-merge-request
+     */
     public function remove(int|string $project_id, int $mr_iid): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid)));
     }
 
     /**
+     * @see https://docs.gitlab.com/api/merge_requests/#merge-a-merge-request
+     *
      * @param array $parameters {
      *
      *     @var bool   $auto_merge                    merge when checks pass
@@ -515,6 +529,8 @@ class MergeRequests extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/merge_trains/#add-a-merge-request-to-a-merge-train
+     *
      * @param array $parameters {
      *
      *     @var bool   $auto_merge             add the merge request to the merge train when checks pass
@@ -543,6 +559,8 @@ class MergeRequests extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/notes/#list-all-merge-request-notes
+     *
      * @param array $parameters {
      *
      *     @var string $sort     return notes sorted in asc or desc order
@@ -562,12 +580,17 @@ class MergeRequests extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/notes'), $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/notes/#retrieve-a-merge-request-note
+     */
     public function showNote(int|string $project_id, int $mr_iid, int $note_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/notes/'.self::encodePath($note_id)));
     }
 
     /**
+     * @see https://docs.gitlab.com/api/notes/#create-a-merge-request-note
+     *
      * @param array $params {
      *
      *     @var string $created_at                  creation timestamp for admins or project owners
@@ -594,6 +617,8 @@ class MergeRequests extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/notes/#update-a-merge-request-note
+     *
      * @param array $params {
      *
      *     @var bool $confidential deprecated; use internal instead
@@ -611,42 +636,65 @@ class MergeRequests extends AbstractApi
         ], $resolver->resolve($params)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/notes/#delete-a-merge-request-note
+     */
     public function removeNote(int|string $project_id, int $mr_iid, int $note_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/notes/'.self::encodePath($note_id)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/emoji_reactions/#list-all-emoji-reactions-for-a-comment
+     */
     public function showNoteAwardEmojis(int|string $project_id, int $mr_iid, int $note_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/notes/'.self::encodePath($note_id).'/award_emoji'));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/emoji_reactions/#retrieve-an-emoji-reaction-from-a-comment
+     */
     public function showNoteAwardEmoji(int|string $project_id, int $mr_iid, int $note_id, int $award_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/notes/'.self::encodePath($note_id).'/award_emoji/'.self::encodePath($award_id)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/emoji_reactions/#add-an-emoji-reaction-to-a-comment
+     */
     public function addNoteAwardEmoji(int|string $project_id, int $mr_iid, int $note_id, string $name): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/notes/'.self::encodePath($note_id).'/award_emoji'), ['name' => $name]);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/emoji_reactions/#delete-an-emoji-reaction-from-a-comment
+     */
     public function removeNoteAwardEmoji(int|string $project_id, int $mr_iid, int $note_id, int $award_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/notes/'.self::encodePath($note_id).'/award_emoji/'.self::encodePath($award_id)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/discussions/#list-all-merge-request-discussion-items
+     */
     public function showDiscussions(int|string $project_id, int $mr_iid): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid)).'/discussions');
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/discussions/#retrieve-a-merge-request-discussion-item
+     */
     public function showDiscussion(int|string $project_id, int $mr_iid, string $discussion_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid)).'/discussions/'.self::encodePath($discussion_id));
     }
 
     /**
+     * @see https://docs.gitlab.com/api/discussions/#create-a-merge-request-thread
+     *
      * @param array $params {
      *
      *     @var string $body       the note body
@@ -674,6 +722,9 @@ class MergeRequests extends AbstractApi
         return $this->post($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/discussions'), $resolver->resolve($params));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/discussions/#resolve-a-merge-request-thread
+     */
     public function resolveDiscussion(int|string $project_id, int $mr_iid, string $discussion_id, bool $resolved = true): mixed
     {
         return $this->put($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/discussions/'.self::encodePath($discussion_id)), [
@@ -682,6 +733,8 @@ class MergeRequests extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/discussions/#add-note-to-a-merge-request-thread
+     *
      * @param array $params {
      *
      *     @var string $created_at creation timestamp for admins or project owners
@@ -698,6 +751,8 @@ class MergeRequests extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/discussions/#update-a-merge-request-thread-note
+     *
      * @param array $params {
      *
      *     @var string $body     the note body
@@ -717,27 +772,41 @@ class MergeRequests extends AbstractApi
         return $this->put($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/discussions/'.self::encodePath($discussion_id).'/notes/'.self::encodePath($note_id)), $resolver->resolve($params));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/discussions/#delete-a-merge-request-thread-note
+     */
     public function removeDiscussionNote(int|string $project_id, int $mr_iid, string $discussion_id, int $note_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/discussions/'.self::encodePath($discussion_id).'/notes/'.self::encodePath($note_id)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/merge_requests/#retrieve-merge-request-participants
+     */
     public function showParticipants(int|string $project_id, int $mr_iid): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid)).'/participants');
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/resource_label_events/#list-project-merge-request-label-events
+     */
     public function showResourceLabelEvents(int|string $project_id, int $mr_iid): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid)).'/resource_label_events');
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/resource_label_events/#retrieve-a-single-merge-request-label-event
+     */
     public function showResourceLabelEvent(int|string $project_id, int $mr_iid, int $resource_label_event_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid)).'/resource_label_events/'.self::encodePath($resource_label_event_id));
     }
 
     /**
+     * @see https://docs.gitlab.com/api/merge_requests/#retrieve-merge-request-changes
+     *
      * @param array $parameters {
      *
      *     @var bool $access_raw_diffs access raw diffs
@@ -757,22 +826,33 @@ class MergeRequests extends AbstractApi
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/changes'), $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/merge_requests/#retrieve-merge-request-commits
+     */
     public function commits(int|string $project_id, int $mr_iid): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/commits'));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/merge_requests/#list-issues-that-close-on-merge
+     */
     public function closesIssues(int|string $project_id, int $mr_iid): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/closes_issues'));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/merge_request_approvals/#retrieve-approval-state-for-a-merge-request
+     */
     public function approvals(int|string $project_id, int $mr_iid): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/approvals'));
     }
 
     /**
+     * @see https://docs.gitlab.com/api/merge_request_approvals/#approve-merge-request
+     *
      * @param array $parameters {
      *
      *     @var string $approval_password current user's password
@@ -792,32 +872,49 @@ class MergeRequests extends AbstractApi
         return $this->post($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/approve'), $resolver->resolve($parameters));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/merge_request_approvals/#unapprove-a-merge-request
+     */
     public function unapprove(int|string $project_id, int $mr_iid): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/unapprove'));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/emoji_reactions/#list-all-emoji-reactions-for-a-resource
+     */
     public function awardEmoji(int|string $project_id, int $mr_iid): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/award_emoji'));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/emoji_reactions/#retrieve-an-emoji-reaction-from-a-resource
+     */
     public function showAwardEmoji(int|string $project_id, int $mr_iid, int $award_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/award_emoji/'.self::encodePath($award_id)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/emoji_reactions/#add-an-emoji-reaction-to-a-resource
+     */
     public function addAwardEmoji(int|string $project_id, int $mr_iid, string $name): mixed
     {
         return $this->post($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/award_emoji'), ['name' => $name]);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/emoji_reactions/#delete-an-emoji-reaction-from-a-resource
+     */
     public function removeAwardEmoji(int|string $project_id, int $mr_iid, int $award_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/award_emoji/'.self::encodePath($award_id)));
     }
 
     /**
+     * @see https://docs.gitlab.com/api/merge_requests/#rebase-a-merge-request
+     *
      * @param array $params {
      *
      *     @var bool $skip_ci skip the CI pipeline
@@ -832,11 +929,17 @@ class MergeRequests extends AbstractApi
         return $this->put($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid)).'/rebase', $resolver->resolve($params));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/merge_request_approvals/#retrieve-approval-details-for-a-merge-request
+     */
     public function approvalState(int|string $project_id, int $mr_iid): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/approval_state'));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/merge_request_approvals/#list-all-approval-rules-for-a-merge-request
+     */
     public function levelRules(int|string $project_id, int $mr_iid, array $parameters = []): mixed
     {
         $resolver = $this->createOptionsResolver();
@@ -845,6 +948,8 @@ class MergeRequests extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/merge_request_approvals/#create-an-approval-rule-for-a-merge-request
+     *
      * @param array $parameters {
      *
      *     @var int      $approval_project_rule_id approval project rule id
@@ -890,6 +995,8 @@ class MergeRequests extends AbstractApi
     }
 
     /**
+     * @see https://docs.gitlab.com/api/merge_request_approvals/#update-an-approval-rule-for-a-merge-request
+     *
      * @param array $parameters {
      *
      *     @var int[]    $group_ids            group ids
@@ -934,22 +1041,33 @@ class MergeRequests extends AbstractApi
         );
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/merge_request_approvals/#delete-an-approval-rule-for-a-merge-request
+     */
     public function deleteLevelRule(int|string $project_id, int $mr_iid, int $approval_rule_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/approval_rules/'.self::encodePath($approval_rule_id)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/merge_requests/#retrieve-merge-request-dependencies
+     */
     public function dependencies(int|string $project_id, int $mr_iid): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/blocks'));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/merge_requests/#retrieve-merge-request-dependencies
+     */
     public function showDependency(int|string $project_id, int $mr_iid, int $block_id): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/blocks/'.self::encodePath($block_id)));
     }
 
     /**
+     * @see https://docs.gitlab.com/api/merge_requests/#create-a-merge-request-dependency
+     *
      * @param array $parameters {
      *
      *     @var int        $blocking_merge_request_id  global ID of the blocking merge request
@@ -981,11 +1099,17 @@ class MergeRequests extends AbstractApi
         return $this->post($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/blocks'), $parameters);
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/merge_requests/#delete-a-merge-request-dependency
+     */
     public function deleteDependency(int|string $project_id, int $mr_iid, int $block_id): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/blocks/'.self::encodePath($block_id)));
     }
 
+    /**
+     * @see https://docs.gitlab.com/api/merge_requests/#retrieve-blocked-merge-requests
+     */
     public function blockedMergeRequests(int|string $project_id, int $mr_iid): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'merge_requests/'.self::encodePath($mr_iid).'/blockees'));

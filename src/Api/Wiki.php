@@ -17,6 +17,10 @@ namespace Gitlab\Api;
 class Wiki extends AbstractApi
 {
     /**
+     * Create a wiki page.
+     *
+     * @see https://docs.gitlab.com/api/wikis/#create-a-wiki-page
+     *
      * @param array<string,mixed> $params
      */
     public function create(int|string $project_id, array $params): mixed
@@ -24,12 +28,21 @@ class Wiki extends AbstractApi
         return $this->post($this->getProjectPath($project_id, 'wikis'), $params);
     }
 
+    /**
+     * Retrieve a wiki page.
+     *
+     * @see https://docs.gitlab.com/api/wikis/#retrieve-a-wiki-page
+     */
     public function show(int|string $project_id, string $wiki_slug): mixed
     {
         return $this->get($this->getProjectPath($project_id, 'wikis/'.self::encodePath($wiki_slug)));
     }
 
     /**
+     * List all wiki pages.
+     *
+     * @see https://docs.gitlab.com/api/wikis/#list-all-wiki-pages
+     *
      * @param array<string,mixed> $params     {
      *
      *     @var bool $with_content Include pages' content
@@ -45,6 +58,10 @@ class Wiki extends AbstractApi
     }
 
     /**
+     * Update a wiki page.
+     *
+     * @see https://docs.gitlab.com/api/wikis/#update-a-wiki-page
+     *
      * @param array<string,mixed> $params
      */
     public function update(int|string $project_id, string $wiki_slug, array $params): mixed
@@ -52,6 +69,11 @@ class Wiki extends AbstractApi
         return $this->put($this->getProjectPath($project_id, 'wikis/'.self::encodePath($wiki_slug)), $params);
     }
 
+    /**
+     * Delete a wiki page.
+     *
+     * @see https://docs.gitlab.com/api/wikis/#delete-a-wiki-page
+     */
     public function remove(int|string $project_id, string $wiki_slug): mixed
     {
         return $this->delete($this->getProjectPath($project_id, 'wikis/'.self::encodePath($wiki_slug)));
